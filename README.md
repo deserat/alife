@@ -18,12 +18,20 @@ Each phase transition is a **network restructuring event** — actors change, re
 
 ANT works in concert with traditional irreducibility, not in isolation.
 
-## Methodology
+## Methodology — Spiral Loops
 
-1. **Research** — Broad survey across evolution, intelligence, complex systems, ecosystems, ANT, computational models. Narrow over time. Queue tangential findings for later exploration.
-2. **Synthesize** — Connect ideas across domains. Novel insights come from cross-domain synthesis, not single-focus depth.
-3. **Hypothesize** — Develop testable hypotheses about multi-scale emergence, network restructuring, and composition.
-4. **Simulate** — Build Python simulations to test hypotheses. Start minimal, add complexity (internal state, irreducible rules) incrementally.
+Knowledge develops through **spiral loops organized by topic clusters**, not sequential steps. Each loop goes through research → synthesis → hypothesis → (sometimes) simulate, within a bounded topic area. Each loop builds on previous loops' synthesis, so knowledge compounds rather than just accumulates. Hypotheses from early loops are revisited and refined as new topics bring new perspectives.
+
+**How a loop works:**
+1. Pick a topic cluster (e.g., "ANT fundamentals," "open-ended evolution," "scale and pattern")
+2. Research that cluster — read papers, watch transcripts, explore
+3. Synthesize with existing knowledge in `concepts/` — refine existing concept files, create new ones
+4. Log cross-domain connections in `synthesis.md`
+5. Develop or refine hypotheses in `hypotheses/`
+6. If a hypothesis is ready, sketch or build a simulation
+7. Queue tangential topics for future loops in `queued-topics.md`
+
+**Topic clusters are not fixed.** They emerge from the research. New clusters form when ideas from different domains connect. Old clusters get revisited when new knowledge demands it.
 
 ## Key Researchers & Sources
 
@@ -43,12 +51,13 @@ $5/day in tokens. Research conducted in a single session each night starting ~mi
 ```
 ~/brain/artificial-life/
   README.md              — this file
-  daily-reports/         — YYYY-MM-DD.md daily research reports
-  concepts/              — deep dives on key concepts
+  daily-reports/         — YYYY-MM-DD.md session logs (what was read, budget, what happened)
+  concepts/              — living documents, one per topic cluster, refined across sessions
+  synthesis.md           — running log of cross-domain connections, accumulating across all sessions
+  hypotheses/            — hypotheses, refined over time as loops add new knowledge
   researchers/           — notes on specific researchers
-  hypotheses/            — hypotheses to test
-  simulations/           — simulation design docs
-  queued-topics.md       — tangential findings queued for later exploration
+  simulations/           — simulation design docs and code
+  queued-topics.md       — topics to spiral back to in future loops
   glossary.md            — key terms and definitions
   references.md          — bibliography
 ```

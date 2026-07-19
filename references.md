@@ -33,6 +33,24 @@
 ## YouTube Channels
 - Emergent Garden — transcripts to be studied
 
+### Douglas Hofstadter
+- Gödel, Escher, Bach: An Eternal Golden Braid (1979)
+- I Am a Strange Loop (2007)
+- Fluid Concepts and Creative Analogies (1995)
+- Strange loops, self-reference, tangled hierarchies, downward causation
+
+### Humberto Maturana & Francisco Varela
+- Autopoiesis and Cognition: The Realization of the Living (1972)
+- Computational autopoiesis model (Varela, Maturana & Uribe, 1974)
+- Self-producing systems, operational closure
+- McMullin, "Computational Autopoiesis: The Original Algorithm" (SFI, 1997)
+
+### Fritjof Capra & Pier Luigi Luisi
+- "The Systems View of Life: A Unifying Vision" (2014)
+- Capra — systems thinking, ecology, physics of living systems
+- Luisi — autopoiesis, origins of life, biochemistry
+- Central to bridging systems theory with biology
+
 ### Simon Levin
 - "The Problem of Pattern and Scale in Ecology" (1992) — 10,237 citations
 - Ecosystems as complex adaptive systems

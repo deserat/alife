@@ -30,6 +30,22 @@
 
 **Stigmergy** — Indirect coordination through environmental modification. Agents interact via the environment rather than directly. (Queued for deeper study.)
 
+## Hofstadter / Cognition Terms
+
+**Strange loop** — A cyclic structure that moves through levels of a hierarchy and arrives back where it started. Not simple recursion — a paradoxical level-crossing feedback loop. The defining feature is the shift between levels of abstraction.
+
+**Tangled hierarchy** (heterarchy) — A hierarchical system with no clearly defined highest or lowest level. Moving through levels, one returns to the starting point. The topology of multi-scale systems.
+
+**Downward causation** — High-level emergent patterns exert causal potency over low-level components. The flood reshapes topography; the self influences neurons. Challenges pure reductionism. Critical for ALife: emergent structures must be able to modify rules at their scale.
+
+## Autopoiesis Terms
+
+**Autopoiesis** (Maturana & Varela) — A system that produces and maintains itself. A network of processes that continuously regenerate the network that produced them. The canonical example: a biological cell. Two conditions: (1) self-production, (2) boundary maintenance.
+
+**Operational closure** — The condition where a system's processes form a closed loop — each process is enabled by other processes in the system. Distinct from thermodynamic closure. An autopoietic system is operationally closed but thermodynamically open.
+
+**Catalytic closure** — In computational autopoiesis, each catalyst is the product of a reaction it catalyzes. A circular dependency that creates self-maintenance.
+
 ## Complexity Science Terms
 
 **Computational irreducibility** (Wolfram) — Some complex computations cannot be short-cut. To know the outcome, you must run the computation. No shortcut to prediction.
