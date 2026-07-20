@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ALife Sim 01 — Pheromone Trails</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #0d1117; color: #c9d1d9; font-family: -apple-system, sans-serif; }
+#app { display: flex; gap: 1rem; padding: 1rem; flex-wrap: wrap; }
+#canvas-wrap { position: relative; }
+canvas { border: 1px solid #30363d; border-radius: 4px; image-rendering: pixelated; }
+#controls { width: 240px; display: flex; flex-direction: column; gap: 1rem; }
+h1 { font-size: 1.1rem; color: #f0f6fc; }
+label { display: flex; flex-direction: column; gap: 0.25rem; font-size: 0.85rem; color: #8b949e; }
+input[type=range] { width: 100%; accent-color: #58a6ff; }
+input[type=number] { width: 60px; background: #161b22; color: #c9d1d9; border: 1px solid #30363d; border-radius: 4px; padding: 2px 6px; font-size: 0.85rem; }
+button { background: #238636; color: #fff; border: none; border-radius: 4px; padding: 6px 12px; cursor: pointer; font-size: 0.85rem; }
+button:hover { background: #2ea043; }
+button.secondary { background: #21262d; color: #c9d1d9; }
+button.secondary:hover { background: #30363d; }
+.stats { background: #161b22; border: 1px solid #30363d; border-radius: 6px; padding: 0.75rem; font-size: 0.8rem; font-family: monospace; }
+.stats div { display: flex; justify-content: space-between; margin: 2px 0; }
+.stats .val { color: #58a6ff; }
+.legend { font-size: 0.75rem; display: flex; flex-direction: column; gap: 4px; }
+.legend span { display: inline-flex; align-items: center; gap: 4px; }
+.dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="canvas-wrap">
+    <canvas id="sim" width="600" height="600"></canvas>
+  </div>
+  <div id="controls">
+    <h1>🧬 Pheromone Trails</h1>
+    <div class="legend">
+      <span><span class="dot" style="background:#2ea043"></span> Nest</span>
+      <span><span class="dot" style="background:#58a6ff"></span> Food</span>
+      <span><span class="dot" style="background:#00ffff"></span> Foraging ant</span>
+      <span><span class="dot" style="background:#ffff00"></span> Ant carrying food</span>
+      <span><span class="dot" style="background:#ff4500"></span> Pheromone (brighter = stronger)</span>
+    </div>
+    <label>Decay rate: <span id="decay-val">0.02</span>
+      <input type="range" id="decay" min="0.001" max="0.2" step="0.001" value="0.02">
+    </label>
+    <label>Ants: <input type="number" id="num-ants" value="50" min="1" max="500"></label>
+    <label>Sim speed: <span id="speed-val">5</span> steps/frame
+      <input type="range" id="speed" min="1" max="20" step="1" value="5">
+    </label>
+    <div style="display:flex;gap:6px">
+      <button id="play">⏸ Pause</button>
+      <button id="reset" class="secondary">↺ Reset</button>
+    </div>
+    <div class="stats">
+      <div>Step: <span class="val" id="stat-step">0</span></div>
+      <div>Trail cells: <span class="val" id="stat-trail">0</span></div>
+      <div>Food remaining: <span class="val" id="stat-food">500</span></div>
+      <div>Carrying: <span class="val" id="stat-carrying">0</span></div>
+    </div>
+    <p style="font-size:0.75rem;color:#8b949e">Adjust decay rate to see the transient/persistent trade-off. Too low = pheromone saturates. Too high = no trails form.</p>
+  </div>
+</div>
+<script>
+const canvas = document.getElementById('sim');
+const ctx = canvas.getContext('2d');
+
+const GRID_W = 60, GRID_H = 60;
+const CELL = canvas.width / GRID_W;
+
+let params = {
+  decay: 0.02,
+  numAnts: 50,
+  speed: 5,
+  deposit: 100,
+  sensorRange: 3,
+  randomTurnProb: 0.1,
+  turnAngle: Math.PI / 4,
+};
+
+let world, running = true;
+
+function World() {
+  return {
+    pher: Array.from({length: GRID_W}, () => new Float32Array(GRID_H)),
+    food: {},
+    nest: [GRID_W >> 1, GRID_H >> 1],
+    ants: [],
+    step: 0,
+  };
+}
+
+function reset() {
+  world = World();
+  // Food
+  for (let i = 0; i < 5; i++) {
+    const fx = 5 + Math.floor(Math.random() * (GRID_W - 10));
+    const fy = 5 + Math.floor(Math.random() * (GRID_H - 10));
+    world.food[fx + ',' + fy] = 100;
+  }
+  // Ants
+  world.ants = [];
+  for (let i = 0; i < params.numAnts; i++) {
+    world.ants.push({
+      x: world.nest[0] + (Math.random() - 0.5) * 4,
+      y: world.nest[1] + (Math.random() - 0.5) * 4,
+      angle: Math.random() * Math.PI * 2,
+      hasFood: false,
+    });
+  }
+  world.step = 0;
+}
+
+function sense(ant, offset) {
+  const a = ant.angle + offset;
+  const sx = Math.round(ant.x + Math.cos(a) * params.sensorRange);
+  const sy = Math.round(ant.y + Math.sin(a) * params.sensorRange);
+  if (sx >= 0 && sx < GRID_W && sy >= 0 && sy < GRID_H)
+    return world.pher[sx][sy];
+  return 0;
+}
+
+function step() {
+  for (const ant of world.ants) {
+    const left = sense(ant, -params.turnAngle);
+    const center = sense(ant, 0);
+    const right = sense(ant, params.turnAngle);
+
+    if (Math.random() > params.randomTurnProb) {
+      if (center >= left && center >= right) {}
+      else if (left > right) ant.angle -= params.turnAngle;
+      else if (right > left) ant.angle += params.turnAngle;
+    } else {
+      ant.angle += (Math.random() - 0.5) * params.turnAngle * 2;
+    }
+
+    ant.x += Math.cos(ant.angle);
+    ant.y += Math.sin(ant.angle);
+
+    if (ant.x < 0) { ant.x = 0; ant.angle = Math.PI - ant.angle; }
+    if (ant.x >= GRID_W) { ant.x = GRID_W - 1; ant.angle = Math.PI - ant.angle; }
+    if (ant.y < 0) { ant.y = 0; ant.angle = -ant.angle; }
+    if (ant.y >= GRID_H) { ant.y = GRID_H - 1; ant.angle = -ant.angle; }
+
+    if (ant.hasFood) {
+      const ix = Math.round(ant.x), iy = Math.round(ant.y);
+      if (ix >= 0 && ix < GRID_W && iy >= 0 && iy < GRID_H)
+        world.pher[ix][iy] += params.deposit;
+    }
+
+    const dx = ant.x - world.nest[0], dy = ant.y - world.nest[1];
+    if (ant.hasFood && Math.sqrt(dx*dx + dy*dy) < 3) {
+      ant.hasFood = false;
+      ant.angle += Math.PI;
+    }
+
+    const fx = Math.round(ant.x), fy = Math.round(ant.y);
+    const key = fx + ',' + fy;
+    if (key in world.food && !ant.hasFood && world.food[key] > 0) {
+      world.food[key]--;
+      ant.hasFood = true;
+      ant.angle += Math.PI;
+    }
+  }
+
+  // Decay
+  for (let x = 0; x < GRID_W; x++) {
+    for (let y = 0; y < GRID_H; y++) {
+      if (world.pher[x][y] > 0) {
+        world.pher[x][y] *= (1 - params.decay);
+        if (world.pher[x][y] < 0.01) world.pher[x][y] = 0;
+      }
+    }
+  }
+  world.step++;
+}
+
+function render() {
+  ctx.fillStyle = '#0d1117';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  // Pheromone
+  let trailCount = 0;
+  let maxPh = 0.01;
+  for (let x = 0; x < GRID_W; x++)
+    for (let y = 0; y < GRID_H; y++)
+      if (world.pher[x][y] > maxPh) maxPh = world.pher[x][y];
+
+  for (let x = 0; x < GRID_W; x++) {
+    for (let y = 0; y < GRID_H; y++) {
+      const v = world.pher[x][y];
+      if (v > 0.5) {
+        const intensity = Math.min(1, v / maxPh);
+        // Orange-red gradient
+        const r = Math.floor(80 + 175 * intensity);
+        const g = Math.floor(30 + 40 * intensity);
+        const b = 0;
+        ctx.fillStyle = `rgb(${r},${g},${b})`;
+        ctx.fillRect(x * CELL, (GRID_H - 1 - y) * CELL, CELL, CELL);
+        if (v > 1.0) trailCount++;
+      }
+    }
+  }
+
+  // Food
+  for (const [key, amt] of Object.entries(world.food)) {
+    if (amt > 0) {
+      const [fx, fy] = key.split(',').map(Number);
+      ctx.fillStyle = '#58a6ff';
+      ctx.beginPath();
+      ctx.moveTo(fx * CELL + CELL/2, (GRID_H - 1 - fy) * CELL);
+      ctx.lineTo(fx * CELL, (GRID_H - 1 - fy) * CELL + CELL);
+      ctx.lineTo(fx * CELL + CELL, (GRID_H - 1 - fy) * CELL + CELL);
+      ctx.closePath();
+      ctx.fill();
+    }
+  }
+
+  // Nest
+  ctx.fillStyle = '#2ea043';
+  ctx.beginPath();
+  ctx.arc(world.nest[0] * CELL + CELL/2, (GRID_H - 1 - world.nest[1]) * CELL + CELL/2, CELL * 1.5, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Ants
+  for (const ant of world.ants) {
+    ctx.fillStyle = ant.hasFood ? '#ffff00' : '#00ffff';
+    ctx.beginPath();
+    ctx.arc(ant.x * CELL + CELL/2, (GRID_H - 1 - ant.y) * CELL + CELL/2, 2, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  // Stats
+  let foodLeft = 0;
+  for (const v of Object.values(world.food)) foodLeft += v;
+  let carrying = world.ants.filter(a => a.hasFood).length;
+  document.getElementById('stat-step').textContent = world.step;
+  document.getElementById('stat-trail').textContent = trailCount;
+  document.getElementById('stat-food').textContent = foodLeft;
+  document.getElementById('stat-carrying').textContent = carrying;
+}
+
+function loop() {
+  if (running) {
+    for (let i = 0; i < params.speed; i++) step();
+  }
+  render();
+  requestAnimationFrame(loop);
+}
+
+// Controls
+document.getElementById('decay').oninput = e => {
+  params.decay = parseFloat(e.target.value);
+  document.getElementById('decay-val').textContent = params.decay.toFixed(3);
+};
+document.getElementById('num-ants').onchange = e => {
+  params.numAnts = parseInt(e.target.value);
+  reset();
+};
+document.getElementById('speed').oninput = e => {
+  params.speed = parseInt(e.target.value);
+  document.getElementById('speed-val').textContent = params.speed;
+};
+document.getElementById('play').onclick = e => {
+  running = !running;
+  e.target.textContent = running ? '⏸ Pause' : '▶ Play';
+};
+document.getElementById('reset').onclick = () => reset();
+
+reset();
+loop();
+</script>
+</body>
+</html>
