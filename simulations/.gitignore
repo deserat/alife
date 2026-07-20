@@ -1,0 +1,14 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.env
+
+# Simulation outputs
+output/
+*.mp4
+*.png
+
+# uv
+.python-version
