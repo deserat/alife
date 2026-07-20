@@ -45,6 +45,11 @@
 - Self-producing systems, operational closure
 - McMullin, "Computational Autopoiesis: The Original Algorithm" (SFI, 1997)
 
+### Susan Blackmore
+- "The Meme Machine" (1999) — extending Dawkins' meme concept
+- Memes as evolutionary stigmergic traces — propagation, mutation, selection of ideas
+- Bio-memetic lens for understanding idea propagation
+
 ### Fritjof Capra & Pier Luigi Luisi
 - "The Systems View of Life: A Unifying Vision" (2014)
 - Capra — systems thinking, ecology, physics of living systems

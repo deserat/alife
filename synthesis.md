@@ -43,6 +43,9 @@ The 1974 computational autopoiesis model maintains itself but doesn't evolve. Sa
 ### Hofstadter's "I" ↔ ANT actor identity
 Hofstadter's self is a "narrative fiction" — a pattern, not a substance, continuously rebuilt by experience. Latour's actor is defined by relationships, not intrinsic properties. When the network restructures, the actor's identity changes. A strange loop is what happens when an actor's network position includes a reference to itself — self-reference through topology.
 
+### Stigmergy across scales (Vance's insight)
+Stigmergy manifests differently at different complexity levels: ant pheromones, human petroglyphs, stupas, books, and memes (Susan Blackmore extending Dawkins). As actors become more complex, the stigmergic traces become more persistent, more information-dense, more detached from spatial proximity, and — with memes — capable of their own evolutionary dynamics (propagation, mutation, selection). If we accept ANT's generalized symmetry, then rivers carving channels and salt cedar altering soil chemistry are ALSO stigmergic — environmental modification that coordinates future behavior. The mechanism is the same across scales; the actors differ. Memes add a new dimension: stigmergic traces that evolve. This connects stigmergy to both the dynamic environment hypothesis (H4), multi-scale composition, and potentially to the quasi-object concept — a meme is a quasi-object that transforms as it circulates.
+
 ---
 
 ## 2026-07-20 — Session 3 (Stigmergy / Niche Construction loop)

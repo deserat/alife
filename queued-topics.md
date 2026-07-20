@@ -21,6 +21,7 @@ Findings from daily research that lead down a different focus track. Saved here 
 12. **Tangled hierarchy formalization** — How to represent a tangled hierarchy computationally? Not a tree, not a graph, but a level-crossing feedback structure.
 13. **Gödel's incompleteness and ALife** — Hofstadter connects Gödel to strange loops. Does formal undecidability have implications for what ALife simulations can produce?
 14. **Luhmann's social autopoiesis** — Niklas Luhmann applied autopoiesis to social systems. Connection to ANT's social networks.
+15. **Memes and evolutionary stigmergy (Blackmore/Dawkins)** — Memes as stigmergic traces that propagate, mutate, and evolve. How does this differ from static stigmergic traces? Can stigmergic traces in a simulation evolve? Connection to quasi-objects (traces that transform through circulation). Memes as a bridge between stigmergy and Darwinian replicators.
 
 ## From Session 3
 

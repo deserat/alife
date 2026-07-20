@@ -41,6 +41,20 @@ This was 1974. The model demonstrates self-production through circular chemistry
 - Is multi-scale autopoiesis (systems producing systems at different scales) the mechanism for complexification?
 - How does autopoiesis relate to the quasi-object concept? Both involve transformation through circulation — autopoietic components transform through the production network, quasi-objects transform through circulation.
 
+## Empirical Evidence
+
+### Computational autopoiesis (Varela, Maturana & Uribe, 1974)
+The original algorithm demonstrates self-maintaining networks in a simple 2D chemistry. The system produces its own catalysts and boundary. Quantitative: measured by system lifetime (how long the autopoietic unity persists before catalysts escape through boundary gaps). The 1974 model runs for hundreds of steps with appropriate parameters.
+
+### 30 years of computational autopoiesis (McMullin & another, ResearchGate)
+Review of computational autopoiesis models over 30 years. Findings: the original model is robust but has limitations — boundary repair is sensitive to catalyst placement, and the system doesn't evolve (same stall as EvoLoop). Multiple extensions attempted (3D models, different chemistries) but none achieved evolution.
+
+### No empirical evidence for multi-scale autopoiesis
+No studies found that test whether interacting autopoietic systems produce higher-level autopoietic structures. This is a novel hypothesis (H6) with no prior experimental or computational validation. It needs to be tested via simulation.
+
+### Autopoiesis in social systems (Luhmann)
+Luhmann applied autopoiesis to social systems (communication as the self-producing process). This is theoretical, not empirically tested in a computational setting.
+
 ## Cross-References
 
 - [[concepts/strange-loops]] — Autopoiesis is a strange loop by definition

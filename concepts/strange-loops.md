@@ -37,6 +37,20 @@ Hofstadter's "I" is not a static entity but a dynamic, self-inventing pattern â€
 - Is the strange loop a necessary condition for open-ended evolution? (Hofstadter would say yes for consciousness; is it also true for life-like complexification?)
 - How does computational irreducibility interact with downward causation? If the high level can causally influence the low level, does that make the system MORE or LESS irreducible?
 
+## Empirical Evidence
+
+### No direct empirical studies found
+Strange loops are a conceptual/theoretical framework. No experiments directly test for the existence of strange loops in physical or computational systems. The concept operates at the level of analogy and philosophical argument.
+
+### Indirect evidence from neuroscience
+Downward causation (a component of strange loops) has indirect empirical support from neuroscience: top-down processing in perception, predictive coding frameworks (Friston), and global workspace theory all involve higher-level patterns influencing lower-level neural activity. However, whether this constitutes "downward causation" in Hofstadter's sense is debated.
+
+### Downward causation debate (Emmeche, Koppe & Stjernfelt, 379 citations)
+Three versions of downward causation are distinguished: (1) strong downward causation (high level causes lower-level events, challenging physicalism), (2) weak (high level constrains lower level, compatible with physics), (3) epistemic (high-level descriptions explain lower-level phenomena). Most scientists accept weak/epistemic versions; strong downward causation remains philosophically contested.
+
+### Implication for our project
+We should use the WEAK version of downward causation (emergent patterns constrain lower-level behavior) rather than the strong version (emergent patterns cause lower-level events). This is testable in simulation and philosophically defensible.
+
 ## Cross-References
 
 - [[concepts/multi-scale-composition]] â€” Strange loops are the topology of multi-scale systems

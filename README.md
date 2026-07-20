@@ -24,11 +24,11 @@ Knowledge develops through **spiral loops organized by topic clusters**, not seq
 
 **How a loop works:**
 1. Pick a topic cluster (e.g., "ANT fundamentals," "open-ended evolution," "scale and pattern")
-2. Research that cluster — read papers, watch transcripts, explore
+2. Research that cluster — read papers, watch transcripts, explore. **Actively seek out criticisms, counterarguments, and failed experiments.** Search for "[concept] criticism", "[technique] limitations", "[researcher] wrong", "problems with [approach]". Log opposing views honestly in concept files under a "Criticisms" section. We need to understand all sides, not just build a case for our thesis. **Also seek empirical evidence: experiments, studies, quantitative results, testable parameters.** If no empirical work exists for a concept, state so explicitly — "no empirical studies found" is a finding, not a gap to hide.
 3. Synthesize with existing knowledge in `concepts/` — refine existing concept files, create new ones
 4. Log cross-domain connections in `synthesis.md`
 5. Develop or refine hypotheses in `hypotheses/`
-6. If a hypothesis is ready, sketch or build a simulation
+6. **Build mini simulations.** Don't wait for the full system. Create small, focused simulations that solve one sub-problem at a time — pheromone trails, environmental modification, actor clustering, resource flow. These are building blocks. Save them in `simulations/` with clear documentation of what they test and what they teach us. If a simulation will break the budget, code it over a few nights. The goal is to have foundational algorithms ready when we need to build the complex system, so we're not solving little problems while solving the big one.
 7. Queue tangential topics for future loops in `queued-topics.md`
 
 **Topic clusters are not fixed.** They emerge from the research. New clusters form when ideas from different domains connect. Old clusters get revisited when new knowledge demands it.
