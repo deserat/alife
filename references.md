@@ -67,6 +67,7 @@
 ### Kenneth Stanley
 - NEAT (NeuroEvolution of Augmenting Topologies)
 - rtNEAT — real-time variant
+- Soros & Stanley (2014) — open-ended evolution, Chromaria
 
 ### Leo Caussan
 - The Bibites — evolving neural network ecosystem
@@ -75,6 +76,42 @@
 ### Melanie Mitchell
 - "Complexity: A Guided Tour"
 - Santa Fe Institute
+
+### Francis Heylighen
+- "Stigmergy as a Universal Coordination Mechanism" (2016) — 361+81 citations
+- Evolution, Complexity and Cognition group, Vrije Universiteit Brussel
+- Stigmergy, self-organization, distributed cognition, extended mind
+- https://francisheylighen.substack.com/
+
+### Pierre-Paul Grassé
+- Coined "stigmergy" (1959) from termite nest-building observations
+- French entomologist
+
+### Kevin Laland
+- "An introduction to niche construction theory" (2016) — 808 citations
+- Niche construction, ecological inheritance, extended evolutionary synthesis
+- University of St Andrews
+
+### John Odling-Smee
+- Coined "niche construction" and "ecological inheritance" (1988)
+- "Niche Construction: The Neglected Process in Evolution" (2003, with Laland & Feldman)
+
+### Scott Turner
+- "Extended physiology" — organismal agency and homeostasis extended into the environment
+- Connection between physiology and niche construction
+
+### Eric Bonabeau & Guy Theraulaz
+- "A Brief History of Stigmergy" (1999) — 990 citations
+- Swarm intelligence, ant algorithms
+- Artificial Life journal
+
+### Tim Taylor
+- "Exploring the Concept of Open-Ended Evolution" (2012)
+- OEE hypotheses: unlimited genetic space, unlimited mutational pathways, dynamic adaptive landscape
+
+### Mark Bedau
+- Evolutionary activity statistics for measuring OEE
+- Classification of long-term evolutionary dynamics
 
 ## To Be Added
 References will be accumulated through daily research.

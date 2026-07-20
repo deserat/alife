@@ -62,10 +62,44 @@
 
 **Self-organization** — Order that emerges from local interactions without central control. In ecology, ecosystems self-assemble from components shaped by evolution.
 
+## Stigmergy Terms
+
+**Stigmergy** (Grassé) — A mechanism of indirect coordination where the trace left by an action in a medium stimulates a subsequent action. Agents do not communicate directly — they modify a shared environment, and those modifications guide future actions. The core feedback loop: action → trace → stimulation → action.
+
+**Medium** (Heylighen's term for "environment" in stigmergy) — The part of the world that undergoes changes through actions AND whose states are sensed as conditions for further actions. A stigmergic medium must be both perceivable and modifiable. The beach is a stigmergic medium; the sky is not (perceivable but not modifiable); the sea floor is not (modifiable but not perceivable).
+
+**Trace** — The perceivable change made in the medium by an action, which may trigger a subsequent action. Functions as both a memory of what has been done and a signal for what still needs doing.
+
+**Sematectonic stigmergy** — Stimulation by the work itself (e.g., termites stimulated by the mud heap they've built). Contrast with marker-based.
+
+**Marker-based stigmergy** — Stimulation by specially evolved signals (e.g., pheromones). More efficient than sematectonic but costlier — agents must manufacture markers in addition to doing the work.
+
+**Quantitative stigmergy** — Stronger traces elicit more intense/frequent actions (e.g., pheromone concentration). Contrast with qualitative.
+
+**Qualitative stigmergy** — Different traces trigger different types of actions (e.g., nest-building stages). Contrast with quantitative.
+
+**Affordance** (Gibson) — An environmental feature that facilitates an agent's movement toward its goal. In stigmergy, positive diversions that are reinforced by positive feedback.
+
+**Disturbance** — An environmental change that hinders an agent's movement toward its goal. In stigmergy, negative diversions that are counteracted by negative feedback.
+
+## Niche Construction Terms
+
+**Niche construction** (Odling-Smee) — The process whereby organisms actively modify their own and each other's evolutionary niches. When modifications alter natural selection pressures, evolution by niche construction is a possible outcome. The evolutionary biology analog of stigmergy.
+
+**Ecological inheritance** — The legacy of modified selection pressures that persists in the environment across generations. An additional component of inheritance beyond genetic transmission. The dam, lake, and lodge persist longer than the beaver that built them, shaping selection on descendants.
+
+**Perturbational niche construction** — Physical changes organisms bring about in their environments (building nests, burrows, dams). Contrast with relocational.
+
+**Relocational niche construction** — When organisms move in space and are exposed to new conditions, altering their selection pressures without physically modifying the environment.
+
+**Extended phenotype** (Dawkins) — Adaptations expressed outside the body of the individual whose genes underlie them. A narrower concept than niche construction: NCT includes selective feedback to traits unrelated to the constructing trait, and recognizes ecological inheritance.
+
 ## Cross-Domain Terms (Our Project)
 
 **Multi-scale composition** — Our term for the process by which emergent phenomena at one scale interact to produce qualitatively new phenomena at another scale, where actors and interaction rules are fundamentally different. The gap in current ALife simulations.
 
 **Network restructuring event** — Our term for the phase transition between scales, described using ANT's translation concept. When emergent structures become new actors with new rules.
+
+**Trace→actor crossing** — Our term for the phase transition where accumulated stigmergic traces become autopoietic — self-maintaining structures that act as new-level actors. The crossing from coordination (within a scale) to composition (a new scale). Stigmergy provides the medium; autopoiesis provides the persistence; the crossing is the multi-scale phase transition.
 
 **Quasi-object resource** — Our term for a resource in a simulation that is transformed as it circulates through the network (following Latour's quasi-object concept). Contrast with fixed-property resources.
