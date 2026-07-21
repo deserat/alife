@@ -97,3 +97,19 @@ Smith & Bedau found that in Echo, genomes with MORE of the traded resource domin
 
 ### Holland's aggregation property ↔ ANT's translation
 Holland's "aggregation" property (meta-agents built from simpler agents) is what ANT's translation describes: the process by which actors form collectives that act as one. But Holland's aggregation is a PROPERTY — it either exists or doesn't. ANT's translation is a PROCESS — it describes HOW aggregation happens (problematization → interessement → enrollment → mobilization). Echo has the property defined but never achieves it in practice. ANT gives us the mechanism to make aggregation happen.
+
+---
+
+## 2026-07-20 — Vance's contribution: Multi-rate bounded environment
+
+### Multi-rate environment ↔ Multi-scale composition
+Different rates of environmental change = different scales. Geological change (slow) and temperature change (fast) interact through organisms. The interaction IS multi-scale composition. Slow actors provide stability (memory), fast actors provide variation (adaptation). Same trade-off as pheromone decay rates but at the environmental level.
+
+### Multiple fitness criteria ↔ ANT actor networks
+The environment is not one actor but a network of actors, each with its own rules, each changing at its own rate. The organism faces a network of actants, not "the environment." This is ANT made concrete for simulation design.
+
+### Multi-rate environment ↔ Stigmergy
+Each environmental actor leaves traces at its own rate. Land leaves persistent traces (geology). Temperature leaves transient traces (weather). The environment is multiple stigmergic media with different decay rates, each carrying different information.
+
+### Multi-rate ↔ Open-ended evolution
+Single fitness goals lead to stasis. Multiple fitness criteria changing at different rates create a fitness landscape that never settles — while one pressure stabilizes, another shifts. This prevents the EvoLoop convergence problem. The fitness landscape is a moving target in multiple dimensions.

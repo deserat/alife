@@ -127,3 +127,11 @@
 **Holey landscape** (Gavrilets) — A fitness landscape where high-fitness genotypes form connected networks (ridges). Alternative to the rugged landscape view. Speciation occurs along these high-fitness ridges, not by climbing isolated peaks.
 
 **Smith & Bedau's 8th CAS property** — The proposed additional property of CAS: "the ability of emergent interacting components to create and flexibly maintain their own boundaries and their capacities for interacting with other components." Maps to our synthesis: stigmergy (create boundaries) + autopoiesis (maintain boundaries). The crossing from trace to 8th-property actor is our trace→actor crossing (H7).
+
+## Multi-Rate Environment Terms
+
+**Multi-rate bounded environment** — An environment composed of multiple actors, each changing at a different rate, each bounded by its own rules. Slow actors (geology) provide stability; fast actors (temperature) provide variation. The interaction between rates prevents fitness landscape stasis.
+
+**Multiple fitness criteria** — Instead of a single fitness function, organisms face multiple selection pressures from different environmental actors, each with its own dynamics. No single optimum is permanent because while one pressure stabilizes, another shifts.
+
+**Bounded change** — Environmental actors change within constraints governed by their own rules, not randomly. Land changes per geology; temperature changes per climate bounds. Each actor's change is rule-governed at its own scale.
