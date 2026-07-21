@@ -118,5 +118,52 @@
 - Evolutionary activity statistics for measuring OEE
 - Classification of long-term evolutionary dynamics
 
+### Mark Bedau
+- Evolutionary activity statistics for measuring OEE
+- Classification of long-term evolutionary dynamics
+- "Is Echo a Complex Adaptive System?" (with Smith, 1997) — evaluated Echo against Holland's CAS theory, found it fails
+- Proposed 8th CAS property: emergent components creating and maintaining boundaries
+
+### John Holland
+- *Hidden Order: How Adaptation Builds Complexity* (1995) — seven CAS basics (aggregation, nonlinearity, flows, diversity, tags, internal models, building blocks)
+- *Emergence: From Chaos to Order* (1998) — constrained generating procedures, emergence as obverse of reduction
+- Echo model — computational CAS model with endogenous fitness
+- Genetic algorithms — inventor
+
+### Stephanie Forrest & Terry Jones
+- "Modeling Complex Adaptive Systems with Echo" (1994, SFI Working Paper 94-11-064)
+- Original Echo implementation
+
+### Stuart Kauffman
+- NK model (with Levin 1987, Weinberger 1989) — tunably rugged fitness landscapes
+- *At Home in the Universe* — self-organization, fitness landscapes
+- SFI founding member
+
+### Artem Kaznatcheev
+- "Computational Complexity as an Ultimate Constraint on Evolution" (2019, Genetics, 74 citations)
+- NK landscapes with K > 1 are PLS-complete — even local optima cannot be found efficiently
+- Computational complexity ENABLES open-ended evolution
+- University of Oxford, Department of Computer Science
+
+### Jonathan Kaplan
+- "The end of the adaptive landscape metaphor?" (2008, Biology & Philosophy, 126 citations)
+- Criticism of fitness landscape metaphor
+
+### Stefan Petkov
+- "The Fitness Landscape Metaphor: Dead but Not Gone" (2015, Philosophia Scientiae)
+- Defense of landscape metaphor as conceptual framework
+
+### Sergey Gavrilets
+- *Fitness Landscapes and the Origin of Species* (2004)
+- "Holey landscapes" — high-fitness genotype networks, alternative to rugged landscape view
+
+### David L. Harris
+- "Echo Implemented: A Model for Complex Adaptive Systems Computer Experimentation" (2001, Sandia)
+- Echo implementation documentation
+
+### P.T. Hraber, T. Jones & S. Forrest
+- "The Ecology of Echo" (1997, Artificial Life journal)
+- Shows somewhat richer Echo dynamics than Smith & Bedau found
+
 ## To Be Added
 References will be accumulated through daily research.

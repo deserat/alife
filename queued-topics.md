@@ -31,3 +31,15 @@ Findings from daily research that lead down a different focus track. Saved here 
 18. **Chemical Organization Theory** — Heylighen mentions Dittrich & Fenizio's framework for agentless stigmergic coordination in chemical reaction networks. Could this formalism be adapted for ALife composition?
 19. **Braitenberg vehicles and stigmergic cognition** — Heylighen's analysis of Braitenberg vehicles as stigmergic systems. Connection between stigmergy and embodied cognition.
 20. **Trace decay rate optimization** — The transient/persistent trace trade-off. Is there an optimal decay rate for the trace→actor crossing? How does this relate to Wolfram's computational irreducibility?
+
+## From Session 4
+
+21. **Chemical Organization Theory** (Dittrich & Fenizio) — Still queued. Agentless stigmergic coordination in chemical reaction networks. Could provide formalism for ALife composition. Next session priority.
+22. **Multi-scale NK model** — Define NK landscapes at each scale with cross-scale interactions reshaping landscapes. How do dynamic epistatic networks behave? Does multi-scale landscape structure produce open-ended evolution?
+23. **Gavrilets' holey landscapes** — High-fitness genotype networks as alternative to rugged landscape view. How do holey landscapes behave with niche construction? Does the dynamic landscape view change the holey/rugged distinction?
+24. **Holland's "Signals and Boundaries" (2012)** — His last monograph. Co-evolution of signals and semi-permeable boundaries. Connection to our stigmergy + autopoiesis synthesis.
+25. **Implementing Smith & Bedau's 8th CAS property** — They proposed it in 1997 but never implemented it. Our sim02 shows naive stigmergy doesn't do it. What mechanism would? The autopoietic crossing (H7) is the candidate. Design sim03/sim04 to test.
+26. **Trace competition** — Multiple trace types that interact/compete. Sim02 used a single trace field. Multiple trace types might prevent monoculture convergence and enable multi-scale structure.
+27. **Kaznatcheev's hard/soft landscape distinction** — Which NK parameters produce open-ended dynamics? Sweep K and N to find the boundary. Connection to edge of chaos (Langton).
+28. **Ecosystem engineering vs. niche construction (still queued)** — Jones et al. vs. Odling-Smee. Which is more relevant for ALife?
+29. **Heylighen's varieties of stigmergy (still queued)** — Computational mapping of stigmergy taxonomy.

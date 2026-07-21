@@ -103,3 +103,27 @@
 **Trace→actor crossing** — Our term for the phase transition where accumulated stigmergic traces become autopoietic — self-maintaining structures that act as new-level actors. The crossing from coordination (within a scale) to composition (a new scale). Stigmergy provides the medium; autopoiesis provides the persistence; the crossing is the multi-scale phase transition.
 
 **Quasi-object resource** — Our term for a resource in a simulation that is transformed as it circulates through the network (following Latour's quasi-object concept). Contrast with fixed-property resources.
+
+## CAS Theory Terms (Session 4)
+
+**Complex adaptive system (CAS)** (Holland) — A system of interacting adaptive agents where macro-level patterns emerge from micro-level interactions. Holland identified seven essential attributes: four properties (aggregation, nonlinearity, flows, diversity) and three mechanisms (tags, internal models, building blocks).
+
+**Echo model** (Holland, Forrest, Jones) — A computational CAS model with evolving agents in a resource-limited environment. Agents interact via combat, trading, and mating, with endogenous fitness (no external fitness function). Smith & Bedau (1997) found it fails to produce hierarchical adaptive aggregates.
+
+**Endogenous fitness** — Fitness that emerges from agent interactions with the environment and other agents, rather than being defined by an external function. Echo's key feature. Distinguished from exogenous fitness (e.g., a pre-defined NK landscape).
+
+**NK model** (Kauffman) — A tunably rugged fitness landscape. N = string length (search space size), K = number of epistatic interactions per gene (ruggedness). K=0: smooth (single peak). K=N-1: maximally rugged. PLS-complete for K>1 — even local optima are computationally hard to find.
+
+**Epistasis** — The interaction between genes where the fitness effect of one gene depends on the state of other genes. In the NK model, K controls the degree of epistasis. Higher K = more epistasis = more rugged landscape.
+
+**PLS-complete** — A complexity class for local search problems. A PLS-complete problem has no known polynomial-time algorithm for finding even a local optimum. Kaznatcheev (2019) proved NK landscapes with K>1 are PLS-complete.
+
+**Ultimate constraint** (Kaznatcheev) — A constraint on evolution due exclusively to the structure of the fitness landscape (the problem), not the evolutionary algorithm. Contrast with proximal constraint (due to population structure, mutation bias, etc.). Computational complexity is an ultimate constraint: it prevents finding fitness optima regardless of the evolutionary mechanism.
+
+**Fitness landscape** (Wright 1932) — A mapping from genotypes to fitness values with a notion of distance between genotypes. The landscape metaphor: genotypes are points on terrain, fitness is elevation, evolution climbs uphill. Criticized for assuming static landscapes and misleading 2D/3D visualization.
+
+**Dynamic fitness landscape** — A fitness landscape that changes as agents interact with it. Agents modify the landscape they're adapting to (niche construction, stigmergy). Contrast with static (fixed) landscapes. Necessary for multi-scale composition: cross-scale interactions require that emergent structures reshape selection pressures at other scales.
+
+**Holey landscape** (Gavrilets) — A fitness landscape where high-fitness genotypes form connected networks (ridges). Alternative to the rugged landscape view. Speciation occurs along these high-fitness ridges, not by climbing isolated peaks.
+
+**Smith & Bedau's 8th CAS property** — The proposed additional property of CAS: "the ability of emergent interacting components to create and flexibly maintain their own boundaries and their capacities for interacting with other components." Maps to our synthesis: stigmergy (create boundaries) + autopoiesis (maintain boundaries). The crossing from trace to 8th-property actor is our trace→actor crossing (H7).

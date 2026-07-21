@@ -67,3 +67,33 @@ The stigmergic trace is a quasi-object (Serres/Latour): it circulates through th
 
 ### Transient vs. persistent traces ↔ Adaptability vs. memory
 Stigmergic traces decay (pheromones evaporate) or persist (termite mounds). Transient traces enable adaptation (outdated trails decay, new ones form). Persistent traces enable accumulation (long-term memory). The trade-off is fundamental to multi-scale systems: a new level needs persistent traces to accumulate, but also transient traces to adapt. The optimal decay rate for the trace→actor crossing is an open question.
+
+---
+
+## 2026-07-21 — Session 4 (Echo / NK Model / Fitness Landscapes loop)
+
+### Echo's failure ↔ Our multi-scale composition thesis
+Smith & Bedau (1997) ran thousands of Echo simulations and found it fails to produce "the diversity of hierarchically organized adaptive aggregates" that characterizes CAS. Echo converges to simple trading ecologies. They independently arrived at our thesis: the missing ingredient is "robust, open-ended emergence of hierarchical, adaptive structures" — which IS multi-scale composition. This is strong external validation from a completely different starting point (empirical study of a CAS model, not ANT/computational irreducibility).
+
+### Smith & Bedau's 8th CAS property ↔ Our H7 (trace→actor crossing)
+They proposed an 8th CAS property: "the ability of emergent interacting components to create and flexibly maintain their own boundaries and their capacities for interacting with other components." This maps exactly to our synthesis:
+- "Create boundaries" = stigmergy (traces that accumulate and form structures)
+- "Flexibly maintain boundaries" = autopoiesis (self-production, self-repair)
+- The crossing from trace to 8th-property actor = our trace→actor crossing (H7)
+
+They identified this in 1997 but never implemented it. They wrote: "Concretely embodying them in some successor model to Echo is the only way to make them precise and subject them to rigorous scrutiny." Our project is that successor model.
+
+### NK model's static landscape ↔ Stigmergy's dynamic landscape
+The NK model (Kauffman) defines a FIXED fitness landscape — agents adapt TO it, but cannot reshape it. Stigmergy makes the landscape DYNAMIC — agents modify the landscape they're adapting to (niche construction). This is the key limitation of the NK model for multi-scale systems: static landscapes cannot produce multi-scale composition because agents cannot reshape the selection pressures at other scales. Dynamic landscapes are necessary for the cross-scale interaction mechanism.
+
+### Computational complexity ↔ Computational irreducibility ↔ Open-ended evolution
+Kaznatcheev (2019) proved NK landscapes with K > 1 are PLS-complete — even local fitness optima cannot be found efficiently. This is an ULTIMATE constraint (property of the landscape, not the algorithm). But crucially, this constraint ENABLES open-ended evolution: on easy landscapes, evolution converges to a peak and stops; on hard landscapes, it cannot converge and keeps searching. This connects Wolfram's computational irreducibility to open-ended evolution: irreducibility is not just a property of the simulation but a NECESSARY CONDITION for open-endedness. Without it, the system converges. (H8)
+
+### Fitness landscape metaphor criticism ↔ ALife simulation design
+The fitness landscape metaphor (Wright 1932) is criticized (Kaplan 2008, Petkov 2015) for assuming static, fixed genotype-fitness mappings. ALife simulations inherit this assumption — even "emergent" ALife has implicit static landscapes. If we design simulations thinking in terms of "fitness peaks," we'll get convergence to peaks. We need to think in terms of dynamic, multi-scale landscape cascades where each scale's landscape is reshaped by the scale below (stigmergically) and the scale above (downward causation).
+
+### Echo's counterintuitive resource accumulation ↔ Selection pressure surprises
+Smith & Bedau found that in Echo, genomes with MORE of the traded resource dominate — even though this makes them HARDER to replicate. More resource in genome → harder to copy → agents live longer → acquire more resources → support larger population. The "fittest" genome is the hardest to replicate. This is a cautionary tale for simulation design: selection pressure can produce counterintuitive dynamics. Our simulations should not assume that "fitter" means "easier to replicate."
+
+### Holland's aggregation property ↔ ANT's translation
+Holland's "aggregation" property (meta-agents built from simpler agents) is what ANT's translation describes: the process by which actors form collectives that act as one. But Holland's aggregation is a PROPERTY — it either exists or doesn't. ANT's translation is a PROCESS — it describes HOW aggregation happens (problematization → interessement → enrollment → mobilization). Echo has the property defined but never achieves it in practice. ANT gives us the mechanism to make aggregation happen.
