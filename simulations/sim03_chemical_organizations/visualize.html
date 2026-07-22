@@ -1,221 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ALife Sim 03 — Chemical Organizations</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: #0d1117; color: #c9d1d9; font-family: -apple-system, sans-serif; }
-        #app { display: flex; gap: 1rem; padding: 1rem; flex-wrap: wrap; }
-        .chart-container { display: flex; flex-direction: column; }
-        canvas { border: 1px solid #30363d; border-radius: 4px; image-rendering: pixelated; }
-        #controls { width: 280px; display: flex; flex-direction: column; gap: 1rem; }
-        h1 { font-size: 1.1rem; color: #f0f6fc; }
-        label { display: flex; flex-direction: column; gap: 0.25rem; font-size: 0.85rem; color: #8b949e; }
-        input[type=range] { width: 100%; accent-color: #58a6ff; }
-        input[type=number] { width: 60px; background: #161b22; color: #c9d1d9; border: 1px solid #30363d; border-radius: 4px; padding: 2px 6px; font-size: 0.85rem; }
-        button { background: #238636; color: #fff; border: none; border-radius: 4px; padding: 6px 12px; cursor: pointer; font-size: 0.85rem; }
-        button:hover { background: #2ea043; }
-        button.secondary { background: #21262d; color: #c9d1d9; }
-        button.secondary:hover { background: #30363d; }
-        .stats { background: #161b22; border: 1px solid #30363d; border-radius: 6px; padding: 0.75rem; font-size: 0.8rem; font-family: monospace; }
-        .stats div { display: flex; justify-content: space-between; margin: 2px 0; }
-        .stats .val { color: #58a6ff; }
-        .legend { font-size: 0.75rem; display: flex; flex-direction: column; gap: 4px; }
-        .legend span { display: inline-flex; align-items: center; gap: 4px; }
-        .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ALife Sim 03 — Chemical Organizations</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0d1117;color:#c9d1d9;font-family:-apple-system,sans-serif;padding:1rem}
+h1{font-size:1.1rem;color:#f0f6fc;margin-bottom:.5rem}
+canvas{border:1px solid #30363d;border-radius:4px;display:block;margin-bottom:.5rem}
+.controls{display:flex;gap:.5rem;align-items:center;margin-bottom:.5rem;flex-wrap:wrap}
+button{background:#238636;color:#fff;border:none;border-radius:4px;padding:6px 12px;cursor:pointer;font-size:.85rem}
+button:hover{background:#2ea043}
+button.sec{background:#21262d;color:#c9d1d9}
+button.toggle{background:#1f6feb}
+input[type=range]{accent-color:#58a6ff}
+.stats{background:#161b22;border:1px solid #30363d;border-radius:6px;padding:.5rem;font-size:.8rem;font-family:monospace;display:grid;grid-template-columns:1fr 1fr;gap:2px 1rem;margin-bottom:.5rem}
+.stats .val{color:#58a6ff}
+.finding{font-size:.75rem;color:#8b949e;font-style:italic}
+</style>
 </head>
 <body>
-    <div id="app">
-        <div class="chart-container">
-            <canvas id="chart" width="800" height="400"></canvas>
-        </div>
-        <div class="chart-container">
-            <canvas id="organizations-chart" width="800" height="200"></canvas>
-        </div>
-        <div id="controls">
-            <h1>🧪 Chemical Organizations</h1>
-            <div class="legend">
-                <span><span class="dot" style="background:#2ea043"></span> Species 1</span>
-                <span><span class="dot" style="background:#58a6ff"></span> Species 2</span>
-                <span><span class="dot" style="background:#00ffff"></span> Species 3</span>
-                <span><span class="dot" style="background:#ff4500"></span> Species 4</span>
-                <span><span class="dot" style="background:#ffff00"></span> Species 5</span>
-                <span><span class="dot" style="background:#ff0066"></span> Organizations</span>
-                <span><span class="dot" style="background:#4b6a9c"></span> Single-trace</span>
-                <span><span class="dot" style="background:#a8684d"></span> Multi-trace</span>
-            </div>
-            <label>Simulation speed: <span id="speed-val">50</span> steps/frame
-                <input type="range" id="speed" min="1" max="200" step="1" value="50">
-            </label>
-            <label>Trace condition: 
-                <select id="condition">
-                    <option value="single">Single-trace</option>
-                    <option value="multi">Multi-trace</option>
-                </select>
-            </label>
-            <label>Reset position: <input type="number" id="reset-pos" value="0" min="0">
-            </label>
-            <div style="display:flex;gap:6px">
-                <button id="play">⏸ Pause</button>
-                <button id="reset" class="secondary">↺ Reset</button>
-            </div>
-            <div class="stats">
-                <div>Generation: <span class="val" id="stat-gen">0</span></div>
-                <div>Organizations: <span class="val" id="stat-orgs">0</span></div>
-                <div>Single-trace: <span class="val" id="stat-single">0</span></div>
-                <div>Multi-trace: <span class="val" id="stat-multi">0</span></div>
-            </div>
-            <p style="font-size:0.75rem;color:#8b949e">Key finding: Trace competition between chemical organization types doesn't prevent convergence of species populations.</p>
-        </div>
-    </div>
-    <script>
-        const canvas = document.getElementById('chart');
-        const ctx = canvas.getContext('2d');
-        const organizationsCanvas = document.getElementById('organizations-chart');
-        const organizationsCtx = organizationsCanvas.getContext('2d');
-        
-        const CANVAS_WIDTH = canvas.width;
-        const CANVAS_HEIGHT = canvas.height;
-        const COLORS = ['#2ea043', '#58a6ff', '#00ffff', '#ff4500', '#ffff00'];
-        const ORG_COLOR = '#ff0066';
-        const SINGLE_TRACE_COLOR = '#4b6a9c';
-        const MULTI_TRACE_COLOR = '#a8684d';
-        
-        let data, maxGenerations, running = false;
-        let currentGen = 0;
-        let playSpeed = 50;
-        let speciesCount = 0;
-        let currentCondition = 'multi';
-        
-        async function loadData() {
-            const response = await fetch('results.json');
-            data = await response.json();
-            maxGenerations = data.generations.length - 1;
-            speciesCount = data.generations[0].species.length;
-        }
-        
-        function drawCharts() {
-            const generationData = data.generations[currentGen];
-            
-            // Clear and draw background
-            ctx.fillStyle = '#0d1117';
-            ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-            
-            // Draw species populations
-            const maxPop = Math.max(...generationData.species);
-            
-            for (let i = 0; i < speciesCount; i++) {
-                const speciesColor = COLORS[i % COLORS.length];
-                const height = generationData.species[i] / maxPop * CANVAS_HEIGHT;
-                
-                // Draw as stacked area
-                const baseY = CANVAS_HEIGHT - (generationData.species.slice(0, i)
-                    .reduce((sum, val) => sum + val, 0) / maxPop) * CANVAS_HEIGHT;
-                
-                ctx.fillStyle = speciesColor;
-                ctx.fillRect(i * 4, baseY, 3, height);
-            }
-            
-            // Draw organizations if they exist in this generation
-            if (generationData.organizations.length > 0) {
-                ctx.fillStyle = ORG_COLOR;
-                const orgSize = 5;
-                generationData.organizations.forEach(org => {
-                    ctx.fillRect(org.x * 4, CANVAS_HEIGHT - org.y * 4, orgSize, orgSize);
-                });
-            }
-            
-            // Draw trace conditions
-            if (currentCondition === 'multi') {
-                const traceSize = 8;
-                generationData.traces.forEach(trace => {
-                    const x = trace.x * 4;
-                    const y = CANVAS_HEIGHT - trace.y * 4;
-                    
-                    ctx.fillStyle = MULTI_TRACE_COLOR;
-                    ctx.beginPath();
-                    ctx.arc(x, y, traceSize, 0, Math.PI * 2);
-                    ctx.fill();
-                });
-            }
-            
-            drawOrganizationsChart(generationData.organizations);
-            
-            // Update stats
-            document.getElementById('stat-gen').textContent = currentGen;
-            document.getElementById('stat-orgs').textContent = generationData.organizations.length;
-            document.getElementById('stat-single').textContent = generationData.singleTrace || 0;
-            document.getElementById('stat-multi').textContent = generationData.multiTrace || 0;
-        }
-        
-        function drawOrganizationsChart(organizations) {
-            organizationsCtx.fillStyle = '#0d1117';
-            organizationsCtx.fillRect(0, 0, organizationsCanvas.width, organizationsCanvas.height);
-            
-            const points = data.generations.map(gen => gen.organizations.length);
-            const maxOrgs = Math.max(...points);
-            
-            organizationsCtx.beginPath();
-            organizationsCtx.strokeStyle = ORG_COLOR;
-            organizationsCtx.lineWidth = 2;
-            
-            for (let i = 0; i <= currentGen; i++) {
-                const p = data.generations[i];
-                if (p.organizations.length > 0) {
-                    const x = (i / maxGenerations) * organizationsCanvas.width;
-                    const y = organizationsCanvas.height - (p.organizations.length / maxOrgs) * organizationsCanvas.height;
-                    if (i === 0) {
-                        organizationsCtx.moveTo(x, y);
-                    } else {
-                        organizationsCtx.lineTo(x, y);
-                    }
-                }
-            }
-            organizationsCtx.stroke();
-        }
-        
-        function mainLoop() {
-            if (running) {
-                if (currentGen < maxGenerations) {
-                    currentGen++;
-                } else {
-                    running = false;
-                    document.getElementById('play').textContent = '▶ Play';
-                }
-            }
-            drawCharts();
-            requestAnimationFrame(mainLoop);
-        }
-        
-        // Controls
-        document.getElementById('speed').oninput = function(e) {
-            playSpeed = parseInt(e.target.value);
-            document.getElementById('speed-val').textContent = playSpeed;
-        };
-        
-        document.getElementById('condition').onchange = function(e) {
-            currentCondition = e.target.value;
-            drawCharts();
-        };
-        
-        document.getElementById('play').onclick = function() {
-            running = !running;
-            this.textContent = running ? '⏸ Pause' : '▶ Play';
-        };
-        
-        document.getElementById('reset').onclick = function() {
-            running = false;
-            currentGen = parseInt(document.getElementById('reset-pos').value);
-            document.getElementById('play').textContent = '▶ Play';
-            drawCharts();
-        };
-        
-        loadData().then(() => {
-            mainLoop();
-        });
-    </script>
+<h1>Sim 03 — Chemical Organizations (Trace Competition)</h1>
+<div class="controls">
+<button id="play">Pause</button>
+<button id="reset" class="sec">Reset</button>
+<button id="toggle" class="toggle">Multi-trace</button>
+<label>Speed: <input type="range" id="speed" min="1" max="200" value="30"></label>
+</div>
+<canvas id="conc" width="900" height="300"></canvas>
+<canvas id="orgs" width="900" height="200"></canvas>
+<div class="stats" id="stats"></div>
+<p class="finding">Key finding: Trace competition doesn't prevent convergence. Multiple trace types produce no nested organizations.</p>
+<script>
+const cc=document.getElementById('conc'),cx=cc.getContext('2d');
+const oc=document.getElementById('orgs'),ox=oc.getContext('2d');
+const W=cc.width;
+const COLORS=['#58a6ff','#2ea043','#ff4500','#f0c674','#bd93f9','#50fa7b','#ffb86c','#ff79c6'];
+let data,running=true,gen=0,speed=30,useMulti=false;
+async function init(){
+  const r=await fetch('results.json');data=await r.json();gen=0;animate();
+}
+function getHistory(){return useMulti?data.multi_trace.history:data.single_trace.history;}
+function drawConc(){
+  cx.fillStyle='#0d1117';cx.fillRect(0,0,W,cc.height);
+  const h=getHistory();
+  // Find max concentration count
+  const nConc=h[0].concentrations?h[0].concentrations.length:1;
+  const maxAll=Math.max(...h.slice(0,gen+1).flatMap(e=>e.concentrations||[0]),0.001);
+  cx.strokeStyle='#30363d';cx.beginPath();
+  for(let i=0;i<=4;i++){const y=i*cc.height/4;cx.moveTo(0,y);cx.lineTo(W,y);}cx.stroke();
+  const step=W/Math.max(h.length-1,1);
+  for(let c=0;c<nConc;c++){
+    cx.strokeStyle=COLORS[c%COLORS.length];cx.lineWidth=2;cx.beginPath();
+    for(let i=0;i<=gen&&i<h.length;i++){
+      const v=h[i].concentrations?h[i].concentrations[c]||0:0;
+      const x=i*step,y=cc.height-v/maxAll*cc.height;
+      i===0?cx.moveTo(x,y):cx.lineTo(x,y);
+    }cx.stroke();
+  }
+  cx.fillStyle='#8b949e';cx.font='11px monospace';cx.fillText('Concentrations over time',8,14);
+}
+function drawOrgs(){
+  ox.fillStyle='#0d1117';ox.fillRect(0,0,W,oc.height);
+  const h=getHistory();
+  const maxOrgs=Math.max(...h.slice(0,gen+1).map(e=>e.n_organizations||0),1);
+  ox.strokeStyle='#30363d';ox.beginPath();
+  for(let i=0;i<=4;i++){const y=i*oc.height/4;ox.moveTo(0,y);ox.lineTo(W,y);}ox.stroke();
+  const step=W/Math.max(h.length-1,1);
+  ox.strokeStyle='#58a6ff';ox.lineWidth=2;ox.beginPath();
+  for(let i=0;i<=gen&&i<h.length;i++){
+    const x=i*step,y=oc.height-(h[i].n_organizations||0)/maxOrgs*oc.height;
+    i===0?ox.moveTo(x,y):ox.lineTo(x,y);
+  }ox.stroke();
+  ox.strokeStyle='#ff4500';ox.lineWidth=2;ox.beginPath();
+  for(let i=0;i<=gen&&i<h.length;i++){
+    const x=i*step,y=oc.height-(h[i].n_active_organizations||0)/maxOrgs*oc.height;
+    i===0?ox.moveTo(x,y):ox.lineTo(x,y);
+  }ox.stroke();
+  ox.fillStyle='#8b949e';ox.font='11px monospace';ox.fillText('Organizations (blue) / Active (red)',8,14);
+}
+function animate(){
+  if(!running)return;
+  gen=Math.min(gen+speed,getHistory().length-1);
+  drawConc();drawOrgs();
+  const h=getHistory();const e=h[Math.min(gen,h.length-1)];
+  document.getElementById('stats').innerHTML=`
+    <div>Gen: <span class="val">${e.generation}</span></div>
+    <div>Active resources: <span class="val">${e.n_active_resources}</span></div>
+    <div>Organizations: <span class="val">${e.n_organizations}</span></div>
+    <div>Active orgs: <span class="val">${e.n_active_organizations}</span></div>
+    <div>Max org size: <span class="val">${e.max_org_size}</span></div>
+    <div>Nested orgs: <span class="val">${e.n_nested_organizations}</span></div>
+    <div>Condition: <span class="val">${useMulti?'multi':'single'}</span></div>
+    <div>Trace types: <span class="val">${useMulti?data.multi_trace.n_trace_types:data.single_trace.n_trace_types}</span></div>
+  `;
+  if(gen<getHistory().length-1)requestAnimationFrame(animate);
+}
+document.getElementById('play').onclick=function(){running=!running;this.textContent=running?'Pause':'Play';if(running)animate();};
+document.getElementById('reset').onclick=function(){gen=0;running=true;document.getElementById('play').textContent='Pause';animate();};
+document.getElementById('toggle').onclick=function(){useMulti=!useMulti;this.textContent=useMulti?'Single-trace':'Multi-trace';gen=0;animate();};
+document.getElementById('speed').oninput=function(){speed=+this.value;};
+init();
+</script>
 </body>
 </html>
