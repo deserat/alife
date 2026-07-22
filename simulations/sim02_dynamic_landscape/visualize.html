@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ALife Sim 02 — Dynamic Landscape</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #0d1117; color: #c9d1d9; font-family: -apple-system, sans-serif; }
+        #app { display: flex; gap: 1rem; padding: 1rem; flex-wrap: wrap; }
+        .chart-container { display: flex; flex-direction: column; }
+        canvas { border: 1px solid #30363d; border-radius: 4px; image-rendering: pixelated; }
+        #controls { width: 280px; display: flex; flex-direction: column; gap: 1rem; }
+        h1 { font-size: 1.1rem; color: #f0f6fc; }
+        label { display: flex; flex-direction: column; gap: 0.25rem; font-size: 0.85rem; color: #8b949e; }
+        input[type=range] { width: 100%; accent-color: #58a6ff; }
+        input[type=number] { width: 60px; background: #161b22; color: #c9d1d9; border: 1px solid #30363d; border-radius: 4px; padding: 2px 6px; font-size: 0.85rem; }
+        button { background: #238636; color: #fff; border: none; border-radius: 4px; padding: 6px 12px; cursor: pointer; font-size: 0.85rem; }
+        button:hover { background: #2ea043; }
+        button.secondary { background: #21262d; color: #c9d1d9; }
+        button.secondary:hover { background: #30363d; }
+        .stats { background: #161b22; border: 1px solid #30363d; border-radius: 6px; padding: 0.75rem; font-size: 0.8rem; font-family: monospace; }
+        .stats div { display: flex; justify-content: space-between; margin: 2px 0; }
+        .stats .val { color: #58a6ff; }
+        .legend { font-size: 0.75rem; display: flex; flex-direction: column; gap: 4px; }
+        .legend span { display: inline-flex; align-items: center; gap: 4px; }
+        .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="chart-container">
+            <canvas id="chart" width="800" height="400"></canvas>
+        </div>
+        <div class="chart-container">
+            <canvas id="diversity-chart" width="800" height="200"></canvas>
+        </div>
+        <div class="chart-container">
+            <canvas id="fitness-chart" width="800" height="200"></canvas>
+        </div>
+        <div id="controls">
+            <h1>🏞️ Dynamic Landscape</h1>
+            <div class="legend">
+                <span><span class="dot" style="background:#2ea043"></span> Static landscape</span>
+                <span><span class="dot" style="background:#58a6ff"></span> Dynamic landscape</span>
+                <span><span class="dot" style="background:#ff4500"></span> Landscape modification</span>
+            </div>
+            <label>Simulation speed: <span id="speed-val">50</span> steps/frame
+                <input type="range" id="speed" min="1" max="200" step="1" value="50">
+            </label>
+            <label>Reset position: <input type="number" id="reset-pos" value="0" min="0">
+            </label>
+            <div style="display:flex;gap:6px">
+                <button id="play">⏸ Pause</button>
+                <button id="reset" class="secondary">↺ Reset</button>
+            </div>
+            <div class="stats">
+                <div>Generation: <span class="val" id="stat-gen">0</span></div>
+                <div>Static agents: <span class="val" id="stat-static">0</span></div>
+                <div>Dynamic agents: <span class="val" id="stat-dynamic">0</span></div>
+                <div>Modifications: <span class="val" id="stat-mods">0</span></div>
+            </div>
+            <p style="font-size:0.75rem;color:#8b949e">Key finding: Both landscape conditions converge to similar solutions, but dynamic landscapes converges harder and faster.</p>
+        </div>
+    </div>
+    <script>
+        const canvas = document.getElementById('chart');
+        const ctx = canvas.getContext('2d');
+        const diversityCanvas = document.getElementById('diversity-chart');
+        const diversityCtx = diversityCanvas.getContext('2d');
+        const fitnessCanvas = document.getElementById('fitness-chart');
+        const fitnessCtx = fitnessCanvas.getContext('2d');
+        
+        const CANVAS_WIDTH = canvas.width;
+        const CANVAS_HEIGHT = canvas.height;
+        const STATIC_COLOR = '#2ea043';
+        const DYNAMIC_COLOR = '#58a6ff';
+        const MOD_COLOR = '#ff4500';
+        
+        let data, maxGenerations, running = false;
+        let currentGen = 0;
+        let playSpeed = 50;
+        let landscapeWidth = 0;
+        
+        async function loadData() {
+            const response = await fetch('results.json');
+            data = await response.json();
+            maxGenerations = data.generations.length - 1;
+            landscapeWidth = data.generations[0].static.length;
+            
+            // Initialize canvas dimensions for diversity and fitness charts
+            diversityCanvas.width = CANVAS_WIDTH;
+            fitnessCanvas.width = CANVAS_WIDTH;
+            diversityCanvas.height = diversityCanvas.height;
+            fitnessCanvas.height = fitnessCanvas.height;
+        }
+        
+        function drawCharts() {
+            const generationData = data.generations[currentGen];
+            
+            // Clear and draw background
+            ctx.fillStyle = '#0d1117';
+            ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+            
+            // Draw landscape and agents
+            for (let i = 0; i < landscapeWidth; i++) {
+                // Draw static landscape
+                ctx.fillStyle = STATIC_COLOR;
+                const staticValue = generationData.static[i];
+                const height = staticValue * CANVAS_HEIGHT;
+                ctx.fillRect(i * 2, CANVAS_HEIGHT - height, 2, height);
+                
+                // Draw dynamic landscape
+                ctx.fillStyle = DYNAMIC_COLOR;
+                const dynamicValue = generationData.dynamic[i];
+                const dynamicHeight = dynamicValue * CANVAS_HEIGHT;
+                ctx.fillRect(i * 2 + 1, CANVAS_HEIGHT - dynamicHeight, 2, dynamicHeight);
+                
+                // Draw modifications
+                if (generationData.modifications.includes(i)) {
+                    ctx.fillStyle = MOD_COLOR;
+                    ctx.fillRect(i * 2, 0, 5, CANVAS_HEIGHT);
+                }
+            }
+            
+            // Draw diversity charts
+            drawDiversityChart(generationData.diversity);
+            drawFitnessChart(generationData.fitness);
+            
+            // Update stats
+            document.getElementById('stat-gen').textContent = currentGen;
+            document.getElementById('stat-static').textContent = generationData.staticSum.toFixed(2);
+            document.getElementById('stat-dynamic').textContent = generationData.dynamicSum.toFixed(2);
+            document.getElementById('stat-mods').textContent = generationData.modifications.length;
+        }
+        
+        function drawDiversityChart(diversityData) {
+            diversityCtx.fillStyle = '#0d1117';
+            diversityCtx.fillRect(0, 0, diversityCanvas.width, diversityCanvas.height);
+            
+            const points = data.generations.map(gen => gen.diversity);
+            const maxDiversity = Math.max(...points);
+            
+            diversityCtx.beginPath();
+            diversityCtx.strokeStyle = STATIC_COLOR;
+            diversityCtx.lineWidth = 2;
+            
+            for (let i = 0; i <= currentGen; i++) {
+                const x = (i / maxGenerations) * diversityCanvas.width;
+                const y = diversityCanvas.height - (points[i] / maxDiversity) * diversityCanvas.height;
+                if (i === 0) {
+                    diversityCtx.moveTo(x, y);
+                } else {
+                    diversityCtx.lineTo(x, y);
+                }
+            }
+            diversityCtx.stroke();
+        }
+        
+        function drawFitnessChart(fitnessData) {
+            fitnessCtx.fillStyle = '#0d1117';
+            fitnessCtx.fillRect(0, 0, fitnessCanvas.width, fitnessCanvas.height);
+            
+            const staticPoints = data.generations.map(gen => gen.fitness.static);
+            const dynamicPoints = data.generations.map(gen => gen.fitness.dynamic);
+            const maxFitness = Math.max(...staticPoints, ...dynamicPoints);
+            
+            // Draw static fitness
+            fitnessCtx.beginPath();
+            fitnessCtx.strokeStyle = STATIC_COLOR;
+            fitnessCtx.lineWidth = 2;
+            
+            for (let i = 0; i <= currentGen; i++) {
+                const x = (i / maxGenerations) * fitnessCanvas.width;
+                const y = fitnessCanvas.height - (staticPoints[i] / maxFitness) * fitnessCanvas.height;
+                if (i === 0) {
+                    fitnessCtx.moveTo(x, y);
+                } else {
+                    fitnessCtx.lineTo(x, y);
+                }
+            }
+            fitnessCtx.stroke();
+            
+            // Draw dynamic fitness
+            fitnessCtx.beginPath();
+            fitnessCtx.strokeStyle = DYNAMIC_COLOR;
+            fitnessCtx.lineWidth = 2;
+            
+            for (let i = 0; i <= currentGen; i++) {
+                const x = (i / maxGenerations) * fitnessCanvas.width;
+                const y = fitnessCanvas.height - (dynamicPoints[i] / maxFitness) * fitnessCanvas.height;
+                if (i === 0) {
+                    fitnessCtx.moveTo(x, y);
+                } else {
+                    fitnessCtx.lineTo(x, y);
+                }
+            }
+            fitnessCtx.stroke();
+        }
+        
+        function mainLoop() {
+            if (running) {
+                if (currentGen < maxGenerations) {
+                    currentGen++;
+                } else {
+                    running = false;
+                    document.getElementById('play').textContent = '▶ Play';
+                }
+            }
+            drawCharts();
+            requestAnimationFrame(mainLoop);
+        }
+        
+        // Controls
+        document.getElementById('speed').oninput = function(e) {
+            playSpeed = parseInt(e.target.value);
+            document.getElementById('speed-val').textContent = playSpeed;
+        };
+        
+        document.getElementById('play').onclick = function() {
+            running = !running;
+            this.textContent = running ? '⏸ Pause' : '▶ Play';
+        };
+        
+        document.getElementById('reset').onclick = function() {
+            running = false;
+            currentGen = parseInt(document.getElementById('reset-pos').value);
+            document.getElementById('play').textContent = '▶ Play';
+            drawCharts();
+        };
+        
+        loadData().then(() => {
+            mainLoop();
+        });
+    </script>
+</body>
+</html>
