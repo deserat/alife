@@ -1,3 +1,11 @@
+---
+status: "Core concept"
+formed: "Session 2"
+connected_to: "Strange loops, multi-scale composition, quasi-objects, ANT"
+topic: "autopoiesis and self-maintenance"
+key_findings: "Self-production is self-reference through process. Persistence condition for actors across phase transitions. Self-maintenance is not complexification."
+---
+
 # Autopoiesis
 
 **Status:** Core concept — formed Session 2

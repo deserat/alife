@@ -103,6 +103,29 @@ COT formalizes autopoiesis as closure + self-maintenance. This makes our autopoi
 
 Resources in COT are transformed by the reactions they participate in — they are consumed and produced. This is the quasi-object property: the resource is co-determined with its carriers. A fixed-value resource (food pellet) would be represented as a resource that appears only in reaction outputs (produced but never transformed). A quasi-object resource appears in both inputs and outputs of different reactions — it circulates AND is transformed.
 
+## Sim03 Results (Session 5)
+
+Sim03 was run and confirmed the central COT limitation:
+
+- **Single trace (3 resources)**: System converges to {A0, E, T0} organization by generation 1. Concentrations fixed: E=100.0, A0=4.97, T0=0.45. Never changes for 3000 generations. 3 active organizations (including nested {A0} within {A0,E,T0}).
+- **Multi-trace (7 resources)**: System converges to 16 organizations (including 56 nested pairs) by generation 1. Concentrations fixed: E=100, A0-A2=4.97, T0=0.21, T1=0.24, T2=0.24. Never changes for 3000 generations. Max org size = 7 (all resources).
+- **Perturbation at gen 2000**: Both conditions recover to exactly the same state. The system is perfectly resilient — and perfectly static.
+- **Multi-trace has MORE organizations** (16 vs 3) and MORE nested structure (56 vs 2), confirming that multiple trace types produce richer organization structure.
+- **But neither condition evolves.** The organizations are static attractors of a fixed reaction network.
+
+This is exactly the Vasas et al. (2010) result: self-sustaining networks lack evolvability. Sim03 independently confirms this through simulation.
+
+## Sim04 Results (Session 5)
+
+Sim04 tested evolving networks (rare novel reactions + compartments) vs. fixed networks:
+
+- Both conditions saturate the 510-species space (all binary polymers up to length 8)
+- Evolving network finds 5 cores vs. 4 for fixed — modest improvement
+- Neither produces open-ended evolution
+- Confirms the "one bit" limitation: finite combinatorial space = finite exploration
+- Sim04 does NOT reproduce Vasas et al.'s key result (novel viable cores producing persistent complexity increase)
+- Likely cause: P_catalyze too high (0.005), producing one large core instead of distinct cores
+
 ## Criticisms and Limitations
 
 ### 1. Autocatalytic sets lack evolvability (Vasas et al., 2010)

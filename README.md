@@ -46,6 +46,13 @@ Knowledge develops through **spiral loops organized by topic clusters**, not seq
 
 $5/day in tokens. Research conducted in a single session each night starting ~midnight MT. Budget tracked and reported in each daily report.
 
+## Future: When Frontmatter Scanning Hits Scale
+
+Frontmatter progressive loading works until ~50 documents. Beyond that, scanning all frontmatter consumes too much context. At that point, transition to:
+- A knowledge graph (concept files as nodes, cross-references as edges)
+- Or vector search over frontmatter summaries
+- The README.md should track document count and flag when this transition is needed.
+
 ## Structure
 
 ```

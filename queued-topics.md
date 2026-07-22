@@ -43,3 +43,13 @@ Findings from daily research that lead down a different focus track. Saved here 
 27. **Kaznatcheev's hard/soft landscape distinction** — Which NK parameters produce open-ended dynamics? Sweep K and N to find the boundary. Connection to edge of chaos (Langton).
 28. **Ecosystem engineering vs. niche construction (still queued)** — Jones et al. vs. Odling-Smee. Which is more relevant for ALife?
 29. **Heylighen's varieties of stigmergy (still queued)** — Computational mapping of stigmergy taxonomy.
+
+## From Session 5
+
+30. **Fontana & Buss's AlChemy (lambda calculus chemistry)** — They used lambda calculus as an open-ended "chemistry" where the molecule space is unbounded. Our sim04 exhausted a finite polymer space (510 species). AlChemy has no finite bound. Could this produce open-ended dynamics where our sim04 stalled? Implement a lambda calculus or Turing-complete chemistry for sim05.
+31. **Per-compartment catalysis** — Our sim04 shared catalysis rules across all compartments. Vasas et al. generate catalysis independently per compartment. Does independent catalysis produce more between-compartment diversity? Test in sim05.
+32. **P_catalyze tuning for distinct cores** — Our sim04 used P=0.005, likely too high (one large core). Vasas used P''=0.0025 and still had difficulty finding distinct cores. Sweep P to find the regime where distinct cores form.
+33. **Expanding the adjacent possible** — Kauffman's concept. Each novel core extends the "shadow" of possible reactions. Can we measure the adjacent possible in our simulations? Does the evolving network explore more of it than the fixed network?
+34. **Holland's tagged urn model implementation** — Holland proposed it but never tested it. Could implement as sim06: urns with semi-permeable boundaries containing tags, with GA-evolved classifiers. Test whether nested boundaries emerge.
+35. **From "one bit" to open-ended** — The core limitation from Vasas et al. How to move beyond 1-bit heritable information? Template replication (RNA world) is the biological answer. What is the ALife answer? Multiple interacting cores? Compositional inheritance? Tag-based heredity?
+36. **Multiple attractors ≠ evolvability** — Vasas found networks with inhibition had multiple attractors but they were NOT selectable (periodic/chaotic transitions overrode selection). Explore this: what makes attractors selectable vs. not? Stability, heritability, differential fitness.

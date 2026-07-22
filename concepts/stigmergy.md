@@ -1,3 +1,11 @@
+---
+status: "Core concept"
+formed: "Session 3"
+connected_to: "Multi-scale composition, ANT, downward causation, autopoiesis, niche construction"
+topic: "stigmergy and indirect coordination"
+key_findings: "Stigmergy is the formal mechanism for environment-as-actor. Trace-to-actor crossing is the multi-scale phase transition."
+---
+
 # Stigmergy
 
 **Status:** Core concept — formed Session 3

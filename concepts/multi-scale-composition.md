@@ -1,3 +1,11 @@
+---
+status: "Core concept"
+formed: "Session 1"
+connected_to: "ANT, computational irreducibility, strange loops, autopoiesis, stigmergy"
+topic: "multi-scale composition"
+key_findings: "ALife stalls because it lacks multi-scale composition. Need tangled hierarchy, downward causation, autopoiesis."
+---
+
 # Multi-Scale Composition
 
 **Status:** Core concept — formed Session 1, refining

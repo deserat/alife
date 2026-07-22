@@ -167,3 +167,29 @@
 
 ## To Be Added
 References will be accumulated through daily research.
+
+### Peter Dittrich & Pier Luigi di Fenizio
+- "Chemical Organisation Theory" (2007, Bull. Math. Biol.) — 316 citations
+- Formal framework for self-organizing systems using reaction networks
+- Organizations = closure + self-maintenance; attractors of dynamics
+- University of Jena, Bio Systems Analysis group
+- https://users.fmi.uni-jena.de/csb/prj/ot/
+
+### Vera Vasas, Eörs Szathmáry & Mauro Santos
+- "Lack of evolvability in self-sustaining autocatalytic networks" (2010, PNAS, 248 citations)
+- Autocatalytic sets lack evolvability — cannot depart from built-in steady state
+- "Evolution before genes" (2012, Biology Direct, 319 citations)
+- Resolution: rare uncatalyzed reactions + compartmentalization = minimal Darwinian evolution
+- Autocatalytic cores as genotypes, peripheries as phenotypes
+
+### Walter Fontana & Leo Buss
+- "The Arrival of the Fittest: Toward a Theory of Biological Organization" (1994, SFI Working Paper 93-09-055, 583 citations)
+- Lambda calculus chemistry (AlChemy) — open-ended molecule space
+- Organizational transitions in evolving reaction networks
+- Construction (building new molecules) vs. copying (identity functions)
+
+### John Holland
+- *Signals and Boundaries: Building Blocks for Complex Adaptive Systems* (MIT Press, 2012)
+- Co-evolution of signals (stigmergic traces) and boundaries (autopoietic structures)
+- Tagged urn model for nested boundary hierarchies
+- Holland's response to Echo's failure (Smith & Bedau 1997)

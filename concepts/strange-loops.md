@@ -1,3 +1,11 @@
+---
+status: "Core concept"
+formed: "Session 2"
+connected_to: "Multi-scale composition, autopoiesis, downward causation, ANT"
+topic: "Hofstadter strange loops and self-reference"
+key_findings: "Strange loops are the topology of multi-scale systems. Downward causation as mechanism. Self-reference in networks."
+---
+
 # Strange Loops and Self-Reference
 
 **Status:** Core concept — formed Session 2

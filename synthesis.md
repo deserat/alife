@@ -113,3 +113,34 @@ Each environmental actor leaves traces at its own rate. Land leaves persistent t
 
 ### Multi-rate ↔ Open-ended evolution
 Single fitness goals lead to stasis. Multiple fitness criteria changing at different rates create a fitness landscape that never settles — while one pressure stabilizes, another shifts. This prevents the EvoLoop convergence problem. The fitness landscape is a moving target in multiple dimensions.
+
+---
+
+## 2026-07-22 — Session 5 (Evolving Reaction Networks / Signals & Boundaries loop)
+
+### Sim03's negative result ↔ COT's evolvability limitation
+Our sim03 (chemical organizations with fixed reaction network) confirmed the central limitation of Chemical Organization Theory: the system converges to a fixed equilibrium by generation 1 and NEVER changes for 3000 generations. Both single-trace and multi-trace conditions reach a static state. This is exactly Vasas et al.'s (2010) finding: autocatalytic sets (fixed networks) "lack evolvability" — they "cannot substantially depart from the asymptotic steady-state solution already built-in in the dynamical equations." Sim03 independently confirms this through simulation: fixed reaction networks cannot evolve, regardless of trace diversity.
+
+### Vasas et al. (2012) resolution ↔ H9 (Evolving Network Hypothesis)
+Vasas et al. (2012, "Evolution before genes") found the way out: rare uncatalyzed reactions produce novel species. Most disappear, but rarely a novel species catalyzes its own production from existing molecules, forming a **viable autocatalytic core** — a new organization. Combined with compartmentalization (which filters harmful modifications and enables between-compartment selection), this produces the minimal conditions for Darwinian evolution in chemical networks. This directly motivates our H9: evolving networks (where new reactions appear) produce evolvable organizations where fixed networks stall. Our sim04 tests this directly.
+
+### Novel viable cores ↔ Trace→actor crossing (H7)
+The appearance of a novel viable core IS the trace→actor crossing in formal COT terms. Existing resources are "traces" (accumulated products of reactions). A novel reaction among them produces a new self-maintaining set (closure + self-maintenance = organization). The new organization is a new "actor" at a new level. This makes H7 mechanistically concrete: the crossing occurs when a rare novel reaction produces a viable autocatalytic core from existing resources.
+
+### Two-level autocatalysis ↔ Multi-scale composition (H1)
+Vasas et al. identify two levels of autocatalysis: molecular (within compartments, reactions produce molecules that catalyze more reactions) and compartmental (compartments grow and divide). These levels have DIFFERENT rules — molecular level produces novelty (new cores), compartmental level selects among them. This IS multi-scale composition: two levels with different rules, interacting through the containment relationship. The molecular level's products (cores) become the compartmental level's units of selection.
+
+### Holland's Signals and Boundaries ↔ Stigmergy + Autopoiesis synthesis
+Holland's (2012) final framework — CAS as co-evolving signal/boundary hierarchies — arrives at the same synthesis we identified in Session 3 from a completely different direction (CAS theory vs. ANT + stigmergy):
+- **Signals** = stigmergic traces (environmental modifications that coordinate behavior)
+- **Boundaries** = autopoietic structures (self-maintaining entities that filter what crosses them)
+- **Co-evolution** = traces modify boundaries, boundaries filter traces (the stigmergic feedback loop through the medium)
+- **Hierarchy** = nested boundaries = multi-scale structure
+
+Three independent paths (Holland from CAS theory, Vasas from origin-of-life chemistry, our project from ANT + computational irreducibility) converge on: **evolving signal/boundary hierarchies = multi-scale composition**.
+
+### Multiple attractors ≠ evolvability
+Vasas et al. found that networks with inhibition had multiple attractors but they were NOT selectable — transitions between attractors were periodic or chaotic, overriding any selection pressure. This is a crucial refinement: multiple attractors (multiple organizations) is necessary but not sufficient for evolvability. The attractors must be stable, heritable, and differentially fit. In COT terms: multiple organizations must exist AND be separable (compartments) AND have different growth rates. This refines our understanding of what the trace→actor crossing requires — not just self-maintenance, but selectable self-maintenance.
+
+### The "one bit" problem ↔ Open-ended evolution gap
+A viable autocatalytic core carries approximately one bit of heritable information (present/absent). Vasas et al. acknowledge this means autocatalytic networks "may not be able to sustain open-ended evolution." The gap between "evolvable" (selection between 2-3 attractors) and "open-ended" (unbounded novelty) is enormous. Each novel core extends the "adjacent possible" — opening new reaction possibilities — but whether this combinatorial expansion produces true open-endedness or just limited multi-attractor dynamics remains the central open question. This connects directly to H8: computational irreducibility at each scale is necessary but may not be sufficient for open-endedness.

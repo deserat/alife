@@ -84,15 +84,36 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 ---
 
+## H9: The Evolving Network Hypothesis (NEW — Session 5)
+
+**A reaction network that generates new reactions (evolving network) can produce evolvable organizations where a fixed reaction network (same initial conditions, no new reactions) converges to a single static organization and stalls.** The key mechanism is the appearance of novel viable autocatalytic cores via rare uncatalyzed reactions, combined with compartmentalization that enables selection between cores.
+
+**Evidence:**
+- Vasas et al. (2010, PNAS): Autocatalytic sets (fixed networks) lack evolvability — they converge to a single attractor and cannot depart from the steady-state built into the dynamical equations.
+- Vasas et al. (2012, Biology Direct): When rare uncatalyzed reactions are allowed, novel viable cores appear (5/460 runs). Multiple cores create multiple attractors with different growth rates, enabling natural selection. A 1% selective advantage shifts population composition.
+- Our sim03 confirmed: fixed reaction network converges immediately (by generation 1) and never changes for 3000 generations.
+- Fontana & Buss (1994): Lambda calculus chemistry (AlChemy) produces "organizational transitions" — shifts between qualitatively different organizational regimes — when new molecules appear as products of reactions.
+
+**Connection to H7:** The appearance of a novel viable core IS the trace→actor crossing. Existing resources are traces; the novel reaction produces a new self-maintaining set (organization/actor) from them.
+
+**Connection to H8:** You cannot predict which novel cores will appear — you must simulate. The space of possible reactions is too large to enumerate, and viability depends on the entire network state.
+
+**The "one bit" limitation:** A single viable core carries ~1 bit of heritable information (present/absent). Open-ended evolution requires unlimited heritable information. The evolving network extends the "adjacent possible" — each new core opens new reaction possibilities — but whether this produces true open-endedness or just limited multi-attractor dynamics is an open question.
+
+**Test:** Compare fixed network (no new reactions, sim03-like) vs. evolving network (new reactions appear) with compartmentalization. Measure: does the evolving network discover new species, new organizations, and maintain between-compartment diversity where the fixed network converges?
+
+---
+
 ## Summary Table
 
 | Hypothesis | Status | Evidence |
 |---|---|---|
-| H1: Composition | Refined | Smith & Bedau (1997) independent confirmation |
+| H1: Composition | Refined | Smith & Bedau (1997) independent confirmation; sim03 COT confirms fixed networks stall |
 | H2: ANT Translation | Unchanged | Theoretical, untested |
 | H3: Quasi-Object | Strengthened | Stigmergy literature support; Echo partial support |
 | H4: Dynamic Environment | Refined | Fitness landscape criticism supports this |
 | H5: Autopoiesis | Unchanged | Maturana & Varela grounding |
 | H6: Multi-Scale Autopoiesis | Strengthened | Smith & Bedau 8th property = autopoiesis |
-| H7: Trace→Actor Crossing | Strengthened | Smith & Bedau 8th property = stigmergy + autopoiesis |
+| H7: Trace→Actor Crossing | Strengthened | Smith & Bedau 8th property = stigmergy + autopoiesis; COT gives formal test |
 | H8: Complexity Enables OEE | NEW | Kaznatcheev (2019), Wiser et al. (2013) |
+| H9: Evolving Network | NEW | Vasas et al. (2012), sim03 negative result, sim04 testing |

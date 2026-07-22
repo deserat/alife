@@ -1,3 +1,11 @@
+---
+status: "Core concept"
+formed: "Session 3 follow-up (Vance)"
+connected_to: "Multi-scale composition, stigmergy, open-ended evolution"
+topic: "multi-rate bounded environment"
+key_findings: "Multiple fitness criteria at different rates prevent stasis. Slow actors provide stability, fast actors prevent niche-lock."
+---
+
 # Multi-Rate Bounded Environment
 
 **Status:** Core concept — contributed by Vance, Session 3 follow-up

@@ -135,3 +135,31 @@
 **Multiple fitness criteria** — Instead of a single fitness function, organisms face multiple selection pressures from different environmental actors, each with its own dynamics. No single optimum is permanent because while one pressure stabilizes, another shifts.
 
 **Bounded change** — Environmental actors change within constraints governed by their own rules, not randomly. Land changes per geology; temperature changes per climate bounds. Each actor's change is rule-governed at its own scale.
+
+## Chemical Organization Theory Terms (Session 5)
+
+**Chemical Organization Theory (COT)** (Dittrich & di Fenizio, 2007) — A formal framework for analyzing self-organizing systems using reaction networks (directed hypergraphs). An **organization** is a subset of a reaction network that is both **closed** (no new resources generated) and **self-maintaining** (every consumed resource is regenerated). Organizations are attractors of the dynamics.
+
+**Closure** (COT) — For every reaction whose inputs are all in the subset, the outputs are also in the subset. No new resources appear from within. The attractor of resource addition.
+
+**Self-maintenance** (COT) — Every consumed resource in the subset is produced again by some other reaction. The attractor of resource removal. Together with closure, defines an organization.
+
+**Autocatalytic core** (Vasas et al., 2012) — A set of connected autocatalytic loops within a reaction network. Each member catalyzes production of other members. A core is the "genotype" — any one member can seed the entire core. The **periphery** (molecules catalyzed by the core) is the "phenotype."
+
+**Viable autocatalytic loop** — An autocatalytic loop that grows exponentially (uses external reactants, not just its own products). Contrast with **suicidal autocatalyst** — an autocatalytic molecule that consumes its own products, leading to self-decomposition.
+
+**Evolving reaction network** — A reaction network where the set of reactions R itself changes over time (new reactions appear via rare uncatalyzed events). Contrast with fixed network (R is constant). The key distinction for evolvability: fixed networks converge to static organizations; evolving networks can discover novel viable cores.
+
+**Compartmentalization** — Enclosing reaction networks in semi-permeable boundaries (compartments) that filter harmful modifications and enable between-compartment selection. Required for evolvability in chemical networks: without compartments, novel cores are diluted; with them, cores can be gained or lost at division (mutation + heredity).
+
+**Two-level autocatalysis** (Vasas et al.) — Autocatalysis at the molecular level (reactions produce catalysts for more reactions) AND at the compartment level (compartments grow and divide). These are different scales with different rules — molecular produces novelty, compartmental selects among it.
+
+**The "one bit" problem** — A single viable autocatalytic core carries approximately one bit of heritable information (present/absent). This severely limits the evolvability of autocatalytic networks: the number of selectable attractors is small, and the system may not sustain open-ended evolution.
+
+## Signals and Boundaries Terms (Session 5)
+
+**Signals and Boundaries** (Holland, 2012) — Holland's final framework: CAS as co-evolving signal/boundary hierarchies. **Signals** are environmental modifications that coordinate behavior (stigmergic traces). **Boundaries** are semi-permeable structures that filter signals (autopoietic structures). They co-evolve: signals modify boundaries, boundaries filter signals. The hierarchy of nested boundaries = multi-scale structure.
+
+**Tagged urn model** (Holland) — A probabilistic model where urns containing tags represent boundaries. Tags circulate through semi-permeable boundaries between urns. Enables modeling nested boundaries without nested urns — a flat representation of hierarchical structure.
+
+**Co-evolution of signals and boundaries** — The feedback loop where signals (traces) modify boundaries (organizations), and boundaries filter which signals persist. This is the stigmergic feedback loop through the medium, formalized in Holland's framework.

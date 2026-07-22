@@ -1,0 +1,669 @@
+{
+  "config": {
+    "alphabet": [
+      "a",
+      "b"
+    ],
+    "max_food_length": 3,
+    "max_polymer_length": 8,
+    "p_catalyst": 0.75,
+    "p_catalyze": 0.005,
+    "spontaneous_rate": 0.01,
+    "n_compartments": 20,
+    "compartment_capacity": 200,
+    "propagule_size": 50,
+    "n_time_steps": 1000,
+    "seed": 42
+  },
+  "fixed_network": {
+    "label": "FIXED NETWORK (no novel reactions)",
+    "evolving": false,
+    "history": [
+      {
+        "time": 0,
+        "n_compartments": 40,
+        "n_species": 31,
+        "total_mass": 13620,
+        "total_nonfood_mass": 380,
+        "n_cores_sampled": 0,
+        "core_sizes": [],
+        "n_distinct_compartment_types": 10
+      },
+      {
+        "time": 50,
+        "n_compartments": 21,
+        "n_species": 496,
+        "total_mass": 3328,
+        "total_nonfood_mass": 823,
+        "n_cores_sampled": 16,
+        "core_sizes": [
+          7,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          3,
+          3,
+          3,
+          2,
+          2,
+          2,
+          2
+        ],
+        "n_distinct_compartment_types": 10
+      },
+      {
+        "time": 100,
+        "n_compartments": 32,
+        "n_species": 509,
+        "total_mass": 3688,
+        "total_nonfood_mass": 867,
+        "n_cores_sampled": 8,
+        "core_sizes": [
+          2,
+          2,
+          3,
+          3,
+          3,
+          4,
+          2,
+          2
+        ],
+        "n_distinct_compartment_types": 10
+      },
+      {
+        "time": 150,
+        "n_compartments": 40,
+        "n_species": 510,
+        "total_mass": 3625,
+        "total_nonfood_mass": 969,
+        "n_cores_sampled": 3,
+        "core_sizes": [
+          2,
+          3,
+          2
+        ],
+        "n_distinct_compartment_types": 10
+      },
+      {
+        "time": 200,
+        "n_compartments": 40,
+        "n_species": 510,
+        "total_mass": 3622,
+        "total_nonfood_mass": 972,
+        "n_cores_sampled": 3,
+        "core_sizes": [
+          2,
+          2,
+          3
+        ],
+        "n_distinct_compartment_types": 10
+      },
+      {
+        "time": 250,
+        "n_compartments": 40,
+        "n_species": 510,
+        "total_mass": 3653,
+        "total_nonfood_mass": 975,
+        "n_cores_sampled": 3,
+        "core_sizes": [
+          2,
+          2,
+          2
+        ],
+        "n_distinct_compartment_types": 10
+      },
+      {
+        "time": 300,
+        "n_compartments": 40,
+        "n_species": 510,
+        "total_mass": 3677,
+        "total_nonfood_mass": 963,
+        "n_cores_sampled": 5,
+        "core_sizes": [
+          3,
+          2,
+          2,
+          3,
+          2
+        ],
+        "n_distinct_compartment_types": 10
+      },
+      {
+        "time": 350,
+        "n_compartments": 40,
+        "n_species": 510,
+        "total_mass": 3743,
+        "total_nonfood_mass": 976,
+        "n_cores_sampled": 4,
+        "core_sizes": [
+          2,
+          3,
+          2,
+          2
+        ],
+        "n_distinct_compartment_types": 10
+      },
+      {
+        "time": 400,
+        "n_compartments": 40,
+        "n_species": 510,
+        "total_mass": 3848,
+        "total_nonfood_mass": 956,
+        "n_cores_sampled": 1,
+        "core_sizes": [
+          2
+        ],
+        "n_distinct_compartment_types": 10
+      },
+      {
+        "time": 450,
+        "n_compartments": 40,
+        "n_species": 510,
+        "total_mass": 3881,
+        "total_nonfood_mass": 957,
+        "n_cores_sampled": 3,
+        "core_sizes": [
+          2,
+          3,
+          3
+        ],
+        "n_distinct_compartment_types": 10
+      },
+      {
+        "time": 500,
+        "n_compartments": 40,
+        "n_species": 510,
+        "total_mass": 3909,
+        "total_nonfood_mass": 959,
+        "n_cores_sampled": 3,
+        "core_sizes": [
+          2,
+          2,
+          3
+        ],
+        "n_distinct_compartment_types": 10
+      },
+      {
+        "time": 550,
+        "n_compartments": 40,
+        "n_species": 510,
+        "total_mass": 3934,
+        "total_nonfood_mass": 958,
+        "n_cores_sampled": 1,
+        "core_sizes": [
+          2
+        ],
+        "n_distinct_compartment_types": 10
+      },
+      {
+        "time": 600,
+        "n_compartments": 40,
+        "n_species": 510,
+        "total_mass": 3963,
+        "total_nonfood_mass": 962,
+        "n_cores_sampled": 5,
+        "core_sizes": [
+          3,
+          6,
+          2,
+          3,
+          4
+        ],
+        "n_distinct_compartment_types": 10
+      },
+      {
+        "time": 650,
+        "n_compartments": 40,
+        "n_species": 510,
+        "total_mass": 3970,
+        "total_nonfood_mass": 952,
+        "n_cores_sampled": 6,
+        "core_sizes": [
+          2,
+          2,
+          4,
+          2,
+          3,
+          2
+        ],
+        "n_distinct_compartment_types": 10
+      },
+      {
+        "time": 700,
+        "n_compartments": 40,
+        "n_species": 510,
+        "total_mass": 3937,
+        "total_nonfood_mass": 949,
+        "n_cores_sampled": 3,
+        "core_sizes": [
+          3,
+          5,
+          3
+        ],
+        "n_distinct_compartment_types": 10
+      },
+      {
+        "time": 750,
+        "n_compartments": 40,
+        "n_species": 510,
+        "total_mass": 3929,
+        "total_nonfood_mass": 953,
+        "n_cores_sampled": 3,
+        "core_sizes": [
+          3,
+          2,
+          2
+        ],
+        "n_distinct_compartment_types": 10
+      },
+      {
+        "time": 800,
+        "n_compartments": 40,
+        "n_species": 510,
+        "total_mass": 4042,
+        "total_nonfood_mass": 935,
+        "n_cores_sampled": 2,
+        "core_sizes": [
+          3,
+          2
+        ],
+        "n_distinct_compartment_types": 10
+      },
+      {
+        "time": 850,
+        "n_compartments": 40,
+        "n_species": 510,
+        "total_mass": 4115,
+        "total_nonfood_mass": 930,
+        "n_cores_sampled": 2,
+        "core_sizes": [
+          2,
+          3
+        ],
+        "n_distinct_compartment_types": 10
+      },
+      {
+        "time": 900,
+        "n_compartments": 40,
+        "n_species": 510,
+        "total_mass": 4088,
+        "total_nonfood_mass": 923,
+        "n_cores_sampled": 4,
+        "core_sizes": [
+          2,
+          2,
+          2,
+          2
+        ],
+        "n_distinct_compartment_types": 10
+      },
+      {
+        "time": 950,
+        "n_compartments": 40,
+        "n_species": 510,
+        "total_mass": 4087,
+        "total_nonfood_mass": 935,
+        "n_cores_sampled": 1,
+        "core_sizes": [
+          2
+        ],
+        "n_distinct_compartment_types": 10
+      },
+      {
+        "time": 999,
+        "n_compartments": 40,
+        "n_species": 510,
+        "total_mass": 4168,
+        "total_nonfood_mass": 916,
+        "n_cores_sampled": 4,
+        "core_sizes": [
+          2,
+          2,
+          3,
+          2
+        ],
+        "n_distinct_compartment_types": 10
+      }
+    ]
+  },
+  "evolving_network": {
+    "label": "EVOLVING NETWORK (novel reactions)",
+    "evolving": true,
+    "history": [
+      {
+        "time": 0,
+        "n_compartments": 40,
+        "n_species": 35,
+        "total_mass": 13624,
+        "total_nonfood_mass": 384,
+        "n_cores_sampled": 0,
+        "core_sizes": [],
+        "n_distinct_compartment_types": 10
+      },
+      {
+        "time": 50,
+        "n_compartments": 21,
+        "n_species": 496,
+        "total_mass": 3551,
+        "total_nonfood_mass": 842,
+        "n_cores_sampled": 18,
+        "core_sizes": [
+          2,
+          3,
+          2,
+          2,
+          2,
+          2,
+          8,
+          2,
+          2,
+          2,
+          3,
+          3,
+          2,
+          7,
+          4,
+          3,
+          2,
+          2
+        ],
+        "n_distinct_compartment_types": 10
+      },
+      {
+        "time": 100,
+        "n_compartments": 38,
+        "n_species": 510,
+        "total_mass": 3761,
+        "total_nonfood_mass": 1074,
+        "n_cores_sampled": 7,
+        "core_sizes": [
+          3,
+          2,
+          2,
+          2,
+          2,
+          2,
+          3
+        ],
+        "n_distinct_compartment_types": 10
+      },
+      {
+        "time": 150,
+        "n_compartments": 40,
+        "n_species": 510,
+        "total_mass": 4185,
+        "total_nonfood_mass": 1095,
+        "n_cores_sampled": 8,
+        "core_sizes": [
+          2,
+          2,
+          3,
+          2,
+          3,
+          3,
+          3,
+          2
+        ],
+        "n_distinct_compartment_types": 10
+      },
+      {
+        "time": 200,
+        "n_compartments": 40,
+        "n_species": 510,
+        "total_mass": 4440,
+        "total_nonfood_mass": 1127,
+        "n_cores_sampled": 5,
+        "core_sizes": [
+          2,
+          2,
+          3,
+          6,
+          2
+        ],
+        "n_distinct_compartment_types": 10
+      },
+      {
+        "time": 250,
+        "n_compartments": 40,
+        "n_species": 510,
+        "total_mass": 4883,
+        "total_nonfood_mass": 1109,
+        "n_cores_sampled": 4,
+        "core_sizes": [
+          2,
+          2,
+          2,
+          2
+        ],
+        "n_distinct_compartment_types": 10
+      },
+      {
+        "time": 300,
+        "n_compartments": 21,
+        "n_species": 510,
+        "total_mass": 3155,
+        "total_nonfood_mass": 532,
+        "n_cores_sampled": 9,
+        "core_sizes": [
+          2,
+          3,
+          3,
+          2,
+          2,
+          4,
+          2,
+          3,
+          2
+        ],
+        "n_distinct_compartment_types": 10
+      },
+      {
+        "time": 350,
+        "n_compartments": 25,
+        "n_species": 510,
+        "total_mass": 3214,
+        "total_nonfood_mass": 563,
+        "n_cores_sampled": 3,
+        "core_sizes": [
+          3,
+          2,
+          2
+        ],
+        "n_distinct_compartment_types": 10
+      },
+      {
+        "time": 400,
+        "n_compartments": 28,
+        "n_species": 510,
+        "total_mass": 3261,
+        "total_nonfood_mass": 579,
+        "n_cores_sampled": 2,
+        "core_sizes": [
+          2,
+          2
+        ],
+        "n_distinct_compartment_types": 10
+      },
+      {
+        "time": 450,
+        "n_compartments": 29,
+        "n_species": 510,
+        "total_mass": 3222,
+        "total_nonfood_mass": 587,
+        "n_cores_sampled": 3,
+        "core_sizes": [
+          4,
+          2,
+          3
+        ],
+        "n_distinct_compartment_types": 10
+      },
+      {
+        "time": 500,
+        "n_compartments": 30,
+        "n_species": 510,
+        "total_mass": 3187,
+        "total_nonfood_mass": 627,
+        "n_cores_sampled": 3,
+        "core_sizes": [
+          2,
+          2,
+          4
+        ],
+        "n_distinct_compartment_types": 10
+      },
+      {
+        "time": 550,
+        "n_compartments": 30,
+        "n_species": 510,
+        "total_mass": 3126,
+        "total_nonfood_mass": 642,
+        "n_cores_sampled": 1,
+        "core_sizes": [
+          2
+        ],
+        "n_distinct_compartment_types": 10
+      },
+      {
+        "time": 600,
+        "n_compartments": 32,
+        "n_species": 510,
+        "total_mass": 3021,
+        "total_nonfood_mass": 674,
+        "n_cores_sampled": 3,
+        "core_sizes": [
+          2,
+          2,
+          2
+        ],
+        "n_distinct_compartment_types": 10
+      },
+      {
+        "time": 650,
+        "n_compartments": 32,
+        "n_species": 510,
+        "total_mass": 2890,
+        "total_nonfood_mass": 709,
+        "n_cores_sampled": 5,
+        "core_sizes": [
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        "n_distinct_compartment_types": 10
+      },
+      {
+        "time": 700,
+        "n_compartments": 33,
+        "n_species": 510,
+        "total_mass": 2937,
+        "total_nonfood_mass": 714,
+        "n_cores_sampled": 2,
+        "core_sizes": [
+          2,
+          3
+        ],
+        "n_distinct_compartment_types": 10
+      },
+      {
+        "time": 750,
+        "n_compartments": 33,
+        "n_species": 510,
+        "total_mass": 2969,
+        "total_nonfood_mass": 726,
+        "n_cores_sampled": 6,
+        "core_sizes": [
+          3,
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        "n_distinct_compartment_types": 10
+      },
+      {
+        "time": 800,
+        "n_compartments": 35,
+        "n_species": 510,
+        "total_mass": 2990,
+        "total_nonfood_mass": 724,
+        "n_cores_sampled": 5,
+        "core_sizes": [
+          2,
+          2,
+          3,
+          2,
+          3
+        ],
+        "n_distinct_compartment_types": 10
+      },
+      {
+        "time": 850,
+        "n_compartments": 37,
+        "n_species": 510,
+        "total_mass": 2942,
+        "total_nonfood_mass": 747,
+        "n_cores_sampled": 3,
+        "core_sizes": [
+          3,
+          2,
+          2
+        ],
+        "n_distinct_compartment_types": 10
+      },
+      {
+        "time": 900,
+        "n_compartments": 37,
+        "n_species": 510,
+        "total_mass": 2918,
+        "total_nonfood_mass": 760,
+        "n_cores_sampled": 4,
+        "core_sizes": [
+          3,
+          4,
+          2,
+          2
+        ],
+        "n_distinct_compartment_types": 10
+      },
+      {
+        "time": 950,
+        "n_compartments": 37,
+        "n_species": 510,
+        "total_mass": 2848,
+        "total_nonfood_mass": 780,
+        "n_cores_sampled": 3,
+        "core_sizes": [
+          3,
+          2,
+          2
+        ],
+        "n_distinct_compartment_types": 10
+      },
+      {
+        "time": 999,
+        "n_compartments": 37,
+        "n_species": 510,
+        "total_mass": 2786,
+        "total_nonfood_mass": 791,
+        "n_cores_sampled": 5,
+        "core_sizes": [
+          3,
+          3,
+          2,
+          2,
+          2
+        ],
+        "n_distinct_compartment_types": 10
+      }
+    ]
+  }
+}
