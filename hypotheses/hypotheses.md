@@ -104,6 +104,28 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 ---
 
+## H10: The Unbounded Space Insufficiency Hypothesis (NEW — Session 6)
+
+**An unbounded molecule space (infinite possible species) is necessary but not sufficient for multi-scale composition.** Even when the species space is infinite (lambda calculus chemistry), single-scale organizations (L1) form but do not compose into multi-scale structures (L2) without explicit composition mechanisms.
+
+**Evidence:**
+- Our sim04 (finite space, 510 species): both fixed and evolving networks exhaust the finite space and stall. Novel reactions are redundant when catalyzed reactions already explore the space.
+- Our sim05 (unbounded space, lambda calculus): L1 organizations emerge from random initial conditions (4-37 stable species per run), each run explores 246-930 unique species. The space is NEVER exhausted. Yet L2 composition (coexistence) = 0/6. Dominance (50%) and Mutual Destruction (50%) are the only outcomes.
+- Mathis et al. (2024) systematic reanalysis of AlChemy: "stable organizations cannot be easily combined into higher order entities." L2 coexistence is rare across all tested pairs.
+- Fontana & Buss (1994) original: L2 organizations identified but rare, requiring specific "glue" expressions that bridge L1s.
+
+**Connection to H1:** This refines H1. The original formulation was: "ALife simulations stall because they lack multi-scale composition." H10 adds: the stall is NOT due to finite species space (sim04's problem) — it persists with infinite space (sim05). The bottleneck is architectural (no composition mechanism), not spatial (no room for novelty).
+
+**Connection to H7:** The "glue" that enables L2 is analogous to the trace→actor crossing. Glue doesn't emerge spontaneously — it requires either stigmergic traces that bridge organizations, autopoietic boundaries that protect during interaction, or explicit selection for composability. AlChemy has none of these.
+
+**Connection to H8:** Each L1 run produces a unique organization — unpredictable from initial conditions. Whether two L1s will compose is also unpredictable. Computational irreducibility at the organization-formation level AND at the composition level.
+
+**Three paths, same failure:** Echo (Holland's CAS model), chemical organizations (COT/Vasas), and AlChemy (lambda calculus) ALL fail at multi-scale composition. Each from a different starting point (CAS theory, origin-of-life chemistry, computational theory). This convergence is strong evidence the composition problem is fundamental, not an artifact of any single approach.
+
+**Test:** Build a simulation with explicit composition mechanisms (stigmergic bridges between organizations, autopoietic boundaries, selection for composability) and compare to AlChemy without these mechanisms. Measure: does the version with composition mechanisms produce L2 where the plain version fails?
+
+---
+
 ## Summary Table
 
 | Hypothesis | Status | Evidence |
@@ -116,4 +138,5 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 | H6: Multi-Scale Autopoiesis | Strengthened | Smith & Bedau 8th property = autopoiesis |
 | H7: Trace→Actor Crossing | Strengthened | Smith & Bedau 8th property = stigmergy + autopoiesis; COT gives formal test |
 | H8: Complexity Enables OEE | NEW | Kaznatcheev (2019), Wiser et al. (2013) |
-| H9: Evolving Network | NEW | Vasas et al. (2012), sim03 negative result, sim04 testing |
+| H9: Evolving Network | Refined | Vasas et al. (2012), sim03 negative, sim04 confirms finite space stall; sim05 shows unbounded space stalls differently |
+| H10: Unbounded Space Insufficiency | NEW | sim05 (0/6 L2 coexistence), Mathis et al. 2024, Fontana & Buss 1994 |
