@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sim05: Lambda Calculus Chemistry</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #0d1117; color: #c9d1d9; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; padding: 20px; max-width: 1100px; margin: 0 auto; }
+h1 { color: #58a6ff; margin-bottom: 4px; font-size: 1.5em; }
+h2 { color: #79c0ff; margin: 20px 0 10px; font-size: 1.2em; border-bottom: 1px solid #21262d; padding-bottom: 5px; }
+.subtitle { color: #8b949e; margin-bottom: 20px; font-size: 0.85em; }
+.card { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 16px; margin-bottom: 16px; }
+.stat { display: inline-block; margin-right: 20px; }
+.stat-val { font-size: 1.8em; font-weight: bold; color: #58a6ff; }
+.stat-label { font-size: 0.75em; color: #8b949e; }
+canvas { display: block; margin: 10px auto; }
+.legend { display: flex; gap: 15px; justify-content: center; margin-top: 8px; flex-wrap: wrap; }
+.legend-item { display: flex; align-items: center; gap: 5px; font-size: 0.8em; }
+.legend-dot { width: 12px; height: 12px; border-radius: 3px; }
+table { border-collapse: collapse; width: 100%; margin: 10px 0; font-size: 0.85em; }
+th, td { border: 1px solid #30363d; padding: 8px; text-align: left; }
+th { background: #21262d; color: #79c0ff; }
+tr:hover { background: #1c2128; }
+.outcome { padding: 2px 8px; border-radius: 4px; font-size: 0.8em; font-weight: bold; }
+.outcome-dominance { background: #da363340; color: #f85149; }
+.outcome-destruction { background: #bf870040; color: #d29922; }
+.outcome-coexistence { background: #23863640; color: #3fb950; }
+.callout { background: #1c2128; border-left: 3px solid #f85149; padding: 12px 16px; margin: 16px 0; border-radius: 0 6px 6px 0; }
+.callout-green { border-left-color: #3fb950; }
+.callout-title { font-weight: bold; color: #f85149; margin-bottom: 5px; }
+.callout-green .callout-title { color: #3fb950; }
+.finding { margin: 8px 0; padding-left: 16px; }
+.finding::before { content: "→"; color: #58a6ff; margin-right: 8px; }
+#loading { text-align: center; padding: 40px; color: #8b949e; }
+.bar-chart { display: flex; align-items: flex-end; gap: 4px; height: 120px; margin: 15px 0; padding: 10px; background: #0d1117; border: 1px solid #30363d; border-radius: 6px; }
+.bar { flex: 1; background: #58a6ff; border-radius: 3px 3px 0 0; position: relative; min-height: 2px; transition: height 0.5s; }
+.bar-label { position: absolute; bottom: -20px; left: 50%; transform: translateX(-50%); font-size: 0.7em; color: #8b949e; white-space: nowrap; }
+.bar-val { position: absolute; top: -18px; left: 50%; transform: translateX(-50%); font-size: 0.7em; color: #c9d1d9; }
+</style>
+</head>
+<body>
+<h1>Sim05: Lambda Calculus Chemistry</h1>
+<p class="subtitle">AlChemy-inspired artificial chemistry — L1 organization emergence & L2 composition failure</p>
+<div id="loading">Loading results...</div>
+<div id="content" style="display:none">
+
+<div class="card">
+<h2>Experiment Summary</h2>
+<div class="stat"><div class="stat-val" id="stat-l1-runs">—</div><div class="stat-label">L1 Runs</div></div>
+<div class="stat"><div class="stat-val" id="stat-l2-tests">—</div><div class="stat-label">L2 Tests</div></div>
+<div class="stat"><div class="stat-val" id="stat-coexistence">—</div><div class="stat-label">L2 Coexistence</div></div>
+<div class="stat"><div class="stat-val" id="stat-species-ever">—</div><div class="stat-label">Max Species Explored</div></div>
+</div>
+
+<div class="callout">
+<div class="callout-title">KEY FINDING</div>
+Even with an <strong>unbounded molecule space</strong> (lambda calculus expressions are infinite), L2 composition (multi-scale) <strong>does not emerge</strong>. 0/6 pairs achieved coexistence. Unbounded space is necessary but not sufficient for multi-scale composition.
+</div>
+
+<h2>L1 Organization Formation</h2>
+<div class="card">
+<p>Each run starts with 100 random lambda expressions. Collisions (catalytic reactions A+B→A+B+C) drive the system toward a stable organization — a small set of mutually reproducing expressions.</p>
+<canvas id="l1-chart" width="800" height="300"></canvas>
+<div class="legend" id="l1-legend"></div>
+<p style="text-align:center; color:#8b949e; font-size:0.8em; margin-top:5px">Unique species count over collision steps. Each run converges to a small stable set (4-37 species).</p>
+</div>
+
+<h2>L1 Run Details</h2>
+<div class="card">
+<table id="l1-table">
+<tr><th>Run</th><th>Seed</th><th>Final Unique Species</th><th>Species Ever Seen</th><th>Status</th></tr>
+</table>
+</div>
+
+<h2>L2 Composition Tests</h2>
+<div class="card">
+<p>Two independent L1 organizations are combined into one simulation. Three possible outcomes:</p>
+<table id="l2-table">
+<tr><th>Pair</th><th>Outcome</th><th>Similarity to A</th><th>Similarity to B</th><th>Final Unique</th></tr>
+</table>
+</div>
+
+<h2>L2 Outcome Distribution</h2>
+<div class="card">
+<div class="bar-chart" id="l2-bar-chart"></div>
+<p style="text-align:center; color:#8b949e; font-size:0.8em">Coexistence (L2 composition) = 0%. The multi-scale composition problem persists even with unbounded space.</p>
+</div>
+
+<h2>Cross-Simulation Comparison</h2>
+<div class="card">
+<canvas id="comparison-chart" width="800" height="200"></canvas>
+<div class="legend">
+<div class="legend-item"><div class="legend-dot" style="background:#f85149"></div>Sim04 (finite: 510 species max)</div>
+<div class="legend-item"><div class="legend-dot" style="background:#3fb950"></div>Sim05 (unbounded: infinite species space)</div>
+</div>
+<p style="text-align:center; color:#8b949e; font-size:0.8em; margin-top:5px">Sim04 exhausted its finite space (510). Sim05 never exhausts — but both fail at composition.</p>
+</div>
+
+<h2>Key Findings</h2>
+<div class="card" id="findings">
+</div>
+
+<div class="callout callout-green">
+<div class="callout-title">THREE PATHS, SAME FAILURE</div>
+Echo (Holland's CAS model), chemical organizations (COT/Vasas), and AlChemy (lambda calculus) ALL fail at multi-scale composition — each from a different starting point (CAS theory, origin-of-life chemistry, computational theory). This convergence is strong evidence the composition problem is <strong>fundamental</strong>, not an artifact of any single approach.
+</div>
+
+<h2>References</h2>
+<div class="card" style="font-size:0.85em; color:#8b949e">
+<p>• Fontana & Buss (1994). "The Arrival of the Fittest: Toward a Theory of Biological Organization." Bull. Math. Biol., 56, 1-64.</p>
+<p>• Mathis, Patel, Weimer & Forrest (2024). "Self Organization in Computation & Chemistry: Return to AlChemy." arXiv:2408.12137.</p>
+<p>• Szathmáry (1995). "A classification of replicators and lambda-calculus models of biological organization." Proc. R. Soc. B, 260(1359), 279-286.</p>
+</div>
+
+</div>
+
+<script>
+fetch('results.json')
+.then(r => r.json())
+.then(data => {
+document.getElementById('loading').style.display = 'none';
+document.getElementById('content').style.display = 'block';
+renderData(data);
+})
+.catch(err => {
+document.getElementById('loading').innerHTML = 'Error loading results: ' + err.message;
+});
+
+function renderData(data) {
+// Summary stats
+document.getElementById('stat-l1-runs').textContent = data.l1_runs.length;
+document.getElementById('stat-l2-tests').textContent = data.l2_tests.length;
+const coexistence = (data.l2_tests || []).filter(t => t.outcome === 'coexistence').length;
+document.getElementById('stat-coexistence').textContent = coexistence + '/' + data.l2_tests.length;
+const maxSpecies = Math.max(...data.l1_runs.map(r => r.n_species_ever));
+document.getElementById('stat-species-ever').textContent = maxSpecies;
+
+// L1 chart: unique species over time
+drawL1Chart(data.l1_runs);
+
+// L1 table
+const l1Table = document.getElementById('l1-table');
+data.l1_runs.forEach((run, i) => {
+const tr = document.createElement('tr');
+const status = run.n_unique_final <= 5 ? '<span class="outcome outcome-dominance">Converged</span>' 
+: run.n_unique_final >= 30 ? '<span class="outcome outcome-coexistence">Diverse</span>'
+: '<span class="outcome outcome-destruction">Stable</span>';
+tr.innerHTML = `<td>${i+1}</td><td>${run.seed}</td><td>${run.n_unique_final}</td><td>${run.n_species_ever}</td><td>${status}</td>`;
+l1Table.appendChild(tr);
+});
+
+// L2 table
+const l2Table = document.getElementById('l2-table');
+data.l2_tests.forEach((test, i) => {
+const tr = document.createElement('tr');
+const outcomeClass = test.outcome.startsWith('dominance') ? 'outcome-dominance' 
+: test.outcome === 'coexistence' ? 'outcome-coexistence' : 'outcome-destruction';
+const outcomeText = test.outcome.replace('_', ' ');
+tr.innerHTML = `<td>${test.pair[0]+1} + ${test.pair[1]+1}</td>
+<td><span class="outcome ${outcomeClass}">${outcomeText}</span></td>
+<td>${test.similarity_a}</td><td>${test.similarity_b}</td><td>${test.n_unique_final}</td>`;
+l2Table.appendChild(tr);
+});
+
+// L2 bar chart
+drawL2BarChart(data.l2_tests, data.summary.l2_outcomes);
+
+// Comparison chart
+drawComparisonChart(data);
+
+// Findings
+const findings = [
+'Unbounded molecule space does NOT solve the multi-scale composition problem. Sim04 stalled at 510 species (finite exhaustion). Sim05 has infinite space but STILL fails at L2.',
+'Each L1 run converges to a small stable set (4-37 species) after exploring hundreds of species (246-930). No two runs produce the same organization — computational irreducibility confirmed.',
+'L2 coexistence = 0/6. Dominance (50%) and Mutual Destruction (50%) are the only outcomes. Novel species emerge from destruction, but composition never occurs.',
+'Mutual destruction produces the most novel species (89-90 unique), suggesting cross-organization interactions generate novelty but destroy existing structure.',
+'Three independent paths (Echo, COT, AlChemy) all fail at multi-scale composition — the problem is fundamental, not approach-specific.'
+];
+const findingsDiv = document.getElementById('findings');
+findings.forEach(f => {
+const p = document.createElement('div');
+p.className = 'finding';
+p.textContent = f;
+findingsDiv.appendChild(p);
+});
+}
+
+function drawL1Chart(runs) {
+const canvas = document.getElementById('l1-chart');
+const ctx = canvas.getContext('2d');
+const colors = ['#58a6ff', '#f85149', '#3fb950', '#d29922', '#bc8cff', '#ff7b72'];
+const W = canvas.width, H = canvas.height;
+const pad = {l:50, r:20, t:20, b:40};
+
+ctx.fillStyle = '#0d1117';
+ctx.fillRect(0, 0, W, H);
+
+// Find max step and max unique
+let maxStep = 0, maxUnique = 0;
+runs.forEach(run => {
+run.collision_log.forEach(log => {
+if (log.step > maxStep) maxStep = log.step;
+if (log.n_unique > maxUnique) maxUnique = log.n_unique;
+});
+});
+
+// Axes
+ctx.strokeStyle = '#30363d';
+ctx.lineWidth = 1;
+ctx.beginPath();
+ctx.moveTo(pad.l, pad.t);
+ctx.lineTo(pad.l, H - pad.b);
+ctx.lineTo(W - pad.r, H - pad.b);
+ctx.stroke();
+
+// Y axis labels
+ctx.fillStyle = '#8b949e';
+ctx.font = '11px sans-serif';
+ctx.textAlign = 'right';
+for (let i = 0; i <= 5; i++) {
+const y = H - pad.b - (i / 5) * (H - pad.t - pad.b);
+const val = Math.round((i / 5) * maxUnique);
+ctx.fillText(val, pad.l - 5, y + 3);
+ctx.strokeStyle = '#21262d';
+ctx.beginPath();
+ctx.moveTo(pad.l, y);
+ctx.lineTo(W - pad.r, y);
+ctx.stroke();
+}
+
+// X axis label
+ctx.textAlign = 'center';
+ctx.fillText('Collision Step', W/2, H - 5);
+ctx.save();
+ctx.translate(15, H/2);
+ctx.rotate(-Math.PI/2);
+ctx.fillText('Unique Species', 0, 0);
+ctx.restore();
+
+// X axis labels
+ctx.textAlign = 'center';
+for (let i = 0; i <= 4; i++) {
+const x = pad.l + (i / 4) * (W - pad.l - pad.r);
+const val = Math.round((i / 4) * maxStep);
+ctx.fillText(val, x, H - pad.b + 15);
+}
+
+// Draw lines
+runs.forEach((run, i) => {
+const color = colors[i % colors.length];
+ctx.strokeStyle = color;
+ctx.lineWidth = 2;
+ctx.beginPath();
+run.collision_log.forEach((log, j) => {
+const x = pad.l + (log.step / maxStep) * (W - pad.l - pad.r);
+const y = H - pad.b - (log.n_unique / maxUnique) * (H - pad.t - pad.b);
+if (j === 0) ctx.moveTo(x, y);
+else ctx.lineTo(x, y);
+});
+ctx.stroke();
+});
+
+// Legend
+const legend = document.getElementById('l1-legend');
+runs.forEach((run, i) => {
+const item = document.createElement('div');
+item.className = 'legend-item';
+const dot = document.createElement('div');
+dot.className = 'legend-dot';
+dot.style.background = colors[i % colors.length];
+item.appendChild(dot);
+item.appendChild(document.createTextNode(`Run ${i+1} (seed ${run.seed})`));
+legend.appendChild(item);
+});
+}
+
+function drawL2BarChart(tests, outcomes) {
+const container = document.getElementById('l2-bar-chart');
+const total = tests.length;
+const categories = [
+{name: 'Dominance', key: 'dominance', color: '#f85149'},
+{name: 'Mutual Destruction', key: 'mutual_destruction', color: '#d29922'},
+{name: 'Coexistence (L2)', key: 'coexistence', color: '#3fb950'}
+];
+const maxVal = total;
+
+categories.forEach(cat => {
+const count = outcomes[cat.key] || 0;
+const bar = document.createElement('div');
+bar.className = 'bar';
+bar.style.background = cat.color;
+bar.style.height = (count / maxVal * 100) + '%';
+const label = document.createElement('div');
+label.className = 'bar-label';
+label.textContent = cat.name;
+bar.appendChild(label);
+const val = document.createElement('div');
+val.className = 'bar-val';
+val.textContent = count + ' (' + Math.round(count/total*100) + '%)';
+bar.appendChild(val);
+container.appendChild(bar);
+});
+}
+
+function drawComparisonChart(data) {
+const canvas = document.getElementById('comparison-chart');
+const ctx = canvas.getContext('2d');
+const W = canvas.width, H = canvas.height;
+const pad = {l:60, r:20, t:20, b:40};
+
+ctx.fillStyle = '#0d1117';
+ctx.fillRect(0, 0, W, H);
+
+// Sim04: 510 species (finite), stalled
+// Sim05: unbounded, each run explored different species
+const sim04Max = 510;
+const sim05Runs = data.l1_runs.map(r => r.n_species_ever);
+const sim05Max = Math.max(...sim05Runs);
+
+const maxVal = Math.max(sim04Max, sim05Max) * 1.1;
+
+// Bars
+const barW = 60;
+const gap = 80;
+
+// Sim04 bar
+ctx.fillStyle = '#f85149';
+ctx.fillRect(pad.l + 20, H - pad.b - (sim04Max / maxVal) * (H - pad.t - pad.b), barW, (sim04Max / maxVal) * (H - pad.t - pad.b));
+ctx.fillStyle = '#c9d1d9';
+ctx.textAlign = 'center';
+ctx.font = '11px sans-serif';
+ctx.fillText('510', pad.l + 20 + barW/2, H - pad.b - (sim04Max / maxVal) * (H - pad.t - pad.b) - 5);
+
+// Sim05 bars
+sim05Runs.forEach((val, i) => {
+const x = pad.l + 120 + i * (barW + 10);
+ctx.fillStyle = '#3fb950';
+const h = (val / maxVal) * (H - pad.t - pad.b);
+ctx.fillRect(x, H - pad.b - h, barW, h);
+ctx.fillStyle = '#c9d1d9';
+ctx.fillText(val, x + barW/2, H - pad.b - h - 5);
+ctx.fillStyle = '#8b949e';
+ctx.fillText('Run ' + (i+1), x + barW/2, H - pad.b + 15);
+});
+
+// Labels
+ctx.fillStyle = '#f85149';
+ctx.fillText('Sim04 (finite)', pad.l + 20 + barW/2, H - pad.b + 15);
+ctx.fillStyle = '#8b949e';
+ctx.fillText('Sim05 (unbounded)', pad.l + 120 + sim05Runs.length * (barW + 10) / 2, H - pad.b + 30);
+
+// Y axis
+ctx.strokeStyle = '#30363d';
+ctx.beginPath();
+ctx.moveTo(pad.l, pad.t);
+ctx.lineTo(pad.l, H - pad.b);
+ctx.stroke();
+ctx.textAlign = 'right';
+for (let i = 0; i <= 4; i++) {
+const y = H - pad.b - (i / 4) * (H - pad.t - pad.b);
+const val = Math.round((i / 4) * maxVal);
+ctx.fillText(val, pad.l - 5, y + 3);
+}
+ctx.save();
+ctx.translate(15, H/2);
+ctx.rotate(-Math.PI/2);
+ctx.fillText('Species Explored', 0, 0);
+ctx.restore();
+}
+</script>
+</body>
+</html>
