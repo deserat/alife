@@ -163,3 +163,25 @@
 **Tagged urn model** (Holland) — A probabilistic model where urns containing tags represent boundaries. Tags circulate through semi-permeable boundaries between urns. Enables modeling nested boundaries without nested urns — a flat representation of hierarchical structure.
 
 **Co-evolution of signals and boundaries** — The feedback loop where signals (traces) modify boundaries (organizations), and boundaries filter which signals persist. This is the stigmergic feedback loop through the medium, formalized in Holland's framework.
+
+## AlChemy / Lambda Calculus Terms (Session 6)
+
+**AlChemy** (Fontana & Buss, 1994) — Algorithmic Chemistry. An artificial chemistry where lambda calculus expressions serve as molecules. Collisions between expressions (application of one to another, followed by beta reduction to normal form) produce new expressions. The molecule space is infinite (unbounded), distinguishing it from finite chemistries like binary polymers.
+
+**Lambda calculus** — A formal system in mathematical logic for expressing computation based on function abstraction and application. Three forms: variables (x), abstractions (λx.E — function definitions), and applications ((E₁)E₂ — applying a function to an argument). Turing complete. In AlChemy, expressions collide by application, and beta reduction produces the "product" of the reaction.
+
+**Beta reduction** — The core computation rule of lambda calculus: (λx.E₁)E₂ → E₁[x:=E₂], substituting E₂ for all free occurrences of x in E₁. In AlChemy, this is the "reaction" that produces a new molecule. Not all reductions terminate (Halting Problem); AlChemy uses "pragmatic reduction" (step limit) to handle non-terminating cases.
+
+**L0 organization** — The trivial fixed point of AlChemy simulations. Dominated by copy/identity functions (λx.x). System converges to 1 species. The default attractor when no constraints are imposed.
+
+**L1 organization** — A non-trivial stable organization in AlChemy. Multiple distinct expressions that collectively reproduce each other (autocatalytic set without direct self-copying). Requires syntactic filters (originally) or specific conditions to prevent L0 takeover. Robust to perturbation. Multiple distinct L1 organizations exist — each with its own internal logic. Analogous to COT's "organization" (closure + self-maintenance).
+
+**L2 organization** — A composite of two or more L1 organizations plus "glue" expressions. The highest organizational level identified by Fontana & Buss. L2 is RARE: when two L1s are combined, outcomes are typically Dominance (one survives) or Mutual Destruction (both destroyed), not Coexistence (L2). This is the multi-scale composition failure.
+
+**Glue** (Fontana & Buss) — Expressions produced by composing functions from different L1 organizations. Glue cannot exist without at least one L1, yet bridges between them. Analogous to our "trace→actor crossing" (H7): glue is the stigmergic trace that enables the phase transition between scales. Rarely emerges spontaneously.
+
+**Turing Gas** — Fontana & Buss's term for the AlChemy simulation environment: a collection of random expressions that "collide," where collision causes one expression to be applied to another. Named by analogy to "gas" (random collisions) but with Turing-complete expressions.
+
+**Pragmatic reduction** — AlChemy's solution to the Halting Problem in lambda calculus reduction. A finite step limit is placed on beta reduction. If the expression doesn't reach normal form within the limit, the reaction is deemed "elastic" (reactants returned unchanged). The step limit affects which reactions occur and is an implementation parameter, not a fundamental property.
+
+**Syntactic filter** — A mechanism in AlChemy that excludes certain reactions based on pattern matching. For example, filtering copy actions (A+B → 2A+B) prevents L0 takeover and enables L1 organization formation. Filters modify the dynamics by removing entire classes of reactions.
