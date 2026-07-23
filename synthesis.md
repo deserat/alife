@@ -144,3 +144,29 @@ Vasas et al. found that networks with inhibition had multiple attractors but the
 
 ### The "one bit" problem ↔ Open-ended evolution gap
 A viable autocatalytic core carries approximately one bit of heritable information (present/absent). Vasas et al. acknowledge this means autocatalytic networks "may not be able to sustain open-ended evolution." The gap between "evolvable" (selection between 2-3 attractors) and "open-ended" (unbounded novelty) is enormous. Each novel core extends the "adjacent possible" — opening new reaction possibilities — but whether this combinatorial expansion produces true open-endedness or just limited multi-attractor dynamics remains the central open question. This connects directly to H8: computational irreducibility at each scale is necessary but may not be sufficient for open-endedness.
+
+---
+
+## 2026-07-23 — Session 6 (AlChemy / Lambda Calculus Chemistry loop)
+
+### AlChemy's unbounded space ↔ Sim04's finite space limitation
+Sim04 stalled because its binary polymer space was finite (510 species). AlChemy uses lambda calculus as chemistry — expressions are unbounded, the molecule space is infinite. Our sim05 confirms: each run explores 246-930 unique species, no two runs overlap, and the space is never exhausted. Unbounded space is NECESSARY (without it, finite exhaustion is inevitable) but NOT SUFFICIENT for multi-scale composition.
+
+### L2 composition failure ↔ Multi-scale composition (H1)
+Mathis et al. (2024) found that "stable organizations cannot be easily combined into higher order entities" in AlChemy. Our sim05 confirms: 0/6 pairs of L1 organizations achieved L2 coexistence. 50% dominance (one destroys the other), 50% mutual destruction (both destroyed). This is the SAME failure as Echo (Smith & Bedau 1997), COT/Vasas, and sim04. Three independent modeling traditions — CAS theory, prebiotic chemistry, computational theory — all fail at multi-scale composition. This convergence is strong evidence the problem is FUNDAMENTAL, not an artifact of any single approach.
+
+### The "glue" ↔ Trace→actor crossing (H7)
+Fontana & Buss identified "glue" expressions that bridge L1 organizations into L2 composites. Glue is produced by composing functions from different organizations — it cannot exist without at least one L1, yet it bridges between them. This is exactly our trace→actor crossing: glue is the stigmergic trace that enables the phase transition between scales. The fact that glue rarely emerges spontaneously confirms H7: the crossing requires specific mechanisms (stigmergic bridges, autopoietic boundaries, explicit selection), not just random interaction.
+
+### Sensitivity to initial conditions ↔ Computational irreducibility (H8)
+AlChemy is extremely sensitive to its random expression generator. The original (probabilistic grammar) produces diverse organizations; the permutation generator (uniform binary trees) collapses to trivial fixed point. Each L1 run produces a unique organization — unpredictable from initial conditions. Whether two L1s will compose is also unpredictable. This is computational irreducibility at two levels: organization formation AND composition. You must simulate to know.
+
+### Three paths, same failure ↔ Multi-scale composition is fundamental
+Echo (Holland's CAS model), chemical organizations (COT/Vasas), and AlChemy (lambda calculus) ALL fail at multi-scale composition. Each from a different starting point:
+- Echo: CAS theory (agents with endogenous fitness in resource-limited environment)
+- COT/Vasas: origin-of-life chemistry (autocatalytic sets with compartmentalization)
+- AlChemy: computational theory (lambda calculus expressions as unbounded molecules)
+This convergence is the strongest evidence yet that multi-scale composition is not a bug of any particular simulation but a fundamental gap in our understanding of how scales interact. The composition problem persists across finite (sim04: 510 species) and infinite (sim05: unbounded) spaces, across chemical and computational substrates, across selection-based and mass-action dynamics.
+
+### Mutual destruction produces novelty ↔ Creative destruction at scale boundaries
+In sim05, mutual destruction (both L1s destroyed) produced the most novel species (89-90 unique vs. 6-23 for dominance). Cross-organization interactions generate novelty but destabilize existing structures. This parallels biological phenomena: hybridization can produce novel species but often destroys parental lineages. The multi-scale composition problem may require a mechanism that captures this novelty without destroying the parents — which is exactly what autopoietic boundaries (Holland's signals & boundaries) would provide.
