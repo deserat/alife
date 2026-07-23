@@ -46,10 +46,18 @@ Findings from daily research that lead down a different focus track. Saved here 
 
 ## From Session 5
 
-30. **Fontana & Buss's AlChemy (lambda calculus chemistry)** — They used lambda calculus as an open-ended "chemistry" where the molecule space is unbounded. Our sim04 exhausted a finite polymer space (510 species). AlChemy has no finite bound. Could this produce open-ended dynamics where our sim04 stalled? Implement a lambda calculus or Turing-complete chemistry for sim05.
-31. **Per-compartment catalysis** — Our sim04 shared catalysis rules across all compartments. Vasas et al. generate catalysis independently per compartment. Does independent catalysis produce more between-compartment diversity? Test in sim05.
+30. **Fontana & Buss's AlChemy (lambda calculus chemistry)** — DONE (Session 6). Implemented sim05. L1 organizations emerge; L2 composition fails (0/6). Unbounded space is necessary but not sufficient (H10).
+31. **Per-compartment catalysis** — Our sim04 shared catalysis rules across all compartments. Vasas et al. generate catalysis independently per compartment. Does independent catalysis produce more between-compartment diversity? Test in sim05/sim06.
 32. **P_catalyze tuning for distinct cores** — Our sim04 used P=0.005, likely too high (one large core). Vasas used P''=0.0025 and still had difficulty finding distinct cores. Sweep P to find the regime where distinct cores form.
 33. **Expanding the adjacent possible** — Kauffman's concept. Each novel core extends the "shadow" of possible reactions. Can we measure the adjacent possible in our simulations? Does the evolving network explore more of it than the fixed network?
-34. **Holland's tagged urn model implementation** — Holland proposed it but never tested it. Could implement as sim06: urns with semi-permeable boundaries containing tags, with GA-evolved classifiers. Test whether nested boundaries emerge.
+34. **Holland's tagged urn model implementation** — Holland proposed it but never tested it. Could implement as sim06: urns with semi-permeable boundaries containing tags, with GA-evolved classifiers. Test whether nested boundaries emerge. PRIORITY: this could provide the composition mechanism that sim05 showed is missing.
 35. **From "one bit" to open-ended** — The core limitation from Vasas et al. How to move beyond 1-bit heritable information? Template replication (RNA world) is the biological answer. What is the ALife answer? Multiple interacting cores? Compositional inheritance? Tag-based heredity?
 36. **Multiple attractors ≠ evolvability** — Vasas found networks with inhibition had multiple attractors but they were NOT selectable (periodic/chaotic transitions overrode selection). Explore this: what makes attractors selectable vs. not? Stability, heritability, differential fitness.
+
+## From Session 6
+
+37. **Explicit composition mechanisms for L2** — Sim05 confirmed L2 (multi-scale composition) doesn't emerge spontaneously even with unbounded space. What mechanisms would produce it? Candidates: (a) stigmergic bridges between organizations, (b) autopoietic boundaries that protect during interaction, (c) explicit selection for composability. Design sim06 to test these. TOP PRIORITY.
+38. **Measuring the adjacent possible in AlChemy** — Sim05 showed each L1 run explores 246-930 species. Can we measure how much of the "adjacent possible" (Kauffman) is explored? Does the rate of novel species discovery follow a power law? Does it slow down (converging) or stay constant (exploring)?
+39. **Mutual destruction as creative process** — Sim05 found mutual destruction produces the most novel species (89-90 unique vs 6-23 for dominance). Can we harness this novelty without destroying the parents? Autopoietic boundaries might protect parents while allowing cross-organization interaction.
+40. **Assembly theory connection** — Mathis et al. 2024 reference Cronin/Walker's assembly theory. Assembly theory quantifies selection by molecular complexity. Could assembly index be a metric for ALife organization complexity? Connection to our multi-scale composition metric needs.
+41. **Krzyszewski & Mikolov (2022) — self-reproducing metabolisms as recursive algorithms** — Referenced in Mathis et al. 2024. Emergence of self-reproducing metabolisms in artificial chemistry. Could connect to our autopoiesis + stigmergy synthesis.
