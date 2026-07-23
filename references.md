@@ -168,6 +168,19 @@
 ## To Be Added
 References will be accumulated through daily research.
 
+### Cole Mathis, Devansh Patel, Westley Weimer & Stephanie Forrest
+- "Self Organization in Computation & Chemistry: Return to AlChemy" (2024, arXiv:2408.12137)
+- Systematic reanalysis of AlChemy after 30 years using original code base
+- Key finding: "stable organizations cannot be easily combined into higher order entities"
+- L0 simulations can produce L1-like organizations without filters
+- Sensitivity to random expression generator; formal proof lambda calculus simulates CRNs
+- Arizona State University / University of Michigan / Santa Fe Institute
+
+### Eörs Szathmáry
+- "A classification of replicators and lambda-calculus models of biological organization" (1995, Proc. R. Soc. B, 45 citations)
+- Connected lambda calculus models to biological replicator taxonomy
+- Co-authored "The Major Evolutionary Transitions" with John Maynard Smith (1995)
+
 ### Peter Dittrich & Pier Luigi di Fenizio
 - "Chemical Organisation Theory" (2007, Bull. Math. Biol.) — 316 citations
 - Formal framework for self-organizing systems using reaction networks
