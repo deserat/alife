@@ -170,3 +170,25 @@ This convergence is the strongest evidence yet that multi-scale composition is n
 
 ### Mutual destruction produces novelty ↔ Creative destruction at scale boundaries
 In sim05, mutual destruction (both L1s destroyed) produced the most novel species (89-90 unique vs. 6-23 for dominance). Cross-organization interactions generate novelty but destabilize existing structures. This parallels biological phenomena: hybridization can produce novel species but often destroys parental lineages. The multi-scale composition problem may require a mechanism that captures this novelty without destroying the parents — which is exactly what autopoietic boundaries (Holland's signals & boundaries) would provide.
+
+---
+
+## Vance's contribution: The termite mound principle (2026-07-22)
+
+### Inert substrate → dynamic actor through organization
+Vance's insight from the termite mound analogy: the mud termites trail is largely INERT until it achieves a mass sufficient to affect temperature when interacting with other secondary effects (sunlight, chemical reactions, etc.). The substrate becomes dynamic — becomes an ACTOR — only when it crosses an organizational threshold. This is the trace→actor crossing (H7) made concrete in a physical system: inert mud → thermally active structure → agent that reshapes the selection landscape (temperature gradients drive termite behavior, which builds more mud structure). The substrate doesn't just accumulate; it changes state and becomes causally efficacious at a different scale.
+
+### Multi-rate, multi-attractor environment ↔ Diverse stable organization
+The termite mound works because termites act in a complex environment with MULTIPLE CHANGING FITNESS ATTRACTORS and substrates that become dynamic as they become organized. This is Vance's refinement to the multi-scale composition thesis: unbounded space alone (sim04, sim05) is necessary but not sufficient because the space is homogeneous — all locations are equivalent. What's needed is a HETEROGENEOUS environment where:
+1. Multiple fitness attractors operate simultaneously at different rates (temperature, chemistry, light, moisture)
+2. Apparently inert substrates can become dynamic when they cross an organizational threshold (mud → thermal mass)
+3. The environment is not a static backdrop but a network of actants (ANT) that become causally efficacious through organization
+
+This connects directly to the sim04/sim05 negative results: both simulations used homogeneous spaces (flat polymer space, flat lambda calculus space). Neither had environmental heterogeneity, multi-rate attractors, or substrate state transitions. The termite mound principle suggests the missing ingredient for multi-scale composition is not just "more space" but a structured environment where organization transforms the environment itself, creating new selection pressures at new scales.
+
+### Implications for sim06+ design
+- Simulations need heterogeneous environments with multiple interacting gradients (not just a flat reaction space)
+- Substrates should have state transitions: inert → active when organization crosses a threshold (mass, density, complexity)
+- Multiple fitness attractors changing at different rates prevent convergence to a single equilibrium
+- The environment should be co-determined with the organisms (niche construction at multiple scales)
+- This is the physical grounding for the "dynamic landscape" the synthesis has been pointing toward (Session 4: NK model's static landscape ↔ stigmergy's dynamic landscape)
