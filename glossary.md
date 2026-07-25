@@ -102,6 +102,12 @@
 
 **Trace→actor crossing** — Our term for the phase transition where accumulated stigmergic traces become autopoietic — self-maintaining structures that act as new-level actors. The crossing from coordination (within a scale) to composition (a new scale). Stigmergy provides the medium; autopoiesis provides the persistence; the crossing is the multi-scale phase transition.
 
+**Stigmergic consolidation** (Session 7) — The process by which diffuse stigmergic deposits coalesce into a few large, stable structures rather than many small scattered ones. Requires negative feedback (saturation, inhibition, or environmental transport) to counterbalance the positive feedback that amplifies deposits. sim06 showed that without consolidation, positive stigmergic feedback alone produces ~230 scattered micro-pillars and the trace→actor crossing never occurs.
+
+**Negative-feedback gap** (Session 7) — The missing ingredient between stigmergic coordination (within-scale) and the trace→actor crossing (H7, between-scale). Heylighen (2016): complex stigmergic systems need both positive feedback (amplify) and negative feedback (stabilize/diversify). sim06 had only positive feedback + weak decay — the gap is why H7's crossing detector never fired.
+
+**Environmental physics coupling** (Session 7) — The mechanism by which a macro-structure's own physical dynamics (e.g. airflow, thermal transport) redistribute the micro-scale stigmergic signals that guide building. The Mahadevan group's termite mound model (Ocko, Heyde & Mahadevan, PNAS 2019) shows this is what turns a passive accumulation into a trace→actor loop: the structure's physics becomes the feedback path.
+
 **Quasi-object resource** — Our term for a resource in a simulation that is transformed as it circulates through the network (following Latour's quasi-object concept). Contrast with fixed-property resources.
 
 ## CAS Theory Terms (Session 4)

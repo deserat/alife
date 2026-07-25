@@ -92,6 +92,12 @@
 - Coined "stigmergy" (1959) from termite nest-building observations
 - French entomologist
 
+### L. Mahadevan / Ocko, Heyde & Mahadevan
+- "Morphogenesis of termite mounds" (PNAS, 2019) — model coupling insect behavior to mound environmental physics (airflow, temperature)
+- Shows the structure's own physics redistributes pheromone cues — the trace→actor feedback path requires environmental transport dynamics, not just accumulation
+- Harvard John A. Paulson School of Engineering and Applied Sciences
+- https://seas.harvard.edu/news/how-termite-mounds-get-their-shape
+
 ### Kevin Laland
 - "An introduction to niche construction theory" (2016) — 808 citations
 - Niche construction, ecological inheritance, extended evolutionary synthesis
@@ -205,4 +211,21 @@ References will be accumulated through daily research.
 - *Signals and Boundaries: Building Blocks for Complex Adaptive Systems* (MIT Press, 2012)
 - Co-evolution of signals (stigmergic traces) and boundaries (autopoietic structures)
 - Tagged urn model for nested boundary hierarchies
+
+## Visualization Resources
+
+### Complexity Explorables
+- URL: https://www.complexity-explorables.org/
+- Interactive Canvas/JS visualizations of complexity science models
+- Most relevant to our research:
+  - [Horde of the Flies](https://www.complexity-explorables.org/explorables/horde-of-the-flies/) — Vicsek model, flocking/swarming via local rules (stigmergic coordination)
+  - [Maggots in the Wiggle Room](https://www.complexity-explorables.org/explorables/maggots-in-the-wiggle-room/) — evolutionary dynamics with mutation, ecosystem interaction
+  - [Come Together](https://www.complexity-explorables.org/explorables/come-together/) — chemotaxis in Dictyostelium (stigmergic aggregation via cAMP signaling)
+  - [Eigenartig](https://www.complexity-explorables.org/explorables/eigenartig/) — spatial hypercycle model (autocatalytic networks, directly relevant to H9)
+  - [Flock'n Roll](https://www.complexity-explorables.org/explorables/flockn-roll/) — collective behavior and swarming (stigmergic coordination)
+  - [Hopfed Turingles](https://www.complexity-explorables.org/explorables/hopfed-turingles/) — reaction-diffusion pattern formation (self-organization via field dynamics)
+  - [Particularly Stuck](https://www.complexity-explorables.org/explorables/particularly-stuck/) — diffusion limited aggregation (stigmergic growth from random walks)
+  - [Keith Haring's Mexican Hat](https://www.complexity-explorables.org/explorables/keith-harings-mexican-hat/) — local excitation / long-range inhibition (pattern formation, relevant to stigmergic field dynamics)
+  - [Nah dah dah nah nah... (Opus, 1984)](https://www.complexity-explorables.org/explorables/nah-dah-dah-nah-nah-opus-1984/) — Conway's Game of Life (baseline emergent ALife)
+- Also useful as examples of interactive visualization design for our sims
 - Holland's response to Echo's failure (Smith & Bedau 1997)

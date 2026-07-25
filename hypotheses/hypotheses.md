@@ -68,6 +68,8 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **Refinement (Session 4):** This IS Smith & Bedau's 8th CAS property. Stigmergy provides the mechanism for "creating boundaries" (traces that accumulate). Autopoiesis provides the mechanism for "flexibly maintaining boundaries" (self-production). The crossing from trace to actor is the phase transition they identified but never implemented.
 
+**Refinement (Session 7 — sim06 null result):** Self-maintaining stigmergy alone is *not* sufficient for the crossing. sim06 implemented the trace→actor feedback loop (the structure re-emits the pheromone that recruits builders) and found it amplifies building (66% more structure) but does NOT cross — the formal detector (stability ≥0.90, constraint ≥0.60) never fires across a wide parameter sweep. Diagnosis: the model had only **positive feedback** (deposits attract deposits) + weak decay, but no **negative feedback / consolidation mechanism**. The structure stayed at ~230 scattered micro-pillars. The crossing requires the accumulated structure to introduce a **new dynamical degree of freedom** absent at the deposit level — environmental transport (Mahadevan), saturation/inhibition, competition, or a substrate state transition (Vance's termite-mound principle). See [[concepts/stigmergic-consolidation]]. Status: **H7 refined, not refuted** — the null result specifies what sim07 must add.
+
 **Test:** Build a simulation where agents leave persistent traces, and observe whether traces cross from coordination to self-maintenance. Measure: does the trace structure develop its own dynamics? Does it resist perturbation (self-repair)? Does it constrain agent behavior in ways not derivable from individual traces?
 
 ---

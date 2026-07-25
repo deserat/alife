@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>sim06 — Termite Mound: Trace→Actor Crossing (H7)</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --panel: #161b22;
+    --border: #30363d;
+    --text: #c9d1d9;
+    --muted: #8b949e;
+    --base: #f0883e;
+    --sm: #58a6ff;
+    --cross: #f85149;
+    --perturb: #a371f7;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+    padding: 20px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  h1 { font-size: 1.4em; margin-bottom: 4px; }
+  .sub { color: var(--muted); font-size: 0.9em; margin-bottom: 16px; }
+  .takeaway {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 12px 16px;
+    margin-bottom: 18px;
+    font-size: 0.92em;
+  }
+  .takeaway strong { color: var(--sm); }
+  .chart-wrap {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 14px;
+    margin-bottom: 18px;
+  }
+  .chart-wrap h2 { font-size: 1.05em; margin-bottom: 8px; }
+  .chart-wrap .legend {
+    font-size: 0.82em; color: var(--muted); margin-top: 6px;
+  }
+  .chart-wrap .legend span { margin-right: 18px; }
+  .swatch { display:inline-block; width:10px; height:10px; border-radius:2px; vertical-align:middle; margin-right:4px; }
+  canvas { display: block; width: 100%; height: auto; background: transparent; }
+  .err {
+    color: var(--cross); background: var(--panel); border: 1px solid var(--cross);
+    padding: 10px 14px; border-radius: 6px; margin-bottom: 18px;
+  }
+  table { border-collapse: collapse; font-size: 0.88em; width: 100%; margin-top: 10px; }
+  th, td { border: 1px solid var(--border); padding: 6px 10px; text-align: left; }
+  th { background: #1c2330; color: var(--muted); font-weight: 600; }
+  td.num { text-align: right; font-variant-numeric: tabular-nums; }
+  .summary-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:18px; }
+  .summary-box { background:var(--panel); border:1px solid var(--border); border-radius:6px; padding:12px 14px; }
+  .summary-box h3 { font-size:0.95em; margin-bottom:6px; }
+  .summary-box.base h3 { color: var(--base); }
+  .summary-box.sm h3 { color: var(--sm); }
+  .summary-box p { font-size:0.85em; color:var(--muted); }
+  .summary-box .big { font-size:1.3em; color:var(--text); font-variant-numeric: tabular-nums; }
+</style>
+</head>
+<body>
+  <h1>sim06 — Termite Mound: Trace→Actor Crossing (H7)</h1>
+  <div class="sub">Termites deposit soil pellets laced with cement pheromone (Grassé stigmergy). Does the accumulated trace field cross from a passive coordination signal to a self-maintaining actor? Baseline (decaying trace) vs. self-maintenance (structure re-emits pheromone).</div>
+
+  <div id="takeaway" class="takeaway">Loading results…</div>
+
+  <div class="summary-grid">
+    <div class="summary-box base">
+      <h3>Baseline</h3>
+      <div id="sum-base"></div>
+    </div>
+    <div class="summary-box sm">
+      <h3>Self-Maintenance</h3>
+      <div id="sum-sm"></div>
+    </div>
+  </div>
+
+  <div class="chart-wrap">
+    <h2>Structure over time (n_structure_cells)</h2>
+    <canvas id="chart-struct" width="1040" height="320"></canvas>
+    <div class="legend">
+      <span><span class="swatch" style="background:var(--base)"></span>baseline</span>
+      <span><span class="swatch" style="background:var(--sm)"></span>self-maintenance</span>
+      <span><span class="swatch" style="background:var(--cross)"></span>crossing step (if any)</span>
+    </div>
+  </div>
+
+  <div class="chart-wrap">
+    <h2>Structure stability over time</h2>
+    <canvas id="chart-stab" width="1040" height="280"></canvas>
+    <div class="legend">
+      <span><span class="swatch" style="background:var(--base)"></span>baseline</span>
+      <span><span class="swatch" style="background:var(--sm)"></span>self-maintenance</span>
+      <span>dashed = STAB_THRESH (0.90, crossing criterion 1)</span>
+    </div>
+  </div>
+
+  <div class="chart-wrap">
+    <h2>Perturbation recovery (total_material / pre-damage)</h2>
+    <canvas id="chart-recovery" width="1040" height="280"></canvas>
+    <div class="legend">
+      <span><span class="swatch" style="background:var(--base)"></span>baseline (perturbed)</span>
+      <span><span class="swatch" style="background:var(--sm)"></span>self-maintenance (perturbed)</span>
+      <span><span class="swatch" style="background:var(--perturb)"></span>perturbation step</span>
+    </div>
+  </div>
+
+  <div class="chart-wrap">
+    <h2>Result table</h2>
+    <div id="table-host"></div>
+  </div>
+
+<script>
+const COLORS = { base: "#f0883e", sm: "#58a6ff", cross: "#f85149", perturb: "#a371f7", grid: "#30363d", text: "#c9d1d9", muted: "#8b949e" };
+
+function fmt(n, d=2) {
+  if (n === null || n === undefined) return "—";
+  return Number(n).toFixed(d);
+}
+
+function drawLineChart(canvas, series, opts) {
+  // series: [{name, color, data:[{x,y}], dashed?:bool}]
+  const ctx = canvas.getContext("2d");
+  const dpr = window.devicePixelRatio || 1;
+  const cssW = canvas.clientWidth || 1040;
+  const cssH = parseInt(canvas.getAttribute("height"));
+  canvas.width = cssW * dpr; canvas.height = cssH * dpr;
+  ctx.scale(dpr, dpr);
+  ctx.clearRect(0,0,cssW,cssH);
+
+  const pad = { l: 56, r: 16, t: 12, b: 30 };
+  const w = cssW - pad.l - pad.r;
+  const h = cssH - pad.t - pad.b;
+
+  let xmin=Infinity, xmax=-Infinity, ymin=Infinity, ymax=-Infinity;
+  series.forEach(s => s.data.forEach(p => {
+    if (p.x < xmin) xmin = p.x; if (p.x > xmax) xmax = p.x;
+    if (p.y < ymin) ymin = p.y; if (p.y > ymax) ymax = p.y;
+  }));
+  if (opts.yMin !== undefined) ymin = opts.yMin;
+  if (opts.yMax !== undefined) ymax = opts.yMax;
+  if (xmax === xmin) xmax = xmin + 1;
+  if (ymax === ymin) ymax = ymin + 1;
+
+  const X = x => pad.l + (x - xmin) / (xmax - xmin) * w;
+  const Y = y => pad.t + h - (y - ymin) / (ymax - ymin) * h;
+
+  // grid + y-axis ticks
+  ctx.strokeStyle = COLORS.grid; ctx.fillStyle = COLORS.muted;
+  ctx.font = "11px -apple-system, sans-serif"; ctx.lineWidth = 1;
+  const yticks = 5;
+  for (let i = 0; i <= yticks; i++) {
+    const yv = ymin + (ymax - ymin) * i / yticks;
+    const yy = Y(yv);
+    ctx.beginPath(); ctx.moveTo(pad.l, yy); ctx.lineTo(pad.l + w, yy); ctx.stroke();
+    ctx.textAlign = "right"; ctx.textBaseline = "middle";
+    ctx.fillText(opts.yFmt ? opts.yFmt(yv) : yv.toFixed(2), pad.l - 6, yy);
+  }
+  // x-axis ticks
+  const xticks = 6;
+  for (let i = 0; i <= xticks; i++) {
+    const xv = xmin + (xmax - xmin) * i / xticks;
+    const xx = X(xv);
+    ctx.beginPath(); ctx.moveTo(xx, pad.t); ctx.lineTo(xx, pad.t + h); ctx.globalAlpha = 0.4; ctx.stroke(); ctx.globalAlpha = 1;
+    ctx.textAlign = "center"; ctx.textBaseline = "top";
+    ctx.fillText(Math.round(xv), xx, pad.t + h + 4);
+  }
+  // axis labels
+  ctx.fillStyle = COLORS.muted; ctx.textAlign = "center";
+  ctx.fillText(opts.xLabel || "step", pad.l + w/2, cssH - 4);
+  ctx.save(); ctx.translate(14, pad.t + h/2); ctx.rotate(-Math.PI/2);
+  ctx.fillText(opts.yLabel || "", 0, 0); ctx.restore();
+
+  // threshold line
+  if (opts.threshLine !== undefined) {
+    const ty = Y(opts.threshLine);
+    ctx.setLineDash([4,4]); ctx.strokeStyle = COLORS.muted; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(pad.l, ty); ctx.lineTo(pad.l + w, ty); ctx.stroke();
+    ctx.setLineDash([]);
+  }
+
+  // perturbation marker
+  if (opts.perturbAt !== undefined && opts.perturbAt >= xmin && opts.perturbAt <= xmax) {
+    const px = X(opts.perturbAt);
+    ctx.setLineDash([3,3]); ctx.strokeStyle = COLORS.perturb; ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.moveTo(px, pad.t); ctx.lineTo(px, pad.t + h); ctx.stroke();
+    ctx.setLineDash([]); ctx.fillStyle = COLORS.perturb; ctx.font = "10px sans-serif";
+    ctx.textAlign = "center"; ctx.textBaseline = "bottom";
+    ctx.fillText("perturb", px, pad.t - 2);
+  }
+
+  // series lines
+  series.forEach(s => {
+    if (!s.data.length) return;
+    ctx.strokeStyle = s.color; ctx.lineWidth = 1.8;
+    if (s.dashed) ctx.setLineDash([6,4]);
+    ctx.beginPath();
+    s.data.forEach((p, i) => {
+      const xx = X(p.x), yy = Y(p.y);
+      if (i === 0) ctx.moveTo(xx, yy); else ctx.lineTo(xx, yy);
+    });
+    ctx.stroke(); ctx.setLineDash([]);
+  });
+
+  // crossing markers
+  if (opts.crossings) {
+    opts.crossings.forEach(c => {
+      if (c.step === null || c.step === undefined) return;
+      if (c.step < xmin || c.step > xmax) return;
+      const px = X(c.step);
+      ctx.strokeStyle = COLORS.cross; ctx.lineWidth = 1.5; ctx.setLineDash([2,3]);
+      ctx.beginPath(); ctx.moveTo(px, pad.t); ctx.lineTo(px, pad.t + h); ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.fillStyle = COLORS.cross; ctx.font = "10px sans-serif"; ctx.textAlign = "center"; ctx.textBaseline = "bottom";
+      ctx.fillText("crossing", px, pad.t - 2);
+    });
+  }
+}
+
+function build(data) {
+  const cfg = data.config;
+  const base = data.baseline;
+  const sm = data.self_maintenance;
+  const pb = data.perturbation ? data.perturbation.baseline : null;
+  const ps = data.perturbation ? data.perturbation.self_maintenance : null;
+
+  // Takeaway
+  const take = document.getElementById("takeaway");
+  const bs = base.summary, ss = sm.summary;
+  let msg = `<strong>Self-maintenance</strong> built ${ss.final_n_structure_cells} structure cells vs baseline's ${bs.final_n_structure_cells} `;
+  msg += `(${Math.round((ss.final_n_structure_cells/bs.final_n_structure_cells - 1)*100)}% more), retention ${fmt(ss.retention)} vs ${fmt(bs.retention)}. `;
+  if (ps && pb) {
+    msg += `After perturbation (25% damage @ step ${cfg.perturb_at}): recovery ${fmt(ps.summary.recovery_final)} (self-maint) vs ${fmt(pb.summary.recovery_final)} (baseline). `;
+  }
+  if (bs.crossed || ss.crossed) {
+    msg += `Crossing detected: baseline @ ${bs.crossing_step}, self-maint @ ${ss.crossing_step}.`;
+  } else {
+    msg += `<strong>No formal trace→actor crossing detected</strong> in either condition — stability stayed below the 0.90 threshold. See README for the honest partial/null result.`;
+  }
+  take.innerHTML = msg;
+
+  // Summary boxes
+  function sumBox(s) {
+    return `<div class="big">${s.final_n_structure_cells} cells</div>
+    <p>retention ${fmt(s.retention)} · peak ${fmt(s.peak_total_material,0)} @ step ${s.peak_step}<br>
+    crossed: ${s.crossed} ${s.crossing_step ? "(@ "+s.crossing_step+")":""}<br>
+    mean stability (last 25%): ${fmt(s.mean_stability_last25)}</p>`;
+  }
+  document.getElementById("sum-base").innerHTML = sumBox(bs);
+  document.getElementById("sum-sm").innerHTML = sumBox(ss);
+
+  // Chart 1: structure over time
+  const histToPts = h => h.map(r => ({ x: r.step, y: r.n_structure_cells }));
+  drawLineChart(document.getElementById("chart-struct"), [
+    { name: "baseline", color: COLORS.base, data: histToPts(base.history) },
+    { name: "self-maintenance", color: COLORS.sm, data: histToPts(sm.history) },
+  ], {
+    xLabel: "step", yLabel: "n_structure_cells",
+    crossings: [bs, ss],
+    yMin: 0,
+  });
+
+  // Chart 2: stability
+  const stabPts = h => h.map(r => ({ x: r.step, y: r.structure_stability }));
+  drawLineChart(document.getElementById("chart-stab"), [
+    { name: "baseline", color: COLORS.base, data: stabPts(base.history) },
+    { name: "self-maintenance", color: COLORS.sm, data: stabPts(sm.history) },
+  ], {
+    xLabel: "step", yLabel: "structure_stability",
+    threshLine: 0.90,
+    yMin: 0, yMax: 1.0,
+  });
+
+  // Chart 3: recovery
+  if (pb && ps) {
+    const recPts = h => h.filter(r => r.recovery !== undefined && r.recovery !== null).map(r => ({ x: r.step, y: r.recovery }));
+    drawLineChart(document.getElementById("chart-recovery"), [
+      { name: "baseline", color: COLORS.base, data: recPts(pb.history) },
+      { name: "self-maintenance", color: COLORS.sm, data: recPts(ps.history) },
+    ], {
+      xLabel: "step", yLabel: "recovery (ratio to pre-damage)",
+      perturbAt: cfg.perturb_at,
+      yMin: 0, yMax: 1.2,
+    });
+  }
+
+  // Table
+  const tbl = document.getElementById("table-host");
+  let rows = `<table><thead><tr><th>Metric</th><th>Baseline</th><th>Self-Maintenance</th></tr></thead><tbody>`;
+  const row = (label, a, b, d=2) => `<tr><td>${label}</td><td class="num">${a===null||a===undefined?"—":(typeof a==="number"?fmt(a,d):a)}</td><td class="num">${b===null||b===undefined?"—":(typeof b==="number"?fmt(b,d):b)}</td></tr>`;
+  rows += row("final_total_material", bs.final_total_material, ss.final_total_material, 1);
+  rows += row("final_n_structure_cells", bs.final_n_structure_cells, ss.final_n_structure_cells, 0);
+  rows += row("peak_total_material", bs.peak_total_material, ss.peak_total_material, 1);
+  rows += row("peak_step", bs.peak_step, ss.peak_step, 0);
+  rows += row("retention", bs.retention, ss.retention, 3);
+  rows += row("mean_stability_last25", bs.mean_stability_last25, ss.mean_stability_last25, 3);
+  rows += row("crossed", bs.crossed, ss.crossed, 0);
+  rows += row("crossing_step", bs.crossing_step, ss.crossing_step, 0);
+  if (pb && ps) {
+    rows += `<tr><td colspan="3" style="background:#1c2330;color:var(--muted);font-weight:600;">Perturbation (${cfg.perturb_frac*100}% damage @ step ${cfg.perturb_at})</td></tr>`;
+    rows += row("recovery_final", pb.summary.recovery_final, ps.summary.recovery_final, 3);
+    rows += row("perturbed final_cells", pb.summary.final_n_structure_cells, ps.summary.final_n_structure_cells, 0);
+    rows += row("perturbed retention", pb.summary.retention, ps.summary.retention, 3);
+  }
+  rows += "</tbody></table>";
+  tbl.innerHTML = rows;
+}
+
+fetch("results.json")
+  .then(r => { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
+  .then(build)
+  .catch(e => {
+    const t = document.getElementById("takeaway");
+    t.className = "err";
+    t.textContent = "Failed to load results.json: " + e.message + ". Run `uv run python3 sim06.py run` first.";
+  });
+</script>
+</body>
+</html>

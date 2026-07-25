@@ -192,3 +192,63 @@ This connects directly to the sim04/sim05 negative results: both simulations use
 - Multiple fitness attractors changing at different rates prevent convergence to a single equilibrium
 - The environment should be co-determined with the organisms (niche construction at multiple scales)
 - This is the physical grounding for the "dynamic landscape" the synthesis has been pointing toward (Session 4: NK model's static landscape ↔ stigmergy's dynamic landscape)
+
+---
+
+## 2026-07-25 — Session 7 (sim06 null result / stigmergic consolidation loop)
+
+### sim06's null result ↔ The negative-feedback gap
+sim06 tested H7 with a minimal Grassé stigmergy model. The result: positive
+stigmergic feedback (deposits attract deposits) amplifies building — self-
+maintenance produces 66% more structure than baseline — but the **formal crossing
+detector never fires** across a wide parameter sweep. Structure stays at ~230
+scattered micro-pillars, stability 0.55 (criterion needs 0.90), constraint 0.33
+(needs 0.60). Diagnosis: the model has positive feedback + weak decay but **no
+consolidation mechanism** — no negative feedback that makes strong pillars inhibit
+nearby nucleation or redirect activity. The deposit rule saturates at 0.95 but
+never *decreases*. Every cell with any pheromone is (nearly) equally attractive, so
+the structure spreads instead of consolidating. This connects to Heylighen's
+(2016) point that complex stigmergic systems need **both** positive and negative
+feedback — positive amplifies, negative stabilizes and diversifies. sim06 had
+only the positive half.
+
+### Environmental physics coupling ↔ The trace→actor crossing (H7 refinement)
+The Mahadevan group's termite mound model (Ocko, Heyde & Mahadevan, PNAS 2019)
+shows what sim06 is missing: real mounds aren't passive accumulations — they're
+ventilation structures whose own physics (airflow from thermal gradients)
+redistributes the pheromone cues that guide building. The structure is the
+feedback path: the macro-structure's transport dynamics determine where the micro-
+scale signal goes. This is the trace→actor loop, but it requires the environment
+to have **physical transport dynamics**, not just decay/diffusion. H7 refines:
+the crossing requires not just that the trace recruits its own maintenance (sim06's
+loop, which worked weakly) but that the accumulated structure introduces a **new
+dynamical degree of freedom** — a process absent at the deposit level (transport,
+inhibition, competition, or a state transition). sim06's structure had no such
+degree of freedom — it was just a sum of deposits, so it never crossed.
+
+### Vance's termite-mound principle ↔ sim06's missing ingredient
+Vance's insight (Session 6): inert mud becomes a dynamic actor only when it
+crosses an organizational threshold (mass → thermal effect). sim06 modeled the
+deposit accumulation but not the **state transition** — the structure never gains
+new physics as it grows. The "inert → active" transition is exactly the new
+dynamical degree of freedom H7 needs. This is the "dynamic landscape" made
+concrete: not a changing fitness function, but an environment whose own physics
+becomes a new causal layer once organization crosses a threshold. sim07 should
+implement the state transition (e.g. structure above a mass threshold begins to
+channel a transport field, or inhibits nearby deposition) and test whether that
+unlocks the crossing.
+
+### The negative-feedback prescription ↔ sim07 design
+The refinement is actionable. sim07 candidates for the missing negative
+feedback: (a) **saturation/inhibition** — cells above a density cap repel
+deposits; forces few large pillars. (b) **environmental transport** — the
+structure channels an advective field that redistributes pheromone away from
+saturated regions (the Mahadevan mechanism, minimal lumped version). (c)
+**competition** — multiple trace types or clusters compete for finite termites,
+so one cluster's growth inhibits another's. (d) **state transition** — substrate
+above a mass threshold unlocks new dynamics (Vance's principle). Each predicts a
+different morphology; each is testable. The hypothesis: below a critical negative-
+feedback strength, diffuse scatter (sim06); above it, consolidated actor (the
+crossing). If that phase transition exists, it's the H7 crossing made operational.
+
+
