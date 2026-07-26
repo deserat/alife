@@ -70,7 +70,24 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **Refinement (Session 7 — sim06 null result):** Self-maintaining stigmergy alone is *not* sufficient for the crossing. sim06 implemented the trace→actor feedback loop (the structure re-emits the pheromone that recruits builders) and found it amplifies building (66% more structure) but does NOT cross — the formal detector (stability ≥0.90, constraint ≥0.60) never fires across a wide parameter sweep. Diagnosis: the model had only **positive feedback** (deposits attract deposits) + weak decay, but no **negative feedback / consolidation mechanism**. The structure stayed at ~230 scattered micro-pillars. The crossing requires the accumulated structure to introduce a **new dynamical degree of freedom** absent at the deposit level — environmental transport (Mahadevan), saturation/inhibition, competition, or a substrate state transition (Vance's termite-mound principle). See [[concepts/stigmergic-consolidation]]. Status: **H7 refined, not refuted** — the null result specifies what sim07 must add.
 
-**Test:** Build a simulation where agents leave persistent traces, and observe whether traces cross from coordination to self-maintenance. Measure: does the trace structure develop its own dynamics? Does it resist perturbation (self-repair)? Does it constrain agent behavior in ways not derivable from individual traces?
+**Refinement (Session 8 — the specific mechanism identified):** The "new dynamical degree of
+freedom" is now specified: **environmental physics coupling** — the accumulated structure must
+introduce a *transport dynamics* that redistributes the cue (pheromone) field away from
+saturated regions and toward gaps. The Mahadevan group's termite mound model (King/Ocko/
+Mahadevan, PNAS 2015; Ocko/Heyde/Mahadevan, PNAS 2019) shows real mounds are ventilation
+organs whose own physics (diurnal thermal convection) channels the very pheromone cues that
+guide building — the structure IS the feedback path. A 20-year stigmergic-construction
+modeling lineage (Deneubourg 1977 → Bonabeau 1997 → Ladley & Bullock 2004) all share sim06's
+exact limitation (deposited material has no influence on agent movement; pheromone diffusion
+decoupled from structure), so sim06's null result is confirmation of a known field-wide gap,
+not a failure of our model. The minimal lumped prescription: a structure-sourced transport
+field with a mass threshold `M_c` (inert → active state transition, Vance's principle) — below
+`M_c`, diffuse scatter (sim06); above, consolidated actor. The crossing is predicted to be a
+phase transition in `M_c`. See [[concepts/environmental-physics-coupling]]. Status: **H7
+further refined, testable** — sim07 implements the transport field and tests the `M_c`
+phase transition.
+
+**Test:** Build a simulation where agents leave persistent traces, and observe whether traces cross from coordination to self-maintenance. Measure: does the trace structure develop its own dynamics? Does it resist perturbation (self-repair)? Does it constrain agent behavior in ways not derivable from individual traces? sim07 adds a structure-sourced transport field with threshold `M_c` and tests whether the crossing fires as a phase transition in `M_c`.
 
 ---
 
@@ -138,7 +155,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 | H4: Dynamic Environment | Refined | Fitness landscape criticism supports this |
 | H5: Autopoiesis | Unchanged | Maturana & Varela grounding |
 | H6: Multi-Scale Autopoiesis | Strengthened | Smith & Bedau 8th property = autopoiesis |
-| H7: Trace→Actor Crossing | Strengthened | Smith & Bedau 8th property = stigmergy + autopoiesis; COT gives formal test |
+| H7: Trace→Actor Crossing | Refined (×2) | S&B 8th property; sim06 null (positive fb insufficient); Session 8: environmental-physics-coupling is the specific missing mechanism (Mahadevan PNAS 2015/2019; Deneubourg→Bonabeau→Ladley lineage shares the gap) |
 | H8: Complexity Enables OEE | NEW | Kaznatcheev (2019), Wiser et al. (2013) |
 | H9: Evolving Network | Refined | Vasas et al. (2012), sim03 negative, sim04 confirms finite space stall; sim05 shows unbounded space stalls differently |
 | H10: Unbounded Space Insufficiency | NEW | sim05 (0/6 L2 coexistence), Mathis et al. 2024, Fontana & Buss 1994 |

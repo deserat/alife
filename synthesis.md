@@ -195,7 +195,65 @@ This connects directly to the sim04/sim05 negative results: both simulations use
 
 ---
 
-## 2026-07-25 — Session 7 (sim06 null result / stigmergic consolidation loop)
+## 2026-07-26 — Session 8 (environmental physics coupling / the structure as a new dynamical degree of freedom)
+
+### The Mahadevan mechanism ↔ The trace→actor crossing (H7 specified)
+King, Ocko & Mahadevan (PNAS 2015) measured diurnal cyclic convection in *O. obesus* mounds:
+geometry + heterogeneous thermal mass + porosity converts a passive temperature oscillation
+into directed ventilation. Ocko, Heyde & Mahadevan (PNAS 2019) showed a model coupling
+environmental physics to building behavior reproduces the full range of mound morphologies.
+The structure's own physics (airflow) redistributes the pheromone cues that guide building —
+the structure IS the feedback path, not just the product. This specifies the "new dynamical
+degree of freedom" H7 needed: the accumulated structure must gain a *transport dynamics*
+absent at the deposit level. The crossing is the onset of the structure's physics as a causal
+layer. sim06 had no such physics (just a sum of deposits), so it never crossed.
+
+### The 20-year lineage ↔ sim06's null result is a known field-wide gap
+Linardou (2008, UCL) documents that Deneubourg (1977) → Bonabeau (1997) → Ladley & Bullock
+(2004) ALL share the same limitation: "the already deposited building material had no
+influence on the termite movement" and pheromone diffusion is "unrealistic" (decoupled from
+structure). sim06 inherited exactly this. So sim06's null result is not a failure of our
+model — it is a minimal modern confirmation of a gap the field has carried for 20 years. The
+Mahadevan model is the first to include the coupling, but it is a physics model, not an agent
+model. sim07 is the first agent model to attempt the coupling (in minimal lumped form).
+
+### The 2025 state of the art ↔ H7 in the field's own language
+Karibi-Botoye, Theraulaz et al. (J R Soc Interface 2025) list as an open question: "What
+processes occur at smaller scales in the mound that control larger-scale observations?" —
+this is the trace→actor crossing question stated in the field's own terms (smaller-scale
+deposit/pore processes controlling larger-scale ventilation/morphology = multi-scale
+composition). They call termite-inspired buildings "bio-mythological" because they mimic
+appearance without the physics — the engineering consequence of the missing coupling. The
+field's prescription (multiscale numerical modelling of pressure/velocity/heat/CO₂ transport)
+is the full-physics version of what sim07 needs only in lumped form.
+
+### Vance's inert→active state transition ↔ The M_c phase transition (sim07 design)
+Vance's termite-mound principle (inert mud → active actor above a mass threshold) maps onto
+the minimal lumped sim07 design: a structure-sourced transport field `T` with a mass
+threshold `M_c`. Below `M_c`, structure is inert (sim06 scatter). Above `M_c`, structure
+activates — it sources `T`, which vents pheromone away from saturated regions (the negative
+feedback sim06 lacked). The H7 prediction becomes operationally testable: the crossing is a
+phase transition in `M_c`. Sweep `M_c` → look for morphology transition (scatter → few
+consolidated vented pillars) coinciding with the detector firing.
+
+### Multi-rate environment (H4) ↔ The energy source for transport
+The Mahadevan mechanism's energy source is a *diurnal oscillation* — an external multi-rate
+driver the structure rectifies into directed flow. sim07's lumped `T` field has no external
+clock unless we add one. This suggests the crossing may require not just structure-sourced
+transport but an external oscillation the structure can rectify — a link to H4 (multi-rate
+environment) and a candidate sim08 extension. The dynamic environment (H4) is now concrete:
+not a changing fitness function, but an environment whose physics the structure can harness.
+
+### Circular-input risk ↔ The self-repair test as safeguard
+A genuine criticism of sim07: by building in the transport rule, we risk building in the
+crossing we claim to detect. The safeguard is the perturbation/self-repair test — the
+structure must recruit maintenance *through its transport dynamics* after damage, not
+through the deposit rule. If self-repair works only when `T` is active (above `M_c`) and
+fails when `T` is suppressed, the crossing is emergent from the physics, not imposed.
+
+---
+
+
 
 ### sim06's null result ↔ The negative-feedback gap
 sim06 tested H7 with a minimal Grassé stigmergy model. The result: positive

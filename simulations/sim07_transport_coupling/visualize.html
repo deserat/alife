@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>sim07 — Environmental Physics Coupling (design sketch)</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --text: #c9d1d9;
+    --muted: #8b949e;
+    --accent: #58a6ff;
+    --accent2: #f0883e;
+    --border: #30363d;
+    --card: #161b22;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+  }
+  header {
+    padding: 2rem 1.5rem 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+  h1 { margin: 0 0 0.3rem; font-size: 1.6rem; color: var(--text); }
+  h2 { margin: 2rem 0 0.8rem; font-size: 1.2rem; color: var(--accent); }
+  .subtitle { color: var(--muted); font-size: 0.95rem; }
+  main { max-width: 920px; margin: 0 auto; padding: 1.5rem; }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1.25rem;
+  }
+  .badge {
+    display: inline-block;
+    background: var(--accent2);
+    color: #0d1117;
+    font-weight: 600;
+    font-size: 0.75rem;
+    padding: 0.15rem 0.6rem;
+    border-radius: 999px;
+    margin-bottom: 0.6rem;
+    letter-spacing: 0.03em;
+  }
+  code {
+    background: #0d1117;
+    border: 1px solid var(--border);
+    padding: 0.1rem 0.35rem;
+    border-radius: 4px;
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    font-size: 0.85em;
+    color: var(--accent2);
+  }
+  .metric-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 0.8rem;
+    margin-top: 0.8rem;
+  }
+  .metric {
+    background: #0d1117;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.7rem 0.9rem;
+  }
+  .metric .label { color: var(--muted); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.05em; }
+  .metric .value { color: var(--text); font-size: 1.1rem; font-weight: 600; margin-top: 0.2rem; }
+  .value.null { color: var(--muted); font-weight: 400; font-style: italic; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .status-banner {
+    border-left: 3px solid var(--accent2);
+    background: rgba(240, 136, 62, 0.08);
+    padding: 0.8rem 1rem;
+    border-radius: 4px;
+    margin-bottom: 1.5rem;
+  }
+  .diagram {
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    font-size: 0.82rem;
+    color: var(--accent);
+    white-space: pre;
+    overflow-x: auto;
+    background: #0d1117;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1rem;
+  }
+  footer { color: var(--muted); font-size: 0.85rem; padding: 1.5rem; border-top: 1px solid var(--border); margin-top: 2rem; }
+</style>
+</head>
+<body>
+<header>
+  <h1>sim07 — Environmental Physics Coupling</h1>
+  <p class="subtitle">Testing the M_c phase transition for the Trace→Actor Crossing (H7) — design sketch</p>
+</header>
+<main>
+  <div class="status-banner">
+    <strong>Status:</strong> Design sketch (Session 8, 2026-07-26). sim07 is <em>not yet implemented</em>.
+    This page renders the design and the placeholder <code>results.json</code>. The crossing metrics are
+    NULL until a future nightly session implements the simulation per <code>DESIGN.md</code>.
+  </div>
+
+  <div class="card">
+    <span class="badge">HYPOTHESIS</span>
+    <p>The trace→actor crossing (H7) is a <strong>phase transition in the mass threshold <code>M_c</code></strong>.
+    Below <code>M_c</code>, the accumulated structure is inert — diffuse scatter (sim06's null result).
+    Above <code>M_c</code>, the structure activates: it sources a transport field <code>T</code> that vents
+    pheromone away from saturated regions (the negative feedback sim06 lacked), producing consolidation
+    into a few large vented pillars and the crossing detector firing.</p>
+  </div>
+
+  <div class="card">
+    <h2>The mechanism (minimal lumped transport)</h2>
+    <div class="diagram">  deposit rule (sim06, unchanged):  p += DEPOSIT_BASE + DEPOSIT_GAIN * local/(1+local)
+  ┌─────────────────────────────────────────────────────────┐
+  │  NEW: transport field T  (the structure's own physics)   │
+  │                                                          │
+  │   M > M_c  ──►  T_source = (M - M_c) * transport_gain    │
+  │   M ≤ M_c  ──►  T_source = 0   (INERT — sim06 regime)    │
+  │                                                          │
+  │   T diffuses  ──►  P advects down ∇T                     │
+  │     saturated pillar VENTS pheromone to its flanks/gaps   │
+  │     = NEGATIVE FEEDBACK  (the missing ingredient)        │
+  └─────────────────────────────────────────────────────────┘
+  crossing detector (stability ≥0.90, constraint ≥0.60) should fire above M_c only</div>
+    <p style="margin-top:0.8rem;">The ONLY addition to sim06 is the <code>T</code> field and its coupling to pheromone <code>P</code>.
+    Agents are unchanged. This isolates the environmental-physics-coupling variable.</p>
+  </div>
+
+  <div class="card">
+    <h2>Live results (from results.json)</h2>
+    <div id="results"><p class="subtitle">Loading results.json…</p></div>
+  </div>
+
+  <div class="card">
+    <h2>The circularity safeguard</h2>
+    <p>By adding the transport rule, we risk building in the crossing we claim to detect. Safeguard: the
+    <strong>perturbation/self-repair test</strong> (inherited from sim06 Part 8). Prediction — self-repair
+    succeeds when <code>T</code> is active (above <code>M_c</code>) and <em>fails</em> when <code>T</code> is
+    suppressed. If repair tracks <code>T</code> and not the deposit rule, the crossing is emergent from the
+    physics, not imposed. This is the H7 acid test.</p>
+  </div>
+
+  <div class="card">
+    <h2>Lineage</h2>
+    <p style="color:var(--muted);font-size:0.9rem;">Built on <a href="https://alife.vancedubberly.com/sim06_termite_mound/visualize.html">sim06_termite_mound</a>
+    (null result). Design grounded in King, Ocko &amp; Mahadevan (PNAS 2015) and Ocko, Heyde &amp; Mahadevan
+    (PNAS 2019). See the <a href="https://alife.vancedubberly.com/concepts/environmental-physics-coupling/">environmental-physics-coupling concept</a>
+    and <a href="https://alife.vancedubberly.com/reports/2026-07-26/">tonight's report</a>.</p>
+  </div>
+</main>
+<footer>
+  Artificial life research — sim07 design sketch. Generated 2026-07-26 (Session 8).
+</footer>
+
+<script>
+  fetch('results.json')
+    .then(r => r.json())
+    .then(data => {
+      const el = document.getElementById('results');
+      if (!data) { el.innerHTML = '<p class="subtitle">No data.</p>'; return; }
+      const isNull = (v) => v === null || v === undefined;
+      const fmt = (v, suffix='') => isNull(v)
+        ? `<span class="value null">NULL (not yet run)</span>`
+        : `<span class="value">${v}${suffix}</span>`;
+      el.innerHTML = `
+        <div class="metric-grid">
+          <div class="metric"><div class="label">Status</div>${fmt(data.status)}</div>
+          <div class="metric"><div class="label">Crossing fired</div>${fmt(data.crossing_fired)}</div>
+          <div class="metric"><div class="label">Metrics</div>${fmt(data.metrics)}</div>
+          <div class="metric"><div class="label">Session</div>${fmt(data.session)}</div>
+        </div>
+        <p style="margin-top:0.8rem;color:var(--muted);font-size:0.88rem;">${data.note || ''}</p>
+        <p style="margin-top:0.4rem;color:var(--muted);font-size:0.88rem;"><strong>Conditions:</strong> ${(data.conditions||[]).join(' · ')}</p>
+        <p style="margin-top:0.4rem;color:var(--muted);font-size:0.88rem;"><strong>Hypothesis:</strong> ${data.hypothesis || ''}</p>
+      `;
+    })
+    .catch(() => {
+      document.getElementById('results').innerHTML =
+        '<p class="subtitle">Could not load results.json. This is expected for a design-sketch sim.</p>';
+    });
+</script>
+</body>
+</html>

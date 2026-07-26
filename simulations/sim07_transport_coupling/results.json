@@ -1,0 +1,10 @@
+{
+  "status": "design_sketch",
+  "session": 8,
+  "date": "2026-07-26",
+  "note": "sim07 is not yet implemented. This placeholder records the design from Session 8. The crossing metrics below are NULL (no simulation run). See DESIGN.md.",
+  "hypothesis": "The trace->actor crossing (H7) is a phase transition in the mass threshold M_c. Below M_c: diffuse scatter (sim06). Above M_c: consolidated actor (crossing fires).",
+  "conditions": ["baseline (M_c=inf, reproduces sim06)", "transport (M_c finite)", "sweep M_c for phase transition"],
+  "metrics": null,
+  "crossing_fired": null
+}

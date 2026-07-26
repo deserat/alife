@@ -23,6 +23,15 @@ Findings from daily research that lead down a different focus track. Saved here 
 14. **Luhmann's social autopoiesis** — Niklas Luhmann applied autopoiesis to social systems. Connection to ANT's social networks.
 15. **Memes and evolutionary stigmergy (Blackmore/Dawkins)** — Memes as stigmergic traces that propagate, mutate, and evolve. How does this differ from static stigmergic traces? Can stigmergic traces in a simulation evolve? Connection to quasi-objects (traces that transform through circulation). Memes as a bridge between stigmergy and Darwinian replicators.
 
+## From Session 7
+
+45. **Environmental physics coupling (the Mahadevan mechanism)** — DONE (Session 8). Researched and specified as the concrete negative-feedback mechanism for the trace→actor crossing (H7). New concept file `environmental-physics-coupling.md`. sim07 design sketched (transport field + M_c threshold). NEXT PRIORITY: implement sim07 Part-by-Part per its DESIGN.md.
+46. **The 20-year stigmergic-construction modeling lineage** — DONE (Session 8). Documented that Deneubourg (1977) → Bonabeau (1997) → Ladley & Bullock (2004) all share sim06's limitation (material doesn't influence movement). sim06's null result is a known field-wide gap. Reference added to references.md.
+47. **sim07: implement the transport field + M_c phase transition** — TOP PRIORITY for next nightly sessions. DESIGN.md written. Implement Part-by-Part, test whether the crossing fires as a phase transition in M_c. The circularity safeguard (self-repair must track T, not the deposit rule) is critical.
+48. **External oscillation as the energy source for transport (multi-rate ↔ H4)** — The Mahadevan mechanism uses diurnal temperature oscillation as the energy source for convection. sim07's lumped T field has no external clock. Candidate sim08: add an external oscillation the structure can rectify. Does the crossing require an external multi-rate driver (H4), or can structure-sourced transport suffice? Connection to multi-rate environment.
+49. **Morphospace validation** — sim07's predicted consolidated morphology (few large vented pillars) should be compared to the Mahadevan morphospace (Ocko/Heyde/Mahadevan 2019). A match = cross-validation; a mismatch = the lumped model is insufficient. Could compare simulated vs. real mound shapes quantitatively.
+50. **Assembly theory connection (still queued from Session 6)** — Mathis et al. 2024 / Cronin-Walker assembly index as a metric for ALife organization complexity. Could the M_c threshold be characterized by an assembly-index jump?
+
 ## From Session 3
 
 15. **Heylighen's varieties of stigmergy** — Full taxonomy (quantitative/qualitative, sematectonic/marker-based, transient/persistent, broadcast/narrowcast). How do these map to computational stigmergic mechanisms? Which varieties are most relevant for ALife?

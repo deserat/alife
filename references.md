@@ -107,6 +107,27 @@
 - Coined "niche construction" and "ecological inheritance" (1988)
 - "Niche Construction: The Neglected Process in Evolution" (2003, with Laland & Feldman)
 
+### L. Mahadevan / King, Ocko & Mahadevan / Ocko, Heyde & Mahadevan
+- King, Ocko & Mahadevan, "Termite mounds harness diurnal temperature oscillations for ventilation" (PNAS, 2015) — in-situ measurement of diurnal cyclic convection in *O. obesus* mounds; geometry + heterogeneous thermal mass + porosity converts passive temperature oscillation into directed ventilation. DOI 10.1073/pnas.1510334112
+- Ocko, Heyde & Mahadevan, "Morphogenesis of termite mounds" (PNAS, 2019) — model coupling insect behavior to mound environmental physics reproduces the range of observed mound shapes from minimal dimensionless parameters. DOI 10.1073/pnas.1818759116
+- Key finding: the structure's own physics (airflow from thermal gradients) redistributes the pheromone cues that guide building — the trace→actor feedback path requires environmental transport dynamics, not just accumulation. The structure IS the feedback path.
+- Harvard John A. Paulson School of Engineering and Applied Sciences / softmath.seas.harvard.edu
+- https://seas.harvard.edu/news/how-termite-mounds-get-their-shape
+
+### Stigmergic construction modeling lineage
+- Pierre-Paul Grassé — coined "stigmergy" (1959) from termite nest-building observations
+- J.-L. Deneubourg (1977) — first model of termite pillar formation via positive feedback (termites + active material + cement pheromone). Limitation: deposited material had no influence on termite movement; unrealistic pheromone diffusion.
+- Bonabeau et al. (1997, 1998) — extended Deneubourg with queen pheromone template, wind, enforced termite flow. Same limitation remained; 2D could not form enclosed volumes.
+- Theraulaz & Bonabeau (1995) — first 3D agent-based model (wasp nests); local rules, material as constraint.
+- Ladley & Bullock (2004, 2005); Ladley (2004) — active/inactive material, 3D agent-based; wind as one-directional pheromone flow. Structures "abstract and artificial."
+- Olga Linardou, "Towards homeostatic architecture: simulation of the generative process of a termite mound construction" (UCL MSc thesis, 2008) — documents the persistent limitation across the lineage. https://discovery.ucl.ac.uk/14632/
+
+### Karibi-Botoye, Theraulaz, Muljadi, Demyanov & Singh (2025)
+- "Termite mound architecture and climate control: a review of X-ray tomography and flow field simulation approaches" (J R Soc Interface, 2025) — DOI 10.1098/rsif.2025.0263
+- Open question: "What processes occur at smaller scales in the mound that control larger-scale observations?" (= the trace→actor crossing in field language)
+- "Bio-mythological inspired" buildings mimic appearance without the physics.
+- Prescribes multiscale numerical modelling of pressure/velocity/permeability/heat/CO₂ transport, validated against experiment.
+
 ### Scott Turner
 - "Extended physiology" — organismal agency and homeostasis extended into the environment
 - Connection between physiology and niche construction

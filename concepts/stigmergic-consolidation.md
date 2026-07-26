@@ -104,6 +104,25 @@ the deposit level. Candidates:
   (Vance's termite-mound principle) — the structure's *state* changes, unlocking
   new dynamics.
 
+## The Specific Mechanism (Session 8 refinement — environmental physics coupling)
+
+Session 8 identified the *specific* negative-feedback mechanism the crossing requires:
+**environmental physics coupling** — the accumulated structure must introduce a transport
+dynamics that redistributes the cue field. See
+[[concepts/environmental-physics-coupling]]. The Mahadevan group's termite mound model
+(King/Ocko/Mahadevan PNAS 2015; Ocko/Heyde/Mahadevan PNAS 2019) shows real mounds are
+ventilation organs whose own physics (diurnal thermal convection) channels the pheromone
+cues that guide building — the structure IS the feedback path.
+
+A 20-year modeling lineage (Deneubourg 1977 → Bonabeau 1997 → Ladley & Bullock 2004) shares
+exactly sim06's limitation: deposited material has no influence on agent movement; pheromone
+diffusion is decoupled from structure. sim06's null result is therefore not a failure of our
+model but confirmation of a known field-wide gap. The minimal lumped prescription for sim07:
+a structure-sourced transport field that vents pheromone away from saturated regions
+(negative feedback), with a mass threshold `M_c` below which the structure is inert (Vance's
+inert→active state transition). The crossing is predicted to coincide with the onset of
+non-trivial transport above `M_c`.
+
 ## Relevance to the Project Arc
 
 sims 03–05 showed composition fails without an explicit mechanism (H10). sim05
