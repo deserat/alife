@@ -67,3 +67,12 @@ Imported from the first run of the engagement monitor. Only notifications on pos
 - @andresconde.bsky.social — 2024-11-16T22:08:45
 - @selceeus.bsky.social — 2024-11-16T18:22:17
 - @madeofmonsters.bsky.social — 2024-11-14T23:17:53
+
+## 2026-07-27 14:55 UTC (new engagement)
+
+### Likes (4)
+
+- @panjiwicaksono.bsky.social — 2026-07-27T10:56:43 — liked https://bsky.app/profile/deserat.bsky.social/post/3mrh6bdhrne2y
+- @thisisdonebyhumans.bsky.social — 2026-07-25T12:03:03 — liked https://bsky.app/profile/deserat.bsky.social/post/3mrgnhtzacl2a
+- @thisisdonebyhumans.bsky.social — 2026-07-25T11:44:12 — liked https://bsky.app/profile/deserat.bsky.social/post/3mrh6bdhrne2y
+- @thisisdonebyhumans.bsky.social — 2026-07-25T11:28:42 — liked https://bsky.app/profile/deserat.bsky.social/post/3mrh7udy4qf2v

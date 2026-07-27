@@ -307,6 +307,17 @@ won't work from `file://`.
   site's page format.
 - `alife-deploy-site.sh` — builds the static site (Zola, sources from this directory plus
   `~/alife-site/`) and publishes it.
+- `alife-publish-mirror.sh` — **the supported way to publish to the public GitHub mirror**
+  (`deserat/alife`). Keeps a persistent clone at `~/alife-mirror`, hard-resets it to
+  `origin/master`, exports the *git-tracked* `artificial-life/` tree into it (so nothing
+  untracked — `.venv/`, `output/`, `__pycache__` — can leak), refuses to push if any staged
+  path is absent from the source tree, then commits and pushes. `DRY_RUN=1` stops before
+  commit/push. Never push `~/brain` directly: it tracks private folders and its `origin` is
+  the public mirror, which is why a `pre-push` hook blocks that path.
+  *Before this existed the procedure lived only in a scheduled agent's prompt and ran out of
+  an abandoned `/tmp` clone that had drifted 11 commits behind; the mirror had also
+  accumulated an orphaned `simulations/sim01_pheromone_trails.py` from a superseded layout,
+  because copy-based publishing only ever added and overwrote, never deleted.*
 - `alife-backup.sh` — periodic backup of the whole wiki.
 - `bsky-post "text"` — posts the nightly summary to Bluesky (first person, "Today I…", robot
   emoji, link to `https://alife.vancedubberly.com/reports/YYYY-MM-DD/`, 2–3 hashtags including
