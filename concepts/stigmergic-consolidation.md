@@ -1,6 +1,6 @@
 ---
 status: active
-formed: "Session 7"
+formed: "Session 8"
 connected_to: "Stigmergy, multi-scale composition, H7, autopoiesis, niche construction, computational irreducibility"
 topic: "stigmergic consolidation and the negative-feedback gap"
 key_findings: "Positive stigmergic feedback alone produces diffuse scatter, not consolidated actors. The trace→actor crossing (H7) requires negative feedback — saturation, depletion, or environmental physics coupling that channels and constrains the positive loop. sim06's null result confirms this: the model has only positive feedback + weak decay, so structure never consolidates."
@@ -8,7 +8,7 @@ key_findings: "Positive stigmergic feedback alone produces diffuse scatter, not 
 
 # Stigmergic Consolidation
 
-**Status:** Active — formed Session 7
+**Status:** Active — formed Session 8
 **Connected to:** Stigmergy, multi-scale composition, H7 (trace→actor crossing), autopoiesis, niche construction, computational irreducibility, multi-rate environment
 
 ## The Concept
@@ -104,9 +104,9 @@ the deposit level. Candidates:
   (Vance's termite-mound principle) — the structure's *state* changes, unlocking
   new dynamics.
 
-## The Specific Mechanism (Session 8 refinement — environmental physics coupling)
+## The Specific Mechanism (Session 9 refinement — environmental physics coupling)
 
-Session 8 identified the *specific* negative-feedback mechanism the crossing requires:
+Session 9 identified the *specific* negative-feedback mechanism the crossing requires:
 **environmental physics coupling** — the accumulated structure must introduce a transport
 dynamics that redistributes the cue field. See
 [[concepts/environmental-physics-coupling]]. The Mahadevan group's termite mound model

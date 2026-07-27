@@ -1,3 +1,10 @@
+---
+status: "Vance's notes"
+connected_to: "Stigmergy, multi-scale composition, niche construction, dynamic environment (H4), ANT generalized symmetry, environmental physics coupling"
+topic: "Vance's contribution — stigmergy takes different forms at different actor complexities"
+key_findings: "Stigmergy is not one mechanism: the same principle (indirect coordination through environmental modification) manifests differently as actors get more complex — pheromones, petroglyphs, stupas, books, memes — becoming more persistent, more information-dense, and more detached from spatial proximity. Vance's open questions (is a river cutting a channel stigmergic? is salt cedar altering soil salinity?) test ANT's generalized symmetry, and the answer taken here is yes: stigmergy is a primitive mechanism present at all scales, so what differs between simple and complex stigmergy is the actor, not the mechanism. Feeds H4 — the environment is not a backdrop but an actor carrying the traces of other actors."
+---
+
 # Vance's Notes — Stigmergy at Multiple Scales
 
 **Date:** 2026-07-19

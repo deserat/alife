@@ -1,3 +1,11 @@
+---
+status: "Supporting concept"
+formed: "Session 4"
+connected_to: "NK model, Echo model, stigmergy, niche construction, computational irreducibility"
+topic: "fitness landscapes, static versus dynamic, and the metaphor critique"
+key_findings: "Static landscapes cannot produce multi-scale composition — agents can climb but cannot reshape. Dynamic (agent-modified) landscapes are necessary but not sufficient: the modifications must persist, accumulate, become self-maintaining (H7), and constrain agents at the original scale. Kaplan (2008) and Petkov (2015) argue the landscape metaphor is dead but not gone, and the critique applies to ALife — even emergent systems like Lenia and EvoLoop have implicit landscapes defined by their rules. No empirical studies found on dynamic multi-scale landscapes."
+---
+
 # Fitness Landscapes
 
 **Status:** Supporting concept — formed Session 4

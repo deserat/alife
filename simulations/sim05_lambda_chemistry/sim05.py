@@ -17,6 +17,7 @@ expressions are infinite), yet L2 composition is RARE. This means unbounded spac
 alone does not solve the multi-scale composition problem — confirming H1 and motivating H10.
 """
 
+import os
 import random
 import json
 import sys
@@ -40,26 +41,56 @@ class LExpr:
     - Abs(var_name, body)
     - App(func, arg)
     """
-    __slots__ = ['kind', 'a', 'b']
-    
+    __slots__ = ['kind', 'a', 'b', '_canon']
+
     def __init__(self, kind, a=None, b=None):
         self.kind = kind
         self.a = a  # var name (str) for Var, var name (str) for Abs, func (LExpr) for App
         self.b = b  # None for Var, body (LExpr) for Abs, arg (LExpr) for App
-    
+        self._canon = None
+
+    def canonical(self, env=None):
+        """de Bruijn-style canonical key. Alpha-equivalent expressions share it.
+
+        Species identity MUST be alpha-invariant. Comparing bound-variable names
+        directly makes (Lv1.v1) and (Lv2.v2) — both the identity function —
+        distinct species. That inflates species counts and deflates every set
+        intersection, which biased the L2 composition outcomes toward
+        mutual_destruction. Worse, `subst` mints a fresh name on every
+        capture-avoiding rename, so the same normal form reached twice usually
+        compared unequal. See ../REVIEW.md section 2.
+
+        A bound variable is keyed by its binding depth (number of intervening
+        binders), so the key is independent of the names chosen.
+        """
+        if env is None:
+            if self._canon is not None:
+                return self._canon
+            env = {}
+            key = self._canonical(env)
+            self._canon = key
+            return key
+        return self._canonical(env)
+
+    def _canonical(self, env):
+        if self.kind == 'var':
+            # Bound -> de Bruijn index; free -> its own name (standardize()
+            # removes free vars, but expressions are keyed safely regardless).
+            return f"b{env[self.a]}" if self.a in env else f"f{self.a}"
+        if self.kind == 'abs':
+            inner = {k: v + 1 for k, v in env.items()}
+            inner[self.a] = 0
+            return f"(L.{self.b._canonical(inner)})"
+        if self.kind == 'app':
+            return f"({self.a._canonical(env)} {self.b._canonical(env)})"
+
     def __eq__(self, other):
         if not isinstance(other, LExpr): return False
-        if self.kind != other.kind: return False
-        if self.kind == 'var': return self.a == other.a
-        if self.kind == 'abs': return self.a == other.a and self.b == other.b
-        if self.kind == 'app': return self.a == other.a and self.b == other.b
-        return False
-    
+        return self.canonical() == other.canonical()
+
     def __hash__(self):
-        if self.kind == 'var': return hash(('var', self.a))
-        if self.kind == 'abs': return hash(('abs', self.a, self.b))
-        if self.kind == 'app': return hash(('app', self.a, self.b))
-    
+        return hash(self.canonical())
+
     def __repr__(self):
         return self.to_str()
     
@@ -318,8 +349,36 @@ def run_alchemy(pop_size=200, n_collisions=30000, max_depth=7, max_reduce=200,
     }
 
 
+# Fraction of an organization's species that must persist for it to count as
+# surviving the mixture. 0.5 = "a majority of the organization is still there".
+SURVIVAL_THRESHOLD = 0.5
+
+
+def survival_fraction(species_a, final_set):
+    """Fraction of organization A's species still present in the final population.
+
+    This is the metric the L2 question actually asks: did organization A
+    persist? Jaccard (|A n F| / |A u F|) was used previously and is the wrong
+    tool — because the combined population contains BOTH organizations plus any
+    novel species, |A u F| is much larger than |A|, so Jaccard is capped by the
+    size ratio no matter what the dynamics do. For two of the six sim05 pairs
+    the ceiling was BELOW the 0.15 coexistence threshold (0.125 and 0.101), so
+    those tests could not have returned coexistence even with both organizations
+    fully intact. See ../REVIEW.md section 2.
+    """
+    set_a = set(species_a)
+    if not set_a:
+        return 0.0
+    return len(set_a & set(final_set)) / len(set_a)
+
+
 def jaccard_similarity(species_a, species_b):
-    """Jaccard index between two sets of expressions."""
+    """Jaccard index between two sets of expressions.
+
+    Retained only so results.json can report the old metric alongside the new
+    one for continuity. Do not classify outcomes with it — see
+    survival_fraction above.
+    """
     set_a = set(species_a)
     set_b = set(species_b)
     if not set_a and not set_b:
@@ -336,16 +395,30 @@ def test_l2_composition(run_a, run_b, pop_size=400, n_collisions=20000, max_redu
              similarity_a, similarity_b
     """
     random.seed(seed)
-    
-    # Get unique expressions from each run
-    species_a = list(set(run_a['population']))
-    species_b = list(set(run_b['population']))
-    
-    # Combine into one population
+
+    # Get unique expressions from each run. Sorted by canonical key: iteration
+    # order of a set of LExpr depends on string hashing, which Python randomizes
+    # per process, so an unsorted list would make this test irreproducible
+    # across runs.
+    species_a = sorted(set(run_a['population']), key=lambda e: e.canonical())
+    species_b = sorted(set(run_b['population']), key=lambda e: e.canonical())
+
+    # Combine into one population, padding to pop_size.
+    #
+    # The padding must draw from BOTH organizations in alternation. It
+    # previously drew only from species_a, so with |A|+|B| ~ 30 and
+    # pop_size = 200 organization A received ~170 extra copies while B got only
+    # its own ~20 members. Under mass action that is a ~9:1 abundance handicap,
+    # and it made A win by construction — every one of the six pairs returned
+    # `dominance_a`, i.e. the lower-indexed run always won. Equal total
+    # abundance is the fair starting condition for asking whether two
+    # organizations coexist. See ../REVIEW.md section 2.
     combined = species_a + species_b
-    # Pad to pop_size if needed
-    while len(combined) < pop_size:
-        combined.append(random.choice(species_a) if species_a else random.choice(species_b))
+    pad_sources = [s for s in (species_a, species_b) if s]
+    i = 0
+    while len(combined) < pop_size and pad_sources:
+        combined.append(random.choice(pad_sources[i % len(pad_sources)]))
+        i += 1
     combined = combined[:pop_size]
     
     # Run collision dynamics
@@ -378,26 +451,34 @@ def test_l2_composition(run_a, run_b, pop_size=400, n_collisions=20000, max_redu
         remove_idx = random.randint(0, len(population) - 1)
         population.pop(remove_idx)
     
-    # Measure similarity to original organizations
+    # Measure how much of each original organization persisted
     final_set = set(population)
-    sim_a = jaccard_similarity(set(species_a), final_set)
-    sim_b = jaccard_similarity(set(species_b), final_set)
-    
-    # Classify outcome
-    threshold = 0.15
-    if sim_a > threshold and sim_b > threshold:
+    surv_a = survival_fraction(species_a, final_set)
+    surv_b = survival_fraction(species_b, final_set)
+
+    # Classify outcome on survival fraction (see survival_fraction docstring for
+    # why Jaccard is unsuitable). Jaccard is still reported for continuity with
+    # the pre-2026-07-27 results.
+    threshold = SURVIVAL_THRESHOLD
+    if surv_a >= threshold and surv_b >= threshold:
         outcome = 'coexistence'
-    elif sim_a > threshold:
+    elif surv_a >= threshold:
         outcome = 'dominance_a'
-    elif sim_b > threshold:
+    elif surv_b >= threshold:
         outcome = 'dominance_b'
     else:
         outcome = 'mutual_destruction'
-    
+
     return {
         'outcome': outcome,
-        'similarity_a': round(sim_a, 4),
-        'similarity_b': round(sim_b, 4),
+        'survival_a': round(surv_a, 4),
+        'survival_b': round(surv_b, 4),
+        'survival_threshold': threshold,
+        'n_species_a': len(species_a),
+        'n_species_b': len(species_b),
+        # Legacy metric, reported for comparison only — not used to classify.
+        'jaccard_a': round(jaccard_similarity(species_a, final_set), 4),
+        'jaccard_b': round(jaccard_similarity(species_b, final_set), 4),
         'n_unique_final': len(final_set),
     }
 
@@ -500,8 +581,10 @@ def main():
         )
         elapsed = time.time() - t0
         print(f"    Outcome: {l2_result['outcome']}")
-        print(f"    Similarity to A: {l2_result['similarity_a']}")
-        print(f"    Similarity to B: {l2_result['similarity_b']}")
+        print(f"    Survival of A: {l2_result['survival_a']} "
+              f"({l2_result['n_species_a']} species)  [jaccard {l2_result['jaccard_a']}]")
+        print(f"    Survival of B: {l2_result['survival_b']} "
+              f"({l2_result['n_species_b']} species)  [jaccard {l2_result['jaccard_b']}]")
         print(f"    Final unique: {l2_result['n_unique_final']}")
         print(f"    Time: {elapsed:.1f}s")
         
@@ -530,16 +613,30 @@ def main():
     
     results['summary']['total_unique_species_all_runs'] = len(all_species_ever)
     results['summary']['sim04_max_species'] = 510  # binary polymers up to length 8
-    results['summary']['sim05_unbounded_confirmed'] = len(all_species_ever) > 510 or all(
-        s > 510 for s in l1_species_ever
-    ) == False  # Space is theoretically infinite; we just note it's not bounded
-    
+
+    # Whether the runs actually explored DISJOINT regions of the space. The
+    # previous flag here was `len(...) > 510 or all(...) == False`, which
+    # evaluates True whenever any run had <=510 species — i.e. a tautology that
+    # reported success regardless of the data (../REVIEW.md section 2). Measure
+    # something falsifiable instead: overlap between the runs' final species.
+    run_sets = [set(run['population']) for run, _ in l1_runs]
+    pairwise_overlap = []
+    for i in range(len(run_sets)):
+        for j in range(i + 1, len(run_sets)):
+            union = run_sets[i] | run_sets[j]
+            pairwise_overlap.append(
+                len(run_sets[i] & run_sets[j]) / len(union) if union else 0.0)
+    mean_overlap = sum(pairwise_overlap) / len(pairwise_overlap) if pairwise_overlap else 0.0
+    results['summary']['mean_pairwise_run_overlap'] = round(mean_overlap, 4)
+    results['summary']['runs_explored_disjoint_regions'] = mean_overlap < 0.1
+
     print(f"  Total unique species across all runs: {len(all_species_ever)}")
     print(f"  Sim04 finite limit was: 510")
-    print(f"  Each run explored different species (unbounded space confirmed)")
+    print(f"  Mean pairwise overlap between runs' final species: {mean_overlap:.4f}")
+    print(f"  Runs explored largely disjoint regions: {mean_overlap < 0.1}")
     
     # --- Save results ---
-    output_path = '/home/vance/brain/artificial-life/simulations/sim05_lambda_chemistry/results.json'
+    output_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'results.json')
     with open(output_path, 'w') as f:
         json.dump(results, f, indent=2, default=str)
     print(f"\nResults saved to {output_path}")
@@ -556,10 +653,85 @@ def main():
     print(f"  {len(pairs)} pairs tested")
     for outcome, count in l2_outcomes.items():
         print(f"  {outcome}: {count} ({100*count/len(pairs):.0f}%)")
-    print(f"\nKey Finding: {'L2 composition is RARE — confirms H1 (composition problem persists even with unbounded space)' if l2_outcomes.get('coexistence', 0) <= len(pairs) // 3 else 'L2 composition occurs frequently — challenges H1'}")
+    # Report the proportion rather than a binary verdict. The previous form
+    # printed "L2 composition is RARE - confirms H1" whenever coexistence was
+    # <= n_pairs // 3, which at 2/6 is a boundary case being reported as a
+    # clean confirmation.
+    n_coex = l2_outcomes.get('coexistence', 0)
+    print(f"\nKey Finding: coexistence in {n_coex}/{len(pairs)} pairs "
+          f"({100 * n_coex / len(pairs):.0f}%), at survival threshold "
+          f"{SURVIVAL_THRESHOLD}. Interpret against H1/H10 with the threshold "
+          f"sensitivity in README.md in view — this is a small sample and the "
+          f"outcome classification is threshold-dependent.")
     
     return results
 
 
+def cmd_selftest():
+    """Internal sanity checks. Prints 'Part N OK' per group and exits 0."""
+    # Part 1: alpha-invariant species identity. This is the property whose
+    # absence biased the L2 outcomes — guard it hard.
+    id1 = LExpr('abs', 'v1', LExpr('var', 'v1'))
+    id2 = LExpr('abs', 'v2', LExpr('var', 'v2'))
+    assert id1 == id2, "Part 1: alpha-equivalent identities compare unequal"
+    assert hash(id1) == hash(id2), "Part 1: alpha-equivalent identities hash differently"
+    assert len({id1, id2}) == 1, "Part 1: alpha-equivalent identities are distinct set members"
+
+    # Nested binders must not collapse: (Lx.Ly.x) and (Lx.Ly.y) differ.
+    k_comb = LExpr('abs', 'x', LExpr('abs', 'y', LExpr('var', 'x')))
+    ki_comb = LExpr('abs', 'x', LExpr('abs', 'y', LExpr('var', 'y')))
+    assert k_comb != ki_comb, "Part 1: distinct combinators collapsed to one species"
+    # ...and renaming those binders must not change identity.
+    k_renamed = LExpr('abs', 'p', LExpr('abs', 'q', LExpr('var', 'p')))
+    assert k_comb == k_renamed, "Part 1: renaming nested binders changed species identity"
+
+    # Free variables stay distinguishable.
+    assert LExpr('var', 'z') != LExpr('var', 'w'), "Part 1: distinct free vars merged"
+    print("selftest: Part 1 OK")
+
+    # Part 2: reduction preserves species identity across fresh-name minting.
+    _fresh_counter[0] = 0
+    inner = LExpr('abs', 'x', LExpr('app', LExpr('var', 'x'), LExpr('var', 'y')))
+    app1 = LExpr('app', LExpr('abs', 'y', inner), LExpr('var', 'q'))
+    r1, ok1 = app1.normalize(50)
+    _fresh_counter[0] = 500          # different fresh-name stream
+    app2 = LExpr('app', LExpr('abs', 'y', inner), LExpr('var', 'q'))
+    r2, ok2 = app2.normalize(50)
+    assert ok1 and ok2, "Part 2: normalization did not terminate"
+    assert r1 == r2, "Part 2: same normal form counted as two species under different names"
+    print("selftest: Part 2 OK")
+
+    # Part 3: survival_fraction measures what the L2 question asks, and is not
+    # capped by the size of the final population the way Jaccard is.
+    a = [LExpr('var', 'a1'), LExpr('var', 'a2')]
+    big_final = set(a) | {LExpr('var', f'n{i}') for i in range(50)}
+    assert survival_fraction(a, big_final) == 1.0, \
+        "Part 3: fully-surviving organization did not score 1.0"
+    assert jaccard_similarity(a, big_final) < 0.15, \
+        "Part 3: expected Jaccard to be crushed by a large final set"
+    assert survival_fraction(a, set()) == 0.0
+    assert survival_fraction([], big_final) == 0.0
+    half = survival_fraction(a, {LExpr('var', 'a1')})
+    assert abs(half - 0.5) < 1e-9, f"Part 3: expected 0.5, got {half}"
+    print("selftest: Part 3 OK")
+
+    # Part 4: a short AlChemy run produces a population and terminates.
+    run = run_alchemy(pop_size=20, n_collisions=200, max_depth=4,
+                      max_reduce=30, filter_copy=True, seed=3)
+    assert run['n_unique_final'] >= 1, "Part 4: run produced an empty population"
+    assert run['n_species_ever'] >= run['n_unique_final']
+    print("selftest: Part 4 OK")
+
+
+def main_cli():
+    cmd = sys.argv[1] if len(sys.argv) > 1 else "run"
+    if cmd == "selftest":
+        cmd_selftest()
+    elif cmd == "run":
+        main()
+    else:
+        print("usage: sim05.py [run|selftest]")
+
+
 if __name__ == '__main__':
-    main()
+    main_cli()

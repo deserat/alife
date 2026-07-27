@@ -1,14 +1,14 @@
 ---
 status: active
-formed: "Session 8"
+formed: "Session 9"
 connected_to: "stigmergic consolidation, stigmergy, multi-scale composition, H7, H4, niche construction, multi-rate environment"
 topic: "environmental physics coupling — the structure as a new dynamical degree of freedom"
-key_findings: "The trace→actor crossing (H7) requires the accumulated structure to introduce physical transport dynamics absent at the deposit level. The Mahadevan group's termite mound model shows real mounds are ventilation structures whose own physics (diurnal thermal-oscillation-driven convection) redistributes the pheromone cues that guide building — the structure IS the feedback path. A 20-year lineage of stigmergic construction models (Deneubourg 1977 → Bonabeau 1997 → Ladley & Bullock 2004) all share the SAME limitation sim06 inherited: deposited material has no influence on agent movement, and pheromone diffusion is decoupled from structure. This is the precise mechanistic gap between stigmergic coordination and the crossing."
+key_findings: "The trace→actor crossing (H7) requires the accumulated structure to introduce physical transport dynamics absent at the deposit level. The Mahadevan group's termite mound model shows real mounds are ventilation structures whose own physics (diurnal thermal-oscillation-driven convection) redistributes the pheromone cues that guide building — the structure IS the feedback path. A 20-year lineage of stigmergic construction models (Deneubourg 1977 → Bonabeau 1997 → Ladley & Bullock 2004) all share the SAME limitation sim06 inherited: deposited material has no influence on agent movement, and pheromone diffusion is decoupled from structure. sim07 (Session 10) tested the minimal lumped version (structure-sourced scalar transport field T with mass threshold M_c) and found a NULL: no phase transition — scalar venting has the wrong sign for consolidation (it disperses the cue that recruits deposits), and the self-repair test shows repair tracks the deposit rule not T. The crossing requires DIRECTED transport (channel geometry) and/or an external multi-rate driver (H4), not just a structure-sourced scalar."
 ---
 
 # Environmental Physics Coupling
 
-**Status:** Active — formed Session 8
+**Status:** Active — formed Session 9
 **Connected to:** [Stigmergic consolidation](stigmergic-consolidation.md), [stigmergy](stigmergy.md), [multi-scale composition](multi-scale-composition.md), H7 (trace→actor crossing), H4 (dynamic environment), [niche construction](stigmergy-vance-notes.md), [multi-rate environment](multi-rate-environment.md)
 
 ## The Concept
@@ -141,6 +141,38 @@ NK ↔ stigmergy; Vance's multi-rate environment): not a changing fitness functi
 environment whose own physics becomes a new causal layer once organization crosses a
 threshold.
 
+## sim07 result (Session 10, 2026-07-27) — NULL
+
+sim07 implemented exactly the minimal lumped prescription above and tested it. **Result: no
+phase transition in `M_c`.** Sweeping `M_c` from ∞ (inert) to 0.5 (almost always active):
+
+| M_c | pillars | stability | crossed |
+|---|---|---|---|
+| ∞ | 57 | 0.876 | no |
+| 3.0 | 75 | 0.856 | no |
+| 1.5 | 87 | 0.823 | no |
+| 0.5 | 128 | 0.739 | no |
+
+As `M_c` drops, stability **decreases** monotonically and pillars **fragment** (57 → 128) — the
+opposite of consolidation. A `transport_coupling` sweep (0.0 → 0.80) confirms no value crosses.
+The perturbation/self-repair test: both conditions recover (recovery ≈ 1.0), but repair is
+driven by the deposit rule (termites wander back), NOT by `T` — the **circularity safeguard
+fails**, confirming `T` is not the causal layer.
+
+**Diagnosis — the wrong sign for consolidation:** the negative feedback is real, but its effect
+fragments rather than consolidates. Venting pheromone *away* from saturated pillars disperses
+the very cue that recruits deposits. A lumped linear advection of a scalar cue does NOT
+reproduce the Mahadevan mechanism, where **directed** flow carries the cue **along** channels
+to where building should *continue*. The minimal lumped version lost the directionality that
+makes real mound transport consolidate. The structure-sourced scalar `T` is a caricature too
+coarse to produce the crossing.
+
+**What the null rules out and leaves open:** "structure sources a scalar transport field" is
+insufficient. Two refinements remain: (1) **directed transport** — channel geometry that
+carries cue to building fronts, not away from them; or (2) an **external multi-rate driver**
+(H4) — the diurnal oscillation the structure rectifies into directed flow, which sim07's
+lumped `T` lacks entirely. Candidate sim08 tests the external-oscillation path.
+
 ## Criticisms
 
 - The Mahadevan model is a *physics* model, not an agent model — it assumes the
@@ -148,12 +180,14 @@ threshold.
   both the physics AND the agent response, risking circularity (we build in the crossing we
   claim to detect). Mitigation: the crossing detector must measure *emergent* structure
   dynamics (non-reducibility, constraint on agents, self-repair) independent of the
-  transport rule we imposed.
+  transport rule we imposed. **(Session 10: this risk was realized — sim07's perturbation
+  test showed repair tracks the deposit rule, NOT `T`, so `T` is not the causal layer.)**
 - The 20-year lineage shows the "material doesn't influence movement" limitation is
   *known*; the question is whether adding transport is *sufficient* or whether additional
   mechanisms (queen templates, tactile cues, larval pheromones — all omitted) are also
-  required. sim07 tests the *minimal* transport addition; a null result there would imply
-  the crossing needs still more.
+  required. sim07 tests the *minimal* transport addition; **(Session 10: a null result — the
+  minimal scalar transport is NOT sufficient; the crossing needs directed and/or externally-
+  driven transport, not just a venting scalar.)**
 - "Bio-mythological" risk applies to us too: a lumped `T` field is a caricature of
   convection. If sim07 "crosses," we must be careful the crossing isn't an artifact of the
   imposed transport rule. The perturbation/self-repair test (does the structure recruit
@@ -185,6 +219,14 @@ threshold.
   feedback case. (DOI 10.1016/j.cogsys.2015.12.002)
 - **sim06 (this project)**: null result — positive-feedback-only stigmergy produces diffuse
   scatter, no crossing. Confirms the lineage limitation in a minimal modern model.
+- **sim07 (this project, Session 10)**: null result — a structure-sourced *scalar* transport
+  field with mass threshold `M_c` does NOT produce a phase transition. Sweeping `M_c` from inert
+  to fully active monotonically *decreases* stability (0.876 → 0.739) and *fragments* pillars
+  (57 → 128); the crossing detector never fires; the perturbation/self-repair test shows repair
+  tracks the deposit rule, not `T`. Diagnosis: scalar venting has the wrong sign for
+  consolidation — it disperses the cue that recruits deposits. Rules out "structure sources a
+  scalar transport field" as sufficient; leaves directed transport and/or an external
+  multi-rate driver (H4) as the remaining candidates.
 - **No empirical study** was found that directly tests whether adding environmental physics
   coupling to a stigmergic agent model produces a trace→actor crossing. This is the open
   gap sim07 is designed to fill.

@@ -22,70 +22,81 @@
       {
         "time": 0,
         "n_compartments": 40,
-        "n_species": 31,
-        "total_mass": 13620,
-        "total_nonfood_mass": 380,
+        "n_species": 94,
+        "total_mass": 13818,
+        "total_nonfood_mass": 182,
         "n_cores_sampled": 0,
         "core_sizes": [],
         "n_distinct_compartment_types": 10
       },
       {
         "time": 50,
-        "n_compartments": 21,
-        "n_species": 496,
-        "total_mass": 3328,
-        "total_nonfood_mass": 823,
-        "n_cores_sampled": 16,
+        "n_compartments": 20,
+        "n_species": 508,
+        "total_mass": 3081,
+        "total_nonfood_mass": 722,
+        "n_cores_sampled": 15,
         "core_sizes": [
-          7,
-          2,
-          2,
           4,
-          4,
+          3,
           2,
           2,
+          3,
+          2,
+          2,
+          2,
+          3,
           2,
           2,
           3,
           3,
           3,
-          2,
-          2,
-          2,
           2
         ],
         "n_distinct_compartment_types": 10
       },
       {
         "time": 100,
-        "n_compartments": 32,
-        "n_species": 509,
-        "total_mass": 3688,
-        "total_nonfood_mass": 867,
-        "n_cores_sampled": 8,
+        "n_compartments": 22,
+        "n_species": 510,
+        "total_mass": 3421,
+        "total_nonfood_mass": 801,
+        "n_cores_sampled": 14,
         "core_sizes": [
-          2,
-          2,
-          3,
-          3,
-          3,
           4,
+          7,
           2,
+          3,
+          3,
+          3,
+          2,
+          5,
+          2,
+          5,
+          2,
+          3,
+          10,
           2
         ],
         "n_distinct_compartment_types": 10
       },
       {
         "time": 150,
-        "n_compartments": 40,
+        "n_compartments": 32,
         "n_species": 510,
-        "total_mass": 3625,
-        "total_nonfood_mass": 969,
-        "n_cores_sampled": 3,
+        "total_mass": 3712,
+        "total_nonfood_mass": 829,
+        "n_cores_sampled": 9,
         "core_sizes": [
+          3,
+          2,
+          2,
+          2,
+          2,
+          4,
           2,
           3,
-          2
+          3
         ],
         "n_distinct_compartment_types": 10
       },
@@ -93,13 +104,12 @@
         "time": 200,
         "n_compartments": 40,
         "n_species": 510,
-        "total_mass": 3622,
-        "total_nonfood_mass": 972,
-        "n_cores_sampled": 3,
+        "total_mass": 3619,
+        "total_nonfood_mass": 899,
+        "n_cores_sampled": 2,
         "core_sizes": [
           2,
-          2,
-          3
+          2
         ],
         "n_distinct_compartment_types": 10
       },
@@ -107,12 +117,12 @@
         "time": 250,
         "n_compartments": 40,
         "n_species": 510,
-        "total_mass": 3653,
-        "total_nonfood_mass": 975,
+        "total_mass": 3585,
+        "total_nonfood_mass": 934,
         "n_cores_sampled": 3,
         "core_sizes": [
           2,
-          2,
+          4,
           2
         ],
         "n_distinct_compartment_types": 10
@@ -121,28 +131,20 @@
         "time": 300,
         "n_compartments": 40,
         "n_species": 510,
-        "total_mass": 3677,
-        "total_nonfood_mass": 963,
-        "n_cores_sampled": 5,
-        "core_sizes": [
-          3,
-          2,
-          2,
-          3,
-          2
-        ],
+        "total_mass": 3588,
+        "total_nonfood_mass": 924,
+        "n_cores_sampled": 0,
+        "core_sizes": [],
         "n_distinct_compartment_types": 10
       },
       {
         "time": 350,
         "n_compartments": 40,
         "n_species": 510,
-        "total_mass": 3743,
-        "total_nonfood_mass": 976,
-        "n_cores_sampled": 4,
+        "total_mass": 3689,
+        "total_nonfood_mass": 951,
+        "n_cores_sampled": 2,
         "core_sizes": [
-          2,
-          3,
           2,
           2
         ],
@@ -152,10 +154,11 @@
         "time": 400,
         "n_compartments": 40,
         "n_species": 510,
-        "total_mass": 3848,
-        "total_nonfood_mass": 956,
-        "n_cores_sampled": 1,
+        "total_mass": 3783,
+        "total_nonfood_mass": 938,
+        "n_cores_sampled": 2,
         "core_sizes": [
+          3,
           2
         ],
         "n_distinct_compartment_types": 10
@@ -164,13 +167,15 @@
         "time": 450,
         "n_compartments": 40,
         "n_species": 510,
-        "total_mass": 3881,
-        "total_nonfood_mass": 957,
-        "n_cores_sampled": 3,
+        "total_mass": 3892,
+        "total_nonfood_mass": 909,
+        "n_cores_sampled": 5,
         "core_sizes": [
+          3,
+          3,
           2,
           3,
-          3
+          2
         ],
         "n_distinct_compartment_types": 10
       },
@@ -178,13 +183,11 @@
         "time": 500,
         "n_compartments": 40,
         "n_species": 510,
-        "total_mass": 3909,
-        "total_nonfood_mass": 959,
-        "n_cores_sampled": 3,
+        "total_mass": 3987,
+        "total_nonfood_mass": 894,
+        "n_cores_sampled": 1,
         "core_sizes": [
-          2,
-          2,
-          3
+          5
         ],
         "n_distinct_compartment_types": 10
       },
@@ -192,10 +195,12 @@
         "time": 550,
         "n_compartments": 40,
         "n_species": 510,
-        "total_mass": 3934,
-        "total_nonfood_mass": 958,
-        "n_cores_sampled": 1,
+        "total_mass": 3926,
+        "total_nonfood_mass": 911,
+        "n_cores_sampled": 3,
         "core_sizes": [
+          2,
+          2,
           2
         ],
         "n_distinct_compartment_types": 10
@@ -204,15 +209,14 @@
         "time": 600,
         "n_compartments": 40,
         "n_species": 510,
-        "total_mass": 3963,
-        "total_nonfood_mass": 962,
-        "n_cores_sampled": 5,
+        "total_mass": 3877,
+        "total_nonfood_mass": 920,
+        "n_cores_sampled": 4,
         "core_sizes": [
           3,
-          6,
+          4,
           2,
-          3,
-          4
+          5
         ],
         "n_distinct_compartment_types": 10
       },
@@ -220,15 +224,13 @@
         "time": 650,
         "n_compartments": 40,
         "n_species": 510,
-        "total_mass": 3970,
-        "total_nonfood_mass": 952,
-        "n_cores_sampled": 6,
+        "total_mass": 3860,
+        "total_nonfood_mass": 940,
+        "n_cores_sampled": 4,
         "core_sizes": [
           2,
+          1,
           2,
-          4,
-          2,
-          3,
           2
         ],
         "n_distinct_compartment_types": 10
@@ -237,12 +239,12 @@
         "time": 700,
         "n_compartments": 40,
         "n_species": 510,
-        "total_mass": 3937,
-        "total_nonfood_mass": 949,
+        "total_mass": 3948,
+        "total_nonfood_mass": 931,
         "n_cores_sampled": 3,
         "core_sizes": [
-          3,
-          5,
+          2,
+          2,
           3
         ],
         "n_distinct_compartment_types": 10
@@ -251,13 +253,12 @@
         "time": 750,
         "n_compartments": 40,
         "n_species": 510,
-        "total_mass": 3929,
-        "total_nonfood_mass": 953,
-        "n_cores_sampled": 3,
+        "total_mass": 3960,
+        "total_nonfood_mass": 908,
+        "n_cores_sampled": 2,
         "core_sizes": [
-          3,
           2,
-          2
+          3
         ],
         "n_distinct_compartment_types": 10
       },
@@ -265,11 +266,13 @@
         "time": 800,
         "n_compartments": 40,
         "n_species": 510,
-        "total_mass": 4042,
-        "total_nonfood_mass": 935,
-        "n_cores_sampled": 2,
+        "total_mass": 3960,
+        "total_nonfood_mass": 914,
+        "n_cores_sampled": 4,
         "core_sizes": [
+          2,
           3,
+          2,
           2
         ],
         "n_distinct_compartment_types": 10
@@ -278,10 +281,12 @@
         "time": 850,
         "n_compartments": 40,
         "n_species": 510,
-        "total_mass": 4115,
-        "total_nonfood_mass": 930,
-        "n_cores_sampled": 2,
+        "total_mass": 4037,
+        "total_nonfood_mass": 938,
+        "n_cores_sampled": 4,
         "core_sizes": [
+          3,
+          2,
           2,
           3
         ],
@@ -291,13 +296,15 @@
         "time": 900,
         "n_compartments": 40,
         "n_species": 510,
-        "total_mass": 4088,
-        "total_nonfood_mass": 923,
-        "n_cores_sampled": 4,
+        "total_mass": 4031,
+        "total_nonfood_mass": 905,
+        "n_cores_sampled": 6,
         "core_sizes": [
           2,
           2,
+          3,
           2,
+          4,
           2
         ],
         "n_distinct_compartment_types": 10
@@ -306,10 +313,17 @@
         "time": 950,
         "n_compartments": 40,
         "n_species": 510,
-        "total_mass": 4087,
-        "total_nonfood_mass": 935,
-        "n_cores_sampled": 1,
+        "total_mass": 4181,
+        "total_nonfood_mass": 873,
+        "n_cores_sampled": 8,
         "core_sizes": [
+          2,
+          3,
+          2,
+          2,
+          3,
+          2,
+          2,
           2
         ],
         "n_distinct_compartment_types": 10
@@ -318,11 +332,10 @@
         "time": 999,
         "n_compartments": 40,
         "n_species": 510,
-        "total_mass": 4168,
-        "total_nonfood_mass": 916,
-        "n_cores_sampled": 4,
+        "total_mass": 4169,
+        "total_nonfood_mass": 878,
+        "n_cores_sampled": 3,
         "core_sizes": [
-          2,
           2,
           3,
           2
@@ -338,9 +351,9 @@
       {
         "time": 0,
         "n_compartments": 40,
-        "n_species": 35,
-        "total_mass": 13624,
-        "total_nonfood_mass": 384,
+        "n_species": 96,
+        "total_mass": 13822,
+        "total_nonfood_mass": 186,
         "n_cores_sampled": 0,
         "core_sizes": [],
         "n_distinct_compartment_types": 10
@@ -348,41 +361,40 @@
       {
         "time": 50,
         "n_compartments": 21,
-        "n_species": 496,
-        "total_mass": 3551,
-        "total_nonfood_mass": 842,
-        "n_cores_sampled": 18,
+        "n_species": 506,
+        "total_mass": 3394,
+        "total_nonfood_mass": 789,
+        "n_cores_sampled": 17,
         "core_sizes": [
           2,
           3,
-          2,
-          2,
-          2,
-          2,
-          8,
-          2,
-          2,
-          2,
           3,
-          3,
+          2,
+          2,
           2,
           7,
-          4,
           3,
           2,
-          2
+          2,
+          6,
+          2,
+          2,
+          6,
+          2,
+          4,
+          7
         ],
         "n_distinct_compartment_types": 10
       },
       {
         "time": 100,
-        "n_compartments": 38,
+        "n_compartments": 35,
         "n_species": 510,
-        "total_mass": 3761,
-        "total_nonfood_mass": 1074,
+        "total_mass": 3710,
+        "total_nonfood_mass": 978,
         "n_cores_sampled": 7,
         "core_sizes": [
-          3,
+          4,
           2,
           2,
           2,
@@ -396,17 +408,19 @@
         "time": 150,
         "n_compartments": 40,
         "n_species": 510,
-        "total_mass": 4185,
-        "total_nonfood_mass": 1095,
-        "n_cores_sampled": 8,
+        "total_mass": 3952,
+        "total_nonfood_mass": 1105,
+        "n_cores_sampled": 10,
         "core_sizes": [
           2,
+          4,
           2,
           3,
           2,
-          3,
-          3,
-          3,
+          4,
+          4,
+          2,
+          2,
           2
         ],
         "n_distinct_compartment_types": 10
@@ -415,14 +429,16 @@
         "time": 200,
         "n_compartments": 40,
         "n_species": 510,
-        "total_mass": 4440,
-        "total_nonfood_mass": 1127,
-        "n_cores_sampled": 5,
+        "total_mass": 4358,
+        "total_nonfood_mass": 1098,
+        "n_cores_sampled": 7,
         "core_sizes": [
+          3,
           2,
           2,
           3,
-          6,
+          2,
+          2,
           2
         ],
         "n_distinct_compartment_types": 10
@@ -431,14 +447,14 @@
         "time": 250,
         "n_compartments": 40,
         "n_species": 510,
-        "total_mass": 4883,
-        "total_nonfood_mass": 1109,
+        "total_mass": 4776,
+        "total_nonfood_mass": 1100,
         "n_cores_sampled": 4,
         "core_sizes": [
           2,
+          3,
           2,
-          2,
-          2
+          1
         ],
         "n_distinct_compartment_types": 10
       },
@@ -446,69 +462,8 @@
         "time": 300,
         "n_compartments": 21,
         "n_species": 510,
-        "total_mass": 3155,
-        "total_nonfood_mass": 532,
-        "n_cores_sampled": 9,
-        "core_sizes": [
-          2,
-          3,
-          3,
-          2,
-          2,
-          4,
-          2,
-          3,
-          2
-        ],
-        "n_distinct_compartment_types": 10
-      },
-      {
-        "time": 350,
-        "n_compartments": 25,
-        "n_species": 510,
-        "total_mass": 3214,
-        "total_nonfood_mass": 563,
-        "n_cores_sampled": 3,
-        "core_sizes": [
-          3,
-          2,
-          2
-        ],
-        "n_distinct_compartment_types": 10
-      },
-      {
-        "time": 400,
-        "n_compartments": 28,
-        "n_species": 510,
-        "total_mass": 3261,
-        "total_nonfood_mass": 579,
-        "n_cores_sampled": 2,
-        "core_sizes": [
-          2,
-          2
-        ],
-        "n_distinct_compartment_types": 10
-      },
-      {
-        "time": 450,
-        "n_compartments": 29,
-        "n_species": 510,
-        "total_mass": 3222,
-        "total_nonfood_mass": 587,
-        "n_cores_sampled": 3,
-        "core_sizes": [
-          4,
-          2,
-          3
-        ],
-        "n_distinct_compartment_types": 10
-      },
-      {
-        "time": 500,
-        "n_compartments": 30,
-        "n_species": 510,
-        "total_mass": 3187,
-        "total_nonfood_mass": 627,
+        "total_mass": 2968,
+        "total_nonfood_mass": 559,
         "n_cores_sampled": 3,
         "core_sizes": [
           2,
@@ -518,11 +473,44 @@
         "n_distinct_compartment_types": 10
       },
       {
-        "time": 550,
-        "n_compartments": 30,
+        "time": 350,
+        "n_compartments": 21,
         "n_species": 510,
-        "total_mass": 3126,
-        "total_nonfood_mass": 642,
+        "total_mass": 3191,
+        "total_nonfood_mass": 557,
+        "n_cores_sampled": 7,
+        "core_sizes": [
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2
+        ],
+        "n_distinct_compartment_types": 10
+      },
+      {
+        "time": 400,
+        "n_compartments": 22,
+        "n_species": 510,
+        "total_mass": 3293,
+        "total_nonfood_mass": 539,
+        "n_cores_sampled": 4,
+        "core_sizes": [
+          2,
+          3,
+          2,
+          2
+        ],
+        "n_distinct_compartment_types": 10
+      },
+      {
+        "time": 450,
+        "n_compartments": 26,
+        "n_species": 510,
+        "total_mass": 3455,
+        "total_nonfood_mass": 541,
         "n_cores_sampled": 1,
         "core_sizes": [
           2
@@ -530,11 +518,51 @@
         "n_distinct_compartment_types": 10
       },
       {
-        "time": 600,
-        "n_compartments": 32,
+        "time": 500,
+        "n_compartments": 31,
         "n_species": 510,
-        "total_mass": 3021,
-        "total_nonfood_mass": 674,
+        "total_mass": 3520,
+        "total_nonfood_mass": 551,
+        "n_cores_sampled": 2,
+        "core_sizes": [
+          2,
+          2
+        ],
+        "n_distinct_compartment_types": 10
+      },
+      {
+        "time": 550,
+        "n_compartments": 31,
+        "n_species": 510,
+        "total_mass": 3481,
+        "total_nonfood_mass": 582,
+        "n_cores_sampled": 4,
+        "core_sizes": [
+          2,
+          2,
+          2,
+          2
+        ],
+        "n_distinct_compartment_types": 10
+      },
+      {
+        "time": 600,
+        "n_compartments": 34,
+        "n_species": 510,
+        "total_mass": 3473,
+        "total_nonfood_mass": 587,
+        "n_cores_sampled": 1,
+        "core_sizes": [
+          2
+        ],
+        "n_distinct_compartment_types": 10
+      },
+      {
+        "time": 650,
+        "n_compartments": 34,
+        "n_species": 510,
+        "total_mass": 3484,
+        "total_nonfood_mass": 612,
         "n_cores_sampled": 3,
         "core_sizes": [
           2,
@@ -544,14 +572,13 @@
         "n_distinct_compartment_types": 10
       },
       {
-        "time": 650,
-        "n_compartments": 32,
+        "time": 700,
+        "n_compartments": 34,
         "n_species": 510,
-        "total_mass": 2890,
-        "total_nonfood_mass": 709,
-        "n_cores_sampled": 5,
+        "total_mass": 3450,
+        "total_nonfood_mass": 617,
+        "n_cores_sampled": 4,
         "core_sizes": [
-          2,
           2,
           2,
           2,
@@ -560,30 +587,13 @@
         "n_distinct_compartment_types": 10
       },
       {
-        "time": 700,
-        "n_compartments": 33,
+        "time": 750,
+        "n_compartments": 36,
         "n_species": 510,
-        "total_mass": 2937,
-        "total_nonfood_mass": 714,
+        "total_mass": 3478,
+        "total_nonfood_mass": 625,
         "n_cores_sampled": 2,
         "core_sizes": [
-          2,
-          3
-        ],
-        "n_distinct_compartment_types": 10
-      },
-      {
-        "time": 750,
-        "n_compartments": 33,
-        "n_species": 510,
-        "total_mass": 2969,
-        "total_nonfood_mass": 726,
-        "n_cores_sampled": 6,
-        "core_sizes": [
-          3,
-          2,
-          2,
-          2,
           2,
           2
         ],
@@ -591,13 +601,12 @@
       },
       {
         "time": 800,
-        "n_compartments": 35,
+        "n_compartments": 36,
         "n_species": 510,
-        "total_mass": 2990,
-        "total_nonfood_mass": 724,
-        "n_cores_sampled": 5,
+        "total_mass": 3474,
+        "total_nonfood_mass": 646,
+        "n_cores_sampled": 4,
         "core_sizes": [
-          2,
           2,
           3,
           2,
@@ -607,13 +616,12 @@
       },
       {
         "time": 850,
-        "n_compartments": 37,
+        "n_compartments": 36,
         "n_species": 510,
-        "total_mass": 2942,
-        "total_nonfood_mass": 747,
-        "n_cores_sampled": 3,
+        "total_mass": 3516,
+        "total_nonfood_mass": 633,
+        "n_cores_sampled": 2,
         "core_sizes": [
-          3,
           2,
           2
         ],
@@ -621,28 +629,24 @@
       },
       {
         "time": 900,
-        "n_compartments": 37,
+        "n_compartments": 36,
         "n_species": 510,
-        "total_mass": 2918,
-        "total_nonfood_mass": 760,
-        "n_cores_sampled": 4,
+        "total_mass": 3497,
+        "total_nonfood_mass": 653,
+        "n_cores_sampled": 1,
         "core_sizes": [
-          3,
-          4,
-          2,
-          2
+          3
         ],
         "n_distinct_compartment_types": 10
       },
       {
         "time": 950,
-        "n_compartments": 37,
+        "n_compartments": 36,
         "n_species": 510,
-        "total_mass": 2848,
-        "total_nonfood_mass": 780,
-        "n_cores_sampled": 3,
+        "total_mass": 3458,
+        "total_nonfood_mass": 666,
+        "n_cores_sampled": 2,
         "core_sizes": [
-          3,
           2,
           2
         ],
@@ -652,15 +656,13 @@
         "time": 999,
         "n_compartments": 37,
         "n_species": 510,
-        "total_mass": 2786,
-        "total_nonfood_mass": 791,
-        "n_cores_sampled": 5,
+        "total_mass": 3418,
+        "total_nonfood_mass": 684,
+        "n_cores_sampled": 3,
         "core_sizes": [
-          3,
-          3,
+          9,
           2,
-          2,
-          2
+          4
         ],
         "n_distinct_compartment_types": 10
       }

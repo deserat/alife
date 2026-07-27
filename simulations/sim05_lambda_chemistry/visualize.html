@@ -77,7 +77,7 @@ Even with an <strong>unbounded molecule space</strong> (lambda calculus expressi
 <div class="card">
 <p>Two independent L1 organizations are combined into one simulation. Three possible outcomes:</p>
 <table id="l2-table">
-<tr><th>Pair</th><th>Outcome</th><th>Similarity to A</th><th>Similarity to B</th><th>Final Unique</th></tr>
+<tr><th>Pair</th><th>Outcome</th><th>Survival of A</th><th>Survival of B</th><th>Final Unique</th></tr>
 </table>
 </div>
 
@@ -159,7 +159,7 @@ const outcomeClass = test.outcome.startsWith('dominance') ? 'outcome-dominance'
 const outcomeText = test.outcome.replace('_', ' ');
 tr.innerHTML = `<td>${test.pair[0]+1} + ${test.pair[1]+1}</td>
 <td><span class="outcome ${outcomeClass}">${outcomeText}</span></td>
-<td>${test.similarity_a}</td><td>${test.similarity_b}</td><td>${test.n_unique_final}</td>`;
+<td>${test.survival_a}</td><td>${test.survival_b}</td><td>${test.n_unique_final}</td>`;
 l2Table.appendChild(tr);
 });
 

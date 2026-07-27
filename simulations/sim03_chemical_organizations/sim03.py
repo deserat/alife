@@ -235,24 +235,46 @@ class ReactionNetwork:
         """
         Check if a subset of resources forms an organization
         (closure + self-maintenance).
+
+        CAVEAT — this is a structural proxy, not COT's self-maintenance. Chemical
+        Organization Theory requires a positive flux vector under which every
+        species in the set has non-negative net production; the test below is
+        purely qualitative ("if consumed, then also produced somewhere") and
+        ignores rates entirely, so a set can pass here while actually being
+        depleted. Note also that the organizations found are a property of the
+        FIXED reaction network built in _build_base_network — the count does not
+        change over a run, so this simulation measures which pre-existing
+        organizations are populated, not the emergence of new ones. See
+        ../REVIEW.md section 4.
         """
-        # Closure: every reaction with all inputs in subset must have all outputs in subset
+        # Closure: every APPLICABLE reaction must keep its outputs inside the
+        # subset. A reaction is applicable iff all its inputs are in the subset;
+        # for a zero-input reaction (the energy inflow, none -> E) that holds
+        # vacuously, since the empty set is a subset of everything. The guard
+        # here previously read `if rxn.inputs and ...`, which skipped exactly
+        # those reactions and so declared subsets closed that were not — the
+        # inflow forces E into every organization.
         for rxn in self.reactions:
-            if rxn.inputs and all(inp in subset for inp in rxn.inputs):
+            if all(inp in subset for inp in rxn.inputs):
                 if not all(out in subset for out in rxn.outputs):
                     return False
 
-        # Self-maintenance: every resource in subset that is consumed by some reaction
-        # must also be produced by some reaction in the subset
+        # Self-maintenance: every resource in subset that is consumed by some
+        # applicable reaction must also be produced by one.
         consumed = set()
         produced = set()
         for rxn in self.reactions:
-            if rxn.inputs and all(inp in subset for inp in rxn.inputs):
-                consumed |= rxn.inputs
-                produced |= rxn.outputs
-                # Catalyst is not consumed
+            if all(inp in subset for inp in rxn.inputs):
+                # Exclude the catalyst of THIS reaction only. Discarding from
+                # the shared accumulator (as this previously did) let a later
+                # reaction that merely catalyses X erase the record that an
+                # earlier reaction genuinely consumed X, making the result
+                # depend on reaction order.
+                rxn_consumed = set(rxn.inputs)
                 if rxn.catalyst:
-                    consumed.discard(rxn.catalyst)
+                    rxn_consumed.discard(rxn.catalyst)
+                consumed |= rxn_consumed
+                produced |= rxn.outputs
 
         for res in subset:
             if res in consumed and res not in produced:
@@ -349,6 +371,12 @@ class Simulation:
             "generation": generation,
             "n_active_resources": active_resources,
             "concentrations": {k: round(v, 3) for k, v in concentrations.items()},
+            # Organization counts are only meaningful when compute_orgs ran;
+            # otherwise they are placeholder zeros. Record the flag so consumers
+            # can tell "no organizations" from "not measured" — comparing an
+            # unmeasured generation against a measured one previously made the
+            # perturbation look like it created organizations out of nothing.
+            "orgs_computed": compute_orgs,
             "n_organizations": n_orgs,
             "n_active_organizations": n_active_orgs,
             "max_org_size": max_org_size,
@@ -432,20 +460,32 @@ def run_comparison():
     if not h2.get("active_org_details"):
         print(f"    (none)")
 
-    # Check for recovery from perturbation
-    print(f"\nResilience (perturbation at gen {PERTURBATION_GEN}):")
-    pre_pert = sim1.history[PERTURBATION_GEN - 1]
-    post_pert = sim1.history[PERTURBATION_GEN]
-    final = sim1.history[-1]
+    # Check for recovery from perturbation.
+    #
+    # The pre-perturbation sample must be the last generation where
+    # organizations were actually COMPUTED. This previously read
+    # history[PERTURBATION_GEN - 1] = gen 1999, which is not a multiple of 100
+    # and so carried placeholder zeros; comparing it against the measured
+    # post-perturbation generation printed "0 orgs -> 9 orgs" and read as the
+    # perturbation creating organizations. See ../REVIEW.md section 4.
+    def last_measured(hist, upto):
+        for rec in reversed(hist[:upto]):
+            if rec.get("orgs_computed"):
+                return rec
+        return hist[0]
 
+    print(f"\nResilience (perturbation at gen {PERTURBATION_GEN}):")
     for label, sim_hist in [("Single", sim1.history), ("Multi", sim2.history)]:
-        pre = sim_hist[PERTURBATION_GEN - 1]
+        pre = last_measured(sim_hist, PERTURBATION_GEN)
         post = sim_hist[PERTURBATION_GEN]
         fin = sim_hist[-1]
         print(f"  {label}:")
-        print(f"    Pre-pert:  {pre['n_active_resources']} resources, {pre['n_active_organizations']} orgs")
-        print(f"    Post-pert: {post['n_active_resources']} resources, {post['n_active_organizations']} orgs")
-        print(f"    Final:     {fin['n_active_resources']} resources, {fin['n_active_organizations']} orgs")
+        print(f"    Pre-pert  (gen {pre['generation']}): {pre['n_active_resources']} resources, "
+              f"{pre['n_active_organizations']} orgs")
+        print(f"    Post-pert (gen {post['generation']}): {post['n_active_resources']} resources, "
+              f"{post['n_active_organizations']} orgs")
+        print(f"    Final     (gen {fin['generation']}): {fin['n_active_resources']} resources, "
+              f"{fin['n_active_organizations']} orgs")
 
     # Save results
     results = {

@@ -1,3 +1,11 @@
+---
+status: "Core concept"
+formed: "Session 5"
+connected_to: "Chemical Organization Theory, autopoiesis, multi-scale composition, computational irreducibility, ANT translation, trace→actor crossing, open-ended evolution"
+topic: "How reaction networks that generate new reactions overcome the evolvability stall"
+key_findings: "Fixed COT networks stall — sim03 reached equilibrium by generation 1 and sim04 exhausted its finite species space. Vasas, Szathmáry & Santos (2010) proved autocatalytic sets lack evolvability. The resolution is rare novel reactions plus compartments: a rare novel reaction producing a new viable autocatalytic core from existing resources IS the trace→actor crossing, making H7 mechanistically concrete. Limitation: the one-bit problem — heritable variation stays minimal, and open-endedness is not demonstrated."
+---
+
 # Evolving Reaction Networks
 
 **Status:** Core concept — formed Session 5

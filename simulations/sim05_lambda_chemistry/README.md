@@ -8,7 +8,7 @@ Based on Fontana & Buss (1994) and Mathis et al. (2024, arXiv:2408.12137).
 
 ## Hypotheses tested
 
-- **H1** (Composition): Does multi-scale composition emerge with unbounded space? (No — L2 coexistence = 0/6)
+- **H1** (Composition): Does multi-scale composition emerge with unbounded space? (Sometimes — L2 coexistence = 2/6; the majority outcome is still dominance)
 - **H8** (Computational Irreducibility): Can we predict which L1 organization will emerge? (No — different seeds produce different organizations)
 - **H9** (Evolving Network): Does unbounded space prevent the "one bit" stall? (Partially — species space is never exhausted, but organizations still converge to small stable sets)
 - **H10** (NEW): Unbounded molecule space alone is insufficient for multi-scale composition
@@ -24,47 +24,110 @@ Based on Fontana & Buss (1994) and Mathis et al. (2024, arXiv:2408.12137).
 
 ## Results
 
+> **These results replace the pre-2026-07-27 numbers.** Three defects were found in code
+> review and fixed; each one had biased the outcome away from coexistence. See
+> "What changed and why" below, and `../REVIEW.md` §2.
+
 ### L1 Organization Formation
 
 | Run | Seed | Final Unique | Species Ever Seen |
 |-----|------|-------------|-------------------|
-| 1 | 1 | 18 | 446 |
-| 2 | 8 | 4 | 300 |
-| 3 | 15 | 9 | 246 |
-| 4 | 22 | 37 | 930 |
+| 1 | 1 | 10 | 112 |
+| 2 | 8 | 20 | 162 |
+| 3 | 15 | 21 | 136 |
+| 4 | 22 | 10 | 126 |
 
-Mean final unique: 17.0. Each run converges to a small stable set (4-37 species) after exploring hundreds of species. No two runs converge to the same organization — each L1 is distinct.
+Mean final unique: 15.2. Each run converges to a small stable set (10–21 species) after
+exploring 112–162 species. Mean pairwise overlap between the runs' final species is 0.061 —
+the runs do explore largely disjoint regions.
 
 ### L2 Composition Tests
 
-| Pair | Outcome | Sim to A | Sim to B | Final Unique |
-|------|---------|----------|----------|-------------|
-| 1+2 | Dominance A | 0.577 | 0.000 | 23 |
-| 1+3 | Dominance A | 0.480 | 0.000 | 19 |
-| 1+4 | Mutual Destruction | 0.029 | 0.016 | 90 |
-| 2+3 | Dominance A | 0.429 | 0.000 | 6 |
-| 2+4 | Mutual Destruction | 0.091 | 0.030 | 32 |
-| 3+4 | Mutual Destruction | 0.000 | 0.077 | 89 |
+Classified on **survival fraction** (`|A ∩ final| / |A|`, threshold 0.5) — the fraction of each
+organization still present at the end:
 
+| Pair | Outcome | Survival A | Survival B | \|A\| | \|B\| | Final Unique |
+|------|---------|-----------:|-----------:|------:|------:|-------------:|
+| 1+2 | **Coexistence** | 0.800 | 1.000 | 10 | 20 | 23 |
+| 1+3 | Dominance B | 0.000 | 0.809 | 10 | 21 | 18 |
+| 1+4 | Dominance B | 0.400 | 0.600 | 10 | 10 | 12 |
+| 2+3 | **Coexistence** | 0.700 | 0.714 | 20 | 21 | 34 |
+| 2+4 | Mutual Destruction | 0.300 | 0.400 | 20 | 10 | 10 |
+| 3+4 | Dominance A | 0.809 | 0.000 | 21 | 10 | 18 |
+
+- **Coexistence (L2)**: **2/6 (33%)**
 - **Dominance**: 3/6 (50%) — one organization survives, the other is destroyed
-- **Mutual Destruction**: 3/6 (50%) — both destroyed, novel organization emerges
-- **Coexistence (L2)**: 0/6 (0%) — NO cases of successful composition
+- **Mutual Destruction**: 1/6 (17%)
+
+**Threshold sensitivity.** The 2/6 figure is stable across survival thresholds 0.45–0.70. It
+rises to 3/6 at 0.40 and 4/6 at 0.30. The classification is therefore *not* an artifact of the
+0.5 choice, though the sample is only six pairs.
 
 ### Species Space Analysis
 
-Total unique species across all 4 runs: 68 (in final populations). Each run explored 246-930 species — no finite exhaustion (sim04 exhausted 510). The unbounded space is confirmed.
+Total unique species across all 4 runs: 53 (in final populations). Each run explored 112–162
+species with no finite exhaustion (sim04 exhausted 510). Note the previous figures (246–930)
+were inflated by the alpha-equivalence bug — the same function under different bound-variable
+names was counted as many separate species.
+
+## What changed and why (2026-07-27)
+
+Three defects, each biasing against coexistence, found in code review:
+
+1. **Species identity was not alpha-invariant.** `LExpr.__eq__` compared bound-variable
+   *names*, so `λv1.v1` and `λv2.v2` — both the identity function — were different species.
+   `subst` mints a fresh name on every capture-avoiding rename, so the same normal form
+   reached twice usually compared unequal. This inflated species counts ~3–7× and deflated
+   every set intersection. Fixed with de Bruijn-style canonical keys.
+2. **Outcomes were classified on Jaccard.** `|A∩F| / |A∪F|` is capped by the size ratio: since
+   the final population holds both organizations plus novel species, `|A∪F| >> |A|`. For two
+   of the six pairs the ceiling was *below* the 0.15 coexistence threshold (0.125 and 0.101),
+   so those tests could not have returned coexistence even with both organizations fully
+   intact. Replaced with survival fraction.
+3. **The mixed population was seeded almost entirely from organization A.** Padding to
+   `pop_size` drew only from `species_a`, so with `|A|+|B| ≈ 30` and `pop_size = 200`,
+   A received ~170 extra copies against B's ~20 — a ~9:1 abundance handicap under mass
+   action. Every pair returned `dominance_a`; the lower-indexed run always won. Padding now
+   alternates between both organizations. **This was the defect responsible for the 0/6
+   result**; with equal starting abundance, dominance splits between A and B and coexistence
+   appears.
+
+Progression as each fix landed:
+
+| state | coexistence | dominance | mutual destruction |
+|---|---:|---:|---:|
+| original | 0/6 | 3/6 (all A) | 3/6 |
+| + alpha-invariance + survival fraction | 0/6 | 6/6 (all A) | 0/6 |
+| + balanced seeding | **2/6** | 3/6 (mixed) | 1/6 |
+
+`sim05.py selftest` now guards the first two properties directly.
 
 ## Key Findings
 
-1. **L1 organizations emerge** from random initial conditions. Each run converges to a small stable set of mutually reproducing expressions. This confirms Fontana & Buss's core finding: self-organized complexity emerges from random interaction.
+1. **L1 organizations emerge** from random initial conditions. Each run converges to a small
+   stable set of mutually reproducing expressions. This confirms Fontana & Buss's core
+   finding: self-organized complexity emerges from random interaction. (Caveat: sim05 counts
+   surviving species; it does not test closure or self-maintenance, so "organization" here is
+   weaker than the COT sense.)
 
-2. **L2 composition FAILS**. 0/6 pairs achieved coexistence. This is the central finding: even with an unbounded molecule space (infinite species), multi-scale composition (L2) does not emerge spontaneously. Dominance and mutual destruction are the only outcomes.
+2. **L2 composition is possible but not the norm — 2/6 (33%) coexistence.** This revises the
+   earlier claim that composition never occurs. Even with an unbounded molecule space, most
+   pairs still end in dominance, but coexistence is not the impossibility the original result
+   suggested.
 
-3. **Unbounded space is necessary but not sufficient.** Sim04 stalled at 510 species (finite space exhaustion). Sim05 never exhausts its space (246-930 species explored per run). But the composition problem persists. The bottleneck is not space — it's the mechanism of composition.
+3. **Unbounded space is necessary but not sufficient.** Sim04 stalled at 510 species (finite
+   space exhaustion). Sim05 never exhausts its space. Composition remains the minority
+   outcome, so the bottleneck is still the mechanism rather than the space — but the evidence
+   for that is now considerably weaker than 0/6 implied. **H10 should be re-examined against
+   these numbers.**
 
-4. **Each L1 is unique.** No two runs produced the same organization. This is computational irreducibility (H8): you cannot predict which organization will emerge without running the simulation.
+4. **Each L1 is distinct.** No two runs produced the same organization (mean pairwise overlap
+   0.061). This is computational irreducibility (H8): you cannot predict which organization
+   emerges without running the simulation.
 
-5. **Mutual destruction produces the most novel species.** When both L1s are destroyed, the resulting organization has the most unique species (89-90). This suggests that cross-organization interactions are productive (they generate novelty) but destabilizing (they destroy the original organizations).
+5. The earlier observation that "mutual destruction produces the most novel species" does not
+   survive the fixes — only one pair now ends in mutual destruction, and its final population
+   is the *smallest* (10 species), not the largest.
 
 ## Limitations
 

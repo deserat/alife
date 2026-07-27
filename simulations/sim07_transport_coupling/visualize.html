@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>sim07 — Environmental Physics Coupling (design sketch)</title>
+<title>sim07 — Environmental Physics Coupling (M_c phase transition)</title>
 <style>
   :root {
     --bg: #0d1117;
@@ -11,6 +11,8 @@
     --muted: #8b949e;
     --accent: #58a6ff;
     --accent2: #f0883e;
+    --green: #3fb950;
+    --red: #f85149;
     --border: #30363d;
     --card: #161b22;
   }
@@ -27,9 +29,10 @@
     border-bottom: 1px solid var(--border);
   }
   h1 { margin: 0 0 0.3rem; font-size: 1.6rem; color: var(--text); }
-  h2 { margin: 2rem 0 0.8rem; font-size: 1.2rem; color: var(--accent); }
+  h2 { margin: 1.5rem 0 0.8rem; font-size: 1.15rem; color: var(--accent); }
+  h3 { margin: 1.2rem 0 0.5rem; font-size: 1rem; color: var(--accent2); }
   .subtitle { color: var(--muted); font-size: 0.95rem; }
-  main { max-width: 920px; margin: 0 auto; padding: 1.5rem; }
+  main { max-width: 1000px; margin: 0 auto; padding: 1.5rem; }
   .card {
     background: var(--card);
     border: 1px solid var(--border);
@@ -42,12 +45,13 @@
     background: var(--accent2);
     color: #0d1117;
     font-weight: 600;
-    font-size: 0.75rem;
+    font-size: 0.72rem;
     padding: 0.15rem 0.6rem;
     border-radius: 999px;
     margin-bottom: 0.6rem;
     letter-spacing: 0.03em;
   }
+  .badge.null { background: var(--red); color: #fff; }
   code {
     background: #0d1117;
     border: 1px solid var(--border);
@@ -59,133 +63,264 @@
   }
   .metric-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 0.8rem;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 0.7rem;
     margin-top: 0.8rem;
   }
   .metric {
     background: #0d1117;
     border: 1px solid var(--border);
     border-radius: 6px;
-    padding: 0.7rem 0.9rem;
+    padding: 0.6rem 0.8rem;
   }
-  .metric .label { color: var(--muted); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.05em; }
-  .metric .value { color: var(--text); font-size: 1.1rem; font-weight: 600; margin-top: 0.2rem; }
+  .metric .label { color: var(--muted); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; }
+  .metric .value { color: var(--text); font-size: 1.05rem; font-weight: 600; margin-top: 0.15rem; }
   .value.null { color: var(--muted); font-weight: 400; font-style: italic; }
+  .value.cross { color: var(--green); }
+  .value.nocross { color: var(--red); }
   a { color: var(--accent); text-decoration: none; }
   a:hover { text-decoration: underline; }
   .status-banner {
-    border-left: 3px solid var(--accent2);
-    background: rgba(240, 136, 62, 0.08);
+    border-left: 3px solid var(--red);
+    background: rgba(248, 81, 73, 0.08);
     padding: 0.8rem 1rem;
     border-radius: 4px;
     margin-bottom: 1.5rem;
   }
-  .diagram {
-    font-family: "SF Mono", Menlo, Consolas, monospace;
-    font-size: 0.82rem;
-    color: var(--accent);
-    white-space: pre;
-    overflow-x: auto;
-    background: #0d1117;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 1rem;
-  }
+  canvas { display: block; max-width: 100%; border: 1px solid var(--border); border-radius: 6px; background: #0d1117; }
+  .legend { display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.8rem; color: var(--muted); margin-top: 0.5rem; }
+  .legend span { display: inline-flex; align-items: center; gap: 0.3rem; }
+  .legend i { width: 12px; height: 12px; border-radius: 2px; display: inline-block; }
+  table { border-collapse: collapse; width: 100%; font-size: 0.85rem; margin-top: 0.6rem; }
+  th, td { border: 1px solid var(--border); padding: 0.35rem 0.55rem; text-align: left; }
+  th { color: var(--accent); background: #0d1117; font-weight: 600; }
+  td.num { font-family: "SF Mono", Menlo, Consolas, monospace; text-align: right; }
+  .finding { background: #0d1117; border-left: 3px solid var(--accent2); padding: 0.8rem 1rem; border-radius: 4px; margin: 0.8rem 0; }
   footer { color: var(--muted); font-size: 0.85rem; padding: 1.5rem; border-top: 1px solid var(--border); margin-top: 2rem; }
 </style>
 </head>
 <body>
 <header>
   <h1>sim07 — Environmental Physics Coupling</h1>
-  <p class="subtitle">Testing the M_c phase transition for the Trace→Actor Crossing (H7) — design sketch</p>
+  <p class="subtitle">Testing the M_c phase transition for the Trace→Actor Crossing (H7)</p>
 </header>
 <main>
   <div class="status-banner">
-    <strong>Status:</strong> Design sketch (Session 8, 2026-07-26). sim07 is <em>not yet implemented</em>.
-    This page renders the design and the placeholder <code>results.json</code>. The crossing metrics are
-    NULL until a future nightly session implements the simulation per <code>DESIGN.md</code>.
+    <strong>Result:</strong> NULL — the transport field does NOT produce a phase transition in M_c.
+    Sweeping M_c from inert to fully active monotonically <em>decreases</em> stability and
+    <em>fragments</em> the structure (57 → 128 pillars). The crossing detector never fires for any M_c.
+    This refines H7: structure-sourced transport alone is insufficient — venting disperses the very cue
+    that recruits deposits.
   </div>
 
   <div class="card">
-    <span class="badge">HYPOTHESIS</span>
-    <p>The trace→actor crossing (H7) is a <strong>phase transition in the mass threshold <code>M_c</code></strong>.
-    Below <code>M_c</code>, the accumulated structure is inert — diffuse scatter (sim06's null result).
-    Above <code>M_c</code>, the structure activates: it sources a transport field <code>T</code> that vents
-    pheromone away from saturated regions (the negative feedback sim06 lacked), producing consolidation
-    into a few large vented pillars and the crossing detector firing.</p>
+    <span class="badge">HYPOTHESIS (H7, operational)</span>
+    <p>Below a critical mass threshold <code>M_c</code>, the accumulated structure is inert — diffuse scatter
+    (sim06's null). Above <code>M_c</code>, the structure activates: it sources a transport field <code>T</code>
+    that vents pheromone away from saturated regions (the negative feedback sim06 lacked), producing
+    consolidation into a few large vented pillars and the crossing detector firing. The transition should
+    be sharp in <code>M_c</code>.</p>
+    <p style="margin-top:0.6rem;"><strong>Prediction:</strong> a phase transition in <code>M_c</code> —
+    morphology (scatter → few pillars) and crossing coincide.</p>
   </div>
 
   <div class="card">
     <h2>The mechanism (minimal lumped transport)</h2>
-    <div class="diagram">  deposit rule (sim06, unchanged):  p += DEPOSIT_BASE + DEPOSIT_GAIN * local/(1+local)
-  ┌─────────────────────────────────────────────────────────┐
-  │  NEW: transport field T  (the structure's own physics)   │
-  │                                                          │
-  │   M > M_c  ──►  T_source = (M - M_c) * transport_gain    │
-  │   M ≤ M_c  ──►  T_source = 0   (INERT — sim06 regime)    │
-  │                                                          │
-  │   T diffuses  ──►  P advects down ∇T                     │
-  │     saturated pillar VENTS pheromone to its flanks/gaps   │
-  │     = NEGATIVE FEEDBACK  (the missing ingredient)        │
-  └─────────────────────────────────────────────────────────┘
-  crossing detector (stability ≥0.90, constraint ≥0.60) should fire above M_c only</div>
-    <p style="margin-top:0.8rem;">The ONLY addition to sim06 is the <code>T</code> field and its coupling to pheromone <code>P</code>.
-    Agents are unchanged. This isolates the environmental-physics-coupling variable.</p>
+    <p>The ONLY addition to sim06 is the transport field <code>T</code> and its coupling to pheromone
+    <code>P</code>. Agents are unchanged (Grassé stigmergy). This isolates the
+    environmental-physics-coupling variable.</p>
+    <ul>
+      <li><code>T</code> is sourced by structure: <code>T += transport_gain · max(0, M − M_c)</code>. Below <code>M_c</code>, no sourcing (inert — sim06 regime).</li>
+      <li><code>T</code> diffuses (toroidal) and decays.</li>
+      <li><code>T → P</code> coupling: <code>P += transport_coupling · (T_neighbor_avg − T_local)</code>. This <strong>vents</strong> pheromone from high-T (saturated) structure to low-T (gaps/flanks) — the negative feedback sim06 lacked.</li>
+    </ul>
+    <p style="font-size:0.82rem;color:var(--muted);">Sign correction: the DESIGN sketch wrote (T_local − T_neighbor_avg), which would <em>increase</em> P at structure (positive feedback). The prose ("saturated pillars shed their pheromone to their flanks") describes venting, so the implemented sign is (T_neighbor_avg − T_local).</p>
   </div>
 
   <div class="card">
-    <h2>Live results (from results.json)</h2>
-    <div id="results"><p class="subtitle">Loading results.json…</p></div>
+    <h2>Baseline vs Transport (default run)</h2>
+    <div id="runSummary"><p class="subtitle">Loading results.json…</p></div>
+    <h3>Time series</h3>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+      <div><div class="subtitle">n_pillars over time</div><canvas id="cvPillars" width="460" height="260"></canvas></div>
+      <div><div class="subtitle">structure_stability over time</div><canvas id="cvStab" width="460" height="260"></canvas></div>
+      <div><div class="subtitle">mean pheromone over structure</div><canvas id="cvPhero" width="460" height="260"></canvas></div>
+      <div><div class="subtitle">deposit_on_structure_fraction</div><canvas id="cvDep" width="460" height="260"></canvas></div>
+    </div>
+    <div class="legend">
+      <span><i style="background:var(--accent2)"></i>baseline (M_c = ∞, inert)</span>
+      <span><i style="background:var(--accent)"></i>transport (M_c = 3.0, structure sources T)</span>
+    </div>
+    <p style="font-size:0.8rem;color:var(--muted);margin-top:0.6rem;">Dashed lines mark the crossing detector thresholds (stability ≥ 0.90; pheromone ≥ 0.5; deposit-on-structure ≥ 0.60). The detector needs all three for ≥4 consecutive samples.</p>
   </div>
 
   <div class="card">
-    <h2>The circularity safeguard</h2>
-    <p>By adding the transport rule, we risk building in the crossing we claim to detect. Safeguard: the
-    <strong>perturbation/self-repair test</strong> (inherited from sim06 Part 8). Prediction — self-repair
-    succeeds when <code>T</code> is active (above <code>M_c</code>) and <em>fails</em> when <code>T</code> is
-    suppressed. If repair tracks <code>T</code> and not the deposit rule, the crossing is emergent from the
-    physics, not imposed. This is the H7 acid test.</p>
+    <h2>M_c sweep — the phase transition test</h2>
+    <p>Sweep <code>M_c</code> from ∞ (never active) to 0.5 (almost always active). <strong>If H7's phase
+    transition exists, a sharp jump should appear</strong> in pillars (down) and stability (up) at some
+    <code>M_c</code>, with the crossing detector firing only above it.</p>
+    <div id="sweepView"><p class="subtitle">Loading sweep_data.json… (run <code>sweep_plot</code> to generate)</p></div>
+  </div>
+
+  <div class="card">
+    <h2>Perturbation / self-repair (the circularity safeguard)</h2>
+    <p>Damage 25% of the grid at 60% of steps; measure recovery (final / pre-perturb mass). The H7 acid test:
+    repair should succeed when <code>T</code> is active (above <code>M_c</code>) and <em>fail</em> when
+    <code>T</code> is suppressed — proving the crossing is emergent from the physics, not imposed by the rule.</p>
+    <div id="perturbView"><p class="subtitle">Loading…</p></div>
+  </div>
+
+  <div class="card">
+    <h2>What the null means</h2>
+    <div class="finding">
+      <strong>The transport field fragments rather than consolidates.</strong> Venting pheromone away
+      from saturated pillars disperses the very cue that attracts deposits. Stronger transport (lower
+      <code>M_c</code>, higher coupling) → more, smaller, less-stable pillars, not fewer larger ones.
+      Stability falls monotonically (0.876 → 0.739) as <code>M_c</code> drops. The crossing never fires.
+    </div>
+    <div class="finding">
+      <strong>Why this is informative, not a failure.</strong> The negative feedback is real but its
+      <em>effect</em> is wrong sign for consolidation: it removes the spatial contrast (cue at structure)
+      that the deposit rule needs, instead of redirecting it. A lumped linear advection of a scalar cue
+      does not reproduce the Mahadevan mechanism, where directed flow carries the cue <em>along</em>
+      channels to where building should continue. The mechanism needs geometry (directed flow), not just
+      a venting scalar.
+    </div>
+    <div class="finding">
+      <strong>H7 refinement.</strong> The crossing is not produced by "structure sources a scalar
+      transport field" alone. Two candidates remain: (1) <em>directed</em> transport (channel geometry
+      that carries cue to building fronts, not away from them), or (2) an external multi-rate driver
+      (diurnal oscillation, H4) the structure rectifies — the Mahadevan energy source sim07 omits.
+      Candidate sim08 tests the external-oscillation path.
+    </div>
   </div>
 
   <div class="card">
     <h2>Lineage</h2>
     <p style="color:var(--muted);font-size:0.9rem;">Built on <a href="https://alife.vancedubberly.com/sim06_termite_mound/visualize.html">sim06_termite_mound</a>
     (null result). Design grounded in King, Ocko &amp; Mahadevan (PNAS 2015) and Ocko, Heyde &amp; Mahadevan
-    (PNAS 2019). See the <a href="https://alife.vancedubberly.com/concepts/environmental-physics-coupling/">environmental-physics-coupling concept</a>
-    and <a href="https://alife.vancedubberly.com/reports/2026-07-26/">tonight's report</a>.</p>
+    (PNAS 2019). See the <a href="https://alife.vancedubberly.com/concepts/environmental-physics-coupling/">environmental-physics-coupling concept</a>.</p>
   </div>
 </main>
 <footer>
-  Artificial life research — sim07 design sketch. Generated 2026-07-26 (Session 8).
+  Artificial life research — sim07. Implemented 2026-07-27 (Session 10). Null result: no M_c phase transition.
 </footer>
 
 <script>
-  fetch('results.json')
-    .then(r => r.json())
-    .then(data => {
-      const el = document.getElementById('results');
-      if (!data) { el.innerHTML = '<p class="subtitle">No data.</p>'; return; }
-      const isNull = (v) => v === null || v === undefined;
-      const fmt = (v, suffix='') => isNull(v)
-        ? `<span class="value null">NULL (not yet run)</span>`
-        : `<span class="value">${v}${suffix}</span>`;
-      el.innerHTML = `
-        <div class="metric-grid">
-          <div class="metric"><div class="label">Status</div>${fmt(data.status)}</div>
-          <div class="metric"><div class="label">Crossing fired</div>${fmt(data.crossing_fired)}</div>
-          <div class="metric"><div class="label">Metrics</div>${fmt(data.metrics)}</div>
-          <div class="metric"><div class="label">Session</div>${fmt(data.session)}</div>
-        </div>
-        <p style="margin-top:0.8rem;color:var(--muted);font-size:0.88rem;">${data.note || ''}</p>
-        <p style="margin-top:0.4rem;color:var(--muted);font-size:0.88rem;"><strong>Conditions:</strong> ${(data.conditions||[]).join(' · ')}</p>
-        <p style="margin-top:0.4rem;color:var(--muted);font-size:0.88rem;"><strong>Hypothesis:</strong> ${data.hypothesis || ''}</p>
-      `;
-    })
-    .catch(() => {
-      document.getElementById('results').innerHTML =
-        '<p class="subtitle">Could not load results.json. This is expected for a design-sketch sim.</p>';
-    });
+const COLORS = { baseline: '#f0883e', transport: '#58a6ff' };
+const THRESH = { stab: 0.90, phero: 0.5, dep: 0.60 };
+
+function series(history, key) {
+  return history.map(r => [r.step, r[key]]);
+}
+function drawLine(cv, seriesA, seriesB, thresh, ylabel) {
+  const ctx = cv.getContext('2d');
+  const W = cv.width, H = cv.height;
+  const pad = { l: 48, r: 12, t: 12, b: 28 };
+  ctx.clearRect(0, 0, W, H);
+  ctx.strokeStyle = '#30363d'; ctx.fillStyle = '#8b949e'; ctx.font = '10px monospace';
+  // axes
+  const allVals = [...seriesA.map(p=>p[1]), ...seriesB.map(p=>p[1])].filter(v=>v!=null);
+  const minV = Math.min(...allVals, thresh||99), maxV = Math.max(...allVals, thresh||0);
+  const lo = Math.min(minV, 0), hi = maxV * 1.1;
+  const xMax = Math.max(seriesA[seriesA.length-1][0], seriesB[seriesB.length-1][0]);
+  const sx = s => pad.l + (s / xMax) * (W - pad.l - pad.r);
+  const sy = v => H - pad.b - ((v - lo) / (hi - lo)) * (H - pad.t - pad.b);
+  // grid + threshold
+  if (thresh != null) {
+    ctx.strokeStyle = '#30363d'; ctx.setLineDash([3,3]);
+    ctx.beginPath(); ctx.moveTo(pad.l, sy(thresh)); ctx.lineTo(W-pad.r, sy(thresh)); ctx.stroke();
+    ctx.setLineDash([]); ctx.fillStyle = '#f85149'; ctx.fillText(thresh.toFixed(2), pad.l+4, sy(thresh)-3);
+  }
+  // axis labels
+  ctx.fillStyle = '#8b949e'; ctx.strokeStyle = '#30363d';
+  ctx.beginPath(); ctx.moveTo(pad.l, pad.t); ctx.lineTo(pad.l, H-pad.b); ctx.lineTo(W-pad.r, H-pad.b); ctx.stroke();
+  ctx.fillText(ylabel, 6, pad.t + 8);
+  ctx.fillText(xMax+'', W-pad.r-24, H-12);
+  // lines
+  function plot(ser, color) {
+    ctx.strokeStyle = color; ctx.lineWidth = 1.5; ctx.beginPath();
+    let started = false;
+    for (const [s,v] of ser) {
+      if (v == null) { started = false; continue; }
+      const X = sx(s), Y = sy(v);
+      if (!started) { ctx.moveTo(X, Y); started = true; } else { ctx.lineTo(X, Y); }
+    }
+    ctx.stroke();
+  }
+  plot(seriesA, COLORS.baseline);
+  plot(seriesB, COLORS.transport);
+}
+
+function nullCell(v) { return v == null || v === undefined; }
+
+function fmtMetric(v, suffix='') {
+  if (nullCell(v)) return `<span class="value null">NULL</span>`;
+  return `<span class="value">${v}${suffix}</span>`;
+}
+
+function crossBadge(crossed) {
+  return crossed ? `<span class="value cross">CROSSED ✓</span>` : `<span class="value nocross">no crossing ✗</span>`;
+}
+
+function loadRun() {
+  fetch('results.json').then(r => r.json()).then(data => {
+    const cfg = data.config;
+    const base = data.baseline.summary, trans = data.transport.summary;
+    const bh = data.baseline.history, th = data.transport.history;
+    const el = document.getElementById('runSummary');
+    el.innerHTML = `
+      <div class="metric-grid">
+        <div class="metric"><div class="label">Baseline pillars</div>${fmtMetric(base.final_n_pillars)}</div>
+        <div class="metric"><div class="label">Transport pillars</div>${fmtMetric(trans.final_n_pillars)}</div>
+        <div class="metric"><div class="label">Baseline stability</div>${fmtMetric(base.mean_stability_last25.toFixed(3))}</div>
+        <div class="metric"><div class="label">Transport stability</div>${fmtMetric(trans.mean_stability_last25.toFixed(3))}</div>
+        <div class="metric"><div class="label">Baseline crossing</div>${crossBadge(base.crossed)}</div>
+        <div class="metric"><div class="label">Transport crossing</div>${crossBadge(trans.crossed)}</div>
+        <div class="metric"><div class="label">T active (base)</div>${fmtMetric(base.transport_ever_active)}</div>
+        <div class="metric"><div class="label">T active (trans)</div>${fmtMetric(trans.transport_ever_active)}</div>
+      </div>
+      <p style="margin-top:0.6rem;color:var(--muted);font-size:0.82rem;">M_c = ${cfg.M_c} · transport_coupling = ${cfg.transport_coupling} · grid ${cfg.grid_size}×${cfg.grid_size} · ${cfg.n_termites} termites · ${cfg.steps} steps</p>
+    `;
+    drawLine(document.getElementById('cvPillars'), series(bh,'n_pillars'), series(th,'n_pillars'), null, 'pillars');
+    drawLine(document.getElementById('cvStab'), series(bh,'structure_stability'), series(th,'structure_stability'), THRESH.stab, 'stab');
+    drawLine(document.getElementById('cvPhero'), series(bh,'mean_pheromone_over_structure'), series(th,'mean_pheromone_over_structure'), THRESH.phero, 'phero');
+    drawLine(document.getElementById('cvDep'), series(bh,'deposit_on_structure_fraction'), series(th,'deposit_on_structure_fraction'), THRESH.dep, 'dep frac');
+
+    // perturbation
+    const pb = data.perturbation.baseline.summary, pt = data.perturbation.transport.summary;
+    document.getElementById('perturbView').innerHTML = `
+      <div class="metric-grid">
+        <div class="metric"><div class="label">Baseline recovery</div>${fmtMetric(pb.recovery_final.toFixed(2))}</div>
+        <div class="metric"><div class="label">Transport recovery</div>${fmtMetric(pt.recovery_final.toFixed(2))}</div>
+      </div>
+      <p style="margin-top:0.6rem;color:var(--muted);font-size:0.82rem;">Both conditions recover mass (recovery ≥ 1.0) — but recovery is driven by the deposit rule (termites wander back), not by transport. The circularity safeguard is NOT satisfied: repair does not track T. This is consistent with the null — T is not the causal layer.</p>
+    `;
+  }).catch(() => {
+    document.getElementById('runSummary').innerHTML = '<p class="subtitle">Could not load results.json. Run <code>sim07.py run</code> first.</p>';
+  });
+}
+
+function loadSweep() {
+  fetch('output/sweep_data.json').then(r => r.json()).then(data => {
+    const rows = data.M_c_sweep || [];
+    if (!rows.length) throw new Error('no rows');
+    const el = document.getElementById('sweepView');
+    let html = '<table><tr><th>M_c</th><th>pillars</th><th>stability</th><th>retention</th><th>T active</th><th>crossed</th></tr>';
+    for (const r of rows) {
+      const mcLabel = r.M_c >= 999 ? '∞' : r.M_c.toFixed(1);
+      html += `<tr><td>${mcLabel}</td><td class="num">${r.n_pillars}</td><td class="num">${r.stability.toFixed(3)}</td><td class="num">${r.retention.toFixed(3)}</td><td class="num">${r.transport_active}</td><td class="num">${r.crossed}</td></tr>`;
+    }
+    html += '</table>';
+    html += `<p style="margin-top:0.6rem;color:var(--muted);font-size:0.82rem;"><strong>Read the table:</strong> as M_c drops (∞ → 0.5), stability <em>decreases</em> monotonically (0.876 → 0.739) and pillars <em>fragment</em> (57 → 128). No jump. The crossing column is all zeros. This is a smooth degradation, not a phase transition.</p>`;
+    el.innerHTML = html;
+  }).catch(() => {
+    document.getElementById('sweepView').innerHTML = '<p class="subtitle">sweep_data.json not found. Run <code>sim07.py sweep_plot</code> to generate the M_c sweep.</p>';
+  });
+}
+
+loadRun();
+loadSweep();
 </script>
 </body>
 </html>

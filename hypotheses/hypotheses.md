@@ -68,9 +68,9 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **Refinement (Session 4):** This IS Smith & Bedau's 8th CAS property. Stigmergy provides the mechanism for "creating boundaries" (traces that accumulate). Autopoiesis provides the mechanism for "flexibly maintaining boundaries" (self-production). The crossing from trace to actor is the phase transition they identified but never implemented.
 
-**Refinement (Session 7 — sim06 null result):** Self-maintaining stigmergy alone is *not* sufficient for the crossing. sim06 implemented the trace→actor feedback loop (the structure re-emits the pheromone that recruits builders) and found it amplifies building (66% more structure) but does NOT cross — the formal detector (stability ≥0.90, constraint ≥0.60) never fires across a wide parameter sweep. Diagnosis: the model had only **positive feedback** (deposits attract deposits) + weak decay, but no **negative feedback / consolidation mechanism**. The structure stayed at ~230 scattered micro-pillars. The crossing requires the accumulated structure to introduce a **new dynamical degree of freedom** absent at the deposit level — environmental transport (Mahadevan), saturation/inhibition, competition, or a substrate state transition (Vance's termite-mound principle). See [[concepts/stigmergic-consolidation]]. Status: **H7 refined, not refuted** — the null result specifies what sim07 must add.
+**Refinement (Session 8 — sim06 null result):** Self-maintaining stigmergy alone is *not* sufficient for the crossing. sim06 implemented the trace→actor feedback loop (the structure re-emits the pheromone that recruits builders) and found it amplifies building (66% more structure) but does NOT cross — the formal detector (stability ≥0.90, constraint ≥0.60) never fires across a wide parameter sweep. Diagnosis: the model had only **positive feedback** (deposits attract deposits) + weak decay, but no **negative feedback / consolidation mechanism**. The structure stayed at ~230 scattered micro-pillars. The crossing requires the accumulated structure to introduce a **new dynamical degree of freedom** absent at the deposit level — environmental transport (Mahadevan), saturation/inhibition, competition, or a substrate state transition (Vance's termite-mound principle). See [[concepts/stigmergic-consolidation]]. Status: **H7 refined, not refuted** — the null result specifies what sim07 must add.
 
-**Refinement (Session 8 — the specific mechanism identified):** The "new dynamical degree of
+**Refinement (Session 9 — the specific mechanism identified):** The "new dynamical degree of
 freedom" is now specified: **environmental physics coupling** — the accumulated structure must
 introduce a *transport dynamics* that redistributes the cue (pheromone) field away from
 saturated regions and toward gaps. The Mahadevan group's termite mound model (King/Ocko/
@@ -87,7 +87,27 @@ phase transition in `M_c`. See [[concepts/environmental-physics-coupling]]. Stat
 further refined, testable** — sim07 implements the transport field and tests the `M_c`
 phase transition.
 
-**Test:** Build a simulation where agents leave persistent traces, and observe whether traces cross from coordination to self-maintenance. Measure: does the trace structure develop its own dynamics? Does it resist perturbation (self-repair)? Does it constrain agent behavior in ways not derivable from individual traces? sim07 adds a structure-sourced transport field with threshold `M_c` and tests whether the crossing fires as a phase transition in `M_c`.
+**Refinement (Session 10 — sim07 null result):** A structure-sourced *scalar* transport field
+with a mass threshold `M_c` is **not sufficient** for the crossing. sim07 implemented exactly the
+minimal lumped prescription above (T sourced above `M_c`, diffuses, vents pheromone from
+saturated to gap regions) and swept `M_c` from inert to fully active. Result: no phase
+transition. Stability *decreases* monotonically as `M_c` drops (0.876 → 0.739); pillars
+*fragment* (57 → 128); the crossing detector never fires for any `M_c` or `transport_coupling`;
+and the perturbation/self-repair test shows repair tracks the deposit rule, NOT `T` (the
+circularity safeguard fails — `T` is not the causal layer). Diagnosis: the negative feedback
+is real but its effect has the **wrong sign for consolidation** — venting pheromone away from
+saturated pillars disperses the very cue that recruits deposits, fragmenting rather than
+consolidating. A lumped linear advection of a scalar cue does not reproduce the Mahadevan
+mechanism, where *directed* flow carries the cue *along* channels to where building should
+continue. Two candidates remain: (1) **directed transport** (channel geometry that carries
+cue to building fronts, not away from them — the directionality lost in the lumped scalar),
+or (2) an **external multi-rate driver** (the diurnal oscillation, H4) the structure rectifies
+into directed flow — the Mahadevan energy source sim07 omits (candidate sim08). Status:
+**H7 refined again, not refuted** — the null specifies that the transport must be *directed*
+(not a venting scalar) and/or *externally driven* (H4), not merely structure-sourced. See
+[[concepts/environmental-physics-coupling]].
+
+**Test:** Build a simulation where agents leave persistent traces, and observe whether traces cross from coordination to self-maintenance. Measure: does the trace structure develop its own dynamics? Does it resist perturbation (self-repair)? Does it constrain agent behavior in ways not derivable from individual traces? sim07 added a structure-sourced scalar transport field with threshold `M_c` and tested whether the crossing fires as a phase transition in `M_c` — it did not. Next: test *directed* transport (channel geometry) and/or an external oscillation (H4) the structure rectifies.
 
 ---
 
@@ -143,6 +163,12 @@ phase transition.
 
 **Test:** Build a simulation with explicit composition mechanisms (stigmergic bridges between organizations, autopoietic boundaries, selection for composability) and compare to AlChemy without these mechanisms. Measure: does the version with composition mechanisms produce L2 where the plain version fails?
 
+**Refinement (2026-07-27, post code review — H10's primary evidence was substantially an artifact):** A construct-validity audit of the simulation code (`../simulations/REVIEW.md`) found three defects in sim05's L2 test, each biasing against coexistence: (1) species identity was not alpha-invariant, so the same lambda term under different bound-variable names counted as distinct species — inflating species counts and deflating every set intersection; (2) outcomes were classified on Jaccard similarity, whose arithmetic ceiling fell *below* the 0.15 coexistence threshold for two of the six pairs, making coexistence undetectable for those regardless of dynamics; (3) the mixed population was padded almost entirely from organization A, handing it a roughly 9:1 abundance advantage under mass action — which is why all six pairs originally returned dominance by the lower-indexed run.
+
+With all three corrected, sim05 gives **2/6 coexistence (33%), 3 dominance, 1 mutual destruction**, stable across survival thresholds 0.45–0.70. The "0/6, dominance and mutual destruction are the only outcomes" claim above does not hold.
+
+H10 is **weakened but not refuted.** Coexistence remains the minority outcome, so unbounded space still looks insufficient on its own, and the independent evidence (Mathis et al. 2024; Fontana & Buss 1994) is untouched. But "L1 organizations do not compose" was too strong — in this model they compose about a third of the time. The "three paths, same failure" convergence argument above should be read with that in mind: sim05 is now a weaker leg of it than when written. Note also that sim05 never tests closure or self-maintenance, so its "L1 organizations" are surviving species sets rather than organizations in the COT sense — an independent reason to treat this evidence as softer than originally stated.
+
 ---
 
 ## Summary Table
@@ -155,7 +181,7 @@ phase transition.
 | H4: Dynamic Environment | Refined | Fitness landscape criticism supports this |
 | H5: Autopoiesis | Unchanged | Maturana & Varela grounding |
 | H6: Multi-Scale Autopoiesis | Strengthened | Smith & Bedau 8th property = autopoiesis |
-| H7: Trace→Actor Crossing | Refined (×2) | S&B 8th property; sim06 null (positive fb insufficient); Session 8: environmental-physics-coupling is the specific missing mechanism (Mahadevan PNAS 2015/2019; Deneubourg→Bonabeau→Ladley lineage shares the gap) |
+| H7: Trace→Actor Crossing | Refined (×3) | S&B 8th property; sim06 null (positive fb insufficient); sim07 null (scalar structure-sourced transport insufficient — wrong sign for consolidation; directed/externally-driven transport next) |
 | H8: Complexity Enables OEE | NEW | Kaznatcheev (2019), Wiser et al. (2013) |
 | H9: Evolving Network | Refined | Vasas et al. (2012), sim03 negative, sim04 confirms finite space stall; sim05 shows unbounded space stalls differently |
-| H10: Unbounded Space Insufficiency | NEW | sim05 (0/6 L2 coexistence), Mathis et al. 2024, Fontana & Buss 1994 |
+| H10: Unbounded Space Insufficiency | WEAKENED (2026-07-27) | sim05 corrected: 2/6 L2 coexistence (was 0/6 — artifact); Mathis et al. 2024, Fontana & Buss 1994 unaffected |

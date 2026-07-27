@@ -14,20 +14,55 @@ Mini simulations that build foundational algorithms for the artificial life simu
 - The transient/persistent trade-off in stigmergic traces
 - Decay rate sweep reveals an optimal zone — too fast (0.2) and trails can't form, too slow (0.001) and everything is covered in pheromone
 
-**Key results from decay rate sweep:**
-- decay=0.001 (near-permanent): 2683 trail cells — pheromone saturates the grid
-- decay=0.01: 1380 trail cells — trails form but spread
-- decay=0.02: 917 trail cells — good trail formation, food still being collected
-- decay=0.05: 1128 trail cells — trails less stable but still functional
-- decay=0.1: 580 trail cells — trails barely form, food collection impaired (419 left)
-- decay=0.2: 421 trail cells — no stable trails, poor coordination (428 left)
+**Control condition (added 2026-07-27).** Until now sim01 had no control, so it could
+not show that any structure in the field was *caused by* stigmergic feedback rather than
+by the ants' movement statistics. `run` now contrasts sensing ants against a
+**pheromone-blind control** — ants that still deposit, with the field still decaying, but
+that cannot read it:
+
+| Metric | Sensing | Blind control |
+|---|---:|---:|
+| `trail_cells` (coverage) | 917 | **2582** |
+| `trail_concentration` (structure) | **0.786** | 0.270 |
+| food remaining (lower = better foraging) | 443 | **432** |
+
+Two things follow, and both revise earlier readings of this simulation:
+
+1. **`trail_cells` runs opposite to trail formation.** The blind control scores nearly
+   three times higher on it. A laden ant deposits 100 units every step and decay is
+   2%/step, so a visited cell stays above threshold ~230 steps — the count measures
+   *coverage*, and blind ants that wander widely cover more ground. Trail structure needs
+   `trail_concentration` (share of pheromone in the densest 5% of cells; a uniform field
+   scores 0.05). By that measure sensing genuinely does form trails: 0.786 vs 0.270.
+2. **Trail formation does not improve foraging here.** The blind control collected *more*
+   food (68 units vs 57). Pheromone following concentrates the ants onto shared paths but
+   does not, in this model, feed them better. Worth stating plainly since the ant-colony
+   framing invites the opposite assumption.
+
+**Key results from decay rate sweep (sensing condition):**
+
+| decay | trail_cells | concentration | food remaining |
+|---:|---:|---:|---:|
+| 0.001 | 2683 | 0.404 | 437 |
+| 0.01 | 1380 | 0.657 | 441 |
+| 0.02 | 917 | 0.786 | 443 |
+| 0.05 | 1128 | 0.523 | 440 |
+| 0.1 | 580 | 0.764 | 419 |
+| 0.2 | 421 | 0.847 | 428 |
 
 **Observations:**
-- There IS an optimal decay rate window (~0.01-0.05) where trails form but don't saturate
-- The "hump" at step 600 (1685 cells) then decline shows trail consolidation — many short trails die, a few strong ones persist
-- Food collection rate correlates with trail stability (ants with food at step 1000 = 45 out of 50)
-- At very low decay (0.001), pheromone saturates the grid — can't distinguish trail from noise. This is the "memory without adaptation" problem
-- At high decay (0.2), no trails persist — the "adaptation without memory" problem
+- At very low decay (0.001) pheromone saturates the grid — high coverage, low
+  concentration (0.404). This is the "memory without adaptation" problem, and it is the
+  one reading the old coverage metric got right.
+- **The claim that high decay (0.2) means "no stable trails" was wrong.** Concentration is
+  *highest* there (0.847); what falls is coverage. High decay produces few, sharply defined
+  trails rather than none. The earlier interpretation followed from reading `trail_cells`
+  as trail quality.
+- Foraging varies little across the sweep (419–443 remaining of 500), so the decay rate
+  has far less functional consequence in this model than the coverage numbers suggest.
+- Concentration is not monotonic in decay (0.404 → 0.786 → 0.523 → 0.847), so there is no
+  clean "optimal window" on this measure — the earlier ~0.01–0.05 window was an artifact
+  of reading coverage.
 
 **Building blocks provided:**
 - 2D grid with pheromone field (deposition, decay, sensing)

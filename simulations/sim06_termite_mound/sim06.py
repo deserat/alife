@@ -61,6 +61,7 @@ MAINTAIN_GAIN = 0.05             # self-maintenance: pheromone re-emitted per un
 CROSSING_PERSIST = 4             # consecutive samples all criteria must hold
 STAB_THRESH = 0.90               # criterion 1: structure_stability threshold
 PHERO_ELEV_THRESH = 0.5          # criterion 2: mean pheromone over structure threshold
+GROWTH_THRESH = 0.01             # criterion 2: |material growth rate| below this = saturated
 CONSTRAIN_THRESH = 0.6           # criterion 3: deposit_on_structure_fraction threshold
 
 
@@ -241,10 +242,17 @@ def field_step(field, params):
 # ---------------------------------------------------------------------------
 # Core simulation loop + metrics (Part 4)
 # ---------------------------------------------------------------------------
-def compute_metrics(field, params, step, deposits, pickups, prev_mask, dep_on_struct=0):
+def compute_metrics(field, params, step, deposits, pickups, prev_mask, dep_on_struct=0,
+                    prev_total=None):
     """Build one history record for the current sampled timestep.
 
     Part 5 fills n_pillars/compactness/crossing-related fields.
+
+    `prev_total` is the previous sample's total_material, used to derive
+    `material_growth_rate` — the relative change in mass over this window. It
+    is large while the structure is accumulating and approaches 0 once
+    deposition and erosion balance. Criterion 2 of the crossing detector uses
+    it (see detect_crossing).
     """
     structure_threshold = params.get("structure_threshold", STRUCTURE_THRESHOLD)
     struct_mask = field.material > structure_threshold
@@ -275,9 +283,20 @@ def compute_metrics(field, params, step, deposits, pickups, prev_mask, dep_on_st
     else:
         dep_on_struct_frac = 0.0
 
+    # Relative mass change over this window. null on the first sample (no
+    # previous total to compare against); detect_crossing treats that as
+    # "still growing". Deliberately not inf — json.dump would emit `Infinity`,
+    # which JSON.parse rejects and visualize.html would choke on.
+    total_material = float(field.material.sum())
+    if prev_total is None or prev_total <= 0:
+        growth_rate = None
+    else:
+        growth_rate = float((total_material - prev_total) / prev_total)
+
     return {
         "step": int(step),
-        "total_material": float(field.material.sum()),
+        "total_material": total_material,
+        "material_growth_rate": growth_rate,
         "n_structure_cells": n_struct,
         "mean_pheromone": mean_phero_over_struct,
         "max_pheromone": max_phero,
@@ -356,6 +375,7 @@ def run_condition(params, seed, perturb=None):
     pick_acc = 0
     dep_on_struct_acc = 0
     prev_structure_mask = None
+    prev_total_material = None
     pre_perturb_total = None
     perturb_applied = False
 
@@ -379,7 +399,8 @@ def run_condition(params, seed, perturb=None):
 
         if step % sample == 0:
             rec = compute_metrics(field, params, step, dep_acc, pick_acc,
-                                  prev_structure_mask, dep_on_struct_acc)
+                                  prev_structure_mask, dep_on_struct_acc,
+                                  prev_total_material)
             # Capture pre-perturb total at the last sample before perturbation
             if perturb is not None:
                 if not perturb_applied:
@@ -390,6 +411,7 @@ def run_condition(params, seed, perturb=None):
             dep_acc = 0
             pick_acc = 0
             dep_on_struct_acc = 0
+            prev_total_material = rec["total_material"]
             prev_structure_mask = (field.material > params.get("structure_threshold", STRUCTURE_THRESHOLD)).copy()
 
     detect_crossing(history, params)
@@ -452,11 +474,25 @@ def detect_crossing(history, params):
     Criteria:
       1. Persistence despite erosion: structure_stability >= STAB_THRESH.
       2. Non-reducible dynamics: mean_pheromone_over_structure >= PHERO_ELEV_THRESH
-         while fresh deposit rate is below its early-run average.
+         while the structure's mass has saturated (|material_growth_rate| <
+         GROWTH_THRESH) — the field stays energized without continued net
+         accumulation, i.e. it is sustained by the structure rather than by
+         fresh building.
       3. Constraint on agents: deposit_on_structure_fraction >= CONSTRAIN_THRESH.
+
+    Criterion 2 previously required the deposit rate to fall below its
+    early-run average. That is unsatisfiable in this model by construction:
+    deposit probability rises from `deposit_base` on bare ground to ~0.87 on
+    structure, so deposits *accelerate* as the structure forms and the clause
+    held only during warm-up (samples 0-5), before any structure existed. The
+    detector could therefore never fire, and the resulting null was a property
+    of the detector rather than evidence about H7. Saturation of mass is the
+    intended signal — the structure persisting without needing to keep growing
+    — and a positive-feedback model can actually reach it. See REVIEW.md §1.
     """
     stab_thresh = params.get("stab_thresh", STAB_THRESH)
     phero_elev = params.get("phero_elev_thresh", PHERO_ELEV_THRESH)
+    growth_thresh = params.get("growth_thresh", GROWTH_THRESH)
     constrain_thresh = params.get("constrain_thresh", CONSTRAIN_THRESH)
     persist = params.get("crossing_persist", CROSSING_PERSIST)
 
@@ -464,16 +500,14 @@ def detect_crossing(history, params):
     if n == 0:
         return
 
-    # Early-run average deposit rate: first 20% of samples
-    n_early = max(1, n // 5)
-    early_avg = sum(r["deposits_this_window"] for r in history[:n_early]) / n_early
-
     run = 0
     crossing_step = None
     for r in history:
+        growth = r.get("material_growth_rate")
+        saturated = growth is not None and abs(growth) < growth_thresh
+
         c1 = r["structure_stability"] >= stab_thresh
-        c2 = (r["mean_pheromone_over_structure"] >= phero_elev
-              and r["deposits_this_window"] < early_avg)
+        c2 = r["mean_pheromone_over_structure"] >= phero_elev and saturated
         c3 = r["deposit_on_structure_fraction"] >= constrain_thresh
 
         if c1 and c2 and c3:
@@ -519,9 +553,11 @@ def cmd_run():
     t0 = time.time()
 
     # Tuned params to maximize condition separation (Part 7 sweep showed defaults
-    # give no separation). These produce self-maintenance building ~80% more
-    # structure than baseline, but the formal crossing detector does NOT fire for
-    # either condition — an honest partial/null result (see README).
+    # give no separation). These produce self-maintenance building 66% more
+    # structure than baseline. The crossing detector does not fire for either
+    # condition; with the corrected criterion 2 that is now an informative null
+    # (the detector is demonstrably able to fire — see cmd_selftest Part 5) with
+    # structure_stability as the binding constraint. See README.
     TUNED_MATERIAL_DECAY = 0.01
     TUNED_DEPOSIT_BASE = 0.02
 
@@ -707,8 +743,9 @@ def cmd_selftest():
     f2 = Field(50)
     t2 = Termites(50, 50, make_rng(123))
     params2 = {}
-    for _ in range(100):
-        termite_step(t2, f2, make_rng(456), params2)
+    rng2 = make_rng(456)   # one generator for the whole loop — re-seeding per
+    for _ in range(100):   # call would replay identical draws every step
+        termite_step(t2, f2, rng2, params2)
     assert f2.material.sum() > 0, "Part 2: termites did not deposit any material"
     assert isinstance(t2.loaded, np.ndarray) and t2.loaded.dtype == bool
     assert len(t2.loaded) == 50
@@ -744,10 +781,14 @@ def cmd_selftest():
     res4 = run_condition(p4, 7)
     h4 = res4["history"]
     assert len(h4) >= 4, f"Part 4: expected >=4 records, got {len(h4)}"
-    required = {"step", "total_material", "n_structure_cells", "mean_pheromone",
+    required = {"step", "total_material", "material_growth_rate",
+                "n_structure_cells", "mean_pheromone",
                 "max_pheromone", "deposits_this_window", "pickups_this_window",
                 "structure_stability", "n_pillars", "compactness", "crossed",
                 "crossing_step"}
+    assert h4[0]["material_growth_rate"] is None, "Part 4: first sample has no prior total"
+    assert all(r["material_growth_rate"] is not None for r in h4[1:]), \
+        "Part 4: growth rate missing after the first sample"
     for r in h4:
         assert required.issubset(r.keys()), f"Part 4: record missing keys: {required - r.keys()}"
     assert "retention" in res4["summary"]
@@ -772,6 +813,35 @@ def cmd_selftest():
     m[5, 5] = True
     assert count_components(m) == 2
     assert abs(compute_compactness(m) - 3.0 / (2 * 5)) < 1e-9 or abs(compute_compactness(m) - 3.0 / (5 * 5)) < 1e-9
+
+    # The detector must be CAPABLE of firing. The original criterion 2 required
+    # the deposit rate to fall below its early-run average, which a positive-
+    # feedback model can never reach after warm-up — so the detector was
+    # unfalsifiable and its null uninformative. Guard against regressing to any
+    # criterion with that property: a synthetic history satisfying all three
+    # criteria must produce a crossing.
+    synth = [{"step": i * 25, "structure_stability": 0.95,
+              "mean_pheromone_over_structure": 2.0, "material_growth_rate": 0.001,
+              "deposit_on_structure_fraction": 0.8, "deposits_this_window": 900,
+              "total_material": 1000.0}
+             for i in range(12)]
+    detect_crossing(synth, {})
+    assert synth[-1]["crossed"], "Part 5: detector cannot fire on an ideal crossing history"
+    assert synth[-1]["crossing_step"] == 25 * (CROSSING_PERSIST - 1), \
+        f"Part 5: crossing declared at the wrong step ({synth[-1]['crossing_step']})"
+
+    # ...and must NOT fire when a single criterion is withheld.
+    for withhold, bad in (("structure_stability", 0.10),
+                          ("mean_pheromone_over_structure", 0.0),
+                          ("deposit_on_structure_fraction", 0.0)):
+        neg = [dict(r, **{withhold: bad}) for r in synth]
+        detect_crossing(neg, {})
+        assert not neg[-1]["crossed"], f"Part 5: detector fired without {withhold}"
+
+    # A structure that never stops growing is not saturated -> no crossing.
+    growing = [dict(r, material_growth_rate=0.5) for r in synth]
+    detect_crossing(growing, {})
+    assert not growing[-1]["crossed"], "Part 5: detector fired on an unsaturated structure"
     print("selftest: Part 5 OK")
 
 

@@ -56,6 +56,8 @@ MUTATION_RATE = 0.02    # Per-gene mutation probability
 N_GENERATIONS = 5000    # Simulation length
 TRACE_DECAY = 0.005     # Stigmergic trace decay rate (for dynamic condition)
 TRACE_DEPOSIT = 0.1     # How much trace an agent deposits per action
+TRACE_WEIGHT = 0.5      # Max fitness contribution per gene from traces (bounded)
+TRACE_HALF = 5.0        # Trace level giving half the maximum bonus
 SEED = 42
 
 # ============================================================================
@@ -133,10 +135,29 @@ class FitnessLandscape:
 
             contribution = self.base_contributions[x, y, i, idx]
 
-            # Dynamic mode: traces modify the fitness contribution
-            if self.dynamic:
-                # Trace adds a bias proportional to accumulated trace at this gene/cell
-                contribution += self.trace_field[x, y, i]
+            # Dynamic mode: traces modify the fitness contribution.
+            #
+            # Two properties matter here and neither held before:
+            #
+            # 1. STRATEGY-DEPENDENT. The bonus applies only to agents that carry
+            #    gene i, matching deposit_traces, which only deposits on channel
+            #    i for agents with strategy[i] == 1. Previously the bonus was
+            #    added regardless of the agent's own strategy[i], so it was
+            #    identical for every strategy at a cell and could not change the
+            #    ranking of strategies anywhere — it was a location-crowding
+            #    bonus, not niche construction.
+            #
+            # 2. BOUNDED. Saturating in the trace level, capped at TRACE_WEIGHT,
+            #    so it stays commensurate with base contributions drawn from
+            #    Uniform(0,1). The raw additive term was unbounded and drove
+            #    mean fitness to ~2488 against the static condition's 0.77 — a
+            #    3224x scale difference that made the two conditions
+            #    incomparable and collapsed the population onto a single cell.
+            #
+            # See ../REVIEW.md section 3.
+            if self.dynamic and strategy[i] == 1:
+                trace = self.trace_field[x, y, i]
+                contribution += TRACE_WEIGHT * trace / (TRACE_HALF + trace)
 
             total += contribution
 

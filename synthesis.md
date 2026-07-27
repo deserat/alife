@@ -195,7 +195,7 @@ This connects directly to the sim04/sim05 negative results: both simulations use
 
 ---
 
-## 2026-07-26 — Session 8 (environmental physics coupling / the structure as a new dynamical degree of freedom)
+## 2026-07-26 — Session 9 (environmental physics coupling / the structure as a new dynamical degree of freedom)
 
 ### The Mahadevan mechanism ↔ The trace→actor crossing (H7 specified)
 King, Ocko & Mahadevan (PNAS 2015) measured diurnal cyclic convection in *O. obesus* mounds:
@@ -308,5 +308,62 @@ above a mass threshold unlocks new dynamics (Vance's principle). Each predicts a
 different morphology; each is testable. The hypothesis: below a critical negative-
 feedback strength, diffuse scatter (sim06); above it, consolidated actor (the
 crossing). If that phase transition exists, it's the H7 crossing made operational.
+
+
+---
+
+## 2026-07-27 — Session 10 (sim07 null: scalar transport has the wrong sign for consolidation)
+
+### The minimal lumped transport field ↔ the crossing (H7 refined again, still not refuted)
+sim07 implemented exactly the Session-9 prescription: a structure-sourced scalar
+transport field `T` (sourced above a mass threshold `M_c`, diffuses, vents
+pheromone from saturated to gap regions) — the ONLY addition to sim06. The H7
+prediction was a phase transition in `M_c`. Result: **no phase transition.**
+Sweeping `M_c` from inert to fully active monotonically *decreased* stability
+(0.876 → 0.739) and *fragmented* pillars (57 → 128); the crossing detector
+never fired for any `M_c` or `transport_coupling`. The null is a third
+progressive refinement of H7, each narrowing the hypothesis: (sim06) positive
+feedback alone is insufficient → (sim07) scalar structure-sourced transport
+alone is insufficient → the crossing requires *directed* transport and/or an
+*externally-driven* one. This is the spiral-loop methodology working: each null
+specifies the next experiment.
+
+### Scalar venting ↔ wrong sign for consolidation (the mechanistic diagnosis)
+The negative feedback is real but its *effect* has the wrong sign for
+consolidation. Venting pheromone *away* from saturated pillars disperses the
+very cue that recruits deposits — so transport fragments rather than
+consolidates. A lumped linear advection of a scalar cue does NOT reproduce the
+Mahadevan mechanism, where **directed** flow carries the cue **along** channels
+to where building should *continue*. The minimal lumped version lost the
+directionality that makes real mound transport consolidate. This is a
+generalizable lesson for minimal models: collapsing a *directed* physical
+process to an *isotropic* scalar field can invert its effect. The
+"environmental physics coupling" the crossing needs is not just "the structure
+sources a field" but "the structure sources a *directed* field whose geometry
+channels the cue where building should continue."
+
+### The circularity safeguard ↔ its own null result
+sim07's perturbation/self-repair test was designed as the circularity
+safeguard: if repair tracks `T` (not the deposit rule), the crossing is
+emergent. The test produced its own null: both conditions recover (recovery ≈
+1.0), but repair is driven by the deposit rule (termites wander back), NOT by
+`T`. So `T` is demonstrably not the causal layer — confirming the null is a
+property of the mechanism, not a detector artifact. The safeguard worked: it
+prevented claiming a crossing that wasn't there. This validates the
+detector-safeguard pattern as a method: a mechanism whose perturbation response
+doesn't track the proposed causal layer is not the causal layer, full stop.
+
+### Directed transport ↔ external multi-rate driver (H4) — the two remaining paths
+The null leaves two candidates. (1) **Directed transport**: channel geometry
+that carries cue to building fronts (the Mahadevan directionality, lost in the
+lumped scalar). This requires modeling the structure's *shape* as a channel,
+not just its mass — a richer morphological state. (2) **External multi-rate
+driver** (H4): the diurnal oscillation the structure rectifies into directed
+flow — the Mahadevan energy source sim07 omits entirely. sim07's `T` is
+structure-sourced but has no external clock; the Mahadevan mechanism's energy
+comes from outside the structure. Candidate sim08 tests the external-
+oscillation path. The multi-rate environment (H4) is now concrete: not a
+changing fitness function, but an environment whose physics the structure can
+*harness* only with an external driver.
 
 

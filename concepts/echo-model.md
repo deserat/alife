@@ -1,3 +1,11 @@
+---
+status: "Core concept"
+formed: "Session 4"
+connected_to: "Multi-scale composition, NK model, fitness landscapes, open-ended evolution, CAS theory"
+topic: "Holland's Echo model and its documented failure to produce CAS behavior"
+key_findings: "Smith & Bedau (1997) found Echo produces no emergent hierarchy — external validation of our thesis from an independent starting point (empirical study, not ANT). They proposed an 8th CAS property (emergent components become new actors) but never implemented it; our stigmergy + autopoiesis + H7 synthesis is the implementation path. Counterintuitive result: genomes that are harder to replicate dominate because their agents live longer — fitter does not mean easier to replicate."
+---
+
 # Echo Model
 
 **Status:** Core concept — formed Session 4

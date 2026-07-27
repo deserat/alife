@@ -1,0 +1,199 @@
+{
+  "config": {
+    "grid_w": 60,
+    "grid_h": 60,
+    "num_ants": 50,
+    "num_food": 5,
+    "max_steps": 2000,
+    "pheromone_deposit": 100.0,
+    "decay_rate": 0.02,
+    "sensor_range": 3,
+    "seed": 42
+  },
+  "sensing": {
+    "history": [
+      {
+        "step": 0,
+        "trail_cells": 0,
+        "trail_concentration": 0.0,
+        "food_remaining": 500,
+        "ants_carrying": 0
+      },
+      {
+        "step": 200,
+        "trail_cells": 470,
+        "trail_concentration": 0.6551534199283158,
+        "food_remaining": 483,
+        "ants_carrying": 10
+      },
+      {
+        "step": 400,
+        "trail_cells": 1206,
+        "trail_concentration": 0.45199724022448867,
+        "food_remaining": 461,
+        "ants_carrying": 30
+      },
+      {
+        "step": 600,
+        "trail_cells": 1685,
+        "trail_concentration": 0.41375020791245243,
+        "food_remaining": 454,
+        "ants_carrying": 35
+      },
+      {
+        "step": 800,
+        "trail_cells": 1421,
+        "trail_concentration": 0.6316985728086608,
+        "food_remaining": 450,
+        "ants_carrying": 38
+      },
+      {
+        "step": 1000,
+        "trail_cells": 1008,
+        "trail_concentration": 0.7189803665943857,
+        "food_remaining": 443,
+        "ants_carrying": 45
+      },
+      {
+        "step": 1200,
+        "trail_cells": 847,
+        "trail_concentration": 0.9086578937357216,
+        "food_remaining": 443,
+        "ants_carrying": 45
+      },
+      {
+        "step": 1400,
+        "trail_cells": 581,
+        "trail_concentration": 0.9642870843317083,
+        "food_remaining": 443,
+        "ants_carrying": 45
+      },
+      {
+        "step": 1600,
+        "trail_cells": 345,
+        "trail_concentration": 0.9970559760516167,
+        "food_remaining": 443,
+        "ants_carrying": 45
+      },
+      {
+        "step": 1800,
+        "trail_cells": 917,
+        "trail_concentration": 0.7864359522655935,
+        "food_remaining": 443,
+        "ants_carrying": 43
+      }
+    ]
+  },
+  "blind_control": {
+    "history": [
+      {
+        "step": 0,
+        "trail_cells": 0,
+        "trail_concentration": 0.0,
+        "food_remaining": 500,
+        "ants_carrying": 0
+      },
+      {
+        "step": 200,
+        "trail_cells": 522,
+        "trail_concentration": 0.6534277770163015,
+        "food_remaining": 493,
+        "ants_carrying": 6
+      },
+      {
+        "step": 400,
+        "trail_cells": 1630,
+        "trail_concentration": 0.34835124362672215,
+        "food_remaining": 478,
+        "ants_carrying": 16
+      },
+      {
+        "step": 600,
+        "trail_cells": 2375,
+        "trail_concentration": 0.28257606653749817,
+        "food_remaining": 470,
+        "ants_carrying": 15
+      },
+      {
+        "step": 800,
+        "trail_cells": 2311,
+        "trail_concentration": 0.28687304329433067,
+        "food_remaining": 464,
+        "ants_carrying": 15
+      },
+      {
+        "step": 1000,
+        "trail_cells": 2311,
+        "trail_concentration": 0.28276198704309335,
+        "food_remaining": 458,
+        "ants_carrying": 18
+      },
+      {
+        "step": 1200,
+        "trail_cells": 2352,
+        "trail_concentration": 0.2872850658598945,
+        "food_remaining": 453,
+        "ants_carrying": 18
+      },
+      {
+        "step": 1400,
+        "trail_cells": 2362,
+        "trail_concentration": 0.27806943273567697,
+        "food_remaining": 446,
+        "ants_carrying": 19
+      },
+      {
+        "step": 1600,
+        "trail_cells": 2517,
+        "trail_concentration": 0.29410580592481006,
+        "food_remaining": 438,
+        "ants_carrying": 20
+      },
+      {
+        "step": 1800,
+        "trail_cells": 2582,
+        "trail_concentration": 0.2694625425337699,
+        "food_remaining": 432,
+        "ants_carrying": 19
+      }
+    ]
+  },
+  "decay_sweep": [
+    {
+      "decay": 0.001,
+      "final_trail_cells": 2683,
+      "final_trail_concentration": 0.4041753617731532,
+      "food_remaining": 437
+    },
+    {
+      "decay": 0.01,
+      "final_trail_cells": 1380,
+      "final_trail_concentration": 0.6573054847717792,
+      "food_remaining": 441
+    },
+    {
+      "decay": 0.02,
+      "final_trail_cells": 917,
+      "final_trail_concentration": 0.7864359522655935,
+      "food_remaining": 443
+    },
+    {
+      "decay": 0.05,
+      "final_trail_cells": 1128,
+      "final_trail_concentration": 0.5231652550291386,
+      "food_remaining": 440
+    },
+    {
+      "decay": 0.1,
+      "final_trail_cells": 580,
+      "final_trail_concentration": 0.7639666080472295,
+      "food_remaining": 419
+    },
+    {
+      "decay": 0.2,
+      "final_trail_cells": 421,
+      "final_trail_concentration": 0.8474081681558123,
+      "food_remaining": 428
+    }
+  ]
+}

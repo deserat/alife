@@ -18,33 +18,56 @@ Tests H4 (Dynamic Environment) and H8 (Computational Complexity Enables Open-End
 
 ## Key Results
 
+> **Rerun 2026-07-27 after a fix to the trace term.** The earlier numbers came from a trace
+> bonus that was (a) added regardless of the agent's own `strategy[i]`, so it was identical
+> for every strategy at a cell and could not change which strategy won, and (b) unbounded,
+> which drove dynamic mean fitness to 2488 against static's 0.77 — a 3224× scale difference
+> that made the conditions incomparable. The bonus is now strategy-dependent and saturating
+> (capped at `TRACE_WEIGHT=0.5` per gene). See `../REVIEW.md` §3.
+
 **Both conditions CONVERGE. The dynamic condition converges even harder.**
 
 | Metric | Static | Dynamic |
 |---|---|---|
-| Final diversity | 4 | 1 |
-| Final mean fitness | 0.77 | 2488.27 |
-| Landscape modification | 0 | 19900 |
+| Final diversity | 4 | 2 |
+| Final mean fitness | 0.7718 | 1.1137 |
+| Landscape modification | 0 | 27303 |
 | Trace clusters | 0 | 1 |
-| Trace persistence | 0.0 | 0.78 |
+| Trace persistence | 0.0 | 0.74 |
+
+Fitness ratio is now 1.44× (was 3224×), so the two conditions are on comparable scales and
+the comparison is meaningful. Both plateau by generation ~100 and neither moves for the
+remaining 4,900 generations (diversity range 0 in the final 1000 for both).
 
 ### What happened in the dynamic condition:
-1. Agents deposit traces that increase fitness at their location
+1. Agents deposit traces on the gene channels they carry, raising fitness for *those*
+   strategies at that location
 2. Higher fitness → agents reproduce more → deposit more traces
-3. Runaway positive feedback → trace field saturates at ~19900
-4. Entire population converges to a single strategy that maximizes trace accumulation
-5. One large trace cluster forms (monoculture)
-6. Fitness inflates massively (0.49 → 2488) but diversity crashes to 1
+3. Positive feedback concentrates the population; the trace field grows to ~27300
+4. The population converges to 2 strategies (vs 4 in the static condition)
+5. One trace cluster remains at the end
+6. Fitness rises from 0.49 to 1.11 and then plateaus
 
 ### Why this is instructive:
 
 **This is NOT a failure — it's a discovery.** The simulation reveals that:
 
-1. **Stigmergy ALONE does NOT produce open-ended evolution.** It can make convergence WORSE. The positive feedback in stigmergic traces creates a runaway feedback loop that locks the entire population into a single strategy. This is exactly Heylighen's "groupthink / collective stupidity" criticism — the same amplification that exploits good solutions also amplifies bad ones.
+1. **Stigmergy ALONE does NOT produce open-ended evolution.** It can make convergence WORSE:
+   the dynamic condition ends with half the diversity of the static one. The positive feedback
+   in stigmergic traces narrows the population rather than opening it up. This is Heylighen's
+   "groupthink / collective stupidity" criticism — the same amplification that exploits good
+   solutions also amplifies bad ones. Note this conclusion survived the fix, but it now rests
+   on a diversity difference (2 vs 4) rather than on a fitness number that was an artifact.
 
-2. **The trace→actor crossing (H7) is NOT automatic.** Traces accumulate (landscape modification = 19900), form a cluster (1 large cluster), and have high persistence (0.78). But they DON'T become autonomous new-level actors. They're just passive fitness boosters. The population doesn't develop multi-scale structure — it develops a monoculture.
+2. **The trace→actor crossing (H7) is NOT automatic.** Traces accumulate, form a cluster, and
+   persist (0.74). But they don't become autonomous new-level actors — they remain fitness
+   modifiers. The population develops a monoculture, not multi-scale structure.
 
-3. **Trace decay rate matters.** At decay=0.005 and deposit=0.1, traces accumulate too fast. The balance is wrong — sim01 found the optimal decay window is 0.01-0.05 for pheromone trails. Here, traces saturate the landscape before any interesting structure can form.
+3. **Bounding the trace term matters as much as its decay rate.** With an unbounded additive
+   bonus the landscape term swamps the base landscape entirely (it contributed 99.97% of
+   dynamic fitness before the fix) and the model stops being a fitness-landscape experiment
+   at all. Any "dynamic landscape" term needs to stay commensurate with the base landscape it
+   is supposed to be modifying.
 
 4. **What's missing for open-endedness:** The simulation confirms that three additional mechanisms are needed:
    - **Trace autonomy**: Traces must develop their own dynamics, not just be passive fitness modifiers

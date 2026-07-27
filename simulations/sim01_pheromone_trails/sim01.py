@@ -16,6 +16,8 @@ and agent-trace interaction that we'll need for larger simulations.
 Run: python3 sim01_pheromone_trails.py
 """
 
+import os
+import json
 import random
 import math
 from dataclasses import dataclass, field
@@ -93,12 +95,26 @@ def sense_pheromone(world, ant, angle_offset=0):
     return 0.0
 
 
-def move_ant(world, ant):
-    """Move ant, deposit pheromone if returning with food."""
-    # Sensing: check left, center, right
-    left = sense_pheromone(world, ant, -TURN_ANGLE)
-    center = sense_pheromone(world, ant, 0)
-    right = sense_pheromone(world, ant, TURN_ANGLE)
+def move_ant(world, ant, sensing=True):
+    """Move ant, deposit pheromone if returning with food.
+
+    `sensing=False` is the pheromone-blind control: ants still deposit and the
+    field still decays, but the trace carries no information back to them. It
+    is the only way to show that any structure in the field is *caused by*
+    stigmergic feedback rather than by the ants' movement statistics alone.
+    Reporting all-sensing runs at several decay rates cannot establish that.
+
+    Implemented by zeroing the sensed values rather than branching around the
+    steering logic, so the control consumes the RNG identically and the two
+    conditions differ only in whether the pheromone field is readable.
+    """
+    if sensing:
+        # Sensing: check left, center, right
+        left = sense_pheromone(world, ant, -TURN_ANGLE)
+        center = sense_pheromone(world, ant, 0)
+        right = sense_pheromone(world, ant, TURN_ANGLE)
+    else:
+        left = center = right = 0.0
 
     if random.random() > RANDOM_TURN_PROB:
         if center >= left and center >= right:
@@ -156,7 +172,15 @@ def decay_pheromone(world):
 
 
 def count_trail_cells(world, threshold=1.0):
-    """Count cells with significant pheromone — proxy for trail formation."""
+    """Count cells with significant pheromone.
+
+    NOTE: this is a COVERAGE measure, not a trail measure. A laden ant deposits
+    PHEROMONE_DEPOSIT (100) every step and decay is 2%/step, so a visited cell
+    stays above threshold ~230 steps. The count therefore reports "cells visited
+    by a laden ant recently" and rises with mere wandering — it cannot tell a
+    consolidated trail from ants spreading pheromone everywhere. Use
+    trail_concentration() for trail structure. See ../REVIEW.md section 6.
+    """
     count = 0
     for x in range(world.width):
         for y in range(world.height):
@@ -165,12 +189,33 @@ def count_trail_cells(world, threshold=1.0):
     return count
 
 
-def run_simulation(decay_rate=0.02, verbose=True, collect_frames=False):
-    """Run one simulation. Returns metrics and optional frames for visualization."""
+def trail_concentration(world, top_frac=0.05):
+    """Fraction of total pheromone held by the densest `top_frac` of cells.
+
+    A consolidated trail concentrates pheromone into a narrow path; diffuse
+    wandering spreads it evenly. A perfectly uniform field scores ~top_frac
+    (0.05), so values well above that indicate real trail structure. This is
+    the structural counterpart to count_trail_cells' coverage count.
+    """
+    vals = sorted(
+        (world.pheromone[x][y] for x in range(world.width) for y in range(world.height)),
+        reverse=True)
+    total = sum(vals)
+    if total <= 0:
+        return 0.0
+    k = max(1, int(len(vals) * top_frac))
+    return sum(vals[:k]) / total
+
+
+def run_simulation(decay_rate=0.02, verbose=True, collect_frames=False, sensing=True, seed=42):
+    """Run one simulation. Returns metrics and optional frames for visualization.
+
+    `sensing=False` runs the pheromone-blind control (see move_ant).
+    """
     global PHEROMONE_DECAY
     PHEROMONE_DECAY = decay_rate
 
-    random.seed(42)
+    random.seed(seed)
     world = World.create(GRID_W, GRID_H)
     place_food(world)
     create_ants(world)
@@ -179,22 +224,25 @@ def run_simulation(decay_rate=0.02, verbose=True, collect_frames=False):
     frames = []
     for step in range(MAX_STEPS):
         for ant in world.ants:
-            move_ant(world, ant)
+            move_ant(world, ant, sensing=sensing)
         decay_pheromone(world)
         world.step = step
 
         if step % 200 == 0:
             trail_cells = count_trail_cells(world)
+            concentration = trail_concentration(world)
             food_left = sum(world.food.values())
             ants_with_food = sum(1 for a in world.ants if a.has_food)
             metrics.append({
                 'step': step,
                 'trail_cells': trail_cells,
+                'trail_concentration': concentration,
                 'food_remaining': food_left,
                 'ants_carrying': ants_with_food
             })
             if verbose:
-                print(f"  Step {step:4d} | trail_cells={trail_cells:4d} | food={food_left:3d} | carrying={ants_with_food:2d}")
+                print(f"  Step {step:4d} | trail_cells={trail_cells:4d} | conc={concentration:.3f} "
+                      f"| food={food_left:3d} | carrying={ants_with_food:2d}")
 
         if collect_frames and step % 50 == 0:
             # Snapshot: pheromone grid + ant positions + food
@@ -349,6 +397,96 @@ def sweep_plot():
     plt.close()
 
 
+def selftest():
+    """Internal sanity checks. Prints 'Part N OK' per group and exits 0."""
+    # Part 1: trail_concentration discriminates concentrated from uniform fields.
+    w = World.create(10, 10)
+    assert trail_concentration(w) == 0.0, "Part 1: empty field should score 0"
+    for x in range(10):
+        for y in range(10):
+            w.pheromone[x][y] = 1.0
+    uniform = trail_concentration(w, top_frac=0.05)
+    assert abs(uniform - 0.05) < 0.02, f"Part 1: uniform field should score ~0.05, got {uniform}"
+    w2 = World.create(10, 10)
+    w2.pheromone[3][3] = 100.0
+    assert trail_concentration(w2, top_frac=0.05) > 0.9, "Part 1: point mass should score ~1.0"
+    print("selftest: Part 1 OK")
+
+    # Part 2: the blind control really is blind — a strong pheromone gradient
+    # must not steer it, but must steer a sensing ant.
+    def steered(sensing):
+        world = World.create(30, 30)
+        random.seed(1)
+        ant = Ant(x=15.0, y=15.0, angle=0.0)
+        # Laid within SENSOR_RANGE (3) of the ant's right-hand sensor, which
+        # sits ~3*sin(45deg) ~ 2 cells above it — a band further away is
+        # invisible and the test would pass vacuously.
+        for x in range(30):
+            for y in range(16, 30):
+                world.pheromone[x][y] = 500.0
+        angles = []
+        for _ in range(40):
+            move_ant(world, ant, sensing=sensing)
+            angles.append(round(ant.angle, 6))
+        return angles
+    assert steered(True) != steered(False), \
+        "Part 2: sensing and blind ants followed identical paths — control is not a control"
+    print("selftest: Part 2 OK")
+
+    # Part 3: a short run produces well-formed metrics.
+    m, world, _ = run_simulation(decay_rate=0.02, verbose=False)
+    assert m and all({'step', 'trail_cells', 'trail_concentration',
+                      'food_remaining', 'ants_carrying'} <= r.keys() for r in m)
+    print("selftest: Part 3 OK")
+
+
+def run_comparison():
+    """Sensing vs pheromone-blind control, plus a decay sweep. Writes results.json."""
+    print("=== Mini Sim 1: Pheromone Trail Formation ===")
+    print(f"Grid: {GRID_W}x{GRID_H}, Ants: {NUM_ANTS}, Food: {NUM_FOOD}")
+    print()
+
+    print("--- SENSING (stigmergic feedback on) ---")
+    m_sensing, w_sensing, _ = run_simulation(decay_rate=0.02, sensing=True)
+    print("\n--- BLIND CONTROL (ants deposit but cannot read the field) ---")
+    m_blind, w_blind, _ = run_simulation(decay_rate=0.02, sensing=False)
+
+    s, b = m_sensing[-1], m_blind[-1]
+    print("\n" + "=" * 62)
+    print(f"  {'Metric':<26} {'Sensing':>12} {'Blind':>12}")
+    print(f"  {'-'*26} {'-'*12} {'-'*12}")
+    print(f"  {'trail_cells (coverage)':<26} {s['trail_cells']:>12} {b['trail_cells']:>12}")
+    print(f"  {'trail_concentration':<26} {s['trail_concentration']:>12.4f} {b['trail_concentration']:>12.4f}")
+    print(f"  {'food_remaining':<26} {s['food_remaining']:>12} {b['food_remaining']:>12}")
+    print("  (uniform field scores 0.05 on concentration; higher = real trail structure)")
+
+    print("\n--- Decay Rate Sweep (sensing) ---")
+    sweep = []
+    for decay in [0.001, 0.01, 0.02, 0.05, 0.1, 0.2]:
+        mm, _, _ = run_simulation(decay_rate=decay, verbose=False, sensing=True)
+        sweep.append({'decay': decay, 'final_trail_cells': mm[-1]['trail_cells'],
+                      'final_trail_concentration': mm[-1]['trail_concentration'],
+                      'food_remaining': mm[-1]['food_remaining']})
+        print(f"  decay={decay:.3f} | trail_cells={sweep[-1]['final_trail_cells']:4d} "
+              f"| conc={sweep[-1]['final_trail_concentration']:.3f} "
+              f"| food_remaining={sweep[-1]['food_remaining']:3d}")
+
+    results = {
+        'config': {'grid_w': GRID_W, 'grid_h': GRID_H, 'num_ants': NUM_ANTS,
+                   'num_food': NUM_FOOD, 'max_steps': MAX_STEPS,
+                   'pheromone_deposit': PHEROMONE_DEPOSIT, 'decay_rate': 0.02,
+                   'sensor_range': SENSOR_RANGE, 'seed': 42},
+        'sensing': {'history': m_sensing},
+        'blind_control': {'history': m_blind},
+        'decay_sweep': sweep,
+    }
+    out = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'results.json')
+    with open(out, 'w') as f:
+        json.dump(results, f, indent=2)
+    print(f"\nResults saved to {out}")
+    return results
+
+
 if __name__ == "__main__":
     import sys
     mode = sys.argv[1] if len(sys.argv) > 1 else "run"
@@ -357,21 +495,9 @@ if __name__ == "__main__":
         visualize()
     elif mode == "sweep_plot":
         sweep_plot()
+    elif mode == "selftest":
+        selftest()
+    elif mode == "run":
+        run_comparison()
     else:
-        print("=== Mini Sim 1: Pheromone Trail Formation ===")
-        print(f"Grid: {GRID_W}x{GRID_H}, Ants: {NUM_ANTS}, Food: {NUM_FOOD}")
-        print(f"Decay rate: {PHEROMONE_DECAY}")
-        print()
-
-        print("Running baseline simulation...")
-        metrics, world, _ = run_simulation(decay_rate=0.02)
-
-        print("\n--- Decay Rate Sweep ---")
-        for decay in [0.001, 0.01, 0.02, 0.05, 0.1, 0.2]:
-            m, _, _ = run_simulation(decay_rate=decay, verbose=False)
-            final_trail = m[-1]['trail_cells']
-            final_food = m[-1]['food_remaining']
-            print(f"  decay={decay:.3f} | final_trail_cells={final_trail:4d} | food_remaining={final_food:3d}")
-
-        print("\nRun with 'visualize' for animation, 'sweep_plot' for decay rate chart.")
-        print("Usage: python3 sim01_pheromone_trails.py [run|visualize|sweep_plot]")
+        print("usage: sim01.py [run|selftest|visualize|sweep_plot]")

@@ -1,3 +1,11 @@
+---
+status: "Core concept"
+formed: "Session 5"
+connected_to: "Autopoiesis, multi-scale composition, stigmergy, quasi-objects, ANT, trace→actor crossing, Echo model"
+topic: "Chemical Organization Theory — closure plus self-maintenance as formal autopoiesis"
+key_findings: "COT formalizes autopoiesis as closure + self-maintenance, making H5 and H6 testable. Nested organizations give multi-scale composition (H1) a mathematical formalism, and the trace→actor crossing (H7) becomes convergence to an organization attractor — so H7 can be checked by testing whether a trace set satisfies closure and self-maintenance. Criticisms: autocatalytic sets lack evolvability (Vasas et al. 2010), hierarchy construction is informal, and topology must be imposed by the modeler. sim03 converged by generation 1 and stalled."
+---
+
 # Chemical Organization Theory (COT)
 
 **Status:** Core concept — formed Session 5

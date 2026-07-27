@@ -1,3 +1,11 @@
+---
+status: "Core concept"
+formed: "Session 5"
+connected_to: "Chemical Organization Theory, evolving reaction networks, stigmergy, autopoiesis, multi-scale composition, echo-model, trace→actor crossing"
+topic: "Holland's final framework: CAS as co-evolving signal/boundary hierarchies"
+key_findings: "Holland (2012) argues that the origin of signal/boundary hierarchies is the key to complex adaptive systems. Signals map onto stigmergic traces and boundaries onto autopoietic structures — the same synthesis we reached from ANT and that Vasas et al. reached from origin-of-life chemistry, so three independent paths converge. It supplies H7 its language: the crossing is the moment accumulated signals form a semi-permeable boundary that then filters which further signals enter. Criticism: the framework is conceptual and never tested, makes strong assertions without support, and its classifier-system machinery is limiting."
+---
+
 # Signals and Boundaries (Holland 2012)
 
 **Status:** Core concept — formed Session 5

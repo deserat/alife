@@ -6,7 +6,7 @@ key_findings:
   - "Lambda calculus provides an infinite molecule space (expressions are unbounded), solving sim04's finite species space limitation"
   - "L1 organizations (autocatalytic sets of lambda expressions) emerge from random initial conditions — stable, robust to perturbation"
   - "L2 organizations (composition of L1s) are RARE: Mathis et al. 2024 found Dominance and Mutual Destruction far more common than Coexistence"
-  - "Our sim05 confirms: 0/6 L2 pairs achieved coexistence; 50% dominance, 50% mutual destruction"
+  - "Our sim05 (corrected 2026-07-27): 2/6 L2 pairs achieved coexistence; 3 dominance, 1 mutual destruction. The original 0/6 was a measurement artifact"
   - "Sensitivity to initial conditions: random expression generator choice dramatically affects results"
   - "Unbounded space alone does NOT solve the multi-scale composition problem"
 ---
@@ -76,7 +76,11 @@ Key findings from revisiting AlChemy after 30 years (arXiv:2408.12137):
 
 - **Original (1994)**: Fontana & Buss reported L1 and L2 organizations with qualitative analysis
 - **Mathis et al. 2024**: Systematic reanalysis with 1000 simulations. L0 simulations produce complex organizations in ~some fraction (not all converge to trivial fixed point). L2 coexistence is rare across tested pairs.
-- **Our sim05**: 4 independent L1 runs, 6 L2 composition tests. 0/6 coexistence. 3 dominance, 3 mutual destruction. Each L1 run explored 246-930 unique species (unbounded space confirmed — no finite exhaustion like sim04's 510).
+- **Our sim05** (corrected 2026-07-27): 4 independent L1 runs, 6 L2 composition tests. **2/6 coexistence, 3 dominance, 1 mutual destruction.** Each L1 run explored 112-162 unique species (unbounded space confirmed — no finite exhaustion like sim04's 510).
+
+  The previously reported figures — 0/6 coexistence, 3 dominance, 3 mutual destruction, 246-930 species per run — were artifacts of three defects found in code review, each biasing against coexistence: species identity was not alpha-invariant (so `λv1.v1` and `λv2.v2` counted as different species, inflating counts and deflating every set intersection); outcomes were classified on Jaccard similarity, whose ceiling fell *below* the coexistence threshold for two of the six pairs; and the mixed population was seeded almost entirely from organization A, giving it a ~9:1 abundance advantage under mass action, which is why every pair returned dominance-by-A. With equal starting abundance, coexistence appears in 2/6 pairs and the result is stable across survival thresholds 0.45-0.70. See `../simulations/REVIEW.md` §2 and `../simulations/sim05_lambda_chemistry/README.md`.
+
+  This weakens, but does not overturn, the "composition is rare" reading: coexistence is still the minority outcome at 33%, and Mathis et al.'s independent finding is unaffected. [[hypotheses/H10]] should be re-examined against the corrected numbers.
 - **Szathmáry 1995**: Classified replicators and connected lambda calculus models to biological replicator types.
 
 ## Connection to Our Project

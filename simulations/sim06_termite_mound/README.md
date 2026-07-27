@@ -30,9 +30,21 @@ the structure mid-run and measures self-repair.
 
 - **H7 (primary)** — Trace→Actor Crossing. Three operational criteria: (1)
   persistence despite erosion (structure_stability ≥ 0.90), (2) non-reducible
-  dynamics (pheromone stays elevated while fresh deposits fall), (3) constraint on
-  agents (≥60% of deposits land on existing structure). A crossing is declared
-  when all three hold for ≥4 consecutive samples.
+  dynamics (pheromone stays elevated ≥0.5 over structure while the structure's
+  mass has saturated, |material_growth_rate| < 0.01 — the field stays energized
+  without continued net accumulation), (3) constraint on agents (≥60% of
+  deposits land on existing structure). A crossing is declared when all three
+  hold for ≥4 consecutive samples.
+
+  > **Criterion 2 was corrected on 2026-07-27.** It previously required the
+  > deposit rate to fall below its early-run average — unsatisfiable in this
+  > model by construction, since Grassé positive feedback makes deposits
+  > *accelerate* as structure forms. That clause held only during warm-up
+  > (samples 0–5), before any structure existed, so the detector could never
+  > fire and the original null was a property of the detector rather than
+  > evidence about H7. The results below are from the corrected detector, which
+  > `selftest` Part 5 verifies both fires on an ideal crossing history and
+  > withholds on each single-criterion negative. See `../REVIEW.md` §1.
 - **H1 / H10 (context)** — multi-scale composition. sims 03–05 showed composition
   fails without an explicit mechanism; sim06 tests whether stigmergic
   self-maintenance is that mechanism.
@@ -76,30 +88,43 @@ the structure mid-run and measures self-repair.
 
 **Honest result: a partial/null finding.** Self-maintenance produces a real
 quantitative difference — it builds **66% more structure** (1876 vs 1131 cells)
-with higher retention (0.98 vs 0.96). But the **formal crossing detector does not
-fire** for either condition, and perturbation recovery is ≈1.0 for both (the
-damaged patch fully regrows).
+with higher retention (0.98 vs 0.96). But the **crossing detector does not fire**
+for either condition, and perturbation recovery is ≈1.0 for both (the damaged
+patch fully regrows).
 
-**Why no crossing?** H7's criterion 1 (stability ≥ 0.90) fails throughout:
-structure stability hovers at 0.55–0.60. The structure remains ~230 scattered
-tiny pillars (high `n_pillars`, low `compactness` ≈ 0.08) with constant cell
-turnover — cells flip above/below `STRUCTURE_THRESHOLD` every window. Criterion 3
-(deposits on structure ≥ 0.60) also fails (~0.33–0.57). An extensive parameter
-search (material_decay 0.005–0.4, deposit_base 0.005–0.05, phero_follow 0.6–0.95,
-maintain_gain 0.1–0.5, reload_prob 0.15–0.3) found **no regime where the crossing
-fires**.
+**Why no crossing?** Per-criterion pass rates over the 160 samples:
 
-**Root cause:** the model's stigmergy is too *spatially diffuse*. Even with low
-nucleation, deposits spread across the grid faster than they consolidate, so the
-structure never coalesces into few large, stable, self-maintaining pillars. The
-H7 criteria require a consolidated whole whose dynamics are irreducible to its
-parts — but this model produces a churning scatter. The self-maintenance
-feedback *does* amplify building (66% more structure), but not enough to cross
-the stability/constraint thresholds.
+| criterion | baseline | self_maintenance |
+|---|---:|---:|
+| 1. stability ≥ 0.90 | **9/160** | **7/160** |
+| 2. pheromone elevated *and* mass saturated | 130/160 | 135/160 |
+| 3. deposits on structure ≥ 0.60 | 154/160 | **0/160** |
+| all three simultaneously | 0/160 | 0/160 |
+
+**Criterion 1 is the binding constraint.** Structure stability runs 0.849–0.893
+(baseline) and 0.746–0.802 (self-maintenance) against a 0.90 threshold — close,
+but never reached. Cells sitting near `STRUCTURE_THRESHOLD` flip above and below
+it every window, so the structure churns rather than persisting.
+
+**For self-maintenance, criterion 3 also fails outright (0/160)**, and in the
+direction opposite to the hypothesis: the self-maintenance condition is *more*
+fragmented than baseline (219–297 components vs 66–109) and *less* selective
+(deposits on structure 0.43–0.53 vs 0.70–0.79). The cause is saturation:
+`maintain_gain=0.3` drives pheromone to ~15.6 over structure, but the deposit
+response `p = base + gain·φ/(1+φ)` is flat above φ≈1, so combined with diffusion
+the deposit probability goes uniform at ~0.87 across the whole grid. The
+self-emission loop destroys the spatial contrast stigmergy depends on instead of
+reinforcing it.
+
+**Root cause:** the model's stigmergy is too *spatially diffuse*. Deposits spread
+across the grid faster than they consolidate, so the structure never coalesces
+into few large, stable pillars. The self-maintenance feedback amplifies building
+(66% more structure) but actively works against consolidation.
 
 This is a legitimate result: **stigmergic self-emission alone is insufficient to
-produce the trace→actor crossing in this minimal model.** Spatial consolidation
-is a missing ingredient — pointing to what sim07 must add.
+produce the trace→actor crossing in this minimal model**, and a saturating
+deposit response makes matters worse. Spatial consolidation is the missing
+ingredient — pointing to what sim07 must add.
 
 ## Key findings (project arc)
 
@@ -114,16 +139,33 @@ model as implemented; the result is suggestive but inconclusive, and points to t
 need for a consolidation mechanism (deposit inhibition, directional bias, or
 explicit pillar-merging rules) in a follow-up sim.
 
+Note on the strength of this null (2026-07-27): between Session 9 and this
+revision the crossing detector was found to be incapable of firing at all, so the
+*original* null carried no evidential weight. With criterion 2 corrected the
+detector demonstrably fires on an ideal history and the null is now a real
+measurement — criterion 1 misses by roughly 0.01–0.05 of stability. That is a
+near miss, not a categorical failure, and it should not be read as strong
+evidence against H7.
+
 ## Limitations
 
 - Toy 2D model; no real termite biology, airflow, or thermoregulation.
 - Single mechanism (cement pheromone self-emission); no competition between
   structures.
-- The crossing criteria thresholds (0.90 / 0.5 / 0.6) are reasonable but
+- The crossing criteria thresholds (0.90 / 0.5 / 0.01 / 0.6) are reasonable but
   arbitrary; a different operationalization might classify the same dynamics
-  differently.
-- Parameter-sensitive: the structure-size separation is robust but the crossing
-  never fires across the entire swept space.
+  differently. Criterion 1 misses by ≤0.05, so it is threshold-sensitive — the
+  thresholds were deliberately *not* retuned after the criterion-2 fix, to avoid
+  selecting a detector that produces the desired answer.
+- `structure_stability` is not invariant to `sample_every`: it measures survival
+  of structure cells across one sampling window, so at `material_decay=0.01` a
+  25-step window erodes ~22% of mass and cells near `STRUCTURE_THRESHOLD` drop
+  out. A shorter sampling interval would raise the same structure's measured
+  stability. Cross-run comparisons are only valid at equal `sample_every`.
+- The pre-2026-07-27 parameter search (material_decay 0.005–0.4, deposit_base
+  0.005–0.05, phero_follow 0.6–0.95, maintain_gain 0.1–0.5, reload_prob
+  0.15–0.3) reported no regime where the crossing fires, but it ran against the
+  broken detector and so establishes nothing. It has not been repeated.
 - Perturbation patch is a clean square; real damage is irregular. Recovery ≈1.0
   means the damage is invisible at these params — a stronger test would need
   higher erosion or larger damage.

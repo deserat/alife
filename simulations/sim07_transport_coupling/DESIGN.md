@@ -1,6 +1,6 @@
 # Sim07: Environmental Physics Coupling — Testing the M_c Phase Transition (H7)
 
-> **Status:** DESIGN SKETCH (Session 8). Not yet implemented. This document captures the
+> **Status:** DESIGN SKETCH (Session 9). Not yet implemented. This document captures the
 > design rationale and spec so a future nightly session (or a delegated coding model) can
 > implement it Part-by-Part following the sim06 pattern.
 
@@ -8,7 +8,7 @@
 
 sim06 tested H7 with minimal Grassé stigmergy + a self-maintenance loop and found a null
 result: positive stigmergic feedback alone amplifies building but does not consolidate —
-the crossing detector never fires. Session 8 research identified the specific missing
+the crossing detector never fires. Session 9 research identified the specific missing
 mechanism: **environmental physics coupling** — the accumulated structure must introduce a
 transport dynamics absent at the deposit level (the Mahadevan mechanism). See
 `../concepts/environmental-physics-coupling.md`.
@@ -20,11 +20,35 @@ transition in M_c**.
 ## Hypothesis (operational H7 prediction)
 
 Below a critical mass threshold `M_c`, the structure is inert — it behaves like sim06
-(diffuse scatter, ~230 micro-pillars, stability ~0.55, crossing does not fire). Above `M_c`,
-the structure *activates*: it sources a transport field `T` that vents pheromone away from
-saturated regions (negative feedback), producing consolidation into a few large vented
-pillars and the crossing detector firing (stability ≥0.90, constraint ≥0.60). The transition
-should be sharp in `M_c`.
+(diffuse scatter, 66–109 components at baseline, stability 0.849–0.893, crossing does not
+fire). Above `M_c`, the structure *activates*: it sources a transport field `T` that vents
+pheromone away from saturated regions (negative feedback), producing consolidation into a few
+large vented pillars and the crossing detector firing. The transition should be sharp in `M_c`.
+
+The crossing detector has **three** criteria, all of which must hold for ≥4 consecutive
+samples — sim07 must satisfy all three, not just the two named in earlier drafts of this
+document:
+
+1. `structure_stability ≥ 0.90` — **the binding constraint in sim06** (0.849–0.893 baseline;
+   a near miss, so this is what consolidation must push over the line).
+2. `mean_pheromone_over_structure ≥ 0.5` **and** `|material_growth_rate| < 0.01` — already
+   satisfied in sim06 (130/160 samples), so transport must not break it. Watch this:
+   continuous venting could keep mass churning and *lose* the saturation half of the
+   criterion, which would be a regression rather than progress.
+3. `deposit_on_structure_fraction ≥ 0.60` — satisfied by sim06 baseline (154/160) but
+   **failed outright by sim06's self-maintenance condition (0/160)**, because
+   `maintain_gain=0.3` saturates the deposit response flat at ~0.87 across the whole grid and
+   destroys the spatial contrast. If sim07 keeps a self-emission term, it must avoid
+   re-saturating this response, or criterion 3 will block the crossing regardless of what
+   transport achieves.
+
+> **Correction (2026-07-27).** Earlier revisions of this document cited sim06 as showing
+> "~230 micro-pillars, stability ~0.55" and named only criteria 1 and 3. Those figures were
+> wrong against sim06's own `results.json` (actual: 101 components, stability 0.85–0.89), and
+> the omitted criterion 2 was the one that actually blocked sim06 — its original form was
+> unsatisfiable by construction and has since been corrected. See `../REVIEW.md` §1 and the
+> 2026-07-27 entry in `../sim06_termite_mound/DESIGN.md`. sim07 should be built against the
+> corrected detector in `sim06.py`, not against the numbers previously quoted here.
 
 ## Minimal model spec (lumped)
 
@@ -70,6 +94,6 @@ rule, the crossing is emergent from the physics, not imposed. This is the H7 aci
 
 - [[../concepts/environmental-physics-coupling]] — the concept this sim tests
 - [[../concepts/stigmergic-consolidation]] — the negative-feedback gap
-- [[../hypotheses/H7]] — refined in Session 8
+- [[../hypotheses/H7]] — refined in Session 9
 - sim06 — the null result this sim builds on
 - King, Ocko & Mahadevan (PNAS 2015); Ocko, Heyde & Mahadevan (PNAS 2019)

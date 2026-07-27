@@ -1,3 +1,11 @@
+---
+status: "Core concept"
+formed: "Session 4"
+connected_to: "Fitness landscapes, computational irreducibility, Echo model, open-ended evolution"
+topic: "Kauffman's NK model and complexity as a condition for open-endedness"
+key_findings: "Kaznatcheev (2019) shows NK is PLS-complete for K greater than 1, and argues that hardness ENABLES open-ended evolution: easy landscapes (K=0, K=1) are solved quickly and evolution stops, while hard landscapes keep searching with power-law rather than exponentially decaying fitness gains. This makes computational irreducibility a necessary condition for open-endedness, not merely a property of our simulation. Limits: epistasis and the landscape are both fixed, and fitness is defined per genotype, so the NK model is always single-scale — a multi-scale version would need dynamic epistasis, which maps onto ANT network restructuring."
+---
+
 # NK Model (Kauffman)
 
 **Status:** Core concept — formed Session 4

@@ -19,6 +19,7 @@
       {
         "step": 0,
         "total_material": 0.0,
+        "material_growth_rate": null,
         "n_structure_cells": 0,
         "mean_pheromone": 0.0,
         "max_pheromone": 0.0,
@@ -35,6 +36,7 @@
       {
         "step": 25,
         "total_material": 319.29149193628547,
+        "material_growth_rate": null,
         "n_structure_cells": 79,
         "mean_pheromone": 1.6547047994223054,
         "max_pheromone": 4.202324548350878,
@@ -51,6 +53,7 @@
       {
         "step": 50,
         "total_material": 945.0483841619257,
+        "material_growth_rate": 1.9598295226435596,
         "n_structure_cells": 207,
         "mean_pheromone": 1.5969242636592604,
         "max_pheromone": 3.98383613854822,
@@ -67,6 +70,7 @@
       {
         "step": 75,
         "total_material": 1536.8807985730853,
+        "material_growth_rate": 0.6262456233243548,
         "n_structure_cells": 341,
         "mean_pheromone": 1.3935210174110964,
         "max_pheromone": 5.315622405767073,
@@ -83,6 +87,7 @@
       {
         "step": 100,
         "total_material": 2052.011282138171,
+        "material_growth_rate": 0.335179204557281,
         "n_structure_cells": 503,
         "mean_pheromone": 1.2398248347000813,
         "max_pheromone": 3.8834304091455,
@@ -99,6 +104,7 @@
       {
         "step": 125,
         "total_material": 2406.57027207149,
+        "material_growth_rate": 0.17278608213297583,
         "n_structure_cells": 623,
         "mean_pheromone": 1.0948666313610853,
         "max_pheromone": 4.832091827149852,
@@ -115,6 +121,7 @@
       {
         "step": 150,
         "total_material": 2692.98805236827,
+        "material_growth_rate": 0.11901492494139469,
         "n_structure_cells": 744,
         "mean_pheromone": 1.020966723322522,
         "max_pheromone": 4.283253512706329,
@@ -131,6 +138,7 @@
       {
         "step": 175,
         "total_material": 2930.6680581118817,
+        "material_growth_rate": 0.08825884152534241,
         "n_structure_cells": 834,
         "mean_pheromone": 0.99285868274788,
         "max_pheromone": 4.419198789205496,
@@ -147,6 +155,7 @@
       {
         "step": 200,
         "total_material": 3146.926396055035,
+        "material_growth_rate": 0.07379148155130218,
         "n_structure_cells": 895,
         "mean_pheromone": 0.9786747126884586,
         "max_pheromone": 3.8956795056147695,
@@ -163,6 +172,7 @@
       {
         "step": 225,
         "total_material": 3248.0879896850283,
+        "material_growth_rate": 0.032146158155083836,
         "n_structure_cells": 951,
         "mean_pheromone": 0.9132669272704412,
         "max_pheromone": 4.1628869494119165,
@@ -179,6 +189,7 @@
       {
         "step": 250,
         "total_material": 3339.335831395544,
+        "material_growth_rate": 0.028092786279279403,
         "n_structure_cells": 988,
         "mean_pheromone": 0.8836884842748227,
         "max_pheromone": 4.630423685938537,
@@ -195,6 +206,7 @@
       {
         "step": 275,
         "total_material": 3421.083123074427,
+        "material_growth_rate": 0.024480104968873356,
         "n_structure_cells": 1015,
         "mean_pheromone": 0.8717100769012835,
         "max_pheromone": 4.317956153276181,
@@ -211,6 +223,7 @@
       {
         "step": 300,
         "total_material": 3469.7235595661214,
+        "material_growth_rate": 0.014217847021496107,
         "n_structure_cells": 1047,
         "mean_pheromone": 0.8511180274060367,
         "max_pheromone": 4.2684506080101094,
@@ -227,6 +240,7 @@
       {
         "step": 325,
         "total_material": 3527.285940696307,
+        "material_growth_rate": 0.016589904106765127,
         "n_structure_cells": 1061,
         "mean_pheromone": 0.8495944050487296,
         "max_pheromone": 4.290543937536859,
@@ -243,6 +257,7 @@
       {
         "step": 350,
         "total_material": 3527.509143071341,
+        "material_growth_rate": 6.32787868028202e-05,
         "n_structure_cells": 1037,
         "mean_pheromone": 0.8413338862689738,
         "max_pheromone": 4.913885078892216,
@@ -259,6 +274,7 @@
       {
         "step": 375,
         "total_material": 3563.9645014308435,
+        "material_growth_rate": 0.010334589332279221,
         "n_structure_cells": 1015,
         "mean_pheromone": 0.8679094664681681,
         "max_pheromone": 4.41354288132254,
@@ -275,6 +291,7 @@
       {
         "step": 400,
         "total_material": 3574.086604506171,
+        "material_growth_rate": 0.002840124549855621,
         "n_structure_cells": 1021,
         "mean_pheromone": 0.8590492769098804,
         "max_pheromone": 4.300375238722429,
@@ -291,6 +308,7 @@
       {
         "step": 425,
         "total_material": 3607.4437773051595,
+        "material_growth_rate": 0.009333062259020803,
         "n_structure_cells": 1056,
         "mean_pheromone": 0.8654655363032433,
         "max_pheromone": 4.232564983560674,
@@ -307,6 +325,7 @@
       {
         "step": 450,
         "total_material": 3678.550823987066,
+        "material_growth_rate": 0.019711200249120726,
         "n_structure_cells": 1073,
         "mean_pheromone": 0.9037352215424986,
         "max_pheromone": 4.1865908963274,
@@ -323,6 +342,7 @@
       {
         "step": 475,
         "total_material": 3731.4629532419913,
+        "material_growth_rate": 0.014383960365559249,
         "n_structure_cells": 1076,
         "mean_pheromone": 0.9304053782695644,
         "max_pheromone": 3.6893721536747623,
@@ -339,6 +359,7 @@
       {
         "step": 500,
         "total_material": 3751.3624185756153,
+        "material_growth_rate": 0.005332885675934374,
         "n_structure_cells": 1090,
         "mean_pheromone": 0.9210915815500933,
         "max_pheromone": 4.44854591313945,
@@ -355,6 +376,7 @@
       {
         "step": 525,
         "total_material": 3819.3660452955505,
+        "material_growth_rate": 0.018127714449342937,
         "n_structure_cells": 1090,
         "mean_pheromone": 0.9421907446904414,
         "max_pheromone": 4.5768275189151195,
@@ -371,6 +393,7 @@
       {
         "step": 550,
         "total_material": 3850.004925646172,
+        "material_growth_rate": 0.00802198060810656,
         "n_structure_cells": 1121,
         "mean_pheromone": 0.9111571102680326,
         "max_pheromone": 4.9828389706314535,
@@ -387,6 +410,7 @@
       {
         "step": 575,
         "total_material": 3854.875670776345,
+        "material_growth_rate": 0.001265126986650666,
         "n_structure_cells": 1120,
         "mean_pheromone": 0.8991069913620616,
         "max_pheromone": 4.361945263875096,
@@ -403,6 +427,7 @@
       {
         "step": 600,
         "total_material": 3839.781474719934,
+        "material_growth_rate": -0.003915611642377846,
         "n_structure_cells": 1144,
         "mean_pheromone": 0.8816065183560385,
         "max_pheromone": 5.151127594486758,
@@ -419,6 +444,7 @@
       {
         "step": 625,
         "total_material": 3836.884404783378,
+        "material_growth_rate": -0.0007544882321114941,
         "n_structure_cells": 1140,
         "mean_pheromone": 0.9027830230078007,
         "max_pheromone": 4.710053319842166,
@@ -435,6 +461,7 @@
       {
         "step": 650,
         "total_material": 3839.2793795948505,
+        "material_growth_rate": 0.0006241978018640832,
         "n_structure_cells": 1134,
         "mean_pheromone": 0.9078590723325733,
         "max_pheromone": 4.749945999765227,
@@ -451,6 +478,7 @@
       {
         "step": 675,
         "total_material": 3830.6817659313174,
+        "material_growth_rate": -0.002239382137499049,
         "n_structure_cells": 1129,
         "mean_pheromone": 0.904096532051836,
         "max_pheromone": 5.198271774178802,
@@ -467,6 +495,7 @@
       {
         "step": 700,
         "total_material": 3827.168300357299,
+        "material_growth_rate": -0.0009171906696259555,
         "n_structure_cells": 1141,
         "mean_pheromone": 0.9118981289952243,
         "max_pheromone": 4.416448998241412,
@@ -483,6 +512,7 @@
       {
         "step": 725,
         "total_material": 3868.1533370043635,
+        "material_growth_rate": 0.010708971602643731,
         "n_structure_cells": 1116,
         "mean_pheromone": 0.960909051707423,
         "max_pheromone": 4.762381173705352,
@@ -499,6 +529,7 @@
       {
         "step": 750,
         "total_material": 3863.5539057125816,
+        "material_growth_rate": -0.0011890509219946994,
         "n_structure_cells": 1130,
         "mean_pheromone": 0.9473530338751426,
         "max_pheromone": 4.970877234559698,
@@ -515,6 +546,7 @@
       {
         "step": 775,
         "total_material": 3852.925374471034,
+        "material_growth_rate": -0.0027509726797993886,
         "n_structure_cells": 1115,
         "mean_pheromone": 0.9289880342702838,
         "max_pheromone": 5.026080453750641,
@@ -531,6 +563,7 @@
       {
         "step": 800,
         "total_material": 3877.541227460456,
+        "material_growth_rate": 0.006388873543340145,
         "n_structure_cells": 1127,
         "mean_pheromone": 0.9412392453813614,
         "max_pheromone": 5.559021412283242,
@@ -547,6 +580,7 @@
       {
         "step": 825,
         "total_material": 3875.587490771461,
+        "material_growth_rate": -0.0005038596817897657,
         "n_structure_cells": 1126,
         "mean_pheromone": 0.9587150340922339,
         "max_pheromone": 4.481582164958073,
@@ -563,6 +597,7 @@
       {
         "step": 850,
         "total_material": 3900.3256099347377,
+        "material_growth_rate": 0.006383063012300206,
         "n_structure_cells": 1114,
         "mean_pheromone": 1.0116425732492043,
         "max_pheromone": 4.5655135339430615,
@@ -579,6 +614,7 @@
       {
         "step": 875,
         "total_material": 3891.4413367460434,
+        "material_growth_rate": -0.002277828591044994,
         "n_structure_cells": 1137,
         "mean_pheromone": 0.9873170663825142,
         "max_pheromone": 4.749721051829466,
@@ -595,6 +631,7 @@
       {
         "step": 900,
         "total_material": 3929.7767475675682,
+        "material_growth_rate": 0.00985121128758433,
         "n_structure_cells": 1129,
         "mean_pheromone": 1.0059048700772182,
         "max_pheromone": 4.4884598926361585,
@@ -611,6 +648,7 @@
       {
         "step": 925,
         "total_material": 3962.9913770442863,
+        "material_growth_rate": 0.008452039800295802,
         "n_structure_cells": 1131,
         "mean_pheromone": 1.0154807679699467,
         "max_pheromone": 4.2395119073814005,
@@ -627,6 +665,7 @@
       {
         "step": 950,
         "total_material": 3974.8103625341155,
+        "material_growth_rate": 0.0029823394414358064,
         "n_structure_cells": 1144,
         "mean_pheromone": 0.9969257383428711,
         "max_pheromone": 4.894836395978615,
@@ -643,6 +682,7 @@
       {
         "step": 975,
         "total_material": 3980.9482186843497,
+        "material_growth_rate": 0.0015441884242047474,
         "n_structure_cells": 1147,
         "mean_pheromone": 0.9892223482420345,
         "max_pheromone": 5.946717570338916,
@@ -659,6 +699,7 @@
       {
         "step": 1000,
         "total_material": 3988.224362264914,
+        "material_growth_rate": 0.0018277413271576878,
         "n_structure_cells": 1127,
         "mean_pheromone": 1.0239623180374682,
         "max_pheromone": 4.593441609948847,
@@ -675,6 +716,7 @@
       {
         "step": 1025,
         "total_material": 4026.6140478400303,
+        "material_growth_rate": 0.009625758755787459,
         "n_structure_cells": 1132,
         "mean_pheromone": 1.0696158886467129,
         "max_pheromone": 5.08848316820111,
@@ -691,6 +733,7 @@
       {
         "step": 1050,
         "total_material": 4038.912198514973,
+        "material_growth_rate": 0.0030542164033674725,
         "n_structure_cells": 1122,
         "mean_pheromone": 1.0961357310641606,
         "max_pheromone": 8.01444402008787,
@@ -707,6 +750,7 @@
       {
         "step": 1075,
         "total_material": 4031.215690219848,
+        "material_growth_rate": -0.0019055894054728312,
         "n_structure_cells": 1118,
         "mean_pheromone": 1.105613075319432,
         "max_pheromone": 4.473081539199236,
@@ -723,6 +767,7 @@
       {
         "step": 1100,
         "total_material": 4048.700749510334,
+        "material_growth_rate": 0.004337415964347049,
         "n_structure_cells": 1119,
         "mean_pheromone": 1.107238332151305,
         "max_pheromone": 4.8460161098793195,
@@ -739,6 +784,7 @@
       {
         "step": 1125,
         "total_material": 4029.9215665804804,
+        "material_growth_rate": -0.004638323277442704,
         "n_structure_cells": 1131,
         "mean_pheromone": 1.0659402218655774,
         "max_pheromone": 4.845849641682043,
@@ -755,6 +801,7 @@
       {
         "step": 1150,
         "total_material": 4007.296471438825,
+        "material_growth_rate": -0.005614276796174379,
         "n_structure_cells": 1137,
         "mean_pheromone": 1.0513570735136593,
         "max_pheromone": 6.116120509309869,
@@ -771,6 +818,7 @@
       {
         "step": 1175,
         "total_material": 3983.0959160864977,
+        "material_growth_rate": -0.0060391227663866825,
         "n_structure_cells": 1136,
         "mean_pheromone": 1.0373472752241142,
         "max_pheromone": 4.930511713510715,
@@ -787,6 +835,7 @@
       {
         "step": 1200,
         "total_material": 3958.408259133943,
+        "material_growth_rate": -0.006198107570758953,
         "n_structure_cells": 1145,
         "mean_pheromone": 1.0082246523617229,
         "max_pheromone": 6.102718141166021,
@@ -803,6 +852,7 @@
       {
         "step": 1225,
         "total_material": 3955.9502292608595,
+        "material_growth_rate": -0.0006209642139391714,
         "n_structure_cells": 1150,
         "mean_pheromone": 1.0157192674194828,
         "max_pheromone": 5.638389898507825,
@@ -819,6 +869,7 @@
       {
         "step": 1250,
         "total_material": 3912.019007292215,
+        "material_growth_rate": -0.011105099766852387,
         "n_structure_cells": 1153,
         "mean_pheromone": 0.9784805582523861,
         "max_pheromone": 5.523683495622986,
@@ -835,6 +886,7 @@
       {
         "step": 1275,
         "total_material": 3928.042160288152,
+        "material_growth_rate": 0.004095878104392873,
         "n_structure_cells": 1120,
         "mean_pheromone": 1.0133631479086227,
         "max_pheromone": 5.727628014753296,
@@ -851,6 +903,7 @@
       {
         "step": 1300,
         "total_material": 3948.9843922022797,
+        "material_growth_rate": 0.005331468212294185,
         "n_structure_cells": 1129,
         "mean_pheromone": 1.0252196060922067,
         "max_pheromone": 4.383781082183538,
@@ -867,6 +920,7 @@
       {
         "step": 1325,
         "total_material": 3956.7578542956903,
+        "material_growth_rate": 0.0019684712121831273,
         "n_structure_cells": 1137,
         "mean_pheromone": 1.0277773538955282,
         "max_pheromone": 6.068355053411896,
@@ -883,6 +937,7 @@
       {
         "step": 1350,
         "total_material": 3968.989471252503,
+        "material_growth_rate": 0.0030913231001824366,
         "n_structure_cells": 1111,
         "mean_pheromone": 1.0401632677452513,
         "max_pheromone": 4.398770003431861,
@@ -899,6 +954,7 @@
       {
         "step": 1375,
         "total_material": 3966.452781329283,
+        "material_growth_rate": -0.0006391274004613072,
         "n_structure_cells": 1129,
         "mean_pheromone": 1.0297507842439668,
         "max_pheromone": 4.8368820313644525,
@@ -915,6 +971,7 @@
       {
         "step": 1400,
         "total_material": 3952.789573605596,
+        "material_growth_rate": -0.0034446918889345355,
         "n_structure_cells": 1136,
         "mean_pheromone": 1.0176790124151525,
         "max_pheromone": 5.781862460302018,
@@ -931,6 +988,7 @@
       {
         "step": 1425,
         "total_material": 3989.9578796124683,
+        "material_growth_rate": 0.009403057085320266,
         "n_structure_cells": 1153,
         "mean_pheromone": 1.016370519983246,
         "max_pheromone": 4.852161619009117,
@@ -947,6 +1005,7 @@
       {
         "step": 1450,
         "total_material": 3971.108121774609,
+        "material_growth_rate": -0.0047242999566927835,
         "n_structure_cells": 1126,
         "mean_pheromone": 1.0024978666444608,
         "max_pheromone": 5.550298806355051,
@@ -963,6 +1022,7 @@
       {
         "step": 1475,
         "total_material": 3964.789571586205,
+        "material_growth_rate": -0.0015911302323293143,
         "n_structure_cells": 1110,
         "mean_pheromone": 1.0074781528289674,
         "max_pheromone": 5.258977638473521,
@@ -979,6 +1039,7 @@
       {
         "step": 1500,
         "total_material": 3961.7128333498463,
+        "material_growth_rate": -0.0007760155188079399,
         "n_structure_cells": 1117,
         "mean_pheromone": 1.0050628124106007,
         "max_pheromone": 4.015327023345355,
@@ -995,6 +1056,7 @@
       {
         "step": 1525,
         "total_material": 3975.8244687237648,
+        "material_growth_rate": 0.003562003599838488,
         "n_structure_cells": 1146,
         "mean_pheromone": 1.0093418742219107,
         "max_pheromone": 5.779943115062849,
@@ -1011,6 +1073,7 @@
       {
         "step": 1550,
         "total_material": 3953.7491082932406,
+        "material_growth_rate": -0.005552398151422995,
         "n_structure_cells": 1132,
         "mean_pheromone": 1.0004804440548893,
         "max_pheromone": 5.930984053335382,
@@ -1027,6 +1090,7 @@
       {
         "step": 1575,
         "total_material": 3982.050796877838,
+        "material_growth_rate": 0.007158190317446469,
         "n_structure_cells": 1126,
         "mean_pheromone": 1.0426857324753418,
         "max_pheromone": 5.379250483172954,
@@ -1043,6 +1107,7 @@
       {
         "step": 1600,
         "total_material": 3981.642733192457,
+        "material_growth_rate": -0.00010247576090714675,
         "n_structure_cells": 1115,
         "mean_pheromone": 1.055958736565698,
         "max_pheromone": 3.698263584084938,
@@ -1059,6 +1124,7 @@
       {
         "step": 1625,
         "total_material": 3972.048786348781,
+        "material_growth_rate": -0.0024095448754598648,
         "n_structure_cells": 1134,
         "mean_pheromone": 1.0258332825798717,
         "max_pheromone": 4.890109179035089,
@@ -1075,6 +1141,7 @@
       {
         "step": 1650,
         "total_material": 3961.701851711571,
+        "material_growth_rate": -0.0026049364430694878,
         "n_structure_cells": 1108,
         "mean_pheromone": 1.043705610817622,
         "max_pheromone": 4.959861461681241,
@@ -1091,6 +1158,7 @@
       {
         "step": 1675,
         "total_material": 3961.762471146981,
+        "material_growth_rate": 1.5301362313219114e-05,
         "n_structure_cells": 1122,
         "mean_pheromone": 1.0353724940015763,
         "max_pheromone": 4.817960134006879,
@@ -1107,6 +1175,7 @@
       {
         "step": 1700,
         "total_material": 3914.9385678775284,
+        "material_growth_rate": -0.011818957751875685,
         "n_structure_cells": 1113,
         "mean_pheromone": 1.0005109846731859,
         "max_pheromone": 5.31671171269902,
@@ -1123,6 +1192,7 @@
       {
         "step": 1725,
         "total_material": 3932.760557875473,
+        "material_growth_rate": 0.004552303871170727,
         "n_structure_cells": 1098,
         "mean_pheromone": 1.0339477624935003,
         "max_pheromone": 4.791602133839647,
@@ -1139,6 +1209,7 @@
       {
         "step": 1750,
         "total_material": 3928.342130882914,
+        "material_growth_rate": -0.0011234925003789004,
         "n_structure_cells": 1098,
         "mean_pheromone": 1.0351609671045763,
         "max_pheromone": 4.625761733271839,
@@ -1155,6 +1226,7 @@
       {
         "step": 1775,
         "total_material": 3933.861909917495,
+        "material_growth_rate": 0.0014051166753493564,
         "n_structure_cells": 1089,
         "mean_pheromone": 1.0432460007257394,
         "max_pheromone": 5.315332274087661,
@@ -1171,6 +1243,7 @@
       {
         "step": 1800,
         "total_material": 3971.7479245488767,
+        "material_growth_rate": 0.009630743401508069,
         "n_structure_cells": 1095,
         "mean_pheromone": 1.0582115763883944,
         "max_pheromone": 5.476077764431137,
@@ -1187,6 +1260,7 @@
       {
         "step": 1825,
         "total_material": 3954.658750282903,
+        "material_growth_rate": -0.004302683501223146,
         "n_structure_cells": 1114,
         "mean_pheromone": 1.0182390959851988,
         "max_pheromone": 5.13581754200161,
@@ -1203,6 +1277,7 @@
       {
         "step": 1850,
         "total_material": 3941.5110165161454,
+        "material_growth_rate": -0.0033246190371841663,
         "n_structure_cells": 1140,
         "mean_pheromone": 0.9892499165757015,
         "max_pheromone": 3.910234962758304,
@@ -1219,6 +1294,7 @@
       {
         "step": 1875,
         "total_material": 3969.1891803502012,
+        "material_growth_rate": 0.007022221609447687,
         "n_structure_cells": 1141,
         "mean_pheromone": 0.992249979605502,
         "max_pheromone": 4.072004856214229,
@@ -1235,6 +1311,7 @@
       {
         "step": 1900,
         "total_material": 3992.9386447230427,
+        "material_growth_rate": 0.005983454880511898,
         "n_structure_cells": 1151,
         "mean_pheromone": 1.0000054904700706,
         "max_pheromone": 4.907900917157442,
@@ -1251,6 +1328,7 @@
       {
         "step": 1925,
         "total_material": 4013.368908069502,
+        "material_growth_rate": 0.005116598366333412,
         "n_structure_cells": 1184,
         "mean_pheromone": 1.001308333641126,
         "max_pheromone": 4.299671688574229,
@@ -1267,6 +1345,7 @@
       {
         "step": 1950,
         "total_material": 3976.066518494221,
+        "material_growth_rate": -0.009294532954665348,
         "n_structure_cells": 1162,
         "mean_pheromone": 0.9950506700121609,
         "max_pheromone": 4.674553623790461,
@@ -1283,6 +1362,7 @@
       {
         "step": 1975,
         "total_material": 3958.357477397397,
+        "material_growth_rate": -0.0044539096653570505,
         "n_structure_cells": 1126,
         "mean_pheromone": 1.0217809272397436,
         "max_pheromone": 5.112753947474819,
@@ -1299,6 +1379,7 @@
       {
         "step": 2000,
         "total_material": 3926.409174889153,
+        "material_growth_rate": -0.008071100877238087,
         "n_structure_cells": 1109,
         "mean_pheromone": 1.0276434627017756,
         "max_pheromone": 6.194396013814094,
@@ -1315,6 +1396,7 @@
       {
         "step": 2025,
         "total_material": 3947.1310924522777,
+        "material_growth_rate": 0.0052775746592202445,
         "n_structure_cells": 1105,
         "mean_pheromone": 1.0477908443817459,
         "max_pheromone": 5.205418407602801,
@@ -1331,6 +1413,7 @@
       {
         "step": 2050,
         "total_material": 3993.0346909002046,
+        "material_growth_rate": 0.011629610816753464,
         "n_structure_cells": 1118,
         "mean_pheromone": 1.0552231599206479,
         "max_pheromone": 4.593148280507888,
@@ -1347,6 +1430,7 @@
       {
         "step": 2075,
         "total_material": 4011.101610865596,
+        "material_growth_rate": 0.00452460881608773,
         "n_structure_cells": 1128,
         "mean_pheromone": 1.0305547046968582,
         "max_pheromone": 4.275204696470209,
@@ -1363,6 +1447,7 @@
       {
         "step": 2100,
         "total_material": 3992.4307800991855,
+        "material_growth_rate": -0.004654788778183339,
         "n_structure_cells": 1173,
         "mean_pheromone": 0.9994666060442908,
         "max_pheromone": 4.412185015941005,
@@ -1379,6 +1464,7 @@
       {
         "step": 2125,
         "total_material": 3973.7324066662786,
+        "material_growth_rate": -0.0046834558850992495,
         "n_structure_cells": 1165,
         "mean_pheromone": 0.9779876315565134,
         "max_pheromone": 4.323249234226981,
@@ -1395,6 +1481,7 @@
       {
         "step": 2150,
         "total_material": 3999.3977361532343,
+        "material_growth_rate": 0.006458746302066005,
         "n_structure_cells": 1168,
         "mean_pheromone": 1.027426323176738,
         "max_pheromone": 5.511688959604607,
@@ -1411,6 +1498,7 @@
       {
         "step": 2175,
         "total_material": 4018.5736820992333,
+        "material_growth_rate": 0.004794708406381998,
         "n_structure_cells": 1184,
         "mean_pheromone": 1.0167882918919169,
         "max_pheromone": 4.052628513817934,
@@ -1427,6 +1515,7 @@
       {
         "step": 2200,
         "total_material": 3999.044588859236,
+        "material_growth_rate": -0.004859707643781687,
         "n_structure_cells": 1173,
         "mean_pheromone": 1.0129812429061018,
         "max_pheromone": 4.312497143336912,
@@ -1443,6 +1532,7 @@
       {
         "step": 2225,
         "total_material": 4003.964873112433,
+        "material_growth_rate": 0.0012303649393918812,
         "n_structure_cells": 1164,
         "mean_pheromone": 1.0311997700744895,
         "max_pheromone": 3.913603507618418,
@@ -1459,6 +1549,7 @@
       {
         "step": 2250,
         "total_material": 3975.4565213605943,
+        "material_growth_rate": -0.007120030433653162,
         "n_structure_cells": 1171,
         "mean_pheromone": 0.9972040882254508,
         "max_pheromone": 4.820414462234766,
@@ -1475,6 +1566,7 @@
       {
         "step": 2275,
         "total_material": 3951.0376872355823,
+        "material_growth_rate": -0.006142397481599073,
         "n_structure_cells": 1184,
         "mean_pheromone": 0.9686569742516161,
         "max_pheromone": 4.174957297493262,
@@ -1491,6 +1583,7 @@
       {
         "step": 2300,
         "total_material": 3941.0956572490595,
+        "material_growth_rate": -0.002516308568415337,
         "n_structure_cells": 1198,
         "mean_pheromone": 0.957297917442892,
         "max_pheromone": 4.023450747573291,
@@ -1507,6 +1600,7 @@
       {
         "step": 2325,
         "total_material": 3966.914701491445,
+        "material_growth_rate": 0.006551235110189561,
         "n_structure_cells": 1178,
         "mean_pheromone": 0.9873519981721288,
         "max_pheromone": 4.994262962351437,
@@ -1523,6 +1617,7 @@
       {
         "step": 2350,
         "total_material": 3959.3174500923515,
+        "material_growth_rate": -0.001915153707801518,
         "n_structure_cells": 1189,
         "mean_pheromone": 0.9893504938443826,
         "max_pheromone": 5.689735557316668,
@@ -1539,6 +1634,7 @@
       {
         "step": 2375,
         "total_material": 3991.3768961828787,
+        "material_growth_rate": 0.008097215364678431,
         "n_structure_cells": 1183,
         "mean_pheromone": 1.0120009096546874,
         "max_pheromone": 4.701866254871043,
@@ -1555,6 +1651,7 @@
       {
         "step": 2400,
         "total_material": 3981.0578749558554,
+        "material_growth_rate": -0.002585328696192992,
         "n_structure_cells": 1174,
         "mean_pheromone": 1.0221959555069062,
         "max_pheromone": 3.8941083580720472,
@@ -1571,6 +1668,7 @@
       {
         "step": 2425,
         "total_material": 4008.5244950276415,
+        "material_growth_rate": 0.006899326996619128,
         "n_structure_cells": 1183,
         "mean_pheromone": 1.039126780454873,
         "max_pheromone": 4.734696200983883,
@@ -1587,6 +1685,7 @@
       {
         "step": 2450,
         "total_material": 4049.7216867282987,
+        "material_growth_rate": 0.010277395523405203,
         "n_structure_cells": 1174,
         "mean_pheromone": 1.074069521949129,
         "max_pheromone": 4.572363324013167,
@@ -1603,6 +1702,7 @@
       {
         "step": 2475,
         "total_material": 4049.1713882721083,
+        "material_growth_rate": -0.000135885499982334,
         "n_structure_cells": 1144,
         "mean_pheromone": 1.092918164569026,
         "max_pheromone": 5.243439258938405,
@@ -1619,6 +1719,7 @@
       {
         "step": 2500,
         "total_material": 4067.3845818413483,
+        "material_growth_rate": 0.0044980051034619484,
         "n_structure_cells": 1151,
         "mean_pheromone": 1.0820971789786415,
         "max_pheromone": 4.965590958364405,
@@ -1635,6 +1736,7 @@
       {
         "step": 2525,
         "total_material": 4077.271865133646,
+        "material_growth_rate": 0.002430870032904891,
         "n_structure_cells": 1190,
         "mean_pheromone": 1.0490161965744045,
         "max_pheromone": 4.106311737468451,
@@ -1651,6 +1753,7 @@
       {
         "step": 2550,
         "total_material": 4075.0277980698056,
+        "material_growth_rate": -0.0005503844575658905,
         "n_structure_cells": 1198,
         "mean_pheromone": 1.0393863785657669,
         "max_pheromone": 5.016844454574595,
@@ -1667,6 +1770,7 @@
       {
         "step": 2575,
         "total_material": 4041.7986319541797,
+        "material_growth_rate": -0.00815434096703964,
         "n_structure_cells": 1173,
         "mean_pheromone": 1.0196546580240267,
         "max_pheromone": 4.825458054284768,
@@ -1683,6 +1787,7 @@
       {
         "step": 2600,
         "total_material": 4013.2755175977863,
+        "material_growth_rate": -0.007057034987070247,
         "n_structure_cells": 1178,
         "mean_pheromone": 1.0054758189455404,
         "max_pheromone": 6.4668723395910845,
@@ -1699,6 +1804,7 @@
       {
         "step": 2625,
         "total_material": 4029.8457729274087,
+        "material_growth_rate": 0.0041288606418780705,
         "n_structure_cells": 1170,
         "mean_pheromone": 1.0362614149280003,
         "max_pheromone": 4.232649695857281,
@@ -1715,6 +1821,7 @@
       {
         "step": 2650,
         "total_material": 4021.944226812172,
+        "material_growth_rate": -0.00196075645582256,
         "n_structure_cells": 1175,
         "mean_pheromone": 1.0388097776448675,
         "max_pheromone": 4.472670498793818,
@@ -1731,6 +1838,7 @@
       {
         "step": 2675,
         "total_material": 4002.5267927425934,
+        "material_growth_rate": -0.004827872534913047,
         "n_structure_cells": 1161,
         "mean_pheromone": 1.0344554044920402,
         "max_pheromone": 4.962654746781848,
@@ -1747,6 +1855,7 @@
       {
         "step": 2700,
         "total_material": 4010.0038418142353,
+        "material_growth_rate": 0.001868082203771707,
         "n_structure_cells": 1142,
         "mean_pheromone": 1.0556151015329147,
         "max_pheromone": 4.983201705145509,
@@ -1763,6 +1872,7 @@
       {
         "step": 2725,
         "total_material": 4036.135936139068,
+        "material_growth_rate": 0.006516725508424844,
         "n_structure_cells": 1154,
         "mean_pheromone": 1.0736616544882867,
         "max_pheromone": 5.540432781651854,
@@ -1779,6 +1889,7 @@
       {
         "step": 2750,
         "total_material": 4080.3410908471205,
+        "material_growth_rate": 0.01095234536385289,
         "n_structure_cells": 1175,
         "mean_pheromone": 1.0859279173603145,
         "max_pheromone": 5.252372837708524,
@@ -1795,6 +1906,7 @@
       {
         "step": 2775,
         "total_material": 4081.25471149096,
+        "material_growth_rate": 0.00022390790953449866,
         "n_structure_cells": 1163,
         "mean_pheromone": 1.0757074047945805,
         "max_pheromone": 5.284015006904374,
@@ -1811,6 +1923,7 @@
       {
         "step": 2800,
         "total_material": 4115.8801373397555,
+        "material_growth_rate": 0.008484014916125226,
         "n_structure_cells": 1183,
         "mean_pheromone": 1.0816328821528716,
         "max_pheromone": 4.907170070863607,
@@ -1827,6 +1940,7 @@
       {
         "step": 2825,
         "total_material": 4091.1542794101233,
+        "material_growth_rate": -0.006007429056380008,
         "n_structure_cells": 1181,
         "mean_pheromone": 1.0778086680770025,
         "max_pheromone": 6.639517925019039,
@@ -1843,6 +1957,7 @@
       {
         "step": 2850,
         "total_material": 4042.4435802654943,
+        "material_growth_rate": -0.01190634618444461,
         "n_structure_cells": 1159,
         "mean_pheromone": 1.052145155665269,
         "max_pheromone": 4.400800630007621,
@@ -1859,6 +1974,7 @@
       {
         "step": 2875,
         "total_material": 4023.56701129953,
+        "material_growth_rate": -0.004669593673024053,
         "n_structure_cells": 1153,
         "mean_pheromone": 1.0416418500582645,
         "max_pheromone": 4.603822386448049,
@@ -1875,6 +1991,7 @@
       {
         "step": 2900,
         "total_material": 3997.8933917817967,
+        "material_growth_rate": -0.0063808107198495825,
         "n_structure_cells": 1174,
         "mean_pheromone": 1.030971724060859,
         "max_pheromone": 4.270329582351696,
@@ -1891,6 +2008,7 @@
       {
         "step": 2925,
         "total_material": 3975.3358060644396,
+        "material_growth_rate": -0.005642367994035877,
         "n_structure_cells": 1149,
         "mean_pheromone": 1.0342084271180705,
         "max_pheromone": 4.810161590137709,
@@ -1907,6 +2025,7 @@
       {
         "step": 2950,
         "total_material": 3944.427560142499,
+        "material_growth_rate": -0.007775002523004403,
         "n_structure_cells": 1149,
         "mean_pheromone": 1.0191948021128179,
         "max_pheromone": 4.7703452965515805,
@@ -1923,6 +2042,7 @@
       {
         "step": 2975,
         "total_material": 3995.1955642818402,
+        "material_growth_rate": 0.012870816706672476,
         "n_structure_cells": 1143,
         "mean_pheromone": 1.0792833965343145,
         "max_pheromone": 5.189028860661621,
@@ -1939,6 +2059,7 @@
       {
         "step": 3000,
         "total_material": 3984.5134552769673,
+        "material_growth_rate": -0.0026737387026492406,
         "n_structure_cells": 1148,
         "mean_pheromone": 1.0689844276137748,
         "max_pheromone": 5.638404909439906,
@@ -1955,6 +2076,7 @@
       {
         "step": 3025,
         "total_material": 3999.508581759214,
+        "material_growth_rate": 0.003763351950132719,
         "n_structure_cells": 1147,
         "mean_pheromone": 1.0579263926332692,
         "max_pheromone": 5.149625907922571,
@@ -1971,6 +2093,7 @@
       {
         "step": 3050,
         "total_material": 4012.3698779243455,
+        "material_growth_rate": 0.0032157191070394946,
         "n_structure_cells": 1145,
         "mean_pheromone": 1.0690211211784504,
         "max_pheromone": 5.046293170057229,
@@ -1987,6 +2110,7 @@
       {
         "step": 3075,
         "total_material": 4019.2922008108185,
+        "material_growth_rate": 0.0017252454527083693,
         "n_structure_cells": 1148,
         "mean_pheromone": 1.0821941748287913,
         "max_pheromone": 5.074930352472411,
@@ -2003,6 +2127,7 @@
       {
         "step": 3100,
         "total_material": 4007.967789950281,
+        "material_growth_rate": -0.002817513705087973,
         "n_structure_cells": 1146,
         "mean_pheromone": 1.0748749769404333,
         "max_pheromone": 5.659278130214554,
@@ -2019,6 +2144,7 @@
       {
         "step": 3125,
         "total_material": 4004.2853107756246,
+        "material_growth_rate": -0.0009187896130028327,
         "n_structure_cells": 1157,
         "mean_pheromone": 1.0728369800168984,
         "max_pheromone": 5.540621876827514,
@@ -2035,6 +2161,7 @@
       {
         "step": 3150,
         "total_material": 4012.894446259339,
+        "material_growth_rate": 0.0021499805372377115,
         "n_structure_cells": 1151,
         "mean_pheromone": 1.0752020400475666,
         "max_pheromone": 5.346359487524598,
@@ -2051,6 +2178,7 @@
       {
         "step": 3175,
         "total_material": 3987.323149826427,
+        "material_growth_rate": -0.006372282345165687,
         "n_structure_cells": 1136,
         "mean_pheromone": 1.087095832068676,
         "max_pheromone": 5.816781224276206,
@@ -2067,6 +2195,7 @@
       {
         "step": 3200,
         "total_material": 3982.0999082236763,
+        "material_growth_rate": -0.0013099619485263704,
         "n_structure_cells": 1120,
         "mean_pheromone": 1.1052037931293346,
         "max_pheromone": 5.574474693542161,
@@ -2083,6 +2212,7 @@
       {
         "step": 3225,
         "total_material": 4024.9090180185494,
+        "material_growth_rate": 0.010750385671254876,
         "n_structure_cells": 1108,
         "mean_pheromone": 1.1260082954185193,
         "max_pheromone": 5.086859855672941,
@@ -2099,6 +2229,7 @@
       {
         "step": 3250,
         "total_material": 3992.5930134740843,
+        "material_growth_rate": -0.008029002494166746,
         "n_structure_cells": 1123,
         "mean_pheromone": 1.086175474818015,
         "max_pheromone": 5.590764158573053,
@@ -2115,6 +2246,7 @@
       {
         "step": 3275,
         "total_material": 3965.597781322259,
+        "material_growth_rate": -0.0067613283048692015,
         "n_structure_cells": 1132,
         "mean_pheromone": 1.0604924861682785,
         "max_pheromone": 5.047678757309887,
@@ -2131,6 +2263,7 @@
       {
         "step": 3300,
         "total_material": 3941.090170179061,
+        "material_growth_rate": -0.006180054683969105,
         "n_structure_cells": 1147,
         "mean_pheromone": 1.0147422496228866,
         "max_pheromone": 5.288333207156925,
@@ -2147,6 +2280,7 @@
       {
         "step": 3325,
         "total_material": 3966.7111919871427,
+        "material_growth_rate": 0.006500998632801594,
         "n_structure_cells": 1130,
         "mean_pheromone": 1.033287374773396,
         "max_pheromone": 5.051949486335973,
@@ -2163,6 +2297,7 @@
       {
         "step": 3350,
         "total_material": 3965.684185939396,
+        "material_growth_rate": -0.00025890618147887527,
         "n_structure_cells": 1134,
         "mean_pheromone": 1.0292620724689185,
         "max_pheromone": 4.505498016279271,
@@ -2179,6 +2314,7 @@
       {
         "step": 3375,
         "total_material": 3984.2416833703915,
+        "material_growth_rate": 0.004679519740072232,
         "n_structure_cells": 1143,
         "mean_pheromone": 1.0277091407139927,
         "max_pheromone": 5.422638931461671,
@@ -2195,6 +2331,7 @@
       {
         "step": 3400,
         "total_material": 3983.1505717016707,
+        "material_growth_rate": -0.0002738567977125598,
         "n_structure_cells": 1127,
         "mean_pheromone": 1.031039629752109,
         "max_pheromone": 6.423252038639061,
@@ -2211,6 +2348,7 @@
       {
         "step": 3425,
         "total_material": 3936.7145389267725,
+        "material_growth_rate": -0.011658116342576505,
         "n_structure_cells": 1110,
         "mean_pheromone": 1.017585550044377,
         "max_pheromone": 6.297661924646674,
@@ -2227,6 +2365,7 @@
       {
         "step": 3450,
         "total_material": 3976.152461043095,
+        "material_growth_rate": 0.01001797862820762,
         "n_structure_cells": 1117,
         "mean_pheromone": 1.0575365299546715,
         "max_pheromone": 5.06077979620466,
@@ -2243,6 +2382,7 @@
       {
         "step": 3475,
         "total_material": 4014.888335555168,
+        "material_growth_rate": 0.009742049604886348,
         "n_structure_cells": 1105,
         "mean_pheromone": 1.0773170880141312,
         "max_pheromone": 6.175492129032293,
@@ -2259,6 +2399,7 @@
       {
         "step": 3500,
         "total_material": 4012.03569888919,
+        "material_growth_rate": -0.0007105145716545987,
         "n_structure_cells": 1129,
         "mean_pheromone": 1.0543604985355846,
         "max_pheromone": 4.392955340142201,
@@ -2275,6 +2416,7 @@
       {
         "step": 3525,
         "total_material": 3991.863976130931,
+        "material_growth_rate": -0.005027802410592682,
         "n_structure_cells": 1150,
         "mean_pheromone": 1.014160093949543,
         "max_pheromone": 4.023087459990151,
@@ -2291,6 +2433,7 @@
       {
         "step": 3550,
         "total_material": 3977.7899034197,
+        "material_growth_rate": -0.00352568945119023,
         "n_structure_cells": 1133,
         "mean_pheromone": 1.0184104372225407,
         "max_pheromone": 4.267243168542825,
@@ -2307,6 +2450,7 @@
       {
         "step": 3575,
         "total_material": 3964.3237639447816,
+        "material_growth_rate": -0.0033853320064343813,
         "n_structure_cells": 1115,
         "mean_pheromone": 1.0100087629098422,
         "max_pheromone": 4.311180566514885,
@@ -2323,6 +2467,7 @@
       {
         "step": 3600,
         "total_material": 3947.023375238542,
+        "material_growth_rate": -0.004364020129633526,
         "n_structure_cells": 1157,
         "mean_pheromone": 0.9803295346520847,
         "max_pheromone": 3.63614873294717,
@@ -2339,6 +2484,7 @@
       {
         "step": 3625,
         "total_material": 3934.7319038951177,
+        "material_growth_rate": -0.003114111616499217,
         "n_structure_cells": 1145,
         "mean_pheromone": 0.9723413574379293,
         "max_pheromone": 5.768944168244385,
@@ -2355,6 +2501,7 @@
       {
         "step": 3650,
         "total_material": 3949.9822010989574,
+        "material_growth_rate": 0.0038758160851423895,
         "n_structure_cells": 1145,
         "mean_pheromone": 1.003810848951324,
         "max_pheromone": 5.278569906711619,
@@ -2371,6 +2518,7 @@
       {
         "step": 3675,
         "total_material": 3981.051292585086,
+        "material_growth_rate": 0.007865628224219443,
         "n_structure_cells": 1166,
         "mean_pheromone": 1.0163883540156122,
         "max_pheromone": 4.918488962054733,
@@ -2387,6 +2535,7 @@
       {
         "step": 3700,
         "total_material": 3988.584834486259,
+        "material_growth_rate": 0.0018923498713027582,
         "n_structure_cells": 1147,
         "mean_pheromone": 1.0226694943488797,
         "max_pheromone": 5.1841472337130305,
@@ -2403,6 +2552,7 @@
       {
         "step": 3725,
         "total_material": 3986.100919212961,
+        "material_growth_rate": -0.0006227560341255442,
         "n_structure_cells": 1133,
         "mean_pheromone": 1.0353932457749682,
         "max_pheromone": 5.198061035274663,
@@ -2419,6 +2569,7 @@
       {
         "step": 3750,
         "total_material": 3959.380801108472,
+        "material_growth_rate": -0.0067033220297304024,
         "n_structure_cells": 1128,
         "mean_pheromone": 1.0225284240229955,
         "max_pheromone": 5.403412092253949,
@@ -2435,6 +2586,7 @@
       {
         "step": 3775,
         "total_material": 3936.999633453794,
+        "material_growth_rate": -0.005652693887996852,
         "n_structure_cells": 1131,
         "mean_pheromone": 0.989093225806783,
         "max_pheromone": 5.42031367750164,
@@ -2451,6 +2603,7 @@
       {
         "step": 3800,
         "total_material": 3953.2501552470394,
+        "material_growth_rate": 0.0041276411750613435,
         "n_structure_cells": 1126,
         "mean_pheromone": 0.9884629993112626,
         "max_pheromone": 7.243244842388481,
@@ -2467,6 +2620,7 @@
       {
         "step": 3825,
         "total_material": 3946.631731628994,
+        "material_growth_rate": -0.0016741727333547938,
         "n_structure_cells": 1152,
         "mean_pheromone": 0.9787211624370415,
         "max_pheromone": 4.790216293940971,
@@ -2483,6 +2637,7 @@
       {
         "step": 3850,
         "total_material": 3951.279029319602,
+        "material_growth_rate": 0.001177535175973908,
         "n_structure_cells": 1165,
         "mean_pheromone": 0.9821715014260363,
         "max_pheromone": 5.279482183214263,
@@ -2499,6 +2654,7 @@
       {
         "step": 3875,
         "total_material": 3964.317763275918,
+        "material_growth_rate": 0.0032998767891522555,
         "n_structure_cells": 1151,
         "mean_pheromone": 1.0045719541510172,
         "max_pheromone": 5.934247962171231,
@@ -2515,6 +2671,7 @@
       {
         "step": 3900,
         "total_material": 3938.202670981168,
+        "material_growth_rate": -0.0065875375926398305,
         "n_structure_cells": 1124,
         "mean_pheromone": 1.0010529186954884,
         "max_pheromone": 5.319700385012719,
@@ -2531,6 +2688,7 @@
       {
         "step": 3925,
         "total_material": 3931.3596534652725,
+        "material_growth_rate": -0.0017375991251843514,
         "n_structure_cells": 1111,
         "mean_pheromone": 1.000863509442146,
         "max_pheromone": 6.055864075056491,
@@ -2547,6 +2705,7 @@
       {
         "step": 3950,
         "total_material": 3971.462721130763,
+        "material_growth_rate": 0.010200813764302097,
         "n_structure_cells": 1120,
         "mean_pheromone": 1.0321456604066197,
         "max_pheromone": 5.879728280912629,
@@ -2563,6 +2722,7 @@
       {
         "step": 3975,
         "total_material": 3944.0228808531424,
+        "material_growth_rate": -0.006909252888519574,
         "n_structure_cells": 1131,
         "mean_pheromone": 0.9945320209407453,
         "max_pheromone": 4.758405097820636,
@@ -2593,6 +2753,7 @@
       {
         "step": 0,
         "total_material": 0.0,
+        "material_growth_rate": null,
         "n_structure_cells": 0,
         "mean_pheromone": 0.0,
         "max_pheromone": 0.0,
@@ -2609,6 +2770,7 @@
       {
         "step": 25,
         "total_material": 365.04029119215477,
+        "material_growth_rate": null,
         "n_structure_cells": 85,
         "mean_pheromone": 7.141484775394498,
         "max_pheromone": 26.87344206132088,
@@ -2625,6 +2787,7 @@
       {
         "step": 50,
         "total_material": 1122.062477102297,
+        "material_growth_rate": 2.0738044653587315,
         "n_structure_cells": 253,
         "mean_pheromone": 11.456192183847804,
         "max_pheromone": 44.16668846378296,
@@ -2641,6 +2804,7 @@
       {
         "step": 75,
         "total_material": 1871.1529154906716,
+        "material_growth_rate": 0.6676013623794685,
         "n_structure_cells": 470,
         "mean_pheromone": 13.852378800228852,
         "max_pheromone": 60.28330783854951,
@@ -2657,6 +2821,7 @@
       {
         "step": 100,
         "total_material": 2517.641271941493,
+        "material_growth_rate": 0.34550268505516185,
         "n_structure_cells": 703,
         "mean_pheromone": 15.227880725873801,
         "max_pheromone": 59.704319271155924,
@@ -2673,6 +2838,7 @@
       {
         "step": 125,
         "total_material": 2985.13856881383,
+        "material_growth_rate": 0.18568860547468852,
         "n_structure_cells": 898,
         "mean_pheromone": 15.73347615130075,
         "max_pheromone": 61.397635402421955,
@@ -2689,6 +2855,7 @@
       {
         "step": 150,
         "total_material": 3409.155455893325,
+        "material_growth_rate": 0.14204261454032996,
         "n_structure_cells": 1097,
         "mean_pheromone": 15.739839131858302,
         "max_pheromone": 57.9272699940358,
@@ -2705,6 +2872,7 @@
       {
         "step": 175,
         "total_material": 3764.058556234388,
+        "material_growth_rate": 0.10410293837658556,
         "n_structure_cells": 1293,
         "mean_pheromone": 15.51329866163545,
         "max_pheromone": 50.77718876785349,
@@ -2721,6 +2889,7 @@
       {
         "step": 200,
         "total_material": 4103.83937846894,
+        "material_growth_rate": 0.09026980243752442,
         "n_structure_cells": 1439,
         "mean_pheromone": 15.410972634291376,
         "max_pheromone": 47.64784127262252,
@@ -2737,6 +2906,7 @@
       {
         "step": 225,
         "total_material": 4284.183468158809,
+        "material_growth_rate": 0.04394521155873112,
         "n_structure_cells": 1513,
         "mean_pheromone": 15.36874722000444,
         "max_pheromone": 43.23937815423895,
@@ -2753,6 +2923,7 @@
       {
         "step": 250,
         "total_material": 4462.007968662354,
+        "material_growth_rate": 0.0415072094426357,
         "n_structure_cells": 1585,
         "mean_pheromone": 15.317749815089844,
         "max_pheromone": 47.41302222417348,
@@ -2769,6 +2940,7 @@
       {
         "step": 275,
         "total_material": 4579.370726381927,
+        "material_growth_rate": 0.026302677750429177,
         "n_structure_cells": 1655,
         "mean_pheromone": 15.152096590321342,
         "max_pheromone": 43.21735265773523,
@@ -2785,6 +2957,7 @@
       {
         "step": 300,
         "total_material": 4731.662439838226,
+        "material_growth_rate": 0.03325603506589698,
         "n_structure_cells": 1644,
         "mean_pheromone": 15.087684130133981,
         "max_pheromone": 39.62073336410491,
@@ -2801,6 +2974,7 @@
       {
         "step": 325,
         "total_material": 4857.199389889394,
+        "material_growth_rate": 0.026531256539817735,
         "n_structure_cells": 1720,
         "mean_pheromone": 14.747418242066098,
         "max_pheromone": 38.54229565377904,
@@ -2817,6 +2991,7 @@
       {
         "step": 350,
         "total_material": 4885.4109740225285,
+        "material_growth_rate": 0.005808199719340049,
         "n_structure_cells": 1784,
         "mean_pheromone": 14.497805748070135,
         "max_pheromone": 41.20960806887358,
@@ -2833,6 +3008,7 @@
       {
         "step": 375,
         "total_material": 4966.5489226954,
+        "material_growth_rate": 0.016608213537061767,
         "n_structure_cells": 1802,
         "mean_pheromone": 14.35102854377436,
         "max_pheromone": 39.797800876843105,
@@ -2849,6 +3025,7 @@
       {
         "step": 400,
         "total_material": 4976.186155152042,
+        "material_growth_rate": 0.0019404283752454305,
         "n_structure_cells": 1763,
         "mean_pheromone": 14.302871564851666,
         "max_pheromone": 40.007788729557156,
@@ -2865,6 +3042,7 @@
       {
         "step": 425,
         "total_material": 5060.404814672465,
+        "material_growth_rate": 0.016924338618889503,
         "n_structure_cells": 1828,
         "mean_pheromone": 13.997314035400345,
         "max_pheromone": 38.34527886653163,
@@ -2881,6 +3059,7 @@
       {
         "step": 450,
         "total_material": 5134.05259387064,
+        "material_growth_rate": 0.014553732733917869,
         "n_structure_cells": 1858,
         "mean_pheromone": 13.996575613376002,
         "max_pheromone": 36.214039757837746,
@@ -2897,6 +3076,7 @@
       {
         "step": 475,
         "total_material": 5178.603475219275,
+        "material_growth_rate": 0.008677527262152223,
         "n_structure_cells": 1833,
         "mean_pheromone": 13.999322096066862,
         "max_pheromone": 37.44437529056724,
@@ -2913,6 +3093,7 @@
       {
         "step": 500,
         "total_material": 5192.611306673489,
+        "material_growth_rate": 0.0027049438176226163,
         "n_structure_cells": 1820,
         "mean_pheromone": 13.976231191469116,
         "max_pheromone": 39.494863862597725,
@@ -2929,6 +3110,7 @@
       {
         "step": 525,
         "total_material": 5259.160199345875,
+        "material_growth_rate": 0.01281607436837388,
         "n_structure_cells": 1828,
         "mean_pheromone": 14.062443034760637,
         "max_pheromone": 42.00421756282074,
@@ -2945,6 +3127,7 @@
       {
         "step": 550,
         "total_material": 5272.05450542165,
+        "material_growth_rate": 0.0024517804339518816,
         "n_structure_cells": 1788,
         "mean_pheromone": 14.232354343622864,
         "max_pheromone": 47.44667292915026,
@@ -2961,6 +3144,7 @@
       {
         "step": 575,
         "total_material": 5280.987589662968,
+        "material_growth_rate": 0.0016944218296930961,
         "n_structure_cells": 1833,
         "mean_pheromone": 14.327855003205405,
         "max_pheromone": 46.89931759376523,
@@ -2977,6 +3161,7 @@
       {
         "step": 600,
         "total_material": 5282.7391367413875,
+        "material_growth_rate": 0.00033167036443101943,
         "n_structure_cells": 1864,
         "mean_pheromone": 14.257141047144344,
         "max_pheromone": 43.202746870860786,
@@ -2993,6 +3178,7 @@
       {
         "step": 625,
         "total_material": 5272.784963842998,
+        "material_growth_rate": -0.001884282498289261,
         "n_structure_cells": 1868,
         "mean_pheromone": 13.982158360283792,
         "max_pheromone": 41.45965678894763,
@@ -3009,6 +3195,7 @@
       {
         "step": 650,
         "total_material": 5281.044079764313,
+        "material_growth_rate": 0.0015663669157665967,
         "n_structure_cells": 1833,
         "mean_pheromone": 13.62094883187556,
         "max_pheromone": 41.65804891823629,
@@ -3025,6 +3212,7 @@
       {
         "step": 675,
         "total_material": 5251.7498416604985,
+        "material_growth_rate": -0.005547054268314693,
         "n_structure_cells": 1777,
         "mean_pheromone": 13.562995288532967,
         "max_pheromone": 40.22132441695943,
@@ -3041,6 +3229,7 @@
       {
         "step": 700,
         "total_material": 5247.852204784134,
+        "material_growth_rate": -0.0007421596598995424,
         "n_structure_cells": 1772,
         "mean_pheromone": 13.477617902252808,
         "max_pheromone": 41.35068066259842,
@@ -3057,6 +3246,7 @@
       {
         "step": 725,
         "total_material": 5313.547676594486,
+        "material_growth_rate": 0.0125185445867666,
         "n_structure_cells": 1805,
         "mean_pheromone": 13.432850157347863,
         "max_pheromone": 42.022515637526425,
@@ -3073,6 +3263,7 @@
       {
         "step": 750,
         "total_material": 5288.195941191138,
+        "material_growth_rate": -0.0047711504528356215,
         "n_structure_cells": 1871,
         "mean_pheromone": 13.413901779420305,
         "max_pheromone": 39.9590479168762,
@@ -3089,6 +3280,7 @@
       {
         "step": 775,
         "total_material": 5283.4835929553865,
+        "material_growth_rate": -0.0008911069650513987,
         "n_structure_cells": 1851,
         "mean_pheromone": 13.534444788772111,
         "max_pheromone": 42.16859964729476,
@@ -3105,6 +3297,7 @@
       {
         "step": 800,
         "total_material": 5302.272710541779,
+        "material_growth_rate": 0.003556198719239796,
         "n_structure_cells": 1832,
         "mean_pheromone": 13.634870578233626,
         "max_pheromone": 41.69468972651536,
@@ -3121,6 +3314,7 @@
       {
         "step": 825,
         "total_material": 5294.011370122338,
+        "material_growth_rate": -0.0015580753519176596,
         "n_structure_cells": 1849,
         "mean_pheromone": 13.481442898253219,
         "max_pheromone": 41.01536390930265,
@@ -3137,6 +3331,7 @@
       {
         "step": 850,
         "total_material": 5324.913235250766,
+        "material_growth_rate": 0.0058371361464819894,
         "n_structure_cells": 1874,
         "mean_pheromone": 13.436420206923994,
         "max_pheromone": 40.86289790607935,
@@ -3153,6 +3348,7 @@
       {
         "step": 875,
         "total_material": 5284.3552787264525,
+        "material_growth_rate": -0.007616641761563529,
         "n_structure_cells": 1827,
         "mean_pheromone": 13.484245682341834,
         "max_pheromone": 37.59954711144138,
@@ -3169,6 +3365,7 @@
       {
         "step": 900,
         "total_material": 5340.662990577681,
+        "material_growth_rate": 0.010655549992618713,
         "n_structure_cells": 1849,
         "mean_pheromone": 13.387732279374704,
         "max_pheromone": 41.108258043308,
@@ -3185,6 +3382,7 @@
       {
         "step": 925,
         "total_material": 5362.303830303633,
+        "material_growth_rate": 0.004052088619733554,
         "n_structure_cells": 1873,
         "mean_pheromone": 13.182318398360207,
         "max_pheromone": 42.30025207941712,
@@ -3201,6 +3399,7 @@
       {
         "step": 950,
         "total_material": 5372.201302126199,
+        "material_growth_rate": 0.0018457499119377391,
         "n_structure_cells": 1875,
         "mean_pheromone": 13.040087388646528,
         "max_pheromone": 38.53552768583489,
@@ -3217,6 +3416,7 @@
       {
         "step": 975,
         "total_material": 5366.7372561905795,
+        "material_growth_rate": -0.0010170962754982957,
         "n_structure_cells": 1858,
         "mean_pheromone": 13.129346869446975,
         "max_pheromone": 41.93361830608933,
@@ -3233,6 +3433,7 @@
       {
         "step": 1000,
         "total_material": 5378.6662606588,
+        "material_growth_rate": 0.0022227666268662613,
         "n_structure_cells": 1840,
         "mean_pheromone": 13.239153936221298,
         "max_pheromone": 39.41846896437242,
@@ -3249,6 +3450,7 @@
       {
         "step": 1025,
         "total_material": 5387.904945372284,
+        "material_growth_rate": 0.0017176534601260746,
         "n_structure_cells": 1818,
         "mean_pheromone": 13.506383390134383,
         "max_pheromone": 38.50534296018856,
@@ -3265,6 +3467,7 @@
       {
         "step": 1050,
         "total_material": 5393.718726877708,
+        "material_growth_rate": 0.0010790430722831769,
         "n_structure_cells": 1889,
         "mean_pheromone": 13.518257533572546,
         "max_pheromone": 40.80920998935941,
@@ -3281,6 +3484,7 @@
       {
         "step": 1075,
         "total_material": 5360.492060192499,
+        "material_growth_rate": -0.0061602520204911285,
         "n_structure_cells": 1850,
         "mean_pheromone": 13.65854810330971,
         "max_pheromone": 43.97213212483953,
@@ -3297,6 +3501,7 @@
       {
         "step": 1100,
         "total_material": 5344.354942753229,
+        "material_growth_rate": -0.0030103798789490777,
         "n_structure_cells": 1865,
         "mean_pheromone": 13.700720996756747,
         "max_pheromone": 40.20341784964786,
@@ -3313,6 +3518,7 @@
       {
         "step": 1125,
         "total_material": 5365.673931494324,
+        "material_growth_rate": 0.0039890667759639046,
         "n_structure_cells": 1852,
         "mean_pheromone": 13.859010559766094,
         "max_pheromone": 40.011890787239224,
@@ -3329,6 +3535,7 @@
       {
         "step": 1150,
         "total_material": 5333.21240606798,
+        "material_growth_rate": -0.0060498505575988315,
         "n_structure_cells": 1868,
         "mean_pheromone": 13.835636624359058,
         "max_pheromone": 36.41661540881842,
@@ -3345,6 +3552,7 @@
       {
         "step": 1175,
         "total_material": 5312.585100036682,
+        "material_growth_rate": -0.0038677075767371795,
         "n_structure_cells": 1826,
         "mean_pheromone": 13.644955716448385,
         "max_pheromone": 37.568895120258404,
@@ -3361,6 +3569,7 @@
       {
         "step": 1200,
         "total_material": 5299.200569482555,
+        "material_growth_rate": -0.002519400687630355,
         "n_structure_cells": 1847,
         "mean_pheromone": 13.279533366831176,
         "max_pheromone": 36.09859251619253,
@@ -3377,6 +3586,7 @@
       {
         "step": 1225,
         "total_material": 5314.383905581772,
+        "material_growth_rate": 0.002865212573129577,
         "n_structure_cells": 1881,
         "mean_pheromone": 13.251013404020183,
         "max_pheromone": 36.29701360247818,
@@ -3393,6 +3603,7 @@
       {
         "step": 1250,
         "total_material": 5263.4636843270455,
+        "material_growth_rate": -0.009581585026487061,
         "n_structure_cells": 1825,
         "mean_pheromone": 13.329706201262468,
         "max_pheromone": 40.47950847338484,
@@ -3409,6 +3620,7 @@
       {
         "step": 1275,
         "total_material": 5310.113676990683,
+        "material_growth_rate": 0.008862983666543965,
         "n_structure_cells": 1821,
         "mean_pheromone": 13.359938848192668,
         "max_pheromone": 39.496222270338095,
@@ -3425,6 +3637,7 @@
       {
         "step": 1300,
         "total_material": 5318.413868629178,
+        "material_growth_rate": 0.0015630911395475978,
         "n_structure_cells": 1823,
         "mean_pheromone": 13.380011764554348,
         "max_pheromone": 43.822852867902014,
@@ -3441,6 +3654,7 @@
       {
         "step": 1325,
         "total_material": 5366.729393173881,
+        "material_growth_rate": 0.009084574036197869,
         "n_structure_cells": 1798,
         "mean_pheromone": 13.703103672527286,
         "max_pheromone": 48.57308174252147,
@@ -3457,6 +3671,7 @@
       {
         "step": 1350,
         "total_material": 5383.22532774261,
+        "material_growth_rate": 0.0030737407013124536,
         "n_structure_cells": 1821,
         "mean_pheromone": 13.65534446328386,
         "max_pheromone": 45.234153246574785,
@@ -3473,6 +3688,7 @@
       {
         "step": 1375,
         "total_material": 5383.03883095432,
+        "material_growth_rate": -3.4644061308213364e-05,
         "n_structure_cells": 1852,
         "mean_pheromone": 13.700851103889036,
         "max_pheromone": 38.9402101302956,
@@ -3489,6 +3705,7 @@
       {
         "step": 1400,
         "total_material": 5371.153068887508,
+        "material_growth_rate": -0.0022080022901681774,
         "n_structure_cells": 1872,
         "mean_pheromone": 13.750453397475372,
         "max_pheromone": 36.691320260232665,
@@ -3505,6 +3722,7 @@
       {
         "step": 1425,
         "total_material": 5374.263182466856,
+        "material_growth_rate": 0.0005790402059779747,
         "n_structure_cells": 1882,
         "mean_pheromone": 13.853724749480012,
         "max_pheromone": 35.879502540701864,
@@ -3521,6 +3739,7 @@
       {
         "step": 1450,
         "total_material": 5358.261353021113,
+        "material_growth_rate": -0.002977492709688647,
         "n_structure_cells": 1928,
         "mean_pheromone": 13.690915345720443,
         "max_pheromone": 35.4462574298955,
@@ -3537,6 +3756,7 @@
       {
         "step": 1475,
         "total_material": 5395.251231743474,
+        "material_growth_rate": 0.006903336042297614,
         "n_structure_cells": 1899,
         "mean_pheromone": 13.801611406836745,
         "max_pheromone": 34.439944827690155,
@@ -3553,6 +3773,7 @@
       {
         "step": 1500,
         "total_material": 5366.73643800034,
+        "material_growth_rate": -0.005285165142146551,
         "n_structure_cells": 1880,
         "mean_pheromone": 13.770281399827693,
         "max_pheromone": 33.00043283575096,
@@ -3569,6 +3790,7 @@
       {
         "step": 1525,
         "total_material": 5373.198632883802,
+        "material_growth_rate": 0.0012041200379629211,
         "n_structure_cells": 1866,
         "mean_pheromone": 13.716526982595045,
         "max_pheromone": 37.96151428008107,
@@ -3585,6 +3807,7 @@
       {
         "step": 1550,
         "total_material": 5334.875000514973,
+        "material_growth_rate": -0.007132368443312229,
         "n_structure_cells": 1837,
         "mean_pheromone": 13.67903227321848,
         "max_pheromone": 34.97798781928683,
@@ -3601,6 +3824,7 @@
       {
         "step": 1575,
         "total_material": 5376.716194292161,
+        "material_growth_rate": 0.007842956727786324,
         "n_structure_cells": 1927,
         "mean_pheromone": 13.460093504583494,
         "max_pheromone": 37.136251007515554,
@@ -3617,6 +3841,7 @@
       {
         "step": 1600,
         "total_material": 5381.461704166208,
+        "material_growth_rate": 0.0008826037496798339,
         "n_structure_cells": 1871,
         "mean_pheromone": 13.657835273818758,
         "max_pheromone": 39.839904354907794,
@@ -3633,6 +3858,7 @@
       {
         "step": 1625,
         "total_material": 5382.201055272657,
+        "material_growth_rate": 0.00013738852882235684,
         "n_structure_cells": 1862,
         "mean_pheromone": 13.718258738118537,
         "max_pheromone": 39.61247190414859,
@@ -3649,6 +3875,7 @@
       {
         "step": 1650,
         "total_material": 5362.12478208565,
+        "material_growth_rate": -0.003730123230409534,
         "n_structure_cells": 1880,
         "mean_pheromone": 13.67940821797898,
         "max_pheromone": 37.31364314824311,
@@ -3665,6 +3892,7 @@
       {
         "step": 1675,
         "total_material": 5365.658571900982,
+        "material_growth_rate": 0.0006590278963925109,
         "n_structure_cells": 1879,
         "mean_pheromone": 13.722434210018703,
         "max_pheromone": 39.81516648105632,
@@ -3681,6 +3909,7 @@
       {
         "step": 1700,
         "total_material": 5329.024929304513,
+        "material_growth_rate": -0.006827427072664136,
         "n_structure_cells": 1835,
         "mean_pheromone": 13.883461825351057,
         "max_pheromone": 39.977450414108525,
@@ -3697,6 +3926,7 @@
       {
         "step": 1725,
         "total_material": 5322.908001279606,
+        "material_growth_rate": -0.0011478512684880984,
         "n_structure_cells": 1849,
         "mean_pheromone": 13.878520160128975,
         "max_pheromone": 42.32513512423747,
@@ -3713,6 +3943,7 @@
       {
         "step": 1750,
         "total_material": 5294.226036462119,
+        "material_growth_rate": -0.005388401379582718,
         "n_structure_cells": 1872,
         "mean_pheromone": 13.922739845094112,
         "max_pheromone": 45.889374920225656,
@@ -3729,6 +3960,7 @@
       {
         "step": 1775,
         "total_material": 5288.9742738689365,
+        "material_growth_rate": -0.0009919792915928888,
         "n_structure_cells": 1881,
         "mean_pheromone": 13.696517653096622,
         "max_pheromone": 46.56600544519819,
@@ -3745,6 +3977,7 @@
       {
         "step": 1800,
         "total_material": 5358.725477016012,
+        "material_growth_rate": 0.01318803978527417,
         "n_structure_cells": 1864,
         "mean_pheromone": 13.825642537556867,
         "max_pheromone": 41.073762608847176,
@@ -3761,6 +3994,7 @@
       {
         "step": 1825,
         "total_material": 5371.072152645639,
+        "material_growth_rate": 0.0023040321215526613,
         "n_structure_cells": 1897,
         "mean_pheromone": 13.840854237694383,
         "max_pheromone": 39.50218583558009,
@@ -3777,6 +4011,7 @@
       {
         "step": 1850,
         "total_material": 5370.235556712594,
+        "material_growth_rate": -0.00015575957821248687,
         "n_structure_cells": 1907,
         "mean_pheromone": 13.728611983883988,
         "max_pheromone": 41.27990534841135,
@@ -3793,6 +4028,7 @@
       {
         "step": 1875,
         "total_material": 5412.425668602704,
+        "material_growth_rate": 0.00785628701842949,
         "n_structure_cells": 1933,
         "mean_pheromone": 13.699568652349992,
         "max_pheromone": 39.438933747789285,
@@ -3809,6 +4045,7 @@
       {
         "step": 1900,
         "total_material": 5419.587392810294,
+        "material_growth_rate": 0.0013232004735205618,
         "n_structure_cells": 1934,
         "mean_pheromone": 14.066208601026348,
         "max_pheromone": 37.7158704452107,
@@ -3825,6 +4062,7 @@
       {
         "step": 1925,
         "total_material": 5446.044158012148,
+        "material_growth_rate": 0.004881693620616213,
         "n_structure_cells": 1975,
         "mean_pheromone": 14.220118196632422,
         "max_pheromone": 42.935115689222144,
@@ -3841,6 +4079,7 @@
       {
         "step": 1950,
         "total_material": 5361.651651667813,
+        "material_growth_rate": -0.015496111286607491,
         "n_structure_cells": 1933,
         "mean_pheromone": 14.239925508378816,
         "max_pheromone": 45.379508364267096,
@@ -3857,6 +4096,7 @@
       {
         "step": 1975,
         "total_material": 5366.253798280465,
+        "material_growth_rate": 0.0008583449488406466,
         "n_structure_cells": 1938,
         "mean_pheromone": 14.078740435507523,
         "max_pheromone": 42.81102479829377,
@@ -3873,6 +4113,7 @@
       {
         "step": 2000,
         "total_material": 5299.538449128269,
+        "material_growth_rate": -0.012432387967481848,
         "n_structure_cells": 1880,
         "mean_pheromone": 14.064934189882583,
         "max_pheromone": 42.87889216747413,
@@ -3889,6 +4130,7 @@
       {
         "step": 2025,
         "total_material": 5294.463767643923,
+        "material_growth_rate": -0.0009575704626090118,
         "n_structure_cells": 1818,
         "mean_pheromone": 14.094276189948795,
         "max_pheromone": 45.043401870900695,
@@ -3905,6 +4147,7 @@
       {
         "step": 2050,
         "total_material": 5347.323272811102,
+        "material_growth_rate": 0.009983920466170476,
         "n_structure_cells": 1804,
         "mean_pheromone": 14.06970714380642,
         "max_pheromone": 46.406495897046106,
@@ -3921,6 +4164,7 @@
       {
         "step": 2075,
         "total_material": 5345.6590392576045,
+        "material_growth_rate": -0.0003112274064220131,
         "n_structure_cells": 1817,
         "mean_pheromone": 14.020321256889755,
         "max_pheromone": 52.76585925444952,
@@ -3937,6 +4181,7 @@
       {
         "step": 2100,
         "total_material": 5340.570180368881,
+        "material_growth_rate": -0.0009519609932754833,
         "n_structure_cells": 1885,
         "mean_pheromone": 13.961533630931601,
         "max_pheromone": 49.32725017682433,
@@ -3953,6 +4198,7 @@
       {
         "step": 2125,
         "total_material": 5310.445966304175,
+        "material_growth_rate": -0.005640636307980277,
         "n_structure_cells": 1835,
         "mean_pheromone": 13.92512540271167,
         "max_pheromone": 47.49197342760634,
@@ -3969,6 +4215,7 @@
       {
         "step": 2150,
         "total_material": 5325.253729353131,
+        "material_growth_rate": 0.0027884217526953944,
         "n_structure_cells": 1854,
         "mean_pheromone": 13.717579201102652,
         "max_pheromone": 54.13364584769682,
@@ -3985,6 +4232,7 @@
       {
         "step": 2175,
         "total_material": 5363.625065619364,
+        "material_growth_rate": 0.007205541410116798,
         "n_structure_cells": 1891,
         "mean_pheromone": 13.602088241217835,
         "max_pheromone": 48.74295276035993,
@@ -4001,6 +4249,7 @@
       {
         "step": 2200,
         "total_material": 5355.940584460798,
+        "material_growth_rate": -0.0014327028948804275,
         "n_structure_cells": 1880,
         "mean_pheromone": 13.46131987199724,
         "max_pheromone": 49.291018265964965,
@@ -4017,6 +4266,7 @@
       {
         "step": 2225,
         "total_material": 5389.20444788955,
+        "material_growth_rate": 0.006210648326693524,
         "n_structure_cells": 1891,
         "mean_pheromone": 13.593305177216159,
         "max_pheromone": 45.89294122542817,
@@ -4033,6 +4283,7 @@
       {
         "step": 2250,
         "total_material": 5371.046851283003,
+        "material_growth_rate": -0.00336925362214774,
         "n_structure_cells": 1874,
         "mean_pheromone": 13.795883792397346,
         "max_pheromone": 40.7435686141878,
@@ -4049,6 +4300,7 @@
       {
         "step": 2275,
         "total_material": 5311.361330787514,
+        "material_growth_rate": -0.011112455755479355,
         "n_structure_cells": 1840,
         "mean_pheromone": 13.904731058142058,
         "max_pheromone": 40.20209641105945,
@@ -4065,6 +4317,7 @@
       {
         "step": 2300,
         "total_material": 5284.147305726161,
+        "material_growth_rate": -0.005123738221989483,
         "n_structure_cells": 1852,
         "mean_pheromone": 13.874251753774907,
         "max_pheromone": 38.57844445790452,
@@ -4081,6 +4334,7 @@
       {
         "step": 2325,
         "total_material": 5334.489515118463,
+        "material_growth_rate": 0.009527026117865512,
         "n_structure_cells": 1859,
         "mean_pheromone": 13.992021529057638,
         "max_pheromone": 40.921096359161595,
@@ -4097,6 +4351,7 @@
       {
         "step": 2350,
         "total_material": 5311.357313880853,
+        "material_growth_rate": -0.004336347680888784,
         "n_structure_cells": 1840,
         "mean_pheromone": 14.044359193842746,
         "max_pheromone": 42.96121204881588,
@@ -4113,6 +4368,7 @@
       {
         "step": 2375,
         "total_material": 5330.033520605848,
+        "material_growth_rate": 0.003516277595594212,
         "n_structure_cells": 1847,
         "mean_pheromone": 14.050479304172521,
         "max_pheromone": 44.800648009030716,
@@ -4129,6 +4385,7 @@
       {
         "step": 2400,
         "total_material": 5326.278234633202,
+        "material_growth_rate": -0.0007045520367044147,
         "n_structure_cells": 1859,
         "mean_pheromone": 14.278463058901893,
         "max_pheromone": 45.906472625373716,
@@ -4145,6 +4402,7 @@
       {
         "step": 2425,
         "total_material": 5348.882313879993,
+        "material_growth_rate": 0.0042438787932277166,
         "n_structure_cells": 1856,
         "mean_pheromone": 14.398941294115287,
         "max_pheromone": 49.953201301195314,
@@ -4161,6 +4419,7 @@
       {
         "step": 2450,
         "total_material": 5381.784179306767,
+        "material_growth_rate": 0.0061511664486235944,
         "n_structure_cells": 1905,
         "mean_pheromone": 14.317166779071018,
         "max_pheromone": 55.489548994525364,
@@ -4177,6 +4436,7 @@
       {
         "step": 2475,
         "total_material": 5399.6260143367,
+        "material_growth_rate": 0.003315226778980717,
         "n_structure_cells": 1936,
         "mean_pheromone": 14.117423089573688,
         "max_pheromone": 50.642571121344155,
@@ -4193,6 +4453,7 @@
       {
         "step": 2500,
         "total_material": 5363.842163419045,
+        "material_growth_rate": -0.006627098029130865,
         "n_structure_cells": 1888,
         "mean_pheromone": 14.264999026322796,
         "max_pheromone": 51.05997332812326,
@@ -4209,6 +4470,7 @@
       {
         "step": 2525,
         "total_material": 5382.427584696145,
+        "material_growth_rate": 0.0034649455951277193,
         "n_structure_cells": 1916,
         "mean_pheromone": 14.233675102365074,
         "max_pheromone": 48.91843832708137,
@@ -4225,6 +4487,7 @@
       {
         "step": 2550,
         "total_material": 5395.025937118953,
+        "material_growth_rate": 0.002340645038798013,
         "n_structure_cells": 1901,
         "mean_pheromone": 14.310405738724187,
         "max_pheromone": 44.68904682961781,
@@ -4241,6 +4504,7 @@
       {
         "step": 2575,
         "total_material": 5382.982616881193,
+        "material_growth_rate": -0.002232300711457049,
         "n_structure_cells": 1872,
         "mean_pheromone": 14.319054828768945,
         "max_pheromone": 42.22102458642762,
@@ -4257,6 +4521,7 @@
       {
         "step": 2600,
         "total_material": 5373.58267376237,
+        "material_growth_rate": -0.0017462332293893357,
         "n_structure_cells": 1854,
         "mean_pheromone": 14.415842876525309,
         "max_pheromone": 39.568597560455025,
@@ -4273,6 +4538,7 @@
       {
         "step": 2625,
         "total_material": 5379.605199682569,
+        "material_growth_rate": 0.0011207654717224486,
         "n_structure_cells": 1896,
         "mean_pheromone": 14.293134891399925,
         "max_pheromone": 40.72583826947639,
@@ -4289,6 +4555,7 @@
       {
         "step": 2650,
         "total_material": 5356.6293285336105,
+        "material_growth_rate": -0.004270921433103349,
         "n_structure_cells": 1933,
         "mean_pheromone": 14.183362720417149,
         "max_pheromone": 39.928371097520994,
@@ -4305,6 +4572,7 @@
       {
         "step": 2675,
         "total_material": 5341.615094954228,
+        "material_growth_rate": -0.002802925619550521,
         "n_structure_cells": 1896,
         "mean_pheromone": 14.032062491367757,
         "max_pheromone": 39.31081541909933,
@@ -4321,6 +4589,7 @@
       {
         "step": 2700,
         "total_material": 5328.680238899622,
+        "material_growth_rate": -0.002421525292382894,
         "n_structure_cells": 1867,
         "mean_pheromone": 14.004693224910728,
         "max_pheromone": 43.39560176603529,
@@ -4337,6 +4606,7 @@
       {
         "step": 2725,
         "total_material": 5358.193431749414,
+        "material_growth_rate": 0.005538555801180271,
         "n_structure_cells": 1912,
         "mean_pheromone": 13.890632563670374,
         "max_pheromone": 45.64969193198023,
@@ -4353,6 +4623,7 @@
       {
         "step": 2750,
         "total_material": 5388.531152470691,
+        "material_growth_rate": 0.005661930855559273,
         "n_structure_cells": 1901,
         "mean_pheromone": 14.032439635446991,
         "max_pheromone": 43.85930488451377,
@@ -4369,6 +4640,7 @@
       {
         "step": 2775,
         "total_material": 5393.430022967386,
+        "material_growth_rate": 0.0009091291036609998,
         "n_structure_cells": 1901,
         "mean_pheromone": 14.255487302282308,
         "max_pheromone": 40.563328505560634,
@@ -4385,6 +4657,7 @@
       {
         "step": 2800,
         "total_material": 5411.386849781977,
+        "material_growth_rate": 0.003329389041504761,
         "n_structure_cells": 1887,
         "mean_pheromone": 14.346019690689156,
         "max_pheromone": 44.16232917922981,
@@ -4401,6 +4674,7 @@
       {
         "step": 2825,
         "total_material": 5361.459090797431,
+        "material_growth_rate": -0.0092264257519415,
         "n_structure_cells": 1844,
         "mean_pheromone": 14.540710973290475,
         "max_pheromone": 39.763434093695444,
@@ -4417,6 +4691,7 @@
       {
         "step": 2850,
         "total_material": 5308.591974302408,
+        "material_growth_rate": -0.009860583770146742,
         "n_structure_cells": 1864,
         "mean_pheromone": 14.338486190461104,
         "max_pheromone": 41.42834838404916,
@@ -4433,6 +4708,7 @@
       {
         "step": 2875,
         "total_material": 5311.6353590448925,
+        "material_growth_rate": 0.0005732941535565332,
         "n_structure_cells": 1863,
         "mean_pheromone": 14.247458554817044,
         "max_pheromone": 44.25770774474109,
@@ -4449,6 +4725,7 @@
       {
         "step": 2900,
         "total_material": 5276.920444698761,
+        "material_growth_rate": -0.006535635825794756,
         "n_structure_cells": 1886,
         "mean_pheromone": 14.114621704841527,
         "max_pheromone": 52.01343451087141,
@@ -4465,6 +4742,7 @@
       {
         "step": 2925,
         "total_material": 5302.849715977068,
+        "material_growth_rate": 0.004913712751602298,
         "n_structure_cells": 1884,
         "mean_pheromone": 14.10750483007448,
         "max_pheromone": 52.71430404037332,
@@ -4481,6 +4759,7 @@
       {
         "step": 2950,
         "total_material": 5313.568417490573,
+        "material_growth_rate": 0.002021309689620363,
         "n_structure_cells": 1874,
         "mean_pheromone": 14.04854720355714,
         "max_pheromone": 48.829312446769194,
@@ -4497,6 +4776,7 @@
       {
         "step": 2975,
         "total_material": 5339.36643486693,
+        "material_growth_rate": 0.004855120956274567,
         "n_structure_cells": 1917,
         "mean_pheromone": 13.79652020157673,
         "max_pheromone": 43.89966555685942,
@@ -4513,6 +4793,7 @@
       {
         "step": 3000,
         "total_material": 5300.9032545574355,
+        "material_growth_rate": -0.007203697438393365,
         "n_structure_cells": 1900,
         "mean_pheromone": 13.796073580593925,
         "max_pheromone": 40.6474460062012,
@@ -4529,6 +4810,7 @@
       {
         "step": 3025,
         "total_material": 5311.758145270031,
+        "material_growth_rate": 0.0020477435997841727,
         "n_structure_cells": 1873,
         "mean_pheromone": 13.654818703026448,
         "max_pheromone": 48.018736010672775,
@@ -4545,6 +4827,7 @@
       {
         "step": 3050,
         "total_material": 5349.412977579064,
+        "material_growth_rate": 0.00708895835977854,
         "n_structure_cells": 1902,
         "mean_pheromone": 13.78559963545097,
         "max_pheromone": 48.62125697122841,
@@ -4561,6 +4844,7 @@
       {
         "step": 3075,
         "total_material": 5311.224504207697,
+        "material_growth_rate": -0.007138815703971013,
         "n_structure_cells": 1891,
         "mean_pheromone": 13.86621198698378,
         "max_pheromone": 44.69200992513703,
@@ -4577,6 +4861,7 @@
       {
         "step": 3100,
         "total_material": 5320.005778178358,
+        "material_growth_rate": 0.0016533426451291401,
         "n_structure_cells": 1868,
         "mean_pheromone": 13.925481274281745,
         "max_pheromone": 38.9177239075035,
@@ -4593,6 +4878,7 @@
       {
         "step": 3125,
         "total_material": 5307.847572775092,
+        "material_growth_rate": -0.0022853744733016385,
         "n_structure_cells": 1839,
         "mean_pheromone": 13.997303216639338,
         "max_pheromone": 38.875611799139705,
@@ -4609,6 +4895,7 @@
       {
         "step": 3150,
         "total_material": 5321.312429509103,
+        "material_growth_rate": 0.002536782857720824,
         "n_structure_cells": 1844,
         "mean_pheromone": 14.114580479338173,
         "max_pheromone": 40.635305110158924,
@@ -4625,6 +4912,7 @@
       {
         "step": 3175,
         "total_material": 5272.696536806315,
+        "material_growth_rate": -0.00913607185197225,
         "n_structure_cells": 1825,
         "mean_pheromone": 14.267834571393323,
         "max_pheromone": 42.66838050679356,
@@ -4641,6 +4929,7 @@
       {
         "step": 3200,
         "total_material": 5289.625329155668,
+        "material_growth_rate": 0.003210651747389733,
         "n_structure_cells": 1854,
         "mean_pheromone": 14.268462745486163,
         "max_pheromone": 45.81287907830316,
@@ -4657,6 +4946,7 @@
       {
         "step": 3225,
         "total_material": 5318.796508810508,
+        "material_growth_rate": 0.005514791282863315,
         "n_structure_cells": 1877,
         "mean_pheromone": 14.270592198001477,
         "max_pheromone": 53.044217454437465,
@@ -4673,6 +4963,7 @@
       {
         "step": 3250,
         "total_material": 5257.302938463632,
+        "material_growth_rate": -0.011561557251722861,
         "n_structure_cells": 1819,
         "mean_pheromone": 14.346402990283057,
         "max_pheromone": 53.52107705745081,
@@ -4689,6 +4980,7 @@
       {
         "step": 3275,
         "total_material": 5276.050164114029,
+        "material_growth_rate": 0.003565939773650481,
         "n_structure_cells": 1843,
         "mean_pheromone": 14.043542637491155,
         "max_pheromone": 50.3588071430152,
@@ -4705,6 +4997,7 @@
       {
         "step": 3300,
         "total_material": 5286.280136088482,
+        "material_growth_rate": 0.001938945168496354,
         "n_structure_cells": 1838,
         "mean_pheromone": 14.000763869149967,
         "max_pheromone": 46.547917586823594,
@@ -4721,6 +5014,7 @@
       {
         "step": 3325,
         "total_material": 5337.2673185139265,
+        "material_growth_rate": 0.009645191157646732,
         "n_structure_cells": 1865,
         "mean_pheromone": 14.101962669122623,
         "max_pheromone": 42.98647065059579,
@@ -4737,6 +5031,7 @@
       {
         "step": 3350,
         "total_material": 5346.631161296334,
+        "material_growth_rate": 0.0017544264177898298,
         "n_structure_cells": 1810,
         "mean_pheromone": 14.521163058483028,
         "max_pheromone": 41.874061453692036,
@@ -4753,6 +5048,7 @@
       {
         "step": 3375,
         "total_material": 5374.247623352189,
+        "material_growth_rate": 0.005165208001585774,
         "n_structure_cells": 1799,
         "mean_pheromone": 14.987551999140425,
         "max_pheromone": 47.98522607956384,
@@ -4769,6 +5065,7 @@
       {
         "step": 3400,
         "total_material": 5381.7304637177895,
+        "material_growth_rate": 0.0013923512443091974,
         "n_structure_cells": 1863,
         "mean_pheromone": 14.87334459067331,
         "max_pheromone": 47.93639938318828,
@@ -4785,6 +5082,7 @@
       {
         "step": 3425,
         "total_material": 5337.893116192871,
+        "material_growth_rate": -0.008145585852070826,
         "n_structure_cells": 1863,
         "mean_pheromone": 14.818280382745636,
         "max_pheromone": 43.754388887026096,
@@ -4801,6 +5099,7 @@
       {
         "step": 3450,
         "total_material": 5374.348152827993,
+        "material_growth_rate": 0.006829480441362242,
         "n_structure_cells": 1867,
         "mean_pheromone": 14.990194917520247,
         "max_pheromone": 48.56015947135586,
@@ -4817,6 +5116,7 @@
       {
         "step": 3475,
         "total_material": 5386.48538768706,
+        "material_growth_rate": 0.0022583640869415834,
         "n_structure_cells": 1914,
         "mean_pheromone": 14.98238959435933,
         "max_pheromone": 52.447623812602515,
@@ -4833,6 +5133,7 @@
       {
         "step": 3500,
         "total_material": 5401.69492543832,
+        "material_growth_rate": 0.002823647825356964,
         "n_structure_cells": 1894,
         "mean_pheromone": 15.310159811116142,
         "max_pheromone": 53.456142573392626,
@@ -4849,6 +5150,7 @@
       {
         "step": 3525,
         "total_material": 5382.265658365259,
+        "material_growth_rate": -0.0035968834488527635,
         "n_structure_cells": 1866,
         "mean_pheromone": 15.484016144093166,
         "max_pheromone": 48.69168679165762,
@@ -4865,6 +5167,7 @@
       {
         "step": 3550,
         "total_material": 5386.017095755724,
+        "material_growth_rate": 0.0006969996705076213,
         "n_structure_cells": 1909,
         "mean_pheromone": 15.317195948190752,
         "max_pheromone": 44.54948141608755,
@@ -4881,6 +5184,7 @@
       {
         "step": 3575,
         "total_material": 5357.8118714438715,
+        "material_growth_rate": -0.00523674986737019,
         "n_structure_cells": 1870,
         "mean_pheromone": 15.38983021968487,
         "max_pheromone": 43.70584969417882,
@@ -4897,6 +5201,7 @@
       {
         "step": 3600,
         "total_material": 5344.235294320755,
+        "material_growth_rate": -0.0025339779463845855,
         "n_structure_cells": 1872,
         "mean_pheromone": 15.28388558008975,
         "max_pheromone": 46.16865387826685,
@@ -4913,6 +5218,7 @@
       {
         "step": 3625,
         "total_material": 5315.533984148736,
+        "material_growth_rate": -0.005370517687071144,
         "n_structure_cells": 1854,
         "mean_pheromone": 15.229867735530153,
         "max_pheromone": 43.23424102381352,
@@ -4929,6 +5235,7 @@
       {
         "step": 3650,
         "total_material": 5346.859016366778,
+        "material_growth_rate": 0.005893111079988437,
         "n_structure_cells": 1863,
         "mean_pheromone": 15.347730275471491,
         "max_pheromone": 43.85959759950852,
@@ -4945,6 +5252,7 @@
       {
         "step": 3675,
         "total_material": 5334.445322701528,
+        "material_growth_rate": -0.002321679630461734,
         "n_structure_cells": 1914,
         "mean_pheromone": 15.228412269510901,
         "max_pheromone": 44.22762059358118,
@@ -4961,6 +5269,7 @@
       {
         "step": 3700,
         "total_material": 5368.321821930946,
+        "material_growth_rate": 0.006350519534852252,
         "n_structure_cells": 1850,
         "mean_pheromone": 15.398972625594935,
         "max_pheromone": 48.374860209044506,
@@ -4977,6 +5286,7 @@
       {
         "step": 3725,
         "total_material": 5345.881923236382,
+        "material_growth_rate": -0.004180058394206327,
         "n_structure_cells": 1846,
         "mean_pheromone": 15.50574732182241,
         "max_pheromone": 55.05869550237726,
@@ -4993,6 +5303,7 @@
       {
         "step": 3750,
         "total_material": 5307.2526839161,
+        "material_growth_rate": -0.007225980647342101,
         "n_structure_cells": 1860,
         "mean_pheromone": 15.378985298671243,
         "max_pheromone": 51.08292753959326,
@@ -5009,6 +5320,7 @@
       {
         "step": 3775,
         "total_material": 5311.692921708816,
+        "material_growth_rate": 0.0008366358372520411,
         "n_structure_cells": 1851,
         "mean_pheromone": 15.565196538812506,
         "max_pheromone": 45.59628910603567,
@@ -5025,6 +5337,7 @@
       {
         "step": 3800,
         "total_material": 5324.452394264235,
+        "material_growth_rate": 0.0024021480050684524,
         "n_structure_cells": 1855,
         "mean_pheromone": 15.750733574939577,
         "max_pheromone": 49.05881953098962,
@@ -5041,6 +5354,7 @@
       {
         "step": 3825,
         "total_material": 5324.149086273821,
+        "material_growth_rate": -5.69651051329024e-05,
         "n_structure_cells": 1835,
         "mean_pheromone": 15.998979944861444,
         "max_pheromone": 53.985646238709414,
@@ -5057,6 +5371,7 @@
       {
         "step": 3850,
         "total_material": 5347.591191352005,
+        "material_growth_rate": 0.004402976832226568,
         "n_structure_cells": 1869,
         "mean_pheromone": 16.064968229826768,
         "max_pheromone": 55.45868805230867,
@@ -5073,6 +5388,7 @@
       {
         "step": 3875,
         "total_material": 5347.507822111136,
+        "material_growth_rate": -1.5590055014588325e-05,
         "n_structure_cells": 1825,
         "mean_pheromone": 16.25690553811646,
         "max_pheromone": 62.954082060092006,
@@ -5089,6 +5405,7 @@
       {
         "step": 3900,
         "total_material": 5319.781898261449,
+        "material_growth_rate": -0.005184830910399925,
         "n_structure_cells": 1823,
         "mean_pheromone": 16.02110827662635,
         "max_pheromone": 63.28288599491509,
@@ -5105,6 +5422,7 @@
       {
         "step": 3925,
         "total_material": 5312.744101194206,
+        "material_growth_rate": -0.0013229484219160468,
         "n_structure_cells": 1834,
         "mean_pheromone": 15.802362055881614,
         "max_pheromone": 57.09750455862438,
@@ -5121,6 +5439,7 @@
       {
         "step": 3950,
         "total_material": 5331.277678115511,
+        "material_growth_rate": 0.003488513011032904,
         "n_structure_cells": 1849,
         "mean_pheromone": 15.695140123064235,
         "max_pheromone": 50.17519726761503,
@@ -5137,6 +5456,7 @@
       {
         "step": 3975,
         "total_material": 5339.108114269141,
+        "material_growth_rate": 0.0014687728958057392,
         "n_structure_cells": 1876,
         "mean_pheromone": 15.578435977267457,
         "max_pheromone": 49.64169243762255,
@@ -5168,6 +5488,7 @@
         {
           "step": 0,
           "total_material": 0.0,
+          "material_growth_rate": null,
           "n_structure_cells": 0,
           "mean_pheromone": 0.0,
           "max_pheromone": 0.0,
@@ -5185,6 +5506,7 @@
         {
           "step": 25,
           "total_material": 319.29149193628547,
+          "material_growth_rate": null,
           "n_structure_cells": 79,
           "mean_pheromone": 1.6547047994223054,
           "max_pheromone": 4.202324548350878,
@@ -5202,6 +5524,7 @@
         {
           "step": 50,
           "total_material": 945.0483841619257,
+          "material_growth_rate": 1.9598295226435596,
           "n_structure_cells": 207,
           "mean_pheromone": 1.5969242636592604,
           "max_pheromone": 3.98383613854822,
@@ -5219,6 +5542,7 @@
         {
           "step": 75,
           "total_material": 1536.8807985730853,
+          "material_growth_rate": 0.6262456233243548,
           "n_structure_cells": 341,
           "mean_pheromone": 1.3935210174110964,
           "max_pheromone": 5.315622405767073,
@@ -5236,6 +5560,7 @@
         {
           "step": 100,
           "total_material": 2052.011282138171,
+          "material_growth_rate": 0.335179204557281,
           "n_structure_cells": 503,
           "mean_pheromone": 1.2398248347000813,
           "max_pheromone": 3.8834304091455,
@@ -5253,6 +5578,7 @@
         {
           "step": 125,
           "total_material": 2406.57027207149,
+          "material_growth_rate": 0.17278608213297583,
           "n_structure_cells": 623,
           "mean_pheromone": 1.0948666313610853,
           "max_pheromone": 4.832091827149852,
@@ -5270,6 +5596,7 @@
         {
           "step": 150,
           "total_material": 2692.98805236827,
+          "material_growth_rate": 0.11901492494139469,
           "n_structure_cells": 744,
           "mean_pheromone": 1.020966723322522,
           "max_pheromone": 4.283253512706329,
@@ -5287,6 +5614,7 @@
         {
           "step": 175,
           "total_material": 2930.6680581118817,
+          "material_growth_rate": 0.08825884152534241,
           "n_structure_cells": 834,
           "mean_pheromone": 0.99285868274788,
           "max_pheromone": 4.419198789205496,
@@ -5304,6 +5632,7 @@
         {
           "step": 200,
           "total_material": 3146.926396055035,
+          "material_growth_rate": 0.07379148155130218,
           "n_structure_cells": 895,
           "mean_pheromone": 0.9786747126884586,
           "max_pheromone": 3.8956795056147695,
@@ -5321,6 +5650,7 @@
         {
           "step": 225,
           "total_material": 3248.0879896850283,
+          "material_growth_rate": 0.032146158155083836,
           "n_structure_cells": 951,
           "mean_pheromone": 0.9132669272704412,
           "max_pheromone": 4.1628869494119165,
@@ -5338,6 +5668,7 @@
         {
           "step": 250,
           "total_material": 3339.335831395544,
+          "material_growth_rate": 0.028092786279279403,
           "n_structure_cells": 988,
           "mean_pheromone": 0.8836884842748227,
           "max_pheromone": 4.630423685938537,
@@ -5355,6 +5686,7 @@
         {
           "step": 275,
           "total_material": 3421.083123074427,
+          "material_growth_rate": 0.024480104968873356,
           "n_structure_cells": 1015,
           "mean_pheromone": 0.8717100769012835,
           "max_pheromone": 4.317956153276181,
@@ -5372,6 +5704,7 @@
         {
           "step": 300,
           "total_material": 3469.7235595661214,
+          "material_growth_rate": 0.014217847021496107,
           "n_structure_cells": 1047,
           "mean_pheromone": 0.8511180274060367,
           "max_pheromone": 4.2684506080101094,
@@ -5389,6 +5722,7 @@
         {
           "step": 325,
           "total_material": 3527.285940696307,
+          "material_growth_rate": 0.016589904106765127,
           "n_structure_cells": 1061,
           "mean_pheromone": 0.8495944050487296,
           "max_pheromone": 4.290543937536859,
@@ -5406,6 +5740,7 @@
         {
           "step": 350,
           "total_material": 3527.509143071341,
+          "material_growth_rate": 6.32787868028202e-05,
           "n_structure_cells": 1037,
           "mean_pheromone": 0.8413338862689738,
           "max_pheromone": 4.913885078892216,
@@ -5423,6 +5758,7 @@
         {
           "step": 375,
           "total_material": 3563.9645014308435,
+          "material_growth_rate": 0.010334589332279221,
           "n_structure_cells": 1015,
           "mean_pheromone": 0.8679094664681681,
           "max_pheromone": 4.41354288132254,
@@ -5440,6 +5776,7 @@
         {
           "step": 400,
           "total_material": 3574.086604506171,
+          "material_growth_rate": 0.002840124549855621,
           "n_structure_cells": 1021,
           "mean_pheromone": 0.8590492769098804,
           "max_pheromone": 4.300375238722429,
@@ -5457,6 +5794,7 @@
         {
           "step": 425,
           "total_material": 3607.4437773051595,
+          "material_growth_rate": 0.009333062259020803,
           "n_structure_cells": 1056,
           "mean_pheromone": 0.8654655363032433,
           "max_pheromone": 4.232564983560674,
@@ -5474,6 +5812,7 @@
         {
           "step": 450,
           "total_material": 3678.550823987066,
+          "material_growth_rate": 0.019711200249120726,
           "n_structure_cells": 1073,
           "mean_pheromone": 0.9037352215424986,
           "max_pheromone": 4.1865908963274,
@@ -5491,6 +5830,7 @@
         {
           "step": 475,
           "total_material": 3731.4629532419913,
+          "material_growth_rate": 0.014383960365559249,
           "n_structure_cells": 1076,
           "mean_pheromone": 0.9304053782695644,
           "max_pheromone": 3.6893721536747623,
@@ -5508,6 +5848,7 @@
         {
           "step": 500,
           "total_material": 3751.3624185756153,
+          "material_growth_rate": 0.005332885675934374,
           "n_structure_cells": 1090,
           "mean_pheromone": 0.9210915815500933,
           "max_pheromone": 4.44854591313945,
@@ -5525,6 +5866,7 @@
         {
           "step": 525,
           "total_material": 3819.3660452955505,
+          "material_growth_rate": 0.018127714449342937,
           "n_structure_cells": 1090,
           "mean_pheromone": 0.9421907446904414,
           "max_pheromone": 4.5768275189151195,
@@ -5542,6 +5884,7 @@
         {
           "step": 550,
           "total_material": 3850.004925646172,
+          "material_growth_rate": 0.00802198060810656,
           "n_structure_cells": 1121,
           "mean_pheromone": 0.9111571102680326,
           "max_pheromone": 4.9828389706314535,
@@ -5559,6 +5902,7 @@
         {
           "step": 575,
           "total_material": 3854.875670776345,
+          "material_growth_rate": 0.001265126986650666,
           "n_structure_cells": 1120,
           "mean_pheromone": 0.8991069913620616,
           "max_pheromone": 4.361945263875096,
@@ -5576,6 +5920,7 @@
         {
           "step": 600,
           "total_material": 3839.781474719934,
+          "material_growth_rate": -0.003915611642377846,
           "n_structure_cells": 1144,
           "mean_pheromone": 0.8816065183560385,
           "max_pheromone": 5.151127594486758,
@@ -5593,6 +5938,7 @@
         {
           "step": 625,
           "total_material": 3836.884404783378,
+          "material_growth_rate": -0.0007544882321114941,
           "n_structure_cells": 1140,
           "mean_pheromone": 0.9027830230078007,
           "max_pheromone": 4.710053319842166,
@@ -5610,6 +5956,7 @@
         {
           "step": 650,
           "total_material": 3839.2793795948505,
+          "material_growth_rate": 0.0006241978018640832,
           "n_structure_cells": 1134,
           "mean_pheromone": 0.9078590723325733,
           "max_pheromone": 4.749945999765227,
@@ -5627,6 +5974,7 @@
         {
           "step": 675,
           "total_material": 3830.6817659313174,
+          "material_growth_rate": -0.002239382137499049,
           "n_structure_cells": 1129,
           "mean_pheromone": 0.904096532051836,
           "max_pheromone": 5.198271774178802,
@@ -5644,6 +5992,7 @@
         {
           "step": 700,
           "total_material": 3827.168300357299,
+          "material_growth_rate": -0.0009171906696259555,
           "n_structure_cells": 1141,
           "mean_pheromone": 0.9118981289952243,
           "max_pheromone": 4.416448998241412,
@@ -5661,6 +6010,7 @@
         {
           "step": 725,
           "total_material": 3868.1533370043635,
+          "material_growth_rate": 0.010708971602643731,
           "n_structure_cells": 1116,
           "mean_pheromone": 0.960909051707423,
           "max_pheromone": 4.762381173705352,
@@ -5678,6 +6028,7 @@
         {
           "step": 750,
           "total_material": 3863.5539057125816,
+          "material_growth_rate": -0.0011890509219946994,
           "n_structure_cells": 1130,
           "mean_pheromone": 0.9473530338751426,
           "max_pheromone": 4.970877234559698,
@@ -5695,6 +6046,7 @@
         {
           "step": 775,
           "total_material": 3852.925374471034,
+          "material_growth_rate": -0.0027509726797993886,
           "n_structure_cells": 1115,
           "mean_pheromone": 0.9289880342702838,
           "max_pheromone": 5.026080453750641,
@@ -5712,6 +6064,7 @@
         {
           "step": 800,
           "total_material": 3877.541227460456,
+          "material_growth_rate": 0.006388873543340145,
           "n_structure_cells": 1127,
           "mean_pheromone": 0.9412392453813614,
           "max_pheromone": 5.559021412283242,
@@ -5729,6 +6082,7 @@
         {
           "step": 825,
           "total_material": 3875.587490771461,
+          "material_growth_rate": -0.0005038596817897657,
           "n_structure_cells": 1126,
           "mean_pheromone": 0.9587150340922339,
           "max_pheromone": 4.481582164958073,
@@ -5746,6 +6100,7 @@
         {
           "step": 850,
           "total_material": 3900.3256099347377,
+          "material_growth_rate": 0.006383063012300206,
           "n_structure_cells": 1114,
           "mean_pheromone": 1.0116425732492043,
           "max_pheromone": 4.5655135339430615,
@@ -5763,6 +6118,7 @@
         {
           "step": 875,
           "total_material": 3891.4413367460434,
+          "material_growth_rate": -0.002277828591044994,
           "n_structure_cells": 1137,
           "mean_pheromone": 0.9873170663825142,
           "max_pheromone": 4.749721051829466,
@@ -5780,6 +6136,7 @@
         {
           "step": 900,
           "total_material": 3929.7767475675682,
+          "material_growth_rate": 0.00985121128758433,
           "n_structure_cells": 1129,
           "mean_pheromone": 1.0059048700772182,
           "max_pheromone": 4.4884598926361585,
@@ -5797,6 +6154,7 @@
         {
           "step": 925,
           "total_material": 3962.9913770442863,
+          "material_growth_rate": 0.008452039800295802,
           "n_structure_cells": 1131,
           "mean_pheromone": 1.0154807679699467,
           "max_pheromone": 4.2395119073814005,
@@ -5814,6 +6172,7 @@
         {
           "step": 950,
           "total_material": 3974.8103625341155,
+          "material_growth_rate": 0.0029823394414358064,
           "n_structure_cells": 1144,
           "mean_pheromone": 0.9969257383428711,
           "max_pheromone": 4.894836395978615,
@@ -5831,6 +6190,7 @@
         {
           "step": 975,
           "total_material": 3980.9482186843497,
+          "material_growth_rate": 0.0015441884242047474,
           "n_structure_cells": 1147,
           "mean_pheromone": 0.9892223482420345,
           "max_pheromone": 5.946717570338916,
@@ -5848,6 +6208,7 @@
         {
           "step": 1000,
           "total_material": 3988.224362264914,
+          "material_growth_rate": 0.0018277413271576878,
           "n_structure_cells": 1127,
           "mean_pheromone": 1.0239623180374682,
           "max_pheromone": 4.593441609948847,
@@ -5865,6 +6226,7 @@
         {
           "step": 1025,
           "total_material": 4026.6140478400303,
+          "material_growth_rate": 0.009625758755787459,
           "n_structure_cells": 1132,
           "mean_pheromone": 1.0696158886467129,
           "max_pheromone": 5.08848316820111,
@@ -5882,6 +6244,7 @@
         {
           "step": 1050,
           "total_material": 4038.912198514973,
+          "material_growth_rate": 0.0030542164033674725,
           "n_structure_cells": 1122,
           "mean_pheromone": 1.0961357310641606,
           "max_pheromone": 8.01444402008787,
@@ -5899,6 +6262,7 @@
         {
           "step": 1075,
           "total_material": 4031.215690219848,
+          "material_growth_rate": -0.0019055894054728312,
           "n_structure_cells": 1118,
           "mean_pheromone": 1.105613075319432,
           "max_pheromone": 4.473081539199236,
@@ -5916,6 +6280,7 @@
         {
           "step": 1100,
           "total_material": 4048.700749510334,
+          "material_growth_rate": 0.004337415964347049,
           "n_structure_cells": 1119,
           "mean_pheromone": 1.107238332151305,
           "max_pheromone": 4.8460161098793195,
@@ -5933,6 +6298,7 @@
         {
           "step": 1125,
           "total_material": 4029.9215665804804,
+          "material_growth_rate": -0.004638323277442704,
           "n_structure_cells": 1131,
           "mean_pheromone": 1.0659402218655774,
           "max_pheromone": 4.845849641682043,
@@ -5950,6 +6316,7 @@
         {
           "step": 1150,
           "total_material": 4007.296471438825,
+          "material_growth_rate": -0.005614276796174379,
           "n_structure_cells": 1137,
           "mean_pheromone": 1.0513570735136593,
           "max_pheromone": 6.116120509309869,
@@ -5967,6 +6334,7 @@
         {
           "step": 1175,
           "total_material": 3983.0959160864977,
+          "material_growth_rate": -0.0060391227663866825,
           "n_structure_cells": 1136,
           "mean_pheromone": 1.0373472752241142,
           "max_pheromone": 4.930511713510715,
@@ -5984,6 +6352,7 @@
         {
           "step": 1200,
           "total_material": 3958.408259133943,
+          "material_growth_rate": -0.006198107570758953,
           "n_structure_cells": 1145,
           "mean_pheromone": 1.0082246523617229,
           "max_pheromone": 6.102718141166021,
@@ -6001,6 +6370,7 @@
         {
           "step": 1225,
           "total_material": 3955.9502292608595,
+          "material_growth_rate": -0.0006209642139391714,
           "n_structure_cells": 1150,
           "mean_pheromone": 1.0157192674194828,
           "max_pheromone": 5.638389898507825,
@@ -6018,6 +6388,7 @@
         {
           "step": 1250,
           "total_material": 3912.019007292215,
+          "material_growth_rate": -0.011105099766852387,
           "n_structure_cells": 1153,
           "mean_pheromone": 0.9784805582523861,
           "max_pheromone": 5.523683495622986,
@@ -6035,6 +6406,7 @@
         {
           "step": 1275,
           "total_material": 3928.042160288152,
+          "material_growth_rate": 0.004095878104392873,
           "n_structure_cells": 1120,
           "mean_pheromone": 1.0133631479086227,
           "max_pheromone": 5.727628014753296,
@@ -6052,6 +6424,7 @@
         {
           "step": 1300,
           "total_material": 3948.9843922022797,
+          "material_growth_rate": 0.005331468212294185,
           "n_structure_cells": 1129,
           "mean_pheromone": 1.0252196060922067,
           "max_pheromone": 4.383781082183538,
@@ -6069,6 +6442,7 @@
         {
           "step": 1325,
           "total_material": 3956.7578542956903,
+          "material_growth_rate": 0.0019684712121831273,
           "n_structure_cells": 1137,
           "mean_pheromone": 1.0277773538955282,
           "max_pheromone": 6.068355053411896,
@@ -6086,6 +6460,7 @@
         {
           "step": 1350,
           "total_material": 3968.989471252503,
+          "material_growth_rate": 0.0030913231001824366,
           "n_structure_cells": 1111,
           "mean_pheromone": 1.0401632677452513,
           "max_pheromone": 4.398770003431861,
@@ -6103,6 +6478,7 @@
         {
           "step": 1375,
           "total_material": 3966.452781329283,
+          "material_growth_rate": -0.0006391274004613072,
           "n_structure_cells": 1129,
           "mean_pheromone": 1.0297507842439668,
           "max_pheromone": 4.8368820313644525,
@@ -6120,6 +6496,7 @@
         {
           "step": 1400,
           "total_material": 3952.789573605596,
+          "material_growth_rate": -0.0034446918889345355,
           "n_structure_cells": 1136,
           "mean_pheromone": 1.0176790124151525,
           "max_pheromone": 5.781862460302018,
@@ -6137,6 +6514,7 @@
         {
           "step": 1425,
           "total_material": 3989.9578796124683,
+          "material_growth_rate": 0.009403057085320266,
           "n_structure_cells": 1153,
           "mean_pheromone": 1.016370519983246,
           "max_pheromone": 4.852161619009117,
@@ -6154,6 +6532,7 @@
         {
           "step": 1450,
           "total_material": 3971.108121774609,
+          "material_growth_rate": -0.0047242999566927835,
           "n_structure_cells": 1126,
           "mean_pheromone": 1.0024978666444608,
           "max_pheromone": 5.550298806355051,
@@ -6171,6 +6550,7 @@
         {
           "step": 1475,
           "total_material": 3964.789571586205,
+          "material_growth_rate": -0.0015911302323293143,
           "n_structure_cells": 1110,
           "mean_pheromone": 1.0074781528289674,
           "max_pheromone": 5.258977638473521,
@@ -6188,6 +6568,7 @@
         {
           "step": 1500,
           "total_material": 3961.7128333498463,
+          "material_growth_rate": -0.0007760155188079399,
           "n_structure_cells": 1117,
           "mean_pheromone": 1.0050628124106007,
           "max_pheromone": 4.015327023345355,
@@ -6205,6 +6586,7 @@
         {
           "step": 1525,
           "total_material": 3975.8244687237648,
+          "material_growth_rate": 0.003562003599838488,
           "n_structure_cells": 1146,
           "mean_pheromone": 1.0093418742219107,
           "max_pheromone": 5.779943115062849,
@@ -6222,6 +6604,7 @@
         {
           "step": 1550,
           "total_material": 3953.7491082932406,
+          "material_growth_rate": -0.005552398151422995,
           "n_structure_cells": 1132,
           "mean_pheromone": 1.0004804440548893,
           "max_pheromone": 5.930984053335382,
@@ -6239,6 +6622,7 @@
         {
           "step": 1575,
           "total_material": 3982.050796877838,
+          "material_growth_rate": 0.007158190317446469,
           "n_structure_cells": 1126,
           "mean_pheromone": 1.0426857324753418,
           "max_pheromone": 5.379250483172954,
@@ -6256,6 +6640,7 @@
         {
           "step": 1600,
           "total_material": 3981.642733192457,
+          "material_growth_rate": -0.00010247576090714675,
           "n_structure_cells": 1115,
           "mean_pheromone": 1.055958736565698,
           "max_pheromone": 3.698263584084938,
@@ -6273,6 +6658,7 @@
         {
           "step": 1625,
           "total_material": 3972.048786348781,
+          "material_growth_rate": -0.0024095448754598648,
           "n_structure_cells": 1134,
           "mean_pheromone": 1.0258332825798717,
           "max_pheromone": 4.890109179035089,
@@ -6290,6 +6676,7 @@
         {
           "step": 1650,
           "total_material": 3961.701851711571,
+          "material_growth_rate": -0.0026049364430694878,
           "n_structure_cells": 1108,
           "mean_pheromone": 1.043705610817622,
           "max_pheromone": 4.959861461681241,
@@ -6307,6 +6694,7 @@
         {
           "step": 1675,
           "total_material": 3961.762471146981,
+          "material_growth_rate": 1.5301362313219114e-05,
           "n_structure_cells": 1122,
           "mean_pheromone": 1.0353724940015763,
           "max_pheromone": 4.817960134006879,
@@ -6324,6 +6712,7 @@
         {
           "step": 1700,
           "total_material": 3914.9385678775284,
+          "material_growth_rate": -0.011818957751875685,
           "n_structure_cells": 1113,
           "mean_pheromone": 1.0005109846731859,
           "max_pheromone": 5.31671171269902,
@@ -6341,6 +6730,7 @@
         {
           "step": 1725,
           "total_material": 3932.760557875473,
+          "material_growth_rate": 0.004552303871170727,
           "n_structure_cells": 1098,
           "mean_pheromone": 1.0339477624935003,
           "max_pheromone": 4.791602133839647,
@@ -6358,6 +6748,7 @@
         {
           "step": 1750,
           "total_material": 3928.342130882914,
+          "material_growth_rate": -0.0011234925003789004,
           "n_structure_cells": 1098,
           "mean_pheromone": 1.0351609671045763,
           "max_pheromone": 4.625761733271839,
@@ -6375,6 +6766,7 @@
         {
           "step": 1775,
           "total_material": 3933.861909917495,
+          "material_growth_rate": 0.0014051166753493564,
           "n_structure_cells": 1089,
           "mean_pheromone": 1.0432460007257394,
           "max_pheromone": 5.315332274087661,
@@ -6392,6 +6784,7 @@
         {
           "step": 1800,
           "total_material": 3971.7479245488767,
+          "material_growth_rate": 0.009630743401508069,
           "n_structure_cells": 1095,
           "mean_pheromone": 1.0582115763883944,
           "max_pheromone": 5.476077764431137,
@@ -6409,6 +6802,7 @@
         {
           "step": 1825,
           "total_material": 3954.658750282903,
+          "material_growth_rate": -0.004302683501223146,
           "n_structure_cells": 1114,
           "mean_pheromone": 1.0182390959851988,
           "max_pheromone": 5.13581754200161,
@@ -6426,6 +6820,7 @@
         {
           "step": 1850,
           "total_material": 3941.5110165161454,
+          "material_growth_rate": -0.0033246190371841663,
           "n_structure_cells": 1140,
           "mean_pheromone": 0.9892499165757015,
           "max_pheromone": 3.910234962758304,
@@ -6443,6 +6838,7 @@
         {
           "step": 1875,
           "total_material": 3969.1891803502012,
+          "material_growth_rate": 0.007022221609447687,
           "n_structure_cells": 1141,
           "mean_pheromone": 0.992249979605502,
           "max_pheromone": 4.072004856214229,
@@ -6460,6 +6856,7 @@
         {
           "step": 1900,
           "total_material": 3992.9386447230427,
+          "material_growth_rate": 0.005983454880511898,
           "n_structure_cells": 1151,
           "mean_pheromone": 1.0000054904700706,
           "max_pheromone": 4.907900917157442,
@@ -6477,6 +6874,7 @@
         {
           "step": 1925,
           "total_material": 4013.368908069502,
+          "material_growth_rate": 0.005116598366333412,
           "n_structure_cells": 1184,
           "mean_pheromone": 1.001308333641126,
           "max_pheromone": 4.299671688574229,
@@ -6494,6 +6892,7 @@
         {
           "step": 1950,
           "total_material": 3976.066518494221,
+          "material_growth_rate": -0.009294532954665348,
           "n_structure_cells": 1162,
           "mean_pheromone": 0.9950506700121609,
           "max_pheromone": 4.674553623790461,
@@ -6511,6 +6910,7 @@
         {
           "step": 1975,
           "total_material": 3958.357477397397,
+          "material_growth_rate": -0.0044539096653570505,
           "n_structure_cells": 1126,
           "mean_pheromone": 1.0217809272397436,
           "max_pheromone": 5.112753947474819,
@@ -6528,6 +6928,7 @@
         {
           "step": 2000,
           "total_material": 3926.409174889153,
+          "material_growth_rate": -0.008071100877238087,
           "n_structure_cells": 1109,
           "mean_pheromone": 1.0276434627017756,
           "max_pheromone": 6.194396013814094,
@@ -6545,6 +6946,7 @@
         {
           "step": 2025,
           "total_material": 3947.1310924522777,
+          "material_growth_rate": 0.0052775746592202445,
           "n_structure_cells": 1105,
           "mean_pheromone": 1.0477908443817459,
           "max_pheromone": 5.205418407602801,
@@ -6562,6 +6964,7 @@
         {
           "step": 2050,
           "total_material": 3993.0346909002046,
+          "material_growth_rate": 0.011629610816753464,
           "n_structure_cells": 1118,
           "mean_pheromone": 1.0552231599206479,
           "max_pheromone": 4.593148280507888,
@@ -6579,6 +6982,7 @@
         {
           "step": 2075,
           "total_material": 4011.101610865596,
+          "material_growth_rate": 0.00452460881608773,
           "n_structure_cells": 1128,
           "mean_pheromone": 1.0305547046968582,
           "max_pheromone": 4.275204696470209,
@@ -6596,6 +7000,7 @@
         {
           "step": 2100,
           "total_material": 3992.4307800991855,
+          "material_growth_rate": -0.004654788778183339,
           "n_structure_cells": 1173,
           "mean_pheromone": 0.9994666060442908,
           "max_pheromone": 4.412185015941005,
@@ -6613,6 +7018,7 @@
         {
           "step": 2125,
           "total_material": 3973.7324066662786,
+          "material_growth_rate": -0.0046834558850992495,
           "n_structure_cells": 1165,
           "mean_pheromone": 0.9779876315565134,
           "max_pheromone": 4.323249234226981,
@@ -6630,6 +7036,7 @@
         {
           "step": 2150,
           "total_material": 3999.3977361532343,
+          "material_growth_rate": 0.006458746302066005,
           "n_structure_cells": 1168,
           "mean_pheromone": 1.027426323176738,
           "max_pheromone": 5.511688959604607,
@@ -6647,6 +7054,7 @@
         {
           "step": 2175,
           "total_material": 4018.5736820992333,
+          "material_growth_rate": 0.004794708406381998,
           "n_structure_cells": 1184,
           "mean_pheromone": 1.0167882918919169,
           "max_pheromone": 4.052628513817934,
@@ -6664,6 +7072,7 @@
         {
           "step": 2200,
           "total_material": 3999.044588859236,
+          "material_growth_rate": -0.004859707643781687,
           "n_structure_cells": 1173,
           "mean_pheromone": 1.0129812429061018,
           "max_pheromone": 4.312497143336912,
@@ -6681,6 +7090,7 @@
         {
           "step": 2225,
           "total_material": 4003.964873112433,
+          "material_growth_rate": 0.0012303649393918812,
           "n_structure_cells": 1164,
           "mean_pheromone": 1.0311997700744895,
           "max_pheromone": 3.913603507618418,
@@ -6698,6 +7108,7 @@
         {
           "step": 2250,
           "total_material": 3975.4565213605943,
+          "material_growth_rate": -0.007120030433653162,
           "n_structure_cells": 1171,
           "mean_pheromone": 0.9972040882254508,
           "max_pheromone": 4.820414462234766,
@@ -6715,6 +7126,7 @@
         {
           "step": 2275,
           "total_material": 3951.0376872355823,
+          "material_growth_rate": -0.006142397481599073,
           "n_structure_cells": 1184,
           "mean_pheromone": 0.9686569742516161,
           "max_pheromone": 4.174957297493262,
@@ -6732,6 +7144,7 @@
         {
           "step": 2300,
           "total_material": 3941.0956572490595,
+          "material_growth_rate": -0.002516308568415337,
           "n_structure_cells": 1198,
           "mean_pheromone": 0.957297917442892,
           "max_pheromone": 4.023450747573291,
@@ -6749,6 +7162,7 @@
         {
           "step": 2325,
           "total_material": 3966.914701491445,
+          "material_growth_rate": 0.006551235110189561,
           "n_structure_cells": 1178,
           "mean_pheromone": 0.9873519981721288,
           "max_pheromone": 4.994262962351437,
@@ -6766,6 +7180,7 @@
         {
           "step": 2350,
           "total_material": 3959.3174500923515,
+          "material_growth_rate": -0.001915153707801518,
           "n_structure_cells": 1189,
           "mean_pheromone": 0.9893504938443826,
           "max_pheromone": 5.689735557316668,
@@ -6783,6 +7198,7 @@
         {
           "step": 2375,
           "total_material": 3991.3768961828787,
+          "material_growth_rate": 0.008097215364678431,
           "n_structure_cells": 1183,
           "mean_pheromone": 1.0120009096546874,
           "max_pheromone": 4.701866254871043,
@@ -6800,6 +7216,7 @@
         {
           "step": 2400,
           "total_material": 3093.093889795793,
+          "material_growth_rate": -0.22505592174122954,
           "n_structure_cells": 912,
           "mean_pheromone": 1.0259714096700063,
           "max_pheromone": 3.8941083580720472,
@@ -6817,6 +7234,7 @@
         {
           "step": 2425,
           "total_material": 3225.1480763419186,
+          "material_growth_rate": 0.042693235721610684,
           "n_structure_cells": 939,
           "mean_pheromone": 1.0641431106433783,
           "max_pheromone": 4.734696192302763,
@@ -6834,6 +7252,7 @@
         {
           "step": 2450,
           "total_material": 3420.990089563475,
+          "material_growth_rate": 0.060723417525587756,
           "n_structure_cells": 956,
           "mean_pheromone": 1.1538693492637833,
           "max_pheromone": 5.269921195560116,
@@ -6851,6 +7270,7 @@
         {
           "step": 2475,
           "total_material": 3536.506659532302,
+          "material_growth_rate": 0.03376699930269806,
           "n_structure_cells": 965,
           "mean_pheromone": 1.1535457902380817,
           "max_pheromone": 4.856399483525321,
@@ -6868,6 +7288,7 @@
         {
           "step": 2500,
           "total_material": 3646.1992618308573,
+          "material_growth_rate": 0.03101721921062692,
           "n_structure_cells": 1012,
           "mean_pheromone": 1.1319267937075754,
           "max_pheromone": 4.343864000962537,
@@ -6885,6 +7306,7 @@
         {
           "step": 2525,
           "total_material": 3755.857940105199,
+          "material_growth_rate": 0.03007479032269864,
           "n_structure_cells": 1082,
           "mean_pheromone": 1.0874404215524687,
           "max_pheromone": 4.565055360765259,
@@ -6902,6 +7324,7 @@
         {
           "step": 2550,
           "total_material": 3831.2593354278138,
+          "material_growth_rate": 0.020075678187259388,
           "n_structure_cells": 1111,
           "mean_pheromone": 1.0760553155688075,
           "max_pheromone": 5.0767859841484375,
@@ -6919,6 +7342,7 @@
         {
           "step": 2575,
           "total_material": 3863.9487288947585,
+          "material_growth_rate": 0.008532284192997461,
           "n_structure_cells": 1112,
           "mean_pheromone": 1.0505834567948633,
           "max_pheromone": 7.471338579544468,
@@ -6936,6 +7360,7 @@
         {
           "step": 2600,
           "total_material": 3861.2699906898933,
+          "material_growth_rate": -0.0006932644278722966,
           "n_structure_cells": 1132,
           "mean_pheromone": 1.0124274932348718,
           "max_pheromone": 6.637352326137769,
@@ -6953,6 +7378,7 @@
         {
           "step": 2625,
           "total_material": 3894.417096704634,
+          "material_growth_rate": 0.008584508748329752,
           "n_structure_cells": 1133,
           "mean_pheromone": 1.0364078519565771,
           "max_pheromone": 5.343831761167149,
@@ -6970,6 +7396,7 @@
         {
           "step": 2650,
           "total_material": 3902.0126642619953,
+          "material_growth_rate": 0.001950373411155314,
           "n_structure_cells": 1137,
           "mean_pheromone": 1.038426452451938,
           "max_pheromone": 4.690679183901943,
@@ -6987,6 +7414,7 @@
         {
           "step": 2675,
           "total_material": 3914.9265626770284,
+          "material_growth_rate": 0.00330954805280613,
           "n_structure_cells": 1136,
           "mean_pheromone": 1.034240389625595,
           "max_pheromone": 4.962654767563096,
@@ -7004,6 +7432,7 @@
         {
           "step": 2700,
           "total_material": 3928.9271810330174,
+          "material_growth_rate": 0.0035762148106337306,
           "n_structure_cells": 1134,
           "mean_pheromone": 1.036239510724577,
           "max_pheromone": 4.9832017072455415,
@@ -7021,6 +7450,7 @@
         {
           "step": 2725,
           "total_material": 3954.266040290972,
+          "material_growth_rate": 0.0064493074293355155,
           "n_structure_cells": 1150,
           "mean_pheromone": 1.0266194610197288,
           "max_pheromone": 5.540433155396972,
@@ -7038,6 +7468,7 @@
         {
           "step": 2750,
           "total_material": 3993.62830780064,
+          "material_growth_rate": 0.009954380182971106,
           "n_structure_cells": 1160,
           "mean_pheromone": 1.0382141409865833,
           "max_pheromone": 5.252372837181141,
@@ -7055,6 +7486,7 @@
         {
           "step": 2775,
           "total_material": 4010.612687922545,
+          "material_growth_rate": 0.004252869524369557,
           "n_structure_cells": 1163,
           "mean_pheromone": 1.03392349518018,
           "max_pheromone": 4.845560509414665,
@@ -7072,6 +7504,7 @@
         {
           "step": 2800,
           "total_material": 4030.7500536381276,
+          "material_growth_rate": 0.0050210197998485084,
           "n_structure_cells": 1184,
           "mean_pheromone": 1.0261388336155621,
           "max_pheromone": 4.56754748709308,
@@ -7089,6 +7522,7 @@
         {
           "step": 2825,
           "total_material": 4000.324549620543,
+          "material_growth_rate": -0.007548347978094695,
           "n_structure_cells": 1183,
           "mean_pheromone": 1.009022374258858,
           "max_pheromone": 5.134139566747939,
@@ -7106,6 +7540,7 @@
         {
           "step": 2850,
           "total_material": 3956.598103884486,
+          "material_growth_rate": -0.010930724543388552,
           "n_structure_cells": 1151,
           "mean_pheromone": 1.0051875783788404,
           "max_pheromone": 4.400800630896136,
@@ -7123,6 +7558,7 @@
         {
           "step": 2875,
           "total_material": 3949.632998210106,
+          "material_growth_rate": -0.0017603773472827382,
           "n_structure_cells": 1121,
           "mean_pheromone": 1.0204445598709153,
           "max_pheromone": 5.901746321899318,
@@ -7140,6 +7576,7 @@
         {
           "step": 2900,
           "total_material": 3932.2483791639665,
+          "material_growth_rate": -0.004401578337536137,
           "n_structure_cells": 1158,
           "mean_pheromone": 1.0003344460152415,
           "max_pheromone": 4.885583307330075,
@@ -7157,6 +7594,7 @@
         {
           "step": 2925,
           "total_material": 3926.3136396548734,
+          "material_growth_rate": -0.001509248383326917,
           "n_structure_cells": 1160,
           "mean_pheromone": 0.9912198369012394,
           "max_pheromone": 4.908345197500119,
@@ -7174,6 +7612,7 @@
         {
           "step": 2950,
           "total_material": 3896.455539249127,
+          "material_growth_rate": -0.007604614186749223,
           "n_structure_cells": 1150,
           "mean_pheromone": 0.9822090548119531,
           "max_pheromone": 5.055531409518339,
@@ -7191,6 +7630,7 @@
         {
           "step": 2975,
           "total_material": 3923.5631624685757,
+          "material_growth_rate": 0.006956995388858586,
           "n_structure_cells": 1141,
           "mean_pheromone": 1.0109068981998373,
           "max_pheromone": 5.196069308905818,
@@ -7208,6 +7648,7 @@
         {
           "step": 3000,
           "total_material": 3916.7943289486766,
+          "material_growth_rate": -0.0017251751124201004,
           "n_structure_cells": 1128,
           "mean_pheromone": 1.0279369179169149,
           "max_pheromone": 5.2401975884337455,
@@ -7225,6 +7666,7 @@
         {
           "step": 3025,
           "total_material": 3934.1374636853625,
+          "material_growth_rate": 0.0044278900754385645,
           "n_structure_cells": 1168,
           "mean_pheromone": 1.0018865409664246,
           "max_pheromone": 5.149625917026326,
@@ -7242,6 +7684,7 @@
         {
           "step": 3050,
           "total_material": 3937.3058493034737,
+          "material_growth_rate": 0.0008053571201711785,
           "n_structure_cells": 1177,
           "mean_pheromone": 0.9900321160467539,
           "max_pheromone": 4.9113826512183705,
@@ -7259,6 +7702,7 @@
         {
           "step": 3075,
           "total_material": 3932.387117263675,
+          "material_growth_rate": -0.001249263386706119,
           "n_structure_cells": 1178,
           "mean_pheromone": 1.0017858064054368,
           "max_pheromone": 4.992005675043297,
@@ -7276,6 +7720,7 @@
         {
           "step": 3100,
           "total_material": 3946.646705069042,
+          "material_growth_rate": 0.00362619126249441,
           "n_structure_cells": 1165,
           "mean_pheromone": 1.0127396897088046,
           "max_pheromone": 5.438313369285814,
@@ -7293,6 +7738,7 @@
         {
           "step": 3125,
           "total_material": 3911.522981976789,
+          "material_growth_rate": -0.008899637012641718,
           "n_structure_cells": 1139,
           "mean_pheromone": 1.0161290134423073,
           "max_pheromone": 4.497717433155204,
@@ -7310,6 +7756,7 @@
         {
           "step": 3150,
           "total_material": 3909.9930232121724,
+          "material_growth_rate": -0.0003911414483991138,
           "n_structure_cells": 1144,
           "mean_pheromone": 1.016063836279012,
           "max_pheromone": 5.346359507122384,
@@ -7327,6 +7774,7 @@
         {
           "step": 3175,
           "total_material": 3885.112377447671,
+          "material_growth_rate": -0.006363347867066334,
           "n_structure_cells": 1125,
           "mean_pheromone": 1.0249503451826791,
           "max_pheromone": 5.816781278858793,
@@ -7344,6 +7792,7 @@
         {
           "step": 3200,
           "total_material": 3904.800798979,
+          "material_growth_rate": 0.0050676581829695345,
           "n_structure_cells": 1117,
           "mean_pheromone": 1.058540943912428,
           "max_pheromone": 5.574474860054534,
@@ -7361,6 +7810,7 @@
         {
           "step": 3225,
           "total_material": 3953.9405222448922,
+          "material_growth_rate": 0.012584437925422748,
           "n_structure_cells": 1112,
           "mean_pheromone": 1.0985967628421776,
           "max_pheromone": 5.106234599130088,
@@ -7378,6 +7828,7 @@
         {
           "step": 3250,
           "total_material": 3939.415630466723,
+          "material_growth_rate": -0.0036735230832259675,
           "n_structure_cells": 1085,
           "mean_pheromone": 1.0920392891224366,
           "max_pheromone": 5.590765349666976,
@@ -7395,6 +7846,7 @@
         {
           "step": 3275,
           "total_material": 3917.5363114674155,
+          "material_growth_rate": -0.0055539503956111855,
           "n_structure_cells": 1084,
           "mean_pheromone": 1.0801349919972247,
           "max_pheromone": 5.047679390196015,
@@ -7412,6 +7864,7 @@
         {
           "step": 3300,
           "total_material": 3917.8147338729736,
+          "material_growth_rate": 7.107079128867426e-05,
           "n_structure_cells": 1086,
           "mean_pheromone": 1.0773040118059862,
           "max_pheromone": 5.288044781939593,
@@ -7429,6 +7882,7 @@
         {
           "step": 3325,
           "total_material": 3945.652883007221,
+          "material_growth_rate": 0.00710552974686681,
           "n_structure_cells": 1099,
           "mean_pheromone": 1.0795763258808846,
           "max_pheromone": 5.079508261221658,
@@ -7446,6 +7900,7 @@
         {
           "step": 3350,
           "total_material": 3953.3261432774975,
+          "material_growth_rate": 0.0019447377906259536,
           "n_structure_cells": 1081,
           "mean_pheromone": 1.107370653056575,
           "max_pheromone": 4.212934570479069,
@@ -7463,6 +7918,7 @@
         {
           "step": 3375,
           "total_material": 3995.007566930917,
+          "material_growth_rate": 0.010543380976623329,
           "n_structure_cells": 1089,
           "mean_pheromone": 1.1252938938239414,
           "max_pheromone": 5.228707746476559,
@@ -7480,6 +7936,7 @@
         {
           "step": 3400,
           "total_material": 4020.052273007949,
+          "material_growth_rate": 0.006269000911122715,
           "n_structure_cells": 1124,
           "mean_pheromone": 1.1077770193134202,
           "max_pheromone": 5.632864926623533,
@@ -7497,6 +7954,7 @@
         {
           "step": 3425,
           "total_material": 3992.749668777751,
+          "material_growth_rate": -0.006791604281744646,
           "n_structure_cells": 1133,
           "mean_pheromone": 1.0811099071267716,
           "max_pheromone": 6.213524446562024,
@@ -7514,6 +7972,7 @@
         {
           "step": 3450,
           "total_material": 4017.5395877848955,
+          "material_growth_rate": 0.006208733595545694,
           "n_structure_cells": 1137,
           "mean_pheromone": 1.0998297047777956,
           "max_pheromone": 6.21520630427311,
@@ -7531,6 +7990,7 @@
         {
           "step": 3475,
           "total_material": 4041.156920679171,
+          "material_growth_rate": 0.0058785563597388455,
           "n_structure_cells": 1143,
           "mean_pheromone": 1.0963244511676644,
           "max_pheromone": 4.465804169749927,
@@ -7548,6 +8008,7 @@
         {
           "step": 3500,
           "total_material": 4041.020375212722,
+          "material_growth_rate": -3.3788706830582063e-05,
           "n_structure_cells": 1114,
           "mean_pheromone": 1.0990214146112454,
           "max_pheromone": 4.860766773287619,
@@ -7565,6 +8026,7 @@
         {
           "step": 3525,
           "total_material": 4042.7065780295297,
+          "material_growth_rate": 0.00041727154536289626,
           "n_structure_cells": 1135,
           "mean_pheromone": 1.0736476153433994,
           "max_pheromone": 4.738328727737456,
@@ -7582,6 +8044,7 @@
         {
           "step": 3550,
           "total_material": 4038.443970186733,
+          "material_growth_rate": -0.0010543945647606763,
           "n_structure_cells": 1154,
           "mean_pheromone": 1.0799647374559163,
           "max_pheromone": 5.454404325353392,
@@ -7599,6 +8062,7 @@
         {
           "step": 3575,
           "total_material": 4020.391739619003,
+          "material_growth_rate": -0.004470095586567048,
           "n_structure_cells": 1128,
           "mean_pheromone": 1.1007193942889586,
           "max_pheromone": 5.3179865233419035,
@@ -7616,6 +8080,7 @@
         {
           "step": 3600,
           "total_material": 4017.142461786231,
+          "material_growth_rate": -0.0008081993107169878,
           "n_structure_cells": 1137,
           "mean_pheromone": 1.086210193398302,
           "max_pheromone": 3.913390699998056,
@@ -7633,6 +8098,7 @@
         {
           "step": 3625,
           "total_material": 4030.9021368498547,
+          "material_growth_rate": 0.003425239506568477,
           "n_structure_cells": 1137,
           "mean_pheromone": 1.1079514006542561,
           "max_pheromone": 4.236332487234517,
@@ -7650,6 +8116,7 @@
         {
           "step": 3650,
           "total_material": 4047.0576619055264,
+          "material_growth_rate": 0.004007917956623274,
           "n_structure_cells": 1122,
           "mean_pheromone": 1.1338234858902194,
           "max_pheromone": 4.49781220696311,
@@ -7667,6 +8134,7 @@
         {
           "step": 3675,
           "total_material": 4083.8640217225166,
+          "material_growth_rate": 0.009094597332636015,
           "n_structure_cells": 1127,
           "mean_pheromone": 1.134771068167053,
           "max_pheromone": 4.585937509190641,
@@ -7684,6 +8152,7 @@
         {
           "step": 3700,
           "total_material": 4101.589319060173,
+          "material_growth_rate": 0.00434032505572503,
           "n_structure_cells": 1148,
           "mean_pheromone": 1.124613391932382,
           "max_pheromone": 4.905496922853487,
@@ -7701,6 +8170,7 @@
         {
           "step": 3725,
           "total_material": 4071.9575022979293,
+          "material_growth_rate": -0.007224471895453746,
           "n_structure_cells": 1192,
           "mean_pheromone": 1.0683482981396124,
           "max_pheromone": 5.517015767908897,
@@ -7718,6 +8188,7 @@
         {
           "step": 3750,
           "total_material": 4020.3886924564717,
+          "material_growth_rate": -0.01266437820442765,
           "n_structure_cells": 1149,
           "mean_pheromone": 1.0424054534845055,
           "max_pheromone": 4.709668562326969,
@@ -7735,6 +8206,7 @@
         {
           "step": 3775,
           "total_material": 4005.281416774904,
+          "material_growth_rate": -0.003757665449093008,
           "n_structure_cells": 1147,
           "mean_pheromone": 1.0535970713556833,
           "max_pheromone": 5.129571538564031,
@@ -7752,6 +8224,7 @@
         {
           "step": 3800,
           "total_material": 4011.9309878162494,
+          "material_growth_rate": 0.0016602007073699854,
           "n_structure_cells": 1180,
           "mean_pheromone": 1.0277323221241377,
           "max_pheromone": 4.463987367889695,
@@ -7769,6 +8242,7 @@
         {
           "step": 3825,
           "total_material": 4012.286036247501,
+          "material_growth_rate": 8.849814025466933e-05,
           "n_structure_cells": 1138,
           "mean_pheromone": 1.043900557542069,
           "max_pheromone": 5.8532968277276165,
@@ -7786,6 +8260,7 @@
         {
           "step": 3850,
           "total_material": 4031.93664180407,
+          "material_growth_rate": 0.004897608340742078,
           "n_structure_cells": 1136,
           "mean_pheromone": 1.0665818643412865,
           "max_pheromone": 4.767969218069587,
@@ -7803,6 +8278,7 @@
         {
           "step": 3875,
           "total_material": 4036.4102217833865,
+          "material_growth_rate": 0.0011095362791501855,
           "n_structure_cells": 1138,
           "mean_pheromone": 1.0647087612855357,
           "max_pheromone": 4.752451095724878,
@@ -7820,6 +8296,7 @@
         {
           "step": 3900,
           "total_material": 3992.763521429643,
+          "material_growth_rate": -0.010813246908898039,
           "n_structure_cells": 1129,
           "mean_pheromone": 1.0495366486427407,
           "max_pheromone": 5.443949013699078,
@@ -7837,6 +8314,7 @@
         {
           "step": 3925,
           "total_material": 3985.766107083286,
+          "material_growth_rate": -0.00175252411238505,
           "n_structure_cells": 1109,
           "mean_pheromone": 1.054963384201939,
           "max_pheromone": 5.101413818829849,
@@ -7854,6 +8332,7 @@
         {
           "step": 3950,
           "total_material": 4017.420974928294,
+          "material_growth_rate": 0.00794197827834222,
           "n_structure_cells": 1138,
           "mean_pheromone": 1.0496106923121546,
           "max_pheromone": 4.500743192298413,
@@ -7871,6 +8350,7 @@
         {
           "step": 3975,
           "total_material": 4035.0538241529166,
+          "material_growth_rate": 0.0043890967201756234,
           "n_structure_cells": 1155,
           "mean_pheromone": 1.0449721745514293,
           "max_pheromone": 4.577745206503188,
@@ -7905,6 +8385,7 @@
         {
           "step": 0,
           "total_material": 0.0,
+          "material_growth_rate": null,
           "n_structure_cells": 0,
           "mean_pheromone": 0.0,
           "max_pheromone": 0.0,
@@ -7922,6 +8403,7 @@
         {
           "step": 25,
           "total_material": 365.04029119215477,
+          "material_growth_rate": null,
           "n_structure_cells": 85,
           "mean_pheromone": 7.141484775394498,
           "max_pheromone": 26.87344206132088,
@@ -7939,6 +8421,7 @@
         {
           "step": 50,
           "total_material": 1122.062477102297,
+          "material_growth_rate": 2.0738044653587315,
           "n_structure_cells": 253,
           "mean_pheromone": 11.456192183847804,
           "max_pheromone": 44.16668846378296,
@@ -7956,6 +8439,7 @@
         {
           "step": 75,
           "total_material": 1871.1529154906716,
+          "material_growth_rate": 0.6676013623794685,
           "n_structure_cells": 470,
           "mean_pheromone": 13.852378800228852,
           "max_pheromone": 60.28330783854951,
@@ -7973,6 +8457,7 @@
         {
           "step": 100,
           "total_material": 2517.641271941493,
+          "material_growth_rate": 0.34550268505516185,
           "n_structure_cells": 703,
           "mean_pheromone": 15.227880725873801,
           "max_pheromone": 59.704319271155924,
@@ -7990,6 +8475,7 @@
         {
           "step": 125,
           "total_material": 2985.13856881383,
+          "material_growth_rate": 0.18568860547468852,
           "n_structure_cells": 898,
           "mean_pheromone": 15.73347615130075,
           "max_pheromone": 61.397635402421955,
@@ -8007,6 +8493,7 @@
         {
           "step": 150,
           "total_material": 3409.155455893325,
+          "material_growth_rate": 0.14204261454032996,
           "n_structure_cells": 1097,
           "mean_pheromone": 15.739839131858302,
           "max_pheromone": 57.9272699940358,
@@ -8024,6 +8511,7 @@
         {
           "step": 175,
           "total_material": 3764.058556234388,
+          "material_growth_rate": 0.10410293837658556,
           "n_structure_cells": 1293,
           "mean_pheromone": 15.51329866163545,
           "max_pheromone": 50.77718876785349,
@@ -8041,6 +8529,7 @@
         {
           "step": 200,
           "total_material": 4103.83937846894,
+          "material_growth_rate": 0.09026980243752442,
           "n_structure_cells": 1439,
           "mean_pheromone": 15.410972634291376,
           "max_pheromone": 47.64784127262252,
@@ -8058,6 +8547,7 @@
         {
           "step": 225,
           "total_material": 4284.183468158809,
+          "material_growth_rate": 0.04394521155873112,
           "n_structure_cells": 1513,
           "mean_pheromone": 15.36874722000444,
           "max_pheromone": 43.23937815423895,
@@ -8075,6 +8565,7 @@
         {
           "step": 250,
           "total_material": 4462.007968662354,
+          "material_growth_rate": 0.0415072094426357,
           "n_structure_cells": 1585,
           "mean_pheromone": 15.317749815089844,
           "max_pheromone": 47.41302222417348,
@@ -8092,6 +8583,7 @@
         {
           "step": 275,
           "total_material": 4579.370726381927,
+          "material_growth_rate": 0.026302677750429177,
           "n_structure_cells": 1655,
           "mean_pheromone": 15.152096590321342,
           "max_pheromone": 43.21735265773523,
@@ -8109,6 +8601,7 @@
         {
           "step": 300,
           "total_material": 4731.662439838226,
+          "material_growth_rate": 0.03325603506589698,
           "n_structure_cells": 1644,
           "mean_pheromone": 15.087684130133981,
           "max_pheromone": 39.62073336410491,
@@ -8126,6 +8619,7 @@
         {
           "step": 325,
           "total_material": 4857.199389889394,
+          "material_growth_rate": 0.026531256539817735,
           "n_structure_cells": 1720,
           "mean_pheromone": 14.747418242066098,
           "max_pheromone": 38.54229565377904,
@@ -8143,6 +8637,7 @@
         {
           "step": 350,
           "total_material": 4885.4109740225285,
+          "material_growth_rate": 0.005808199719340049,
           "n_structure_cells": 1784,
           "mean_pheromone": 14.497805748070135,
           "max_pheromone": 41.20960806887358,
@@ -8160,6 +8655,7 @@
         {
           "step": 375,
           "total_material": 4966.5489226954,
+          "material_growth_rate": 0.016608213537061767,
           "n_structure_cells": 1802,
           "mean_pheromone": 14.35102854377436,
           "max_pheromone": 39.797800876843105,
@@ -8177,6 +8673,7 @@
         {
           "step": 400,
           "total_material": 4976.186155152042,
+          "material_growth_rate": 0.0019404283752454305,
           "n_structure_cells": 1763,
           "mean_pheromone": 14.302871564851666,
           "max_pheromone": 40.007788729557156,
@@ -8194,6 +8691,7 @@
         {
           "step": 425,
           "total_material": 5060.404814672465,
+          "material_growth_rate": 0.016924338618889503,
           "n_structure_cells": 1828,
           "mean_pheromone": 13.997314035400345,
           "max_pheromone": 38.34527886653163,
@@ -8211,6 +8709,7 @@
         {
           "step": 450,
           "total_material": 5134.05259387064,
+          "material_growth_rate": 0.014553732733917869,
           "n_structure_cells": 1858,
           "mean_pheromone": 13.996575613376002,
           "max_pheromone": 36.214039757837746,
@@ -8228,6 +8727,7 @@
         {
           "step": 475,
           "total_material": 5178.603475219275,
+          "material_growth_rate": 0.008677527262152223,
           "n_structure_cells": 1833,
           "mean_pheromone": 13.999322096066862,
           "max_pheromone": 37.44437529056724,
@@ -8245,6 +8745,7 @@
         {
           "step": 500,
           "total_material": 5192.611306673489,
+          "material_growth_rate": 0.0027049438176226163,
           "n_structure_cells": 1820,
           "mean_pheromone": 13.976231191469116,
           "max_pheromone": 39.494863862597725,
@@ -8262,6 +8763,7 @@
         {
           "step": 525,
           "total_material": 5259.160199345875,
+          "material_growth_rate": 0.01281607436837388,
           "n_structure_cells": 1828,
           "mean_pheromone": 14.062443034760637,
           "max_pheromone": 42.00421756282074,
@@ -8279,6 +8781,7 @@
         {
           "step": 550,
           "total_material": 5272.05450542165,
+          "material_growth_rate": 0.0024517804339518816,
           "n_structure_cells": 1788,
           "mean_pheromone": 14.232354343622864,
           "max_pheromone": 47.44667292915026,
@@ -8296,6 +8799,7 @@
         {
           "step": 575,
           "total_material": 5280.987589662968,
+          "material_growth_rate": 0.0016944218296930961,
           "n_structure_cells": 1833,
           "mean_pheromone": 14.327855003205405,
           "max_pheromone": 46.89931759376523,
@@ -8313,6 +8817,7 @@
         {
           "step": 600,
           "total_material": 5282.7391367413875,
+          "material_growth_rate": 0.00033167036443101943,
           "n_structure_cells": 1864,
           "mean_pheromone": 14.257141047144344,
           "max_pheromone": 43.202746870860786,
@@ -8330,6 +8835,7 @@
         {
           "step": 625,
           "total_material": 5272.784963842998,
+          "material_growth_rate": -0.001884282498289261,
           "n_structure_cells": 1868,
           "mean_pheromone": 13.982158360283792,
           "max_pheromone": 41.45965678894763,
@@ -8347,6 +8853,7 @@
         {
           "step": 650,
           "total_material": 5281.044079764313,
+          "material_growth_rate": 0.0015663669157665967,
           "n_structure_cells": 1833,
           "mean_pheromone": 13.62094883187556,
           "max_pheromone": 41.65804891823629,
@@ -8364,6 +8871,7 @@
         {
           "step": 675,
           "total_material": 5251.7498416604985,
+          "material_growth_rate": -0.005547054268314693,
           "n_structure_cells": 1777,
           "mean_pheromone": 13.562995288532967,
           "max_pheromone": 40.22132441695943,
@@ -8381,6 +8889,7 @@
         {
           "step": 700,
           "total_material": 5247.852204784134,
+          "material_growth_rate": -0.0007421596598995424,
           "n_structure_cells": 1772,
           "mean_pheromone": 13.477617902252808,
           "max_pheromone": 41.35068066259842,
@@ -8398,6 +8907,7 @@
         {
           "step": 725,
           "total_material": 5313.547676594486,
+          "material_growth_rate": 0.0125185445867666,
           "n_structure_cells": 1805,
           "mean_pheromone": 13.432850157347863,
           "max_pheromone": 42.022515637526425,
@@ -8415,6 +8925,7 @@
         {
           "step": 750,
           "total_material": 5288.195941191138,
+          "material_growth_rate": -0.0047711504528356215,
           "n_structure_cells": 1871,
           "mean_pheromone": 13.413901779420305,
           "max_pheromone": 39.9590479168762,
@@ -8432,6 +8943,7 @@
         {
           "step": 775,
           "total_material": 5283.4835929553865,
+          "material_growth_rate": -0.0008911069650513987,
           "n_structure_cells": 1851,
           "mean_pheromone": 13.534444788772111,
           "max_pheromone": 42.16859964729476,
@@ -8449,6 +8961,7 @@
         {
           "step": 800,
           "total_material": 5302.272710541779,
+          "material_growth_rate": 0.003556198719239796,
           "n_structure_cells": 1832,
           "mean_pheromone": 13.634870578233626,
           "max_pheromone": 41.69468972651536,
@@ -8466,6 +8979,7 @@
         {
           "step": 825,
           "total_material": 5294.011370122338,
+          "material_growth_rate": -0.0015580753519176596,
           "n_structure_cells": 1849,
           "mean_pheromone": 13.481442898253219,
           "max_pheromone": 41.01536390930265,
@@ -8483,6 +8997,7 @@
         {
           "step": 850,
           "total_material": 5324.913235250766,
+          "material_growth_rate": 0.0058371361464819894,
           "n_structure_cells": 1874,
           "mean_pheromone": 13.436420206923994,
           "max_pheromone": 40.86289790607935,
@@ -8500,6 +9015,7 @@
         {
           "step": 875,
           "total_material": 5284.3552787264525,
+          "material_growth_rate": -0.007616641761563529,
           "n_structure_cells": 1827,
           "mean_pheromone": 13.484245682341834,
           "max_pheromone": 37.59954711144138,
@@ -8517,6 +9033,7 @@
         {
           "step": 900,
           "total_material": 5340.662990577681,
+          "material_growth_rate": 0.010655549992618713,
           "n_structure_cells": 1849,
           "mean_pheromone": 13.387732279374704,
           "max_pheromone": 41.108258043308,
@@ -8534,6 +9051,7 @@
         {
           "step": 925,
           "total_material": 5362.303830303633,
+          "material_growth_rate": 0.004052088619733554,
           "n_structure_cells": 1873,
           "mean_pheromone": 13.182318398360207,
           "max_pheromone": 42.30025207941712,
@@ -8551,6 +9069,7 @@
         {
           "step": 950,
           "total_material": 5372.201302126199,
+          "material_growth_rate": 0.0018457499119377391,
           "n_structure_cells": 1875,
           "mean_pheromone": 13.040087388646528,
           "max_pheromone": 38.53552768583489,
@@ -8568,6 +9087,7 @@
         {
           "step": 975,
           "total_material": 5366.7372561905795,
+          "material_growth_rate": -0.0010170962754982957,
           "n_structure_cells": 1858,
           "mean_pheromone": 13.129346869446975,
           "max_pheromone": 41.93361830608933,
@@ -8585,6 +9105,7 @@
         {
           "step": 1000,
           "total_material": 5378.6662606588,
+          "material_growth_rate": 0.0022227666268662613,
           "n_structure_cells": 1840,
           "mean_pheromone": 13.239153936221298,
           "max_pheromone": 39.41846896437242,
@@ -8602,6 +9123,7 @@
         {
           "step": 1025,
           "total_material": 5387.904945372284,
+          "material_growth_rate": 0.0017176534601260746,
           "n_structure_cells": 1818,
           "mean_pheromone": 13.506383390134383,
           "max_pheromone": 38.50534296018856,
@@ -8619,6 +9141,7 @@
         {
           "step": 1050,
           "total_material": 5393.718726877708,
+          "material_growth_rate": 0.0010790430722831769,
           "n_structure_cells": 1889,
           "mean_pheromone": 13.518257533572546,
           "max_pheromone": 40.80920998935941,
@@ -8636,6 +9159,7 @@
         {
           "step": 1075,
           "total_material": 5360.492060192499,
+          "material_growth_rate": -0.0061602520204911285,
           "n_structure_cells": 1850,
           "mean_pheromone": 13.65854810330971,
           "max_pheromone": 43.97213212483953,
@@ -8653,6 +9177,7 @@
         {
           "step": 1100,
           "total_material": 5344.354942753229,
+          "material_growth_rate": -0.0030103798789490777,
           "n_structure_cells": 1865,
           "mean_pheromone": 13.700720996756747,
           "max_pheromone": 40.20341784964786,
@@ -8670,6 +9195,7 @@
         {
           "step": 1125,
           "total_material": 5365.673931494324,
+          "material_growth_rate": 0.0039890667759639046,
           "n_structure_cells": 1852,
           "mean_pheromone": 13.859010559766094,
           "max_pheromone": 40.011890787239224,
@@ -8687,6 +9213,7 @@
         {
           "step": 1150,
           "total_material": 5333.21240606798,
+          "material_growth_rate": -0.0060498505575988315,
           "n_structure_cells": 1868,
           "mean_pheromone": 13.835636624359058,
           "max_pheromone": 36.41661540881842,
@@ -8704,6 +9231,7 @@
         {
           "step": 1175,
           "total_material": 5312.585100036682,
+          "material_growth_rate": -0.0038677075767371795,
           "n_structure_cells": 1826,
           "mean_pheromone": 13.644955716448385,
           "max_pheromone": 37.568895120258404,
@@ -8721,6 +9249,7 @@
         {
           "step": 1200,
           "total_material": 5299.200569482555,
+          "material_growth_rate": -0.002519400687630355,
           "n_structure_cells": 1847,
           "mean_pheromone": 13.279533366831176,
           "max_pheromone": 36.09859251619253,
@@ -8738,6 +9267,7 @@
         {
           "step": 1225,
           "total_material": 5314.383905581772,
+          "material_growth_rate": 0.002865212573129577,
           "n_structure_cells": 1881,
           "mean_pheromone": 13.251013404020183,
           "max_pheromone": 36.29701360247818,
@@ -8755,6 +9285,7 @@
         {
           "step": 1250,
           "total_material": 5263.4636843270455,
+          "material_growth_rate": -0.009581585026487061,
           "n_structure_cells": 1825,
           "mean_pheromone": 13.329706201262468,
           "max_pheromone": 40.47950847338484,
@@ -8772,6 +9303,7 @@
         {
           "step": 1275,
           "total_material": 5310.113676990683,
+          "material_growth_rate": 0.008862983666543965,
           "n_structure_cells": 1821,
           "mean_pheromone": 13.359938848192668,
           "max_pheromone": 39.496222270338095,
@@ -8789,6 +9321,7 @@
         {
           "step": 1300,
           "total_material": 5318.413868629178,
+          "material_growth_rate": 0.0015630911395475978,
           "n_structure_cells": 1823,
           "mean_pheromone": 13.380011764554348,
           "max_pheromone": 43.822852867902014,
@@ -8806,6 +9339,7 @@
         {
           "step": 1325,
           "total_material": 5366.729393173881,
+          "material_growth_rate": 0.009084574036197869,
           "n_structure_cells": 1798,
           "mean_pheromone": 13.703103672527286,
           "max_pheromone": 48.57308174252147,
@@ -8823,6 +9357,7 @@
         {
           "step": 1350,
           "total_material": 5383.22532774261,
+          "material_growth_rate": 0.0030737407013124536,
           "n_structure_cells": 1821,
           "mean_pheromone": 13.65534446328386,
           "max_pheromone": 45.234153246574785,
@@ -8840,6 +9375,7 @@
         {
           "step": 1375,
           "total_material": 5383.03883095432,
+          "material_growth_rate": -3.4644061308213364e-05,
           "n_structure_cells": 1852,
           "mean_pheromone": 13.700851103889036,
           "max_pheromone": 38.9402101302956,
@@ -8857,6 +9393,7 @@
         {
           "step": 1400,
           "total_material": 5371.153068887508,
+          "material_growth_rate": -0.0022080022901681774,
           "n_structure_cells": 1872,
           "mean_pheromone": 13.750453397475372,
           "max_pheromone": 36.691320260232665,
@@ -8874,6 +9411,7 @@
         {
           "step": 1425,
           "total_material": 5374.263182466856,
+          "material_growth_rate": 0.0005790402059779747,
           "n_structure_cells": 1882,
           "mean_pheromone": 13.853724749480012,
           "max_pheromone": 35.879502540701864,
@@ -8891,6 +9429,7 @@
         {
           "step": 1450,
           "total_material": 5358.261353021113,
+          "material_growth_rate": -0.002977492709688647,
           "n_structure_cells": 1928,
           "mean_pheromone": 13.690915345720443,
           "max_pheromone": 35.4462574298955,
@@ -8908,6 +9447,7 @@
         {
           "step": 1475,
           "total_material": 5395.251231743474,
+          "material_growth_rate": 0.006903336042297614,
           "n_structure_cells": 1899,
           "mean_pheromone": 13.801611406836745,
           "max_pheromone": 34.439944827690155,
@@ -8925,6 +9465,7 @@
         {
           "step": 1500,
           "total_material": 5366.73643800034,
+          "material_growth_rate": -0.005285165142146551,
           "n_structure_cells": 1880,
           "mean_pheromone": 13.770281399827693,
           "max_pheromone": 33.00043283575096,
@@ -8942,6 +9483,7 @@
         {
           "step": 1525,
           "total_material": 5373.198632883802,
+          "material_growth_rate": 0.0012041200379629211,
           "n_structure_cells": 1866,
           "mean_pheromone": 13.716526982595045,
           "max_pheromone": 37.96151428008107,
@@ -8959,6 +9501,7 @@
         {
           "step": 1550,
           "total_material": 5334.875000514973,
+          "material_growth_rate": -0.007132368443312229,
           "n_structure_cells": 1837,
           "mean_pheromone": 13.67903227321848,
           "max_pheromone": 34.97798781928683,
@@ -8976,6 +9519,7 @@
         {
           "step": 1575,
           "total_material": 5376.716194292161,
+          "material_growth_rate": 0.007842956727786324,
           "n_structure_cells": 1927,
           "mean_pheromone": 13.460093504583494,
           "max_pheromone": 37.136251007515554,
@@ -8993,6 +9537,7 @@
         {
           "step": 1600,
           "total_material": 5381.461704166208,
+          "material_growth_rate": 0.0008826037496798339,
           "n_structure_cells": 1871,
           "mean_pheromone": 13.657835273818758,
           "max_pheromone": 39.839904354907794,
@@ -9010,6 +9555,7 @@
         {
           "step": 1625,
           "total_material": 5382.201055272657,
+          "material_growth_rate": 0.00013738852882235684,
           "n_structure_cells": 1862,
           "mean_pheromone": 13.718258738118537,
           "max_pheromone": 39.61247190414859,
@@ -9027,6 +9573,7 @@
         {
           "step": 1650,
           "total_material": 5362.12478208565,
+          "material_growth_rate": -0.003730123230409534,
           "n_structure_cells": 1880,
           "mean_pheromone": 13.67940821797898,
           "max_pheromone": 37.31364314824311,
@@ -9044,6 +9591,7 @@
         {
           "step": 1675,
           "total_material": 5365.658571900982,
+          "material_growth_rate": 0.0006590278963925109,
           "n_structure_cells": 1879,
           "mean_pheromone": 13.722434210018703,
           "max_pheromone": 39.81516648105632,
@@ -9061,6 +9609,7 @@
         {
           "step": 1700,
           "total_material": 5329.024929304513,
+          "material_growth_rate": -0.006827427072664136,
           "n_structure_cells": 1835,
           "mean_pheromone": 13.883461825351057,
           "max_pheromone": 39.977450414108525,
@@ -9078,6 +9627,7 @@
         {
           "step": 1725,
           "total_material": 5322.908001279606,
+          "material_growth_rate": -0.0011478512684880984,
           "n_structure_cells": 1849,
           "mean_pheromone": 13.878520160128975,
           "max_pheromone": 42.32513512423747,
@@ -9095,6 +9645,7 @@
         {
           "step": 1750,
           "total_material": 5294.226036462119,
+          "material_growth_rate": -0.005388401379582718,
           "n_structure_cells": 1872,
           "mean_pheromone": 13.922739845094112,
           "max_pheromone": 45.889374920225656,
@@ -9112,6 +9663,7 @@
         {
           "step": 1775,
           "total_material": 5288.9742738689365,
+          "material_growth_rate": -0.0009919792915928888,
           "n_structure_cells": 1881,
           "mean_pheromone": 13.696517653096622,
           "max_pheromone": 46.56600544519819,
@@ -9129,6 +9681,7 @@
         {
           "step": 1800,
           "total_material": 5358.725477016012,
+          "material_growth_rate": 0.01318803978527417,
           "n_structure_cells": 1864,
           "mean_pheromone": 13.825642537556867,
           "max_pheromone": 41.073762608847176,
@@ -9146,6 +9699,7 @@
         {
           "step": 1825,
           "total_material": 5371.072152645639,
+          "material_growth_rate": 0.0023040321215526613,
           "n_structure_cells": 1897,
           "mean_pheromone": 13.840854237694383,
           "max_pheromone": 39.50218583558009,
@@ -9163,6 +9717,7 @@
         {
           "step": 1850,
           "total_material": 5370.235556712594,
+          "material_growth_rate": -0.00015575957821248687,
           "n_structure_cells": 1907,
           "mean_pheromone": 13.728611983883988,
           "max_pheromone": 41.27990534841135,
@@ -9180,6 +9735,7 @@
         {
           "step": 1875,
           "total_material": 5412.425668602704,
+          "material_growth_rate": 0.00785628701842949,
           "n_structure_cells": 1933,
           "mean_pheromone": 13.699568652349992,
           "max_pheromone": 39.438933747789285,
@@ -9197,6 +9753,7 @@
         {
           "step": 1900,
           "total_material": 5419.587392810294,
+          "material_growth_rate": 0.0013232004735205618,
           "n_structure_cells": 1934,
           "mean_pheromone": 14.066208601026348,
           "max_pheromone": 37.7158704452107,
@@ -9214,6 +9771,7 @@
         {
           "step": 1925,
           "total_material": 5446.044158012148,
+          "material_growth_rate": 0.004881693620616213,
           "n_structure_cells": 1975,
           "mean_pheromone": 14.220118196632422,
           "max_pheromone": 42.935115689222144,
@@ -9231,6 +9789,7 @@
         {
           "step": 1950,
           "total_material": 5361.651651667813,
+          "material_growth_rate": -0.015496111286607491,
           "n_structure_cells": 1933,
           "mean_pheromone": 14.239925508378816,
           "max_pheromone": 45.379508364267096,
@@ -9248,6 +9807,7 @@
         {
           "step": 1975,
           "total_material": 5366.253798280465,
+          "material_growth_rate": 0.0008583449488406466,
           "n_structure_cells": 1938,
           "mean_pheromone": 14.078740435507523,
           "max_pheromone": 42.81102479829377,
@@ -9265,6 +9825,7 @@
         {
           "step": 2000,
           "total_material": 5299.538449128269,
+          "material_growth_rate": -0.012432387967481848,
           "n_structure_cells": 1880,
           "mean_pheromone": 14.064934189882583,
           "max_pheromone": 42.87889216747413,
@@ -9282,6 +9843,7 @@
         {
           "step": 2025,
           "total_material": 5294.463767643923,
+          "material_growth_rate": -0.0009575704626090118,
           "n_structure_cells": 1818,
           "mean_pheromone": 14.094276189948795,
           "max_pheromone": 45.043401870900695,
@@ -9299,6 +9861,7 @@
         {
           "step": 2050,
           "total_material": 5347.323272811102,
+          "material_growth_rate": 0.009983920466170476,
           "n_structure_cells": 1804,
           "mean_pheromone": 14.06970714380642,
           "max_pheromone": 46.406495897046106,
@@ -9316,6 +9879,7 @@
         {
           "step": 2075,
           "total_material": 5345.6590392576045,
+          "material_growth_rate": -0.0003112274064220131,
           "n_structure_cells": 1817,
           "mean_pheromone": 14.020321256889755,
           "max_pheromone": 52.76585925444952,
@@ -9333,6 +9897,7 @@
         {
           "step": 2100,
           "total_material": 5340.570180368881,
+          "material_growth_rate": -0.0009519609932754833,
           "n_structure_cells": 1885,
           "mean_pheromone": 13.961533630931601,
           "max_pheromone": 49.32725017682433,
@@ -9350,6 +9915,7 @@
         {
           "step": 2125,
           "total_material": 5310.445966304175,
+          "material_growth_rate": -0.005640636307980277,
           "n_structure_cells": 1835,
           "mean_pheromone": 13.92512540271167,
           "max_pheromone": 47.49197342760634,
@@ -9367,6 +9933,7 @@
         {
           "step": 2150,
           "total_material": 5325.253729353131,
+          "material_growth_rate": 0.0027884217526953944,
           "n_structure_cells": 1854,
           "mean_pheromone": 13.717579201102652,
           "max_pheromone": 54.13364584769682,
@@ -9384,6 +9951,7 @@
         {
           "step": 2175,
           "total_material": 5363.625065619364,
+          "material_growth_rate": 0.007205541410116798,
           "n_structure_cells": 1891,
           "mean_pheromone": 13.602088241217835,
           "max_pheromone": 48.74295276035993,
@@ -9401,6 +9969,7 @@
         {
           "step": 2200,
           "total_material": 5355.940584460798,
+          "material_growth_rate": -0.0014327028948804275,
           "n_structure_cells": 1880,
           "mean_pheromone": 13.46131987199724,
           "max_pheromone": 49.291018265964965,
@@ -9418,6 +9987,7 @@
         {
           "step": 2225,
           "total_material": 5389.20444788955,
+          "material_growth_rate": 0.006210648326693524,
           "n_structure_cells": 1891,
           "mean_pheromone": 13.593305177216159,
           "max_pheromone": 45.89294122542817,
@@ -9435,6 +10005,7 @@
         {
           "step": 2250,
           "total_material": 5371.046851283003,
+          "material_growth_rate": -0.00336925362214774,
           "n_structure_cells": 1874,
           "mean_pheromone": 13.795883792397346,
           "max_pheromone": 40.7435686141878,
@@ -9452,6 +10023,7 @@
         {
           "step": 2275,
           "total_material": 5311.361330787514,
+          "material_growth_rate": -0.011112455755479355,
           "n_structure_cells": 1840,
           "mean_pheromone": 13.904731058142058,
           "max_pheromone": 40.20209641105945,
@@ -9469,6 +10041,7 @@
         {
           "step": 2300,
           "total_material": 5284.147305726161,
+          "material_growth_rate": -0.005123738221989483,
           "n_structure_cells": 1852,
           "mean_pheromone": 13.874251753774907,
           "max_pheromone": 38.57844445790452,
@@ -9486,6 +10059,7 @@
         {
           "step": 2325,
           "total_material": 5334.489515118463,
+          "material_growth_rate": 0.009527026117865512,
           "n_structure_cells": 1859,
           "mean_pheromone": 13.992021529057638,
           "max_pheromone": 40.921096359161595,
@@ -9503,6 +10077,7 @@
         {
           "step": 2350,
           "total_material": 5311.357313880853,
+          "material_growth_rate": -0.004336347680888784,
           "n_structure_cells": 1840,
           "mean_pheromone": 14.044359193842746,
           "max_pheromone": 42.96121204881588,
@@ -9520,6 +10095,7 @@
         {
           "step": 2375,
           "total_material": 5330.033520605848,
+          "material_growth_rate": 0.003516277595594212,
           "n_structure_cells": 1847,
           "mean_pheromone": 14.050479304172521,
           "max_pheromone": 44.800648009030716,
@@ -9537,6 +10113,7 @@
         {
           "step": 2400,
           "total_material": 3333.6940710653166,
+          "material_growth_rate": -0.3745453835933125,
           "n_structure_cells": 1120,
           "mean_pheromone": 12.83964659583828,
           "max_pheromone": 45.906472625373716,
@@ -9554,6 +10131,7 @@
         {
           "step": 2425,
           "total_material": 3552.112522506135,
+          "material_growth_rate": 0.06551844493967635,
           "n_structure_cells": 1158,
           "mean_pheromone": 12.843257494662273,
           "max_pheromone": 49.953201301195314,
@@ -9571,6 +10149,7 @@
         {
           "step": 2450,
           "total_material": 3873.1198284150623,
+          "material_growth_rate": 0.0903708156414048,
           "n_structure_cells": 1274,
           "mean_pheromone": 12.878948673838542,
           "max_pheromone": 55.489548994525364,
@@ -9588,6 +10167,7 @@
         {
           "step": 2475,
           "total_material": 4162.6236574564755,
+          "material_growth_rate": 0.07474693318742022,
           "n_structure_cells": 1425,
           "mean_pheromone": 13.05714998073669,
           "max_pheromone": 50.6425711213436,
@@ -9605,6 +10185,7 @@
         {
           "step": 2500,
           "total_material": 4364.761392722226,
+          "material_growth_rate": 0.0485601754805922,
           "n_structure_cells": 1487,
           "mean_pheromone": 13.623948039693746,
           "max_pheromone": 51.05997332806053,
@@ -9622,6 +10203,7 @@
         {
           "step": 2525,
           "total_material": 4587.480197557444,
+          "material_growth_rate": 0.051026570480250555,
           "n_structure_cells": 1584,
           "mean_pheromone": 14.111023433826318,
           "max_pheromone": 51.235191231565715,
@@ -9639,6 +10221,7 @@
         {
           "step": 2550,
           "total_material": 4749.182933243244,
+          "material_growth_rate": 0.03524870489291652,
           "n_structure_cells": 1640,
           "mean_pheromone": 14.587468202771001,
           "max_pheromone": 51.42099062383307,
@@ -9656,6 +10239,7 @@
         {
           "step": 2575,
           "total_material": 4873.155339559857,
+          "material_growth_rate": 0.026103944206661834,
           "n_structure_cells": 1705,
           "mean_pheromone": 14.905805442647727,
           "max_pheromone": 50.710233821082156,
@@ -9673,6 +10257,7 @@
         {
           "step": 2600,
           "total_material": 4953.0769166948285,
+          "material_growth_rate": 0.016400375437691326,
           "n_structure_cells": 1741,
           "mean_pheromone": 15.174423569445866,
           "max_pheromone": 50.07539486995036,
@@ -9690,6 +10275,7 @@
         {
           "step": 2625,
           "total_material": 5051.50601778523,
+          "material_growth_rate": 0.01987231426966878,
           "n_structure_cells": 1796,
           "mean_pheromone": 15.158583049553936,
           "max_pheromone": 46.63802419370927,
@@ -9707,6 +10293,7 @@
         {
           "step": 2650,
           "total_material": 5086.292883048521,
+          "material_growth_rate": 0.006886434489202575,
           "n_structure_cells": 1851,
           "mean_pheromone": 14.973099138889923,
           "max_pheromone": 42.029089393111434,
@@ -9724,6 +10311,7 @@
         {
           "step": 2675,
           "total_material": 5114.985413068867,
+          "material_growth_rate": 0.005641147822212985,
           "n_structure_cells": 1849,
           "mean_pheromone": 14.950652203022635,
           "max_pheromone": 45.064215579393455,
@@ -9741,6 +10329,7 @@
         {
           "step": 2700,
           "total_material": 5138.9162210428585,
+          "material_growth_rate": 0.004678568175941942,
           "n_structure_cells": 1815,
           "mean_pheromone": 15.189629955630393,
           "max_pheromone": 46.61055847291808,
@@ -9758,6 +10347,7 @@
         {
           "step": 2725,
           "total_material": 5204.651329804918,
+          "material_growth_rate": 0.012791628805483667,
           "n_structure_cells": 1831,
           "mean_pheromone": 15.287766090841343,
           "max_pheromone": 41.57120822877002,
@@ -9775,6 +10365,7 @@
         {
           "step": 2750,
           "total_material": 5264.257216080438,
+          "material_growth_rate": 0.011452426396785153,
           "n_structure_cells": 1877,
           "mean_pheromone": 15.41920797125746,
           "max_pheromone": 42.124262900703606,
@@ -9792,6 +10383,7 @@
         {
           "step": 2775,
           "total_material": 5297.43461109186,
+          "material_growth_rate": 0.006302388665598627,
           "n_structure_cells": 1856,
           "mean_pheromone": 15.5240471161797,
           "max_pheromone": 46.182337276382626,
@@ -9809,6 +10401,7 @@
         {
           "step": 2800,
           "total_material": 5319.568034540696,
+          "material_growth_rate": 0.004178140000537888,
           "n_structure_cells": 1884,
           "mean_pheromone": 15.562819698634726,
           "max_pheromone": 48.28344096943101,
@@ -9826,6 +10419,7 @@
         {
           "step": 2825,
           "total_material": 5294.98211597424,
+          "material_growth_rate": -0.004621788537493443,
           "n_structure_cells": 1862,
           "mean_pheromone": 15.644094506722475,
           "max_pheromone": 53.88048980355076,
@@ -9843,6 +10437,7 @@
         {
           "step": 2850,
           "total_material": 5256.22541533738,
+          "material_growth_rate": -0.007319514927148904,
           "n_structure_cells": 1844,
           "mean_pheromone": 15.591696505170269,
           "max_pheromone": 57.42579241691694,
@@ -9860,6 +10455,7 @@
         {
           "step": 2875,
           "total_material": 5265.603577606641,
+          "material_growth_rate": 0.001784200929034811,
           "n_structure_cells": 1884,
           "mean_pheromone": 15.251334995591586,
           "max_pheromone": 54.91486328179521,
@@ -9877,6 +10473,7 @@
         {
           "step": 2900,
           "total_material": 5234.534963126154,
+          "material_growth_rate": -0.005900295003713189,
           "n_structure_cells": 1851,
           "mean_pheromone": 14.962899867429734,
           "max_pheromone": 52.10800986715037,
@@ -9894,6 +10491,7 @@
         {
           "step": 2925,
           "total_material": 5259.500244917141,
+          "material_growth_rate": 0.0047693409188878004,
           "n_structure_cells": 1850,
           "mean_pheromone": 14.599982458903293,
           "max_pheromone": 50.34815445112489,
@@ -9911,6 +10509,7 @@
         {
           "step": 2950,
           "total_material": 5276.9971852030885,
+          "material_growth_rate": 0.003326730577274364,
           "n_structure_cells": 1864,
           "mean_pheromone": 14.536146718153265,
           "max_pheromone": 49.09177193968962,
@@ -9928,6 +10527,7 @@
         {
           "step": 2975,
           "total_material": 5302.012548742594,
+          "material_growth_rate": 0.004740454213174397,
           "n_structure_cells": 1884,
           "mean_pheromone": 14.379448009453814,
           "max_pheromone": 46.698412182132664,
@@ -9945,6 +10545,7 @@
         {
           "step": 3000,
           "total_material": 5266.084251820822,
+          "material_growth_rate": -0.006776350789719017,
           "n_structure_cells": 1877,
           "mean_pheromone": 14.328502353431082,
           "max_pheromone": 41.770355370707215,
@@ -9962,6 +10563,7 @@
         {
           "step": 3025,
           "total_material": 5276.912427131212,
+          "material_growth_rate": 0.0020562100400589273,
           "n_structure_cells": 1901,
           "mean_pheromone": 14.021802404050423,
           "max_pheromone": 42.5464987553851,
@@ -9979,6 +10581,7 @@
         {
           "step": 3050,
           "total_material": 5304.4265073171655,
+          "material_growth_rate": 0.005214049042104606,
           "n_structure_cells": 1881,
           "mean_pheromone": 13.9728806948693,
           "max_pheromone": 48.08149187684126,
@@ -9996,6 +10599,7 @@
         {
           "step": 3075,
           "total_material": 5277.703695615913,
+          "material_growth_rate": -0.0050378323960922336,
           "n_structure_cells": 1871,
           "mean_pheromone": 13.491889753029257,
           "max_pheromone": 46.94591601662919,
@@ -10013,6 +10617,7 @@
         {
           "step": 3100,
           "total_material": 5302.416071489352,
+          "material_growth_rate": 0.004682410627555269,
           "n_structure_cells": 1863,
           "mean_pheromone": 13.519585655113165,
           "max_pheromone": 40.922031406899016,
@@ -10030,6 +10635,7 @@
         {
           "step": 3125,
           "total_material": 5288.1430732942,
+          "material_growth_rate": -0.002691791440490154,
           "n_structure_cells": 1875,
           "mean_pheromone": 13.306776805094655,
           "max_pheromone": 38.15769952333627,
@@ -10047,6 +10653,7 @@
         {
           "step": 3150,
           "total_material": 5293.124417648011,
+          "material_growth_rate": 0.0009419836575466091,
           "n_structure_cells": 1852,
           "mean_pheromone": 13.227208301481735,
           "max_pheromone": 37.85020408625892,
@@ -10064,6 +10671,7 @@
         {
           "step": 3175,
           "total_material": 5265.880761304097,
+          "material_growth_rate": -0.005146989602791127,
           "n_structure_cells": 1857,
           "mean_pheromone": 13.100439787372894,
           "max_pheromone": 36.37437713775814,
@@ -10081,6 +10689,7 @@
         {
           "step": 3200,
           "total_material": 5284.783667801608,
+          "material_growth_rate": 0.0035896951249670584,
           "n_structure_cells": 1824,
           "mean_pheromone": 13.108586985082527,
           "max_pheromone": 38.91424987752431,
@@ -10098,6 +10707,7 @@
         {
           "step": 3225,
           "total_material": 5313.147520295264,
+          "material_growth_rate": 0.005367079198807561,
           "n_structure_cells": 1819,
           "mean_pheromone": 13.133881051546178,
           "max_pheromone": 37.40415405875976,
@@ -10115,6 +10725,7 @@
         {
           "step": 3250,
           "total_material": 5278.809138461169,
+          "material_growth_rate": -0.006462907664981807,
           "n_structure_cells": 1803,
           "mean_pheromone": 13.221975315775012,
           "max_pheromone": 38.137581407824726,
@@ -10132,6 +10743,7 @@
         {
           "step": 3275,
           "total_material": 5290.362870093053,
+          "material_growth_rate": 0.0021887003922350916,
           "n_structure_cells": 1852,
           "mean_pheromone": 13.023613900449384,
           "max_pheromone": 41.076817535899146,
@@ -10149,6 +10761,7 @@
         {
           "step": 3300,
           "total_material": 5296.428221950515,
+          "material_growth_rate": 0.0011464907051555629,
           "n_structure_cells": 1817,
           "mean_pheromone": 12.831842902332161,
           "max_pheromone": 39.148547212361706,
@@ -10166,6 +10779,7 @@
         {
           "step": 3325,
           "total_material": 5326.016540761302,
+          "material_growth_rate": 0.005586466496073995,
           "n_structure_cells": 1784,
           "mean_pheromone": 12.842796181869444,
           "max_pheromone": 34.24030685338362,
@@ -10183,6 +10797,7 @@
         {
           "step": 3350,
           "total_material": 5341.485863181348,
+          "material_growth_rate": 0.0029044826094051734,
           "n_structure_cells": 1813,
           "mean_pheromone": 13.01796860200448,
           "max_pheromone": 34.89687631733863,
@@ -10200,6 +10815,7 @@
         {
           "step": 3375,
           "total_material": 5366.851265653566,
+          "material_growth_rate": 0.00474875402124733,
           "n_structure_cells": 1844,
           "mean_pheromone": 13.095356293282101,
           "max_pheromone": 38.356365284275384,
@@ -10217,6 +10833,7 @@
         {
           "step": 3400,
           "total_material": 5391.009756439449,
+          "material_growth_rate": 0.004501427296949933,
           "n_structure_cells": 1883,
           "mean_pheromone": 13.090257186940903,
           "max_pheromone": 39.772396762061604,
@@ -10234,6 +10851,7 @@
         {
           "step": 3425,
           "total_material": 5341.2250842738395,
+          "material_growth_rate": -0.009234758313346197,
           "n_structure_cells": 1899,
           "mean_pheromone": 12.906462611610976,
           "max_pheromone": 45.8623562785481,
@@ -10251,6 +10869,7 @@
         {
           "step": 3450,
           "total_material": 5375.7182163991,
+          "material_growth_rate": 0.0064579064879364,
           "n_structure_cells": 1859,
           "mean_pheromone": 13.170809651213082,
           "max_pheromone": 42.46022617106475,
@@ -10268,6 +10887,7 @@
         {
           "step": 3475,
           "total_material": 5384.0477647767575,
+          "material_growth_rate": 0.0015494763755003668,
           "n_structure_cells": 1880,
           "mean_pheromone": 13.37925534227712,
           "max_pheromone": 39.447276687346346,
@@ -10285,6 +10905,7 @@
         {
           "step": 3500,
           "total_material": 5385.14538293326,
+          "material_growth_rate": 0.00020386486235944733,
           "n_structure_cells": 1867,
           "mean_pheromone": 13.526265932036297,
           "max_pheromone": 42.06978658329801,
@@ -10302,6 +10923,7 @@
         {
           "step": 3525,
           "total_material": 5371.419843741514,
+          "material_growth_rate": -0.0025487778352735646,
           "n_structure_cells": 1887,
           "mean_pheromone": 13.448534695883065,
           "max_pheromone": 42.11271646450196,
@@ -10319,6 +10941,7 @@
         {
           "step": 3550,
           "total_material": 5379.669648077761,
+          "material_growth_rate": 0.001535870324092953,
           "n_structure_cells": 1910,
           "mean_pheromone": 13.3890828917346,
           "max_pheromone": 38.69767788384133,
@@ -10336,6 +10959,7 @@
         {
           "step": 3575,
           "total_material": 5360.41972229812,
+          "material_growth_rate": -0.003578272838095004,
           "n_structure_cells": 1877,
           "mean_pheromone": 13.60473510320674,
           "max_pheromone": 41.4514142040288,
@@ -10353,6 +10977,7 @@
         {
           "step": 3600,
           "total_material": 5359.00846064968,
+          "material_growth_rate": -0.00026327446758868124,
           "n_structure_cells": 1899,
           "mean_pheromone": 13.675726279360273,
           "max_pheromone": 43.04525398580682,
@@ -10370,6 +10995,7 @@
         {
           "step": 3625,
           "total_material": 5348.913980748743,
+          "material_growth_rate": -0.0018836469423513128,
           "n_structure_cells": 1870,
           "mean_pheromone": 14.082878853750774,
           "max_pheromone": 39.16224772700989,
@@ -10387,6 +11013,7 @@
         {
           "step": 3650,
           "total_material": 5365.657972303212,
+          "material_growth_rate": 0.0031303534913315893,
           "n_structure_cells": 1889,
           "mean_pheromone": 14.104921633612529,
           "max_pheromone": 38.67222045075661,
@@ -10404,6 +11031,7 @@
         {
           "step": 3675,
           "total_material": 5376.232076281911,
+          "material_growth_rate": 0.0019707003378301516,
           "n_structure_cells": 1907,
           "mean_pheromone": 14.03875668659371,
           "max_pheromone": 41.716220266319155,
@@ -10421,6 +11049,7 @@
         {
           "step": 3700,
           "total_material": 5393.014447450398,
+          "material_growth_rate": 0.00312158607187456,
           "n_structure_cells": 1884,
           "mean_pheromone": 14.30862137019067,
           "max_pheromone": 40.237725088860024,
@@ -10438,6 +11067,7 @@
         {
           "step": 3725,
           "total_material": 5365.432521014967,
+          "material_growth_rate": -0.005114380223563107,
           "n_structure_cells": 1891,
           "mean_pheromone": 14.37924107109068,
           "max_pheromone": 42.07046153178256,
@@ -10455,6 +11085,7 @@
         {
           "step": 3750,
           "total_material": 5328.020260404033,
+          "material_growth_rate": -0.006972832192819533,
           "n_structure_cells": 1866,
           "mean_pheromone": 14.436498421745364,
           "max_pheromone": 39.74766617208748,
@@ -10472,6 +11103,7 @@
         {
           "step": 3775,
           "total_material": 5328.478805907784,
+          "material_growth_rate": 8.606301803282868e-05,
           "n_structure_cells": 1855,
           "mean_pheromone": 14.532575560166606,
           "max_pheromone": 43.86933801862901,
@@ -10489,6 +11121,7 @@
         {
           "step": 3800,
           "total_material": 5338.839874318077,
+          "material_growth_rate": 0.0019444702301913482,
           "n_structure_cells": 1892,
           "mean_pheromone": 14.61103585739359,
           "max_pheromone": 42.912902379082134,
@@ -10506,6 +11139,7 @@
         {
           "step": 3825,
           "total_material": 5359.47116375519,
+          "material_growth_rate": 0.003864376891383784,
           "n_structure_cells": 1919,
           "mean_pheromone": 14.798401062942379,
           "max_pheromone": 45.25588302268134,
@@ -10523,6 +11157,7 @@
         {
           "step": 3850,
           "total_material": 5383.241296125283,
+          "material_growth_rate": 0.004435163777136207,
           "n_structure_cells": 1942,
           "mean_pheromone": 14.517115772015492,
           "max_pheromone": 43.9283665694902,
@@ -10540,6 +11175,7 @@
         {
           "step": 3875,
           "total_material": 5383.503788016429,
+          "material_growth_rate": 4.876093726933442e-05,
           "n_structure_cells": 1901,
           "mean_pheromone": 14.556567196766231,
           "max_pheromone": 44.748568244636516,
@@ -10557,6 +11193,7 @@
         {
           "step": 3900,
           "total_material": 5336.674296125836,
+          "material_growth_rate": -0.008698701391245343,
           "n_structure_cells": 1846,
           "mean_pheromone": 14.432845953935658,
           "max_pheromone": 55.6032401239729,
@@ -10574,6 +11211,7 @@
         {
           "step": 3925,
           "total_material": 5318.048551327709,
+          "material_growth_rate": -0.003490140818908209,
           "n_structure_cells": 1828,
           "mean_pheromone": 14.490357678633663,
           "max_pheromone": 54.93935365417929,
@@ -10591,6 +11229,7 @@
         {
           "step": 3950,
           "total_material": 5328.985430480412,
+          "material_growth_rate": 0.0020565587258455174,
           "n_structure_cells": 1866,
           "mean_pheromone": 14.185039880740522,
           "max_pheromone": 50.08688770892018,
@@ -10608,6 +11247,7 @@
         {
           "step": 3975,
           "total_material": 5335.122857258385,
+          "material_growth_rate": 0.0011517064285573796,
           "n_structure_cells": 1887,
           "mean_pheromone": 13.968196586574098,
           "max_pheromone": 43.160600768450195,

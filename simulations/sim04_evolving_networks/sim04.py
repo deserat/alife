@@ -132,6 +132,7 @@ class EvolvingReactionNetwork:
 
     def __init__(self, food_set: Set[str], seed: int):
         self.rng = random.Random(seed)
+        self.seed = seed
         self.food = food_set
         self.max_len = MAX_POLYMER_LENGTH
 
@@ -142,9 +143,13 @@ class EvolvingReactionNetwork:
         # Determined lazily — only checked when needed
         self._catalysis_cache: Dict[Tuple[str, Tuple[str, str, str]], bool] = {}
 
-        # Concentrations: species -> count (integer molecules)
+        # Concentrations: species -> count (integer molecules).
+        # Inserted in SORTED order: dict iteration follows insertion order, and
+        # divide() consumes rng draws while iterating this dict — so seeding it
+        # from an unordered set made molecule segregation, and hence the whole
+        # compartment lineage, differ between processes.
         self.concentrations: Dict[str, int] = defaultdict(int)
-        for f in food_set:
+        for f in sorted(food_set):
             self.concentrations[f] = 50  # Start with some food
 
         # Track discovered cores
@@ -153,19 +158,35 @@ class EvolvingReactionNetwork:
         self._active_catalysts: List[str] = []
         self.n_reactions_attempted = 0
 
+    def _stable_uniform(self, *parts) -> float:
+        """Deterministic uniform [0,1) keyed on *parts*, stable across processes.
+
+        Catalysis must be a fixed random function of (catalyst, reaction),
+        evaluated lazily but consistently. This previously used the builtin
+        `hash()`, which Python randomizes per process for str/bytes (PEP 456):
+        `hash(("abab", "catalyst")) % 1000` returned 992, 410 and 696 on three
+        successive interpreter runs. The entire catalysis map — and therefore
+        the chemistry — differed on every invocation, so no sim04 result was
+        reproducible. See ../REVIEW.md section 5.
+
+        `random.Random(s)` with a *string* seed derives its state via SHA-512,
+        which is stable across processes. Deriving from self.seed rather than
+        self.rng also keeps the value independent of query order, so a lazily
+        populated cache gives the same answers as an eagerly populated one.
+        """
+        key = "|".join([str(self.seed)] + [str(p) for p in parts])
+        return random.Random(key).random()
+
     def _is_catalyst(self, molecule: str) -> bool:
         """Whether a molecule can be a catalyst at all."""
-        # Use a hash-based deterministic check
-        return hash((molecule, "catalyst")) % 1000 < P_CATALYST * 1000
+        return self._stable_uniform("catalyst", molecule) < P_CATALYST
 
     def _catalyzes(self, catalyst: str, reaction: Tuple[str, str, str]) -> bool:
         """Whether catalyst catalyzes this specific reaction."""
         key = (catalyst, reaction)
         if key in self._catalysis_cache:
             return self._catalysis_cache[key]
-        # Deterministic pseudo-random based on hash
-        val = (hash((catalyst, reaction, "cat")) % 10000) / 10000.0
-        result = val < P_CATALYZE
+        result = self._stable_uniform("catalyzes", catalyst, reaction) < P_CATALYZE
         self._catalysis_cache[key] = result
         return result
 
@@ -182,12 +203,15 @@ class EvolvingReactionNetwork:
 
     def step(self, food_influx: float):
         """One time step of reaction dynamics."""
-        # Add food
-        for f in self.food:
+        # Add food (sorted: see the note on concentrations in __init__)
+        for f in sorted(self.food):
             self.concentrations[f] += int(food_influx / len(self.food))
 
-        # Get active species (above threshold)
-        active = [s for s in self.species if self.concentrations.get(s, 0) >= 1]
+        # Get active species (above threshold). SORTED: self.species is a set of
+        # strings, whose iteration order follows randomized string hashes, and
+        # `active` is fed to self.rng.choice/sample below — so an unsorted list
+        # makes the whole run irreproducible even with a seeded generator.
+        active = sorted(s for s in self.species if self.concentrations.get(s, 0) >= 1)
 
         # Precompute active catalysts (species that can be catalysts)
         self._active_catalysts = [s for s in active if self._is_catalyst(s)]
@@ -287,9 +311,12 @@ class EvolvingReactionNetwork:
         # nonfood species catalyze a reaction that produces it?
         producers: Dict[str, Set[str]] = defaultdict(set)  # species -> set of catalysts that help produce it
 
-        for s in nonfood:
+        # Sorted throughout: `active` and `nonfood` are sets, and their
+        # iteration order determines the order cores are discovered and hence
+        # the order of `core_sizes` in the recorded history.
+        for s in sorted(nonfood):
             # Who catalyzes reactions that produce s?
-            for other in active:
+            for other in sorted(active):
                 # Ligation: other + x -> s
                 if s.startswith(other) and len(other) < len(s):
                     remainder = s[len(other):]
@@ -300,7 +327,7 @@ class EvolvingReactionNetwork:
                             if c in nonfood:
                                 producers[s].add(c)
                 # Cleavage: longer -> s + other
-                for longer in active:
+                for longer in sorted(active):
                     if longer.startswith(s) and len(longer) > len(s):
                         remainder = longer[len(s):]
                         if remainder in active:
@@ -314,7 +341,7 @@ class EvolvingReactionNetwork:
         # A core is a set where every member is produced by a catalyst in the set
         cores = []
         visited = set()
-        for s in nonfood:
+        for s in sorted(nonfood):
             if s in visited:
                 continue
             # BFS: find all species reachable from s via producer links
@@ -331,7 +358,7 @@ class EvolvingReactionNetwork:
                     if c not in component:
                         queue.append(c)
                 # Who does current produce? Add them
-                for other in nonfood:
+                for other in sorted(nonfood):
                     if current in producers.get(other, set()):
                         if other not in component:
                             queue.append(other)
@@ -384,9 +411,11 @@ class Compartment:
 
     def divide(self, rng: random.Random) -> 'Compartment':
         """Divide this compartment into two daughters."""
-        # Stochastic segregation: randomly distribute molecules
+        # Stochastic segregation: randomly distribute molecules.
+        # Iterate in sorted order so the sequence of rng draws does not depend
+        # on dict insertion order.
         daughter_conc = defaultdict(int)
-        for s, count in self.network.concentrations.items():
+        for s, count in sorted(self.network.concentrations.items()):
             for _ in range(count):
                 if rng.random() < 0.5:
                     daughter_conc[s] += 1

@@ -1,3 +1,11 @@
+---
+status: "Core concept"
+formed: "Session 5"
+connected_to: "Fitness landscapes, NK model, multi-scale composition, dynamic landscapes, computational irreducibility"
+topic: "Gavrilets holey adaptive landscapes and ridge-network evolution"
+key_findings: "In high-dimensional genotype space the well-fit set forms a connected ridge network, not isolated peaks — evolution drifts along ridges rather than climbing. This reframes H4: making a holey landscape dynamic means reshaping ridge topology, not moving peaks. The ridge is itself a macroscopic structure with its own dynamics, so if agents modify it while drifting along it that is a strange loop — the landscape shapes the agents and the agents shape the landscape. Determining whether a given fitness function percolates is computationally irreducible in general (H8). Criticism: holey landscapes are an approximation that depends on high dimensionality, and the network is still static."
+---
+
 # Holey Fitness Landscapes
 
 **Status:** Core concept — formed Session 5
