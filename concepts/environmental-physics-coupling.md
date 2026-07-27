@@ -3,7 +3,7 @@ status: active
 formed: "Session 9"
 connected_to: "stigmergic consolidation, stigmergy, multi-scale composition, H7, H4, niche construction, multi-rate environment"
 topic: "environmental physics coupling — the structure as a new dynamical degree of freedom"
-key_findings: "The trace→actor crossing (H7) requires the accumulated structure to introduce physical transport dynamics absent at the deposit level. The Mahadevan group's termite mound model shows real mounds are ventilation structures whose own physics (diurnal thermal-oscillation-driven convection) redistributes the pheromone cues that guide building — the structure IS the feedback path. A 20-year lineage of stigmergic construction models (Deneubourg 1977 → Bonabeau 1997 → Ladley & Bullock 2004) all share the SAME limitation sim06 inherited: deposited material has no influence on agent movement, and pheromone diffusion is decoupled from structure. sim07 (Session 10) tested the minimal lumped version (structure-sourced scalar transport field T with mass threshold M_c) and found a NULL: no phase transition — scalar venting has the wrong sign for consolidation (it disperses the cue that recruits deposits), and the self-repair test shows repair tracks the deposit rule not T. The crossing requires DIRECTED transport (channel geometry) and/or an external multi-rate driver (H4), not just a structure-sourced scalar."
+key_findings: "The trace→actor crossing (H7) requires the accumulated structure to introduce physical transport dynamics absent at the deposit level. The Mahadevan group's termite mound model shows real mounds are ventilation structures whose own physics (diurnal thermal-oscillation-driven convection) redistributes the pheromone cues that guide building — the structure IS the feedback path. A 20-year lineage of stigmergic construction models (Deneubourg 1977 → Bonabeau 1997 → Ladley & Bullock 2004) all share a limitation sim06 also has by design: deposited material has no influence on agent movement, and pheromone diffusion is decoupled from structure. (Corrected 2026-07-27: sim06's null was originally cited as empirical confirmation of that gap. It was largely a broken-detector artifact — corrected, sim06 is a near miss at stability 0.849-0.893 vs 0.90 with 66-109 components, not the diffuse scatter claimed. The lineage argument is literature-based and unaffected.) sim07 (Session 10) tested the minimal lumped version (structure-sourced scalar transport field T with mass threshold M_c) and found a NULL: no phase transition — scalar venting has the wrong sign for consolidation (it disperses the cue that recruits deposits), and the self-repair test shows repair tracks the deposit rule not T. The crossing requires DIRECTED transport (channel geometry) and/or an external multi-rate driver (H4), not just a structure-sourced scalar."
 ---
 
 # Environmental Physics Coupling
@@ -85,7 +85,7 @@ stigmergic-construction modeling lineage:
 agents. The deposit changes the cue field only through passive diffusion/decay. There is no
 mechanism by which accumulated structure introduces a new transport/inhibition/competition
 dynamics. **sim06 is the minimal modern instance of this same class** — and it produced the
-same qualitative failure mode (diffuse scatter, no consolidation).
+same design limitation. *(Corrected 2026-07-27: this originally read "and it produced the same qualitative failure mode (diffuse scatter, no consolidation)". sim06 produced neither — 66–109 components at compactness 0.109–0.120, missing the crossing by ≤0.05 on criterion 1 alone. The shared limitation is a design fact; the shared failure mode was not observed.)*
 
 This reframes sim06's null result: it is not a failure of *our* model, it is a confirmation
 that the field's long-standing minimal stigmergy models lack the coupling the crossing
@@ -126,10 +126,13 @@ away from where it's saturated and toward where it's absent.** A minimal lumped 
   push the pheromone field `P` *along* the transport direction.
 - Net effect: saturated pillars **vent** their own pheromone away, creating a negative
   feedback — deposition near a saturated pillar is *redirected* to its flanks/gaps. This is
-  the consolidation mechanism sim06 lacked.
+  the consolidation mechanism sim06 does not have. *(2026-07-27: sim06 was originally said
+  to have "lacked" it in the sense of that being why it failed; the failure had a different,
+  local cause. sim07 then implemented this mechanism and it did **not** consolidate —
+  fragmentation rose monotonically, 57→128 pillars as `M_c` fell.)*
 
 **State-transition form (Vance's termite-mound principle):** below a mass threshold `M_c`,
-the structure is inert (passive accumulation, sim06 behavior). Above `M_c`, the structure
+the structure is inert (passive accumulation, the sim06 regime). Above `M_c`, the structure
 *activates* — it begins sourcing `T` and thereby reshaping the cue field. The crossing is
 predicted to coincide with the first cells exceeding `M_c` and the onset of non-trivial `T`.
 This makes the H7 phase transition operationally testable: sweep `M_c` and look for the
@@ -217,7 +220,9 @@ lumped `T` lacks entirely. Candidate sim08 tests the external-oscillation path.
 - **Heylighen (Cognitive Systems Research 2016)**: positive + negative feedback as the
   signature of complex stigmergic systems; the termite pillar as the paradigmatic positive
   feedback case. (DOI 10.1016/j.cogsys.2015.12.002)
-- **sim06 (this project)**: null result — positive-feedback-only stigmergy produces diffuse
+- **sim06 (this project)**: null result, but a weak one — its detector could not fire, and
+  corrected it is a near miss (stability 0.849–0.893 vs 0.90, criterion 3 passing 154/160,
+  66–109 components). The original wording follows: null result — positive-feedback-only stigmergy produces diffuse
   scatter, no crossing. Confirms the lineage limitation in a minimal modern model.
 - **sim07 (this project, Session 10)**: null result — a structure-sourced *scalar* transport
   field with mass threshold `M_c` does NOT produce a phase transition. Sweeping `M_c` from inert

@@ -56,7 +56,7 @@ Computationally irreducible processes CAN be predictable at coarse-grained level
 Bedau's evolutionary activity statistics provide quantitative measures for open-ended evolution. Geb (a simple ALife system) was the first classified as exhibiting open-ended dynamics. But no ALife system has achieved sustained complexification. This is the gap our thesis addresses — the missing ingredient is multi-scale composition.
 
 ### Our sim01 results
-Basic stigmergy simulation confirms an optimal decay rate for trace accumulation. This is a building block, not a test of the full hypothesis.
+Basic stigmergy simulation shows that pheromone-sensing agents form concentrated trails where a pheromone-blind control does not (trail concentration 0.786 vs 0.270, against a uniform-field baseline of 0.05). This is a building block, not a test of the full hypothesis. *(Corrected 2026-07-27: this previously read "confirms an optimal decay rate for trace accumulation" — that finding came from a coverage metric that runs opposite to trail formation, and does not survive the rerun. See [[concepts/stigmergy]].)*
 
 **Stigmergy provides the cross-scale interaction mechanism (Session 3).** Agents modify their environment (stigmergic traces), and those modifications persist and constrain future agents. This is the medium through which scales interact. The environment mediates between scales, not through direct agent-to-agent communication, but through accumulated traces. Niche construction theory shows this loop in evolutionary biology: organism → environment → selection → organism. Stigmergy is the formal description of this environment-mediated, cross-scale feedback.
 

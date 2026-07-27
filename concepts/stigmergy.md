@@ -82,7 +82,7 @@ Positive feedback in stigmergy (stronger traces → more activity → stronger t
 Heylighen argues free-riding is self-limiting in stigmergic systems (free riders miss the amplification benefit). But the argument relies on agents being able to leave traces — if free-riding is costless AND trace-leaving is costly, the argument weakens.
 
 ### 4. Does not produce new scales by itself
-Stigmergy coordinates within a scale. The transition to a new scale requires additional mechanisms (autopoiesis, self-reference). Stigmergy is necessary but not sufficient for multi-scale composition. **sim06 (Session 8) sharpened this**: even *self-maintaining* stigmergy (the trace recruits its own maintenance) is insufficient — the model amplified building (66% more structure) but never consolidated, because it lacked negative feedback. See [[concepts/stigmergic-consolidation]].
+Stigmergy coordinates within a scale. The transition to a new scale requires additional mechanisms (autopoiesis, self-reference). Stigmergy is necessary but not sufficient for multi-scale composition. **sim06 (Session 8) probed this**: even *self-maintaining* stigmergy (the trace recruits its own maintenance) did not produce the crossing — the model amplified building (66% more structure, 1876 vs 1131 cells) without meeting all three H7 criteria. *(Corrected 2026-07-27: this originally said the model "never consolidated, because it lacked negative feedback". sim06's detector could not fire at the time; corrected, baseline misses only criterion 1 and by ≤0.05, with 66–109 fairly compact components. The genuinely suggestive result is that self-maintenance made the structure MORE fragmented (219–297 components) and LESS selective (0.43–0.53) than baseline — more positive feedback worked against consolidation.)* See [[concepts/stigmergic-consolidation]].
 
 ### 5. Extended mind / cognitive bloat criticism
 Stigmergy underpins the "extended mind" thesis (Clark & Chalmers) — cognition extends into the environment. Critics (Adams & Aizawa) argue this conflates causal coupling with constitutive cognition. The environment may causally influence cognition without being part of it. This matters for our project: we need to be clear that the stigmergic medium is not just causally relevant but constitutive of the new-level actor.
@@ -103,13 +103,23 @@ Niche construction theory (the evolutionary biology analog of stigmergy) is cont
 Grasse coined stigmergy from termite behavior observations. Theraulaz & Bonabeau (1999, 990 citations) formalized it for ALife. Quantitative: ant trail formation measured extensively — pheromone decay rates, trail persistence times, colony-level foraging efficiency as function of colony size.
 
 ### Ant Colony Optimization (Dorigo 2000, 1494 citations)
-ACO algorithms directly implement stigmergic coordination. Key empirical findings: ACO finds optimal paths in TSP and network routing. Convergence depends on pheromone evaporation rate. Dorigo provides specific parameter ranges: evaporation rho in [0.01, 0.5], optimal around 0.1 for most problems. Directly supports our sim01 finding of an optimal decay rate window.
+ACO algorithms directly implement stigmergic coordination. Key empirical findings: ACO finds optimal paths in TSP and network routing. Convergence depends on pheromone evaporation rate. Dorigo provides specific parameter ranges: evaporation rho in [0.01, 0.5], optimal around 0.1 for most problems. *(Corrected 2026-07-27: this originally concluded "Directly supports our sim01 finding of an optimal decay rate window." There is no such sim01 finding — see below. The ACO parameter ranges stand as literature; they are not corroborated by our simulation.)*
 
 ### Niche construction (Laland et al. 2016, 808 citations)
 Empirical evidence: earthworms modify soil chemistry across generations, beaver dams persist decades and reshape ecosystems, yarrow plants modify soil pH. Quantitative: Laland provides measured ecological inheritance timespans.
 
 ### Our simulation results (sim01_pheromone_trails.py)
-Decay rate sweep confirms an optimal window (0.01-0.05) for trail formation. At 0.001 (near-permanent), pheromone saturates the grid — memory without adaptation. At 0.2 (fast decay), no trails form — adaptation without memory. Matches ACO literature findings.
+
+**Retracted and replaced 2026-07-27.** This section previously read: "Decay rate sweep confirms an optimal window (0.01-0.05) for trail formation. At 0.001 (near-permanent), pheromone saturates the grid — memory without adaptation. At 0.2 (fast decay), no trails form — adaptation without memory. Matches ACO literature findings."
+
+That conclusion rested on `trail_cells`, which counts cells above a pheromone threshold and therefore measures **coverage, not trail structure** — a laden ant deposits 100 units per step against 2%/step decay, so a visited cell stays above threshold for ~230 steps. A pheromone-blind control added in the rerun scores **2582 trail cells against the sensing condition's 917**: the old metric runs *opposite* to trail formation.
+
+On `trail_concentration` (share of pheromone in the densest 5% of cells; a uniform field scores 0.05), sensing does form real trails — **0.786 vs the blind control's 0.270**. But:
+
+- **There is no optimal decay window.** Concentration across the sweep is non-monotonic (0.404 → 0.657 → 0.786 → 0.523 → 0.764 → 0.847) and is *highest* at decay 0.2 — the setting previously described as "no trails form".
+- **Trail formation does not improve foraging here.** The blind control collected more food (68 units vs 57).
+
+So sim01 supports "stigmergic feedback produces concentrated trails" and nothing about an optimal decay rate. See `../simulations/sim01_pheromone_trails/README.md` and `../simulations/REVIEW.md` §6.
 
 ## Cross-References
 

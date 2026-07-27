@@ -119,7 +119,7 @@ Single fitness goals lead to stasis. Multiple fitness criteria changing at diffe
 ## 2026-07-22 — Session 5 (Evolving Reaction Networks / Signals & Boundaries loop)
 
 ### Sim03's negative result ↔ COT's evolvability limitation
-Our sim03 (chemical organizations with fixed reaction network) confirmed the central limitation of Chemical Organization Theory: the system converges to a fixed equilibrium by generation 1 and NEVER changes for 3000 generations. Both single-trace and multi-trace conditions reach a static state. This is exactly Vasas et al.'s (2010) finding: autocatalytic sets (fixed networks) "lack evolvability" — they "cannot substantially depart from the asymptotic steady-state solution already built-in in the dynamical equations." Sim03 independently confirms this through simulation: fixed reaction networks cannot evolve, regardless of trace diversity.
+Our sim03 (chemical organizations with fixed reaction network) confirmed the central limitation of Chemical Organization Theory: the system converges to a fixed equilibrium by generation 1 and NEVER changes for 3000 generations. Both single-trace and multi-trace conditions reach a static state. This is exactly Vasas et al.'s (2010) finding: autocatalytic sets (fixed networks) "lack evolvability" — they "cannot substantially depart from the asymptotic steady-state solution already built-in in the dynamical equations." Sim03 independently confirms this through simulation: fixed reaction networks cannot evolve, regardless of trace diversity. *(Corrected 2026-07-27: not an independent confirmation. sim03 enumerates subsets of a fixed, hand-authored network, so its organization count is identical at every sampled generation of every run — the stall is guaranteed by the design rather than measured. The concentration equilibrium is a genuine result; the organizational stall is not a test. Counts also changed after a closure fix: 8 organizations single / 9 multi, 1/24 nested pairs.)*
 
 ### Vasas et al. (2012) resolution ↔ H9 (Evolving Network Hypothesis)
 Vasas et al. (2012, "Evolution before genes") found the way out: rare uncatalyzed reactions produce novel species. Most disappear, but rarely a novel species catalyzes its own production from existing molecules, forming a **viable autocatalytic core** — a new organization. Combined with compartmentalization (which filters harmful modifications and enables between-compartment selection), this produces the minimal conditions for Darwinian evolution in chemical networks. This directly motivates our H9: evolving networks (where new reactions appear) produce evolvable organizations where fixed networks stall. Our sim04 tests this directly.
@@ -150,10 +150,24 @@ A viable autocatalytic core carries approximately one bit of heritable informati
 ## 2026-07-23 — Session 6 (AlChemy / Lambda Calculus Chemistry loop)
 
 ### AlChemy's unbounded space ↔ Sim04's finite space limitation
-Sim04 stalled because its binary polymer space was finite (510 species). AlChemy uses lambda calculus as chemistry — expressions are unbounded, the molecule space is infinite. Our sim05 confirms: each run explores 246-930 unique species, no two runs overlap, and the space is never exhausted. Unbounded space is NECESSARY (without it, finite exhaustion is inevitable) but NOT SUFFICIENT for multi-scale composition.
+Sim04 stalled because its binary polymer space was finite (510 species). AlChemy uses lambda calculus as chemistry — expressions are unbounded, the molecule space is infinite. Our sim05 confirms: each run explores 246-930 unique species, no two runs overlap, and the space is never exhausted. *(Corrected 2026-07-27: **112–162** species per run — the earlier figures were inflated ~3–6× because species identity was not alpha-invariant. The runs are still largely distinct, mean pairwise overlap 0.061, and the space is still never exhausted, so the conclusion of this paragraph stands.)* Unbounded space is NECESSARY (without it, finite exhaustion is inevitable) but NOT SUFFICIENT for multi-scale composition.
 
 ### L2 composition failure ↔ Multi-scale composition (H1)
 Mathis et al. (2024) found that "stable organizations cannot be easily combined into higher order entities" in AlChemy. Our sim05 confirms: 0/6 pairs of L1 organizations achieved L2 coexistence. 50% dominance (one destroys the other), 50% mutual destruction (both destroyed). This is the SAME failure as Echo (Smith & Bedau 1997), COT/Vasas, and sim04. Three independent modeling traditions — CAS theory, prebiotic chemistry, computational theory — all fail at multi-scale composition. This convergence is strong evidence the problem is FUNDAMENTAL, not an artifact of any single approach.
+
+> **Correction (2026-07-27): sim05 does not corroborate Mathis et al. as stated, and the
+> convergence argument has lost one of its three legs.** Three defects each biased sim05
+> against coexistence — non-alpha-invariant species identity, a Jaccard metric whose ceiling
+> fell below the coexistence threshold for two of six pairs, and a mixed population padded
+> almost entirely from organization A (~9:1 abundance handicap, which is why every pair
+> returned dominance-by-A). Corrected: **2/6 coexistence (33%), 3 dominance, 1 mutual
+> destruction**, stable across survival thresholds 0.45–0.70.
+>
+> Mathis et al. and Fontana & Buss are untouched — the literature still reports L2 as rare.
+> But "three independent traditions all fail" now overstates our own contribution: in our
+> model composition succeeds a third of the time. Note too that sim05 never tests closure or
+> self-maintenance, so its "L1 organizations" are surviving species sets rather than
+> organizations in the COT sense the comparison assumes. See `simulations/REVIEW.md` §2.
 
 ### The "glue" ↔ Trace→actor crossing (H7)
 Fontana & Buss identified "glue" expressions that bridge L1 organizations into L2 composites. Glue is produced by composing functions from different organizations — it cannot exist without at least one L1, yet it bridges between them. This is exactly our trace→actor crossing: glue is the stigmergic trace that enables the phase transition between scales. The fact that glue rarely emerges spontaneously confirms H7: the crossing requires specific mechanisms (stigmergic bridges, autopoietic boundaries, explicit selection), not just random interaction.
@@ -169,7 +183,7 @@ Echo (Holland's CAS model), chemical organizations (COT/Vasas), and AlChemy (lam
 This convergence is the strongest evidence yet that multi-scale composition is not a bug of any particular simulation but a fundamental gap in our understanding of how scales interact. The composition problem persists across finite (sim04: 510 species) and infinite (sim05: unbounded) spaces, across chemical and computational substrates, across selection-based and mass-action dynamics.
 
 ### Mutual destruction produces novelty ↔ Creative destruction at scale boundaries
-In sim05, mutual destruction (both L1s destroyed) produced the most novel species (89-90 unique vs. 6-23 for dominance). Cross-organization interactions generate novelty but destabilize existing structures. This parallels biological phenomena: hybridization can produce novel species but often destroys parental lineages. The multi-scale composition problem may require a mechanism that captures this novelty without destroying the parents — which is exactly what autopoietic boundaries (Holland's signals & boundaries) would provide.
+In sim05, mutual destruction (both L1s destroyed) produced the most novel species (89-90 unique vs. 6-23 for dominance). *(Retracted 2026-07-27: this reverses under the corrected sim05. Only 1 of 6 pairs now ends in mutual destruction, and its final population is the **smallest** at 10 species, not the largest. The 89-90 figures came from inflated, non-alpha-invariant species counts. The analogy to hybridization below is a nice idea with no remaining empirical support from our data.)* Cross-organization interactions generate novelty but destabilize existing structures. This parallels biological phenomena: hybridization can produce novel species but often destroys parental lineages. The multi-scale composition problem may require a mechanism that captures this novelty without destroying the parents — which is exactly what autopoietic boundaries (Holland's signals & boundaries) would provide.
 
 ---
 
@@ -253,7 +267,23 @@ fails when `T` is suppressed, the crossing is emergent from the physics, not imp
 
 ---
 
+## 2026-07-25 — Session 8 (sim06 implementation / the negative-feedback gap)
 
+*(Section header added 2026-07-27. This block was appended without a dated heading, so it sat
+under Session 9's header and read as current fact rather than as a Session 8 record. It is
+Session 8 material — the sim06 implementation night.)*
+
+> **Correction (2026-07-27).** The sim06 figures in this section are wrong and the null they
+> describe was an artifact. The crossing detector **could not fire**: criterion 2 required the
+> deposit rate to fall below its early-run average, impossible under Grassé positive feedback
+> once structure exists. Corrected: baseline **66–109** components (not ~230), stability
+> **0.849–0.893** (not 0.55), `deposit_on_structure` **0.70–0.79** — criterion 3 *passes*
+> 154/160 (not 0.33-fails). Post-fix the crossing still doesn't fire, but criterion 1 misses
+> by **≤0.05** — a near miss, not a diffuse scatter. Unchanged and still correct: 66% more
+> structure (1876 vs 1131 cells). The negative-feedback direction may still be right, but its
+> support is now sim06's self-maintenance reversal (more fragmented: 219–297 components; less
+> selective: 0.43–0.53) and sim07's null, not the scatter claim below. See
+> `simulations/REVIEW.md` §1.
 
 ### sim06's null result ↔ The negative-feedback gap
 sim06 tested H7 with a minimal Grassé stigmergy model. The result: positive
@@ -367,3 +397,102 @@ changing fitness function, but an environment whose physics the structure can
 *harness* only with an external driver.
 
 
+
+---
+
+## 2026-07-27 — Post-review consolidation (what the corrected simulations actually support)
+
+Not a research session. After the construct-validity audit (`simulations/REVIEW.md`) and the
+rerun of all seven simulations, this section restates what our own code now supports, as
+distinct from what the literature supports. The correction pass fixed wrong numbers in place;
+this is the part that could not be done by correction — deciding what the project still
+believes.
+
+### The convergence argument, re-derived
+
+The strongest claim the project has made is that **three independent traditions all hit the
+same wall**: Echo (CAS theory), COT/Vasas (prebiotic chemistry), and AlChemy (computational
+theory) each fail at multi-scale composition, so the problem is fundamental rather than an
+artifact of any one approach. That argument has to be restated, because our contribution to
+it was weaker than recorded:
+
+- **Echo leg — intact.** Smith & Bedau (1997) is a literature result from thousands of runs.
+  We never simulated Echo; we only cited it. Untouched by the audit.
+- **COT/Vasas leg — literature intact, our contribution withdrawn.** Vasas et al. (2010)
+  proved autocatalytic sets lack evolvability. sim03 was recorded as independently confirming
+  it *through simulation*. It does not: sim03 enumerates subsets of a fixed, hand-authored
+  network, so its organization lattice is identical at every generation of every run. The
+  stall is a property of the design, not a measurement.
+- **AlChemy leg — literature intact, our replication mildly contradicts the strong form.**
+  Mathis et al. (2024) and Fontana & Buss (1994) both report L2 as rare. sim05 was recorded
+  as independently confirming that at 0/6 coexistence; corrected, it is **2/6**. Composition
+  is the minority outcome, not an impossibility.
+
+**Honest restatement: three *literatures* converge on composition being hard. Our
+simulations have not independently reproduced that convergence, and one of them mildly
+contradicts its strongest reading.** The thesis is not damaged — "composition is hard" still
+has solid external support — but the project should stop citing its own sims as a third
+independent confirmation. What sims 03–05 actually established is narrower: finite species
+space exhausts (sim04, 510/510, unchanged), and fixed networks have static organization
+lattices (sim03, true by construction).
+
+### The new finding: both attempts at negative feedback increased fragmentation
+
+The corrected data surfaced a result that was invisible before, and it points the opposite
+way from the mechanism we proposed. Two independent attempts to add the "missing" negative
+feedback both made the structure *less* consolidated:
+
+| attempt | mechanism | effect on components | effect on stability |
+|---|---|---|---:|
+| sim06 self-maintenance | structure re-emits pheromone (`maintain_gain=0.3`) | 66–109 → **219–297** | 0.849–0.893 → 0.746–0.802 |
+| sim07 transport field | structure sources `T`, vents pheromone to gaps | 57 → **128** as `M_c` falls | 0.876 → **0.739** |
+
+Both are monotonic and both are backwards. The common cause is that **both act through the
+pheromone field, and the deposit response saturates**: `p = base + gain·φ/(1+φ)` is flat above
+φ≈1, so once the field is driven high anywhere, deposit probability is ~0.87 *everywhere* and
+the spatial contrast stigmergy depends on is destroyed. Adding energy to a saturating channel
+does not create selectivity — it removes it.
+
+This is now **H11, the Saturating Channel Hypothesis**. It reframes what H7 needs. The Session 8/9 prescription was "add negative feedback / a new
+dynamical degree of freedom." Tried twice, it fragmented twice. The refined prescription is
+**negative feedback through a channel that does not saturate** — acting on deposit probability
+or on geometry directly, rather than by pushing more signal through a saturating cue field.
+That is a sharper and more falsifiable claim than the original, and it came out of a bug fix
+rather than new reading.
+
+### Cross-domain connection: saturation as the hidden variable
+
+Heylighen's positive/negative feedback framing assumes the two act on comparable channels. Our
+result suggests a third term: the **response curve** of the agents to the trace. A saturating
+response makes negative feedback self-defeating, because the manipulation that is supposed to
+create contrast operates in the region where contrast cannot be expressed. This connects to
+the multi-rate environment idea (Vance's contribution) from the other side — it is not only
+that different actors must operate at different *rates*, but that the medium must remain
+*responsive* across the range those rates drive it through. A saturated medium is a
+single-rate medium no matter how many processes write to it.
+
+### Status of the hypotheses after the review
+
+- **H1** — unchanged in substance; its sim03 leg is withdrawn, leaving Smith & Bedau as the
+  external support and our own sims as untested rather than confirming.
+- **H7** — not refuted and not strongly tested. sim06 was a near miss with a broken detector;
+  sim07 is a sound null against the *scalar* form of the mechanism. Newly supported by the
+  fragmentation reversal above, which is better evidence than the "diffuse scatter" claim it
+  replaces.
+- **H9** — weakened on two legs (sim03 structural, sim05 no longer showing unbounded space
+  stalling); sim04's finite-space exhaustion survives.
+- **H10** — weakened. 2/6 coexistence. Still standing on the literature.
+- **H8** — untouched. Purely literature-derived (Kaznatcheev 2019), no simulation dependency.
+
+### What would settle things
+
+1. **What distinguishes the 2 coexisting sim05 pairs from the 4 that did not?** This is now
+   the most informative question in the repo and it did not exist before the fix — at 0/6
+   there was nothing to compare.
+2. **Does non-saturating negative feedback consolidate?** A sim08 that inhibits deposition
+   directly (a density cap or refractory period) rather than by manipulating the cue field
+   would test the refined prescription above, and is a cheaper experiment than directed
+   transport.
+3. **Repeat sim06's parameter sweep against the working detector.** It has never been run
+   against a detector capable of firing, so the claim that no regime produces the crossing is
+   simply unsupported — in either direction.

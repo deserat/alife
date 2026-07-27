@@ -3,7 +3,7 @@ status: "Core concept"
 formed: "Session 5"
 connected_to: "Chemical Organization Theory, autopoiesis, multi-scale composition, computational irreducibility, ANT translation, trace→actor crossing, open-ended evolution"
 topic: "How reaction networks that generate new reactions overcome the evolvability stall"
-key_findings: "Fixed COT networks stall — sim03 reached equilibrium by generation 1 and sim04 exhausted its finite species space. Vasas, Szathmáry & Santos (2010) proved autocatalytic sets lack evolvability. The resolution is rare novel reactions plus compartments: a rare novel reaction producing a new viable autocatalytic core from existing resources IS the trace→actor crossing, making H7 mechanistically concrete. Limitation: the one-bit problem — heritable variation stays minimal, and open-endedness is not demonstrated."
+key_findings: "Fixed COT networks stall — sim03 reached equilibrium by generation 1 (though its organizational stall is structural, not measured) and sim04 exhausted its finite species space. Vasas, Szathmáry & Santos (2010) proved autocatalytic sets lack evolvability. The resolution is rare novel reactions plus compartments: a rare novel reaction producing a new viable autocatalytic core from existing resources IS the trace→actor crossing, making H7 mechanistically concrete. Limitation: the one-bit problem — heritable variation stays minimal, and open-endedness is not demonstrated."
 ---
 
 # Evolving Reaction Networks
@@ -14,7 +14,7 @@ key_findings: "Fixed COT networks stall — sim03 reached equilibrium by generat
 
 ## The Problem: Fixed Networks Stall
 
-Chemical Organization Theory (Dittrich & di Fenizio, 2007) describes organizations as attractors of a FIXED reaction network. Once the system converges to an organization, it stays there. Our sim03 confirmed this: the system reached a fixed equilibrium by generation 1 and never changed for 3000 generations. This is the same stall as EvoLoop, computational autopoiesis, and Echo — self-maintenance without evolution.
+Chemical Organization Theory (Dittrich & di Fenizio, 2007) describes organizations as attractors of a FIXED reaction network. Once the system converges to an organization, it stays there. Our sim03 is consistent with this: the system reached a fixed equilibrium by generation 1 and never changed for 3000 generations. *(2026-07-27: "confirmed" was too strong. sim03's organization count is a structural property of a fixed, hand-authored network — identical at every sampled generation of every run — so the stall is guaranteed by the design rather than measured. The concentration equilibrium is a real result; the organizational stall is not an independent test. See `../simulations/REVIEW.md` §4.)* This is the same stall as EvoLoop, computational autopoiesis, and Echo — self-maintenance without evolution.
 
 Vasas, Szathmáry & Santos (2010, PNAS) proved this formally: autocatalytic sets (a special case of COT organizations) **lack evolvability**. Compositional genomes ("composomes") cannot maintain heritable variation because replication of compositional information is too inaccurate. The system "cannot substantially depart from the asymptotic steady-state solution already built-in in the dynamical equations."
 

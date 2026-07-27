@@ -86,7 +86,7 @@ Key findings from revisiting AlChemy after 30 years (arXiv:2408.12137):
 ## Connection to Our Project
 
 ### AlChemy's unbounded space vs sim04's finite space
-Sim04 (binary polymers up to length 8 = 510 species) exhausted its finite space. AlChemy's molecule space is infinite (lambda expressions are unbounded). Sim05 confirms: each run explores different species (246-930 unique, no overlap), and the space is never exhausted. **Unbounded space is necessary but not sufficient.**
+Sim04 (binary polymers up to length 8 = 510 species) exhausted its finite space. AlChemy's molecule space is infinite (lambda expressions are unbounded). Sim05 confirms: each run explores different species (**112–162** unique, mean pairwise overlap 0.061), and the space is never exhausted. **Unbounded space is necessary but not sufficient** — though see the correction above: with L2 coexistence at 2/6 rather than 0/6, the "not sufficient" half now rests mainly on the literature rather than on our own result. *(The figure previously given here, 246-930, is the artifact this file's correction note describes; it was left asserted as fact in this paragraph until 2026-07-27.)*
 
 ### L2 failure = multi-scale composition failure
 The L2 composition failure is EXACTLY our H1 (Composition Hypothesis). AlChemy produces L1 organizations (single-scale stable states) but cannot compose them into L2 (multi-scale). This is the same failure as:

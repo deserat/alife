@@ -46,18 +46,24 @@ Knowledge develops through **spiral loops organized by topic clusters**, not seq
 
 $5/day in tokens. Research conducted in a single session each night starting ~midnight MT. Budget tracked and reported in each daily report.
 
-## Future: When Frontmatter Scanning Hits Scale
+## Scale: Frontmatter Scanning Hit Its Limit (resolved 2026-07-27)
 
-Frontmatter progressive loading works until ~50 documents. Beyond that, scanning all frontmatter consumes too much context. At that point, transition to:
-- A knowledge graph (concept files as nodes, cross-references as edges)
-- Or vector search over frontmatter summaries
-- The README.md should track document count and flag when this transition is needed.
+Frontmatter progressive loading worked until ~50 documents. Beyond that, scanning every file's
+frontmatter consumed too much context. The corpus passed that mark at 53 documents, and the
+per-file scan was replaced by a single generated index: **`INDEX.md`**, one line per document,
+harvested by `alife-build-index.py` from the frontmatter each document already carries. It
+compresses ~484 KB of corpus into ~13 KB, costs no model tokens to produce, and is
+deterministic, so it only changes when the corpus does.
+
+Longer-term options if the index itself stops scaling: a knowledge graph (concept files as
+nodes, cross-references as edges), or vector search over the frontmatter summaries.
 
 ## Structure
 
 ```
 ~/brain/artificial-life/
   README.md              — this file
+  INDEX.md               — generated one-line-per-document index of the whole corpus
   daily-reports/         — YYYY-MM-DD.md session logs (what was read, budget, what happened)
   concepts/              — living documents, one per topic cluster, refined across sessions
   synthesis.md           — running log of cross-domain connections, accumulating across all sessions
@@ -69,7 +75,10 @@ Frontmatter progressive loading works until ~50 documents. Beyond that, scanning
   references.md          — bibliography
 ```
 
-Simulations will be developed in a separate git repo once theoretical grounding is sufficient.
+Seven simulations (sim01–sim07) live in `simulations/`, each with its own code, README,
+committed `results.json` and self-contained visualization. `simulations/REVIEW.md` is a
+construct-validity audit of the first six — worth reading before citing any result produced
+before 2026-07-27, since three headline findings moved once measurement bugs were fixed.
 
 ## Timeline
 

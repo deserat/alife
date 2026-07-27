@@ -24,21 +24,32 @@ Whether reaction networks that generate new reactions (evolving networks) can pr
 
 ## Results
 
+> **These numbers replace the pre-2026-07-27 figures, which were not reproducible.**
+> `_is_catalyst` and `_catalyzes` derived the catalysis map — which molecule catalyses which
+> reaction, i.e. the chemistry itself — from Python's builtin `hash()`, which is randomized
+> per process (PEP 456): `hash(("abab","catalyst")) % 1000` returned 992, 410 and 696 on
+> three successive runs. Four further set-iteration-order dependencies compounded it, the
+> decisive one being that `concentrations` was keyed by iterating a set, so `divide()`
+> consumed RNG draws in a process-dependent order. Every earlier figure here was a single
+> unrepeatable sample. Catalysis is now derived from a stable string-seeded generator and
+> reproducibility is verified byte-identical across two full runs. See `../REVIEW.md` §5.
+
 | Metric | Fixed | Evolving |
 |--------|-------|----------|
 | Species discovered | 510 | 510 |
-| Total mass | 4168 | 2786 |
-| Non-food mass | 916 | 791 |
-| Cores (sampled) | 4 | 5 |
+| Total mass | 4169 | 3418 |
+| Non-food mass | 878 | 684 |
+| Cores (sampled) | 3 | 3 |
+| Compartments | 40 | 37 |
 | Compartment diversity | 10 | 10 |
 
 ## Key Findings
 
-1. **Both conditions saturate the species space.** 510 = all possible binary polymers up to length 8 (2+4+8+16+32+64+128+256=510). Both catalyzed and uncatalyzed reactions explore the full combinatorial space. The "novel reactions from shadow" mechanism is redundant when catalyzed reactions already explore the space.
+1. **Both conditions saturate the species space.** 510 = all possible binary polymers up to length 8 (2+4+8+16+32+64+128+256=510). Both catalyzed and uncatalyzed reactions explore the full combinatorial space. The "novel reactions from shadow" mechanism is redundant when catalyzed reactions already explore the space. *(Unaffected by the determinism fix — 510 is a structural bound.)*
 
-2. **The evolving network finds slightly more cores (5 vs 4)** but with less total mass. This suggests novel species from uncatalyzed reactions create new catalytic pathways but also introduce side reactions that consume resources without producing useful structure.
+2. **The evolving network finds no more cores than the fixed one — 3 vs 3.** *(Retracted 2026-07-27: this previously read "the evolving network finds slightly more cores (5 vs 4) but with less total mass", and inferred that novel species from uncatalyzed reactions create new catalytic pathways while introducing resource-consuming side reactions. Both the comparison and the inference came from the unreproducible run and do not survive.)* The evolving condition does carry less mass (3418 vs 4169) and less non-food mass (684 vs 878), so the "side reactions consume resources" half may still hold — but with core counts equal there is no measured benefit to set against it.
 
-3. **Compartment diversity is identical (10 in both conditions).** The between-compartment variation does not increase with evolving networks. This may be because compartments share the same catalysis cache (same hash-based catalysis rules), so all compartments discover the same species.
+3. **Compartment diversity is identical (10 in both conditions).** The between-compartment variation does not increase with evolving networks. Compartments share one catalysis cache, so all of them discover the same species. *(The parenthetical "same hash-based catalysis rules" is still true in substance — catalysis is a fixed pseudo-random function of (catalyst, reaction) — but it is now seeded deterministically rather than by the builtin `hash()`.)*
 
 4. **Neither condition produces open-ended evolution.** Both reach a fixed species count (510) and stop. This confirms the "one bit" limitation from Vasas et al.: the combinatorial space of binary polymers up to length 8 is finite, and both conditions exhaust it.
 

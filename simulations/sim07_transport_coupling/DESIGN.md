@@ -1,8 +1,17 @@
 # Sim07: Environmental Physics Coupling — Testing the M_c Phase Transition (H7)
 
-> **Status:** DESIGN SKETCH (Session 9). Not yet implemented. This document captures the
-> design rationale and spec so a future nightly session (or a delegated coding model) can
-> implement it Part-by-Part following the sim06 pattern.
+> **Status: IMPLEMENTED (Session 10, 2026-07-27) — NULL RESULT. Do not re-implement.**
+> `sim07.py`, `results.json`, `README.md` and `visualize.html` all exist and the selftest
+> passes. This document is retained as the design rationale; `README.md` carries the results.
+>
+> Outcome: **no phase transition in `M_c`.** The response is monotonic and in the wrong
+> direction — as `M_c` falls and transport activates, pillars go 57 → 128 and stability
+> 0.876 → 0.739. A structure-sourced *scalar* transport field fragments rather than
+> consolidates. H7 refined: the crossing needs *directed* transport (channel geometry)
+> and/or an externally-driven one (H4).
+>
+> *(This banner previously read "DESIGN SKETCH (Session 9). Not yet implemented", which
+> under CLAUDE.md §4 step 0 would send a nightly session to build it a second time.)*
 
 ## Scientific aim
 
@@ -60,6 +69,12 @@ Extend sim06's `Field` with:
 - `T` diffuses one step per field update (toroidal, like pheromone diffusion).
 - **Coupling to pheromone `P`:** the transport field advects pheromone down the `T` gradient.
   Minimal lumped form: `P += transport_coupling * (T_local - T_neighbor_avg)` — pheromone
+
+  > **The sign here is wrong; do not copy it.** As written this *raises* pheromone where `T`
+  > is highest, i.e. on the structure — positive feedback, the opposite of the venting the
+  > prose describes. The implementation uses `(T_neighbor_avg - T_local)`. See `README.md`.
+
+
   flows from high-`T` (saturated, vented) regions to low-`T` (gaps). This is the negative
   feedback sim06 lacked: saturated pillars shed their pheromone to their flanks.
 - Agents unchanged from sim06 (Grassé deposit rule, pheromone following). The ONLY addition

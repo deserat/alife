@@ -18,15 +18,35 @@ simulation to know the outcome.
 
 This is a **research notebook, not a software product**. Prose files are the primary artifact;
 the code exists to test claims made in the prose. Negative and null results are first-class —
-sim06's null result is one of the most valuable things in the repo.
+sim07's null and the 2026-07-27 construct-validity review (`simulations/REVIEW.md`) are the two
+most valuable things in the repo. (sim06's null held that place until the review found its
+detector could never fire; the *correction* proved more valuable than the result, and produced
+H11.)
 
-**Current state (as of Session 10, 2026-07-27):** 10 hypotheses (H1–H10), 16 concept files,
-sims 01–07 built (sim07 implemented Session 10 — null result), sim08 designed but **not yet
-implemented** (top priority). Everything hangs on **H7, the Trace→Actor Crossing Hypothesis** —
-sim06 produced a null (positive feedback alone insufficient), sim07 produced a null (scalar
-structure-sourced transport insufficient — wrong sign for consolidation), and the crossing is now
-specified to require *directed* transport and/or an *externally-driven* one (H4). sim08 tests the
-external-oscillation path.
+**Current state (as of Session 10, 2026-07-27):** 11 hypotheses (H1–H11), 16 concept files,
+sims 01–07 built and all rerun after the 2026-07-27 code review. **sim08 is proposed only —
+there is no `simulations/sim08_*/` folder and no DESIGN.md**, so §4 step 0 has nothing to
+implement; writing that DESIGN is the next piece of work. Everything hangs on **H7, the
+Trace→Actor Crossing Hypothesis** — sim07 produced a sound null (scalar structure-sourced
+transport fragments rather than consolidates; no phase transition in `M_c`).
+
+**H11, the Saturating Channel Hypothesis (new 2026-07-27), reframes what H7 needs.** Both
+attempts at negative feedback — sim06's self-emission and sim07's transport venting — acted
+*through the pheromone field*, whose deposit response saturates above φ≈1, so both destroyed
+spatial contrast instead of creating it. If H11 holds, the crossing needs feedback through a
+non-saturating channel (a density cap, refractory period, or directional bias acting on deposit
+probability directly) — a much cheaper experiment than the directed / externally-driven
+transport (H4) that sim08 was going to test.
+
+**Read `simulations/REVIEW.md` before citing any pre-2026-07-27 simulation number.** A
+construct-validity audit found five of six sims measured something other than what they
+claimed. Three headline results moved: sim05 went 0/6 → **2/6** L2 coexistence (H10 weakened);
+sim06's crossing detector **could not fire at all**, so its Session 8 null carried no
+evidential weight — corrected, it is a near miss (stability 0.849–0.893 vs a 0.90 threshold),
+not the "diffuse scatter, ~230 micro-pillars, stability 0.55" that older prose describes; and
+sim01's `trail_cells` metric runs *opposite* to trail formation. sim04 was not reproducible at
+all. Corrections have been propagated, but older daily reports carry inline
+`> **Correction (2026-07-27)**` blocks rather than rewritten text.
 
 ## 2. Layout and what lives where
 
@@ -46,11 +66,14 @@ external-oscillation path.
                          marked DONE (Session N) in place rather than deleted
   bluesky-engagement.md— append-only log written by the engagement monitor; do not hand-edit
   hypotheses/
-    hypotheses.md      — ALL hypotheses in one file (H1–H10) + a summary status table
+    hypotheses.md      — ALL hypotheses in one file (H1–H11) + a summary status table
   concepts/            — one living document per topic cluster, refined across sessions
   daily-reports/       — YYYY-MM-DD.md session logs (one per nightly run)
   researchers/         — per-researcher notes (currently EMPTY — unused so far)
   simulations/         — Python building-block sims, one folder each
+    REVIEW.md          — 2026-07-27 construct-validity audit of sims 01–06: what each one
+                         actually measured, the fixes, and which conclusions moved. Read
+                         before citing any pre-2026-07-27 simulation number.
 ```
 
 **Concepts** (`concepts/*.md`) are living documents, not session logs. Refine an existing file
@@ -62,12 +85,12 @@ not decoration.
 
 | sim | topic | result |
 |---|---|---|
-| sim01_pheromone_trails | stigmergic coordination | trails form |
-| sim02_dynamic_landscape | static vs. agent-modified fitness landscape | both converge; dynamic converges harder |
-| sim03_chemical_organizations | Chemical Organization Theory, fixed network | converges by gen 1, stalls |
-| sim04_evolving_networks | evolving reaction network, finite space | exhausts space, stalls |
-| sim05_lambda_chemistry | AlChemy, unbounded space | L1 forms, L2 composition 0/6 (→H10) |
-| sim06_termite_mound | H7 trace→actor crossing | **null**: +66% structure, detector never fires |
+| sim01_pheromone_trails | stigmergic coordination, vs. pheromone-blind control | trails form: concentration 0.79 vs blind 0.27. No optimal decay window; `trail_cells` measures coverage, not trails |
+| sim02_dynamic_landscape | static vs. agent-modified fitness landscape | both converge; dynamic converges harder (diversity 2 vs 4), fitness 1.11 vs 0.77 |
+| sim03_chemical_organizations | Chemical Organization Theory, fixed network | 8/9 organizations, 1/24 nested; converges by gen 1 — but the org lattice is static *by construction*, not measured |
+| sim04_evolving_networks | evolving reaction network, finite space | exhausts space (510/510), stalls; cores 3 vs 3 — no evolving advantage |
+| sim05_lambda_chemistry | AlChemy, unbounded space | L1 forms; L2 coexistence **2/6** (was 0/6 — artifact; H10 weakened) |
+| sim06_termite_mound | H7 trace→actor crossing | **null, but weak**: +66% structure; detector was broken and could never fire. Corrected it is a near miss — criterion 1 at 0.849–0.893 vs 0.90, criterion 3 passing 154/160 |
 | sim07_transport_coupling | H7 via transport field + `M_c` threshold | **null**: scalar transport fragments (stability ↓, pillars ↑ as M_c drops); crossing never fires |
 
 Each sim folder holds: `simNN.py`, `README.md` (written last, with REAL numbers), `results.json`
@@ -151,7 +174,31 @@ Repo root is `~/brain` (the whole personal wiki), not this directory. Message st
 - `ALife sim06: Part 1 — <what>` (simulation work)
 - `ALife: <what>` (fixes, tooling, wiki edits)
 
-Stage narrowly: `cd ~/brain && git add artificial-life/ && git commit -m "…"`.
+**Stage the changes you made, not the directory they live in.** `git add artificial-life/`
+is directory-narrow, not change-narrow: it sweeps up any concurrent or in-progress work that
+happens to be sitting in the tree. On 2026-07-27 this swallowed an entire unrelated code-review
+pass into a commit titled "sim07 implementation", which then had to be reworded via a history
+rewrite. Instead:
+
+```bash
+cd ~/brain
+git status --porcelain artificial-life/          # 1. look FIRST
+git add artificial-life/<specific paths you touched>
+git commit -m "…"
+```
+
+If `git status` shows files you did not touch this session, **stop and report it** rather than
+committing them. Two things legitimately produce such files: `bluesky-engagement.md` (written
+by the engagement monitor) and a human editing in parallel. Neither belongs in a session
+commit. If the session genuinely touched most of the directory, listing the paths explicitly
+is still correct — it makes the commit self-documenting and prevents the failure above.
+
+A `pre-push` hook in `~/brain/.git/hooks/pre-push` rejects any push touching paths outside
+`artificial-life/`. `~/brain` tracks private folders (`health/`, `family/`, `work/`,
+`people/`, …) and its `origin` is the **public** mirror, so an accidental push would publish
+them. Nothing private has ever been exposed; the hook keeps it that way. Override deliberately
+with `git push --no-verify` — and if you find yourself wanting to, that is the signal to stop
+and ask a human.
 
 ### Publishing and the security rule (important)
 Daily reports are **public** — deployed to `https://alife.vancedubberly.com` and mirrored to the
@@ -194,6 +241,24 @@ reported in each report's Budget section. Order of operations:
    summary table at the bottom is updated.
 6. **Simulate** — small, focused sims that solve one sub-problem; building blocks for the eventual
    system, not the system itself.
+
+   **Every sim that reports a result must prove its measurement can produce the other answer.**
+   Five of the first six simulations measured something other than what they claimed
+   (`simulations/REVIEW.md`), and the failures were not subtle bugs — they were detectors that
+   could only ever return one verdict. Before trusting any result, positive or null:
+   - **Positive control.** Feed the detector a synthetic input that *should* trip it, and assert
+     it does. `cmd_selftest` Part 5 in `sim06.py` is the model: it asserts the crossing detector
+     fires on an ideal history, and withholds when any single criterion is negated.
+   - **Check the metric's ceiling.** sim05 classified on Jaccard similarity whose arithmetic
+     maximum fell *below* the success threshold for two of six tests — those could not have
+     passed under any dynamics.
+   - **Include a control arm.** sim01 had none, so it could not distinguish trail formation from
+     ants wandering; its metric turned out to run *opposite* to the thing it named.
+   - **Ask which direction each bug pushes.** If every defect biases toward the result you
+     expected, treat the result as unproven regardless of how clean it looks.
+
+   A null result from an unvalidated detector is not a finding — it is an absence of
+   measurement, and it is worse than no result because it reads as evidence.
 7. **Moltbook / Bluesky** engagement; save every URL into the report.
 8. **Write the daily report** (frontmatter + sections above).
 9. **Update `references.md` and `glossary.md`.**
@@ -233,7 +298,7 @@ won't work from `file://`.
   byte-identical file and `INDEX.md` only appears in `git diff` when something really changed.
   Run it as part of step 10 each night. Tuning knobs are the `*_MAX` truncation constants and
   `EXCLUDE_DIRS` / `EXCLUDE_FILES` at the top.
-- `alife-link-terms.py` — rewrites the first occurrence of each known term (H1–H10, concept names,
+- `alife-link-terms.py` — rewrites the first occurrence of each known term (H1–H11, concept names,
   glossary terms) in a daily report into a public-site hyperlink. Run on tonight's report before
   committing: `python3 ~/.local/bin/alife-link-terms.py <report.md>` (or `--all`). When a new
   concept or hypothesis is added, add it to this script's `TERMS` map. Note: it has re-linked
@@ -258,10 +323,29 @@ not just this file.
 - **Don't reorganize.** Append to `synthesis.md`, refine concepts in place, mark queued topics
   DONE rather than deleting them. The history of how a claim evolved is part of the data.
 - **Report null results honestly**, with root-cause analysis and what the next sim must add.
-  sim06's README and Part 8 session-log entry are the model for this.
+  `simulations/REVIEW.md` and the 2026-07-27 entry in sim06's DESIGN session log are the model
+  for this. (Explicitly *not* sim06's Part 8 session-log entry, which was the previous
+  exemplar — its numbers and its root-cause analysis were both wrong, and it was quoted
+  forward into sim07's DESIGN before anyone noticed.)
+- **Before trusting a null, check the detector can fire.** sim06's crossing criteria included
+  one that was unsatisfiable by construction, so the null was guaranteed regardless of the
+  model. Any detector should have a test asserting it fires on a synthetic ideal case and
+  withholds on single-criterion negatives — see `cmd_selftest` Part 5 in sim06.py.
 - **Attribute Vance's contributions.** Ideas he originates get their own labeled sections
   ("Vance's contribution: the termite mound principle") in `synthesis.md` and
   `concepts/stigmergy-vance-notes.md`.
-- **Next action:** implement sim07 Part-by-Part per `simulations/sim07_transport_coupling/DESIGN.md`
-  — the transport field `T`, the `M_c` inert→active threshold, the `M_c` sweep, and the self-repair
-  test that guards against building in the crossing we claim to detect.
+- **Next action — two cheap analyses before any new simulation.** Both came out of the
+  2026-07-27 review and both are higher value per token than building sim08:
+  1. **What distinguishes sim05's 2 coexisting pairs from the other 4?** (queued-topics #52).
+     Pure analysis of the existing `results.json` — no new code. Tests H10 directly, and the
+     question did not exist at the old 0/6.
+  2. **Repeat sim06's Part-8 parameter sweep against the working detector** (#54). The
+     original sweep ran against a detector that could not fire, and the corrected result misses
+     only criterion 1 by ≤0.05 — a crossing regime may already lie inside the swept space.
+
+  Then, if a new sim is warranted: the cheapest informative one is **non-saturating
+  inhibition** (#53) — a density cap or refractory period acting on deposit probability
+  directly — not directed transport. Two attempts at feedback *through the cue field* have now
+  fragmented the structure, and the saturating deposit response explains why. Directed
+  transport and the external-oscillation path (H4) remain open but are more expensive tests of
+  a less well-specified claim.

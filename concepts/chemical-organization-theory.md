@@ -115,24 +115,29 @@ Resources in COT are transformed by the reactions they participate in — they a
 
 Sim03 was run and confirmed the central COT limitation:
 
-- **Single trace (3 resources)**: System converges to {A0, E, T0} organization by generation 1. Concentrations fixed: E=100.0, A0=4.97, T0=0.45. Never changes for 3000 generations. 3 active organizations (including nested {A0} within {A0,E,T0}).
-- **Multi-trace (7 resources)**: System converges to 16 organizations (including 56 nested pairs) by generation 1. Concentrations fixed: E=100, A0-A2=4.97, T0=0.21, T1=0.24, T2=0.24. Never changes for 3000 generations. Max org size = 7 (all resources).
-- **Perturbation at gen 2000**: Both conditions recover to exactly the same state. The system is perfectly resilient — and perfectly static.
-- **Multi-trace has MORE organizations** (16 vs 3) and MORE nested structure (56 vs 2), confirming that multiple trace types produce richer organization structure.
+*(Numbers corrected 2026-07-27. The closure test skipped zero-input reactions, so the energy inflow `∅ → E` — applicable to every subset, since `∅ ⊆ S` always — never forced `E` into organizations, and subsets were declared closed that were not. A second bug scoped the catalyst exclusion to a shared accumulator, making results reaction-order dependent. See `../simulations/REVIEW.md` §4.)*
+
+- **Single trace (3 resources)**: System converges to {A0, E, T0} by generation 1. Concentrations fixed: E=100.0, A0=4.97, T0=0.45. **8 organizations in the network, 2 active, 1 nested pair, max org size 3.** Every organization contains `E` — closure forces it — so the previously cited nesting of `{A0}` within `{A0,E,T0}` no longer holds: `{A0}` alone is not an organization.
+- **Multi-trace (7 resources)**: Converges by generation 1. Concentrations fixed: E=100, A0-A2=4.97, T0=0.21, T1=0.24, T2=0.24. **9 organizations, 9 active, 24 nested pairs, max org size 7** (all resources). They nest cleanly: `{E} ⊂ {A0,E,T0} ⊂ {A0,E,T0,T1,T2} ⊂ {A0,A1,A2,E,T0,T1,T2}`.
+- **Perturbation at gen 2000**: organization *counts* are unaffected — 2→2→2 and 9→9→9. But the system does **not** recover to exactly the same state: A0 sits at 2.487 at generation 2999 against 4.975 before the halving. Resilient in structure, not in concentration. *(The earlier "0 orgs → 9 orgs" resilience reading was a sampling artifact — organizations are only computed every 100 generations, and the pre-perturbation sample was taken at generation 1999, where the counts are placeholder zeros.)*
+- **Multi-trace has MORE nested structure** (24 vs 1 pair), which is the real difference. The organization-count gap nearly vanishes (9 vs 8) — the previously cited "16 vs 3" overstated it.
 - **But neither condition evolves.** The organizations are static attractors of a fixed reaction network.
 
-This is exactly the Vasas et al. (2010) result: self-sustaining networks lack evolvability. Sim03 independently confirms this through simulation.
+This is consistent with the Vasas et al. (2010) result that self-sustaining networks lack evolvability — but sim03 is **not an independent confirmation of it.** `find_organizations()` enumerates subsets of a fixed, hand-authored 7-resource network that never changes after construction, so the organization count is identical at every sampled generation of every run. "Converges by generation 1 and never changes" is guaranteed by the design. sim03 measures which pre-existing organizations are populated, not whether organizations emerge. Note also that its self-maintenance test is a qualitative proxy ("if consumed, then also produced somewhere") rather than COT's flux condition, so a set can pass while actually being depleted.
 
 ## Sim04 Results (Session 5)
 
 Sim04 tested evolving networks (rare novel reactions + compartments) vs. fixed networks:
 
-- Both conditions saturate the 510-species space (all binary polymers up to length 8)
-- Evolving network finds 5 cores vs. 4 for fixed — modest improvement
+*(Corrected 2026-07-27. Every figure in this section originally came from a run that was **not reproducible**: catalysis — which molecule catalyses which reaction, i.e. the chemistry itself — was derived from Python's builtin `hash()`, randomized per process, plus five set-iteration-order dependencies. sim04 is now deterministic, verified byte-identical across two full runs.)*
+
+- Both conditions saturate the 510-species space (all binary polymers up to length 8) — unchanged
+- **Cores: 3 vs 3 — no difference.** The earlier "evolving finds 5 cores vs 4 for fixed — modest improvement" is retracted, and with it the inference that novel species from uncatalyzed reactions open new catalytic pathways
+- Mass 4169 (fixed) / 3418 (evolving); non-food mass 878 / 684; compartments 40 / 37
 - Neither produces open-ended evolution
 - Confirms the "one bit" limitation: finite combinatorial space = finite exploration
 - Sim04 does NOT reproduce Vasas et al.'s key result (novel viable cores producing persistent complexity increase)
-- Likely cause: P_catalyze too high (0.005), producing one large core instead of distinct cores
+- The suggestion that P_catalyze (0.005) is too high, producing one large core rather than distinct cores, was derived from the non-reproducible run and needs re-deriving before it is relied on
 
 ## Criticisms and Limitations
 

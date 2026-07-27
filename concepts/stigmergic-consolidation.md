@@ -1,9 +1,9 @@
 ---
 status: active
 formed: "Session 8"
-connected_to: "Stigmergy, multi-scale composition, H7, autopoiesis, niche construction, computational irreducibility"
+connected_to: "Stigmergy, multi-scale composition, H7, H11, autopoiesis, niche construction, computational irreducibility, multi-rate environment"
 topic: "stigmergic consolidation and the negative-feedback gap"
-key_findings: "Positive stigmergic feedback alone produces diffuse scatter, not consolidated actors. The trace→actor crossing (H7) requires negative feedback — saturation, depletion, or environmental physics coupling that channels and constrains the positive loop. sim06's null result confirms this: the model has only positive feedback + weak decay, so structure never consolidates."
+key_findings: "The trace→actor crossing (H7) requires negative feedback through a channel that DOES NOT SATURATE. Two independent attempts to add it via the pheromone field — sim06's self-emission and sim07's transport venting — both fragmented the structure monotonically (66-109 to 219-297 components; 57 to 128 pillars), because the deposit response is flat above phi~1 so the manipulation cannot express contrast. Prescription: inhibit deposition directly (density cap, refractory period, directional bias) rather than manipulating the cue field. NOTE: this file's original anchor (sim06 produces diffuse scatter) was wrong — that null came from a detector that could not fire; corrected, sim06 is a near miss at stability 0.849-0.893 vs 0.90."
 ---
 
 # Stigmergic Consolidation
@@ -15,10 +15,19 @@ key_findings: "Positive stigmergic feedback alone produces diffuse scatter, not 
 
 Stigmergic systems coordinate via **positive feedback**: a trace stimulates more of
 the same action (deposits attract deposits, pheromone trails recruit more ants).
-This amplifies and exploits promising developments. But positive feedback alone
-produces **diffuse scatter**, not consolidated structure. Without a counterbalancing
-**negative feedback** — a mechanism by which a stronger trace eventually *reduces*
-or *redirects* activity — the system nucleates everywhere and consolidates nowhere.
+This amplifies and exploits promising developments. The claim of this file is that
+positive feedback alone does not reach a **consolidated actor**: without a
+counterbalancing **negative feedback** — a mechanism by which a stronger trace
+eventually *reduces* or *redirects* activity — nucleation is never pruned.
+
+This is a theoretical claim (Heylighen) plus two directional results, not an
+observation of scatter. *(2026-07-27: it originally read "positive feedback alone
+produces diffuse scatter … the system nucleates everywhere and consolidates
+nowhere", anchored on sim06 numbers that were wrong. sim06's baseline is 66–109
+components at compactness 0.109–0.120 and misses the crossing by ≤0.05 — not a
+scatter. What supports the claim now is that both attempts to add feedback made
+fragmentation **worse**: sim06's self-maintenance, 219–297 components; sim07's
+transport field, 57→128 pillars as `M_c` fell.)*
 
 This is the **negative-feedback gap**: the missing ingredient between stigmergic
 coordination (within-scale) and the trace→actor crossing (H7, between-scale).
@@ -40,26 +49,92 @@ Heylighen's analysis of stigmergy identifies two feedback regimes:
 **Complex self-organization requires both** (Heylighen: "The combination of positive
 and negative feedbacks is typical for complex systems"). Positive feedback
 amplifies; negative feedback stabilizes and diversifies. Without negative feedback,
-positive feedback runs to saturation or monoculture — exactly what sim06 produced:
-~230 scattered micro-pillars with no consolidation, high cell turnover, stability
-~0.55 (well below the 0.90 H7 criterion).
+positive feedback runs to saturation or monoculture.
 
-## sim06's Null Result (the empirical anchor)
+> **Correction (2026-07-27).** This sentence originally continued "— exactly what
+> sim06 produced: ~230 scattered micro-pillars with no consolidation, high cell
+> turnover, stability ~0.55 (well below the 0.90 H7 criterion)." Every one of those
+> figures was wrong against sim06's own `results.json`. Baseline is **66–109
+> components** at compactness 0.109–0.120, stability **0.849–0.893**, retention 0.98.
+> See `../simulations/REVIEW.md` §1.
+
+## sim06's Null Result (the empirical anchor — substantially retracted)
 
 sim06 tested H7 with a minimal Grassé stigmergy model. The deposit rule
 `p = DEPOSIT_BASE + DEPOSIT_GAIN · local/(1+local)` saturates at ~0.95 but **never
-decreases** — there is no inhibition. Decay and diffusion provide weak negative
-feedback but are too slow relative to the deposit rate. An extensive parameter
-sweep (material_decay 0.005–0.4, deposit_base 0.005–0.05, phero_follow 0.6–0.95,
-maintain_gain 0.1–0.5, reload_prob 0.15–0.3) found **no regime where the crossing
-fires**. Self-maintenance builds 66% more structure than baseline — the positive
-loop works — but neither condition meets the three H7 criteria simultaneously.
+decreases** — there is no inhibition. That design observation stands.
 
-**Diagnosis:** the model has positive feedback (deposits attract deposits) + weak
-decay, but no **consolidation mechanism** — no process that makes strong pillars
-*inhibit* nearby nucleation, redirect termites away from saturated regions, or
-channel building through environmental physics. The structure spreads because
-every cell with any pheromone is (nearly) equally attractive.
+**What does not stand is the empirical anchor.** sim06's crossing detector could not
+fire at all: criterion 2 required the deposit rate to fall below its early-run
+average, which Grassé positive feedback makes impossible once structure exists. It
+held only at samples 0–5, before any structure had formed. The parameter sweep
+(material_decay 0.005–0.4, deposit_base 0.005–0.05, phero_follow 0.6–0.95,
+maintain_gain 0.1–0.5, reload_prob 0.15–0.3) ran against that detector and therefore
+established nothing; it has not been repeated.
+
+With criterion 2 corrected it passes 130/160, and the binding constraint is
+**criterion 1 — stability 0.849–0.893 against a 0.90 threshold, a miss of ≤0.05**.
+Criterion 3 *passes* 154/160 for baseline (`deposit_on_structure` 0.70–0.79). The
+structure is neither diffuse nor unselective.
+
+**The one result that does support this file's thesis** is the self-maintenance
+reversal. Adding *more* positive feedback made things worse in exactly the predicted
+direction: self-maintenance is more fragmented than baseline (219–297 components vs
+66–109) and less selective (0.43–0.53, criterion 3 failing 0/160), because
+`maintain_gain=0.3` saturates the deposit response flat at ~0.87 everywhere and
+destroys the spatial contrast stigmergy depends on. sim07's null adds a second
+data point: a structure-sourced scalar transport field also increased fragmentation
+monotonically (57→128 pillars as `M_c` fell) rather than consolidating.
+
+**Revised diagnosis:** the model has positive feedback plus weak decay and no
+*consolidation* mechanism — nothing that makes strong pillars inhibit nearby
+nucleation or redirect builders away from saturated regions. This remains a
+plausible reading, but it is now an inference from a near miss and from two
+failed negative-feedback attempts, not from an observed scatter. Self-maintenance
+builds 66% more structure than baseline (1876 vs 1131 cells) — that number is
+unaffected by the fix and still stands.
+
+## The Saturation Result (2026-07-27 — the sharpened claim)
+
+This result was promoted to a hypothesis in its own right: **[[hypotheses/H11]] — The Saturating
+Channel Hypothesis**. This section is its concept-level treatment; H11 carries the formal
+statement, the criticisms, and the test.
+
+This is now the core of the concept, and it came out of the code review rather than from
+reading. **Two independent attempts to supply the missing negative feedback both made the
+structure less consolidated, monotonically:**
+
+| attempt | mechanism | components | stability |
+|---|---|---|---:|
+| sim06 self-maintenance | structure re-emits pheromone (`maintain_gain=0.3`) | 66–109 → **219–297** | 0.849–0.893 → 0.746–0.802 |
+| sim07 transport field | structure sources `T`, vents pheromone toward gaps | 57 → **128** as `M_c` falls | 0.876 → **0.739** |
+
+The common cause is the **agents' response curve, not the feedback itself**. Both mechanisms
+act by manipulating the pheromone field, and the deposit rule
+`p = DEPOSIT_BASE + DEPOSIT_GAIN · φ/(1+φ)` is effectively flat above φ≈1. Once the field is
+driven high anywhere — and self-emission or venting both drive it high — deposit probability
+sits at ~0.87 across the entire grid. The manipulation intended to *create* spatial contrast
+operates precisely in the region where contrast cannot be expressed. Adding energy to a
+saturating channel removes selectivity rather than producing it.
+
+**Refined prescription:** the crossing does not need "negative feedback" in the abstract — it
+needs negative feedback **through a channel that does not saturate**. Concretely, act on
+deposit probability or on geometry directly:
+
+- a **density cap** — deposition suppressed where material already exceeds a threshold;
+- a **refractory period** — a cell that has just received a pellet is briefly unavailable;
+- **directional bias** — building preferentially along existing wall edges rather than onto
+  their centres.
+
+Each of these creates contrast that survives however high the cue field goes, because the
+inhibition is not mediated by the cue field. All three are cheaper to test than directed
+transport, and they discriminate the refined claim from the coarse one: if non-saturating
+inhibition consolidates where field manipulation fragmented, the saturation account is right.
+
+**Why this matters beyond sim06:** it suggests Heylighen's positive/negative feedback framing
+carries a hidden assumption — that the two act on comparable channels. Where the response to
+the trace saturates, negative feedback delivered through that trace is self-defeating. That is
+a general claim about stigmergic systems, not a quirk of this model.
 
 ## Environmental Physics Coupling (the Mahadevan model)
 
@@ -144,9 +219,15 @@ gains a degree of freedom it didn't have before.
   H7's failure and the *prescription* for the crossing.
 - It's possible H7's operational criteria (0.90 stability, 0.60 constraint) are
   too strict and a different operationalization would classify sim06's weak
-  structure-size separation (66% more cells) as a partial crossing. But stability
-  0.55 is far from 0.90, and constraint 0.33 is far from 0.60 — the gap is large,
-  not marginal.
+  structure-size separation (66% more cells) as a partial crossing. **This
+  criticism was originally dismissed here on the grounds that "stability 0.55 is
+  far from 0.90, and constraint 0.33 is far from 0.60 — the gap is large, not
+  marginal." That dismissal was wrong and is retracted (2026-07-27):** baseline
+  stability is 0.849–0.893 — a miss of ≤0.05 — and constraint is 0.70–0.79, which
+  *passes* the 0.60 threshold 154/160 samples. The criticism is now the stronger
+  reading. Thresholds were deliberately not retuned after the detector fix, so as
+  not to select a detector that produces the preferred answer, but the result
+  should be described as a near miss rather than a failure.
 - Real termites have many more mechanisms (king/queen pheromones, larval cues,
   tactile contact) that the minimal model omits; the null result is specific to
   the *minimal* Grassé model, not to stigmergy in general.
@@ -162,11 +243,15 @@ gains a degree of freedom it didn't have before.
 - **Dorigo et al. (ACO literature)**: ant colony optimization requires pheromone
   *evaporation* (negative feedback) to avoid trail saturation; convergence depends
   on the evaporation rate. Directly analogous to sim06's decay — but ACO's
-  evaporation is tuned, while sim06's decay was too weak relative to deposit rate.
-- **sim06 (this project)**: null result. Positive-feedback-only stigmergy (deposit
-  saturates at 0.95, never inhibits) produces ~230 scattered micro-pillars,
-  stability 0.55, no crossing across a wide parameter sweep. Self-maintenance
-  emission (more positive feedback) amplifies but does not consolidate.
+  evaporation is tuned. *(2026-07-27: this originally added "while sim06's decay was
+  too weak relative to deposit rate" — an inference from the retracted scatter
+  diagnosis. sim06's decay has not been shown to be mistuned.)*
+- **sim06 (this project)**: null result, but a weak one — the detector could not
+  fire (see the retraction above). Corrected: baseline is 66–109 components,
+  stability 0.849–0.893, criterion 3 passing 154/160 — a near miss, not a scatter.
+  The result that *does* support consolidation is directional: self-maintenance
+  emission (more positive feedback) amplifies building by 66% while making the
+  structure more fragmented (219–297 components) and less selective (0.43–0.53).
   See [sim06_termite_mound](https://alife.vancedubberly.com/sim06_termite_mound/visualize.html).
 
 ## Open Questions
@@ -175,8 +260,12 @@ gains a degree of freedom it didn't have before.
   transition) is the *minimal* addition that produces the crossing? Each predicts
   a different morphology (few large pillars vs. channel networks vs.
   competing clusters).
-- Is there a *phase transition* in the negative-feedback strength — below it,
-  diffuse scatter (sim06); above it, consolidated actor? If so, where?
+- Is there a *phase transition* in the negative-feedback strength — below it, the
+  sim06 regime; above it, consolidated actor? If so, where? **sim07 tested exactly
+  this for a scalar transport field and found no transition** — the response was
+  monotonic and in the wrong direction (stability 0.876→0.739, pillars 57→128 as
+  `M_c` fell). Any remaining version of this question needs a different mechanism,
+  not a different threshold.
 - Does environmental physics coupling (the Mahadevan mechanism) require modeling
   actual transport (PDEs), or can a minimal lumped analog (e.g. "pheromone flows
   down a material gradient") capture the consolidation?
