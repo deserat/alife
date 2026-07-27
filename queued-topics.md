@@ -83,15 +83,19 @@ These arose from the construct-validity audit and the rerun. Items 52 and 53 did
 questions before the fixes — at 0/6 coexistence and with a broken detector there was nothing
 to compare.
 
-52. **What distinguishes the coexisting sim05 pairs from the rest?** — Corrected, sim05 gives
-    2/6 L2 coexistence (pairs 1+2 and 2+3), stable across survival thresholds 0.45–0.70. The
-    other four end in dominance or mutual destruction. This is the most informative question
-    in the repo right now: it is a within-experiment contrast that needs no new machinery,
-    only analysis of the existing `results.json`. Is it organization size (the coexisting
-    pairs are the larger ones — 10+20 and 20+21 species), overlap in expression structure, or
-    the presence of specific "glue" expressions of the kind Fontana & Buss describe? If size
-    predicts it, that is a very different story from glue. **TOP PRIORITY — cheap, and it
-    tests H10 directly.**
+52. **What distinguishes the coexisting sim05 pairs from the rest?** — DONE (Session 12).
+    Corrected, sim05 gives 2/6 L2 coexistence. Analysis of the committed `results.json` found:
+    (1) size symmetry is necessary but not sufficient — pair [0,3] is 10v10 and fails;
+    (2) run 3 is lethally self-referential — its top species are fixed-point-like forms that
+    consume other expressions in collision, and it destroys or is destroyed in all 3 pairs;
+    (3) run 1 (20 species) is resilient — coexists with both run 0 and run 2;
+    (4) shared species: pair [0,1] shares 8/10 species and coexists; the other 5 pairs are
+    disjoint — structural overlap is neither necessary nor sufficient for coexistence;
+    (5) the mechanism is collision dynamics, not structure or glue. Removing run 3, coexistence
+    is the majority outcome (2/3). This sharpens H10: the bottleneck may be collision dynamics
+    (dynamical compatibility), not space. See `concepts/sim05-coexistence-analysis.md`.
+    *(Corrected 2026-07-27: an earlier version claimed "zero shared species in any pair" based
+    on truncated top-species data — pair [0,1] actually shares 8/10.)*
 
 53. **Does NON-SATURATING negative feedback consolidate?** — Two attempts at negative feedback
     both fragmented the structure (sim06 self-maintenance: 66–109 → 219–297 components;
@@ -103,13 +107,16 @@ to compare.
     field. Substantially cheaper than directed transport and it tests the sharper claim. This is the direct test of
     [[hypotheses/H11]]; see also the 2026-07-27 refinement in [[hypotheses/H7]].
 
-54. **Repeat sim06's parameter sweep against the working detector.** — The Part-8 sweep
-    (material_decay 0.005–0.4, deposit_base 0.005–0.05, phero_follow 0.6–0.95, maintain_gain
-    0.1–0.5, reload_prob 0.15–0.3) was run against a detector that could not fire, so its
-    conclusion — "no regime produces the crossing" — is unsupported in either direction. Since
-    the corrected result misses only criterion 1 and only by ≤0.05, a regime that crosses may
-    well exist inside the already-swept space. Cheap to rerun; potentially settles H7 for this
-    model.
+54. **Repeat sim06's parameter sweep against the working detector** — DONE (Session 12).
+    The Part-8 sweep was run against a detector that could not fire, so its conclusion — "no
+    regime produces the crossing" — was unsupported. A broad sweep (material_decay x deposit_base
+    x phero_follow x maintain_gain x self_maintenance, 2,100 combos, 1,225 unique runs) against
+    the corrected detector found **1,204 combos where the crossing fires** — 57% of parameter
+    space. The crossing is not a rare edge case; it is the majority outcome. H7's crossing is
+    reachable within the existing model. Determinism verified (two identical runs produce
+    identical results). Results in `simulations/sim06_termite_mound/output/sweep_crossing_results.json`.
+    The crossing tends to fire with higher phero_follow (0.9-0.95) and moderate material_decay
+    (0.001-0.004). This changes H7 from "near miss" to "crossing confirmed in the existing model."
 
 55. **Re-derive the P_catalyze diagnosis for sim04.** — The suspicion that P=0.005 is too high
     (producing one large core rather than distinct cores) came from a run that was not

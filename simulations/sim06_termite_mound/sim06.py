@@ -731,6 +731,171 @@ def cmd_sweep_plot():
     print(f"  wrote {os.path.join(OUTPUT_DIR, 'sweep_data.json')}")
 
 
+def _criterion_pass_rates(history, params):
+    """Per-sample pass rate of each of the three crossing criteria, independent
+    of detect_crossing's persistence-window logic. Used to find near-misses:
+    a regime with e.g. c1/c3 near 1.0 but c2 near 0.0 tells you which single
+    criterion is blocking the crossing, which "crossed: false" alone does not.
+    """
+    stab_thresh = params.get("stab_thresh", STAB_THRESH)
+    phero_elev = params.get("phero_elev_thresh", PHERO_ELEV_THRESH)
+    growth_thresh = params.get("growth_thresh", GROWTH_THRESH)
+    constrain_thresh = params.get("constrain_thresh", CONSTRAIN_THRESH)
+
+    n = len(history)
+    if n == 0:
+        return {"c1_pass_rate": 0.0, "c2_pass_rate": 0.0, "c3_pass_rate": 0.0, "n_samples": 0}
+
+    c1 = c2 = c3 = 0
+    for r in history:
+        growth = r.get("material_growth_rate")
+        saturated = growth is not None and abs(growth) < growth_thresh
+        if r["structure_stability"] >= stab_thresh:
+            c1 += 1
+        if r["mean_pheromone_over_structure"] >= phero_elev and saturated:
+            c2 += 1
+        if r["deposit_on_structure_fraction"] >= constrain_thresh:
+            c3 += 1
+    return {
+        "c1_pass_rate": c1 / n,
+        "c2_pass_rate": c2 / n,
+        "c3_pass_rate": c3 / n,
+        "n_samples": n,
+    }
+
+
+def cmd_sweep_crossing():
+    """Broad grid search for ANY parameter regime where the crossing detector
+    fires, now that criterion 2 checks growth saturation instead of the
+    unsatisfiable original clause (see detect_crossing docstring, REVIEW.md).
+    Follows up on queued-topics #54: the old sweep (cmd_sweep_plot) ran
+    against a detector that could never fire, so a broader search against the
+    fixed detector may already find a crossing regime inside the swept space.
+
+    Sweeps material_decay x deposit_base x phero_follow x maintain_gain x
+    self_maintenance. maintain_gain is a no-op when self_maintenance is False
+    (field_step only reads it inside the self_maintenance branch), so those
+    combinations are simulated once per (material_decay, deposit_base,
+    phero_follow) and the identical result is reused across all maintain_gain
+    values -- exact reuse (same seed, same effective params -> bit-identical
+    trajectory), not an approximation, and it cuts unique runs roughly 6x for
+    the self_maintenance=False half of the grid.
+    """
+    t0 = time.time()
+    os.makedirs(OUTPUT_DIR, exist_ok=True)
+
+    material_decays = [0.0002, 0.0005, 0.001, 0.002, 0.004, 0.008, 0.01]
+    deposit_bases = [0.005, 0.01, 0.02, 0.03, 0.05]
+    phero_follows = [0.6, 0.7, 0.8, 0.9, 0.95]
+    maintain_gains = [0.0, 0.02, 0.05, 0.1, 0.2, 0.3]
+    self_maintenances = [False, True]
+
+    base = {"grid_size": 80, "n_termites": 150, "steps": 2000, "sample_every": 25}
+
+    total_combos = (len(material_decays) * len(deposit_bases) * len(phero_follows)
+                     * len(maintain_gains) * len(self_maintenances))
+
+    cache = {}
+    rows = []
+    n_unique = 0
+
+    for sm in self_maintenances:
+        for md in material_decays:
+            for db in deposit_bases:
+                for pf in phero_follows:
+                    for mg in maintain_gains:
+                        key = (sm, md, db, pf, mg if sm else None)
+                        cached = cache.get(key)
+                        if cached is None:
+                            p = dict(base)
+                            p["self_maintenance"] = sm
+                            p["material_decay"] = md
+                            p["deposit_base"] = db
+                            p["phero_follow"] = pf
+                            p["maintain_gain"] = mg
+                            r = run_condition(p, SEED)
+                            rates = _criterion_pass_rates(r["history"], p)
+                            s = r["summary"]
+                            cached = {
+                                "crossed": bool(s["crossed"]),
+                                "crossing_step": s["crossing_step"],
+                                "retention": s["retention"],
+                                "mean_stability_last25": s["mean_stability_last25"],
+                                "n_pillars": (r["history"][-1]["n_pillars"]
+                                              if r["history"] else 0),
+                                "c1_pass_rate": rates["c1_pass_rate"],
+                                "c2_pass_rate": rates["c2_pass_rate"],
+                                "c3_pass_rate": rates["c3_pass_rate"],
+                            }
+                            cache[key] = cached
+                            n_unique += 1
+                            if n_unique % 50 == 0:
+                                elapsed = time.time() - t0
+                                print(f"  ...{n_unique} unique runs, "
+                                      f"{len(rows) + 1}/{total_combos} combos, "
+                                      f"{elapsed:.0f}s elapsed")
+                        rows.append({
+                            "self_maintenance": sm,
+                            "material_decay": md,
+                            "deposit_base": db,
+                            "phero_follow": pf,
+                            "maintain_gain": mg,
+                            **cached,
+                        })
+
+    elapsed = time.time() - t0
+
+    crossed_regimes = [row for row in rows if row["crossed"]]
+    combined = sorted(
+        rows,
+        key=lambda row: row["c1_pass_rate"] + row["c2_pass_rate"] + row["c3_pass_rate"],
+        reverse=True,
+    )
+    near_misses = [row for row in combined if not row["crossed"]][:10]
+
+    output = {
+        "config": {**base, "seed": SEED},
+        "swept": {
+            "material_decay": material_decays,
+            "deposit_base": deposit_bases,
+            "phero_follow": phero_follows,
+            "maintain_gain": maintain_gains,
+            "self_maintenance": self_maintenances,
+        },
+        "total_combos": total_combos,
+        "n_unique_runs": n_unique,
+        "elapsed_seconds": elapsed,
+        "combos": rows,
+        "crossed_regimes": crossed_regimes,
+        "near_misses": near_misses,
+    }
+    out_path = os.path.join(OUTPUT_DIR, "sweep_crossing_results.json")
+    with open(out_path, "w") as f:
+        json.dump(_pyify(output), f, indent=2)
+
+    print(f"\n=== sweep_crossing: {total_combos} combos, {n_unique} unique runs, "
+          f"{elapsed:.0f}s ===")
+    if crossed_regimes:
+        print(f"\n{len(crossed_regimes)} combo(s) where the crossing detector FIRED:")
+        for row in crossed_regimes[:20]:
+            print(f"  sm={row['self_maintenance']!s:5s} md={row['material_decay']:<7} "
+                  f"db={row['deposit_base']:<6} pf={row['phero_follow']:<5} "
+                  f"mg={row['maintain_gain']:<5} crossing_step={row['crossing_step']} "
+                  f"stability={row['mean_stability_last25']:.3f}")
+        if len(crossed_regimes) > 20:
+            print(f"  ... and {len(crossed_regimes) - 20} more (see {out_path})")
+    else:
+        print("\nNo combo crossed. Closest near-misses (by summed criterion pass rate):")
+        for row in near_misses:
+            total = row["c1_pass_rate"] + row["c2_pass_rate"] + row["c3_pass_rate"]
+            print(f"  sm={row['self_maintenance']!s:5s} md={row['material_decay']:<7} "
+                  f"db={row['deposit_base']:<6} pf={row['phero_follow']:<5} "
+                  f"mg={row['maintain_gain']:<5} "
+                  f"c1={row['c1_pass_rate']:.2f} c2={row['c2_pass_rate']:.2f} "
+                  f"c3={row['c3_pass_rate']:.2f} sum={total:.2f}")
+    print(f"\nWrote {out_path}")
+
+
 def cmd_selftest():
     # Part 1 checks
     assert GRID_SIZE > 0 and N_TERMITES > 0 and STEPS > 0
@@ -851,10 +1016,12 @@ def main():
         cmd_run()
     elif cmd == "sweep_plot":
         cmd_sweep_plot()
+    elif cmd == "sweep_crossing":
+        cmd_sweep_crossing()
     elif cmd == "selftest":
         cmd_selftest()
     else:
-        print("usage: sim06.py [run|sweep_plot|selftest]")
+        print("usage: sim06.py [run|sweep_plot|sweep_crossing|selftest]")
 
 
 if __name__ == "__main__":
