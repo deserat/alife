@@ -193,3 +193,17 @@
 **Pragmatic reduction** — AlChemy's solution to the Halting Problem in lambda calculus reduction. A finite step limit is placed on beta reduction. If the expression doesn't reach normal form within the limit, the reaction is deemed "elastic" (reactants returned unchanged). The step limit affects which reactions occur and is an implementation parameter, not a fundamental property.
 
 **Syntactic filter** — A mechanism in AlChemy that excludes certain reactions based on pattern matching. For example, filtering copy actions (A+B → 2A+B) prevents L0 takeover and enables L1 organization formation. Filters modify the dynamics by removing entire classes of reactions.
+
+## Non-Saturating Channels & H11 Terms (Session 13)
+
+**Saturating response curve** (H11) — A mapping from cue level to action intensity that compresses (flattens) above some threshold, so further cue increases barely change the action. sim06/sim07's deposit rule `p = base + gain·φ/(1+φ)` is flat above φ≈1. H11's claim: negative feedback delivered through a saturating cue is self-defeating because the manipulation intended to create spatial contrast operates where contrast cannot be expressed.
+
+**Non-saturating channel** (H11) — A feedback channel that stays discriminating however high the cue climbs, because it acts on the *action* (deposit probability, geometry) rather than on the *cue* level. Three biological examples termites use: curvature (geometric, redefined by each deposit), humidity (threshold-triggered), crowding (mechanical density). See `concepts/non-saturating-channels.md`.
+
+**Density cap** — A hard boolean gate on deposition: a cell whose material ≥ a cap is ineligible to receive deposits. The non-saturating mechanism sim08 tested. It consolidates morphology (prunes nucleation) but, being a pure limiter, does not recruit maintenance — so it corrects fragmentation without reaching the crossing.
+
+**Curvature channel** (Calovi et al. 2019) — A non-saturating geometric rule: deposit at concavities, excavate at convexities, with the same cue eliciting opposing actions depending on the termite's loaded/seeking state. Self-recruiting (filling a concavity extends it) AND self-limiting (filling removes the concavity) — the only one of the three non-saturating channels that both recruits AND limits. Candidate minimal form of the "directed transport" H7 needs.
+
+**Distributed inhibition** (Xiao et al. 2026) — Crowding/inactivity under confinement acting as a form of negative feedback that prevents saturation. A mechanical density cap: a "full" cell suppresses further entry, redirecting work laterally. Acts on the action (where the termite goes), not on a cue field.
+
+**Action vs cue channel** (H11's core distinction) — Whether feedback acts on the *action* the agent selects (deposit/excavate, where to go) or on the *cue* field the agent reads (pheromone level). ACO's evaporation and MAX-MIN Ant System bound the cue; H11 says when the response saturates, cue-bounding is insufficient and action-based feedback is needed. Termite biology independently chose action-based channels.

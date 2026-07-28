@@ -250,3 +250,31 @@ References will be accumulated through daily research.
   - [Nah dah dah nah nah... (Opus, 1984)](https://www.complexity-explorables.org/explorables/nah-dah-dah-nah-nah-opus-1984/) — Conway's Game of Life (baseline emergent ALife)
 - Also useful as examples of interactive visualization design for our sims
 - Holland's response to Echo's failure (Smith & Bedau 1997)
+
+## Termite Construction — Sensing, Curvature & Non-Saturating Channels (Session 13)
+
+### Daniel Calovi, Paul Bardunias, Nicole Carey, J Scott Turner, Radhika Nagpal, Justin Werfel
+- "Surface curvature guides early construction activity in mound-building termites" (Phil Trans R Soc B, 2019, 374:20180374)
+- Field experiments on *Macrotermes michaelseni* in Namibia; curvature disambiguated from inclination and height across three surface orientations; curvature is the "consistent and sole driver" of construction. Concave → deposit, convex → excavate; same cue elicits opposing actions by termite state. "No cement pheromone has yet been identified."
+- DOI: 10.1098/rstb.2018.0374
+
+### Nicole Carey, Paul Bardunias, Radhika Nagpal, Justin Werfel
+- "Validating a Termite-Inspired Construction Coordination Mechanism Using an Autonomous Robot" (Front Robot AI, 2021, 8:645728)
+- Robot validation of the humidity-template deposition rule: threshold-triggered deposition at the edge of a high-humidity zone, rerouted by wind. A non-saturating, discrete threshold channel.
+- DOI: 10.3389/frobt.2021.645728
+
+### Justin Werfel, Kirstin Petersen, Radhika Nagpal
+- "Designing Collective Behavior in a Termite-Inspired Robot Construction Team" (Science, 2014, 343:754–758)
+- Multi-agent construction robots using only local sensing; inverse-problem design with threshold-triggered deposition. DOI: 10.1126/science.1245842
+
+### Yufei Xiao, Qinglin Wu, Kukhyun Lim, Nan-Yao Su, Paul Bardunias, Atanu Chatterjee, Saad Bhamla
+- "Sensing, Traffic, and Construction in Termites" (arXiv:2607.19594, July 2026)
+- Review framing crowding/inactivity under confinement as "distributed inhibition that prevents saturation"; curvature-biased excavation/deposition across subterranean and mound-building taxa; the coupled sensing-traffic-construction loop where the colony rewrites the medium it senses through.
+
+### André Reina, James A.R. Marshall
+- "Negative feedback may suppress variation to improve collective foraging performance" (PLoS Comput Biol, 2022, 18:e1010090)
+- Negative feedback in social-insect foraging suppresses variance (not just convergence) in small populations — an additional function for non-saturating inhibitory signals. DOI: 10.1371/journal.pcbi.1010090
+
+### Thomas Stützle, Holger H. Hoos
+- "MAX-MIN Ant System" (Future Generation Computer Systems, 2000)
+- Bounds the pheromone cue τ ∈ [τ_min, τ_max] to prevent stagnation. The closest ACO prior art to H11 — but acts on the cue field, not the action. H11's distinction: when the response function saturates, cue-bounding is insufficient; action-based feedback is needed.

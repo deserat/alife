@@ -496,3 +496,67 @@ single-rate medium no matter how many processes write to it.
 3. **Repeat sim06's parameter sweep against the working detector.** It has never been run
    against a detector capable of firing, so the claim that no regime produces the crossing is
    simply unsupported — in either direction.
+
+
+---
+
+## 2026-07-28 — Session 13 (non-saturating channels: biology grounds H11, sim08 tests it)
+
+### Real termites use non-saturating channels, not a saturating cement pheromone ↔ H11
+Three independent lines of termite research converge on the channels H11 prescribes, and away
+from the saturating cue sim06/sim07 used:
+
+- **Calovi et al. (2019, Phil Trans R Soc B)** disambiguated surface curvature from inclination
+  and height across three orientations in *M. michaelseni* and found curvature is the "consistent
+  and sole driver" of construction. Concave → deposit, convex → excavate, and the SAME cue elicits
+  OPPOSING actions depending on the termite's loaded/seeking state. Curvature is geometric and
+  redefined by each deposit — it cannot saturate. This is the "act on the action, not the cue"
+  prescription, observed in the animal. And crucially: "no cement pheromone has yet been
+  identified." The biological system evolved away from the saturating channel H11 flags as
+  self-defeating.
+- **Carey et al. (2021, Front Robot AI)** validated the humidity-template rule with a robot:
+  threshold-triggered deposition at the edge of a humidity bubble, rerouted by wind. A discrete
+  threshold, not a graded saturating response.
+- **Xiao et al. (2026, arXiv)** frame crowding/inactivity as "distributed inhibition that
+  prevents saturation" — the density-cap channel, observed.
+
+So H11, which came out of a bug fix in our own code, is independently corroborated by what termites
+actually do. The channels H11 prescribes (density cap, refractory/threshold, directional/geometry)
+are the ones termites evolved; the saturating cue channel (cement pheromone) is the one biology
+may not use at all. H11 may be less a rediscovery of ACO (which bounds the cue via MMAS) and more
+a rediscovery of termite biology.
+
+### sim08 (density cap) ↔ H11 directionally confirmed, sufficiency sharpened
+sim08 added a non-saturating density cap (hard boolean gate on the deposit action) to sim06,
+reusing all metrics and the detector unchanged. **The cap consolidates morphology, monotonically**
+— pillars 101 → 52 as the cap tightens, max pheromone 8.01 → 2.50 (the field de-saturates, exactly
+as H11 predicts). But **the crossing does not fire**; stability doesn't rise (0.874 → 0.775 at the
+tightest cap). The cap limits growth without recruiting maintenance: it corrects the
+fragmentation symptom (pillars) but not the persistence symptom (stability).
+
+This is the third mechanism in a row that confirms H11's *direction* (each non-saturating /
+cue-independent approach consolidates morphology where cue-field approaches fragmented) while
+showing the crossing needs more. The boundary narrows: positive feedback alone (sim06) → scalar
+cue-transport (sim07) → non-saturating limitation (sim08) all insufficient. The crossing needs a
+non-saturating channel that **recruits** as well as limits. The curvature channel does both
+(routes to concavities AND each deposit extends the concavity); the density cap only limits.
+
+### Curvature as the minimal form of directed transport ↔ H7
+This is a cross-domain connection: the "directed transport" H7's Session-10 refinement called for
+(channel geometry carrying cue to building fronts) may be *the same thing* as the curvature channel
+— curvature IS directed geometry. The Calovi rule (deposit at concavity, excavate at convexity) is
+a routing rule that builds along existing edges, which is both the "directional bias" H11 listed
+and a minimal lumped version of the directed transport sim07's scalar lacked. Candidate sim09: a
+curvature/deposition-edge rule — non-saturating, geometry-based, AND self-recruiting — may be the
+cheapest rule that could actually cross.
+
+### Saturation as the hidden variable ↔ the medium must stay responsive
+Heylighen's positive/negative feedback framing assumes the two act on comparable channels. H11 +
+sim08 + the termite biology add the third term: the **response curve** of the agents to the trace.
+A non-saturating action-gate (the cap) de-saturates the cue field and prunes nucleation — but a
+pure limiter cannot reach the crossing because it does not feed back into the structure's
+persistence. The medium must stay *responsive* across the range processes drive it through, AND
+the feedback must *recruit* (route building to where it extends the structure), not merely cap.
+This generalizes beyond termites: any stigmergic system whose cue response saturates will fragment
+under cue-based negative feedback, and any non-saturating limiter that doesn't also recruit will
+consolidate morphology without reaching actorhood.

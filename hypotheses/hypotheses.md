@@ -137,6 +137,24 @@ Note what this does to the evidential picture: H7's mechanism claim is now suppo
 
 **Test:** Build a simulation where agents leave persistent traces, and observe whether traces cross from coordination to self-maintenance. Measure: does the trace structure develop its own dynamics? Does it resist perturbation (self-repair)? Does it constrain agent behavior in ways not derivable from individual traces? sim07 added a structure-sourced scalar transport field with threshold `M_c` and tested whether the crossing fires as a phase transition in `M_c` — it did not. Next, in increasing cost: (a) **non-saturating inhibition** — a density cap or refractory period acting directly on deposit probability, testing the refinement above; (b) *directed* transport (channel geometry); (c) an external oscillation (H4) the structure rectifies.
 
+**Refinement (Session 13, 2026-07-28 — sim08 tests (a); non-saturating inhibition
+necessary but not sufficient):** sim08 added a non-saturating density cap (a hard gate
+on the deposit action, not a graded cue function) to sim06's Grassé model. The cap
+**consolidates morphology** — pillars fall 101 → 52 as the cap tightens, and the
+pheromone field is de-saturated (max 8.01 → 2.50) — confirming the direction of H11's
+prescription: a non-saturating action-channel prunes nucleation where the saturating
+cue-channel could not. **But the crossing does not fire** for any cap strength;
+stability does not rise (0.874 → 0.775 at the tightest cap). The cap limits growth
+without recruiting maintenance, so it corrects the fragmentation symptom (pillars)
+but not the persistence symptom (stability). The crossing therefore needs a non-
+saturating channel that **recruits** as well as limits — the curvature channel real
+termites use (Calovi 2019: concavity → fill, each deposit extends the concavity)
+does both; the density cap only limits. The boundary narrows again: (sim06) positive
+feedback alone insufficient → (sim07) scalar cue-transport insufficient → (sim08)
+non-saturating limitation insufficient → the crossing needs a non-saturating channel
+that also feeds back positively into its own maintenance. Candidate next: a curvature/
+deposition-edge rule. See [`concepts/non-saturating-channels.md`](../concepts/non-saturating-channels.md).
+
 ---
 
 ## H8: The Computational Complexity Enables Open-Endedness Hypothesis (NEW — Session 4)
@@ -243,6 +261,43 @@ Both were designed to *consolidate*. Both fragmented, monotonically, and in sim0
 
 **Test:** run sim06 with negative feedback delivered through a non-saturating channel — a density cap (deposition suppressed where material exceeds a threshold), a refractory period (a cell that just received a pellet is briefly unavailable), or directional bias along existing wall edges. Compare against both sim06's self-maintenance condition and sim07's transport condition. Prediction: **non-saturating inhibition consolidates (components fall, stability rises) where field manipulation fragmented.** If instead it also fragments, H11 is wrong and the problem lies deeper than the response curve. This is substantially cheaper than directed transport and discriminates the two accounts directly.
 
+**Refinement (Session 13, 2026-07-28 — sim08 partial corroboration, boundary sharpened):**
+sim08 tested the cheapest non-saturating channel — a **density cap** (a cell at/above
+`DENSITY_CAP` cannot receive deposits; a hard boolean gate on the action, not a graded
+cue function) — reusing sim06's metrics and detector unchanged.
+
+**Result: H11 confirmed in direction, sharpened in sufficiency.**
+
+- **The cap consolidates morphology, monotonically.** Sweeping the cap from ∞ (off) to
+  1.5, pillars fall 101 → 52, and the pheromone field is de-saturated (max pheromone
+  8.01 → 2.50). This is exactly the effect H11 predicts: a non-saturating action-gate
+  prevents the cue field from being driven flat and prunes nucleation. The direction
+  H11 claimed is real and replicated in a third independent mechanism.
+- **But the cap does NOT produce the crossing.** Stability does not rise (0.874 → 0.775
+  at the tightest cap); the detector never fires for any cap strength. The cap reduces
+  building *volume* (1131 → 619 cells) without raising *persistence*.
+- **The cap does NOT rescue cue-based feedback.** cap+self_maintenance (262 pillars,
+  stability 0.763) is no better than self_maintenance alone (252, 0.775) — consistent
+  with H11: the cue channel, not the feedback energy, is the problem.
+
+**What this means for H11.** Non-saturating inhibition is **necessary-but-not-sufficient**.
+A cap that *only limits growth* corrects the fragmentation symptom (pillars) but not the
+persistence symptom (stability) — the crossing needs a structure that holds its mass
+against erosion, and a pure limiter reduces mass rather than recruiting its maintenance.
+The crossing therefore needs a non-saturating channel that **recruits** as well as limits:
+the curvature channel in real termites (Calovi 2019) does both — it routes deposition to
+concavities (limits scatter) AND each deposit extends the concavity (recruits further
+building at the edge). The density cap only limits. Candidate next: a curvature/
+deposition-edge rule that routes AND limits. See
+[`concepts/non-saturating-channels.md`](../concepts/non-saturating-channels.md) and
+[sim08](https://alife.vancedubberly.com/sim08_density_cap/visualize.html).
+
+**H11's status is now: directionally confirmed (3/3 mechanisms), but the "consolidation
+requires non-saturating feedback" claim is refined to "consolidation requires non-
+saturating feedback that RECRUITS, not merely one that LIMITS."** The cheap test did not
+settle the crossing but it did discriminate: the cap consolidates where cue-feedback
+fragments, so the channel distinction H11 draws is real; the cap alone just isn't enough.
+
 ---
 
 ## Summary Table
@@ -255,8 +310,8 @@ Both were designed to *consolidate*. Both fragmented, monotonically, and in sim0
 | H4: Dynamic Environment | Refined | Fitness landscape criticism supports this |
 | H5: Autopoiesis | Unchanged | Maturana & Varela grounding |
 | H6: Multi-Scale Autopoiesis | Strengthened | Smith & Bedau 8th property = autopoiesis |
-| H7: Trace→Actor Crossing | Refined (×3); sim06 evidence downgraded 2026-07-27 | S&B 8th property; sim06 null was a broken detector — post-fix it is a near miss (stability 0.849–0.893 vs 0.90, criterion 3 passing 154/160); sim07 null is sound (scalar structure-sourced transport insufficient, monotonic degradation, no phase transition in `M_c`) |
+| H7: Trace→Actor Crossing | Refined (×4); sim08 (2026-07-28) non-saturating cap consolidates morphology but not the crossing | S&B 8th property; sim06 near miss (stability 0.849–0.893 vs 0.90); sim07 null (scalar transport insufficient); sim08 partial (cap prunes pillars 101→52 but stability doesn't rise, crossing doesn't fire) — non-saturating inhibition necessary but not sufficient |
 | H8: Complexity Enables OEE | NEW | Kaznatcheev (2019), Wiser et al. (2013) |
 | H9: Evolving Network | Refined; two legs weakened 2026-07-27 | Vasas et al. (2012); sim04 confirms finite space stall (510/510 species — survives the determinism fix). Weakened: sim03's "negative" is structural, not empirical; sim05 no longer shows unbounded space stalling (2/6 coexistence) |
 | H10: Unbounded Space Insufficiency | WEAKENED (2026-07-27) | sim05 corrected: 2/6 L2 coexistence (was 0/6 — artifact); Mathis et al. 2024, Fontana & Buss 1994 unaffected |
-| H11: Saturating Channel | NEW (2026-07-27), literature-checked | sim06 self-maintenance and sim07 transport both fragmented (components 66–109→219–297; pillars 57→128) — negative feedback through a saturating cue field removes selectivity. Literature: ACO evaporation and MAX-MIN Ant System (Stützle & Hoos 2000) address the same underlying problem but through the cue field, not the action. H11's novel claim: when the response function saturates, cue-based feedback is insufficient; action-based feedback is needed. Untested against non-saturating inhibition |
+| H11: Saturating Channel | Directionally confirmed (3/3), boundary sharpened (2026-07-28) | sim06 self-maintenance and sim07 transport both fragmented through the saturating cue field; sim08 density cap (non-saturating action-gate) consolidates morphology (pillars 101→52, max pheromone 8.01→2.50) but does not fire the crossing — necessary-but-not-sufficient. Literature: ACO evaporation / MAX-MIN Ant System bound the cue; H11 says act on the action. Termite biology (Calovi 2019 curvature; Carey 2021 humidity; Xiao 2026 crowding) uses non-saturating channels, not a saturating cement pheromone. Refined: the crossing needs a non-saturating channel that RECRUITS, not merely one that LIMITS |

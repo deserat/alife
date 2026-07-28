@@ -130,3 +130,27 @@ to compare.
     closure + self-maintenance. It never tests either property. Either implement the test — sim03
     already has a (structural, non-flux) version of it — or restate what sim05 measures. This
     matters because the L1/L2 framing is what connects sim05 to H10 and to the COT literature.
+
+## From Session 13 (2026-07-28)
+
+57. **sim09: the curvature channel — a non-saturating rule that RECRUITS as well as LIMITS** —
+    TOP PRIORITY for the next nightly session. sim08 confirmed H11's direction (a non-saturating
+    density cap consolidates morphology — pillars 101→52 — where cue-field feedback fragmented),
+    but the cap alone did not fire the crossing: it limits growth without recruiting maintenance,
+    so stability didn't rise. The curvature channel (Calovi et al. 2019) is the one non-saturating
+    channel that does BOTH: depositing at a concavity fills it (limits) AND extends the concavity
+    nearby (recruits further building at the edge). It is also the minimal lumped form of the
+    "directed transport" H7's Session-10 refinement called for — curvature IS directed geometry.
+    sim09 should add a curvature/deposition-edge rule to sim06's Grassé model: loaded termites
+    preferentially deposit at concavities (high local curvature of the material field), excavate/
+    avoid convexities. Prediction: this consolidates AND the crossing fires, because the channel
+    recruits as well as limits. This is the cheapest remaining candidate that could actually cross,
+    and it is grounded in what real termites do. See `concepts/non-saturating-channels.md`.
+
+58. **Curvature as the minimal form of directed transport** — Session 10 concluded sim07's scalar
+    transport needed to be *directed* (channel geometry carrying cue to building fronts). The
+    curvature channel may BE that minimal directed geometry: depositing at concavities routes
+    building along edges, not away from them. sim09 would unify the "directed transport" and
+    "non-saturating inhibition" candidates into one mechanism — falsifiable: if curvature routes
+    AND recruits, it should fire the crossing where the scalar (sim07) and the cap (sim08) both
+    failed.
