@@ -135,7 +135,44 @@ This finding is now stated formally as **H11 (The Saturating Channel Hypothesis)
 
 Note what this does to the evidential picture: H7's mechanism claim is now supported by a *positive, replicated, directional* result (two mechanisms, same failure direction, same explanation) rather than by the "diffuse scatter" characterization it replaces — which was never observed. Status: **H7 not refuted, not strongly tested, and better specified than before.**
 
-**Test:** Build a simulation where agents leave persistent traces, and observe whether traces cross from coordination to self-maintenance. Measure: does the trace structure develop its own dynamics? Does it resist perturbation (self-repair)? Does it constrain agent behavior in ways not derivable from individual traces? sim07 added a structure-sourced scalar transport field with threshold `M_c` and tested whether the crossing fires as a phase transition in `M_c` — it did not. Next, in increasing cost: (a) **non-saturating inhibition** — a density cap or refractory period acting directly on deposit probability, testing the refinement above; (b) *directed* transport (channel geometry); (c) an external oscillation (H4) the structure rectifies.
+**Refinement (Session 14, 2026-07-29 — the curvature channel gets a published model):** The
+"non-saturating channel that recruits as well as limits" is no longer a hypothetical — it has a
+published model. Facchini, Lazarescu, Perna & Douady (2020, J R Soc Interface 17:20200093) built
+a curvature-only phase-field growth model for *Nasutitermes* nests with **no pheromone field at
+all**: ∂f/∂t = f(1−f)·[(1/2)·Δf + d·Δ²f]. The growth term (mean curvature Δf) is the RECRUIT
+mechanism (deposition at convex tips extends the structure); the smoothing term (d·Δ²f) is the
+LIMIT mechanism (caps feature size); the prefactor f(1−f) restricts growth to the structure
+surface (spatial selectivity without a saturating cue). For large `d` the equation is linearly
+unstable — walls expand, branch, merge, and invade space, the consolidation morphology sim06
+never reached. Facchini et al. 2024 (eLife) then showed *why* curvature works: evaporation flux
+∝ surface curvature (Langmuir 1918), so the curvature and humidity channels are ONE physical
+quantity, and explicitly state "experiments do not support a role for a putative cement
+pheromone" — two independent groups now. H11's flag on the saturating channel is corroborated at
+the level of *sufficiency* (biology doesn't need the pheromone), not just absence.
+
+The convex (Facchini: deposit at tips) / concave (Calovi: activity at pits) contradiction is
+resolved: the two measured different action components (deposition vs aggregate activity).
+Deposition is at convex tips; excavation is at concave pits. sim09 must separate these actions
+— conflating them would invert the rule's sign.
+
+**What this means for sim09 (candidate next).** Replace sim06's saturating
+pheromone-deposit rule with the Facchini curvature growth rule (adapted to 2D: deposit
+probability ∝ local mean curvature of the material height field, restricted to the structure
+surface, with a smoothing term). Test whether the `d` instability is the phase transition the
+crossing needs: below it, diffuse growth (sim06 regime); above it, consolidated morphology AND
+the crossing. The `d` parameter is to sim09 what `M_c` was to sim07 — but with a mechanism that
+recruits (curvature extends tips) where the scalar transport only dispersed, and a non-saturating
+channel (geometry) where the density cap only limited. If the crossing fires only above the
+`d` instability and not below it, sim09 unifies the directed-transport and
+non-saturating-inhibition candidates into one mechanism (queued-topic 58). **Risk:** Facchini's
+model reproduces *morphology* but not self-maintenance — sim09 must layer H7's three criteria
+and the perturbation/repair test on top, and the roughness feedback (deposits roughen the
+surface, focusing further deposition) is the candidate maintenance mechanism that must be
+tested, not assumed. Public finite-difference code exists (github.com/oiluigioi/JRSI_2020_termite_nest).
+Status: **H7 refined ×5; the candidate mechanism now has a published substrate and a phase
+parameter (`d`).** See `concepts/non-saturating-channels.md` §4–5.
+
+**Test:** Build a simulation where agents leave persistent traces, and observe whether traces cross from coordination to self-maintenance. Measure: does the trace structure develop its own dynamics? Does it resist perturbation (self-repair)? Does it constrain agent behavior in ways not derivable from individual traces? sim07 added a structure-sourced scalar transport field with threshold `M_c` and tested whether the crossing fires as a phase transition in `M_c` — it did not. Next, in increasing cost: (a) **non-saturating inhibition** — a density cap or refractory period acting directly on deposit probability, testing the refinement above; (b) *directed* transport (channel geometry); (c) an external oscillation (H4) the structure rectifies. sim08 tested (a) — consolidates morphology but doesn't fire the crossing (necessary-not-sufficient). **sim09 (candidate)** tests the curvature channel, which unifies (a) and (b): curvature is non-saturating inhibition (the smoothing term) AND directed geometry (deposition at convex tips routes building along edges), with a published growth model and a phase parameter `d`.
 
 **Refinement (Session 13, 2026-07-28 — sim08 tests (a); non-saturating inhibition
 necessary but not sufficient):** sim08 added a non-saturating density cap (a hard gate
@@ -310,8 +347,8 @@ fragments, so the channel distinction H11 draws is real; the cap alone just isn'
 | H4: Dynamic Environment | Refined | Fitness landscape criticism supports this |
 | H5: Autopoiesis | Unchanged | Maturana & Varela grounding |
 | H6: Multi-Scale Autopoiesis | Strengthened | Smith & Bedau 8th property = autopoiesis |
-| H7: Trace→Actor Crossing | Refined (×4); sim08 (2026-07-28) non-saturating cap consolidates morphology but not the crossing | S&B 8th property; sim06 near miss (stability 0.849–0.893 vs 0.90); sim07 null (scalar transport insufficient); sim08 partial (cap prunes pillars 101→52 but stability doesn't rise, crossing doesn't fire) — non-saturating inhibition necessary but not sufficient |
+| H7: Trace→Actor Crossing | Refined (×5); sim08 (2026-07-28) non-saturating cap consolidates morphology but not the crossing; Session 14 (2026-07-29) the curvature channel (Facchini 2020) gets a published growth model with phase parameter `d` | S&B 8th property; sim06 near miss (stability 0.849–0.893 vs 0.90); sim07 null (scalar transport insufficient); sim08 partial (cap prunes pillars 101→52 but stability doesn't rise, crossing doesn't fire) — non-saturating inhibition necessary but not sufficient; Facchini 2020 curvature-only model (no pheromone) reproduces nest morphology, has recruit+limit+surface-restriction; Facchini 2024 unifies curvature≡evaporation, no cement pheromone (2 groups); sim09 candidate tests curvature as the recruiting non-saturating channel |
 | H8: Complexity Enables OEE | NEW | Kaznatcheev (2019), Wiser et al. (2013) |
 | H9: Evolving Network | Refined; two legs weakened 2026-07-27 | Vasas et al. (2012); sim04 confirms finite space stall (510/510 species — survives the determinism fix). Weakened: sim03's "negative" is structural, not empirical; sim05 no longer shows unbounded space stalling (2/6 coexistence) |
 | H10: Unbounded Space Insufficiency | WEAKENED (2026-07-27) | sim05 corrected: 2/6 L2 coexistence (was 0/6 — artifact); Mathis et al. 2024, Fontana & Buss 1994 unaffected |
-| H11: Saturating Channel | Directionally confirmed (3/3), boundary sharpened (2026-07-28) | sim06 self-maintenance and sim07 transport both fragmented through the saturating cue field; sim08 density cap (non-saturating action-gate) consolidates morphology (pillars 101→52, max pheromone 8.01→2.50) but does not fire the crossing — necessary-but-not-sufficient. Literature: ACO evaporation / MAX-MIN Ant System bound the cue; H11 says act on the action. Termite biology (Calovi 2019 curvature; Carey 2021 humidity; Xiao 2026 crowding) uses non-saturating channels, not a saturating cement pheromone. Refined: the crossing needs a non-saturating channel that RECRUITS, not merely one that LIMITS |
+| H11: Saturating Channel | Directionally confirmed (3/3), boundary sharpened (2026-07-28); sufficiency corroborated (2026-07-29) | sim06 self-maintenance and sim07 transport both fragmented through the saturating cue field; sim08 density cap (non-saturating action-gate) consolidates morphology (pillars 101→52, max pheromone 8.01→2.50) but does not fire the crossing — necessary-but-not-sufficient. Literature: ACO evaporation / MAX-MIN Ant System bound the cue; H11 says act on the action. Termite biology (Calovi 2019 curvature; Carey 2021 humidity; Xiao 2026 crowding) uses non-saturating channels, not a saturating cement pheromone. Session 14: Facchini 2020 curvature-only model reproduces nest morphology with NO pheromone field; Facchini 2024 unifies curvature≡evaporation flux and states "experiments do not support a putative cement pheromone" (2 independent groups) — H11 corroborated at the level of sufficiency, not just absence. Refined: the crossing needs a non-saturating channel that RECRUITS, not merely one that LIMITS; curvature (recruit via tip extension + limit via smoothing) is the candidate |

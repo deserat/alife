@@ -560,3 +560,71 @@ the feedback must *recruit* (route building to where it extends the structure), 
 This generalizes beyond termites: any stigmergic system whose cue response saturates will fragment
 under cue-based negative feedback, and any non-saturating limiter that doesn't also recruit will
 consolidate morphology without reaching actorhood.
+
+---
+
+## 2026-07-29 — Session 14 (the curvature/evaporation unification — the recruiting non-saturating channel gets a model)
+
+### Curvature ≡ evaporation flux ↔ the humidity and curvature channels are one
+Facchini et al. 2024 (eLife) proved evaporation flux is directly proportional to surface curvature
+(Langmuir 1918), so the curvature channel (Calovi 2019) and the humidity/evaporation channel
+(Carey 2021) are the *same physical quantity* sensed through one gradient. This unifies two of
+the three non-saturating channels Session 13 identified — they were never separate. The third
+(crowding, Xiao 2026) remains independent. The practical upshot: sim09 needs to model ONE
+geometry/evaporation channel, not two, and the three "channels" are actually two (geometry +
+crowding).
+
+### The convex/concave contradiction ↔ don't conflate construction actions
+Calovi 2019 (concave → activity) and Facchini 2024 (convex tips → deposit) seemed to contradict.
+The resolution: they measured different action components — Calovi measured aggregate activity
+(digging + building), Facchini isolated pellet deposition. Deposition is at convex tips (growth
+extends the structure outward); excavation is at concave pits. This is a methodological lesson for
+sim09: "construction" is not one action. sim06 had only deposit; sim09 must separate deposit
+(loaded termites at convex tips) from excavate (unloaded termites at concavities) to reproduce
+the curvature rule correctly. Conflating them — as a single "build" action — would invert the
+rule's sign.
+
+### A published curvature-only growth model ↔ the sim09 substrate exists
+Facchini, Lazarescu, Perna & Douady (2020, J R Soc Interface) built a phase-field growth model
+for *Nasutitermes* nests driven entirely by local mean curvature — **no pheromone field at all**.
+The equation ∂f/∂t = f(1−f)·[(1/2)·Δf + d·Δ²f] has: a growth term (mean curvature Δf — the
+recruit mechanism, positive at convex tips), a smoothing term (d·Δ²f — the limit mechanism,
+caps feature size), and a surface-restriction prefactor f(1−f) (deposits at edges, not bulk —
+spatial selectivity without a saturating cue). For large `d` it is linearly unstable: walls
+expand, branch, merge, invade space — the consolidation morphology sim06 never reached. Public
+code exists. This is the candidate sim09 substrate: replace sim06's saturating
+pheromone-deposit rule with the curvature growth rule, adapt to 2D, and test whether the `d`
+instability is the phase transition the crossing needs.
+
+### "Recruits as well as limits" ↔ the curvature channel has both halves
+sim08's density cap had only the limit half — it pruned nucleation but did not feed back into
+maintenance, so stability didn't rise. The Facchini curvature channel has BOTH halves:
+depositing at a convex tip *extends* the tip (recruits further building there — positive feedback
+through roughness, which focuses evaporation further), AND the smoothing term limits feature
+size. This is exactly the "non-saturating channel that RECRUITS as well as LIMITS" that H7's
+Session-13 refinement called for. The curvature channel is not just a non-saturating inhibitory
+channel (H11) — it is a non-saturating channel that also self-amplifies, which is what the
+crossing needs the structure to do (recruit its own maintenance). Candidate: if the `d`
+instability is the crossing, sim09 would unify the directed-transport and
+non-saturating-inhibition candidates into one mechanism, as queued-topic 58 predicted.
+
+### No cement pheromone ↔ H11 corroborated at the level of sufficiency
+Facchini 2024 explicitly state "experiments do not support a role for a putative cement
+pheromone." This is now two independent groups (Calovi 2019, Facchini 2024) plus a curvature-only
+model that reproduces real morphology without any pheromone. H11's flag on the saturating channel
+is no longer just "biology doesn't use it" (absence) — it is "biology doesn't *need* it"
+(sufficiency). The saturating cue the Grassé modeling lineage (Deneubourg → Bonabeau → Ladley →
+sim06) assumed is not just unused; it is unnecessary to reproduce the target phenomenon. This
+raises the stakes for sim09: if curvature alone crosses, the saturating pheromone channel
+sim06/sim07 used was not just suboptimal but the wrong substrate entirely.
+
+### Morphology ≠ crossing ↔ the open risk for sim09
+Facchini's curvature model reproduces nest *geometry* (pillars, walls, branching) — the
+consolidation morphology — but it does not test self-maintenance, persistence against erosion,
+or perturbation repair. Reproducing the morphology is necessary but not sufficient for the
+trace→actor crossing. sim09 must layer H7's three operational criteria (stability, non-reducible
+dynamics, constraint on agents) and the perturbation/self-repair test onto the curvature growth
+model. The risk: curvature may consolidate morphology (like sim08's cap did) but still not fire
+the crossing, if the smoothing term limits growth without recruiting *maintenance* specifically.
+The Facchini roughness feedback (deposits roughen the surface, focusing further deposition) is
+the candidate maintenance mechanism — but it must be tested, not assumed.

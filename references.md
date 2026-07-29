@@ -258,6 +258,16 @@ References will be accumulated through daily research.
 - Field experiments on *Macrotermes michaelseni* in Namibia; curvature disambiguated from inclination and height across three surface orientations; curvature is the "consistent and sole driver" of construction. Concave → deposit, convex → excavate; same cue elicits opposing actions by termite state. "No cement pheromone has yet been identified."
 - DOI: 10.1098/rstb.2018.0374
 
+### Giulio Facchini, Andrei Lazarescu, Andrea Perna, Stéphane Douady
+- "A growth model driven by curvature reproduces geometric features of arboreal termite nests" (J R Soc Interface, 2020, 17:20200093)
+- A curvature-only phase-field growth model (no pheromone field) for *Nasutitermes* nests: ∂f/∂t = f(1−f)·[(1/2)·Δf + d·Δ²f]. One parameter `d` sets the pattern length scale; above an instability the equation produces walls that expand, branch, merge, and invade space. Public finite-difference code: github.com/oiluigioi/JRSI_2020_termite_nest
+- DOI: 10.1098/rsif.2020.0093
+
+### Giulio Facchini et al. (2024)
+- "Substrate evaporation drives collective construction in termites" (eLife, 2024, 13:86843)
+- Shows evaporation flux ∝ surface curvature (Langmuir 1918), so curvature and humidity are one physical quantity; termites sense curvature indirectly through evaporation. Curvature-only simulation matches experimental deposition. Explicitly states "experiments do not support a role for a putative cement pheromone." Resolves the convex (deposit at tips) / concave (activity at pits) contradiction: the two measured different action components (deposition vs aggregate activity).
+- DOI: 10.7554/eLife.86843
+
 ### Nicole Carey, Paul Bardunias, Radhika Nagpal, Justin Werfel
 - "Validating a Termite-Inspired Construction Coordination Mechanism Using an Autonomous Robot" (Front Robot AI, 2021, 8:645728)
 - Robot validation of the humidity-template deposition rule: threshold-triggered deposition at the edge of a high-humidity zone, rerouted by wind. A non-saturating, discrete threshold channel.

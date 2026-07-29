@@ -146,6 +146,18 @@ to compare.
     avoid convexities. Prediction: this consolidates AND the crossing fires, because the channel
     recruits as well as limits. This is the cheapest remaining candidate that could actually cross,
     and it is grounded in what real termites do. See `concepts/non-saturating-channels.md`.
+    **UPDATE (Session 14, 2026-07-29):** Grounding complete. Facchini et al. 2020 (J R Soc
+    Interface) built a curvature-only phase-field growth model (no pheromone field) that
+    reproduces real nest morphology, with a phase parameter `d` (linear instability → walls
+    branch/merge/invade space). Facchini et al. 2024 (eLife) unified curvature≡evaporation flux
+    and confirmed no cement pheromone (2 independent groups). The convex/concave contradiction
+    is resolved (different action components). The growth equation ∂f/∂t = f(1−f)·[(1/2)·Δf +
+    d·Δ²f] gives sim09 its recruit (mean curvature Δf), limit (smoothing d·Δ²f), and
+    surface-restriction (f(1−f)) terms. Public code: github.com/oiluigioi/JRSI_2020_termite_nest.
+    NEXT: a DESIGN.md for sim09 (Opus authors it, GLM implements) specifying how to adapt the
+    Facchini 2D curvature rule to sim06's grid+agent framework, replacing the pheromone-deposit
+    rule, with the `d` instability as the phase-transition parameter and H7's three criteria +
+    perturbation test layered on top.
 
 58. **Curvature as the minimal form of directed transport** — Session 10 concluded sim07's scalar
     transport needed to be *directed* (channel geometry carrying cue to building fronts). The

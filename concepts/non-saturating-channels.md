@@ -3,7 +3,7 @@ status: active
 formed: "Session 13"
 connected_to: "stigmergic consolidation, environmental physics coupling, stigmergy, H7, H11, multi-rate environment, niche construction"
 topic: "non-saturating stigmergic channels — geometry, humidity thresholds, and crowding as the biological grounding for H11"
-key_findings: "Real termite construction is guided by THREE non-saturating, action-based channels rather than by a saturating pheromone field: (1) surface CURVATURE — Calovi et al. 2019 (Phil Trans R Soc B) disambiguated curvature from inclination and height across three orientations and found curvature is the 'consistent and sole driver' of both early exploration and soil displacement in Macrotermes michaelseni; convex regions are excavated, concave regions filled, and the SAME cue elicits OPPOSING actions depending on the termite's loaded/seeking state — a state-gated, non-saturating rule. (2) HUMIDITY THRESHOLDS — Carey/Bardunias/Nagpal/Werfel 2021 validated with a robot that termites deposit at the EDGE of the high-humidity zone, a threshold-triggered deposition rule; wind disturbing the bubble closes the tunnel. (3) CROWDING/INACTIVITY — Xiao et al. 2026 (arXiv:2607.19594) frame inactivity under confinement as 'distributed inhibition that prevents saturation.' These are exactly the density-cap / refractory / directional-bias channels H11 prescribes, and they are biological mechanisms, not modeling choices. The ACO literature (MAX-MIN Ant System, Stützle & Hoos 2000) bounds the CUE rather than the ACTION; H11's distinction (act on the action, not the cue) is novel within ALife but corroborated by termite biology, which evolved non-saturating geometric channels in preference to a cement pheromone that no study has yet identified."
+key_findings: "Real termite construction is guided by THREE non-saturating, action-based channels rather than by a saturating pheromone field: (1) surface CURVATURE — Calovi et al. 2019 (Phil Trans R Soc B) disambiguated curvature from inclination and height across three orientations and found curvature is the 'consistent and sole driver' of construction in Macrotermes michaelseni; the SAME cue elicits OPPOSING actions depending on the termite's loaded/seeking state. (2) HUMIDITY THRESHOLDS — Carey/Bardunias/Nagpal/Werfel 2021 validated with a robot that termites deposit at the EDGE of the high-humidity zone, a threshold-triggered deposition rule. (3) CROWDING/INACTIVITY — Xiao et al. 2026 (arXiv:2607.19594) frame inactivity under confinement as 'distributed inhibition that prevents saturation.' SESSION 14 UNIFICATION: Facchini et al. 2020 (J R Soc Interface 17:20200093) and 2024 (eLife 13:86843) showed the curvature and humidity channels are ONE physical quantity — evaporation flux ∝ surface curvature (Langmuir 1918) — and built a curvature-only phase-field growth model (no pheromone field at all) that reproduces real nest morphology. The convex (Facchini: deposit at tips) / concave (Calovi: activity at pits) contradiction is resolved: the two measured different action components (deposition vs aggregate activity). Facchini 2024 explicitly state 'experiments do not support a role for a putative cement pheromone' — two independent groups now report no cement pheromone. The growth model's d-parameter instability (walls branch/merge/invade space above threshold) is a candidate phase-transition parameter for sim09. These are exactly the density-cap / refractory / directional-bias channels H11 prescribes, corroborated by termite biology, which evolved non-saturating geometric channels in preference to a cement pheromone that no study has identified."
 ---
 
 # Non-Saturating Stigmergic Channels
@@ -131,20 +131,36 @@ contrast.**
 
 ## Criticisms
 
-- **Correlation, not mechanism.** Calovi et al. establish correlation of construction with
-  curvature, disambiguated from confounds, but the mechanism by which termites *assess* curvature
-  "is unknown, but presumably involves a combination of antennation and proprioception." We know
-  they respond to it; we do not know the sensing transduction.
+- **Correlation, not mechanism (partially resolved 2026-07-29).** Calovi et al. establish
+  correlation of construction with curvature, disambiguated from confounds, but the mechanism by
+  which termites *assess* curvature "is unknown, but presumably involves a combination of
+  antennation and proprioception." Facchini et al. 2024 now propose the transduction is indirect —
+  termites sense curvature through **substrate evaporation flux**, which is analytically
+  proportional to curvature (Langmuir 1918). This turns "correlation" into "one physical quantity,
+  sensed through a gradient," but the sensing itself (humidity detection) remains inferred, not
+  directly measured at the deposition site.
+- **The convex/concave contradiction (resolved 2026-07-29).** Calovi 2019 (concave → activity)
+  and Facchini 2024 (convex tips → deposit) appear to conflict. The resolution: Calovi measured
+  *aggregate* activity (digging + building); Facchini isolated pellet *deposition*. Deposition is
+  at convex tips; excavation is at concave pits. Both are curvature-driven; the action component
+  differs. This is a caution against treating "construction" as a single action in a model —
+  sim09 must separate deposit and excavate.
 - **The three channels may not be independent.** Curvature, humidity, and crowding are coupled
-  in real mounds (concavities hold humid air; narrow concavities crowd). A simulation that adds
-  only one may not reproduce the full dynamics, and separating their effects is an open
-  experimental problem in the biology itself.
+  in real mounds (concavities hold humid air; narrow concavities crowd). Facchini 2024 unifies
+  curvature and humidity as evaporation flux, reducing three to two (geometry/evaporation +
+  crowding), but separating them in simulation remains an open experimental problem.
 - **State-gating complicates replication.** The same curvature cue elicits excavation OR
   deposition depending on the termite's loaded state. A simulation must model that state to
   reproduce the effect — a richer agent than sim06's deposit-only rule.
 - **No cement pheromone identified ≠ no chemical cue.** Absence of identification is not proof
   of absence; other chemical cues (trail pheromones, CO₂) may yet play roles. The claim is that
   the *saturating deposit-response* channel is not the primary one, not that chemistry is absent.
+  Facchini 2024 strengthens this: their "experiments do not support a role for a putative cement
+  pheromone" — now two independent groups.
+- **Morphology ≠ crossing.** Facchini's curvature-only model reproduces nest *geometry* (pillars,
+  walls, branching) but does not test self-maintenance, persistence against erosion, or
+  perturbation repair. sim09 must add those tests — reproducing the morphology is necessary but
+  not sufficient for the trace→actor crossing.
 
 ## Empirical Evidence
 
@@ -167,19 +183,132 @@ contrast.**
   stagnation — the closest ACO prior art, but acts on the cue field, not the action. H11's
   distinction: when the response saturates, cue-bounding is insufficient; action-based feedback
   is needed.
+- **Facchini, Lazarescu, Perna & Douady (2020)**, J R Soc Interface 17:20200093. A curvature-only
+  phase-field growth model (no pheromone field) that reproduces arboreal *Nasutitermes* nest
+  geometry — walls branch, merge, invade space, with a characteristic length scale set by one
+  parameter `d`. Public finite-difference code: github.com/oiluigioi/JRSI_2020_termite_nest.
+  DOI 10.1098/rsif.2020.0093
+- **Facchini et al. (2024)**, eLife 13:86843. "Substrate evaporation drives collective
+  construction in termites." Shows evaporation flux ∝ surface curvature (Langmuir 1918), so the
+  curvature and humidity channels are one physical quantity; termites sense curvature indirectly
+  through evaporation. Curvature-only simulation matches experimental deposition patterns.
+  Explicitly states "experiments do not support a role for a putative cement pheromone."
+  Resolves the convex (deposit at tips) / concave (activity at pits) contradiction as different
+  action components. DOI 10.7554/eLife.86843
+
+## 4. The unification: curvature ≡ evaporation flux (Facchini et al. 2020, 2024)
+
+The curvature and humidity channels are not separate. Facchini, Lazarescu, Perna & Douady
+(2020, J R Soc Interface 17:20200093) proposed a **curvature-only growth model** for arboreal
+*Nasutitermes* nests: a phase-field equation in which the nest is a scalar field `f` and growth is
+driven by the **local mean curvature** of its surface, with a smoothing term that mimics the
+pellet-size cutoff. A single nonlinear equation with one adjustable parameter `d` (the pattern
+length scale) reproduces walls that expand, branch, merge, and invade space, and the abundance of
+saddle-shaped (zero-mean-curvature) surfaces seen in CT-scanned real nests. **There is no
+pheromone field in the model at all** — curvature alone organizes construction.
+
+Facchini et al. (2024, eLife 13:86843) then showed *why*: evaporation flux is directly
+proportional to surface curvature (a result going back to Langmuir 1918). Termites sense curvature
+*indirectly through substrate evaporation* — the humidity gradient is maximal at pillar tips and
+wall corners, exactly where deposition concentrates. This unifies Calovi 2019 (curvature) and
+Carey 2021 (humidity) into one physical quantity: **the curvature channel IS the
+humidity/evaporation channel, sensed through one physical gradient.** The humidity-template
+threshold rule (Carey) and the curvature rule (Calovi) are the same mechanism at different scales
+of description.
+
+### The convex/concave contradiction, resolved
+
+Facchini 2024 and Calovi 2019 appear to contradict: Facchini finds **deposition at convex pillar
+tips**; Calovi finds **activity at concave regions**. The resolution is that the two studies
+measured different things. Calovi measured aggregate construction activity (digging + building
+together); Facchini isolated pellet *deposition* specifically. Deposition is at convex tips
+(growth extends the structure upward/outward); excavation is at concave pits (material removed
+from pits). Both are curvature-driven, but the *action component* differs. The Calovi
+state-gating (loaded → deposit at concavity, seeking → excavate at convexity) and the Facchini
+result (deposit at convex tips) are consistent once you separate the actions: *where* a termite
+deposits depends on its loaded state, and the Facchini experiments observed primarily
+depositing (loaded) termites on pre-made topography.
+
+For sim09 this means the rule is **state-gated**: loaded termites deposit at high curvature
+(convex tips of the material field); unloaded termites excavate at low curvature (concavities).
+This is richer than sim06's deposit-only rule and is exactly the "recruits as well as limits"
+channel: depositing at a convex tip *extends* the tip (recruits further building there) while
+the smoothing term (Facchini's `d`) limits feature size — both consolidation properties the
+density cap lacked.
+
+### Positive feedback through roughness — the recruit mechanism
+
+Facchini 2024 notes a subtle but crucial feedback: adding pellets to a convex region makes the
+surface *rougher* (more local curvature variation), which *further focuses* evaporation/deposition
+there. This is a genuine positive feedback through the geometry itself, not through a saturating
+cue field. It is the **recruit** half of the "recruits as well as limits" requirement: the
+structure's own shape, once nucleated, amplifies the cue that recruits further building *at the
+same location*. The density cap (sim08) had only the limit half; curvature has both.
+
+### No cement pheromone (again, and stronger)
+
+Facchini 2024 explicitly state their "experiments do not support a role for a putative cement
+pheromone." This is now two independent groups (Calovi 2019, Facchini 2024) reporting no cement
+pheromone, plus a curvature-only model that reproduces real morphology without it. The saturating
+cue the Grassé lineage assumed is not just unused — it is unnecessary to reproduce the target
+phenomenon. H11's flag on the saturating channel is corroborated at the level of *sufficiency*,
+not just absence.
+
+## 5. The published curvature growth model (the sim09 substrate)
+
+The Facchini 2020 growth equation (the one sim09 should adapt to 2D):
+
+```
+∂f/∂t = f(1−f) · [ −(1/2)·∇·n  +  d·Δ(∇·n) ]
+```
+
+where `f` ∈ [0,1] is the phase field (1 = nest material, 0 = empty), `n = ∇f/|∇f|` is the surface
+normal, and `d` sets the pattern length scale. Approximated (Facchini 2020) as:
+
+```
+∂f/∂t ≈ f(1−f) · [ (1/2)·Δf  +  d·Δ²f ]
+```
+
+- The growth term `(1/2)·Δf` is the **mean curvature** (Laplacian of the height field) — positive
+  at convex tips (growth), negative at concavities (excavation). This is the recruit mechanism.
+- The smoothing term `d·Δ²f` (biharmonic / curvature diffusion) mimics the pellet cutoff — sharp
+  features are smoothed. This is the limit mechanism.
+- The prefactor `f(1−f)` restricts growth to the *surface* (the boundary of the structure), not
+  the bulk — deposits happen at edges, not interiors. This is spatial selectivity without a
+  saturating cue.
+- For large `d` the equation is **linearly unstable**: walls expand, branch, and merge, invading
+  all space — the consolidation morphology. Below the instability, growth stalls.
+
+**Why this matters for H7/sim09.** This is a non-saturating, geometry-based channel that
+*recruits* (deposition at convex tips extends the tip) AND *limits* (smoothing caps feature size),
+restricted to the structure surface by `f(1−f)`. It has no pheromone field to saturate. The
+instability in `d` is a candidate phase-transition parameter: below it, diffuse growth (sim06
+regime); above it, consolidated morphology (the crossing candidate). Public finite-difference
+code exists (github.com/oiluigioi/JRSI_2020_termite_nest) — sim09 adapts this to sim06's 2D
+grid + agent framework, replacing the pheromone-deposit rule with a curvature-deposit rule.
 
 ## Open Questions
 
-- Does a minimal simulation with a curvature-based deposit rule (concavity → fill, convexity →
-  excavate, state-gated) consolidate where sim06's saturating-pheromone rule fragmented? This is
-  the direct, cheap test of H11 and is candidate sim08.
-- Can the three channels be separated in simulation (curvature alone, humidity alone, crowding
-  alone) to identify which is load-bearing for the crossing?
-- Is the state-gating (loaded vs seeking) essential, or does a simpler "deposit at concavity,
-  excavate at convexity" rule without state suffice to consolidate?
-- How does curvature feedback relate to the directed-transport candidate (environmental-physics
-  coupling)? Curvature *is* a form of directed geometry — it may subsume the "directed transport"
-  refinement H7 carries.
+- Does a minimal simulation with a curvature-based deposit rule (convex tip → deposit,
+  concavity → excavate, state-gated, with a smoothing term) consolidate where sim06's
+  saturating-pheromone rule fragmented, AND fire the crossing? This is the direct test of H7's
+  refined prescription and is candidate **sim09**.
+- Is the `d` instability the *phase transition* the crossing needs? If crossing fires only above
+  the curvature-instability threshold and not below it, `d` is to sim09 what `M_c` was to sim07 —
+  but with a mechanism (curvature) that recruits as well as limits, where the scalar transport
+  only dispersed.
+- Can the three channels be separated in simulation (curvature alone, humidity/evaporation
+  alone, crowding alone) to identify which is load-bearing for the crossing? Facchini 2024 says
+  curvature ≡ evaporation, so those two are one channel; crowding (Xiao 2026) is the independent
+  third.
+- Is the state-gating (loaded vs seeking) essential, or does a deposit-only curvature rule
+  (deposit at convex tips, no excavation) suffice to consolidate? Facchini's growth model uses
+  only growth (no excavation term) and still reproduces morphology.
+- How does curvature feedback relate to the directed-transport candidate
+  (environmental-physics coupling)? Curvature *is* directed geometry — the Facchini growth
+  equation routes building along convex tips, which is the minimal lumped form of "channel
+  geometry carrying cue to building fronts." sim09 may unify the directed-transport and
+  non-saturating-inhibition candidates into one mechanism, as queued-topic 58 predicted.
 
 ## Cross-References
 
