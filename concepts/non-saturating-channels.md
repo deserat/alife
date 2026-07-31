@@ -296,7 +296,8 @@ grid + agent framework, replacing the pheromone-deposit rule with a curvature-de
 - Is the `d` instability the *phase transition* the crossing needs? If crossing fires only above
   the curvature-instability threshold and not below it, `d` is to sim09 what `M_c` was to sim07 —
   but with a mechanism (curvature) that recruits as well as limits, where the scalar transport
-  only dispersed.
+  only dispersed. **sim09's DESIGN.md is now authored (Session 15, 2026-07-30) at
+  `../simulations/sim09_curvature_channel/DESIGN.md` — 9 Parts; implementation begins Part 1.**
 - Can the three channels be separated in simulation (curvature alone, humidity/evaporation
   alone, crowding alone) to identify which is load-bearing for the crossing? Facchini 2024 says
   curvature ≡ evaporation, so those two are one channel; crowding (Xiao 2026) is the independent

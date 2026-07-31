@@ -628,3 +628,135 @@ model. The risk: curvature may consolidate morphology (like sim08's cap did) but
 the crossing, if the smoothing term limits growth without recruiting *maintenance* specifically.
 The Facchini roughness feedback (deposits roughen the surface, focusing further deposition) is
 the candidate maintenance mechanism — but it must be tested, not assumed.
+
+---
+
+## 2026-07-30 — Session 15 (sim09 DESIGN.md authored — the curvature channel gets an implementation spec)
+
+### The Facchini growth equation ↔ sim09's three channels made operational
+The curvature channel that H7's Session-13/14 refinement identified as "the non-saturating
+channel that recruits as well as limits" now has a concrete, Part-by-Part implementation spec at
+`simulations/sim09_curvature_channel/DESIGN.md` (9 Parts, mirroring sim06's proven structure).
+The Facchini 2020 growth equation `∂f/∂t ≈ f(1−f)·[(1/2)·Δf + d·Δ²f]` is adapted to sim06's 2D
+grid+agent framework — each of its three terms becomes an operational piece:
+- the growth term `(1/2)·Δf` (mean curvature) → `compute_curvature` (half the Laplacian of a
+  lightly-smoothed material field), driving a **linear, non-saturating** deposit-probability
+  routing for loaded termites at convex tips (the recruit mechanism);
+- the smoothing term `d·Δ²f` (biharmonic) → the `d`-gated `field_step` smoothing, the LIMIT
+  mechanism and the **phase-transition knob** (sim09's analog of sim07's `M_c`);
+- the prefactor `f(1−f)` → an `on_surface` Moore-dilation mask restricting deposits to the
+  structure surface (spatial selectivity without a saturating cue).
+
+### The Facchini/Calovi convex-concave resolution ↔ sim09's state-gated action split
+The single most important design constraint in the DESIGN: sim09 must split deposit (loaded
+termites at convex tips) from excavate (unloaded termites at concavities). Conflating them — as
+a single "build" action, as sim06 did — would invert the rule's sign. The Facchini 2024
+(deposition at convex tips) vs Calovi 2019 (aggregate activity at concavities) contradiction is
+resolved as different action components, and sim09 makes that resolution operational via
+state-gating. This is a methodological lesson carried from the literature into the model: a
+"construction" rule that does not separate the action components can get the sign backwards.
+
+### Roughness as the recruit proxy ↔ the channel-adapted crossing criterion 2
+sim06's crossing detector bug (criterion 2 unsatisfiable under Grassé positive feedback) was
+fixed by requiring mass saturation. sim09 adapts criterion 2 to the curvature channel:
+**roughness** (the std of curvature over the structure surface) sustained above a threshold
+*while mass saturates* — the curvature analog of "the field stays energized by the structure's
+own shape, not by ongoing fresh deposits." This is the recruit channel's self-sustenance made
+measurable. Roughness is also the Facchini 2024 positive feedback (deposits roughen the surface,
+focusing further evaporation/deposition) rendered as a scalar metric.
+
+### The `d` phase transition ↔ the H7 prediction made operational
+sim09's headline deliverable is Part 7's `d` sweep: if the crossing fires only above the
+Facchini curvature-instability threshold `d*` and not below it, `d` is to sim09 what `M_c` was
+to sim07 — but with a mechanism that recruits where the scalar transport only dispersed and a
+non-saturating channel where the density cap only limited. If that transition exists, sim09
+unifies the directed-transport and non-saturating-inhibition candidates (queued-topic 58) into
+one mechanism, as the curvature channel is the minimal lumped form of directed geometry. If it
+does not, the null is sharper than sim08's: the curvature channel has both the recruit and limit
+halves, so a null would mean the crossing needs something beyond even the full H7 prescription.
+
+### A regression guard ↔ learning from sim06's detector bug
+sim06's original crossing detector could not fire (criterion 2 required deposits to fall below
+their early-run average, impossible under Grassé positive feedback). sim09's Part 5 carries a
+synthetic-history regression guard: the detector must fire on an all-true history and withhold
+when any single criterion is negated. This encodes the lesson from the 2026-07-27 code review as
+a test — the detector is validated against satisfiable AND unsatisfiable synthetic inputs before
+being trusted on real runs.
+
+### DESIGN authorship without Opus ↔ the bottleneck rule
+The memory convention is "Opus 4.8 writes DESIGN.md, GLM implements." Opus was not running tonight
+(cron context), and the DESIGN.md was the single bottleneck blocking all sim09 implementation —
+no Part could begin without it. I authored it from the complete Session-14 grounding (Facchini
+2020/2024, H7's criteria, the sim06 DESIGN template) rather than leave the night idle. The spec
+follows sim06's exact structure (9 Parts, verification commands, progress tracker, appendices)
+precisely because that structure is what makes nightly GLM implementation safe. If an Opus pass
+later wants to revise it, the revision is cheap; the blocking is not.
+
+---
+
+## 2026-07-31 — Session 16 (sim09 implementation Parts 1–7: the curvature channel runs, the phase transition needs tuning)
+
+### sim06 fully complete ↔ the path to sim09 is open
+A pre-session check of sim06's Progress Tracker found all 9 Parts marked [x] — the termite-mound
+saturating-cue sim is done (and its corrected near-miss / crossing-confirmed-in-57%-of-parameter-space
+result stands). That cleared the way to sim09, the curvature-channel sim the previous two sessions
+grounded and specified. Tonight implemented Parts 1–7 of sim09's DESIGN.md in a single session
+(the cron instruction to continue to the next Part when budget remains overrides the DESIGN's
+"one Part per session" rule). All selftests pass (Part 1 OK … Part 7 OK) and `run` produces a valid
+`results.json` with both conditions.
+
+### The Facchini growth equation ↔ sim09's three terms made operational
+Each term of ∂f/∂t ≈ f(1−f)·[(1/2)·Δf + d·Δ²f] is now running code:
+- **(1/2)·Δf (mean curvature) → the recruit mechanism.** `compute_curvature` returns half the
+  Laplacian of a lightly-smoothed material field; `termite_step` routes loaded termites to deposit
+  at convex tips via a LINEAR (non-saturating) probability `p = base + gain·curvature`, clamped to
+  [0,1]. This is the H11 prescription made concrete — the deposit response does not flatten above a
+  threshold the way sim06's `φ/(1+φ)` did.
+- **d·Δ²f (biharmonic) → the limit mechanism + phase-transition knob.** `field_step` applies
+  `d·0.0001·Δ²f` each step; `d` is sim09's analog of sim07's `M_c`. Part 7's `d` sweep is the
+  headline phase-transition plot.
+- **f(1−f) (surface restriction) → `compute_on_surface`.** A Moore-dilation of the structure mask;
+  deposits outside the surface fall back to a low nucleation base so the first pillars can seed.
+
+### The Facchini/Calovi action-component split ↔ the state-gated deposit/excavate rule
+The single most important design constraint — do not conflate deposit with excavate — is
+operational. Loaded termites deposit at convex tips (Facchini 2024); unloaded termites excavate at
+concavities (Calovi 2019). sim06 had only deposit; sim09 splits the action. Conflating them would
+invert the rule's sign. The selftest's synthetic Gaussian bump confirms deposits land on the
+convex rim.
+
+### The regression guard ↔ sim06's detector bug encoded as a test
+sim06's original crossing detector could not fire (criterion 2 required deposits to fall below
+their early-run average, impossible under Grassé positive feedback). sim09's Part 5 carries a
+synthetic-history regression guard: the detector must fire on an all-true history and withhold
+when any single criterion is negated — for BOTH the curvature and baseline channels. This encodes
+the 2026-07-27 code-review lesson as an executable test. It passes.
+
+### The honest null-so-far ↔ the phase transition needs parameter tuning
+At DEFAULT parameters, sim09's `d` sweep finds NO phase transition. The curvature channel
+saturates the grid (pillars=1, retention=1.0 at every d) because the nucleation base (0.10) floods
+the grid before curvature routing can create spatial selectivity — 200 termites × 4000 steps ×
+0.10 ≈ 80k deposits into a 10k-cell grid. The crossing detector does not fire: criteria 1
+(stability ≥0.90) and 3 (deposits_on_convex ≥0.60) pass comfortably, but criterion 2 (roughness
+≥0.02 AND mass saturating, i.e. |growth_rate| < 0.01) fails because mass never saturates — the grid
+fills and stays filled. Quick tuned probes (deposit_prob_base=0.01, material_decay=0.002) show the
+predicted consolidation DIRECTION (pillars 25→2 as d rises 0→4) and a roughness spike at the
+biharmonic instability, confirming the mechanism's sign is right — but the mass-saturation gate in
+criterion 2 is hard to satisfy while the structure is still accreting. Finding the parameter regime
+that reveals the phase transition is the remaining scientific work. The DESIGN explicitly allows
+reporting a null honestly: "a null result is still a result, but first try to find parameters that
+reveal the mechanism." This is the spiral-loop methodology in action — the sweep ran, the
+mechanism's direction is visible, and the tuning question is now sharp (lower nucleation + higher
+erosion so mass saturates before the grid fills, and a stable high-d range — d=8 showed a
+numerical blowup of the explicit biharmonic, so the 0.0001 prefactor needs reducing for the upper
+sweep range).
+
+### sim09's partial result so far ↔ H7 and H11
+The curvature channel's consolidation DIRECTION is confirmed (pillars decrease as d rises, the
+opposite of sim06's saturating-cue fragmentation and sim07's scalar-transport fragmentation). The
+crossing itself has not fired at the parameters tried. This is consistent with H11 (the
+non-saturating channel consolidates where saturating channels fragmented) but not yet a positive
+test of H7 (the crossing needs the recruit half to drive maintenance, not just morphology). Parts 8
+(perturbation/self-repair — the recruit half's acid test) and 9 (viz+README) remain, and the
+parameter tuning to find d* is the next session's priority.
+

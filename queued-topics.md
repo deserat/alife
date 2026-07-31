@@ -154,10 +154,17 @@ to compare.
     is resolved (different action components). The growth equation ∂f/∂t = f(1−f)·[(1/2)·Δf +
     d·Δ²f] gives sim09 its recruit (mean curvature Δf), limit (smoothing d·Δ²f), and
     surface-restriction (f(1−f)) terms. Public code: github.com/oiluigioi/JRSI_2020_termite_nest.
-    NEXT: a DESIGN.md for sim09 (Opus authors it, GLM implements) specifying how to adapt the
-    Facchini 2D curvature rule to sim06's grid+agent framework, replacing the pheromone-deposit
-    rule, with the `d` instability as the phase-transition parameter and H7's three criteria +
-    perturbation test layered on top.
+    DONE (Session 15, 2026-07-30): DESIGN.md authored at
+    `simulations/sim09_curvature_channel/DESIGN.md` — 9 independently-implementable Parts
+    mirroring sim06's structure. The Facchini 2020 growth equation `∂f/∂t ≈ f(1−f)·[(1/2)·Δf +
+    d·Δ²f]` is adapted to sim06's 2D grid+agent framework: state-gated deposit at convex tips
+    (loaded) / excavate at concavities (unloaded) — the Facchini/Calovi action-component
+    resolution made operational; a linear (non-saturating) deposit-probability routing on
+    curvature; the `f(1−f)` surface-restriction prefactor as an `on_surface` dilation mask; the
+    `d`-gated biharmonic smoothing as the phase-transition knob (sim09's analog of sim07's `M_c`);
+    roughness (curvature std over surface) as the recruit proxy and the channel-adapted crossing
+    criterion 2; baseline_pheromone condition (sim06's saturating rule) as the control. Part 7's
+    `d` sweep is the headline phase-transition plot. NEXT: implement Part 1 (GLM, next nightly).
 
 58. **Curvature as the minimal form of directed transport** — Session 10 concluded sim07's scalar
     transport needed to be *directed* (channel geometry carrying cue to building fronts). The

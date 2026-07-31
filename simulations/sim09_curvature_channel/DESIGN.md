@@ -45,13 +45,13 @@
 
 ## Progress Tracker
 
-- [ ] **Part 1** — Project skeleton: files, CLI dispatcher, config, RNG, grid, JSON writer
-- [ ] **Part 2** — Termite agents: state, movement, state-gated curvature routing (the deposit/excavate split)
-- [ ] **Part 3** — The material field: curvature computation, smoothing, erosion, roughness feedback
-- [ ] **Part 4** — Core simulation loop + metrics collection (history records)
-- [ ] **Part 5** — The trace→actor crossing detector (H7's three criteria, adapted to curvature)
-- [ ] **Part 6** — Experiment conditions + `run` command (baseline-pheromone vs curvature-channel)
-- [ ] **Part 7** — Parameter sweeps + `sweep_plot` (the `d` phase-transition sweep — the headline plot)
+- [x] **Part 1** — Project skeleton: files, CLI dispatcher, config, RNG, grid, JSON writer
+- [x] **Part 2** — Termite agents: state, movement, state-gated curvature routing (the deposit/excavate split)
+- [x] **Part 3** — The material field: curvature computation, smoothing, erosion, roughness feedback
+- [x] **Part 4** — Core simulation loop + metrics collection (history records)
+- [x] **Part 5** — The trace→actor crossing detector (H7's three criteria, adapted to curvature)
+- [x] **Part 6** — Experiment conditions + `run` command (baseline-pheromone vs curvature-channel)
+- [x] **Part 7** — Parameter sweeps + `sweep_plot` (the `d` phase-transition sweep — the headline plot)
 - [ ] **Part 8** — Perturbation / self-repair experiment (the H7 acid test, applied to the curvature channel)
 - [ ] **Part 9** — `visualize.html` (HTML5 Canvas, self-contained) + README.md
 
@@ -1198,3 +1198,10 @@ prior Parts via `selftest`, so regressions surface immediately.
 (Each session: append one line — date, Part number, what you did / any deviation.)
 
 - (Design authored 2026-07-30 — awaiting Part 1 implementation.)
+- 2026-07-31 — Part 1 implemented: sim09.py skeleton (docstring, imports, path constants, all module constants including the Facchini `d` knob, `_pyify`, `make_rng`, `Field` with material grid + optional pheromone, CLI dispatcher). `selftest` prints `Part 1 OK`, exits 0.
+- 2026-07-31 — Part 2 implemented: `Termites` class, `_MOORE` offsets, `termite_step` (curvature-channel, state-gated: loaded deposit at convex tips via linear non-saturating routing + surface restriction; unloaded excavate at concavities; reload off-grid), `termite_step_pheromone` (sim06's saturating Grassé rule for the baseline control). Selftest builds a synthetic Gaussian bump + inline curvature, runs 100 steps, asserts material accumulates and deposits land on the convex rim. `selftest` prints `Part 2 OK`.
+- 2026-07-31 — Part 3 implemented: `_laplacian` (5-point torus), `_diffuse` (3x3 Moore blur), `compute_curvature` ((1/2)·Δf of lightly-smoothed material), `compute_on_surface` (f(1−f) prefactor as Moore-dilation of structure mask), `compute_roughness` (curvature std over surface — the recruit proxy), `field_step` (erosion + d-gated biharmonic smoothing + baseline pheromone decay/diffusion). Selftest confirms a blob has positive rim curvature, smooths and erodes under `field_step`, and has non-negative roughness. `selftest` prints `Part 3 OK`.
+- 2026-07-31 — Part 4 implemented: `compute_metrics` (per-sample record with curvature/roughness/pheromone/stability fields + Part-5 placeholders), `summarize` (final/peak material, late stability, retention), `run_condition` (loops termites+field, dispatches on `channel`), `cmd_run` wired as a one-condition smoke test. Selftest runs a tiny curvature condition and asserts history>=4 records with all required keys. `run` writes a valid `results.json` (160 records, 5.8s). `selftest` prints `Part 4 OK`.
+- 2026-07-31 — Part 5 implemented: `_connected_components` (BFS Moore flood-fill, no scipy), `_compactness` (cells/box), `compute_metrics` upgraded to fill n_pillars/compactness/deposits_on_convex_fraction/deposit_on_structure_fraction, `detect_crossing` (channel-aware 3-criteria + run-length persist + material_growth_rate pre-pass), called in `run_condition`; `summarize` reports crossed/crossing_step. Selftest includes the synthetic-history regression guard (fires on all-true; withholds when any single criterion negated, for both channels). `selftest` prints `Part 5 OK`.
+- 2026-07-31 — Part 6 implemented: `curvature_params()` and `baseline_pheromone_params()` builders; `cmd_run` rewritten to run both conditions, write full `results.json` (config + curvature_channel + baseline_pheromone), print the H7 comparison (crossed/crossing_step/retention/final_cells). At defaults (d=1.0) neither condition crosses — curvature fills the grid (10000 cells, retention 1.0); baseline reaches 4833 cells. Tuning the separation is Part 7's job. Runtime 14.2s.
+- 2026-07-31 — Part 7 implemented: `cmd_sweep_plot` (matplotlib Agg, lazy import) with the d sweep [0,0.2,0.5,1,2,4,8] (curvature_channel) and material_decay sweep [0.0002..0.004] (both conditions), reduced-cost grid (80², 150 termites, 2000 steps). Writes output/sweep_d.png, output/sweep_material_decay.png, output/sweep_data.json. At DEFAULT params the sweep finds no phase transition — the curvature channel saturates the grid (pillars=1, retention=1.0 at every d) because the nucleation base (0.10) floods the 6400-cell grid before curvature routing can create spatial selectivity. Quick tuned probes (deposit_prob_base=0.01, material_decay=0.002) show the predicted consolidation DIRECTION (pillars 25→2 as d rises 0→4) and a roughness spike at the biharmonic instability, but the crossing detector still does not fire because mass never saturates (criterion 2's gate). Finding the parameter regime that reveals the phase transition is the remaining scientific work; the DESIGN explicitly allows reporting a null honestly. Parts 8 (perturbation) and 9 (viz+README) remain for the next session.
