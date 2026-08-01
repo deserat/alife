@@ -485,11 +485,17 @@ def _compactness(mask):
 # Core simulation loop + metrics
 # --------------------------------------------------------------------------
 def compute_metrics(field, params, step, deposits, excavations,
-                     deposits_on_convex, pickups, prev_mask, deposits_on_structure=0):
+                     deposits_on_convex, pickups, prev_mask, deposits_on_structure=0,
+                     pre_perturb_total=None):
     """Compute one history record from the current field state + window event
     counters. Part 5 upgrades this to fill n_pillars/compactness/crossing.
     `deposits_on_structure` is accumulated only by the baseline_pheromone
-    condition (sim06's deposit-on-structure metric); 0 for the curvature channel."""
+    condition (sim06's deposit-on-structure metric); 0 for the curvature channel.
+
+    Part 8: `pre_perturb_total` is the total_material captured at the last
+    pre-perturbation sample; when set, each record carries
+    `recovery = current_total_material / pre_perturb_total`. When None
+    (no perturbation, or before the perturbation sample), recovery is None."""
     structure_threshold = params.get("structure_threshold", STRUCTURE_THRESHOLD)
     channel = params.get("channel", "curvature")
 
@@ -556,6 +562,9 @@ def compute_metrics(field, params, step, deposits, excavations,
         "material_growth_rate": None,
         "crossed": False,
         "crossing_step": None,
+        # --- Part 8 (perturbation) ---
+        "recovery": (float(total_material) / float(pre_perturb_total)
+                     if pre_perturb_total and pre_perturb_total > 0 else None),
     }
     return rec
 
@@ -626,14 +635,19 @@ def detect_crossing(history, params):
     return history
 
 
-def summarize(history):
-    """Headline summary of a condition's run. Part 5 adds crossed/crossing_step."""
+def summarize(history, perturb=None):
+    """Headline summary of a condition's run. Part 5 adds crossed/crossing_step.
+    Part 8: when perturb is set, adds recovery_final + perturb_at + perturb_frac."""
+    perturb_at = (perturb or {}).get("at")
+    perturb_frac = (perturb or {}).get("frac")
     if not history:
         return {
             "final_total_material": 0.0, "final_n_structure_cells": 0,
             "peak_total_material": 0.0, "peak_step": 0,
             "mean_late_stability": 0.0, "retention": 0.0,
             "crossed": False, "crossing_step": None,
+            "recovery_final": None, "perturb_at": perturb_at,
+            "perturb_frac": perturb_frac,
         }
     last = history[-1]
     final_total = last["total_material"]
@@ -647,6 +661,8 @@ def summarize(history):
     # Part 5: pull the crossing verdict from the last record (cumulative flag).
     crossed = bool(history[-1].get("crossed", False))
     crossing_step = history[-1].get("crossing_step", None)
+    # Part 8: recovery_final from the last record's recovery (None if no perturb).
+    recovery_final = last.get("recovery", None)
     return {
         "final_total_material": float(final_total),
         "final_n_structure_cells": int(final_cells),
@@ -656,11 +672,23 @@ def summarize(history):
         "retention": float(retention),
         "crossed": crossed,
         "crossing_step": crossing_step,
+        "recovery_final": (float(recovery_final)
+                          if recovery_final is not None else None),
+        "perturb_at": perturb_at,
+        "perturb_frac": perturb_frac,
     }
 
 
-def run_condition(params, seed):
-    """Run one full simulation condition. Returns {"history": [...], "summary": {...}}."""
+def run_condition(params, seed, perturb=None):
+    """Run one full simulation condition. Returns {"history": [...], "summary": {...}}.
+
+    Part 8: optional perturb={"at": step, "frac": f} damages the structure at
+    step perturb_at (default int(0.6*steps)) by zeroing a central rectangular
+    patch of the grid covering perturb_frac (default 0.25) of the grid area,
+    clearing field.material and (baseline) field.pheromone in that patch. Each
+    post-perturbation record carries
+    recovery = current_total_material / pre_perturb_total_material.
+    Defaults to perturb=None (Part 6 behavior unchanged)."""
     rng = make_rng(seed)
     size = params.get("grid_size", GRID_SIZE)
     n = params.get("n_termites", N_TERMITES)
@@ -675,6 +703,22 @@ def run_condition(params, seed):
     history = []
     dep_acc = exc_acc = dep_convex_acc = dep_struct_acc = pick_acc = 0
     prev_structure_mask = None
+
+    # --- Part 8: perturbation setup ---
+    perturb_at = None
+    perturb_frac = None
+    r0 = r1 = c0_patch = c1 = 0
+    pre_perturb_total = None
+    perturb_applied = False
+    if perturb:
+        perturb_at = int(perturb.get("at", int(0.6 * steps)))
+        perturb_frac = float(perturb.get("frac", 0.25))
+        # central square block covering perturb_frac of the grid area
+        side = max(1, int(round(size * math.sqrt(perturb_frac))))
+        r0 = (size - side) // 2
+        c0_patch = (size - side) // 2
+        r1 = r0 + side
+        c1 = c0_patch + side
 
     for step in range(steps):
         if channel == "curvature":
@@ -693,10 +737,23 @@ def run_condition(params, seed):
             dep_struct_acc += ev["deposits_on_structure"]
             pick_acc += ev["pickups"]
 
+        # --- Part 8: apply damage at perturb_at (once) ---
+        if perturb and perturb_at is not None and not perturb_applied and step >= perturb_at:
+            field.material[r0:r1, c0_patch:c1] = 0.0
+            if field.pheromone is not None:
+                field.pheromone[r0:r1, c0_patch:c1] = 0.0
+            perturb_applied = True
+
         if step % sample == 0:
+            # capture pre-perturb total at the first sample AFTER damage applied,
+            # using the last pre-damage sample's total_material
+            if (perturb and pre_perturb_total is None
+                    and perturb_applied and history):
+                pre_perturb_total = float(history[-1]["total_material"])
             rec = compute_metrics(field, params, step, dep_acc, exc_acc,
                                   dep_convex_acc, pick_acc, prev_structure_mask,
-                                  deposits_on_structure=dep_struct_acc)
+                                  deposits_on_structure=dep_struct_acc,
+                                  pre_perturb_total=pre_perturb_total)
             history.append(rec)
             dep_acc = exc_acc = dep_convex_acc = dep_struct_acc = pick_acc = 0
             prev_structure_mask = (field.material >
@@ -705,7 +762,7 @@ def run_condition(params, seed):
     # Part 5: detect the trace->actor crossing (channel-aware) over the history.
     detect_crossing(history, params)
 
-    summary = summarize(history)
+    summary = summarize(history, perturb=perturb)
     return {"history": history, "summary": summary}
 
 
@@ -746,6 +803,18 @@ def cmd_run():
     print("Running baseline_pheromone (saturating cue control)...")
     base = run_condition(baseline_pheromone_params(), seed=SEED)
 
+    # --- Part 8: perturbation / self-repair experiment ---
+    print("Running perturbation experiment (self-repair after damage)...")
+    perturb_spec = {"at": int(0.6 * STEPS), "frac": 0.25}
+    curv_perturb = run_condition(curvature_params(), seed=SEED,
+                                 perturb=perturb_spec)
+    base_perturb = run_condition(baseline_pheromone_params(), seed=SEED,
+                                 perturb=perturb_spec)
+    perturbation = {
+        "curvature_channel": curv_perturb,
+        "baseline_pheromone": base_perturb,
+    }
+
     results = {
         "config": {
             "grid_size": GRID_SIZE, "n_termites": N_TERMITES, "steps": STEPS,
@@ -755,6 +824,7 @@ def cmd_run():
         },
         "curvature_channel": curv,
         "baseline_pheromone": base,
+        "perturbation": perturbation,
     }
     with open(RESULTS_PATH, "w") as f:
         json.dump(_pyify(results), f, indent=2)
@@ -768,6 +838,17 @@ def cmd_run():
     print("\n=== RESULT: Trace -> Actor Crossing (H7) — curvature channel ===")
     line("curvature_channel", curv)
     line("baseline_pheromone", base)
+
+    # Part 8: recovery comparison (the H7 acid test)
+    curv_rec = curv_perturb["summary"]["recovery_final"]
+    base_rec = base_perturb["summary"]["recovery_final"]
+    curv_rec_s = f"{curv_rec:.2f}" if curv_rec is not None else "n/a"
+    base_rec_s = f"{base_rec:.2f}" if base_rec is not None else "n/a"
+    print("\n=== RESULT: Self-repair after perturbation (H7 acid test) ===")
+    print(f"  curvature_channel     recovery_final={curv_rec_s}")
+    print(f"  baseline_pheromone    recovery_final={base_rec_s}")
+    if curv_rec is not None and base_rec is not None:
+        print(f"  curvature - baseline = {curv_rec - base_rec:+.2f}")
     print(f"\nWrote {RESULTS_PATH}  ({time.time()-t0:.1f}s)")
 
 

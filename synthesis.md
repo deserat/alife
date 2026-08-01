@@ -760,3 +760,47 @@ test of H7 (the crossing needs the recruit half to drive maintenance, not just m
 (perturbation/self-repair — the recruit half's acid test) and 9 (viz+README) remain, and the
 parameter tuning to find d* is the next session's priority.
 
+---
+
+## 2026-08-01 — Session 17 (sim09 Part 8: the perturbation acid test runs, recovery needs the saturating regime)
+
+### The saturating rule's unbounded accumulation ↔ H11's failure mode in a new metric
+sim09's Part 8 perturbation experiment damages the structure at step 0.6×steps
+and measures recovery = current_total_material / pre_perturb_total_material.
+At default params the baseline (saturating deposit rule) "recovers" to 47× —
+but this is unbounded material accumulation, not targeted repair: the saturating
+rule piles material without an erosion balance, so total_material grows ~47×
+from the early pre-damage sample. The curvature channel recovers to 1.13× (it
+saturated the grid at 10000/10000 cells before damage and refilled the hole).
+This is H11's failure mode (a saturating channel cannot express the spatial
+contrast targeted repair needs) showing up in a second, independent metric
+beyond morphology fragmentation. The perturbation test gives H11 a repair-side
+line of evidence to match its morphology-side line.
+
+### Repair needs the same regime the crossing needs ↔ the two open questions unify
+Part 7 found the d phase transition needs mass-saturation (lower nucleation,
+higher erosion) so the biharmonic instability can create spatial selectivity
+before the grid fills. Part 8 finds the repair/crossing separation needs the
+same regime: in the tuned probe (deposit_base=0.01, material_decay=0.002) the
+curvature channel saturates and refills the damage hole to 1.01× (repair-like),
+while the baseline grows unboundedly to 4.55× (volume, not repair). The
+separation is directionally right but the recovery metric conflates "targeted
+repair at the scar" with "volume restoration / continued growth." The clean H7
+separation — curvature recruits repair, baseline does not — requires the
+mass-saturating regime. This suggests the crossing and self-repair are two
+faces of one phenomenon (the structure's self-maintenance), and a single broad
+parameter sweep should reveal both together. The two gaps point at the same
+tuning, which is itself a finding: the recruit half's acid test and the
+crossing detector are not independent experiments — they are the same
+experiment measured two ways.
+
+### A spatially-targeted recovery metric ↔ the acid test's missing precision
+The grid-wide recovery ratio (following sim06/sim08) cannot distinguish "repair
+at the scar" from "continued growth elsewhere." A spatially-targeted variant
+— recovery measured in the damaged patch specifically — would make the acid
+test decisive without needing the full mass-saturating regime. This is a
+candidate post-Part-9 refinement: the DESIGN's grid-wide ratio was the safe
+minimal choice (matching the proven sim06/sim08 pattern), but the result shows
+the minimal metric is not sharp enough to settle H7 on its own.
+
+
