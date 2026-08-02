@@ -804,3 +804,76 @@ minimal choice (matching the proven sim06/sim08 pattern), but the result shows
 the minimal metric is not sharp enough to settle H7 on its own.
 
 
+---
+
+## 2026-08-02 — Session 18 (sim09 Part 9 + completion: the curvature channel ships, the crossing is a parameter-regime question)
+
+### sim09 fully implemented ↔ the curvature channel runs end-to-end
+sim09's Part 9 (visualize.html + README.md) completes the curvature-channel sim —
+all 9 Parts of the DESIGN.md are now [x]. The visualization is a self-contained
+HTML5 Canvas page (dark theme #0d1117) fetching `results.json` and the optional
+`output/sweep_data.json`, rendering four charts (structure-over-time, roughness+
+stability, deposits-on-convex criterion 3, perturbation recovery) plus a d-sweep
+phase-transition panel, summary boxes, and a full result table. The README fills
+in the real numbers from the default-param run and states the honest partial
+result. The verification command passes (all selftests OK, `run` produces
+results.json, both artifacts present, local http server returns 200 for
+page/results/sweep with no console errors).
+
+### The Facchini growth equation ↔ fully operational, both halves present
+The curvature channel has BOTH halves H7's Session-13 refinement required:
+**recruit** (loaded termites deposit at convex tips via a linear, non-saturating
+`p = base + gain·curvature`, extending the tip) AND **limit** (the `d`-gated
+biharmonic smoothing caps feature size). The Facchini/Calovi action-component
+split is operational (loaded→deposit at convex, unloaded→excavate at concave),
+the `f(1−f)` surface restriction is a dilation mask, and roughness is the
+recruit-proxy crossing criterion 2. This is the cheapest remaining candidate
+that could actually cross — it has both halves where sim08's density cap had
+only the limit half.
+
+### Grid saturation ↔ criterion 2's mass-saturation gate cannot fire
+At default params (d=1.0, deposit_prob_base=0.10) the curvature channel
+grid-saturates (10000/10000 cells, retention 1.0) because the nucleation base
+floods the 10k-cell grid before curvature routing can create spatial selectivity.
+Mass never *plateaus*, so crossing criterion 2 (roughness sustained *while mass
+saturates*, i.e. `|growth_rate| < 0.01`) cannot fire — the d-sweep [0…8] finds
+no phase transition (pillars=1 at every d). This is NOT a mechanism failure:
+tuned probes (deposit_prob_base=0.01, material_decay=0.002) show the predicted
+consolidation **direction** (pillars 25→2 as d rises 0→4, plus a roughness spike
+at the biharmonic instability). The mechanism's sign is right; the parameter
+regime is wrong.
+
+### H11's direction replicated in a 4th mechanism ↔ the saturation diagnosis holds
+sim09's tuned-probe consolidation (pillars ↓ as d ↑) is the *opposite* of sim06's
+self-maintenance fragmentation (219–297 components) and sim07's scalar transport
+fragmentation (57→128). That is H11's direction replicated in a fourth
+independent mechanism: non-saturating channels consolidate where saturating
+cue-field channels fragmented. The perturbation test gives H11 a repair-side
+line of evidence to match its morphology-side line: the baseline's 47.34×
+"recovery" is unbounded material accumulation (the saturating rule piles material
+without an erosion balance), exactly the failure mode H11 flags — a saturating
+channel cannot express the spatial contrast targeted repair needs.
+
+### The crossing is now a parameter-tuning question, not an open-mechanism question
+The four-mechanism arc (sim06 saturating cue → sim07 scalar transport → sim08
+non-saturating cap → sim09 non-saturating recruit+limit curvature) has narrowed
+H7 to a sharp claim: the curvature channel has both halves, so if the crossing
+fires anywhere it should fire here. The remaining blocker is **parameter-regime**,
+not mechanism — find the mass-saturating regime (lower nucleation + higher erosion)
+where the biharmonic instability creates spatial selectivity before the grid
+fills, and add a spatially-targeted recovery metric distinguishing scar repair
+from volume restoration. The next session's priority is a broad
+`deposit_prob_base × material_decay × d` sweep in that regime to locate `d*`.
+If the crossing fires only above the Facchini `d*` instability, sim09 unifies the
+directed-transport and non-saturating-inhibition candidates (queued-topic 58):
+curvature IS the minimal lumped form of directed geometry.
+
+### The crossing and self-repair are one phenomenon measured two ways
+Part 7 found the d phase transition needs mass-saturation; Part 8 found the
+repair/crossing separation needs the same regime. The two gaps point at the same
+tuning, which is itself a finding: the recruit half's acid test (perturbation
+recovery) and the crossing detector are not independent experiments — they are
+the same experiment measured two ways. A single broad parameter sweep should
+reveal both together.
+
+

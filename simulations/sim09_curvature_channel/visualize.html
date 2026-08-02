@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>sim09 — Curvature Channel: Trace→Actor Crossing (H7)</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --panel: #161b22;
+    --border: #30363d;
+    --text: #c9d1d9;
+    --muted: #8b949e;
+    --curve: #58a6ff;
+    --base: #f0883e;
+    --cross: #f85149;
+    --perturb: #a371f7;
+    --rough: #3fb950;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+    padding: 20px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  h1 { font-size: 1.4em; margin-bottom: 4px; }
+  .sub { color: var(--muted); font-size: 0.9em; margin-bottom: 16px; }
+  .takeaway {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 12px 16px;
+    margin-bottom: 18px;
+    font-size: 0.92em;
+  }
+  .takeaway strong { color: var(--curve); }
+  .chart-wrap {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 14px;
+    margin-bottom: 18px;
+  }
+  .chart-wrap h2 { font-size: 1.05em; margin-bottom: 8px; }
+  .chart-wrap .legend {
+    font-size: 0.82em; color: var(--muted); margin-top: 6px;
+  }
+  .chart-wrap .legend span { margin-right: 18px; }
+  .swatch { display:inline-block; width:10px; height:10px; border-radius:2px; vertical-align:middle; margin-right:4px; }
+  canvas { display: block; width: 100%; height: auto; background: transparent; }
+  .err {
+    color: var(--cross); background: var(--panel); border: 1px solid var(--cross);
+    padding: 10px 14px; border-radius: 6px; margin-bottom: 18px;
+  }
+  table { border-collapse: collapse; font-size: 0.88em; width: 100%; margin-top: 10px; }
+  th, td { border: 1px solid var(--border); padding: 6px 10px; text-align: left; }
+  th { background: #1c2330; color: var(--muted); font-weight: 600; }
+  td.num { text-align: right; font-variant-numeric: tabular-nums; }
+  .summary-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:18px; }
+  .summary-box { background:var(--panel); border:1px solid var(--border); border-radius:6px; padding:12px 14px; }
+  .summary-box h3 { font-size:0.95em; margin-bottom:6px; }
+  .summary-box.curve h3 { color: var(--curve); }
+  .summary-box.base h3 { color: var(--base); }
+  .summary-box p { font-size:0.85em; color:var(--muted); }
+  .summary-box .big { font-size:1.3em; color:var(--text); font-variant-numeric: tabular-nums; }
+  .note { font-size:0.82em; color:var(--muted); margin-top:10px; }
+</style>
+</head>
+<body>
+  <h1>sim09 — Curvature Channel: Trace→Actor Crossing (H7)</h1>
+  <div class="sub">Loaded termites deposit at convex tips; unloaded termites excavate at concavities (the Facchini/Calovi action-component split). A linear, non-saturating curvature routing replaces sim06's saturating pheromone cue. Does the accumulated structure cross from trace to self-maintaining actor? Curvature channel vs. baseline-pheromone control.</div>
+
+  <div id="takeaway" class="takeaway">Loading results…</div>
+
+  <div class="summary-grid">
+    <div class="summary-box curve">
+      <h3>Curvature Channel</h3>
+      <div id="sum-curve"></div>
+    </div>
+    <div class="summary-box base">
+      <h3>Baseline Pheromone</h3>
+      <div id="sum-base"></div>
+    </div>
+  </div>
+
+  <div class="chart-wrap">
+    <h2>Structure over time (n_structure_cells)</h2>
+    <canvas id="chart-struct" width="1040" height="320"></canvas>
+    <div class="legend">
+      <span><span class="swatch" style="background:var(--curve)"></span>curvature channel</span>
+      <span><span class="swatch" style="background:var(--base)"></span>baseline pheromone</span>
+      <span><span class="swatch" style="background:var(--cross)"></span>crossing step (if any)</span>
+    </div>
+  </div>
+
+  <div class="chart-wrap">
+    <h2>Roughness &amp; structure stability over time</h2>
+    <canvas id="chart-rough" width="1040" height="300"></canvas>
+    <div class="legend">
+      <span><span class="swatch" style="background:var(--rough)"></span>roughness (curvature channel)</span>
+      <span><span class="swatch" style="background:var(--curve)"></span>stability (curvature channel)</span>
+      <span><span class="swatch" style="background:var(--base)"></span>stability (baseline)</span>
+      <span>dashed = STAB_THRESH (0.90, crossing criterion 1)</span>
+    </div>
+  </div>
+
+  <div class="chart-wrap">
+    <h2>Deposits on convex tips (criterion 3 — constraint on agents)</h2>
+    <canvas id="chart-convex" width="1040" height="260"></canvas>
+    <div class="legend">
+      <span><span class="swatch" style="background:var(--curve)"></span>curvature channel: deposits_on_convex_fraction</span>
+      <span><span class="swatch" style="background:var(--base)"></span>baseline: deposit_on_structure_fraction</span>
+      <span>dashed = CONSTRAIN_THRESH (0.60)</span>
+    </div>
+  </div>
+
+  <div class="chart-wrap">
+    <h2>Perturbation recovery (total_material / pre-damage)</h2>
+    <canvas id="chart-recovery" width="1040" height="280"></canvas>
+    <div class="legend">
+      <span><span class="swatch" style="background:var(--curve)"></span>curvature channel (perturbed)</span>
+      <span><span class="swatch" style="background:var(--base)"></span>baseline pheromone (perturbed)</span>
+      <span><span class="swatch" style="background:var(--perturb)"></span>perturbation step</span>
+    </div>
+  </div>
+
+  <div class="chart-wrap" id="sweep-wrap" style="display:none;">
+    <h2>d-sweep phase-transition panel (crossed &amp; retention vs d)</h2>
+    <canvas id="chart-sweep" width="1040" height="280"></canvas>
+    <div class="legend">
+      <span><span class="swatch" style="background:var(--cross)"></span>crossed (0/1)</span>
+      <span><span class="swatch" style="background:var(--curve)"></span>retention</span>
+      <span><span class="swatch" style="background:var(--rough)"></span>n_pillars (rescaled)</span>
+    </div>
+    <div class="note" id="sweep-note"></div>
+  </div>
+
+  <div class="chart-wrap">
+    <h2>Result table</h2>
+    <div id="table-host"></div>
+  </div>
+
+<script>
+const COLORS = { curve: "#58a6ff", base: "#f0883e", cross: "#f85149", perturb: "#a371f7", rough: "#3fb950", grid: "#30363d", text: "#c9d1d9", muted: "#8b949e" };
+
+function fmt(n, d=2) {
+  if (n === null || n === undefined) return "—";
+  if (typeof n !== "number") return String(n);
+  if (!isFinite(n)) return n > 0 ? "∞" : "-∞";
+  return n.toFixed(d);
+}
+function fmtBig(n) {
+  if (n === null || n === undefined) return "—";
+  if (typeof n !== "number") return String(n);
+  if (!isFinite(n)) return n > 0 ? "∞" : "-∞";
+  if (Math.abs(n) >= 1e6) return (n/1e6).toFixed(2) + "M";
+  if (Math.abs(n) >= 1e3) return (n/1e3).toFixed(1) + "k";
+  return n.toFixed(0);
+}
+
+function drawLineChart(canvas, series, opts) {
+  const ctx = canvas.getContext("2d");
+  const dpr = window.devicePixelRatio || 1;
+  const cssW = canvas.clientWidth || 1040;
+  const cssH = parseInt(canvas.getAttribute("height"));
+  canvas.width = cssW * dpr; canvas.height = cssH * dpr;
+  ctx.scale(dpr, dpr);
+  ctx.clearRect(0,0,cssW,cssH);
+
+  const pad = { l: 60, r: 16, t: 14, b: 32 };
+  const w = cssW - pad.l - pad.r;
+  const h = cssH - pad.t - pad.b;
+
+  let xmin=Infinity, xmax=-Infinity, ymin=Infinity, ymax=-Infinity;
+  series.forEach(s => s.data.forEach(p => {
+    if (p.x < xmin) xmin = p.x; if (p.x > xmax) xmax = p.x;
+    if (p.y < ymin) ymin = p.y; if (p.y > ymax) ymax = p.y;
+  }));
+  if (opts.yMin !== undefined) ymin = opts.yMin;
+  if (opts.yMax !== undefined) ymax = opts.yMax;
+  if (xmax === xmin) xmax = xmin + 1;
+  if (ymax === ymin) ymax = ymin + 1;
+
+  const X = x => pad.l + (x - xmin) / (xmax - xmin) * w;
+  const Y = y => pad.t + h - (y - ymin) / (ymax - ymin) * h;
+
+  ctx.strokeStyle = COLORS.grid; ctx.fillStyle = COLORS.muted;
+  ctx.font = "11px -apple-system, sans-serif"; ctx.lineWidth = 1;
+  const yticks = 5;
+  for (let i = 0; i <= yticks; i++) {
+    const yv = ymin + (ymax - ymin) * i / yticks;
+    const yy = Y(yv);
+    ctx.beginPath(); ctx.moveTo(pad.l, yy); ctx.lineTo(pad.l + w, yy); ctx.stroke();
+    ctx.textAlign = "right"; ctx.textBaseline = "middle";
+    ctx.fillText(opts.yFmt ? opts.yFmt(yv) : yv.toFixed(2), pad.l - 6, yy);
+  }
+  const xticks = 6;
+  for (let i = 0; i <= xticks; i++) {
+    const xv = xmin + (xmax - xmin) * i / xticks;
+    const xx = X(xv);
+    ctx.beginPath(); ctx.moveTo(xx, pad.t); ctx.lineTo(xx, pad.t + h); ctx.globalAlpha = 0.4; ctx.stroke(); ctx.globalAlpha = 1;
+    ctx.textAlign = "center"; ctx.textBaseline = "top";
+    ctx.fillText(opts.xFmt ? opts.xFmt(xv) : Math.round(xv), xx, pad.t + h + 4);
+  }
+  ctx.fillStyle = COLORS.muted; ctx.textAlign = "center";
+  ctx.fillText(opts.xLabel || "step", pad.l + w/2, cssH - 4);
+  ctx.save(); ctx.translate(14, pad.t + h/2); ctx.rotate(-Math.PI/2);
+  ctx.fillText(opts.yLabel || "", 0, 0); ctx.restore();
+
+  if (opts.threshLine !== undefined) {
+    const ty = Y(opts.threshLine);
+    if (ty >= pad.t && ty <= pad.t + h) {
+      ctx.setLineDash([4,4]); ctx.strokeStyle = COLORS.muted; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(pad.l, ty); ctx.lineTo(pad.l + w, ty); ctx.stroke();
+      ctx.setLineDash([]);
+    }
+  }
+
+  if (opts.perturbAt !== undefined && opts.perturbAt >= xmin && opts.perturbAt <= xmax) {
+    const px = X(opts.perturbAt);
+    ctx.setLineDash([3,3]); ctx.strokeStyle = COLORS.perturb; ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.moveTo(px, pad.t); ctx.lineTo(px, pad.t + h); ctx.stroke();
+    ctx.setLineDash([]); ctx.fillStyle = COLORS.perturb; ctx.font = "10px sans-serif";
+    ctx.textAlign = "center"; ctx.textBaseline = "bottom";
+    ctx.fillText("perturb", px, pad.t - 2);
+  }
+
+  series.forEach(s => {
+    if (!s.data.length) return;
+    ctx.strokeStyle = s.color; ctx.lineWidth = 1.8;
+    if (s.dashed) ctx.setLineDash([6,4]);
+    ctx.beginPath();
+    s.data.forEach((p, i) => {
+      const xx = X(p.x), yy = Y(p.y);
+      if (i === 0) ctx.moveTo(xx, yy); else ctx.lineTo(xx, yy);
+    });
+    ctx.stroke(); ctx.setLineDash([]);
+    if (s.points) {
+      ctx.fillStyle = s.color;
+      s.data.forEach(p => {
+        const xx = X(p.x), yy = Y(p.y);
+        ctx.beginPath(); ctx.arc(xx, yy, 3, 0, 2*Math.PI); ctx.fill();
+      });
+    }
+  });
+
+  if (opts.crossings) {
+    opts.crossings.forEach(c => {
+      if (c.step === null || c.step === undefined) return;
+      if (c.step < xmin || c.step > xmax) return;
+      const px = X(c.step);
+      ctx.strokeStyle = COLORS.cross; ctx.lineWidth = 1.5; ctx.setLineDash([2,3]);
+      ctx.beginPath(); ctx.moveTo(px, pad.t); ctx.lineTo(px, pad.t + h); ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.fillStyle = COLORS.cross; ctx.font = "10px sans-serif"; ctx.textAlign = "center"; ctx.textBaseline = "bottom";
+      ctx.fillText("crossing", px, pad.t - 2);
+    });
+  }
+}
+
+function build(data) {
+  const cfg = data.config;
+  const curve = data.curvature_channel;
+  const base = data.baseline_pheromone;
+  const pc = data.perturbation ? data.perturbation.curvature_channel : null;
+  const pb = data.perturbation ? data.perturbation.baseline_pheromone : null;
+  const cs = curve.summary, bs = base.summary;
+
+  // Takeaway
+  const take = document.getElementById("takeaway");
+  let msg = `<strong>Curvature channel</strong> reaches ${cs.final_n_structure_cells} structure cells vs baseline's ${bs.final_n_structure_cells}; retention ${fmt(cs.retention,3)} vs ${fmt(bs.retention,3)}. `;
+  if (pc && pb) {
+    msg += `After perturbation (25% damage @ step ${pc.summary.perturb_at}): recovery ${fmt(pc.summary.recovery_final,2)}× (curvature) vs ${fmt(pb.summary.recovery_final,2)}× (baseline — inflated by unbounded accumulation). `;
+  }
+  if (cs.crossed || bs.crossed) {
+    msg += `Crossing detected: curvature @ ${cs.crossing_step}, baseline @ ${bs.crossing_step}.`;
+  } else {
+    msg += `<strong>No formal trace→actor crossing detected</strong> at default params (d=${cfg.d}) — the curvature channel saturates the grid before mass can plateau, so crossing criterion 2 (roughness sustained while mass saturates) cannot fire. Tuned probes show the predicted consolidation direction (pillars ↓ as d ↑). See README for the honest partial result.`;
+  }
+  take.innerHTML = msg;
+
+  // Summary boxes
+  function sumBox(s) {
+    return `<div class="big">${s.final_n_structure_cells} cells</div>
+    <p>retention ${fmt(s.retention,3)} · peak ${fmtBig(s.peak_total_material)} @ step ${s.peak_step}<br>
+    crossed: ${s.crossed} ${s.crossing_step ? "(@ "+s.crossing_step+")":""}<br>
+    mean late stability: ${fmt(s.mean_late_stability,3)}${s.recovery_final!==null && s.recovery_final!==undefined ? "<br>recovery_final: "+fmt(s.recovery_final,2)+"×":""}</p>`;
+  }
+  document.getElementById("sum-curve").innerHTML = sumBox(cs);
+  document.getElementById("sum-base").innerHTML = sumBox(bs);
+
+  // Chart 1: structure over time
+  const cellPts = h => h.map(r => ({ x: r.step, y: r.n_structure_cells }));
+  drawLineChart(document.getElementById("chart-struct"), [
+    { name: "curvature channel", color: COLORS.curve, data: cellPts(curve.history) },
+    { name: "baseline pheromone", color: COLORS.base, data: cellPts(base.history) },
+  ], {
+    xLabel: "step", yLabel: "n_structure_cells",
+    crossings: [cs, bs],
+    yMin: 0,
+  });
+
+  // Chart 2: roughness + stability
+  const roughPts = h => h.map(r => ({ x: r.step, y: r.roughness }));
+  const stabPts = h => h.map(r => ({ x: r.step, y: r.structure_stability }));
+  drawLineChart(document.getElementById("chart-rough"), [
+    { name: "roughness (curvature)", color: COLORS.rough, data: roughPts(curve.history) },
+    { name: "stability (curvature)", color: COLORS.curve, data: stabPts(curve.history) },
+    { name: "stability (baseline)", color: COLORS.base, data: stabPts(base.history) },
+  ], {
+    xLabel: "step", yLabel: "roughness / stability",
+    threshLine: 0.90,
+    yMin: 0, yMax: 1.05,
+  });
+
+  // Chart 3: deposits on convex / on structure
+  const convexPts = h => h.map(r => ({ x: r.step, y: r.deposits_on_convex_fraction }));
+  const onStrPts = h => h.map(r => ({ x: r.step, y: r.deposit_on_structure_fraction }));
+  drawLineChart(document.getElementById("chart-convex"), [
+    { name: "curvature: deposits_on_convex_fraction", color: COLORS.curve, data: convexPts(curve.history) },
+    { name: "baseline: deposit_on_structure_fraction", color: COLORS.base, data: onStrPts(base.history) },
+  ], {
+    xLabel: "step", yLabel: "fraction of deposits",
+    threshLine: 0.60,
+    yMin: 0, yMax: 1.0,
+  });
+
+  // Chart 4: recovery
+  if (pc && pb) {
+    const recPts = h => h.filter(r => r.recovery !== undefined && r.recovery !== null).map(r => ({ x: r.step, y: r.recovery }));
+    drawLineChart(document.getElementById("chart-recovery"), [
+      { name: "curvature (perturbed)", color: COLORS.curve, data: recPts(pc.history) },
+      { name: "baseline (perturbed)", color: COLORS.base, data: recPts(pb.history) },
+    ], {
+      xLabel: "step", yLabel: "recovery (ratio to pre-damage)",
+      perturbAt: pc.summary.perturb_at,
+      yMin: 0, yMax: 2.0,
+    });
+  }
+
+  // Sweep panel (optional fetch)
+  fetch("output/sweep_data.json")
+    .then(r => { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
+    .then(sweep => {
+      if (!sweep || !sweep.d_sweep) throw new Error("no d_sweep");
+      document.getElementById("sweep-wrap").style.display = "";
+      const ds = sweep.d_sweep;
+      const maxPillars = Math.max(...ds.map(p => p.n_pillars || 0), 1);
+      const crossedPts = ds.map(p => ({ x: p.d, y: p.crossed }));
+      const retPts = ds.map(p => ({ x: p.d, y: p.retention }));
+      const pillarPts = ds.map(p => ({ x: p.d, y: (p.n_pillars||0)/maxPillars }));
+      drawLineChart(document.getElementById("chart-sweep"), [
+        { name: "crossed (0/1)", color: COLORS.cross, data: crossedPts, points: true },
+        { name: "retention", color: COLORS.curve, data: retPts, points: true },
+        { name: "n_pillars (rescaled)", color: COLORS.rough, data: pillarPts, points: true },
+      ], {
+        xLabel: "d (biharmonic smoothing strength)", yLabel: "crossed / retention / pillars·",
+        yMin: 0, yMax: 1.05,
+        xFmt: v => v.toFixed(1),
+      });
+      const anyCrossed = ds.some(p => p.crossed);
+      const note = document.getElementById("sweep-note");
+      if (!anyCrossed) {
+        note.textContent = "No crossing detected at any d in the sweep — at default params the curvature channel saturates the grid (pillars=1, retention≈1.0) before mass can plateau, so criterion 2 (roughness sustained while mass saturates) cannot fire. Tuned probes (deposit_base=0.01, material_decay=0.002) show the predicted consolidation direction (pillars 25→2 as d→4). The phase transition's parameter regime is the remaining scientific work.";
+      } else {
+        const firstCross = ds.find(p => p.crossed);
+        note.textContent = "Crossing first detected at d=" + firstCross.d + ". This is the d* phase transition predicted by H7's curvature-channel prescription.";
+      }
+    })
+    .catch(() => { /* sweep optional — skip gracefully */ });
+
+  // Table
+  const tbl = document.getElementById("table-host");
+  let rows = `<table><thead><tr><th>Metric</th><th>Curvature Channel</th><th>Baseline Pheromone</th></tr></thead><tbody>`;
+  const row = (label, a, b, d=2) => `<tr><td>${label}</td><td class="num">${a===null||a===undefined?"—":(typeof a=="number"?fmt(a,d):a)}</td><td class="num">${b===null||b===undefined?"—":(typeof b=="number"?fmt(b,d):b)}</td></tr>`;
+  rows += row("final_total_material", cs.final_total_material, bs.final_total_material, 1);
+  rows += row("final_n_structure_cells", cs.final_n_structure_cells, bs.final_n_structure_cells, 0);
+  rows += row("peak_total_material", cs.peak_total_material, bs.peak_total_material, 1);
+  rows += row("peak_step", cs.peak_step, bs.peak_step, 0);
+  rows += row("retention", cs.retention, bs.retention, 3);
+  rows += row("mean_late_stability", cs.mean_late_stability, bs.mean_late_stability, 3);
+  rows += row("crossed", cs.crossed, bs.crossed, 0);
+  rows += row("crossing_step", cs.crossing_step, bs.crossing_step, 0);
+  if (pc && pb) {
+    const pAt = pc.summary.perturb_at, pFr = pc.summary.perturb_frac;
+    rows += `<tr><td colspan="3" style="background:#1c2330;color:var(--muted);font-weight:600;">Perturbation (${(pFr*100).toFixed(0)}% damage @ step ${pAt})</td></tr>`;
+    rows += row("recovery_final", pc.summary.recovery_final, pb.summary.recovery_final, 3);
+    rows += row("perturbed final_cells", pc.summary.final_n_structure_cells, pb.summary.final_n_structure_cells, 0);
+    rows += row("perturbed retention", pc.summary.retention, pb.summary.retention, 3);
+  }
+  rows += "</tbody></table>";
+  tbl.innerHTML = rows;
+}
+
+fetch("results.json")
+  .then(r => { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
+  .then(build)
+  .catch(e => {
+    const t = document.getElementById("takeaway");
+    t.className = "err";
+    t.textContent = "Failed to load results.json: " + e.message + ". Run `uv run python3 sim09.py run` first.";
+  });
+</script>
+</body>
+</html>

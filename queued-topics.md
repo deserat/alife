@@ -165,6 +165,20 @@ to compare.
     roughness (curvature std over surface) as the recruit proxy and the channel-adapted crossing
     criterion 2; baseline_pheromone condition (sim06's saturating rule) as the control. Part 7's
     `d` sweep is the headline phase-transition plot. NEXT: implement Part 1 (GLM, next nightly).
+    **DONE (Session 17/18, 2026-08-02):** sim09 FULLY IMPLEMENTED — all 9 Parts [x]. Part 9
+    (visualize.html + README.md) shipped; verification passes (selftests OK, run produces
+    results.json, local http server 200 for page/results/sweep). At default params (d=1.0)
+    neither condition crosses — the curvature channel grid-saturates (10000/10000 cells)
+    because the nucleation base floods the grid before curvature routing creates spatial
+    selectivity, so crossing criterion 2 (roughness sustained while mass saturates) cannot
+    fire. Tuned probes (deposit_prob_base=0.01, material_decay=0.002) confirm the predicted
+    consolidation DIRECTION (pillars 25→2 as d rises 0→4, roughness spike at the biharmonic
+    instability) — opposite of sim06/sim07 fragmentation, H11's direction in a 4th mechanism.
+    Perturbation: curvature 1.13× vs baseline 47.34× (baseline inflated by unbounded
+    accumulation). The crossing is now a parameter-regime question, not a mechanism question.
+    NEXT PRIORITY: a broad `deposit_prob_base × material_decay × d` sweep in the mass-saturating
+    regime (low nucleation, higher erosion) to locate `d*`, plus a spatially-targeted recovery
+    metric distinguishing scar repair from volume restoration.
 
 58. **Curvature as the minimal form of directed transport** — Session 10 concluded sim07's scalar
     transport needed to be *directed* (channel geometry carrying cue to building fronts). The

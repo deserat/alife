@@ -2,8 +2,8 @@
 status: active
 formed: "Session 13"
 connected_to: "stigmergic consolidation, environmental physics coupling, stigmergy, H7, H11, multi-rate environment, niche construction"
-topic: "non-saturating stigmergic channels — geometry, humidity thresholds, and crowding as the biological grounding for H11"
-key_findings: "Real termite construction is guided by THREE non-saturating, action-based channels rather than by a saturating pheromone field: (1) surface CURVATURE — Calovi et al. 2019 (Phil Trans R Soc B) disambiguated curvature from inclination and height across three orientations and found curvature is the 'consistent and sole driver' of construction in Macrotermes michaelseni; the SAME cue elicits OPPOSING actions depending on the termite's loaded/seeking state. (2) HUMIDITY THRESHOLDS — Carey/Bardunias/Nagpal/Werfel 2021 validated with a robot that termites deposit at the EDGE of the high-humidity zone, a threshold-triggered deposition rule. (3) CROWDING/INACTIVITY — Xiao et al. 2026 (arXiv:2607.19594) frame inactivity under confinement as 'distributed inhibition that prevents saturation.' SESSION 14 UNIFICATION: Facchini et al. 2020 (J R Soc Interface 17:20200093) and 2024 (eLife 13:86843) showed the curvature and humidity channels are ONE physical quantity — evaporation flux ∝ surface curvature (Langmuir 1918) — and built a curvature-only phase-field growth model (no pheromone field at all) that reproduces real nest morphology. The convex (Facchini: deposit at tips) / concave (Calovi: activity at pits) contradiction is resolved: the two measured different action components (deposition vs aggregate activity). Facchini 2024 explicitly state 'experiments do not support a role for a putative cement pheromone' — two independent groups now report no cement pheromone. The growth model's d-parameter instability (walls branch/merge/invade space above threshold) is a candidate phase-transition parameter for sim09. These are exactly the density-cap / refractory / directional-bias channels H11 prescribes, corroborated by termite biology, which evolved non-saturating geometric channels in preference to a cement pheromone that no study has identified."
+topic: "non-saturating stigmergic channels — geometry, humidity thresholds, and crowding as the biological grounding for H11 (sim09 fully implemented)"
+key_findings: "Real termite construction is guided by THREE non-saturating, action-based channels rather than by a saturating pheromone field: (1) surface CURVATURE — Calovi et al. 2019 (Phil Trans R Soc B) disambiguated curvature from inclination and height across three orientations and found curvature is the 'consistent and sole driver' of construction in Macrotermes michaelseni; the SAME cue elicits OPPOSING actions depending on the termite's loaded/seeking state. (2) HUMIDITY THRESHOLDS — Carey/Bardunias/Nagpal/Werfel 2021 validated with a robot that termites deposit at the EDGE of the high-humidity zone, a threshold-triggered deposition rule. (3) CROWDING/INACTIVITY — Xiao et al. 2026 (arXiv:2607.19594) frame inactivity under confinement as 'distributed inhibition that prevents saturation.' SESSION 14 UNIFICATION: Facchini et al. 2020 (J R Soc Interface 17:20200093) and 2024 (eLife 13:86843) showed the curvature and humidity channels are ONE physical quantity — evaporation flux ∝ surface curvature (Langmuir 1918) — and built a curvature-only phase-field growth model (no pheromone field at all) that reproduces real nest morphology. The convex (Facchini: deposit at tips) / concave (Calovi: activity at pits) contradiction is resolved: the two measured different action components (deposition vs aggregate activity). Facchini 2024 explicitly state 'experiments do not support a role for a putative cement pheromone' — two independent groups now report no cement pheromone. SESSION 17 (2026-08-02): sim09 FULLY IMPLEMENTED (all 9 Parts). At default params (d=1.0) the curvature channel grid-saturates and neither condition crosses — the nucleation base floods the grid before curvature routing creates spatial selectivity, so crossing criterion 2 (roughness sustained while mass saturates) cannot fire. Tuned probes (deposit_prob_base=0.01, material_decay=0.002) confirm the predicted consolidation DIRECTION (pillars 25→2 as d rises 0→4, plus a roughness spike at the biharmonic instability) — opposite of sim06/sim07 fragmentation, replicating H11's direction in a 4th mechanism. Perturbation: curvature 1.13× vs baseline 47.34× (baseline inflated by unbounded accumulation). Remaining blocker is parameter-regime, not mechanism: locate d* in the mass-saturating regime."
 ---
 
 # Non-Saturating Stigmergic Channels
@@ -296,12 +296,26 @@ grid + agent framework, replacing the pheromone-deposit rule with a curvature-de
 - Is the `d` instability the *phase transition* the crossing needs? If crossing fires only above
   the curvature-instability threshold and not below it, `d` is to sim09 what `M_c` was to sim07 —
   but with a mechanism (curvature) that recruits as well as limits, where the scalar transport
-  only dispersed. **sim09's DESIGN.md is now authored (Session 15, 2026-07-30) at
-  `../simulations/sim09_curvature_channel/DESIGN.md` — 9 Parts; implementation begins Part 1.**
+  only dispersed. **sim09 is now FULLY IMPLEMENTED (Session 17, 2026-08-02 — all 9 Parts [x]).**
+  At default params (d=1.0, deposit_prob_base=0.10) the curvature channel grid-saturates
+  (10000/10000 cells) and neither condition crosses — the nucleation base floods the grid
+  before curvature routing creates spatial selectivity, so mass never plateaus and crossing
+  criterion 2 (roughness sustained *while mass saturates*) cannot fire. Tuned probes
+  (deposit_prob_base=0.01, material_decay=0.002) confirm the predicted consolidation
+  **direction** (pillars 25→2 as d rises 0→4, plus a roughness spike at the biharmonic
+  instability) — the mechanism's sign is right, and it is the opposite of sim06/sim07
+  fragmentation, replicating H11's direction in a 4th mechanism. The perturbation acid test
+  (Part 8) gives curvature recovery 1.13× vs baseline 47.34×, but the baseline number is an
+  artifact of unbounded material accumulation, not targeted repair. The remaining blocker is
+  **parameter-regime**, not mechanism: a broad `deposit_prob_base × material_decay × d` sweep
+  in the mass-saturating regime (low nucleation, higher erosion) to locate `d*`, plus a
+  spatially-targeted recovery metric distinguishing scar repair from volume restoration.
+  See [`sim09`](https://alife.vancedubberly.com/sim09_curvature_channel/visualize.html) and
+  `../simulations/sim09_curvature_channel/README.md`.
 - Can the three channels be separated in simulation (curvature alone, humidity/evaporation
   alone, crowding alone) to identify which is load-bearing for the crossing? Facchini 2024 says
   curvature ≡ evaporation, so those two are one channel; crowding (Xiao 2026) is the independent
-  third.
+  third. sim09 tests the curvature/evaporation channel; the crowding channel is a candidate sim10.
 - Is the state-gating (loaded vs seeking) essential, or does a deposit-only curvature rule
   (deposit at convex tips, no excavation) suffice to consolidate? Facchini's growth model uses
   only growth (no excavation term) and still reproduces morphology.
