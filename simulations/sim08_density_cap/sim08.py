@@ -157,6 +157,17 @@ def termite_step_capped(termites, field, rng, params):
 # ---------------------------------------------------------------------------
 # Condition runner (mirrors sim06.run_condition, uses the capped termite step)
 # ---------------------------------------------------------------------------
+
+def _downsample_grid(grid, target=30):
+    """Downsample a 2D numpy array to target x target by averaging blocks."""
+    h, w = grid.shape
+    bh, bw = h // target, w // target
+    if bh < 1 or bw < 1:
+        return grid[:target, :target].tolist()
+    trimmed = grid[:bh*target, :bw*target]
+    reshaped = trimmed.reshape(target, bh, target, bw)
+    return reshaped.mean(axis=(1, 3)).tolist()
+
 def run_condition(params, seed):
     """Run one condition with the density-capped deposit rule. Returns
     {"history": [...], "summary": {...}}. Metrics/detector reused from sim06."""
@@ -169,6 +180,7 @@ def run_condition(params, seed):
     field = Field(size)
     termites = Termites(n, size, rng)
     history = []
+    snapshots = []
     dep_acc = pick_acc = 0
     dep_on_struct_acc = 0
     capped_acc = 0
@@ -196,11 +208,13 @@ def run_condition(params, seed):
             prev_total_material = rec["total_material"]
             prev_structure_mask = (field.material >
                                    params.get("structure_threshold", STRUCTURE_THRESHOLD)).copy()
+            if len(snapshots) < 30:
+                snapshots.append({"step": step, "material": _downsample_grid(field.material)})
 
     detect_crossing(history, params)
     summary = summarize(history)
     summary["n_capped_total"] = sum(r.get("deposits_capped_this_window", 0) for r in history)
-    return {"history": history, "summary": summary}
+    return {"history": history, "summary": summary, "snapshots": snapshots}
 
 
 # ---------------------------------------------------------------------------
@@ -274,7 +288,7 @@ def cmd_run():
     results["meta"] = {"wallclock_s": round(time.time() - t0, 2)}
 
     with open(RESULTS_PATH, "w") as f:
-        json.dump(_pyify(results), f, indent=2)
+        json.dump(_pyify(results), f, separators=(",", ":"))
 
     # Print a comparison table
     print("\n=== sim08: H11 density-cap test ===")

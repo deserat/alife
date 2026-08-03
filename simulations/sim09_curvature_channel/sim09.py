@@ -34,6 +34,7 @@ above it, consolidated morphology + the crossing detector firing.
 """
 
 import os
+import re
 import sys
 import json
 import math
@@ -82,6 +83,11 @@ DEPOSIT_PHEROMONE = 1.0
 DEPOSIT_BASE = 0.10           # pheromone-condition deposit base (saturating rule)
 DEPOSIT_GAIN = 0.85           # pheromone-condition deposit gain (saturating rule)
 
+# Grid snapshots (for visualize.html's grid renderer — not a metric, just a
+# downscaled record of field state at sampled steps)
+SNAPSHOT_SIZE = 40            # downscaled snapshot side length
+SNAPSHOT_TARGET_COUNT = 25    # aim for roughly this many snapshots per run
+
 # Crossing detector (carried over from sim06/sim08 — Part 5 tunes)
 CROSSING_PERSIST = 4
 STAB_THRESH = 0.90
@@ -105,6 +111,23 @@ def _pyify(x):
     if isinstance(x, np.ndarray):
         return x.tolist()
     return x
+
+
+_FLAT_ARRAY_RE = re.compile(
+    r'("(?:material|curvature)": )\[\n((?:\s*-?[0-9.eE+-]+,?\n)+?)(\s*)\]'
+)
+
+
+def _compact_snapshot_arrays(json_str):
+    """Collapse the one-float-per-line arrays indent=2 produces for the
+    snapshot material/curvature lists back onto a single line each. Keeps the
+    rest of results.json human-readable while avoiding a multi-megabyte
+    whitespace blowup for the ~1600-float-per-snapshot grids."""
+    def repl(m):
+        prefix, body, _ = m.groups()
+        nums = (line.strip().rstrip(",") for line in body.splitlines() if line.strip())
+        return prefix + "[" + ", ".join(nums) + "]"
+    return _FLAT_ARRAY_RE.sub(repl, json_str)
 
 
 # --------------------------------------------------------------------------
@@ -373,6 +396,23 @@ def _diffuse(a, rate):
           + np.roll(np.roll(a, 1, 0), 1, 1) + np.roll(np.roll(a, 1, 0), -1, 1)
           + np.roll(np.roll(a, -1, 0), 1, 1) + np.roll(np.roll(a, -1, 0), -1, 1)) / 8.0
     return (1.0 - rate) * a + rate * nb
+
+
+def _downsample_grid(a, target):
+    """Average-pool a square grid down to target x target for compact
+    snapshot JSON. Uses np.array_split so it works for any grid size, not
+    just exact multiples of target (sim09's grid is 100, not 80)."""
+    size = a.shape[0]
+    if size <= target:
+        return a.copy()
+    row_chunks = np.array_split(np.arange(size), target)
+    col_chunks = np.array_split(np.arange(size), target)
+    out = np.empty((target, target), dtype=np.float64)
+    for i, rows in enumerate(row_chunks):
+        sub = a[rows, :]
+        for j, cols in enumerate(col_chunks):
+            out[i, j] = sub[:, cols].mean()
+    return out
 
 
 # --------------------------------------------------------------------------
@@ -704,6 +744,12 @@ def run_condition(params, seed, perturb=None):
     dep_acc = exc_acc = dep_convex_acc = dep_struct_acc = pick_acc = 0
     prev_structure_mask = None
 
+    # --- grid snapshots (for visualize.html's grid renderer) ---
+    snapshot_size = params.get("snapshot_size", SNAPSHOT_SIZE)
+    expected_records = max(1, (steps + sample - 1) // sample)
+    snapshot_stride = max(1, round(expected_records / SNAPSHOT_TARGET_COUNT))
+    raw_snapshots = []  # [(step, material_downsampled, curvature_downsampled)]
+
     # --- Part 8: perturbation setup ---
     perturb_at = None
     perturb_frac = None
@@ -759,11 +805,40 @@ def run_condition(params, seed, perturb=None):
             prev_structure_mask = (field.material >
                                     params.get("structure_threshold", STRUCTURE_THRESHOLD)).copy()
 
+            if (len(history) - 1) % snapshot_stride == 0:
+                curv_now = compute_curvature(field, params)
+                raw_snapshots.append((
+                    int(step),
+                    _downsample_grid(field.material, snapshot_size),
+                    _downsample_grid(curv_now, snapshot_size),
+                ))
+
     # Part 5: detect the trace->actor crossing (channel-aware) over the history.
     detect_crossing(history, params)
 
     summary = summarize(history, perturb=perturb)
-    return {"history": history, "summary": summary}
+
+    # Normalize snapshots to 0.0-1.0: material by the run's peak material value
+    # (matches total_material's own scale); curvature by its own min/max since
+    # it is signed (concave/convex) rather than a monotonically-accumulating
+    # quantity like material.
+    snapshots = []
+    if raw_snapshots:
+        mat_max = max(m.max() for _, m, _ in raw_snapshots)
+        mat_max = mat_max if mat_max > 0 else 1.0
+        curv_min = min(c.min() for _, _, c in raw_snapshots)
+        curv_max = max(c.max() for _, _, c in raw_snapshots)
+        curv_range = (curv_max - curv_min) if curv_max > curv_min else 1.0
+        for step, mat, curv in raw_snapshots:
+            mat_norm = np.clip(mat / mat_max, 0.0, 1.0)
+            curv_norm = np.clip((curv - curv_min) / curv_range, 0.0, 1.0)
+            snapshots.append({
+                "step": step,
+                "material": np.round(mat_norm, 4).flatten().tolist(),
+                "curvature": np.round(curv_norm, 4).flatten().tolist(),
+            })
+
+    return {"history": history, "summary": summary, "snapshots": snapshots}
 
 
 # --------------------------------------------------------------------------
@@ -821,13 +896,15 @@ def cmd_run():
             "sample_every": SAMPLE_EVERY, "seed": SEED,
             "d": D_SMOOTH, "material_decay": MATERIAL_DECAY,
             "structure_threshold": STRUCTURE_THRESHOLD,
+            "snapshot_size": SNAPSHOT_SIZE,
         },
         "curvature_channel": curv,
         "baseline_pheromone": base,
         "perturbation": perturbation,
     }
+    json_str = _compact_snapshot_arrays(json.dumps(_pyify(results), indent=2))
     with open(RESULTS_PATH, "w") as f:
-        json.dump(_pyify(results), f, indent=2)
+        f.write(json_str)
 
     def line(name, r):
         s = r["summary"]

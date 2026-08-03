@@ -125,7 +125,26 @@
   </div>
 
   <div class="card">
-    <h2>The mechanism (minimal lumped transport)</h2>
+    <!-- Grid Visualization -->
+<div class="grid-viz-section" style="margin-bottom: 20px; padding: 16px; background: var(--panel, #161b22); border: 1px solid var(--border, #30363d); border-radius: 8px;">
+  <h2 style="color: var(--text, #c9d1d9); margin-bottom: 12px;">Simulation Grid</h2>
+  <div style="display: flex; gap: 16px; align-items: flex-start; flex-wrap: wrap;">
+    <canvas id="grid-canvas" width="300" height="300" style="border: 1px solid var(--border, #30363d); border-radius: 4px; background: #0d1117;"></canvas>
+    <div style="display: flex; flex-direction: column; gap: 8px;">
+      <label style="color: var(--text, #c9d1d9);">Condition:
+        <select id="grid-condition" style="background: var(--bg, #0d1117); color: var(--text, #c9d1d9); border: 1px solid var(--border, #30363d); padding: 4px 8px; border-radius: 4px;"></select>
+      </label>
+      <select id="grid-field" style="display: none; background: var(--bg, #0d1117); color: var(--text, #c9d1d9); border: 1px solid var(--border, #30363d); padding: 4px 8px; border-radius: 4px;">
+        <option value="material">material</option>
+      </select>
+      <button id="play-btn" style="background: var(--bg, #0d1117); color: var(--text, #c9d1d9); border: 1px solid var(--border, #30363d); padding: 6px 16px; border-radius: 4px; cursor: pointer; width: 100px;">▶ Play</button>
+      <input type="range" id="step-slider" min="0" max="29" value="0" style="width: 200px;">
+      <span id="step-label" style="color: var(--muted, #8b949e); font-size: 0.85rem;">Step 0</span>
+    </div>
+  </div>
+</div>
+
+<h2>The mechanism (minimal lumped transport)</h2>
     <p>The ONLY addition to sim06 is the transport field <code>T</code> and its coupling to pheromone
     <code>P</code>. Agents are unchanged (Grassé stigmergy). This isolates the
     environmental-physics-coupling variable.</p>
@@ -321,6 +340,119 @@ function loadSweep() {
 
 loadRun();
 loadSweep();
+</script>
+<script>
+// Grid Visualization Component — self-contained, fetches its own results.json
+(function() {
+  var snapshots = [];
+  var currentIdx = 0;
+  var playing = false;
+  var timer = null;
+  var fieldName = 'material';
+
+  function valToColor(v) {
+    v = Math.max(0, Math.min(1, v));
+    if (v < 0.01) return '#0d1117';
+    var r = Math.min(255, Math.round(v * 3 * 255));
+    var g = Math.min(255, Math.round(Math.max(0, (v - 0.33)) * 3 * 255));
+    var b = Math.min(255, Math.round(Math.max(0, (0.66 - v)) * 3 * 255));
+    return 'rgb(' + r + ',' + g + ',' + b + ')';
+  }
+
+  function renderGrid() {
+    var canvas = document.getElementById('grid-canvas');
+    if (!canvas || !snapshots.length) return;
+    var ctx = canvas.getContext('2d');
+    var snap = snapshots[currentIdx];
+    var grid = snap[fieldName];
+    if (!grid) return;
+    // Handle both 2D arrays and flat arrays
+    var rows, cols;
+    if (Array.isArray(grid[0])) { rows = grid.length; cols = grid[0].length; }
+    else { var sz = Math.sqrt(grid.length); rows = cols = sz; }
+    var cellW = canvas.width / cols;
+    var cellH = canvas.height / rows;
+    for (var i = 0; i < rows; i++) {
+      for (var j = 0; j < cols; j++) {
+        var val = Array.isArray(grid[0]) ? grid[i][j] : grid[i * cols + j];
+        ctx.fillStyle = valToColor(val);
+        ctx.fillRect(j * cellW, i * cellH, cellW + 1, cellH + 1);
+      }
+    }
+    var stepLabel = document.getElementById('step-label');
+    if (stepLabel) stepLabel.textContent = 'Step ' + snap.step;
+    var slider = document.getElementById('step-slider');
+    if (slider) slider.value = currentIdx;
+  }
+
+  function loadCondition(cond) {
+    if (!window._gridData || !window._gridData[cond]) return;
+    snapshots = window._gridData[cond].snapshots || [];
+    currentIdx = 0;
+    // Check if secondary fields exist and add toggle
+    if (snapshots.length > 0) {
+      var hasTransport = snapshots[0].transport !== undefined;
+      var hasCurvature = snapshots[0].curvature !== undefined;
+      var fieldSel = document.getElementById('grid-field');
+      if (fieldSel) {
+        var opts = '<option value="material">material</option>';
+        if (hasTransport) opts += '<option value="transport">transport</option>';
+        if (hasCurvature) opts += '<option value="curvature">curvature</option>';
+        fieldSel.innerHTML = opts;
+        fieldSel.style.display = (hasTransport || hasCurvature) ? 'block' : 'none';
+      }
+    }
+    var slider = document.getElementById('step-slider');
+    if (slider) slider.max = Math.max(0, snapshots.length - 1);
+    renderGrid();
+  }
+
+  function play() {
+    playing = !playing;
+    var btn = document.getElementById('play-btn');
+    if (playing) {
+      btn.textContent = '⏸ Pause';
+      timer = setInterval(function() {
+        currentIdx = (currentIdx + 1) % snapshots.length;
+        renderGrid();
+      }, 500);
+    } else {
+      btn.textContent = '▶ Play';
+      clearInterval(timer);
+    }
+  }
+
+  function init() {
+    fetch('results.json').then(function(r) { return r.json(); }).then(function(data) {
+      window._gridData = data;
+      var conditions = Object.keys(data).filter(function(k) {
+        return data[k] && data[k].snapshots && data[k].snapshots.length > 0;
+      });
+      if (conditions.length === 0) return;
+      var sel = document.getElementById('grid-condition');
+      if (sel) {
+        sel.innerHTML = conditions.map(function(c) { return '<option value="' + c + '">' + c + '</option>'; }).join('');
+        sel.onchange = function() { loadCondition(sel.value); };
+      }
+      var fieldSel = document.getElementById('grid-field');
+      if (fieldSel) {
+        fieldSel.onchange = function() { fieldName = fieldSel.value; renderGrid(); };
+      }
+      loadCondition(conditions[0]);
+      var slider = document.getElementById('step-slider');
+      if (slider) slider.oninput = function() { currentIdx = parseInt(slider.value); renderGrid(); };
+      var btn = document.getElementById('play-btn');
+      if (btn) btn.onclick = play;
+    }).catch(function(e) { console.error('Grid viz error:', e); });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+
 </script>
 </body>
 </html>

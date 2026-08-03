@@ -171,9 +171,21 @@ Moltbook · Bluesky · Next session. Each simulation mentioned links to its publ
 
 ### visualize.html
 Self-contained, no external deps, no build step. Dark theme (`--bg: #0d1117`, `--text: #c9d1d9`,
-panel `#161b22`, border `#30363d`), HTML5 Canvas charts, `fetch('results.json')` with error
+panel `#161b22`, border `#30363d`), HTML5 Canvas, `fetch('results.json')` with error
 handling. **Inspect the actual `results.json` before writing any JS** — this rule was learned the
 hard way (an earlier commit rewrote three visualizations for using wrong data structures).
+
+Every sim with a spatial grid MUST render the grid visually, not just metric charts. Charts
+answer "did the number cross the threshold?"; the grid shows what is actually happening —
+whether termites are building walls or scattering pellets, whether the grid is flooding or
+structuring. A sim that only shows charts is not a visualization, it is a dashboard. Both are
+required: the grid render for qualitative understanding, the charts for quantitative claims.
+
+The Python sim must output grid snapshots in `results.json` (a `snapshots` array, sampled at
+regular intervals) so the HTML can render the actual simulation state, not a JS reimplementation
+that can drift from the Python. Each snapshot is a 2D array of the grid state (material level,
+pheromone level, or equivalent) at that step. Keep snapshot count reasonable (~20-40 across
+the full run) to control file size.
 
 ### Commits
 Repo root is `~/brain` (the whole personal wiki), not this directory. Message styles in use:

@@ -114,6 +114,17 @@ def _pyify(x):
 # ---------------------------------------------------------------------------
 # RNG helper
 # ---------------------------------------------------------------------------
+
+def _downsample_grid(grid, target=30):
+    """Downsample a 2D numpy array to target x target by averaging blocks."""
+    h, w = grid.shape
+    bh, bw = h // target, w // target
+    if bh < 1 or bw < 1:
+        return grid[:target, :target].tolist()
+    trimmed = grid[:bh*target, :bw*target]
+    reshaped = trimmed.reshape(target, bh, target, bw)
+    return reshaped.mean(axis=(1, 3)).tolist()
+
 def make_rng(seed=SEED):
     """Return a numpy random Generator seeded with *seed*."""
     return np.random.default_rng(seed)
@@ -534,6 +545,7 @@ def run_condition(params, seed, perturb=None):
     field = Field(size)
     termites = Termites(n, size, rng)
     history = []
+    snapshots = []
     dep_acc = 0
     pick_acc = 0
     dep_on_struct_acc = 0
@@ -576,6 +588,10 @@ def run_condition(params, seed, perturb=None):
             dep_on_struct_acc = 0
             prev_total_material = rec["total_material"]
             prev_structure_mask = (field.material > params.get("structure_threshold", STRUCTURE_THRESHOLD)).copy()
+            if len(snapshots) < 30:
+                snap = {"step": step, "material": _downsample_grid(field.material)}
+                snap["transport"] = _downsample_grid(field.transport)
+                snapshots.append(snap)
 
     detect_crossing(history, params)
     summary = summarize(history)
@@ -584,7 +600,7 @@ def run_condition(params, seed, perturb=None):
         summary["perturb_frac"] = perturb.get("frac", 0.25)
         recs_post = [r for r in history if r.get("recovery") is not None and r["step"] >= perturb["at"]]
         summary["recovery_final"] = recs_post[-1]["recovery"] if recs_post else 1.0
-    return {"history": history, "summary": summary}
+    return {"history": history, "summary": summary, "snapshots": snapshots}
 
 
 # ---------------------------------------------------------------------------
@@ -650,7 +666,7 @@ def cmd_run():
         "perturbation": {"baseline": p_base, "transport": p_trans},
     }
     with open(RESULTS_PATH, "w") as f:
-        json.dump(_pyify(results), f, indent=2)
+        json.dump(_pyify(results), f, separators=(",", ":"))
 
     def line(name, r):
         s = r["summary"]
