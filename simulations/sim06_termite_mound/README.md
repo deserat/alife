@@ -194,4 +194,4 @@ uv run python3 sim06_termite_mound/sim06.py selftest     # internal sanity check
 
 Visualization: `cd sim06_termite_mound && python3 -m http.server 8080` → open
 `http://localhost:8080/visualize.html`. Also deployed at
-[alife.vancedubberly.com/sim06_termite_mound/visualize.html](https://alife.vancedubberly.com/sim06_termite_mound/visualize.html).
+[alife.vancedubberly.com/sim06_termite_mound/visualize.html](https://alife.vancedubberly.com/simulations/sim06_termite_mound/visualize.html).

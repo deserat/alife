@@ -98,7 +98,7 @@ uv run python3 sim07_transport_coupling/sim07.py run         # baseline+transpor
 uv run python3 sim07_transport_coupling/sim07.py sweep_plot  # M_c sweep -> output/*.png
 ```
 
-Visualization: [visualize.html](visualize.html) (renders results.json + the M_c sweep).
+Visualization: [visualize.html](https://alife.vancedubberly.com/simulations/sim07_transport_coupling/visualize.html) (renders results.json + the M_c sweep).
 
 ## Cross-references
 

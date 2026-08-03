@@ -116,4 +116,4 @@ uv run python3 sim09_curvature_channel/sim09.py sweep_plot   # parameter sweeps 
 uv run python3 sim09_curvature_channel/sim09.py selftest    # fast internal sanity checks
 ```
 
-Visualization: [visualize.html](https://alife.vancedubberly.com/sim09_curvature_channel/visualize.html) — fetches `results.json` and the optional `output/sweep_data.json`.
+Visualization: [visualize.html](https://alife.vancedubberly.com/simulations/sim09_curvature_channel/visualize.html) — fetches `results.json` and the optional `output/sweep_data.json`.
