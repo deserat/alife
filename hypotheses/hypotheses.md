@@ -6,13 +6,13 @@ date: "2026-08-03"
 session: 19
 count: 11
 active: [H1, H2, H3, H4, H5, H6, H7, H8, H9, H10, H11]
-logs: ["logs/H1.md", "logs/H2.md", "logs/H3.md", "logs/H4.md", "logs/H5.md", "logs/H6.md", "logs/H7.md", "logs/H8.md", "logs/H9.md", "logs/H10.md", "logs/H11.md"]
-summary: "Current state of all 11 hypotheses (H1-H11): statement, status, evidence, and next test only. Full refinement history for each lives in hypotheses/logs/HN.md and is appended there, not here."
+logs: ["logs/H1/", "logs/H2/", "logs/H3/", "logs/H4/", "logs/H5/", "logs/H6/", "logs/H7/", "logs/H8/", "logs/H9/", "logs/H10/", "logs/H11/"]
+summary: "Current state of all 11 hypotheses (H1-H11): statement, status, evidence, and next test only. Full refinement history for each lives in hypotheses/logs/HN/ and is appended there, not here."
 ---
 
 # Hypotheses
 
-All hypotheses for the artificial life simulator project. Each hypothesis is testable through simulation. This file holds only the current statement, status, evidence, and next test for each — the session-by-session refinement history that produced that state lives in `logs/HN.md`, linked from each section.
+All hypotheses for the artificial life simulator project. Each hypothesis is testable through simulation. This file holds only the current statement, status, evidence, and next test for each — the session-by-session refinement history that produced that state lives in `logs/HN/`, linked from each section.
 
 ---
 
@@ -28,7 +28,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **Test:** Build a simulation with explicit multi-scale composition mechanisms and compare to single-scale baseline. Measure: does the multi-scale version produce open-ended dynamics where the single-scale version stalls?
 
-**Log:** [logs/H1.md](logs/H1.md)
+**Log:** [logs/H1/](logs/H1/)
 
 ---
 
@@ -38,7 +38,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **Status:** Unchanged. Still untested.
 
-**Log:** [logs/H2.md](logs/H2.md)
+**Log:** [logs/H2/](logs/H2/)
 
 ---
 
@@ -50,7 +50,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **Test:** Compare simulations with fixed-value resources vs. quasi-object resources (resources that change properties as they circulate).
 
-**Log:** [logs/H3.md](logs/H3.md)
+**Log:** [logs/H3/](logs/H3/)
 
 ---
 
@@ -62,7 +62,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **Test:** Compare agents on static vs. dynamic fitness landscapes. The dynamic landscape is modified by agent behavior (stigmergic traces change the fitness function).
 
-**Log:** [logs/H4.md](logs/H4.md)
+**Log:** [logs/H4/](logs/H4/)
 
 ---
 
@@ -72,7 +72,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **Status:** Unchanged. Theoretical grounding from Maturana & Varela.
 
-**Log:** [logs/H5.md](logs/H5.md)
+**Log:** [logs/H5/](logs/H5/)
 
 ---
 
@@ -82,7 +82,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **Status:** Strengthened — Smith & Bedau's proposed 8th CAS property ("the ability of emergent interacting components to create and flexibly maintain their own boundaries") is autopoiesis, identified independently from a different starting point (Session 4).
 
-**Log:** [logs/H6.md](logs/H6.md)
+**Log:** [logs/H6/](logs/H6/)
 
 ---
 
@@ -102,7 +102,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **Next test:** isolate the recruit and limit halves — a recruit-only condition (curvature routing, d=0) vs a limit-only condition (d-smoothing, no curvature routing) — to determine whether the recruit half alone is sufficient or the limit half contributes to the crossing verdict. Then a spatially-targeted recovery metric to make the perturbation acid test decisive.
 
-**Log:** [logs/H7.md](logs/H7.md)
+**Log:** [logs/H7/](logs/H7/)
 
 ---
 
@@ -116,7 +116,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **Test:** Compare simulations with reducible vs. irreducible dynamics at each scale. Measure: does the irreducible version produce open-ended dynamics where the reducible version converges?
 
-**Log:** [logs/H8.md](logs/H8.md)
+**Log:** [logs/H8/](logs/H8/)
 
 ---
 
@@ -138,7 +138,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **Test:** Compare fixed network (no new reactions, sim03-like) vs. evolving network (new reactions appear) with compartmentalization. Measure: does the evolving network discover new species, new organizations, and maintain between-compartment diversity where the fixed network converges? To be informative this needs an unbounded or much larger species space — in a 510-species world both arms exhaust it and the comparison is uninformative by construction.
 
-**Log:** [logs/H9.md](logs/H9.md)
+**Log:** [logs/H9/](logs/H9/)
 
 ---
 
@@ -164,7 +164,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **Test:** Build a simulation with explicit composition mechanisms (stigmergic bridges between organizations, autopoietic boundaries, selection for composability) and compare to AlChemy without these mechanisms. Measure: does the version with composition mechanisms produce L2 where the plain version fails?
 
-**Log:** [logs/H10.md](logs/H10.md)
+**Log:** [logs/H10/](logs/H10/)
 
 ---
 
@@ -204,7 +204,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **Status:** Directionally confirmed (4/4 mechanisms), now causally supported with a control arm (Session 19). The corrected detector fires the crossing in the curvature channel and not in the baseline-pheromone control (same detector, 0/3) — H11's channel distinction is the causal variable separating crossing from non-crossing, not just a directional correlate of morphology. The recruit half (non-saturating curvature routing) is load-bearing for the crossing; the limit half (d-smoothing) is load-bearing for morphology but not necessary for the verdict — so the "recruit as well as limit" refinement is half-supported.
 
-**Log:** [logs/H11.md](logs/H11.md)
+**Log:** [logs/H11/](logs/H11/)
 
 ---
 
@@ -212,14 +212,14 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 | Hypothesis | Status | Evidence | Log |
 |---|---|---|---|
-| H1: Composition | Refined | Smith & Bedau (1997) independent confirmation; sim03 withdrawn as support (static lattice by construction) | [H1](logs/H1.md) |
-| H2: ANT Translation | Unchanged | Theoretical, untested | [H2](logs/H2.md) |
-| H3: Quasi-Object | Strengthened | Stigmergy literature support; Echo partial support | [H3](logs/H3.md) |
-| H4: Dynamic Environment | Refined | Fitness landscape criticism supports this | [H4](logs/H4.md) |
-| H5: Autopoiesis | Unchanged | Maturana & Varela grounding | [H5](logs/H5.md) |
-| H6: Multi-Scale Autopoiesis | Strengthened | Smith & Bedau 8th property = autopoiesis | [H6](logs/H6.md) |
-| H7: Trace→Actor Crossing | Refined ×8; crossing fires with a control arm | Corrected mass-saturation gate (was unfalsifiable); curvature channel crosses in tuned probe, baseline control does not; recruit half drives it | [H7](logs/H7.md) |
-| H8: Complexity Enables OEE | NEW | Kaznatcheev (2019), Wiser et al. (2013) | [H8](logs/H8.md) |
-| H9: Evolving Network | Untested (2026-07-27 correction) | Vasas et al. (2012) literature support; sim04's finite-space exhaustion survives but doesn't test the claim; sim03/sim05 withdrawn | [H9](logs/H9.md) |
-| H10: Unbounded Space Insufficiency | Weakened (2026-07-27) | sim05 corrected: 2/6 L2 coexistence (was 0/6 — artifact); Mathis et al. 2024, Fontana & Buss 1994 unaffected | [H10](logs/H10.md) |
-| H11: Saturating Channel | Directionally confirmed (4/4); causal with control arm | Corrected detector: curvature channel crosses, baseline control does not — channel distinction is causal; recruit half load-bearing, limit half not | [H11](logs/H11.md) |
+| H1: Composition | Refined | Smith & Bedau (1997) independent confirmation; sim03 withdrawn as support (static lattice by construction) | [H1](logs/H1/) |
+| H2: ANT Translation | Unchanged | Theoretical, untested | [H2](logs/H2/) |
+| H3: Quasi-Object | Strengthened | Stigmergy literature support; Echo partial support | [H3](logs/H3/) |
+| H4: Dynamic Environment | Refined | Fitness landscape criticism supports this | [H4](logs/H4/) |
+| H5: Autopoiesis | Unchanged | Maturana & Varela grounding | [H5](logs/H5/) |
+| H6: Multi-Scale Autopoiesis | Strengthened | Smith & Bedau 8th property = autopoiesis | [H6](logs/H6/) |
+| H7: Trace→Actor Crossing | Refined ×8; crossing fires with a control arm | Corrected mass-saturation gate (was unfalsifiable); curvature channel crosses in tuned probe, baseline control does not; recruit half drives it | [H7](logs/H7/) |
+| H8: Complexity Enables OEE | NEW | Kaznatcheev (2019), Wiser et al. (2013) | [H8](logs/H8/) |
+| H9: Evolving Network | Untested (2026-07-27 correction) | Vasas et al. (2012) literature support; sim04's finite-space exhaustion survives but doesn't test the claim; sim03/sim05 withdrawn | [H9](logs/H9/) |
+| H10: Unbounded Space Insufficiency | Weakened (2026-07-27) | sim05 corrected: 2/6 L2 coexistence (was 0/6 — artifact); Mathis et al. 2024, Fontana & Buss 1994 unaffected | [H10](logs/H10/) |
+| H11: Saturating Channel | Directionally confirmed (4/4); causal with control arm | Corrected detector: curvature channel crosses, baseline control does not — channel distinction is causal; recruit half load-bearing, limit half not | [H11](logs/H11/) |
