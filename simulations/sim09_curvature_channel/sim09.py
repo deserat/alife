@@ -96,6 +96,19 @@ ROUGH_ELEV_THRESH = 0.02      # crossing criterion 2 for the curvature condition
 PHERO_ELEV_THRESH = 0.5      # crossing criterion 2 for the pheromone condition (as sim06)
 CONSTRAIN_THRESH = 0.60
 
+# Mass-plateau gate (Session 19 correction). The original mass-saturation gate
+# (|dM/dt|/sample_every < 0.01) sat ~100x below the stochastic noise floor of
+# a 150-termite deposit process (Poisson std of the centered window sum),
+# making it unfalsifiable. The corrected gate uses a K-sample linear
+# regression slope of total_material, taken relative to its mean:
+#   |slope(M over last K samples)| / mean(M) < MASS_PLATEAU_REL
+# K=16 (400 steps at sample_every=25) and rel=0.001 (0.1% drift per step)
+# sit above the noise floor: the relative-slope fires ~98-100% in the late
+# equilibrium of a plateauing run while the baseline control still never
+# crosses on its pheromone-elevation gate.
+MASS_PLATEAU_WINDOW = 16
+MASS_PLATEAU_REL = 0.001
+
 
 # --------------------------------------------------------------------------
 # Numpy → JSON helper
@@ -610,21 +623,36 @@ def compute_metrics(field, params, step, deposits, excavations,
 
 
 def detect_crossing(history, params):
-    """Post-pass over a condition's history: fill material_growth_rate, then
-    apply H7's three-criteria crossing detector, channel-aware. Sets
-    `crossed=True` / `crossing_step=<step>` on the crossing record and all later
-    records once the run-length of satisfying samples hits CROSSING_PERSIST.
+    """Post-pass over a condition's history: fill material_growth_rate AND the
+    regression-based mass_plateau flag, then apply H7's three-criteria crossing
+    detector, channel-aware. Sets `crossed=True` / `crossing_step=<step>` on
+    the crossing record and all later records once the run-length of
+    satisfying samples hits CROSSING_PERSIST.
 
     Criteria (all must hold for >= CROSSING_PERSIST consecutive samples):
       1. Persistence despite erosion: structure_stability >= STAB_THRESH.
       2. Non-reducible dynamics:
-         - curvature channel: roughness >= ROUGH_ELEV_THRESH AND mass saturating
-           (|material_growth_rate| < 0.01).
+         - curvature channel: roughness >= ROUGH_ELEV_THRESH AND mass plateau
+           (relative-slope |b/mean(M)| < MASS_PLATEAU_REL over a K-sample
+           regression window).
          - baseline_pheromone: mean_pheromone >= PHERO_ELEV_THRESH AND mass
-           saturating.
+           plateau.
       3. Constraint on agents:
          - curvature: deposits_on_convex_fraction >= CONSTRAIN_THRESH.
          - baseline_pheromone: deposit_on_structure_fraction >= CONSTRAIN_THRESH.
+
+    Session 19 (2026-08-03) correction: the original mass-saturation gate used
+    the per-sample-window |dM/dt|/sample_every < 0.01. For a 150-termite
+    stochastic deposit process that quantity has a noise floor of ~0.5-1.0
+    (Poisson std of the centered window sum / window), ~100x above the 0.01
+    threshold — the gate was unfalsifiable (no finite-population run could
+    ever pass it). The corrected gate uses a K-sample linear-regression slope
+    of total_material, taken relative to its mean (|b/mean(M)|), which is
+    scale-invariant and sits above the noise floor. 0/100 swept combos passed
+    the old gate; the corrected gate passes the curvature channel while the
+    baseline-pheromone control (same detector) still never crosses — the
+    crossing now has a control arm. See dstar_sweep.py + this session's
+    daily report.
     """
     channel = params.get("channel", "curvature")
     stab_thresh = params.get("stab_thresh", STAB_THRESH)
@@ -632,9 +660,12 @@ def detect_crossing(history, params):
     phero_thresh = params.get("phero_elev_thresh", PHERO_ELEV_THRESH)
     constrain_thresh = params.get("constrain_thresh", CONSTRAIN_THRESH)
     persist = params.get("crossing_persist", CROSSING_PERSIST)
+    K = params.get("plateau_window", MASS_PLATEAU_WINDOW)
+    rel_thresh = params.get("mass_plateau_rel", MASS_PLATEAU_REL)
 
-    # Pre-pass: material_growth_rate = abs delta of total_material between
-    # consecutive samples / window size. First record = None.
+    # Pre-pass 1: material_growth_rate = abs delta of total_material between
+    # consecutive samples / window size. First record = None. (Retained for
+    # the visualize.html chart and for diagnostics; NOT the crossing gate.)
     sample_every = params.get("sample_every", SAMPLE_EVERY)
     for i in range(len(history)):
         if i == 0:
@@ -643,12 +674,25 @@ def detect_crossing(history, params):
             d_total = history[i]["total_material"] - history[i - 1]["total_material"]
             history[i]["material_growth_rate"] = float(abs(d_total) / float(sample_every))
 
+    # Pre-pass 2: relative-slope mass plateau (the corrected gate).
+    # |slope(total_material over last K samples)| / mean(total_material over
+    # those samples) < rel_thresh. None for the first K records.
+    for i in range(len(history)):
+        if i < K:
+            history[i]["mass_plateau"] = None
+        else:
+            t = np.array([history[j]["step"] for j in range(i - K, i)], dtype=float)
+            m = np.array([history[j]["total_material"] for j in range(i - K, i)])
+            b = np.polyfit(t, m, 1)[0]
+            mean_m = m.mean()
+            history[i]["mass_plateau"] = float(abs(b / mean_m)) if mean_m > 0 else float("inf")
+
     def criterion2_ok(rec):
-        mgr = rec.get("material_growth_rate")
-        saturating = (mgr is not None) and (mgr < 0.01)
+        mp = rec.get("mass_plateau")
+        plateau = (mp is not None) and (mp < rel_thresh)
         if channel == "baseline_pheromone":
-            return rec["mean_pheromone"] >= phero_thresh and saturating
-        return rec["roughness"] >= rough_thresh and saturating
+            return rec["mean_pheromone"] >= phero_thresh and plateau
+        return rec["roughness"] >= rough_thresh and plateau
 
     def criterion3_ok(rec):
         if channel == "baseline_pheromone":
@@ -1160,11 +1204,15 @@ def cmd_selftest():
     for r in rb["history"]:
         assert "deposit_on_structure_fraction" in r
 
-    # (b) Regression guard (learned from sim06's bug): a synthetic history
-    # where all three criteria are satisfied for CROSSING_PERSIST samples must
-    # fire; negating ANY ONE criterion must withhold.
+    # (b) Regression guard (learned from sim06's bug, updated Session 19 for
+    #     the relative-slope plateau gate): a synthetic history where all
+    #     three criteria are satisfied for CROSSING_PERSIST samples must fire;
+    #     negating ANY ONE criterion must withhold. The history is long enough
+    #     (persist + MASS_PLATEAU_WINDOW) that the plateau pre-pass populates
+    #     mass_plateau for the later records.
     persist = CROSSING_PERSIST
-    n = persist + 2
+    K = MASS_PLATEAU_WINDOW
+    n = persist + K + 2  # enough records for the plateau window to populate
     base_rec = {
         "step": 0, "total_material": 100.0, "n_structure_cells": 10,
         "mean_curvature": 0.0, "max_curvature": 0.0, "roughness": 0.0,
@@ -1173,50 +1221,65 @@ def cmd_selftest():
         "deposits_on_convex_this_window": 0, "pickups_this_window": 0,
         "structure_stability": 0.0, "n_pillars": 0, "compactness": 0.0,
         "deposits_on_convex_fraction": 0.0, "deposit_on_structure_fraction": 0.0,
-        "material_growth_rate": None, "crossed": False, "crossing_step": None,
+        "material_growth_rate": None, "mass_plateau": None,
+        "crossed": False, "crossing_step": None,
     }
 
-    def make_history(c1, c2_rough, c2_phero, c3_convex, c3_struct, mgr=0.001):
+    def make_history(c1, c2_rough, c2_phero, c3_convex, c3_struct,
+                     plateau=True):
+        # Build a total_material trajectory: a flat plateau (if plateau=True)
+        # keeps the relative-slope ~0 < MASS_PLATEAU_REL; a linear ramp (if
+        # False) drives the relative-slope above the gate.
         h = []
         for i in range(n):
             r = dict(base_rec)
             r["step"] = i * 25
+            if plateau:
+                r["total_material"] = 100.0  # flat → rel slope 0
+            else:
+                r["total_material"] = 100.0 + 20.0 * i  # steep ramp → rel slope high
             r["structure_stability"] = 0.95 if c1 else 0.80
             r["roughness"] = 0.05 if c2_rough else 0.005
             r["mean_pheromone"] = 0.8 if c2_phero else 0.1
             r["deposits_on_convex_fraction"] = 0.75 if c3_convex else 0.30
             r["deposit_on_structure_fraction"] = 0.75 if c3_struct else 0.30
-            r["material_growth_rate"] = mgr
             h.append(r)
         return h
 
     p = {"channel": "curvature"}
     # all-true → fires
-    h_all = make_history(True, True, True, True, True)
+    h_all = make_history(True, True, True, True, True, plateau=True)
     detect_crossing(h_all, p)
     assert h_all[-1]["crossed"] is True, "all-true curvature history should cross"
     # negate criterion 1 → withholds
-    h1 = make_history(False, True, True, True, True)
+    h1 = make_history(False, True, True, True, True, plateau=True)
     detect_crossing(h1, p)
     assert h1[-1]["crossed"] is False, "negating c1 should withhold crossing"
     # negate criterion 2 (curvature: roughness) → withholds
-    h2 = make_history(True, False, True, True, True)
+    h2 = make_history(True, False, True, True, True, plateau=True)
     detect_crossing(h2, p)
     assert h2[-1]["crossed"] is False, "negating c2 (roughness) should withhold"
+    # negate criterion 2b (mass plateau: ramp instead of flat) → withholds
+    h2p = make_history(True, True, True, True, True, plateau=False)
+    detect_crossing(h2p, p)
+    assert h2p[-1]["crossed"] is False, "negating c2 (mass plateau) should withhold"
     # negate criterion 3 (curvature: convex fraction) → withholds
-    h3 = make_history(True, True, True, False, True)
+    h3 = make_history(True, True, True, False, True, plateau=True)
     detect_crossing(h3, p)
     assert h3[-1]["crossed"] is False, "negating c3 (convex fraction) should withhold"
 
     # baseline channel: criterion 2 uses pheromone, criterion 3 uses structure
     pb = {"channel": "baseline_pheromone"}
-    h_all_b = make_history(True, True, True, True, True)
+    h_all_b = make_history(True, True, True, True, True, plateau=True)
     detect_crossing(h_all_b, pb)
     assert h_all_b[-1]["crossed"] is True, "all-true baseline history should cross"
-    h2b = make_history(True, True, False, True, True)
+    h2b = make_history(True, True, False, True, True, plateau=True)
     detect_crossing(h2b, pb)
     assert h2b[-1]["crossed"] is False, "negating c2 (pheromone) should withhold"
-    h3b = make_history(True, True, True, True, False)
+    h2pb = make_history(True, True, True, True, True, plateau=False)
+    detect_crossing(h2pb, pb)
+    assert h2pb[-1]["crossed"] is False, "negating c2 (mass plateau) baseline should withhold"
+    h3b = make_history(True, True, True, True, False, plateau=True)
     detect_crossing(h3b, pb)
     assert h3b[-1]["crossed"] is False, "negating c3 (structure fraction) should withhold"
     print("selftest: Part 5 OK")

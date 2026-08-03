@@ -877,3 +877,84 @@ the same experiment measured two ways. A single broad parameter sweep should
 reveal both together.
 
 
+
+## Session 19 (2026-08-03) — the unfalsifiable gate, and the crossing that fires with a control
+
+The d* sweep (100 combos: `deposit_prob_base × material_decay × d`) returned
+0/100 crossings. The per-criterion diagnosis was unambiguous: criterion 2's
+mass-saturation gate (`|material_growth_rate| < 0.01`) passed in 0/100 combos —
+`mean_late_mgr` was 0.4–3.7, never near 0.01. Criteria 1 (stability), 2r
+(roughness), and 3 (constraint) all passed at the low-decay corner. The gate was
+the single universal blocker.
+
+### The metric-ceiling bug — the sim06 detector lesson, repeating
+
+The mass-saturation gate used the per-sample-window
+`|Δtotal_material|/sample_every < 0.01`. For a 150-termite stochastic deposit
+process that quantity has a Poisson noise floor of ~0.5–1.0 (the centered
+window-sum's std / window), **~100× above the 0.01 threshold**. No
+finite-population run can ever pass it. The gate was unfalsifiable: the detector
+could not fire regardless of the mechanism. This is the same failure mode as
+sim06's original deposit-rate gate (which could not fire because Grassé positive
+feedback makes deposit probability rise) — a threshold set below the noise floor
+of the quantity it gates on. The Session 17 conclusion ("the crossing is a
+parameter-regime question, not a mechanism question") was itself suspect: the
+regime where mass "saturates" below 0.01 does not exist for any finite N.
+
+**Correction:** replaced the per-window absolute-growth gate with a
+**relative-slope plateau**: `|slope(total_material over last K=16 samples)| /
+mean(total_material) < 0.001`. The regression slope averages over 400 steps,
+suppressing the Poisson window noise; the relative (scale-invariant) form sits
+above the noise floor (it fires ~98–100% in the late equilibrium of a plateauing
+run, while the absolute gate fired 0%). The selftest regression guard was
+updated to negate the plateau explicitly (a ramp instead of a flat trajectory
+withholds the crossing).
+
+### The crossing fires with a control arm — H11's channel distinction goes causal
+
+In the tuned probe (dpb=0.01, decay=0.002, 80×80 grid, 2000 steps —
+non-saturating, cells 3123–5754/6400):
+- **Curvature channel crosses at every d ∈ [0, 4]**; crossing_step decreases
+  monotonically 1550 → 900 as d rises (d speeds consolidation); n_pillars falls
+  12 → 1 (consolidation, H11's direction); roughness rises 0.44 → 0.77.
+- **Baseline-pheromone control (same detector) crosses in 0/3** — criterion 2's
+  pheromone-elevation gate fails (mean_pheromone 0.25 < 0.50 threshold; the
+  saturating rule never elevates the cue enough).
+
+This is the first time the H7 crossing has fired with a control arm that does
+not. H11's channel distinction (non-saturating action-channel vs saturating
+cue-channel) is now the **causal variable** separating the crossing from the
+non-crossing, not merely a directional correlate of morphology. Previously H11
+rested on a same-direction comparison within one model family (non-saturating
+channels consolidated where saturating ones fragmented, but neither crossing
+fired); now the control is run under the same corrected detector and fails the
+crossing where the curvature channel passes it.
+
+### Honest limitation — the recruit half drives the crossing, not the limit half
+
+The crossing fires at d=0 (no biharmonic smoothing — the curvature channel's
+LIMIT half is off), so the detector is catching the **recruit half** (curvature
+routing + mass plateau), not the recruit+limit combination the Session-13
+refinement specified. The d-smoothing controls *morphology* (pillars 12 → 1)
+and *crossing speed* (1550 → 900) but is not necessary for the crossing verdict.
+The honest claim narrows: the curvature channel's non-saturating recruit half
+is sufficient for the crossing; the limit half consolidates the morphology.
+This is still a real result — the baseline control (saturating cue, no curvature
+routing) does not cross — but it is a weaker claim than "recruit+limit both
+required." The next test isolates the halves: a recruit-only condition
+(curvature routing, d=0) vs a limit-only condition (d-smoothing, no curvature
+routing).
+
+### The crossing's "parameter-regime" blocker was a detector bug, not a regime
+
+Session 17 framed the remaining work as "find the mass-saturating regime." The
+ceiling analysis shows that regime does not exist at any finite population for
+the absolute-growth gate — the Poisson noise floor scales with √N, so larger
+grids and more termites make the problem worse, not better. The corrected
+relative-slope plateau fires in the existing tuned-probe regime (dpb=0.01,
+decay=0.002) without any new parameter search. The lesson: when a detector
+fails across an entire parameter sweep, compute the metric's ceiling before
+concluding the mechanism is wrong — the gate may be unfalsifiable. This is the
+methodology rule "Compute your metric's ceiling. If its maximum can fall below
+your threshold, it is not a test," now earned twice (sim06's deposit-rate gate,
+sim09's mass-saturation gate).

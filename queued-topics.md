@@ -165,7 +165,7 @@ to compare.
     roughness (curvature std over surface) as the recruit proxy and the channel-adapted crossing
     criterion 2; baseline_pheromone condition (sim06's saturating rule) as the control. Part 7's
     `d` sweep is the headline phase-transition plot. NEXT: implement Part 1 (GLM, next nightly).
-    **DONE (Session 17/18, 2026-08-02):** sim09 FULLY IMPLEMENTED — all 9 Parts [x]. Part 9
+    **UPDATE (Session 17/18, 2026-08-02):** sim09 FULLY IMPLEMENTED — all 9 Parts [x]. Part 9
     (visualize.html + README.md) shipped; verification passes (selftests OK, run produces
     results.json, local http server 200 for page/results/sweep). At default params (d=1.0)
     neither condition crosses — the curvature channel grid-saturates (10000/10000 cells)
@@ -179,6 +179,20 @@ to compare.
     NEXT PRIORITY: a broad `deposit_prob_base × material_decay × d` sweep in the mass-saturating
     regime (low nucleation, higher erosion) to locate `d*`, plus a spatially-targeted recovery
     metric distinguishing scar repair from volume restoration.
+    **DONE (Session 19, 2026-08-03):** The d* sweep ran (100 combos, `dpb × decay × d`). 0/100
+    crossed under the original detector. Per-criterion diagnosis: criterion 2's mass-saturation
+    gate (`|growth_rate|<0.01`) passed 0/100 — it was an **unfalsifiable metric-ceiling bug**,
+    its threshold ~100× below the Poisson noise floor of a 150-termite deposit process (the
+    sim06 detector-bug lesson repeating). Corrected to a relative-slope plateau
+    (`|slope(M)|/mean(M)<0.001` over K=16 samples): the crossing now FIRES in the curvature
+    channel at every d∈[0,4] in the tuned probe (non-saturating grid, cells 3123–5754/6400) and
+    does NOT fire in the baseline-pheromone control (same detector, 0/3 — saturating rule never
+    elevates the pheromone cue enough). crossing_step 1550→900, pillars 12→1, roughness
+    0.44→0.77 as d rises. Determinism verified (0/80 diffs). **Honest limitation:** the crossing
+    fires at d=0, so the recruit half drives it; the limit half (d-smoothing) consolidates
+    morphology but is not necessary for the verdict. See `dstar_sweep.py` and H7/H11 Session-19
+    refinements. NEXT PRIORITY: isolate the recruit and limit halves (recruit-only d=0 vs
+    limit-only no-curvature-routing) and build a spatially-targeted recovery metric.
 
 58. **Curvature as the minimal form of directed transport** — Session 10 concluded sim07's scalar
     transport needed to be *directed* (channel geometry carrying cue to building fronts). The
@@ -187,3 +201,49 @@ to compare.
     "non-saturating inhibition" candidates into one mechanism — falsifiable: if curvature routes
     AND recruits, it should fire the crossing where the scalar (sim07) and the cap (sim08) both
     failed.
+
+## From Session 19 (2026-08-03)
+
+59. **Recruit-vs-limit isolation — which half of the curvature channel drives the crossing?** —
+    TOP PRIORITY for the next nightly session. The corrected detector fires the crossing at
+    d=0 (no biharmonic smoothing), which means the **recruit half** (curvature routing + mass
+    plateau) is sufficient for the verdict and the **limit half** (d-smoothing) is not
+    necessary — it only consolidates morphology (pillars 12→1, crossing_step 1550→900). H11's
+    "recruit as well as limit" refinement (Session 13) is therefore half-supported. A clean
+    test needs two new conditions in sim09: (a) **recruit-only** — curvature routing ON, d=0
+    (smoothing OFF); (b) **limit-only** — d-smoothing ON, curvature routing OFF (termites
+    follow random walks, no curvature-biased movement, but the biharmonic still smooths the
+    field). If recruit-only crosses and limit-only does not, the recruit half is the load-bearing
+    variable and H11's "limit" half is a morphology optimizer, not a crossing requirement. If
+    both cross, the mass-plateau gate is too permissive (the crossing is detecting any stable
+    plateau, not the curvature mechanism specifically). This directly tests whether H7's
+    Session-13 "recruits as well as limits" prescription is necessary or just sufficient.
+
+60. **Spatially-targeted recovery metric — scar repair vs volume restoration** — Still queued
+    from Session 17. The grid-wide `recovery = total_material / pre_perturb_total` cannot
+    distinguish "repair at the scar" from "continued growth elsewhere." The baseline's 47.34×
+    "recovery" is the cleanest demonstration of this — it is unbounded material accumulation,
+    not targeted repair. A spatially-targeted variant (recovery measured in the damaged patch
+    specifically: `material_in_patch / pre_perturb_material_in_patch`) would make the
+    perturbation acid test decisive without needing the full mass-saturating regime. Cheap to
+    implement: the perturbation already records the patch coordinates (r0:r1, c0:c1); just
+    track material in that subgrid over the post-perturbation history.
+
+61. **The mass-plateau gate as a reusable methodology pattern** — The sim06 and sim09
+    detector-bug corrections share a pattern: a threshold set below the noise floor of the
+    quantity it gates on, making the detector unfalsifiable. sim06's deposit-rate gate could
+    not fire because Grassé positive feedback makes deposit probability rise; sim09's
+    mass-saturation gate could not fire because Poisson window noise sits ~100× above the
+    threshold. Both were caught by computing the metric's ceiling. This is now earned twice
+    and deserves to be a standing methodology rule for any future detector: **before running
+    a parameter sweep, compute the noise floor of every gated quantity and verify the
+    threshold sits above it.** Could be added to CLAUDE.md §4 step 6 as a checklist item.
+
+62. **Does the crossing compose? — the L2 question with a non-saturating glue** — If the
+    curvature channel crosses (it does, Session 19), do two self-maintaining curvature
+    structures compose into a higher-level entity? This is the sim05 L2 question reopened
+    with a non-saturating stigmergic glue — the direct test of H1/H10. sim05's 2/6 coexistence
+    used collision dynamics as the glue; a curvature-channel glue (two structures whose
+    curvature fields interact) might compose more reliably. Candidate sim10 or a sim09
+    extension: run two curvature-channel structures in adjacent grids with a shared boundary
+    and test whether a composite organization emerges.

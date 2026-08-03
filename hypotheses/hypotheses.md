@@ -2,8 +2,8 @@
 title: "Hypotheses"
 topic: "testable hypotheses for the multi-scale ALife composition project"
 status: active
-date: "2026-08-02"
-session: 17
+date: "2026-08-03"
+session: 19
 count: 11
 active: [H1, H2, H3, H4, H5, H6, H7, H8, H9, H10, H11]
 logs: ["logs/H1.md", "logs/H2.md", "logs/H3.md", "logs/H4.md", "logs/H5.md", "logs/H6.md", "logs/H7.md", "logs/H8.md", "logs/H9.md", "logs/H10.md", "logs/H11.md"]
@@ -92,15 +92,15 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **Current mechanism claim:** the crossing needs a non-saturating channel that *recruits* deposition as well as *limiting* it, not mere negative feedback through the cue field (see H11). The curvature channel (Facchini et al. 2020) is the strongest candidate: growth at convex tips recruits, biharmonic smoothing limits, and there is no saturating pheromone field in the model at all.
 
-**Status:** Refined ×7. Not refuted, not yet demonstrated — four mechanisms tried (sim06 saturating cue, sim07 scalar transport, sim08 density cap, sim09 curvature channel), each narrowing the hypothesis without producing the crossing.
+**Status:** Refined ×8. **The crossing now fires with a control arm.** Session 19 found criterion 2's mass-saturation gate (`|growth_rate| < 0.01`) was an unfalsifiable metric-ceiling bug — its threshold sat ~100× below the Poisson noise floor of a 150-termite deposit process, so no finite-population run could ever pass it. Corrected to a relative-slope plateau (`|slope(M)|/mean(M) < 0.001` over K=16 samples), the crossing fires in the curvature channel (tuned probe, non-saturating grid: cells 3123–5754/6400) at every d ∈ [0,4], and does NOT fire in the baseline-pheromone control (same detector, 0/3 — the saturating rule never elevates the pheromone cue enough). crossing_step decreases 1550 → 900 as d rises; n_pillars falls 12 → 1 (consolidation). Honest limitation: the crossing fires at d=0 (no smoothing), so the **recruit half** (curvature routing + mass plateau) drives the verdict; the **limit half** (d-smoothing) controls morphology but is not necessary for the crossing. The recruit-vs-limit isolation is unfinished.
 
 **Evidence:**
-- sim06: near miss — stability 0.849–0.893 vs a 0.90 threshold; self-maintenance fragments instead of consolidating (H11's first data point).
+- sim06: near miss — stability 0.849–0.893 vs a 0.90 threshold; self-maintenance fragments instead of consolidating (H11's first data point). Detector-bug corrected 2026-07-27.
 - sim07: null — scalar transport fragments monotonically (stability 0.876→0.739); wrong sign for consolidation.
 - sim08: partial — non-saturating density cap consolidates morphology (pillars 101→52) but stability doesn't rise; necessary, not sufficient.
-- sim09: curvature channel runs end-to-end; crossing doesn't fire at default params (grid saturation blocks the mass-saturation gate), but tuned probes confirm the mechanism's sign (pillars 25→2 as `d` rises).
+- sim09: **crossing fires** (Session 19, corrected detector) — curvature channel crosses at every d in the tuned probe; baseline control does not. The d* sweep (100 combos) confirmed the old gate was the blocker, not the mechanism. Determinism verified.
 
-**Next test:** sweep `deposit_prob_base × material_decay × d` in the tuned-probe regime (lower nucleation, higher erosion) to locate `d*`, the smoothing threshold where mass saturates before the grid fills — and build a spatially-targeted recovery metric that distinguishes scar repair from volume restoration.
+**Next test:** isolate the recruit and limit halves — a recruit-only condition (curvature routing, d=0) vs a limit-only condition (d-smoothing, no curvature routing) — to determine whether the recruit half alone is sufficient or the limit half contributes to the crossing verdict. Then a spatially-targeted recovery metric to make the perturbation acid test decisive.
 
 **Log:** [logs/H7.md](logs/H7.md)
 
@@ -202,7 +202,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **Test:** run sim06 with negative feedback delivered through a non-saturating channel — a density cap, a refractory period, or directional bias along existing wall edges — and compare against both sim06's self-maintenance condition and sim07's transport condition. Prediction: non-saturating inhibition consolidates (components fall, stability rises) where field manipulation fragmented. If instead it also fragments, H11 is wrong and the problem lies deeper than the response curve.
 
-**Status:** Directionally confirmed (4/4 mechanisms). Non-saturating channels consolidate where saturating ones fragment (sim08, sim09), but the refined claim is that the channel must also *recruit*, not merely *limit* — a pure density cap (sim08) doesn't raise stability; the curvature channel (sim09), which does both, is the strongest test of that refinement and confirms the direction in tuned probes.
+**Status:** Directionally confirmed (4/4 mechanisms), now causally supported with a control arm (Session 19). The corrected detector fires the crossing in the curvature channel and not in the baseline-pheromone control (same detector, 0/3) — H11's channel distinction is the causal variable separating crossing from non-crossing, not just a directional correlate of morphology. The recruit half (non-saturating curvature routing) is load-bearing for the crossing; the limit half (d-smoothing) is load-bearing for morphology but not necessary for the verdict — so the "recruit as well as limit" refinement is half-supported.
 
 **Log:** [logs/H11.md](logs/H11.md)
 
@@ -218,8 +218,8 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 | H4: Dynamic Environment | Refined | Fitness landscape criticism supports this | [H4](logs/H4.md) |
 | H5: Autopoiesis | Unchanged | Maturana & Varela grounding | [H5](logs/H5.md) |
 | H6: Multi-Scale Autopoiesis | Strengthened | Smith & Bedau 8th property = autopoiesis | [H6](logs/H6.md) |
-| H7: Trace→Actor Crossing | Refined ×7; not refuted, not demonstrated | Four mechanisms (sim06–sim09) narrow the crossing to a non-saturating recruit+limit channel; sim09's curvature channel runs end-to-end but hasn't crossed at default params | [H7](logs/H7.md) |
+| H7: Trace→Actor Crossing | Refined ×8; crossing fires with a control arm | Corrected mass-saturation gate (was unfalsifiable); curvature channel crosses in tuned probe, baseline control does not; recruit half drives it | [H7](logs/H7.md) |
 | H8: Complexity Enables OEE | NEW | Kaznatcheev (2019), Wiser et al. (2013) | [H8](logs/H8.md) |
 | H9: Evolving Network | Untested (2026-07-27 correction) | Vasas et al. (2012) literature support; sim04's finite-space exhaustion survives but doesn't test the claim; sim03/sim05 withdrawn | [H9](logs/H9.md) |
 | H10: Unbounded Space Insufficiency | Weakened (2026-07-27) | sim05 corrected: 2/6 L2 coexistence (was 0/6 — artifact); Mathis et al. 2024, Fontana & Buss 1994 unaffected | [H10](logs/H10.md) |
-| H11: Saturating Channel | Directionally confirmed (4/4 mechanisms) | Non-saturating channels (sim08 cap, sim09 curvature) consolidate where saturating ones (sim06, sim07) fragment; the recruit-vs-limit distinction (Session 13) still stands | [H11](logs/H11.md) |
+| H11: Saturating Channel | Directionally confirmed (4/4); causal with control arm | Corrected detector: curvature channel crosses, baseline control does not — channel distinction is causal; recruit half load-bearing, limit half not | [H11](logs/H11.md) |
