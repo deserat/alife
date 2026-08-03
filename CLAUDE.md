@@ -66,7 +66,14 @@ all. Corrections have been propagated, but older daily reports carry inline
                          marked DONE (Session N) in place rather than deleted
   bluesky-engagement.md— append-only log written by the engagement monitor; do not hand-edit
   hypotheses/
-    hypotheses.md      — ALL hypotheses in one file (H1–H11) + a summary status table
+    hypotheses.md      — CURRENT STATE ONLY for each hypothesis (H1–H11): statement, status,
+                         evidence, next test, link to its log. Full refinement history lives in
+                         logs/, not here.
+    logs/
+      HN.md            — one file per hypothesis, the full session-by-session refinement
+                         history (append-only, oldest first). This is where "Refinement
+                         (Session N)" paragraphs go — hypotheses.md itself only ever holds the
+                         current statement/status/test, rewritten in place as it changes.
   concepts/            — one living document per topic cluster, refined across sessions
   daily-reports/       — YYYY-MM-DD.md session logs (one per nightly run)
   researchers/         — per-researcher notes (currently EMPTY — unused so far)
@@ -236,9 +243,13 @@ reported in each report's Budget section. Order of operations:
    ("[concept] criticism", "[technique] limitations"). Log opposing views honestly. Seek empirical
    evidence; if there is none, write "no empirical studies found" explicitly. That's a finding.
 4. **Synthesize** into concept files; append a dated section to `synthesis.md`.
-5. **Hypothesize** — add or refine in `hypotheses/hypotheses.md`. Refinements are **appended as
-   dated "Refinement (Session N)" paragraphs**, never overwriting the original claim, and the
-   summary table at the bottom is updated.
+5. **Hypothesize** — add or refine. Refinements are **appended as dated "Refinement (Session N)"
+   paragraphs to `hypotheses/logs/HN.md`**, never overwriting prior entries there. Then update
+   `hypotheses/hypotheses.md` **in place**: rewrite the current statement/status/evidence/next-test
+   for that hypothesis to reflect the new refinement (do not append a history paragraph to
+   hypotheses.md itself), and update its row in the summary table at the bottom. A brand-new
+   hypothesis gets a new section in hypotheses.md and a new `logs/HN.md` (stub "No refinements
+   recorded." until its first refinement).
 6. **Simulate** — small, focused sims that solve one sub-problem; building blocks for the eventual
    system, not the system itself.
 
