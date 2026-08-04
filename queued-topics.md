@@ -218,6 +218,21 @@ to compare.
     both cross, the mass-plateau gate is too permissive (the crossing is detecting any stable
     plateau, not the curvature mechanism specifically). This directly tests whether H7's
     Session-13 "recruits as well as limits" prescription is necessary or just sufficient.
+    **DONE (Session 20, 2026-08-04):** The 2×2 factorial (recruit ON/OFF × limit ON/OFF, 4-seed
+    robustness pass) found the **recruit half is necessary and almost-sufficient** for a
+    *stable* crossing: recruit-only (d=0) is stable 3/4 seeds (hold 1.00 in 3, 0.65 in the
+    borderline seed); neither (no recruit, no limit) is 0/4. The **limit half alone is never
+    stable** (0/4 — criteria flicker, hold 0.40–0.55, because the biharmonic shapes convex
+    geometry no agent is routed to; criterion 3 `deposits_on_convex_fraction` oscillates around
+    0.60). But the limit half is a **stability amplifier**: recruit+limit is stable 4/4 where
+    recruit-only is 3/4 — the borderline seed becomes fully stable (hold 1.0) when d>0 is
+    added. So "recruit as well as limit" = recruit necessary + almost-sufficient; limit =
+    stabilizer + morphology optimizer (causal, not strictly necessary). The decisive contrast
+    is recruit ON vs OFF at d=0 (same detector, same regime, only the recruit flag differs).
+    A new `stable_crossed` metric (`late_hold_rate` ≥ 0.90) separates the recruit half's stable
+    crossing from the limit half's transient flicker. Determinism verified. See
+    `recruit_limit_sweep.py` and H7/H11 Session-20 refinements. NEXT PRIORITY: spatially-
+    targeted recovery metric (#60), then L2 composition (#62).
 
 60. **Spatially-targeted recovery metric — scar repair vs volume restoration** — Still queued
     from Session 17. The grid-wide `recovery = total_material / pre_perturb_total` cannot
@@ -247,3 +262,39 @@ to compare.
     curvature fields interact) might compose more reliably. Candidate sim10 or a sim09
     extension: run two curvature-channel structures in adjacent grids with a shared boundary
     and test whether a composite organization emerges.
+
+## From Session 20 (2026-08-04)
+
+63. **The borderline-seed question — what makes seed 123 unstable for recruit-only?** —
+    Recruit-only (d=0) is stable in 3/4 seeds but borderline in seed 123 (hold 0.65, still
+    crosses). Recruit+limit (d=1) is stable 4/4 — the limit half rescues seed 123. What is
+    different about seed 123's nucleation trajectory that makes the recruit-only crossing
+    unstable, and is it a morphological difference (initial deposit scatter) or a dynamical
+    one (criterion 3 flickering near threshold)? If it is nucleation scatter, the limit half
+    (smoothing) regularizes it; if it is dynamical, the limit half stabilizes criterion 3
+    indirectly. Inspect seed 123's history for recruit-only vs recruit+limit: where does
+    hold drop (which criterion flickers), and does d-smoothing fix that criterion
+    specifically? Cheap analysis of the committed sweep JSON; no new runs needed.
+
+64. **A saturating-action control — disentangling "action-based" from "non-saturating"** —
+    H11's evidence (sim08 cap, sim09 curvature) is both action-based AND non-saturating
+    simultaneously, so it cannot fully distinguish "action-based" from "non-saturating" as
+    the causal variable (this was flagged in H11's Criticisms section from Session 13). The
+    recruit-vs-limit isolation sharpens this: the recruit half is action-based
+    (curvature routes deposit/excavate selection) and non-saturating (linear gain). A
+    saturating-action control — a deposit-probability routing that saturates
+    (`p = base + gain·curvature/(1+|curvature|)`) rather than the linear `p = base +
+    gain·curvature` — would isolate the two factors. If a saturating recruit half still
+    crosses stably, "action-based" is the load-bearing property; if it degrades to a
+    transient flicker (like limit-only), "non-saturating" is. This is the clean test of H11's
+    core distinction, currently confounded.
+
+65. **The stable_crossed metric as a reusable methodology pattern** — The cumulative
+    `crossed` flag (set once criteria hold for `CROSSING_PERSIST` consecutive samples, never
+    unset) hides the difference between a crossing that holds and one that flickers on and
+    off. The `late_hold_rate` (fraction of late-window records where all criteria hold)
+    exposes it. This is now earned once (sim09 Session 20: the limit half's transient
+    crossing was invisible until late_hold_rate was computed) and deserves to be a standing
+    metric for any crossing detector: report both the cumulative verdict AND the late-window
+    hold rate. A crossing that fires then degrades is not the same phenomenon as one that
+    holds. Could be added to CLAUDE.md §4 step 6 alongside the metric-ceiling rule (#61).

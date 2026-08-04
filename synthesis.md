@@ -958,3 +958,80 @@ concluding the mechanism is wrong — the gate may be unfalsifiable. This is the
 methodology rule "Compute your metric's ceiling. If its maximum can fall below
 your threshold, it is not a test," now earned twice (sim06's deposit-rate gate,
 sim09's mass-saturation gate).
+
+## Session 20 (2026-08-04) — The recruit half is load-bearing + almost-sufficient; the limit half is a stability amplifier
+
+### The 2×2 factorial that isolated the curvature channel's two halves
+
+Session 19 found the crossing fires at d=0 (no biharmonic smoothing), which means
+the **recruit half** (curvature routing + mass plateau) drives the verdict and
+the **limit half** (d-smoothing) is not necessary for it — but the two halves
+were not yet isolated. Session 20 ran a 2×2 factorial over the curvature channel:
+recruit ON (curvature routing: `curve_follow=0.6`, `deposit_prob_gain=0.85`,
+`excavate_prob_gain=0.60`) vs OFF (`curve_follow=0`, `deposit_prob_gain=0`,
+`excavate_prob_gain=0` — agents random-walk and deposit/excavate at base rates
+only; the field's curvature has no influence on agent action); limit ON
+(d>0, biharmonic smoothing in `field_step`) vs OFF (d=0). Four cells:
+recruit-only (d=0), recruit+limit (d>0, the as-built channel), limit-only
+(d>0, no recruit), neither (d=0, no recruit). A seed-robustness pass ran the
+four corners across seeds {42, 7, 123, 256}.
+
+A new **stable_crossed** metric separates stable from transient crossings:
+`late_hold_rate` = fraction of the last 1/4 of records where all three crossing
+criteria hold simultaneously. A *stable* crossing holds ~1.00; a *transient*
+crossing (criteria flicker on and off) holds <0.55. `stable_crossed = crossed
+AND late_hold_rate >= 0.90`.
+
+### The result
+
+**Seed robustness (stable_crossed / total across 4 seeds):**
+- **recruit-only (d=0): 3/4 stable** (hold [1.0, 1.0, 0.65, 1.0] — seed 123 is
+  borderline, hold 0.65, still crosses)
+- **recruit+limit (d=1): 4/4 stable** (hold 1.0 across all four seeds)
+- **limit-only (d=1): 0/4 stable** (crossed in 2/4 but transient; hold [0.55,
+  0.50, 0.55, 0.40])
+- **neither (d=0): 0/4 stable** (crossed 0/4; hold ≤0.15)
+
+The recruit half is **necessary and almost-sufficient** for a stable crossing.
+Neither (no recruit, no limit) crosses in any seed. Limit-only (no recruit) is
+never stable. The recruit half alone crosses in 4/4 seeds and is stable in 3/4.
+The decisive contrast is recruit ON vs OFF at d=0: same detector, same regime,
+only the recruit flag differs — recruit-only crosses stably (3/4); neither
+does not (0/4).
+
+### The limit half is a stability amplifier, not morphology-only
+
+The Session-19 "half-supported" reading was that the limit half is
+morphology-only — it consolidates pillars (12→1) and speeds the crossing
+(1550→900) but is not necessary for the verdict. Session 20 upgrades this:
+recruit+limit is stable in 4/4 seeds where recruit-only is 3/4 — the one
+borderline seed (123, hold 0.65) becomes fully stable (hold 1.0) when d>0 is
+added. The limit half **amplifies the stability** of the recruit-driven
+crossing against seed variance. So H11's "recruit as well as limit" is
+refined: recruit = necessary and almost-sufficient; limit = stability
+amplifier + morphology optimizer (not strictly necessary, but causally
+contributing to robustness). This is a stronger claim than "half-supported":
+the limit half has a *causal* role (stability), not merely an aesthetic one.
+
+### The limit-only transient flicker is itself informative
+
+Limit-only's criteria 1 (stability) and 2 (roughness + plateau) mostly pass —
+the biharmonic does build roughness and mass does plateau — but criterion 3
+(`deposits_on_convex_fraction ≥ 0.60`) flickers because without curvature
+routing, deposits land on convex cells only at the base rate. The smoothing
+creates convex features but nothing routes agents to them. The biharmonic
+alone builds the geometry the recruit channel would act on, but without the
+recruit half the geometry is unattended. This is the clean separation: the
+recruit half routes agent action to the geometry; the limit half shapes the
+geometry. Limit-only shapes geometry that no agent is routed to; neither
+alone (no geometry shaping) produces nothing.
+
+### The "find d*" question is now fully superseded
+
+Under the corrected detector the crossing fires at every d ∈ [0,4] — there is
+no sharp `d*` phase transition for the crossing verdict. Session 19 replaced
+"find d*" with "isolate the recruit and limit halves"; Session 20 completes
+that isolation. The recruit half is the load-bearing variable; the limit half
+makes its crossing robust. The next question is composition: do two
+self-maintaining curvature structures compose (the sim05 L2 question reopened
+with a non-saturating stigmergic glue)?
