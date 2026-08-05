@@ -288,6 +288,21 @@ to compare.
     crosses stably, "action-based" is the load-bearing property; if it degrades to a
     transient flicker (like limit-only), "non-saturating" is. This is the clean test of H11's
     core distinction, currently confounded.
+    **DONE (Session 21, 2026-08-05):** The 2×2×2 factorial (response {linear, saturating}
+    × recruit {ON, OFF} × d {0, 1}, 4-seed robustness pass) found **action-based is the
+    primary load-bearing property; non-saturating is a secondary stability amplifier.**
+    The saturating action crosses in 8/8 recruit-ON seeds (stable 6/8); the linear action
+    crosses in 8/8 (stable 7/8). The limit half rescues both to 4/4 at d=1. Saturation costs
+    ~0.05 in mean hold rate at d=0 (0.91→0.86) but does not collapse the crossing — criterion 3
+    (deposits_on_convex_fraction) holds 1.00 for both forms; only the mass-plateau gate
+    (criterion 2p) flickers more under saturation. H11's strict "non-saturating" claim is
+    partially weakened: a saturating action-based channel still crosses stably, but less
+    robustly. The "self-defeating" language applies to *cue-based* saturating channels
+    (sim06/sim07), not to *action-based* saturating channels. The three-level causal
+    decomposition: (1) action-based routing = primary, (2) non-saturating response =
+    secondary stability, (3) biharmonic smoothing = tertiary stability + morphology. See
+    `saturating_action_sweep.py` and H7/H11 Session-21 refinements. NEXT PRIORITY:
+    spatially-targeted recovery metric (#60), then L2 composition (#62).
 
 65. **The stable_crossed metric as a reusable methodology pattern** — The cumulative
     `crossed` flag (set once criteria hold for `CROSSING_PERSIST` consecutive samples, never
@@ -298,3 +313,85 @@ to compare.
     metric for any crossing detector: report both the cumulative verdict AND the late-window
     hold rate. A crossing that fires then degrades is not the same phenomenon as one that
     holds. Could be added to CLAUDE.md §4 step 6 alongside the metric-ceiling rule (#61).
+
+66. **Continuous Game of Life — self-organizing cells at the edge of growth (Guillet & Jülicher 2026)** —
+    A continuous-space, continuous-time Game of Life (cGoL) that produces self-replicating,
+    motile, dying cell-like patterns with just 7 parameters. The key finding: a global resource
+    constraint (conservation law) causes the system to self-organize to a phase transition
+    boundary — the "edge of growth" — where morphologies are richest and most life-like.
+    Reference code cloned to `simulations/cGoL_reference/` (Julia, FFT-based convolution,
+    GPLv3). Paper: arXiv:2607.27402, to appear in Artificial Life journal.
+
+    Relevance to our hypotheses:
+    - **H1/H7 (Composition / Trace→Actor Crossing):** The cGoL cell patterns have a
+      nucleus+shell structure that emerges from simple convolution rules — a spatially
+      organized, self-maintaining entity. The field L is the "trace"; the emergent cell with
+      homeostatic morphogen concentrations is the "actor." Self-replication and persistence
+      of these cells is a concrete trace→actor crossing. Can we layer H7's crossing detector
+      onto the cGoL cells? Do they satisfy the three operational criteria (persistence,
+      non-reducible dynamics, constraint on agents)?
+    - **H4 (Dynamic Environment):** Resource feedback is exactly H4 — the environment
+      participates in a feedback loop. Growth consumes resource → resource depletion retunes
+      parameters → system self-organizes at the phase boundary. A stigmergic medium with its
+      own dynamics.
+    - **H11 (Saturating Channel):** The "edge of growth" is a non-saturating channel —
+      resource scarcity acts as feedback that doesn't saturate the way a pheromone field does.
+      The system self-tunes to the transition boundary rather than collapsing.
+    - **H8 (Computational Irreducibility):** The phase structure is mapped empirically through
+      extensive simulation — morphologies at the edge of growth can't be predicted from rules
+      alone.
+    - **Multi-scale composition (H1/H10):** The cell-like patterns interact, divide, and
+      collide. Whether two such self-maintaining patterns compose into a higher-order
+      structure is directly testable.
+
+    The reaction-diffusion interpretation (§4) maps the cGoL onto morphogen concentrations
+    held at homeostatic levels by the nonlinear survival rule — connecting to sim03 (chemical
+    organizations) and sim09 (curvature channel). The "survival rule" is a non-saturating
+    channel that maintains homeostasis.
+
+    Next step: port `cGoL_minimal.jl` to Python (numpy FFT convolution, ~100 lines), add
+    resource feedback, and test whether the emergent cells satisfy H7's crossing criteria.
+    The minimal Julia implementation uses: (1) two Gaussian FFT convolutions for M and N
+    fields, (2) a sigmoid-based survival rule `rule0(M,N,p)`, (3) explicit Euler time
+    integration. Parameters: p=(0.50, 0.10, 0.23, 0.015, 0.35, 0.26), λ=3.
+
+## From Session 21 (2026-08-05)
+
+67. **A truly cue-based saturating action control — completing the 2×2** — The Session 21
+    saturating-action control tested *within* the action-based family (linear vs saturating
+    action routing). The remaining cell of the 2×2 is a *cue-based non-saturating* channel:
+    deposit probability routed on a non-saturating cue field (e.g. `p = base + gain·φ`
+    without saturation, instead of `p = base + gain·φ/(1+φ)`). If a non-saturating *cue*
+    channel crosses, then the action/cue distinction (H11's original framing) is the real
+    divide, not the saturating/non-saturating one. If it does not, the action-based property
+    is confirmed as primary even when the cue is non-saturating. This completes the 2×2:
+    action×{linear,saturating} × cue×{linear,saturating}, isolating which of the two
+    properties (action-based, non-saturating) is truly load-bearing. Cheap: the cue-based
+    condition is sim06 with the deposit rule changed from `φ/(1+φ)` to linear `φ`.
+
+68. **The three-level causal decomposition as a methodology pattern** — Sessions 19–21
+    decomposed the crossing's causal structure into three levels: (1) action-based routing
+    (primary — the causal variable separating crossing from non-crossing), (2)
+    non-saturating response (secondary — stability amplifier), (3) biharmonic smoothing
+    (tertiary — stability amplifier + morphology optimizer). This is a generalizable
+    pattern: when a hypothesis claims two properties matter (H11: action-based AND
+    non-saturating), a single confounded experiment cannot distinguish them; a factorial
+    isolating each property separately, plus a seed-robustness pass with a stable-vs-transient
+    metric, can. The pattern: (a) identify the confounded properties, (b) build a saturating
+    control that holds one constant, (c) run a 2×2×2 factorial, (d) use late_hold_rate to
+    separate stable from transient effects, (e) decompose the result into primary/secondary/
+    tertiary causal levels. Could be added to CLAUDE.md §4 step 6 alongside the metric-ceiling
+    and stable_crossed rules.
+
+69. **The borderline-seed flip — seed 123 is borderline for linear but stable for saturating**
+    — Session 20 found seed 123 is the borderline seed for linear recruit-only (hold 0.65).
+    Session 21 found seed 123 is *stable* for saturating recruit-only (hold 0.95) — and seeds
+    42 and 256 are borderline for saturating (holds 0.85, 0.70) but stable for linear. The
+    borderline seeds *flip* between response curves. This means the linear and saturating
+    forms are not simply "one more stable than the other" — they are fragile to *different*
+    nucleation trajectories. What makes a seed borderline for one form but not the other?
+    If the nucleation scatter differs, the saturating form's compressed gain may regularize
+    seeds where linear's high gain overshoots, while linear's full gain may stabilize seeds
+    where saturating's compression is too weak. Inspect the borderline seeds' histories: does
+    the hold drop at the same criterion, and does the response curve change which criterion
+    flickers? Cheap analysis of the committed sweep JSON; no new runs needed.

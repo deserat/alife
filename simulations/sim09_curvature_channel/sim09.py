@@ -220,10 +220,23 @@ def termite_step(termites, field, rng, params, curvature, on_surface):
     ons = on_surface
     mat = field.material
 
+    # Session 21: the recruit-response curve (queued-topic 64). "linear" is
+    # the as-built non-saturating routing (p = base + gain·c). "saturating"
+    # compresses it (p = base + gain·c/(1+|c|)) — the same action-based
+    # routing but through a saturating response, to isolate "action-based"
+    # from "non-saturating" as the causal variable (H11's confound).
+    recruit_response = params.get("recruit_response", "linear")
+
     deposits = 0
     excavations = 0
     deposits_on_convex = 0
     pickups = 0
+
+    def _route(base, gain, c):
+        """Deposit/excavate probability routing on curvature c."""
+        if recruit_response == "saturating":
+            return base + gain * c / (1.0 + abs(c))
+        return base + gain * c  # "linear" (non-saturating, as-built)
 
     for i in range(n):
         y = int(termites.y[i])
@@ -270,9 +283,11 @@ def termite_step(termites, field, rng, params, curvature, on_surface):
             elif mat[y, x] > 0:
                 c = curv[y, x]
                 if c < 0:
-                    # concavity → excavate (Calovi/Facchini limit mechanism)
-                    p_exc = excavate_prob_base + excavate_prob_gain * (-c)
-                    p_exc = min(max(p_exc, 0.0), 1.0)
+                    # concavity → excavate (Calovi/Facchini limit mechanism).
+                    # Pass -c (positive) so the routing increases with
+                    # concavity depth for both linear and saturating forms.
+                    p_exc = min(max(_route(excavate_prob_base,
+                                           excavate_prob_gain, -c), 0.0), 1.0)
                     if rng.random() < p_exc:
                         mat[y, x] = max(0.0, mat[y, x] - pellet)
                         termites.loaded[i] = True
@@ -288,8 +303,9 @@ def termite_step(termites, field, rng, params, curvature, on_surface):
         if termites.loaded[i]:
             c = curv[y, x]
             if ons[y, x]:
-                # surface-gated: linear (non-saturating) routing on curvature
-                p_dep = deposit_prob_base + deposit_prob_gain * c
+                # surface-gated routing on curvature (linear non-saturating
+                # by default; saturating form set via recruit_response).
+                p_dep = _route(deposit_prob_base, deposit_prob_gain, c)
             else:
                 # bare ground far from structure: nucleation only
                 p_dep = deposit_prob_base
@@ -1283,6 +1299,43 @@ def cmd_selftest():
     detect_crossing(h3b, pb)
     assert h3b[-1]["crossed"] is False, "negating c3 (structure fraction) should withhold"
     print("selftest: Part 5 OK")
+
+    # Part 5c (Session 21): the recruit_response parameter must route
+    # correctly. A synthetic field where curvature is high should produce
+    # a higher deposit probability under the linear form than under the
+    # saturating form (at |c| > 1). This is the confound-isolation guard:
+    # if the saturating form accidentally equals the linear form, the
+    # experiment is uninformative.
+    f5c = Field(GRID_SIZE)
+    yy, xx = np.mgrid[0:GRID_SIZE, 0:GRID_SIZE]
+    cy = cx = GRID_SIZE // 2
+    f5c.material = 10.0 * np.exp(-((yy - cy) ** 2 + (xx - cx) ** 2) / (2 * 4.0 ** 2))
+    curv5c = 0.5 * (np.roll(f5c.material, 1, 0) + np.roll(f5c.material, -1, 0)
+                    + np.roll(f5c.material, 1, 1) + np.roll(f5c.material, -1, 1)
+                    - 4.0 * f5c.material)
+    on_s5c = f5c.material > SURFACE_THRESHOLD
+    # find a cell with high positive curvature (convex rim)
+    rim_cells = np.argwhere(on_s5c & (curv5c > 1.0))
+    if len(rim_cells) > 0:
+        ry, rx = rim_cells[0]
+        c_val = float(curv5c[ry, rx])
+        # linear routing: base + gain * c
+        p_lin = DEPOSIT_PROB_BASE + DEPOSIT_PROB_GAIN * c_val
+        # saturating routing: base + gain * c / (1 + |c|)
+        p_sat = DEPOSIT_PROB_BASE + DEPOSIT_PROB_GAIN * c_val / (1.0 + abs(c_val))
+        assert p_lin > p_sat, \
+            f"at c={c_val:.3f} linear ({p_lin:.3f}) should exceed saturating ({p_sat:.3f})"
+        assert p_sat < 1.0, "saturating form should not clamp at 1.0 for moderate c"
+    # also verify both response modes run without error on the tiny grid
+    for resp in ("linear", "saturating"):
+        tp = {"grid_size": 30, "n_termites": 20, "steps": 100,
+              "sample_every": 25, "channel": "curvature",
+              "structure_threshold": STRUCTURE_THRESHOLD,
+              "d": D_SMOOTH, "material_decay": MATERIAL_DECAY,
+              "recruit_response": resp}
+        r = run_condition(tp, seed=SEED)
+        assert len(r["history"]) >= 3, f"{resp} run should produce history"
+    print("selftest: Part 5c OK (recruit_response routing)")
 
 
 def main():

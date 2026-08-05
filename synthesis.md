@@ -1035,3 +1035,76 @@ that isolation. The recruit half is the load-bearing variable; the limit half
 makes its crossing robust. The next question is composition: do two
 self-maintaining curvature structures compose (the sim05 L2 question reopened
 with a non-saturating stigmergic glue)?
+
+## Session 21 (2026-08-05) — The saturating-action control: action-based is primary, non-saturating is secondary
+
+Session 20 isolated the recruit and limit halves but left H11's central
+confound intact: the recruit half is action-based (curvature routes what the
+agent does) AND non-saturating (linear gain) simultaneously. H11 says both
+properties matter, but the evidence (sim08 cap, sim09 curvature) had them
+confounded — both were present together in every crossing condition.
+
+Session 21's saturating-action control disentangles them. The same curvature
+routing, but a saturating response `p = base + gain·c/(1+|c|)` instead of the
+linear `p = base + gain·c`. Both forms are action-based; only the linear form
+is non-saturating. Curvature in the running sim ranges ±1.5, so the
+saturating form genuinely compresses (at c=1.0: 0.425 vs 0.850).
+
+**The verdict: action-based is the primary load-bearing property;
+non-saturating is a secondary stability contributor.** The saturating action
+still crosses in 8/8 recruit-ON seeds and is stable in 6/8 (linear is 7/8).
+The limit half (d=1) rescues both to 4/4 stable. Saturation costs ~0.05 in
+mean hold rate at d=0 (0.91→0.86) but does not collapse the crossing the way
+turning off the recruit half does (0/8 crossed).
+
+**What degrades is the mass-plateau gate (criterion 2p), not the routing
+(criterion 3).** The saturating form's criterion 3
+(deposits_on_convex_fraction) passes 1.00 in all seeds — curvature routing
+still sends deposits to convex tips even with the compressed response. What
+flickers is criterion 2's mass-plateau gate: the saturating form takes longer
+to plateau (compressed deposit probabilities create more stochastic scatter
+in the mass trajectory), so `|slope(M)|/mean(M)` stays above threshold more
+often. The degradation is in the *dynamics of mass equilibration*, not in the
+*spatial selectivity of the routing*.
+
+**This partially weakens H11's strict "non-saturating" claim.** H11 says
+feedback through a saturating channel is self-defeating because it destroys
+spatial contrast. The saturating *action-based* channel does not destroy
+spatial contrast — it only slows mass equilibration. The non-saturating
+property matters for *stability*, not for the *crossing verdict*. H11's
+distinction should be refined: the critical property is **action-based
+routing** (curvature routes what the agent does, not how strongly it reads a
+cue); non-saturating is a **stability amplifier**, analogous to the limit
+half's role. "Self-defeating" overstates the saturating action's failure; it
+is "self-destabilizing" at most.
+
+### A three-level decomposition of the crossing's causal structure
+
+Sessions 19–21 now decompose the crossing into three levels of causal
+contribution:
+
+1. **Action-based routing (Session 20, primary).** Curvature routes what the
+   agent *does* (deposit at convex tips, excavate at concavities) rather than
+   how strongly it reads a cue. This is the load-bearing variable: without it
+   (recruit OFF), 0/8 seeds cross regardless of the response curve or the
+   limit half. The baseline-pheromone control (cue-based, no action routing)
+   crosses 0/3.
+
+2. **Non-saturating response (Session 21, secondary).** Within the
+   action-based family, a linear (non-saturating) response curve makes the
+   crossing more stable than a saturating one (7/8 vs 6/8 stable at d=0). But
+   both forms cross; the saturating action does not collapse. The
+   non-saturating property is a stability amplifier, not the causal variable.
+
+3. **Biharmonic smoothing / the limit half (Session 20, tertiary).** The
+   d-smoothing term stabilizes the crossing against seed variance
+   (recruit+limit is 4/4 stable where recruit-only is 3/4) and consolidates
+   morphology (pillars 12→1). But it is not necessary for the crossing
+   verdict and alone (without routing) never crosses stably (0/4).
+
+This is a cleaner causal story than H11's original "saturating channels are
+self-defeating." The self-defeating property belongs to *cue-based* saturating
+channels (sim06/sim07's pheromone field), not to *action-based* saturating
+channels. The action-based property is what separates crossing from
+non-crossing; the non-saturating and limit properties are stability
+amplifiers that make the crossing robust.
