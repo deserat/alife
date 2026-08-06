@@ -329,6 +329,24 @@ grid + agent framework, replacing the pheromone-deposit rule with a curvature-de
   `saturating_action_sweep.py`, `recruit_limit_sweep.py`, `dstar_sweep.py`, `sim09.py`
   (corrected `detect_crossing`), and
   [`sim09`](https://alife.vancedubberly.com/sim09_curvature_channel/visualize.html).
+- **SESSION 22 (2026-08-06) cue-based non-saturating control — the 2×2 completes, non-saturating
+  REVERSES SIGN across families.** sim06's as-built saturating cue `p = base + gain·φ/(1+φ)` was
+  contrasted with a non-saturating (linear) cue `p = base + gain·φ` (clamped to 1.0), both cue-based.
+  Seed-42 factorial (64 conditions): saturating cue crosses 32/32 (stable 32/32, hold 1.000); linear
+  cue crosses 19/32 (stable 16/32, hold 0.527). **Without self-maintenance: saturating cue 16/16
+  stable; linear cue 0/16 stable.** With SM: both 16/16 stable. Seed robustness (4 seeds) confirms.
+  The non-saturating property helps in the action family (sim09: 7/8 vs 6/8) but HURTS in the cue
+  family (sim06: 0/16 vs 16/16 w/o SM) — a sign reversal. **Mechanism: deposit-probability
+  clamping.** The linear cue hits p=1.0 at φ≈1.15 — every high-pheromone cell deposits at 100%,
+  flattening the gradient; mean pheromone over structure drops to 0.467 (vs saturating's 0.749),
+  below the 0.5 crossing threshold. The saturating cue's `φ/(1+φ)` compression *prevents*
+  deposit-probability saturation and preserves spatial contrast. The "self-defeating" channel is
+  the **non-saturating cue** (deposit-probability clamping), not the saturating cue — H11's
+  original framing was backwards for the cue family. Self-maintenance rescues the linear cue (4/4
+  stable) by sustaining pheromone elevation regardless of the response curve. See
+  `cue_response_sweep.py` and `sim06.py` (`deposit_response` parameter, selftest Part 5d).
+- Does the crossing compose? — the L2 question with a non-saturating glue (#62) remains the
+  next major test.
 - Can the three channels be separated in simulation (curvature alone, humidity/evaporation
   alone, crowding alone) to identify which is load-bearing for the crossing? Facchini 2024 says
   curvature ≡ evaporation, so those two are one channel; crowding (Xiao 2026) is the independent

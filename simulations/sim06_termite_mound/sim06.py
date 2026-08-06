@@ -149,6 +149,7 @@ def termite_step(termites, field, rng, params):
     pickup_prob = params.get("pickup_prob", PICKUP_PROB_BASE)
     deposit_base = params.get("deposit_base", DEPOSIT_BASE)
     deposit_gain = params.get("deposit_gain", DEPOSIT_GAIN)
+    deposit_response = params.get("deposit_response", "saturating")  # Session 22: "saturating" (as-built φ/(1+φ)) or "linear" (non-saturating cue, gain·φ)
     pellet = params.get("pellet", PELLET)
     deposit_pheromone = params.get("deposit_pheromone", DEPOSIT_PHEROMONE)
 
@@ -186,7 +187,18 @@ def termite_step(termites, field, rng, params):
 
     # --- Deposit (Grasse stigmergy — heart of the model) ---
     local_phero = field.pheromone[termites.y, termites.x]
-    p_deposit = deposit_base + deposit_gain * (local_phero / (1.0 + local_phero))
+    # Session 22: the cue-response curve. "saturating" is the as-built Grassé
+    # rule p = base + gain·φ/(1+φ), flat above φ≈1 (H11's self-defeating cue
+    # channel). "linear" is the non-saturating cue p = base + gain·φ (clamped
+    # to 1.0) — the remaining cell of the 2×2 (cue × {linear, saturating}).
+    # Both are cue-based: the pheromone field is the cue the agent reads; only
+    # the response curve differs. This isolates "non-saturating" from
+    # "action-based" in the cue family, complementing sim09's action-family
+    # test (queued-topic #67).
+    if deposit_response == "linear":
+        p_deposit = deposit_base + deposit_gain * local_phero
+    else:
+        p_deposit = deposit_base + deposit_gain * (local_phero / (1.0 + local_phero))
     np.clip(p_deposit, 0.0, 1.0, out=p_deposit)
     dep_mask = termites.loaded & (rng.random(n) < p_deposit)
     structure_threshold = params.get("structure_threshold", STRUCTURE_THRESHOLD)
@@ -1022,6 +1034,27 @@ def cmd_selftest():
     detect_crossing(growing, {})
     assert not growing[-1]["crossed"], "Part 5: detector fired on an unsaturated structure"
     print("selftest: Part 5 OK")
+
+    # Part 5d (Session 22): the deposit_response parameter must produce a
+    # higher deposit probability under the linear (non-saturating) form than
+    # under the saturating form at moderate pheromone — otherwise the
+    # cue-based non-saturating control is a null test. This is the cue-family
+    # analog of sim09's Part 5c confound-isolation guard.
+    for phi in (0.5, 1.0, 2.0, 5.0):
+        p_sat = 0.10 + 0.85 * (phi / (1.0 + phi))
+        p_lin = min(1.0, 0.10 + 0.85 * phi)
+        assert p_lin > p_sat, (
+            f"at phi={phi} linear ({p_lin:.3f}) should exceed saturating ({p_sat:.3f})"
+        )
+    # Both response modes run without error on the tiny grid (Part 2 loop).
+    for resp in ("saturating", "linear"):
+        fd = Field(30)
+        td = Termites(20, 30, make_rng(999))
+        rd = make_rng(888)
+        for _ in range(100):
+            termite_step(td, fd, rd, {"deposit_response": resp})
+        assert fd.material.sum() > 0, f"Part 5d: no deposits under {resp} response"
+    print("selftest: Part 5d OK (deposit_response cue-family confound guard)")
 
 
 def main():

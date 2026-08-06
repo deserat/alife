@@ -368,6 +368,21 @@ to compare.
     action×{linear,saturating} × cue×{linear,saturating}, isolating which of the two
     properties (action-based, non-saturating) is truly load-bearing. Cheap: the cue-based
     condition is sim06 with the deposit rule changed from `φ/(1+φ)` to linear `φ`.
+    **DONE (Session 22, 2026-08-06):** The cue-based non-saturating control (sim06 with
+    `deposit_response` parameter, `cue_response_sweep.py`) found the non-saturating cue
+    crosses LESS, not more — the opposite of the action family and opposite to H11's strict
+    prediction. Without self-maintenance: saturating cue 16/16 stable (hold 1.000); linear
+    cue 0/16 stable (hold 0.053). With SM: both 16/16 stable. Seed robustness (4 seeds)
+    confirms. **The non-saturating property reverses sign across families**: it amplifies
+    stability in the action family (sim09: 7/8 vs 6/8) but destroys it in the cue family
+    (sim06: 0/16 vs 16/16 w/o SM). Mechanism: the linear cue `p = base + gain·φ` clamps to
+    p=1.0 at φ≈1.15, flattening the gradient (mean pheromone drops to 0.467 < 0.5 threshold);
+    the saturating cue's `φ/(1+φ)` compression *prevents* deposit-probability saturation
+    and preserves spatial contrast. The "self-defeating" channel is the non-saturating cue
+    (deposit-probability clamping), not the saturating cue — H11's original framing was
+    backwards for the cue family. Self-maintenance rescues the linear cue (4/4 stable). See
+    `cue_response_sweep.py`, H7/H11 Session-22 refinements. NEXT PRIORITY:
+    spatially-targeted recovery metric (#60), then L2 composition (#62).
 
 68. **The three-level causal decomposition as a methodology pattern** — Sessions 19–21
     decomposed the crossing's causal structure into three levels: (1) action-based routing
@@ -395,3 +410,51 @@ to compare.
     where saturating's compression is too weak. Inspect the borderline seeds' histories: does
     the hold drop at the same criterion, and does the response curve change which criterion
     flickers? Cheap analysis of the committed sweep JSON; no new runs needed.
+
+## From Session 22 (2026-08-06)
+
+70. **Deposit-probability clamping vs cue-response compression — the two kinds of
+    "saturation"** — Session 22's cue-based control revealed that H11's original framing
+    conflated two distinct saturation phenomena: (a) **cue-response compression** (the
+    `φ/(1+φ)` form flattens at high φ — what the saturating cue has) and (b)
+    **deposit-probability clamping** (the linear `gain·φ` form hits p=1.0 at φ≈1.15, so every
+    high-pheromone cell deposits at 100% — what the non-saturating cue has). The
+    "self-defeating" saturation is (b), not (a): the non-saturating cue clamps to p=1.0 and
+    flattens the gradient; the saturating cue's compression *prevents* clamping and preserves
+    spatial contrast. This distinction should be formalized: a channel is self-defeating when
+    its response curve saturates the *probability* (the output), not when it compresses the
+    *cue* (the input). H11's "self-defeating saturating channel" should be re-read as
+    "self-defeating probability-saturating channel." This is a refinement of the concept, not
+    a new experiment — but it deserves a formal write-up and possibly a concept file, because
+    it changes how the 2×2 should be interpreted. The action family's response curve
+    (`base + gain·c` vs `base + gain·c/(1+|c|)`) saturates only the *gain* (the routing
+    decision is preserved); the cue family's response curve saturates the *probability*
+    (the output clamps). That is why the sign reverses.
+
+71. **The self-maintenance rescue — is SM necessary or merely sufficient for the
+    non-saturating cue?** — Session 22 found self-maintenance rescues the non-saturating cue
+    completely (0/16 → 16/16 stable). But is SM the *only* mechanism that can rescue it, or
+    would any pheromone-sustaining mechanism work (e.g. slower pheromone decay, higher deposit
+    pheromone, lower diffusion)? If the linear cue's failure is purely "mean pheromone drops
+    below 0.5," then any mechanism that keeps pheromone elevated should rescue it — and SM is
+    just one way to do that. A sweep of pheromone_decay × deposit_pheromone at the linear-cue
+    condition would map the rescue surface. If the rescue is specific to SM (the
+    structure-reemits-pheromone loop), that connects to H7's self-maintenance crossing
+    mechanism; if it is generic (any pheromone elevation), the non-saturating cue's failure is
+    just a parameter-regime issue, not a mechanistic one. Cheap: a small sweep around the
+    linear-cue condition.
+
+72. **The deposit-probability saturation threshold as a predictor** — The linear cue
+    clamps to p=1.0 at φ≈1.15; the saturating cue never reaches p=1.0 (it asymptotes to
+    base+gain=0.95). The crossing's success tracks whether the deposit probability saturates
+    *before* the pheromone field develops spatial contrast. This suggests a generalizable
+    diagnostic: compute the φ at which p_deposit first reaches 1.0 (call it φ_sat). If
+    φ_sat is below the operating mean pheromone, the channel is probability-saturated and the
+    crossing will fail (gradient flattened). If φ_sat is above it, the channel stays graded
+    and the crossing can fire. For sim06's linear cue φ_sat≈1.15; for the saturating cue
+    φ_sat=∞ (never clamps). Does this predictor hold across the sim09 action family too?
+    The action family's response curve saturates only the gain, not the probability, so
+    φ_sat is effectively infinite (routing never clamps) — consistent with both action forms
+    crossing. If φ_sat predicts crossing across all four cells of the 2×2, it is a unifying
+    diagnostic. Cheap: compute φ_sat for each condition and check it against the crossing
+    verdict.

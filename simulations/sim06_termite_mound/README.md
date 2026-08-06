@@ -187,10 +187,31 @@ structures compose into a higher-order (L2) organization?**
 
 ```bash
 cd ~/brain/artificial-life/simulations
-uv run python3 sim06_termite_mound/sim06.py run          # full experiment -> results.json
-uv run python3 sim06_termite_mound/sim06.py sweep_plot   # parameter sweeps -> output/*.png
-uv run python3 sim06_termite_mound/sim06.py selftest     # internal sanity checks
+uv run python3 sim06_termite_mound/sim06.py run            # full experiment -> results.json
+uv run python3 sim06_termite_mound/sim06.py sweep_plot     # parameter sweeps -> output/*.png
+uv run python3 sim06_termite_mound/sim06.py sweep_crossing # broad crossing search -> output/sweep_crossing_results.json
+uv run python3 sim06_termite_mound/sim06.py selftest       # internal sanity checks (incl. Part 5d deposit_response guard)
+uv run python3 sim06_termite_mound/cue_response_sweep.py  # Session 22: cue-based non-saturating control -> output/cue_response_sweep.json
 ```
+
+### Session 22 — the `deposit_response` parameter (cue-based non-saturating control)
+
+sim06's as-built deposit rule is the **saturating cue** `p = base + gain·φ/(1+φ)`
+(flat above φ≈1). A `deposit_response` parameter ("saturating" | "linear") switches
+the cue-response curve. The "linear" form is the **non-saturating cue**
+`p = base + gain·φ` (clamped to 1.0) — the remaining cell of the 2×2
+(queued-topic #67), completing the cue × {linear, saturating} factorial that
+mirrors sim09's action × {linear, saturating} factorial.
+
+**Result — the non-saturating cue crosses LESS, not more (opposite of the action
+family).** Seed-42 factorial (64 conditions): saturating cue 32/32 stable (hold
+1.000); linear cue 16/32 stable (hold 0.527). Without self-maintenance: saturating
+16/16 stable; linear 0/16 stable. Self-maintenance rescues the linear cue (16/16
+stable). The linear cue clamps to p=1.0 at φ≈1.15, flattening the gradient (mean
+pheromone 0.467 < 0.5 threshold vs saturating's 0.749). The non-saturating property
+reverses sign across families: it helps in the action family, hurts in the cue
+family. See `output/cue_response_sweep.json`, `hypotheses/logs/H7.md` and
+`hypotheses/logs/H11.md` (Session 22 refinements).
 
 Visualization: `cd sim06_termite_mound && python3 -m http.server 8080` → open
 `http://localhost:8080/visualize.html`. Also deployed at

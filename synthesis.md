@@ -1108,3 +1108,92 @@ channels (sim06/sim07's pheromone field), not to *action-based* saturating
 channels. The action-based property is what separates crossing from
 non-crossing; the non-saturating and limit properties are stability
 amplifiers that make the crossing robust.
+
+## Session 22 (2026-08-06) — The cue-based non-saturating control: the 2×2 completes, and the non-saturating property reverses sign across families
+
+Session 21 tested *within* the action family (linear vs saturating action
+routing) and found non-saturating is a secondary stability amplifier there.
+The remaining cell of the 2×2 was untested (queued-topic #67): a non-saturating
+*cue* channel. sim06's as-built deposit rule is the saturating cue
+`p = base + gain·φ/(1+φ)` (flat above φ≈1); the non-saturating cue is
+`p = base + gain·φ` (clamped to 1.0). Both are cue-based; only the response
+curve differs. A `deposit_response` parameter was added to sim06.py with a
+selftest Part 5d confound-isolation guard.
+
+**The non-saturating cue crosses LESS, not more — the opposite of the action
+family and opposite to H11's strict prediction.** Seed-42 factorial (64
+conditions): saturating cue crosses 32/32 (stable 32/32, hold 1.000); linear
+cue crosses 19/32 (stable 16/32, hold 0.527). Decomposed by self-maintenance:
+without SM, saturating cue is 16/16 stable (hold 1.000); linear cue is 0/16
+stable (hold 0.053). With SM, both are 16/16 stable (hold 1.000). Seed
+robustness (4 seeds) confirms: saturating no-SM 4/4; linear no-SM 0–1/4; both
+with SM 4/4. Determinism verified.
+
+**The mechanism: deposit-probability clamping, not cue-response compression.**
+The linear rule `p = base + gain·φ` hits p=1.0 at φ≈1.15 — every
+high-pheromone cell deposits at 100%, driving faster, more uniform growth
+(linear builds 3624 vs saturating's 1858 cells) and diluting the pheromone
+field. Mean pheromone over structure drops to 0.467 (below the 0.5 crossing
+threshold) vs the saturating cue's 0.749. The saturating cue's `φ/(1+φ)`
+compression *prevents* deposit-probability saturation, keeping the response
+graded and preserving spatial contrast. Threshold sensitivity confirms: at
+phero_elev_thresh 0.3–0.4 the linear cue crosses (hold 1.000); at 0.5+ it does
+not — the 0.467 is a real equilibrium, not a detector artifact.
+
+**The non-saturating property reverses sign across families.** In the action
+family (sim09 Session 21), non-saturating (linear) is slightly more stable
+(7/8 vs 6/8). In the cue family (sim06 Session 22), non-saturating (linear)
+is dramatically less stable (0/16 vs 16/16 without SM). The full 2×2:
+
+| | non-saturating (linear) | saturating |
+|---|---|---|
+| **action-based** (sim09) | 7/8 stable (more stable) | 6/8 stable (less stable) |
+| **cue-based** (sim06) | 0/16 stable w/o SM; 16/16 w/ SM | 16/16 stable (self-sustaining) |
+
+The action-based property is primary (both action rows cross); the
+non-saturating property is a **sign-reversing modifier** — a stability
+amplifier in the action family, a stability destroyer in the cue family
+(without compensation).
+
+**H11's "self-defeating" framing is backwards for the cue family.** H11 said
+saturating channels are self-defeating because they destroy spatial contrast.
+Session 21 found this is backwards within the action family (the saturating
+*action* is merely less stable, not self-defeating). Session 22 finds it is
+backwards for the cue family too, but in the opposite direction: the
+**self-defeating channel is the non-saturating cue**, not the saturating cue.
+The non-saturating cue's linear response clamps to p=1.0 at φ≈1.15, flattening
+the gradient; the saturating cue's compression preserves the gradient. The
+"saturation" that is self-defeating is the **deposit-probability clamping**
+(which the linear cue hits), not the cue-response compression (which the
+saturating cue has). H11's original framing conflated these two kinds of
+saturation.
+
+**Self-maintenance rescues the non-saturating cue** (4/4 stable, hold 1.000).
+The structure-reemits-pheromone loop sustains pheromone elevation regardless
+of the response curve, compensating for the linear cue's gradient-flattening.
+So the non-saturating cue is not categorically unable to cross — it needs a
+separate mechanism to sustain the pheromone field the saturating cue sustains
+on its own. This connects to H7's self-maintenance loop: the two
+self-maintenance failures (sim06 fragmentation, sim07 transport) acted
+through the saturating cue and fragmented; but with a non-saturating cue,
+self-maintenance becomes *necessary* for the crossing rather than
+*counterproductive*.
+
+### The cue-action asymmetry as a cross-domain connection
+
+The sign reversal connects to the distinction between **reading a field** and
+**acting on a gradient**. In the action family, the agent's response is
+*routed* by the cue (curvature selects deposit vs excavate); the response
+curve only modulates the gain, so saturation compresses the gain without
+destroying the routing. In the cue family, the agent's response *is* the
+field (pheromone level → deposit probability); the response curve *is* the
+channel, so saturation of the response *is* saturation of the channel. The
+non-saturating cue is self-defeating because its response curve
+saturates at the probability level (p=1.0) before the field develops the
+spatial contrast the crossing needs. The non-saturating action is stable
+because its response curve saturates only the gain, not the routing decision.
+
+This reframes H11: the critical distinction is not "saturating vs
+non-saturating" but "does the response curve saturate the *probability*
+(cue family: self-defeating if non-saturating) or only the *gain* (action
+family: self-defeating if saturating)?" The 2×2 is now the evidence.
