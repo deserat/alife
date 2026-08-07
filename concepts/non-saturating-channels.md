@@ -347,6 +347,20 @@ grid + agent framework, replacing the pheromone-deposit rule with a curvature-de
   `cue_response_sweep.py` and `sim06.py` (`deposit_response` parameter, selftest Part 5d).
 - Does the crossing compose? — the L2 question with a non-saturating glue (#62) remains the
   next major test.
+- **Does the φ_sat predictor generalize? — DONE (Session 23). NO.** The deposit-probability
+  saturation threshold (φ_sat = the input at which p_deposit first reaches 1.0) was tested as
+  a unifying diagnostic across all four cells of the 2×2. A direct probe (`phi_sat_probe.py`)
+  of sim06 (cue) and sim09 (action) at their crossing-proven regimes found the predictor is
+  **50% accurate — no better than chance.** It correctly predicts the cue family (saturated→fails,
+  unsaturated→crosses) but fails for the action family: action/linear is saturated (max curvature
+  2.55 > c_sat 1.165, clamp fraction 1.0%) but still crosses stably. The clamping fraction is
+  tiny everywhere (0–7%). The difference: in the cue family, the deposit probability IS the
+  spatial signal — clamping it destroys the gradient. In the action family, spatial contrast
+  lives in the **routing decision** (which direction the termite moves), not the deposit
+  probability — the response curve saturates the *gain* (how hard to deposit), not the *routing*
+  (where to go). The unifying diagnostic is **whether spatial contrast in the routing input
+  survives the response curve**, which depends on channel architecture, not just the saturation
+  threshold. Determinism verified. See `phi_sat_probe.py` and H7/H11 Session-23 refinements.
 - Can the three channels be separated in simulation (curvature alone, humidity/evaporation
   alone, crowding alone) to identify which is load-bearing for the crossing? Facchini 2024 says
   curvature ≡ evaporation, so those two are one channel; crowding (Xiao 2026) is the independent

@@ -444,17 +444,38 @@ to compare.
     just a parameter-regime issue, not a mechanistic one. Cheap: a small sweep around the
     linear-cue condition.
 
-72. **The deposit-probability saturation threshold as a predictor** — The linear cue
-    clamps to p=1.0 at φ≈1.15; the saturating cue never reaches p=1.0 (it asymptotes to
-    base+gain=0.95). The crossing's success tracks whether the deposit probability saturates
-    *before* the pheromone field develops spatial contrast. This suggests a generalizable
-    diagnostic: compute the φ at which p_deposit first reaches 1.0 (call it φ_sat). If
-    φ_sat is below the operating mean pheromone, the channel is probability-saturated and the
-    crossing will fail (gradient flattened). If φ_sat is above it, the channel stays graded
-    and the crossing can fire. For sim06's linear cue φ_sat≈1.15; for the saturating cue
-    φ_sat=∞ (never clamps). Does this predictor hold across the sim09 action family too?
-    The action family's response curve saturates only the gain, not the probability, so
-    φ_sat is effectively infinite (routing never clamps) — consistent with both action forms
-    crossing. If φ_sat predicts crossing across all four cells of the 2×2, it is a unifying
-    diagnostic. Cheap: compute φ_sat for each condition and check it against the crossing
-    verdict.
+72. **The deposit-probability saturation threshold as a predictor** — DONE (Session 23).
+    The φ_sat predictor (the input value at which p_deposit first reaches 1.0) was tested
+    as a unifying diagnostic across all four cells of the 2×2. A direct probe (`phi_sat_probe.py`)
+    of sim06 (cue) and sim09 (action) at their crossing-proven regimes found the predictor is
+    **50% accurate — no better than chance.** It correctly predicts the cue family (saturated→fails,
+    unsaturated→crosses) but fails for the action family: action/linear is saturated (max curvature
+    2.55 > c_sat 1.165, clamp fraction 1.0%) but still crosses stably. The clamping fraction is
+    tiny everywhere (0–7%). The difference: in the cue family, the deposit probability IS the
+    spatial signal — clamping it destroys the gradient. In the action family, spatial contrast
+    lives in the *routing decision* (which direction the agent moves), not the deposit
+    probability — the response curve saturates the *gain* (how hard to deposit), not the *routing*
+    (where to go). The unifying diagnostic is **whether spatial contrast in the routing input
+    survives the response curve**, which depends on channel architecture, not just the saturation
+    threshold. Determinism verified. See `phi_sat_probe.py` and H7/H11 Session-23 refinements.
+
+## From Session 23 (2026-08-07)
+
+73. **The two-wire principle — feedback signal and spatial signal on separate
+    channels** — Session 23's φ_sat probe found the predictor fails for the action
+    family because spatial contrast survives via the *routing decision* (which
+    direction to move), not the deposit probability. The cue family puts the
+    feedback signal and the spatial signal on the same wire (the pheromone field
+    → deposit probability → spatial contrast); saturating one destroys the other.
+    The action family puts them on separate wires (curvature → routing decision
+    for spatial contrast; curvature → deposit gain for feedback); saturating one
+    leaves the other intact. This is a generalizable design principle: a
+    self-defeating channel is one where the feedback signal and the spatial
+    signal travel on the same wire. Does this principle hold beyond stigmergic
+    channels? In ACO, the pheromone trail IS both the feedback signal and the
+    spatial signal — but ACO's response function (τ^α·η^β) is unbounded, so it
+    never saturates. In development, morphogen gradients carry positional
+    information (spatial signal) AND feedback (concentration-dependent gene
+    expression) on the same wire — and morphogen saturation is a known
+    developmental pathology. This deserves a concept file and possibly a
+    cross-domain synthesis. Cheap: no new runs; pure synthesis.

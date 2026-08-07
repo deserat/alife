@@ -1197,3 +1197,41 @@ This reframes H11: the critical distinction is not "saturating vs
 non-saturating" but "does the response curve saturate the *probability*
 (cue family: self-defeating if non-saturating) or only the *gain* (action
 family: self-defeating if saturating)?" The 2×2 is now the evidence.
+
+## Session 23 (2026-08-07) — the φ_sat predictor fails; spatial contrast survives via routing, not deposit probability
+
+The φ_sat predictor (queued-topic #72) proposed a unifying scalar: the
+deposit-probability saturation threshold (the input value at which
+p_deposit first reaches 1.0). If the operating max of the routing input
+exceeds φ_sat, the channel is probability-saturated and the crossing should
+fail; if below, it should fire. This would unify all four cells of the 2×2
+with a single number.
+
+**A direct probe (`phi_sat_probe.py`) of sim06 (cue) and sim09 (action) at
+their crossing-proven regimes found the predictor is 50% accurate — no
+better than chance.** It correctly predicts the cue family (saturated→fails,
+unsaturated→crosses) but fails for the action family: the action/linear
+condition IS saturated (max curvature 2.55 > c_sat 1.165) but STILL crosses
+stably. The clamping fraction is tiny everywhere (0–7%); the cue/linear has
+6.9% clamped cells and fails, the action/linear has 1.0% and crosses.
+
+**The cross-domain connection: spatial contrast has two carriers — the
+deposit probability and the routing decision — and only one of them is
+destroyed by saturation.** In the cue family, the deposit probability IS
+the spatial signal — clamping it to 1.0 on high-cue cells flattens the
+gradient. In the action family, the spatial information lives in the
+*routing decision* (which direction the agent moves), not the deposit
+probability. The response curve saturates the *gain* (how hard to deposit),
+not the *routing* (where to go). This is the same distinction as Session 22's
+"reading a field" vs "acting on a gradient," now made quantitative: the φ_sat
+predictor treats the deposit probability as the sole carrier of spatial
+information, which is true only for cue-based channels.
+
+The unifying diagnostic is not φ_sat but **whether spatial contrast in the
+routing input survives the response curve** — and that depends on the channel
+architecture (action preserves routing under saturation; cue does not), not
+just the saturation threshold. This connects to the general principle that a
+self-defeating channel is one where the feedback signal and the spatial
+signal travel on the same wire: saturating one destroys the other. In the
+action family they travel on separate wires (routing vs deposit gain), so
+saturating one leaves the other intact.
