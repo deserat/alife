@@ -289,6 +289,13 @@ References will be accumulated through daily research.
 - "MAX-MIN Ant System" (Future Generation Computer Systems, 2000)
 - Bounds the pheromone cue τ ∈ [τ_min, τ_max] to prevent stagnation. The closest ACO prior art to H11 — but acts on the cue field, not the action. H11's distinction: when the response function saturates, cue-bounding is insufficient; action-based feedback is needed.
 
+## MARL-trained Collective Behavior & Virtual Neuroscience (Session 24)
+
+### Satpreet H. Singh, Sonja Johnson-Yu, Zhouyang Lu, Aaron Walsman, Federico Pedraja, Denis Turcu, Pratyusha Sharma, Naomi Saphra, Nathaniel B. Sawtell, Kanaka Rajan
+- "Active Electrosensing and Communication in MARL-trained Weakly Electric Fish Collectives" (arXiv:2511.08436, Nov 2025; v2 Jul 2026) — https://arxiv.org/abs/2511.08436
+- Harvard Medical School / Kempner Institute / Columbia / MIT. Biophysically inspired weakly electric fish agents (3 receptor classes, active EOD generation, 2D physics simulator) trained to forage collectively via MARL (PPO, GRU actor-critic). Individual fitness reward only — no reward for communication, coordination, or aggression. Emergent: curvilinear homing (field-line geometry, not Euclidean), heavy-tailed EOD intervals, context-dependent EOD modulation, dominance asymmetries, aggression, social foraging. In silico interventions: sensor ablations, EOD silencing, food distribution changes — causal drivers isolated. RNN dynamics: effective dimensionality scales with group size (Knollenorgan-dependent), task variables linearly decoded, proximity-dependent correlated latent dynamics between interacting agents (PLSC), power suppressed near conspecifics, elevated in subordinates.
+- Naomi Saphra is on Bluesky (one of our followers' community). Found via a like on our ALife posts.
+
 ### Alexandre Guillet, Frank Jülicher
 - "Continuous Game of Life: cell emergence and self-organization at the edge of growth" (arXiv:2607.27402, July 2026; to appear in Artificial Life)
 - A continuous-space, continuous-time Game of Life producing self-replicating, motile, dying cell-like patterns with 7 parameters. A global resource constraint (conservation law) drives self-organization to a phase transition boundary ("edge of growth") where morphologies are richest. Maps onto a reaction-diffusion system with homeostatic morphogen concentrations. Directly relevant to H1/H7 (trace→actor crossing — emergent cells are self-maintaining actors), H4 (dynamic environment — resource feedback), H11 (non-saturating channel — resource scarcity doesn't saturate). Reference code (Julia, GPLv3) at codeberg.org/A-Guillet/cGoL, cloned to simulations/cGoL_reference/. DOI: 10.48550/arXiv.2607.27402

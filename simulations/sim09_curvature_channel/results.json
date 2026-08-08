@@ -34,6 +34,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": null
       },
       {
@@ -58,6 +60,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": null
       },
       {
@@ -82,6 +86,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": null
       },
       {
@@ -106,6 +112,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": null
       },
       {
@@ -130,6 +138,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": null
       },
       {
@@ -154,6 +164,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": null
       },
       {
@@ -178,6 +190,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": null
       },
       {
@@ -202,6 +216,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": null
       },
       {
@@ -226,6 +242,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": null
       },
       {
@@ -250,6 +268,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": null
       },
       {
@@ -274,6 +294,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": null
       },
       {
@@ -298,6 +320,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": null
       },
       {
@@ -322,6 +346,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": null
       },
       {
@@ -346,6 +372,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": null
       },
       {
@@ -370,6 +398,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": null
       },
       {
@@ -394,6 +424,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": null
       },
       {
@@ -418,6 +450,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.005328236337702483
       },
       {
@@ -442,6 +476,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.004685324824484864
       },
       {
@@ -466,6 +502,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.004156495857021532
       },
       {
@@ -490,6 +528,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.003735032689112014
       },
       {
@@ -514,6 +554,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0033901816627306012
       },
       {
@@ -538,6 +580,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0031004044155030935
       },
       {
@@ -562,6 +606,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.002854401463873977
       },
       {
@@ -586,6 +632,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.002639174505161169
       },
       {
@@ -610,6 +658,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0024480307480594867
       },
       {
@@ -634,6 +684,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0022837063157625853
       },
       {
@@ -658,6 +710,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0021348961212448304
       },
       {
@@ -682,6 +736,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0020069461323504708
       },
       {
@@ -706,6 +762,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0018933242762725155
       },
       {
@@ -730,6 +788,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0017883567800244104
       },
       {
@@ -754,6 +814,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0016923531487578593
       },
       {
@@ -778,6 +840,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0016032876563876082
       },
       {
@@ -802,6 +866,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0015209668383810266
       },
       {
@@ -826,6 +892,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0014446231822146714
       },
       {
@@ -850,6 +918,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0013754552081808376
       },
       {
@@ -874,6 +944,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.001313408680952552
       },
       {
@@ -898,6 +970,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0012571639489649448
       },
       {
@@ -922,6 +996,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0012035510049582384
       },
       {
@@ -946,6 +1022,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.001154445593578246
       },
       {
@@ -970,6 +1048,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0011047288641138982
       },
       {
@@ -994,6 +1074,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0010581312311745818
       },
       {
@@ -1018,6 +1100,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0010154165435565122
       },
       {
@@ -1042,6 +1126,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0009783833031983306
       },
       {
@@ -1066,6 +1152,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0009445438277372936
       },
       {
@@ -1090,6 +1178,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0009126955324719859
       },
       {
@@ -1114,6 +1204,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0008825020301108443
       },
       {
@@ -1138,6 +1230,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0008530890468520986
       },
       {
@@ -1162,6 +1256,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.000825605798298886
       },
       {
@@ -1186,6 +1282,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0007974464610987767
       },
       {
@@ -1210,6 +1308,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0007723820491061724
       },
       {
@@ -1234,6 +1334,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0007502068106707653
       },
       {
@@ -1258,6 +1360,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0007293471905885016
       },
       {
@@ -1282,6 +1386,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0007102006214787155
       },
       {
@@ -1306,6 +1412,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0006884704729215072
       },
       {
@@ -1330,6 +1438,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0006676373989357579
       },
       {
@@ -1354,6 +1464,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0006455562004681243
       },
       {
@@ -1378,6 +1490,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0006253689607138598
       },
       {
@@ -1402,6 +1516,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0006049160524507252
       },
       {
@@ -1426,6 +1542,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0005886288024903385
       },
       {
@@ -1450,6 +1568,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0005732820138688334
       },
       {
@@ -1474,6 +1594,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0005577283603262473
       },
       {
@@ -1498,6 +1620,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.000541594507533537
       },
       {
@@ -1522,6 +1646,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0005261466592725167
       },
       {
@@ -1546,6 +1672,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0005131974284460292
       },
       {
@@ -1570,6 +1698,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0005005577366943812
       },
       {
@@ -1594,6 +1724,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0004893022499529536
       },
       {
@@ -1618,6 +1750,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0004787436203847584
       },
       {
@@ -1642,6 +1776,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0004689355710411636
       },
       {
@@ -1666,6 +1802,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0004617953769391119
       },
       {
@@ -1690,6 +1828,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0004535425496794264
       },
       {
@@ -1714,6 +1854,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0004437821371548223
       },
       {
@@ -1738,6 +1880,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.00043388979123221204
       },
       {
@@ -1762,6 +1906,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.00042296330518585374
       },
       {
@@ -1786,6 +1932,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0004119538128406586
       },
       {
@@ -1810,6 +1958,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.00040251868464951106
       },
       {
@@ -1834,6 +1984,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.00039423963525811646
       },
       {
@@ -1858,6 +2010,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0003855364568921456
       },
       {
@@ -1882,6 +2036,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0003775735809159027
       },
       {
@@ -1906,6 +2062,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.00036999826449561743
       },
       {
@@ -1930,6 +2088,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.00036380089229386993
       },
       {
@@ -1954,6 +2114,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0003567193895944925
       },
       {
@@ -1978,6 +2140,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.00034920069492053163
       },
       {
@@ -2002,6 +2166,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0003411436838537269
       },
       {
@@ -2026,6 +2192,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.00033273183889341086
       },
       {
@@ -2050,6 +2218,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.00032496953511265697
       },
       {
@@ -2074,6 +2244,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.00031742405738802924
       },
       {
@@ -2098,6 +2270,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0003100389305209094
       },
       {
@@ -2122,6 +2296,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0003026736438252146
       },
       {
@@ -2146,6 +2322,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.00029487107446874404
       },
       {
@@ -2170,6 +2348,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0002879715996497374
       },
       {
@@ -2194,6 +2374,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.00028110209449404484
       },
       {
@@ -2218,6 +2400,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.00027464433350054933
       },
       {
@@ -2242,6 +2426,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.00026901881956821575
       },
       {
@@ -2266,6 +2452,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.00026498729498703995
       },
       {
@@ -2290,6 +2478,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.00026190106216467677
       },
       {
@@ -2314,6 +2504,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.00026051530640614146
       },
       {
@@ -2338,6 +2530,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0002591291777320274
       },
       {
@@ -2362,6 +2556,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0002565399471196082
       },
       {
@@ -2386,6 +2582,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0002530473383519788
       },
       {
@@ -2410,6 +2608,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.00024867887946560224
       },
       {
@@ -2434,6 +2634,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.00024313606813126435
       },
       {
@@ -2458,6 +2660,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0002372733913925478
       },
       {
@@ -2482,6 +2686,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.00023111729522476502
       },
       {
@@ -2506,6 +2712,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.00022489626942354512
       },
       {
@@ -2530,6 +2738,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0002184530378312044
       },
       {
@@ -2554,6 +2764,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.00021376602042599436
       },
       {
@@ -2578,6 +2790,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.00020905525111216577
       },
       {
@@ -2602,6 +2816,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.00020489930046802725
       },
       {
@@ -2626,6 +2842,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.00020194839430575536
       },
       {
@@ -2650,6 +2868,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.00019892500082982901
       },
       {
@@ -2674,6 +2894,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.00019600498689732453
       },
       {
@@ -2698,6 +2920,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0001931523286164597
       },
       {
@@ -2722,6 +2946,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.00019149396990162615
       },
       {
@@ -2746,6 +2972,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.00018992259506838877
       },
       {
@@ -2770,6 +2998,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.00018773345192736008
       },
       {
@@ -2794,6 +3024,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.00018531812416172486
       },
       {
@@ -2818,6 +3050,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.00018270003989707026
       },
       {
@@ -2842,6 +3076,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.00017990025692498593
       },
       {
@@ -2866,6 +3102,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0001769318075430023
       },
       {
@@ -2890,6 +3128,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.00017333654933099165
       },
       {
@@ -2914,6 +3154,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.00016949656506711126
       },
       {
@@ -2938,6 +3180,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.00016738449634585165
       },
       {
@@ -2962,6 +3206,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0001659684888081586
       },
       {
@@ -2986,6 +3232,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.00016398949587614542
       },
       {
@@ -3010,6 +3258,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0001621126131099672
       },
       {
@@ -3034,6 +3284,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.00015982383758551266
       },
       {
@@ -3058,6 +3310,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.00015755051899205016
       },
       {
@@ -3082,6 +3336,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.00015586297767532223
       },
       {
@@ -3106,6 +3362,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.00015351903184318105
       },
       {
@@ -3130,6 +3388,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.00015094812090936895
       },
       {
@@ -3154,6 +3414,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.000148675508478649
       },
       {
@@ -3178,6 +3440,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.00014616134435438584
       },
       {
@@ -3202,6 +3466,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.00014375605628394952
       },
       {
@@ -3226,6 +3492,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.000140234125027736
       },
       {
@@ -3250,6 +3518,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.00013729322648229638
       },
       {
@@ -3274,6 +3544,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.00013362063038279917
       },
       {
@@ -3298,6 +3570,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.00013057325889434282
       },
       {
@@ -3322,6 +3596,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.00012791981937179287
       },
       {
@@ -3346,6 +3622,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.00012603870462937473
       },
       {
@@ -3370,6 +3648,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0001239035817625273
       },
       {
@@ -3394,6 +3674,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.00012114617277920005
       },
       {
@@ -3418,6 +3700,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.00011842995246821663
       },
       {
@@ -3442,6 +3726,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.00011599511902471026
       },
       {
@@ -3466,6 +3752,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.00011461409035986546
       },
       {
@@ -3490,6 +3778,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0001128951732142744
       },
       {
@@ -3514,6 +3804,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.00011134379495471377
       },
       {
@@ -3538,6 +3830,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.00011034743924913556
       },
       {
@@ -3562,6 +3856,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.00010843952838105885
       },
       {
@@ -3586,6 +3882,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.00010655823918750241
       },
       {
@@ -3610,6 +3908,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.00010399023359891426
       },
       {
@@ -3634,6 +3934,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.00010154193119268036
       },
       {
@@ -3658,6 +3960,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 9.81073097173059e-05
       },
       {
@@ -3682,6 +3986,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 9.513518653258203e-05
       },
       {
@@ -3706,6 +4012,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 9.17654059751179e-05
       },
       {
@@ -3730,6 +4038,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 8.957371891207469e-05
       },
       {
@@ -3754,6 +4064,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 8.790652428816901e-05
       },
       {
@@ -3778,6 +4090,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 8.638641403115833e-05
       },
       {
@@ -3802,6 +4116,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 8.566961916362315e-05
       },
       {
@@ -3826,6 +4142,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 8.576903794088679e-05
       },
       {
@@ -3850,6 +4168,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 8.640951652479046e-05
       }
     ],
@@ -3863,6 +4183,8 @@
       "crossed": true,
       "crossing_step": 1125,
       "recovery_final": null,
+      "patch_recovery_final": null,
+      "mirror_recovery_final": null,
       "perturb_at": null,
       "perturb_frac": null
     },
@@ -4028,6 +4350,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": null
       },
       {
@@ -4052,6 +4376,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": null
       },
       {
@@ -4076,6 +4402,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": null
       },
       {
@@ -4100,6 +4428,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": null
       },
       {
@@ -4124,6 +4454,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": null
       },
       {
@@ -4148,6 +4480,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": null
       },
       {
@@ -4172,6 +4506,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": null
       },
       {
@@ -4196,6 +4532,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": null
       },
       {
@@ -4220,6 +4558,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": null
       },
       {
@@ -4244,6 +4584,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": null
       },
       {
@@ -4268,6 +4610,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": null
       },
       {
@@ -4292,6 +4636,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": null
       },
       {
@@ -4316,6 +4662,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": null
       },
       {
@@ -4340,6 +4688,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": null
       },
       {
@@ -4364,6 +4714,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": null
       },
       {
@@ -4388,6 +4740,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": null
       },
       {
@@ -4412,6 +4766,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.005706854697310373
       },
       {
@@ -4436,6 +4792,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.00511223682035908
       },
       {
@@ -4460,6 +4818,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.004614314772656932
       },
       {
@@ -4484,6 +4844,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.004203999771557814
       },
       {
@@ -4508,6 +4870,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.003866051069252545
       },
       {
@@ -4532,6 +4896,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.003585446381554904
       },
       {
@@ -4556,6 +4922,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.003351473613737815
       },
       {
@@ -4580,6 +4948,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0031563315300130075
       },
       {
@@ -4604,6 +4974,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.002990035493613615
       },
       {
@@ -4628,6 +5000,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0028507477753626806
       },
       {
@@ -4652,6 +5026,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0027331141527375657
       },
       {
@@ -4676,6 +5052,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0026327415299247283
       },
       {
@@ -4700,6 +5078,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0025486003082573114
       },
       {
@@ -4724,6 +5104,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0024794525040474397
       },
       {
@@ -4748,6 +5130,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.002424956496949989
       },
       {
@@ -4772,6 +5156,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.002380650302965702
       },
       {
@@ -4796,6 +5182,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0023467886232735923
       },
       {
@@ -4820,6 +5208,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.00232255476847948
       },
       {
@@ -4844,6 +5234,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0023063325442007608
       },
       {
@@ -4868,6 +5260,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0022947114868864618
       },
       {
@@ -4892,6 +5286,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0022861103048596636
       },
       {
@@ -4916,6 +5312,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0022786992807151013
       },
       {
@@ -4940,6 +5338,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.002272837984782688
       },
       {
@@ -4964,6 +5364,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0022692784642367085
       },
       {
@@ -4988,6 +5390,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.002268030189173488
       },
       {
@@ -5012,6 +5416,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.002268980303861962
       },
       {
@@ -5036,6 +5442,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0022714633054245286
       },
       {
@@ -5060,6 +5468,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0022731912469243663
       },
       {
@@ -5084,6 +5494,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.002275598832920518
       },
       {
@@ -5108,6 +5520,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.002278916670245231
       },
       {
@@ -5132,6 +5546,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0022835191266118
       },
       {
@@ -5156,6 +5572,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0022889805396011675
       },
       {
@@ -5180,6 +5598,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0022947068525550314
       },
       {
@@ -5204,6 +5624,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.002301251713116736
       },
       {
@@ -5228,6 +5650,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0023084826560454586
       },
       {
@@ -5252,6 +5676,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0023160832719630177
       },
       {
@@ -5276,6 +5702,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0023237395869017585
       },
       {
@@ -5300,6 +5728,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.002330671684878018
       },
       {
@@ -5324,6 +5754,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0023365891820385
       },
       {
@@ -5348,6 +5780,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.002341878230491549
       },
       {
@@ -5372,6 +5806,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0023476394104382597
       },
       {
@@ -5396,6 +5832,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.002353609410492236
       },
       {
@@ -5420,6 +5858,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.002359745263887347
       },
       {
@@ -5444,6 +5884,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.002365410535476979
       },
       {
@@ -5468,6 +5910,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.002370723485420866
       },
       {
@@ -5492,6 +5936,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0023763680855158576
       },
       {
@@ -5516,6 +5962,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.002381798982105227
       },
       {
@@ -5540,6 +5988,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0023869541222251343
       },
       {
@@ -5564,6 +6014,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.002391847819257969
       },
       {
@@ -5588,6 +6040,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.00239647408236621
       },
       {
@@ -5612,6 +6066,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.002400654410404907
       },
       {
@@ -5636,6 +6092,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.002404543147265372
       },
       {
@@ -5660,6 +6118,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.002408098987966131
       },
       {
@@ -5684,6 +6144,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.002411422362080127
       },
       {
@@ -5708,6 +6170,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.002414338700670961
       },
       {
@@ -5732,6 +6196,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.002416805873947579
       },
       {
@@ -5756,6 +6222,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0024191492573480246
       },
       {
@@ -5780,6 +6248,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0024214587737722807
       },
       {
@@ -5804,6 +6274,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0024236249036577225
       },
       {
@@ -5828,6 +6300,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0024256649446055094
       },
       {
@@ -5852,6 +6326,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.002427706705965434
       },
       {
@@ -5876,6 +6352,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.002430066540735785
       },
       {
@@ -5900,6 +6378,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0024324985522134225
       },
       {
@@ -5924,6 +6404,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0024349600353736583
       },
       {
@@ -5948,6 +6430,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0024374889206291977
       },
       {
@@ -5972,6 +6456,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0024400270470120336
       },
       {
@@ -5996,6 +6482,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0024425554927589126
       },
       {
@@ -6020,6 +6508,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0024451199666987917
       },
       {
@@ -6044,6 +6534,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0024476575929335644
       },
       {
@@ -6068,6 +6560,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.002450186490715358
       },
       {
@@ -6092,6 +6586,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0024526818005835196
       },
       {
@@ -6116,6 +6612,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.002455056588956843
       },
       {
@@ -6140,6 +6638,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0024572762608933907
       },
       {
@@ -6164,6 +6664,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0024594744856566274
       },
       {
@@ -6188,6 +6690,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0024615398588698975
       },
       {
@@ -6212,6 +6716,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.00246350241006934
       },
       {
@@ -6236,6 +6742,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.002465369630805621
       },
       {
@@ -6260,6 +6768,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0024671972660918993
       },
       {
@@ -6284,6 +6794,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0024689309372092874
       },
       {
@@ -6308,6 +6820,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0024706428395007193
       },
       {
@@ -6332,6 +6846,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.002472292809489399
       },
       {
@@ -6356,6 +6872,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0024738834204591155
       },
       {
@@ -6380,6 +6898,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.002475465631197649
       },
       {
@@ -6404,6 +6924,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0024770674489693234
       },
       {
@@ -6428,6 +6950,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0024786314614598545
       },
       {
@@ -6452,6 +6976,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.002480175930112084
       },
       {
@@ -6476,6 +7002,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.002481674905847597
       },
       {
@@ -6500,6 +7028,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0024831425393069843
       },
       {
@@ -6524,6 +7054,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0024845597570914892
       },
       {
@@ -6548,6 +7080,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.002485968002245959
       },
       {
@@ -6572,6 +7106,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0024873201075905774
       },
       {
@@ -6596,6 +7132,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0024886415622320203
       },
       {
@@ -6620,6 +7158,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.002489943601147181
       },
       {
@@ -6644,6 +7184,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.002491211568965668
       },
       {
@@ -6668,6 +7210,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0024924242116037667
       },
       {
@@ -6692,6 +7236,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0024936259862370215
       },
       {
@@ -6716,6 +7262,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.002494800399958527
       },
       {
@@ -6740,6 +7288,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0024959424136371576
       },
       {
@@ -6764,6 +7314,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.002497073522561951
       },
       {
@@ -6788,6 +7340,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0024981990104946815
       },
       {
@@ -6812,6 +7366,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0024992994069323654
       },
       {
@@ -6836,6 +7392,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0025003873685016695
       },
       {
@@ -6860,6 +7418,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0025014520238540424
       },
       {
@@ -6884,6 +7444,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.002502507198616053
       },
       {
@@ -6908,6 +7470,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.002503564555089939
       },
       {
@@ -6932,6 +7496,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0025046222650127073
       },
       {
@@ -6956,6 +7522,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.002505671947571619
       },
       {
@@ -6980,6 +7548,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.002506716191155893
       },
       {
@@ -7004,6 +7574,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0025077602816424567
       },
       {
@@ -7028,6 +7600,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.002508792844863074
       },
       {
@@ -7052,6 +7626,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0025098146716213505
       },
       {
@@ -7076,6 +7652,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.00251082569929154
       },
       {
@@ -7100,6 +7678,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0025118157581657157
       },
       {
@@ -7124,6 +7704,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.002512778848835284
       },
       {
@@ -7148,6 +7730,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0025137151094661433
       },
       {
@@ -7172,6 +7756,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0025146252954667244
       },
       {
@@ -7196,6 +7782,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.002515515160400374
       },
       {
@@ -7220,6 +7808,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.002516387392423084
       },
       {
@@ -7244,6 +7834,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0025172377199760383
       },
       {
@@ -7268,6 +7860,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0025180667636198304
       },
       {
@@ -7292,6 +7886,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0025188808242716347
       },
       {
@@ -7316,6 +7912,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.002519681729425299
       },
       {
@@ -7340,6 +7938,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.002520471138913721
       },
       {
@@ -7364,6 +7964,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0025212612923554895
       },
       {
@@ -7388,6 +7990,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.002522048948985044
       },
       {
@@ -7412,6 +8016,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0025228376646780214
       },
       {
@@ -7436,6 +8042,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0025236214037991705
       },
       {
@@ -7460,6 +8068,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.002524399831319405
       },
       {
@@ -7484,6 +8094,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.002525168790962301
       },
       {
@@ -7508,6 +8120,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0025259230620328877
       },
       {
@@ -7532,6 +8146,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.002526663588595287
       },
       {
@@ -7556,6 +8172,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0025274016341838203
       },
       {
@@ -7580,6 +8198,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.002528147500184854
       },
       {
@@ -7604,6 +8224,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0025288993369559144
       },
       {
@@ -7628,6 +8250,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0025296537808944496
       },
       {
@@ -7652,6 +8276,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0025304041431654834
       },
       {
@@ -7676,6 +8302,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.002531150436404242
       },
       {
@@ -7700,6 +8328,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0025318899081802787
       },
       {
@@ -7724,6 +8354,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0025326180739291743
       },
       {
@@ -7748,6 +8380,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.002533335463068912
       },
       {
@@ -7772,6 +8406,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0025340409249612
       },
       {
@@ -7796,6 +8432,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0025347352925128197
       },
       {
@@ -7820,6 +8458,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0025354158747909654
       },
       {
@@ -7844,6 +8484,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery": null,
+        "patch_recovery": null,
+        "mirror_recovery": null,
         "mass_plateau": 0.0025360787685534568
       }
     ],
@@ -7857,6 +8499,8 @@
       "crossed": false,
       "crossing_step": null,
       "recovery_final": null,
+      "patch_recovery_final": null,
+      "mirror_recovery_final": null,
       "perturb_at": null,
       "perturb_frac": null
     },
@@ -8023,6 +8667,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": null
         },
         {
@@ -8047,6 +8693,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": null
         },
         {
@@ -8071,6 +8719,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": null
         },
         {
@@ -8095,6 +8745,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": null
         },
         {
@@ -8119,6 +8771,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": null
         },
         {
@@ -8143,6 +8797,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": null
         },
         {
@@ -8167,6 +8823,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": null
         },
         {
@@ -8191,6 +8849,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": null
         },
         {
@@ -8215,6 +8875,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": null
         },
         {
@@ -8239,6 +8901,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": null
         },
         {
@@ -8263,6 +8927,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": null
         },
         {
@@ -8287,6 +8953,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": null
         },
         {
@@ -8311,6 +8979,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": null
         },
         {
@@ -8335,6 +9005,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": null
         },
         {
@@ -8359,6 +9031,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": null
         },
         {
@@ -8383,6 +9057,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": null
         },
         {
@@ -8407,6 +9083,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.005328236337702483
         },
         {
@@ -8431,6 +9109,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.004685324824484864
         },
         {
@@ -8455,6 +9135,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.004156495857021532
         },
         {
@@ -8479,6 +9161,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.003735032689112014
         },
         {
@@ -8503,6 +9187,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0033901816627306012
         },
         {
@@ -8527,6 +9213,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0031004044155030935
         },
         {
@@ -8551,6 +9239,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.002854401463873977
         },
         {
@@ -8575,6 +9265,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.002639174505161169
         },
         {
@@ -8599,6 +9291,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0024480307480594867
         },
         {
@@ -8623,6 +9317,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0022837063157625853
         },
         {
@@ -8647,6 +9343,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0021348961212448304
         },
         {
@@ -8671,6 +9369,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0020069461323504708
         },
         {
@@ -8695,6 +9395,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0018933242762725155
         },
         {
@@ -8719,6 +9421,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0017883567800244104
         },
         {
@@ -8743,6 +9447,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0016923531487578593
         },
         {
@@ -8767,6 +9473,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0016032876563876082
         },
         {
@@ -8791,6 +9499,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0015209668383810266
         },
         {
@@ -8815,6 +9525,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0014446231822146714
         },
         {
@@ -8839,6 +9551,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0013754552081808376
         },
         {
@@ -8863,6 +9577,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.001313408680952552
         },
         {
@@ -8887,6 +9603,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0012571639489649448
         },
         {
@@ -8911,6 +9629,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0012035510049582384
         },
         {
@@ -8935,6 +9655,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.001154445593578246
         },
         {
@@ -8959,6 +9681,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0011047288641138982
         },
         {
@@ -8983,6 +9707,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0010581312311745818
         },
         {
@@ -9007,6 +9733,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0010154165435565122
         },
         {
@@ -9031,6 +9759,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0009783833031983306
         },
         {
@@ -9055,6 +9785,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0009445438277372936
         },
         {
@@ -9079,6 +9811,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0009126955324719859
         },
         {
@@ -9103,6 +9837,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0008825020301108443
         },
         {
@@ -9127,6 +9863,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0008530890468520986
         },
         {
@@ -9151,6 +9889,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.000825605798298886
         },
         {
@@ -9175,6 +9915,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0007974464610987767
         },
         {
@@ -9199,6 +9941,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0007723820491061724
         },
         {
@@ -9223,6 +9967,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0007502068106707653
         },
         {
@@ -9247,6 +9993,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0007293471905885016
         },
         {
@@ -9271,6 +10019,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0007102006214787155
         },
         {
@@ -9295,6 +10045,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0006884704729215072
         },
         {
@@ -9319,6 +10071,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0006676373989357579
         },
         {
@@ -9343,6 +10097,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0006455562004681243
         },
         {
@@ -9367,6 +10123,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0006253689607138598
         },
         {
@@ -9391,6 +10149,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0006049160524507252
         },
         {
@@ -9415,6 +10175,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0005886288024903385
         },
         {
@@ -9439,6 +10201,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0005732820138688334
         },
         {
@@ -9463,6 +10227,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0005577283603262473
         },
         {
@@ -9487,6 +10253,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.000541594507533537
         },
         {
@@ -9511,6 +10279,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0005261466592725167
         },
         {
@@ -9535,6 +10305,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0005131974284460292
         },
         {
@@ -9559,6 +10331,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0005005577366943812
         },
         {
@@ -9583,6 +10357,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0004893022499529536
         },
         {
@@ -9607,6 +10383,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0004787436203847584
         },
         {
@@ -9631,6 +10409,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0004689355710411636
         },
         {
@@ -9655,6 +10435,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0004617953769391119
         },
         {
@@ -9679,6 +10461,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0004535425496794264
         },
         {
@@ -9703,6 +10487,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0004437821371548223
         },
         {
@@ -9727,6 +10513,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.00043388979123221204
         },
         {
@@ -9751,6 +10539,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.00042296330518585374
         },
         {
@@ -9775,6 +10565,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0004119538128406586
         },
         {
@@ -9799,6 +10591,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.00040251868464951106
         },
         {
@@ -9823,6 +10617,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.00039423963525811646
         },
         {
@@ -9847,6 +10643,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0003855364568921456
         },
         {
@@ -9871,6 +10669,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0003775735809159027
         },
         {
@@ -9895,6 +10695,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.00036999826449561743
         },
         {
@@ -9919,6 +10721,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.00036380089229386993
         },
         {
@@ -9943,6 +10747,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0003567193895944925
         },
         {
@@ -9967,6 +10773,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.00034920069492053163
         },
         {
@@ -9991,6 +10799,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0003411436838537269
         },
         {
@@ -10015,6 +10825,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.00033273183889341086
         },
         {
@@ -10039,6 +10851,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.00032496953511265697
         },
         {
@@ -10063,6 +10877,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.00031742405738802924
         },
         {
@@ -10087,6 +10903,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0003100389305209094
         },
         {
@@ -10111,6 +10929,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0003026736438252146
         },
         {
@@ -10135,6 +10955,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.00029487107446874404
         },
         {
@@ -10159,6 +10981,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0002879715996497374
         },
         {
@@ -10183,6 +11007,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.00028110209449404484
         },
         {
@@ -10207,6 +11033,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.00027464433350054933
         },
         {
@@ -10231,6 +11059,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.00026901881956821575
         },
         {
@@ -10255,6 +11085,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.00026498729498703995
         },
         {
@@ -10279,6 +11111,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.00026190106216467677
         },
         {
@@ -10303,6 +11137,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.00026051530640614146
         },
         {
@@ -10327,6 +11163,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": 0.7479349490198388,
+          "patch_recovery": 0.0,
+          "mirror_recovery": 1.0,
           "mass_plateau": 0.0002591291777320274
         },
         {
@@ -10351,6 +11189,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": 0.7553532324354106,
+          "patch_recovery": 0.02512900160235748,
+          "mirror_recovery": 0.9936713291956997,
           "mass_plateau": 2.0310706797269363e-05
         },
         {
@@ -10375,6 +11215,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": 0.7639518937770733,
+          "patch_recovery": 0.05039409055262796,
+          "mirror_recovery": 1.0014202973586965,
           "mass_plateau": 0.00018939801531145275
         },
         {
@@ -10399,6 +11241,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": 0.77199851153701,
+          "patch_recovery": 0.07165147302482143,
+          "mirror_recovery": 1.0038232440899297,
           "mass_plateau": 0.00036838863521432774
         },
         {
@@ -10423,6 +11267,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": 0.7803728218636482,
+          "patch_recovery": 0.09025916196272447,
+          "mirror_recovery": 1.0127493903959417,
           "mass_plateau": 0.0005168842723442207
         },
         {
@@ -10447,6 +11293,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": 0.7888489146970478,
+          "patch_recovery": 0.10484516991561552,
+          "mirror_recovery": 1.0233269312002562,
           "mass_plateau": 0.0006338454632184583
         },
         {
@@ -10471,6 +11319,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": 0.7961900079814239,
+          "patch_recovery": 0.12036873928929616,
+          "mirror_recovery": 1.034641772750096,
           "mass_plateau": 0.000717580270342439
         },
         {
@@ -10495,6 +11345,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": 0.8054524354662698,
+          "patch_recovery": 0.1396354341729508,
+          "mirror_recovery": 1.049754722673923,
           "mass_plateau": 0.0007691715396689648
         },
         {
@@ -10519,6 +11371,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": 0.8136776695914852,
+          "patch_recovery": 0.15562030423725792,
+          "mirror_recovery": 1.07382302965434,
           "mass_plateau": 0.0007854266629509094
         },
         {
@@ -10543,6 +11397,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": 0.8214659975407521,
+          "patch_recovery": 0.1717726006143057,
+          "mirror_recovery": 1.082717964468182,
           "mass_plateau": 0.0007662414354814666
         },
         {
@@ -10567,6 +11423,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": 0.8298828045672748,
+          "patch_recovery": 0.18999905324156852,
+          "mirror_recovery": 1.092876885527535,
           "mass_plateau": 0.0007125040444127879
         },
         {
@@ -10591,6 +11449,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": 0.8375985294682072,
+          "patch_recovery": 0.202525263898562,
+          "mirror_recovery": 1.1015825773242387,
           "mass_plateau": 0.0006221236077939724
         },
         {
@@ -10615,6 +11475,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": 0.8449339125509079,
+          "patch_recovery": 0.2157355304970596,
+          "mirror_recovery": 1.1088929516560377,
           "mass_plateau": 0.0004943315993099213
         },
         {
@@ -10639,6 +11501,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": 0.853053903913,
+          "patch_recovery": 0.2275530920194414,
+          "mirror_recovery": 1.1183063284205879,
           "mass_plateau": 0.0003295593453409184
         },
         {
@@ -10663,6 +11527,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": 0.8607375334306789,
+          "patch_recovery": 0.24116336314763762,
+          "mirror_recovery": 1.117984481431958,
           "mass_plateau": 0.00012601960549574623
         },
         {
@@ -10687,6 +11553,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": 0.8684841743299856,
+          "patch_recovery": 0.2550555869805411,
+          "mirror_recovery": 1.1172262629073368,
           "mass_plateau": 0.00011665987659176686
         },
         {
@@ -10711,6 +11579,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": 0.8756730595725506,
+          "patch_recovery": 0.26734490370276337,
+          "mirror_recovery": 1.1160153605521996,
           "mass_plateau": 0.0004003712551439662
         },
         {
@@ -10735,6 +11605,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": 0.882002027064464,
+          "patch_recovery": 0.2788092574670211,
+          "mirror_recovery": 1.1139484539637334,
           "mass_plateau": 0.0003943051946181846
         },
         {
@@ -10759,6 +11631,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": 0.8895070333516161,
+          "patch_recovery": 0.2932293215315723,
+          "mirror_recovery": 1.1201984053965686,
           "mass_plateau": 0.00038593261998783697
         },
         {
@@ -10783,6 +11657,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": 0.896597688768583,
+          "patch_recovery": 0.30372279410513153,
+          "mirror_recovery": 1.1206954931470436,
           "mass_plateau": 0.0003781356927461939
         },
         {
@@ -10807,6 +11683,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": 0.9034064172430731,
+          "patch_recovery": 0.3159303571685541,
+          "mirror_recovery": 1.1242299042484616,
           "mass_plateau": 0.0003699536324545078
         },
         {
@@ -10831,6 +11709,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": 0.9107230250497445,
+          "patch_recovery": 0.329634446728915,
+          "mirror_recovery": 1.1316295983147464,
           "mass_plateau": 0.00036163727355316904
         },
         {
@@ -10855,6 +11735,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": 0.9169478366714671,
+          "patch_recovery": 0.34132960705840454,
+          "mirror_recovery": 1.1389764106154052,
           "mass_plateau": 0.00035403491125592703
         },
         {
@@ -10879,6 +11761,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": 0.9230957966397645,
+          "patch_recovery": 0.3527932187983348,
+          "mirror_recovery": 1.1462404543758222,
           "mass_plateau": 0.00034485160053549516
         },
         {
@@ -10903,6 +11787,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": 0.9303194720984862,
+          "patch_recovery": 0.3647913929728134,
+          "mirror_recovery": 1.1595253657798228,
           "mass_plateau": 0.0003364543483400376
         },
         {
@@ -10927,6 +11813,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": 0.936688427548585,
+          "patch_recovery": 0.3764479358768832,
+          "mirror_recovery": 1.1691291020099766,
           "mass_plateau": 0.00032908547898859777
         },
         {
@@ -10951,6 +11839,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": 0.9426839577305793,
+          "patch_recovery": 0.38828980196851076,
+          "mirror_recovery": 1.1733897560400348,
           "mass_plateau": 0.00032151480696546663
         },
         {
@@ -10975,6 +11865,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": 0.9484867159505497,
+          "patch_recovery": 0.3997235946735725,
+          "mirror_recovery": 1.1776050438991819,
           "mass_plateau": 0.00031428935798417376
         },
         {
@@ -10999,6 +11891,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": 0.9542288892547144,
+          "patch_recovery": 0.411254126856266,
+          "mirror_recovery": 1.1927146141553175,
           "mass_plateau": 0.0003067342769293892
         },
         {
@@ -11023,6 +11917,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": 0.9601165596947354,
+          "patch_recovery": 0.42317556773269577,
+          "mirror_recovery": 1.1997845542194407,
           "mass_plateau": 0.00029861708937349313
         },
         {
@@ -11047,6 +11943,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": 0.9669970468508213,
+          "patch_recovery": 0.43715842087288115,
+          "mirror_recovery": 1.2146585755760477,
           "mass_plateau": 0.0002911664237181849
         },
         {
@@ -11071,6 +11969,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": 0.9739329667392088,
+          "patch_recovery": 0.45002949963439703,
+          "mirror_recovery": 1.235025991203133,
           "mass_plateau": 0.0002851007679082777
         },
         {
@@ -11095,6 +11995,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": 0.9800923837505657,
+          "patch_recovery": 0.46338964057006765,
+          "mirror_recovery": 1.255107181864631,
           "mass_plateau": 0.0002806124438677894
         },
         {
@@ -11119,6 +12021,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": 0.98595987194547,
+          "patch_recovery": 0.4747413621904039,
+          "mirror_recovery": 1.2735887814955145,
           "mass_plateau": 0.0002764404035136654
         },
         {
@@ -11143,6 +12047,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": 0.9908255845333033,
+          "patch_recovery": 0.4850293818299697,
+          "mirror_recovery": 1.2883868460172627,
           "mass_plateau": 0.0002715054703573109
         },
         {
@@ -11167,6 +12073,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": 0.9965498039042435,
+          "patch_recovery": 0.49589938187534444,
+          "mirror_recovery": 1.2981649643540782,
           "mass_plateau": 0.00026622775575016634
         },
         {
@@ -11191,6 +12099,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": 1.0016424582959738,
+          "patch_recovery": 0.5066621262495795,
+          "mirror_recovery": 1.308264341055527,
           "mass_plateau": 0.00026127667783426936
         },
         {
@@ -11215,6 +12125,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": 1.0064768701972922,
+          "patch_recovery": 0.5179192832681515,
+          "mirror_recovery": 1.318682708245835,
           "mass_plateau": 0.00025594179691110165
         },
         {
@@ -11239,6 +12151,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": 1.011608833355319,
+          "patch_recovery": 0.5293113975746087,
+          "mirror_recovery": 1.328558264239329,
           "mass_plateau": 0.00025074130130647523
         },
         {
@@ -11263,6 +12177,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": 1.0176293607721183,
+          "patch_recovery": 0.5412141617012215,
+          "mirror_recovery": 1.3414027611315413,
           "mass_plateau": 0.0002450939869240738
         },
         {
@@ -11287,6 +12203,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": 1.023647208163121,
+          "patch_recovery": 0.5514814892356594,
+          "mirror_recovery": 1.3510387521919154,
           "mass_plateau": 0.0002398489548435228
         },
         {
@@ -11311,6 +12229,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": 1.028919306326535,
+          "patch_recovery": 0.5633841406867351,
+          "mirror_recovery": 1.3609810033979557,
           "mass_plateau": 0.00023612426509477078
         },
         {
@@ -11335,6 +12255,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": 1.0345991853619256,
+          "patch_recovery": 0.574859676736587,
+          "mirror_recovery": 1.3725230660148333,
           "mass_plateau": 0.00023250136973042656
         },
         {
@@ -11359,6 +12281,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": 1.0397568022104546,
+          "patch_recovery": 0.5883218290654523,
+          "mirror_recovery": 1.3773582364061467,
           "mass_plateau": 0.00022908276441498335
         },
         {
@@ -11383,6 +12307,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": 1.0453742486583948,
+          "patch_recovery": 0.5977178341540205,
+          "mirror_recovery": 1.3847467991114046,
           "mass_plateau": 0.00022525188018405302
         },
         {
@@ -11407,6 +12333,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": 1.0497253897238505,
+          "patch_recovery": 0.6059615691551911,
+          "mirror_recovery": 1.3894462480441865,
           "mass_plateau": 0.00022142748813792839
         },
         {
@@ -11431,6 +12359,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": 1.0547142784649417,
+          "patch_recovery": 0.6176322053204062,
+          "mirror_recovery": 1.3949526781202488,
           "mass_plateau": 0.0002166803604163191
         },
         {
@@ -11455,6 +12385,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": 1.0582584125706922,
+          "patch_recovery": 0.628509685451558,
+          "mirror_recovery": 1.3955859116461788,
           "mass_plateau": 0.00021273952635801646
         },
         {
@@ -11479,6 +12411,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": 1.0633099345577899,
+          "patch_recovery": 0.6424014274955498,
+          "mirror_recovery": 1.3940018759517447,
           "mass_plateau": 0.00020863296191935625
         },
         {
@@ -11503,6 +12437,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": 1.0687299417805254,
+          "patch_recovery": 0.6531544531403152,
+          "mirror_recovery": 1.399017503247384,
           "mass_plateau": 0.0002052610672997916
         },
         {
@@ -11527,6 +12463,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": 1.0723572539702289,
+          "patch_recovery": 0.6644243648218681,
+          "mirror_recovery": 1.4008925159710415,
           "mass_plateau": 0.0002027625964481119
         },
         {
@@ -11551,6 +12489,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": 1.0767111663925273,
+          "patch_recovery": 0.6727827851768428,
+          "mirror_recovery": 1.4049204016024044,
           "mass_plateau": 0.00019869048809171026
         },
         {
@@ -11575,6 +12515,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": 1.0813882994099568,
+          "patch_recovery": 0.6826839201216558,
+          "mirror_recovery": 1.4080703299618915,
           "mass_plateau": 0.00019464923395763457
         },
         {
@@ -11599,6 +12541,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": 1.0858877583982556,
+          "patch_recovery": 0.6905156661244715,
+          "mirror_recovery": 1.4090075728013025,
           "mass_plateau": 0.00019044947544903437
         },
         {
@@ -11623,6 +12567,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": 1.0898342498623843,
+          "patch_recovery": 0.699649726324172,
+          "mirror_recovery": 1.4072943756551244,
           "mass_plateau": 0.00018574383242721737
         },
         {
@@ -11647,6 +12593,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": 1.0950879007692336,
+          "patch_recovery": 0.7110762247295981,
+          "mirror_recovery": 1.4121202548914167,
           "mass_plateau": 0.00018040525706906514
         },
         {
@@ -11671,6 +12619,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": 1.0992510151812689,
+          "patch_recovery": 0.7221836282732842,
+          "mirror_recovery": 1.4155863883368414,
           "mass_plateau": 0.00017649400573777952
         },
         {
@@ -11695,6 +12645,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": 1.10364944706019,
+          "patch_recovery": 0.7332381691103248,
+          "mirror_recovery": 1.4172422162536638,
           "mass_plateau": 0.0001731800730423134
         },
         {
@@ -11719,6 +12671,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": 1.1083019478572838,
+          "patch_recovery": 0.7445173891105632,
+          "mirror_recovery": 1.411893097924419,
           "mass_plateau": 0.0001701456912038469
         },
         {
@@ -11743,6 +12697,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": 1.1122072605118458,
+          "patch_recovery": 0.7547452115660602,
+          "mirror_recovery": 1.4105414954965603,
           "mass_plateau": 0.00016807203585861308
         },
         {
@@ -11767,6 +12723,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": 1.116230202285657,
+          "patch_recovery": 0.7644711027547331,
+          "mirror_recovery": 1.4122400856581574,
           "mass_plateau": 0.00016596563364567655
         },
         {
@@ -11791,6 +12749,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": 1.1209412136281278,
+          "patch_recovery": 0.7736080384941353,
+          "mirror_recovery": 1.4090872530096226,
           "mass_plateau": 0.00016448584649411566
         },
         {
@@ -11815,6 +12775,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": 1.125020446272559,
+          "patch_recovery": 0.7829884881620576,
+          "mirror_recovery": 1.4068591970231632,
           "mass_plateau": 0.00016317276270760405
         },
         {
@@ -11839,6 +12801,8 @@
           "crossed": true,
           "crossing_step": 1125,
           "recovery": 1.1283787868771231,
+          "patch_recovery": 0.7935400866257576,
+          "mirror_recovery": 1.395919479384674,
           "mass_plateau": 0.0001620709449955719
         }
       ],
@@ -11852,6 +12816,8 @@
         "crossed": true,
         "crossing_step": 1125,
         "recovery_final": 1.1283787868771231,
+        "patch_recovery_final": 0.7935400866257576,
+        "mirror_recovery_final": 1.395919479384674,
         "perturb_at": 2400,
         "perturb_frac": 0.25
       },
@@ -12017,6 +12983,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": null
         },
         {
@@ -12041,6 +13009,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": null
         },
         {
@@ -12065,6 +13035,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": null
         },
         {
@@ -12089,6 +13061,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": null
         },
         {
@@ -12113,6 +13087,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": null
         },
         {
@@ -12137,6 +13113,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": null
         },
         {
@@ -12161,6 +13139,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": null
         },
         {
@@ -12185,6 +13165,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": null
         },
         {
@@ -12209,6 +13191,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": null
         },
         {
@@ -12233,6 +13217,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": null
         },
         {
@@ -12257,6 +13243,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": null
         },
         {
@@ -12281,6 +13269,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": null
         },
         {
@@ -12305,6 +13295,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": null
         },
         {
@@ -12329,6 +13321,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": null
         },
         {
@@ -12353,6 +13347,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": null
         },
         {
@@ -12377,6 +13373,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": null
         },
         {
@@ -12401,6 +13399,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.005706854697310373
         },
         {
@@ -12425,6 +13425,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.00511223682035908
         },
         {
@@ -12449,6 +13451,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.004614314772656932
         },
         {
@@ -12473,6 +13477,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.004203999771557814
         },
         {
@@ -12497,6 +13503,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.003866051069252545
         },
         {
@@ -12521,6 +13529,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.003585446381554904
         },
         {
@@ -12545,6 +13555,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.003351473613737815
         },
         {
@@ -12569,6 +13581,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0031563315300130075
         },
         {
@@ -12593,6 +13607,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.002990035493613615
         },
         {
@@ -12617,6 +13633,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0028507477753626806
         },
         {
@@ -12641,6 +13659,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0027331141527375657
         },
         {
@@ -12665,6 +13685,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0026327415299247283
         },
         {
@@ -12689,6 +13711,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0025486003082573114
         },
         {
@@ -12713,6 +13737,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0024794525040474397
         },
         {
@@ -12737,6 +13763,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.002424956496949989
         },
         {
@@ -12761,6 +13789,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.002380650302965702
         },
         {
@@ -12785,6 +13815,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0023467886232735923
         },
         {
@@ -12809,6 +13841,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.00232255476847948
         },
         {
@@ -12833,6 +13867,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0023063325442007608
         },
         {
@@ -12857,6 +13893,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0022947114868864618
         },
         {
@@ -12881,6 +13919,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0022861103048596636
         },
         {
@@ -12905,6 +13945,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0022786992807151013
         },
         {
@@ -12929,6 +13971,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.002272837984782688
         },
         {
@@ -12953,6 +13997,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0022692784642367085
         },
         {
@@ -12977,6 +14023,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.002268030189173488
         },
         {
@@ -13001,6 +14049,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.002268980303861962
         },
         {
@@ -13025,6 +14075,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0022714633054245286
         },
         {
@@ -13049,6 +14101,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0022731912469243663
         },
         {
@@ -13073,6 +14127,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.002275598832920518
         },
         {
@@ -13097,6 +14153,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.002278916670245231
         },
         {
@@ -13121,6 +14179,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0022835191266118
         },
         {
@@ -13145,6 +14205,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0022889805396011675
         },
         {
@@ -13169,6 +14231,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0022947068525550314
         },
         {
@@ -13193,6 +14257,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.002301251713116736
         },
         {
@@ -13217,6 +14283,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0023084826560454586
         },
         {
@@ -13241,6 +14309,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0023160832719630177
         },
         {
@@ -13265,6 +14335,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0023237395869017585
         },
         {
@@ -13289,6 +14361,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.002330671684878018
         },
         {
@@ -13313,6 +14387,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0023365891820385
         },
         {
@@ -13337,6 +14413,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.002341878230491549
         },
         {
@@ -13361,6 +14439,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0023476394104382597
         },
         {
@@ -13385,6 +14465,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.002353609410492236
         },
         {
@@ -13409,6 +14491,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.002359745263887347
         },
         {
@@ -13433,6 +14517,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.002365410535476979
         },
         {
@@ -13457,6 +14543,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.002370723485420866
         },
         {
@@ -13481,6 +14569,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0023763680855158576
         },
         {
@@ -13505,6 +14595,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.002381798982105227
         },
         {
@@ -13529,6 +14621,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0023869541222251343
         },
         {
@@ -13553,6 +14647,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.002391847819257969
         },
         {
@@ -13577,6 +14673,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.00239647408236621
         },
         {
@@ -13601,6 +14699,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.002400654410404907
         },
         {
@@ -13625,6 +14725,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.002404543147265372
         },
         {
@@ -13649,6 +14751,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.002408098987966131
         },
         {
@@ -13673,6 +14777,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.002411422362080127
         },
         {
@@ -13697,6 +14803,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.002414338700670961
         },
         {
@@ -13721,6 +14829,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.002416805873947579
         },
         {
@@ -13745,6 +14855,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0024191492573480246
         },
         {
@@ -13769,6 +14881,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0024214587737722807
         },
         {
@@ -13793,6 +14907,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0024236249036577225
         },
         {
@@ -13817,6 +14933,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0024256649446055094
         },
         {
@@ -13841,6 +14959,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.002427706705965434
         },
         {
@@ -13865,6 +14985,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.002430066540735785
         },
         {
@@ -13889,6 +15011,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0024324985522134225
         },
         {
@@ -13913,6 +15037,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0024349600353736583
         },
         {
@@ -13937,6 +15063,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0024374889206291977
         },
         {
@@ -13961,6 +15089,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0024400270470120336
         },
         {
@@ -13985,6 +15115,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0024425554927589126
         },
         {
@@ -14009,6 +15141,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0024451199666987917
         },
         {
@@ -14033,6 +15167,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0024476575929335644
         },
         {
@@ -14057,6 +15193,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.002450186490715358
         },
         {
@@ -14081,6 +15219,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0024526818005835196
         },
         {
@@ -14105,6 +15245,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.002455056588956843
         },
         {
@@ -14129,6 +15271,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0024572762608933907
         },
         {
@@ -14153,6 +15297,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0024594744856566274
         },
         {
@@ -14177,6 +15323,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0024615398588698975
         },
         {
@@ -14201,6 +15349,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.00246350241006934
         },
         {
@@ -14225,6 +15375,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.002465369630805621
         },
         {
@@ -14249,6 +15401,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0024671972660918993
         },
         {
@@ -14273,6 +15427,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0024689309372092874
         },
         {
@@ -14297,6 +15453,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": null,
+          "patch_recovery": null,
+          "mirror_recovery": null,
           "mass_plateau": 0.0024706428395007193
         },
         {
@@ -14321,6 +15479,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": 0.8180950642165865,
+          "patch_recovery": 0.0,
+          "mirror_recovery": 1.0,
           "mass_plateau": 0.002472292809489399
         },
         {
@@ -14345,6 +15505,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": 0.871932177299718,
+          "patch_recovery": 0.0018976326577050165,
+          "mirror_recovery": 1.0644100923686701,
           "mass_plateau": 0.0022083140267444867
         },
         {
@@ -14369,6 +15531,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": 0.9293315416602006,
+          "patch_recovery": 0.003994240920100682,
+          "mirror_recovery": 1.1329432042989818,
           "mass_plateau": 0.001990942869920391
         },
         {
@@ -14393,6 +15557,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": 0.99054499801724,
+          "patch_recovery": 0.0062692771296202045,
+          "mirror_recovery": 1.205996611209533,
           "mass_plateau": 0.0018179927702377415
         },
         {
@@ -14417,6 +15583,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": 1.0558492520648255,
+          "patch_recovery": 0.008763373440687798,
+          "mirror_recovery": 1.2839082593859272,
           "mass_plateau": 0.001687130965454397
         },
         {
@@ -14441,6 +15609,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": 1.1254399741788712,
+          "patch_recovery": 0.011423854419544695,
+          "mirror_recovery": 1.3668834436681485,
           "mass_plateau": 0.0015960081017666612
         },
         {
@@ -14465,6 +15635,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": 1.1996880194308537,
+          "patch_recovery": 0.014396058982727358,
+          "mirror_recovery": 1.4553582386873885,
           "mass_plateau": 0.0015421122812734145
         },
         {
@@ -14489,6 +15661,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": 1.2788361606304008,
+          "patch_recovery": 0.017581374773026886,
+          "mirror_recovery": 1.5495394685091384,
           "mass_plateau": 0.0015230047061945298
         },
         {
@@ -14513,6 +15687,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": 1.3632646014248693,
+          "patch_recovery": 0.021121271290142407,
+          "mirror_recovery": 1.6498668306485054,
           "mass_plateau": 0.001536140586829107
         },
         {
@@ -14537,6 +15713,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": 1.45329242689614,
+          "patch_recovery": 0.024957340424596103,
+          "mirror_recovery": 1.7567123371661426,
           "mass_plateau": 0.0015791125150889647
         },
         {
@@ -14561,6 +15739,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": 1.5492970662310128,
+          "patch_recovery": 0.02912781794958575,
+          "mirror_recovery": 1.870478165745087,
           "mass_plateau": 0.0016494062376449135
         },
         {
@@ -14585,6 +15765,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": 1.6516570851835841,
+          "patch_recovery": 0.0336830210797412,
+          "mirror_recovery": 1.991684231905504,
           "mass_plateau": 0.0017446096302591511
         },
         {
@@ -14609,6 +15791,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": 1.7608300609486844,
+          "patch_recovery": 0.03860774521538462,
+          "mirror_recovery": 2.120677069827137,
           "mass_plateau": 0.0018623289213171186
         },
         {
@@ -14633,6 +15817,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": 1.8772225040602477,
+          "patch_recovery": 0.043887089681117916,
+          "mirror_recovery": 2.2581879715570876,
           "mass_plateau": 0.0020002608383087104
         },
         {
@@ -14657,6 +15843,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": 2.001372127588995,
+          "patch_recovery": 0.049603915552326364,
+          "mirror_recovery": 2.404682040326791,
           "mass_plateau": 0.002156131119377908
         },
         {
@@ -14681,6 +15869,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": 2.1337878884715327,
+          "patch_recovery": 0.055873256870589236,
+          "mirror_recovery": 2.5608077461179626,
           "mass_plateau": 0.0023278682805468616
         },
         {
@@ -14705,6 +15895,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": 2.2750311514405284,
+          "patch_recovery": 0.06265710951578277,
+          "mirror_recovery": 2.727144608816541,
           "mass_plateau": 0.0025134225275734836
         },
         {
@@ -14729,6 +15921,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": 2.425688988255998,
+          "patch_recovery": 0.07007518521043414,
+          "mirror_recovery": 2.9043155961275273,
           "mass_plateau": 0.002514280445773645
         },
         {
@@ -14753,6 +15947,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": 2.5864014972271674,
+          "patch_recovery": 0.07817967192446922,
+          "mirror_recovery": 3.0933216421770484,
           "mass_plateau": 0.0025151320884932156
         },
         {
@@ -14777,6 +15973,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": 2.7578087971587504,
+          "patch_recovery": 0.08692680339698011,
+          "mirror_recovery": 3.29470231693473,
           "mass_plateau": 0.002515982718199379
         },
         {
@@ -14801,6 +15999,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": 2.9406559634516944,
+          "patch_recovery": 0.09643468651718495,
+          "mirror_recovery": 3.509475324025982,
           "mass_plateau": 0.0025168310287561934
         },
         {
@@ -14825,6 +16025,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": 3.1356593327208153,
+          "patch_recovery": 0.10672601120765146,
+          "mirror_recovery": 3.7383765046983255,
           "mass_plateau": 0.0025177021131470466
         },
         {
@@ -14849,6 +16051,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": 3.343688619090286,
+          "patch_recovery": 0.11795084823802669,
+          "mirror_recovery": 3.9821639195370615,
           "mass_plateau": 0.002518555422463023
         },
         {
@@ -14873,6 +16077,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": 3.5655648169012686,
+          "patch_recovery": 0.13005723377120115,
+          "mirror_recovery": 4.241803062814258,
           "mass_plateau": 0.0025194211871547418
         },
         {
@@ -14897,6 +16103,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": 3.802311917409272,
+          "patch_recovery": 0.1431162341867256,
+          "mirror_recovery": 4.518515847343977,
           "mass_plateau": 0.002520274627899785
         },
         {
@@ -14921,6 +16129,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": 4.054881910015915,
+          "patch_recovery": 0.15729914247678137,
+          "mirror_recovery": 4.81338104774176,
           "mass_plateau": 0.0025211489198737344
         },
         {
@@ -14945,6 +16155,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": 4.324322208515311,
+          "patch_recovery": 0.17261167656088183,
+          "mirror_recovery": 5.127744214906164,
           "mass_plateau": 0.0025220421153196986
         },
         {
@@ -14969,6 +16181,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": 4.611739612287547,
+          "patch_recovery": 0.18916387440635915,
+          "mirror_recovery": 5.462711076948607,
           "mass_plateau": 0.0025229490493431767
         },
         {
@@ -14993,6 +16207,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": 4.918354219269127,
+          "patch_recovery": 0.20703522185745551,
+          "mirror_recovery": 5.81993900314972,
           "mass_plateau": 0.0025238507164862516
         },
         {
@@ -15017,6 +16233,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": 5.245453518232995,
+          "patch_recovery": 0.22642142631692158,
+          "mirror_recovery": 6.200647977990636,
           "mass_plateau": 0.002524746376640093
         },
         {
@@ -15041,6 +16259,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": 5.594416598015297,
+          "patch_recovery": 0.24735554274912688,
+          "mirror_recovery": 6.606503019434636,
           "mass_plateau": 0.0025256189490745202
         },
         {
@@ -15065,6 +16285,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": 5.966670042584216,
+          "patch_recovery": 0.2699586856981651,
+          "mirror_recovery": 7.039078035116701,
           "mass_plateau": 0.002526471850542439
         },
         {
@@ -15089,6 +16311,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": 6.3637991921561845,
+          "patch_recovery": 0.294356382891504,
+          "mirror_recovery": 7.500160939180368,
           "mass_plateau": 0.002527297787227495
         },
         {
@@ -15113,6 +16337,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": 6.787514885333846,
+          "patch_recovery": 0.3206489002589507,
+          "mirror_recovery": 7.992090917200513,
           "mass_plateau": 0.002528098460356928
         },
         {
@@ -15137,6 +16363,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": 7.23958678006005,
+          "patch_recovery": 0.34905994652125577,
+          "mirror_recovery": 8.516724557980087,
           "mass_plateau": 0.0025288820781824354
         },
         {
@@ -15161,6 +16389,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": 7.721983150107816,
+          "patch_recovery": 0.3797931211705508,
+          "mirror_recovery": 9.075909793411338,
           "mass_plateau": 0.002529655219990102
         },
         {
@@ -15185,6 +16415,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": 8.236651651381553,
+          "patch_recovery": 0.41293634626200515,
+          "mirror_recovery": 9.671932938185696,
           "mass_plateau": 0.002530425231587923
         },
         {
@@ -15209,6 +16441,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": 8.785875813524413,
+          "patch_recovery": 0.4487595646123796,
+          "mirror_recovery": 10.3075578775639,
           "mass_plateau": 0.0025311903580665426
         },
         {
@@ -15233,6 +16467,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": 9.371885129373233,
+          "patch_recovery": 0.487490588949622,
+          "mirror_recovery": 10.985311102300411,
           "mass_plateau": 0.0025319543608352045
         },
         {
@@ -15257,6 +16493,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": 9.997128618285673,
+          "patch_recovery": 0.5292171546884186,
+          "mirror_recovery": 11.708119641631187,
           "mass_plateau": 0.0025327172158937238
         },
         {
@@ -15281,6 +16519,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": 10.664274727344786,
+          "patch_recovery": 0.5741947476354374,
+          "mirror_recovery": 12.478945429498998,
           "mass_plateau": 0.002533467184091955
         },
         {
@@ -15305,6 +16545,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": 11.376148894445102,
+          "patch_recovery": 0.6226483060982176,
+          "mirror_recovery": 13.300689242397754,
           "mass_plateau": 0.0025342138978574342
         },
         {
@@ -15329,6 +16571,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": 12.135835919320321,
+          "patch_recovery": 0.6749438132165322,
+          "mirror_recovery": 14.176861353274406,
           "mass_plateau": 0.0025349598131157508
         },
         {
@@ -15353,6 +16597,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": 12.94640414415096,
+          "patch_recovery": 0.7312854399854039,
+          "mirror_recovery": 15.111047925785025,
           "mass_plateau": 0.0025357120163442496
         },
         {
@@ -15377,6 +16623,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": 13.811304322836357,
+          "patch_recovery": 0.7920150553851201,
+          "mirror_recovery": 16.10721077068558,
           "mass_plateau": 0.002536458698367389
         },
         {
@@ -15401,6 +16649,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": 14.734173807052686,
+          "patch_recovery": 0.8574069434694043,
+          "mirror_recovery": 17.16924452265961,
           "mass_plateau": 0.002537194673756517
         },
         {
@@ -15425,6 +16675,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": 15.718997356657692,
+          "patch_recovery": 0.9278276250481402,
+          "mirror_recovery": 18.30179630514051,
           "mass_plateau": 0.0025379145041573375
         },
         {
@@ -15449,6 +16701,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": 16.76992170865605,
+          "patch_recovery": 1.0036629414905458,
+          "mirror_recovery": 19.509455403625285,
           "mass_plateau": 0.002538620756392384
         },
         {
@@ -15473,6 +16727,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": 17.891412116977765,
+          "patch_recovery": 1.0853207467663073,
+          "mirror_recovery": 20.79725425710468,
           "mass_plateau": 0.0025393092365699234
         },
         {
@@ -15497,6 +16753,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": 19.088227564531536,
+          "patch_recovery": 1.1731953915731754,
+          "mirror_recovery": 22.17057844715258,
           "mass_plateau": 0.002539979192400479
         },
         {
@@ -15521,6 +16779,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": 20.3655702615136,
+          "patch_recovery": 1.2679320279585984,
+          "mirror_recovery": 23.635475359519006,
           "mass_plateau": 0.0025406339406473396
         },
         {
@@ -15545,6 +16805,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": 21.728771871364692,
+          "patch_recovery": 1.3698332942352835,
+          "mirror_recovery": 25.19772234089363,
           "mass_plateau": 0.002541281923656627
         },
         {
@@ -15569,6 +16831,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": 23.18352367220501,
+          "patch_recovery": 1.4794959616967702,
+          "mirror_recovery": 26.863908133652217,
           "mass_plateau": 0.0025419292425870126
         },
         {
@@ -15593,6 +16857,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": 24.736002616039737,
+          "patch_recovery": 1.5974853687043766,
+          "mirror_recovery": 28.6407967818942,
           "mass_plateau": 0.002542569356381291
         },
         {
@@ -15617,6 +16883,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": 26.392830075683406,
+          "patch_recovery": 1.724461808316818,
+          "mirror_recovery": 30.535622773165787,
           "mass_plateau": 0.0025432056410795807
         },
         {
@@ -15641,6 +16909,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": 28.161107463191865,
+          "patch_recovery": 1.8610892160072752,
+          "mirror_recovery": 32.55650626940816,
           "mass_plateau": 0.0025438367572493785
         },
         {
@@ -15665,6 +16935,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": 30.048393935362256,
+          "patch_recovery": 2.0080742432701313,
+          "mirror_recovery": 34.711799399117105,
           "mass_plateau": 0.0025444626566548828
         },
         {
@@ -15689,6 +16961,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": 32.062628713502804,
+          "patch_recovery": 2.166190562485444,
+          "mirror_recovery": 37.01037484458145,
           "mass_plateau": 0.002545086162357628
         },
         {
@@ -15713,6 +16987,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": 34.21239891821086,
+          "patch_recovery": 2.336292527993689,
+          "mirror_recovery": 39.461803609799354,
           "mass_plateau": 0.0025457062849824153
         },
         {
@@ -15737,6 +17013,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": 36.50686217077497,
+          "patch_recovery": 2.5192089644073508,
+          "mirror_recovery": 42.076604510357896,
           "mass_plateau": 0.0025463268949084297
         },
         {
@@ -15761,6 +17039,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": 38.95576173610529,
+          "patch_recovery": 2.7158720173221567,
+          "mirror_recovery": 44.86564069901678,
           "mass_plateau": 0.0025469443778385428
         },
         {
@@ -15785,6 +17065,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": 41.56968674166465,
+          "patch_recovery": 2.927253979527183,
+          "mirror_recovery": 47.840179039738096,
           "mass_plateau": 0.0025475558000936653
         },
         {
@@ -15809,6 +17091,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": 44.35983439240614,
+          "patch_recovery": 3.154588944316119,
+          "mirror_recovery": 51.012731568465554,
           "mass_plateau": 0.002548162072594314
         },
         {
@@ -15833,6 +17117,8 @@
           "crossed": false,
           "crossing_step": null,
           "recovery": 47.33783527592665,
+          "patch_recovery": 3.398951213710527,
+          "mirror_recovery": 54.39664888696831,
           "mass_plateau": 0.002548767682159822
         }
       ],
@@ -15846,6 +17132,8 @@
         "crossed": false,
         "crossing_step": null,
         "recovery_final": 47.33783527592665,
+        "patch_recovery_final": 3.398951213710527,
+        "mirror_recovery_final": 54.39664888696831,
         "perturb_at": 2400,
         "perturb_frac": 0.25
       },

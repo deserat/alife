@@ -234,15 +234,24 @@ to compare.
     `recruit_limit_sweep.py` and H7/H11 Session-20 refinements. NEXT PRIORITY: spatially-
     targeted recovery metric (#60), then L2 composition (#62).
 
-60. **Spatially-targeted recovery metric — scar repair vs volume restoration** — Still queued
-    from Session 17. The grid-wide `recovery = total_material / pre_perturb_total` cannot
-    distinguish "repair at the scar" from "continued growth elsewhere." The baseline's 47.34×
-    "recovery" is the cleanest demonstration of this — it is unbounded material accumulation,
-    not targeted repair. A spatially-targeted variant (recovery measured in the damaged patch
-    specifically: `material_in_patch / pre_perturb_material_in_patch`) would make the
-    perturbation acid test decisive without needing the full mass-saturating regime. Cheap to
-    implement: the perturbation already records the patch coordinates (r0:r1, c0:c1); just
-    track material in that subgrid over the post-perturbation history.
+60. **Spatially-targeted recovery metric — scar repair vs volume restoration** — DONE (Session 24).
+    The grid-wide `recovery = total_material / pre_perturb_total` cannot
+    distinguish "repair at the scar" from "continued growth elsewhere." The
+    baseline's 47.34× "recovery" was the cleanest demonstration — it was
+    unbounded material accumulation, not targeted repair. A spatially-targeted
+    variant (recovery measured in the damaged patch specifically:
+    `material_in_patch / pre_perturb_material_in_patch`) would make the
+    perturbation acid test decisive. **Implemented as `patch_recovery` in
+    sim09.py, plus a `mirror_recovery` control arm (an undamaged same-size
+    region).** Result: `targeted_repair = patch_recovery − mirror_recovery` is
+    **negative in all four conditions** (tuned: curvature −1.95, baseline
+    −1.65; default: curvature −0.60, baseline −51.0). Neither channel
+    preferentially repairs the damage site. The scar grows slower than an
+    undamaged mirror (re-nucleation lag). The crossing fires but the structure
+    does not self-repair in the targeted sense — the crossing is a stability
+    claim, not a scar-repair claim. The Session 17 "self-repair" report was an
+    artifact of the grid-wide metric. Determinism verified. See
+    `patch_recovery_probe.py`, H7 Session-24 refinement.
 
 61. **The mass-plateau gate as a reusable methodology pattern** — The sim06 and sim09
     detector-bug corrections share a pattern: a threshold set below the noise floor of the
@@ -473,9 +482,130 @@ to compare.
     self-defeating channel is one where the feedback signal and the spatial
     signal travel on the same wire. Does this principle hold beyond stigmergic
     channels? In ACO, the pheromone trail IS both the feedback signal and the
-    spatial signal — but ACO's response function (τ^α·η^β) is unbounded, so it
+    spatial signal — but ACO's response function (τ^a·η^β) is unbounded, so it
     never saturates. In development, morphogen gradients carry positional
     information (spatial signal) AND feedback (concentration-dependent gene
     expression) on the same wire — and morphogen saturation is a known
     developmental pathology. This deserves a concept file and possibly a
     cross-domain synthesis. Cheap: no new runs; pure synthesis.
+
+## From Vance (2026-08-04)
+
+74. **Singh et al. (2025/2026) — MARL-trained weakly electric fish collectives:
+    emergent social behavior from biophysical sensing + individual fitness
+    reward** — arXiv:2511.08436. Found via a Bluesky follower (Naomi Saphra is a
+    co-author). The paper is a complete worked example of several things our
+    project has been circling, and it connects to at least five of our
+    hypotheses:
+
+    **H1 (Multi-scale composition) ↔ emergent collective behavior from
+    individual incentives alone.** The paper's central claim: collective
+    foraging, dominance hierarchies, aggression, and context-dependent EOD
+    communication all *emerged* from individual fitness rewards with *no* reward
+    for communication, coordination, chasing, or aggression. This is the same
+    "emergence from individual incentives" pattern our project studies, but at
+    a single scale (fish-to-fish). The open question for us: does their
+    framework compose across scales? Their fish are homogeneous agents with the
+    same policy — can heterogeneous policies at different scales produce
+    multi-scale composition?
+
+    **H7 (Trace→Actor Crossing) ↔ EOD as a stigmergic medium.** The EOD is a
+    stigmergic signal: it modifies the electric field (environment), persists
+    briefly, is sensed by conspecifics, and influences their behavior. The
+    paper's Mormyromast "cons-image" (detecting conspecific EOD distortions)
+    IS stigmergic sensing — agents read the environmental trace of another
+    agent's action. The Knollenorgan (long-range conspecific-only sensor) is a
+    dedicated stigmergic channel. The paper shows that ablating the
+    Knollenorgan doesn't affect foraging but *reshapes social organization*
+    (more aggression, less spacing) — the stigmergic medium is causally
+    efficacious for social structure, not just foraging. This is direct evidence
+    for H4 (dynamic environment as participant, not backdrop) and the ANT
+    claim that the medium is an actant.
+
+    **H11 (Saturating Channel) ↔ EOD self-cancellation.** The Mormyromast has
+    an internal cancellation signal that suppresses the reafferent (self-generated)
+    EOD component — the self-field is ~729× stronger than the conspecific field
+    at 10 cm, so without active cancellation the self-signal would saturate the
+    sensor and mask the conspecific signal entirely. This is a biological
+    instance of our "two-wire principle" (queued topic 73): the self-image and
+    the cons-image travel on separate wires (separate processing channels
+    within the same receptor), so saturation of the self-signal doesn't
+    destroy the cons-specific spatial signal. The paper's "collective sensing"
+    experiment (gating self- vs cons-EOD inputs independently) is exactly the
+    kind of channel-factor decomposition our Session 21–22 factorial
+    experiments did with sim09.
+
+    **H4 (Dynamic Environment) ↔ the electric field as a shared stigmergic
+    medium.** The electric field is not a static backdrop — it's co-determined
+    by all agents' EODs AND the environment (walls, prey distort it). Agents
+    sense not only each other but "how their own and others' EODs are
+    transformed by the shared environment." This is niche construction in the
+    electric domain: agents modify the field they sense through, and the
+    field's distortions carry information about the environment. The field IS
+    the stigmergic medium.
+
+    **RNN dynamics ↔ cross-scale neural representation.** The effective
+    dimensionality of RNN activity scales with group size only when the
+    Knollenorgan (long-range stigmergic channel) is intact — ablate it and
+    dimensionality stays flat at the solo baseline. The social context
+    *expands the neural representation space*, and this expansion is driven by
+    the stigmergic channel, not by direct interaction. Proximity-dependent
+    correlated latent dynamics (PLSC) between interacting agents' RNN states
+    collapse to zero beyond communication range. This is a potential model
+    for how multi-scale composition could work in a neural system: the
+    stigmergic medium creates a shared subspace between agents that doesn't
+    exist at the individual level — a new dynamical degree of freedom. Could
+    our sim09 curvature structures show a similar dimensionality expansion
+    when two structures interact through a shared curvature field?
+
+    **Methodological relevance:** their in silico intervention design (ablate
+    sensors, silence EODs, change food distribution) is exactly the kind of
+    causal decomposition our project uses. Their "seed selection criterion"
+    (balance biological desiderata across multiple converged policies) is a
+    pattern we could adopt for our sim runs. Their GRU-based actor-critic with
+    recurrent dynamics analysis (PCA, linear decoding, PLSC, power spectrum)
+    is a toolkit we haven't used but could apply to sim09's agent states.
+
+    NEXT: This should be a nightly research session topic. The paper deserves a
+    full concept file and a synthesis entry. Key questions: (1) Does the EOD
+    stigmergic medium satisfy our H7 crossing criteria? (2) Can their MARL
+    framework be extended to multi-scale composition (heterogeneous policies
+    at different scales)? (3) Does the two-wire principle (self/cons-image
+    separation in Mormyromasts) generalize to our action/cue channel
+    distinction? (4) Can RNN dimensionality analysis detect when a stigmergic
+    medium creates a new dynamical degree of freedom?
+
+## From Session 24 (2026-08-08)
+
+75. **The control-arm methodology pattern — a metric that responds is a
+    description, not a test** — Session 24's spatially-targeted recovery
+    metric revealed that every metric in this project needed a control arm
+    to become a test rather than a description. The crossing detector
+    responded to stability (needed the baseline-pheromone control); the
+    recovery metric responded to growth (needed the mirror patch); the φ_sat
+    predictor responded to saturation (needed the action/linear condition).
+    A metric that responds to a phenomenon but cannot distinguish it from
+    confounds is a description, not a test. This is now earned three times
+    (mass-saturation gate, φ_sat predictor, grid-wide recovery) and deserves
+    to be a standing methodology rule: **before claiming a metric tests a
+    phenomenon, identify the confound and add a control arm that holds it
+    constant.** Could be added to CLAUDE.md §4 step 6 alongside the
+    metric-ceiling rule (#61) and the stable_crossed rule (#65).
+
+76. **Late perturbation after true mass plateau** — The current perturbation
+    hits at 60% of steps, when the crossing has fired but the total material
+    is still rising (not truly plateaued). A later perturbation (80-90% of
+    steps, after the mass has equilibrated) may give a different self-repair
+    result: the structure would be at equilibrium, and scar repair would be
+    purely about restoring the damage, not about continuing growth. If the
+    late-perturbation targeted_repair is still negative, the no-self-repair
+    finding is robust; if it becomes positive, the current result is a
+    timing artifact. Cheap: change perturb_at and re-run the probe.
+
+77. **The L2 composition question with a non-saturating glue** — Now the top
+    priority. The curvature channel crosses (Session 19), but it does not
+    self-repair (Session 24). Does it compose? Run two curvature-channel
+    structures in adjacent grids with a shared boundary and test whether a
+    composite organization emerges. This is the sim05 L2 question reopened
+    with a non-saturating stigmergic glue — the direct test of H1/H10.
+    (Previously queued as #62; now the next major test after #60 is done.)

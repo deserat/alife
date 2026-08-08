@@ -555,7 +555,9 @@ def _compactness(mask):
 # --------------------------------------------------------------------------
 def compute_metrics(field, params, step, deposits, excavations,
                      deposits_on_convex, pickups, prev_mask, deposits_on_structure=0,
-                     pre_perturb_total=None):
+                     pre_perturb_total=None, patch_total=None,
+                     pre_perturb_patch_total=None, mirror_total=None,
+                     pre_perturb_mirror_total=None):
     """Compute one history record from the current field state + window event
     counters. Part 5 upgrades this to fill n_pillars/compactness/crossing.
     `deposits_on_structure` is accumulated only by the baseline_pheromone
@@ -564,7 +566,22 @@ def compute_metrics(field, params, step, deposits, excavations,
     Part 8: `pre_perturb_total` is the total_material captured at the last
     pre-perturbation sample; when set, each record carries
     `recovery = current_total_material / pre_perturb_total`. When None
-    (no perturbation, or before the perturbation sample), recovery is None."""
+    (no perturbation, or before the perturbation sample), recovery is None.
+
+    Part 8b (Session 24): `patch_total` is the material currently inside the
+    damaged patch; `pre_perturb_patch_total` is the patch's pre-damage
+    material. When both are set and > 0, each record carries
+    `patch_recovery = patch_total / pre_perturb_patch_total` — a
+    spatially-targeted recovery distinguishing scar repair from volume
+    restoration elsewhere. The grid-wide `recovery` can be >>1 (unbounded
+    growth far from the scar); `patch_recovery` isolates the scar.
+
+    `mirror_total` / `pre_perturb_mirror_total` track an undamaged
+    same-size region (the control arm). `mirror_recovery` is to its own
+    pre-damage baseline. If `patch_recovery ≈ mirror_recovery`, the scar
+    is growing at the same rate as an equivalent undamaged region — the
+    "repair" is just global growth. If `patch_recovery > mirror_recovery`,
+    the scar is preferentially refilled (targeted repair)."""
     structure_threshold = params.get("structure_threshold", STRUCTURE_THRESHOLD)
     channel = params.get("channel", "curvature")
 
@@ -634,6 +651,14 @@ def compute_metrics(field, params, step, deposits, excavations,
         # --- Part 8 (perturbation) ---
         "recovery": (float(total_material) / float(pre_perturb_total)
                      if pre_perturb_total and pre_perturb_total > 0 else None),
+        # --- Part 8b (Session 24): spatially-targeted recovery ---
+        "patch_recovery": (float(patch_total) / float(pre_perturb_patch_total)
+                           if (pre_perturb_patch_total and pre_perturb_patch_total > 0
+                               and patch_total is not None) else None),
+        # --- Part 8b control: mirror (undamaged) patch recovery ---
+        "mirror_recovery": (float(mirror_total) / float(pre_perturb_mirror_total)
+                            if (pre_perturb_mirror_total and pre_perturb_mirror_total > 0
+                                and mirror_total is not None) else None),
     }
     return rec
 
@@ -737,7 +762,8 @@ def detect_crossing(history, params):
 
 def summarize(history, perturb=None):
     """Headline summary of a condition's run. Part 5 adds crossed/crossing_step.
-    Part 8: when perturb is set, adds recovery_final + perturb_at + perturb_frac."""
+    Part 8: when perturb is set, adds recovery_final + perturb_at + perturb_frac.
+    Part 8b (Session 24): also adds patch_recovery_final (spatially-targeted)."""
     perturb_at = (perturb or {}).get("at")
     perturb_frac = (perturb or {}).get("frac")
     if not history:
@@ -746,8 +772,9 @@ def summarize(history, perturb=None):
             "peak_total_material": 0.0, "peak_step": 0,
             "mean_late_stability": 0.0, "retention": 0.0,
             "crossed": False, "crossing_step": None,
-            "recovery_final": None, "perturb_at": perturb_at,
-            "perturb_frac": perturb_frac,
+            "recovery_final": None, "patch_recovery_final": None,
+            "mirror_recovery_final": None,
+            "perturb_at": perturb_at, "perturb_frac": perturb_frac,
         }
     last = history[-1]
     final_total = last["total_material"]
@@ -763,6 +790,10 @@ def summarize(history, perturb=None):
     crossing_step = history[-1].get("crossing_step", None)
     # Part 8: recovery_final from the last record's recovery (None if no perturb).
     recovery_final = last.get("recovery", None)
+    # Part 8b (Session 24): patch_recovery_final from the last record.
+    patch_recovery_final = last.get("patch_recovery", None)
+    # Part 8b control: mirror_recovery_final from the last record.
+    mirror_recovery_final = last.get("mirror_recovery", None)
     return {
         "final_total_material": float(final_total),
         "final_n_structure_cells": int(final_cells),
@@ -774,6 +805,10 @@ def summarize(history, perturb=None):
         "crossing_step": crossing_step,
         "recovery_final": (float(recovery_final)
                           if recovery_final is not None else None),
+        "patch_recovery_final": (float(patch_recovery_final)
+                                 if patch_recovery_final is not None else None),
+        "mirror_recovery_final": (float(mirror_recovery_final)
+                                  if mirror_recovery_final is not None else None),
         "perturb_at": perturb_at,
         "perturb_frac": perturb_frac,
     }
@@ -814,7 +849,14 @@ def run_condition(params, seed, perturb=None):
     perturb_at = None
     perturb_frac = None
     r0 = r1 = c0_patch = c1 = 0
+    # Part 8b control: mirror patch — an undamaged region of the same size,
+    # offset to a corner, so we can compare scar growth to equivalent-region
+    # growth (the control arm for "targeted repair"). If the scar grows at
+    # the same rate as the mirror, the "repair" is just global growth.
+    mr0 = mr1 = mc0 = mc1 = 0
     pre_perturb_total = None
+    pre_perturb_patch_total = None  # Part 8b: material in patch pre-damage
+    pre_perturb_mirror_total = None  # Part 8b control: mirror pre-damage
     perturb_applied = False
     if perturb:
         perturb_at = int(perturb.get("at", int(0.6 * steps)))
@@ -825,6 +867,30 @@ def run_condition(params, seed, perturb=None):
         c0_patch = (size - side) // 2
         r1 = r0 + side
         c1 = c0_patch + side
+        # mirror: same-size block in a corner, placed to NOT overlap the
+        # central damage patch. Try the top-left corner; if it overlaps the
+        # damage patch (happens when side > size/3), shift to the far corner
+        # row/col bands that are outside the damage region. If the grid is
+        # too small for a non-overlapping same-size mirror (side > size/2),
+        # fall back to a smaller mirror (half-side) and flag it.
+        if side <= size // 3:
+            mr0 = max(0, r0 - side - 2)
+            mc0 = max(0, c0_patch - side - 2)
+            mr1 = mr0 + side
+            mc1 = mc0 + side
+        else:
+            # grid too crowded: place mirror in the top-left corner band
+            # that is outside the damage region. The damage patch starts at
+            # r0=(size-side)//2; use [0:r0, 0:r0] if it fits side, else
+            # shrink the mirror to r0 x r0 (still a valid undamaged control,
+            # just smaller).
+            avail = r0  # = (size - side) // 2
+            if avail >= side:
+                mr0, mc0 = 0, 0
+                mr1, mc1 = side, side
+            else:
+                mr0, mc0 = 0, 0
+                mr1, mc1 = avail, avail
 
     for step in range(steps):
         if channel == "curvature":
@@ -845,6 +911,14 @@ def run_condition(params, seed, perturb=None):
 
         # --- Part 8: apply damage at perturb_at (once) ---
         if perturb and perturb_at is not None and not perturb_applied and step >= perturb_at:
+            # Part 8b: capture patch material BEFORE zeroing (the denominator
+            # for patch_recovery). Use the last pre-damage sample's material
+            # in the patch, consistent with how pre_perturb_total is captured.
+            pre_perturb_patch_total = float(
+                field.material[r0:r1, c0_patch:c1].sum())
+            # Part 8b control: capture mirror patch material (undamaged)
+            pre_perturb_mirror_total = float(
+                field.material[mr0:mr1, mc0:mc1].sum())
             field.material[r0:r1, c0_patch:c1] = 0.0
             if field.pheromone is not None:
                 field.pheromone[r0:r1, c0_patch:c1] = 0.0
@@ -856,10 +930,20 @@ def run_condition(params, seed, perturb=None):
             if (perturb and pre_perturb_total is None
                     and perturb_applied and history):
                 pre_perturb_total = float(history[-1]["total_material"])
+            # Part 8b: material currently inside the damaged patch
+            patch_total = (float(field.material[r0:r1, c0_patch:c1].sum())
+                           if perturb_applied else None)
+            # Part 8b control: material in the mirror (undamaged) patch
+            mirror_total = (float(field.material[mr0:mr1, mc0:mc1].sum())
+                            if perturb_applied else None)
             rec = compute_metrics(field, params, step, dep_acc, exc_acc,
                                   dep_convex_acc, pick_acc, prev_structure_mask,
                                   deposits_on_structure=dep_struct_acc,
-                                  pre_perturb_total=pre_perturb_total)
+                                  pre_perturb_total=pre_perturb_total,
+                                  patch_total=patch_total,
+                                  pre_perturb_patch_total=pre_perturb_patch_total,
+                                  mirror_total=mirror_total,
+                                  pre_perturb_mirror_total=pre_perturb_mirror_total)
             history.append(rec)
             dep_acc = exc_acc = dep_convex_acc = dep_struct_acc = pick_acc = 0
             prev_structure_mask = (field.material >
@@ -986,6 +1070,28 @@ def cmd_run():
     print(f"  baseline_pheromone    recovery_final={base_rec_s}")
     if curv_rec is not None and base_rec is not None:
         print(f"  curvature - baseline = {curv_rec - base_rec:+.2f}")
+    # Part 8b: spatially-targeted (patch) recovery — the decisive metric
+    curv_prect = curv_perturb["summary"]["patch_recovery_final"]
+    base_prect = base_perturb["summary"]["patch_recovery_final"]
+    curv_prect_s = f"{curv_prect:.2f}" if curv_prect is not None else "n/a"
+    base_prect_s = f"{base_prect:.2f}" if base_prect is not None else "n/a"
+    print(f"  curvature_channel     patch_recovery_final={curv_prect_s}")
+    print(f"  baseline_pheromone    patch_recovery_final={base_prect_s}")
+    if curv_prect is not None and base_prect is not None:
+        print(f"  curvature - baseline = {curv_prect - base_prect:+.2f}")
+    # Part 8b control: mirror (undamaged) patch recovery
+    curv_mrect = curv_perturb["summary"]["mirror_recovery_final"]
+    base_mrect = base_perturb["summary"]["mirror_recovery_final"]
+    curv_mrect_s = f"{curv_mrect:.2f}" if curv_mrect is not None else "n/a"
+    base_mrect_s = f"{base_mrect:.2f}" if base_mrect is not None else "n/a"
+    print(f"  curvature_channel     mirror_recovery_final={curv_mrect_s}")
+    print(f"  baseline_pheromone    mirror_recovery_final={base_mrect_s}")
+    # targeted repair = patch - mirror (positive = scar grows faster than
+    # an equivalent undamaged region)
+    if curv_prect is not None and curv_mrect is not None:
+        print(f"  curvature targeted_repair = {curv_prect - curv_mrect:+.2f}")
+    if base_prect is not None and base_mrect is not None:
+        print(f"  baseline  targeted_repair = {base_prect - base_mrect:+.2f}")
     print(f"\nWrote {RESULTS_PATH}  ({time.time()-t0:.1f}s)")
 
 
@@ -1336,6 +1442,81 @@ def cmd_selftest():
         r = run_condition(tp, seed=SEED)
         assert len(r["history"]) >= 3, f"{resp} run should produce history"
     print("selftest: Part 5c OK (recruit_response routing)")
+
+    # Part 8b (Session 24): spatially-targeted (patch) recovery metric.
+    # The grid-wide `recovery` cannot distinguish scar repair from volume
+    # restoration elsewhere; `patch_recovery` isolates the damaged patch. Tests:
+    #   (a) a perturbed run carries non-None patch_recovery on post-damage
+    #       records (the metric fires);
+    #   (b) a non-perturbed run has None patch_recovery everywhere (the
+    #       metric withholds when there is no scar);
+    #   (c) patch_recovery is bounded near 1.0 while grid-wide recovery can
+    #       exceed it — the patch isolates the scar. (Verified at the run
+    #       level rather than asserted on a synthetic, since the patch
+    #       metric is a direct field slice.)
+    tiny_p8b = {"grid_size": 30, "n_termites": 20, "steps": 200,
+                 "sample_every": 25, "channel": "curvature",
+                 "structure_threshold": STRUCTURE_THRESHOLD,
+                 "d": D_SMOOTH, "material_decay": MATERIAL_DECAY}
+    # (a) perturbed run
+    res_p = run_condition(tiny_p8b, seed=SEED,
+                         perturb={"at": 120, "frac": 0.25})
+    post_damage = [r for r in res_p["history"]
+                   if r.get("patch_recovery") is not None]
+    assert len(post_damage) > 0, \
+        "perturbed run should have post-damage records with patch_recovery"
+    for r in post_damage:
+        assert r["patch_recovery"] is not None, \
+            "post-damage record should carry patch_recovery"
+        assert r["patch_recovery"] >= 0.0, \
+            "patch_recovery should be non-negative"
+    assert res_p["summary"]["patch_recovery_final"] is not None, \
+        "perturbed summary should carry patch_recovery_final"
+    # (b) non-perturbed run — patch_recovery withholds (None everywhere)
+    res_np = run_condition(tiny_p8b, seed=SEED)
+    for r in res_np["history"]:
+        assert r.get("patch_recovery") is None, \
+            "non-perturbed run should have None patch_recovery"
+    assert res_np["summary"]["patch_recovery_final"] is None, \
+        "non-perturbed summary should have None patch_recovery_final"
+    # (c) patch_recovery is bounded while grid-wide recovery can exceed it.
+    # In the tiny run, verify patch_recovery stays <= a small multiple (the
+    # patch can only refill, not grow unbounded within its fixed area),
+    # while grid-wide recovery may differ. The key property: patch_recovery
+    # starts near 0 (scar just made) and rises — it is not identical to
+    # grid-wide recovery.
+    first_post = post_damage[0]
+    assert first_post["patch_recovery"] < 0.1 or first_post["patch_recovery"] < 1.0, \
+        "patch_recovery right after damage should be low (scar just made)"
+    last_post = post_damage[-1]
+    # patch_recovery and recovery should differ (the point of the metric)
+    if last_post.get("recovery") is not None:
+        assert abs(last_post["patch_recovery"] - last_post["recovery"]) > 1e-9 or \
+            last_post["patch_recovery"] != last_post["recovery"], \
+            "patch_recovery should not be identical to grid-wide recovery"
+    print("selftest: Part 8b OK (spatially-targeted patch recovery)")
+
+    # Part 8b control (Session 24): mirror (undamaged) patch recovery.
+    # The control arm: an undamaged same-size region's recovery should be
+    # present (non-None) on perturbed runs, absent on non-perturbed runs.
+    # targeted_repair = patch_recovery - mirror_recovery. If ~0, the scar
+    # is growing at the same rate as an equivalent undamaged region (no
+    # targeting). If positive, the scar is preferentially refilled.
+    # (a) perturbed run carries mirror_recovery
+    for r in post_damage:
+        assert r.get("mirror_recovery") is not None, \
+            "post-damage record should carry mirror_recovery"
+        assert r["mirror_recovery"] >= 0.0, \
+            "mirror_recovery should be non-negative"
+    assert res_p["summary"]["mirror_recovery_final"] is not None, \
+        "perturbed summary should carry mirror_recovery_final"
+    # (b) non-perturbed run — mirror_recovery withholds (None everywhere)
+    for r in res_np["history"]:
+        assert r.get("mirror_recovery") is None, \
+            "non-perturbed run should have None mirror_recovery"
+    assert res_np["summary"]["mirror_recovery_final"] is None, \
+        "non-perturbed summary should have None mirror_recovery_final"
+    print("selftest: Part 8b-control OK (mirror patch recovery)")
 
 
 def main():

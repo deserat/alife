@@ -1235,3 +1235,43 @@ self-defeating channel is one where the feedback signal and the spatial
 signal travel on the same wire: saturating one destroys the other. In the
 action family they travel on separate wires (routing vs deposit gain), so
 saturating one leaves the other intact.
+
+## Session 24 (2026-08-08) — Stability is not self-repair: the control arm that separated scar from growth
+
+The perturbation acid test (sim09 Part 8, Session 17) reported the curvature
+channel "recovers to 1.13×" vs the baseline's 47.34× — but the grid-wide
+`recovery = total_material / pre_perturb_total` credits material accumulated
+*anywhere* as "recovery." The baseline's 47× was unbounded material
+accumulation, not targeted repair. Session 24 implemented the
+spatially-targeted recovery metric (queued-topic #60, open since Session 17)
+with a control arm: `patch_recovery` (material in the scar / pre-damage scar
+material) and `mirror_recovery` (material in an undamaged same-size region /
+its pre-damage material). `targeted_repair = patch_recovery − mirror_recovery`
+isolates preferential scar repair from background growth.
+
+**The result: targeted_repair is negative in all four conditions.** Neither
+the curvature channel nor the baseline preferentially repairs the damage
+site. The scar grows slower than an undamaged mirror region in every case —
+re-nucleation from zero is slower than continued growth on existing structure.
+The crossing fires (stability, roughness, mass-plateau gate) but the structure
+does not self-repair in the targeted sense.
+
+**The cross-domain connection: "stable" and "self-repairing" are different
+claims, and a metric without a control arm conflates them.** This is the same
+methodology lesson as the mass-saturation gate (Session 19) and the φ_sat
+predictor (Session 23): a metric that cannot distinguish the phenomenon it
+claims to measure is not a test. The grid-wide recovery could not distinguish
+"the scar healed" from "the structure kept growing elsewhere" — and without
+the mirror control, the patch_recovery alone could not distinguish "the scar
+healed preferentially" from "everything grew, including the scar." The
+control arm is what makes the measurement a test rather than a description.
+
+This connects to the broader principle running through the project's
+methodology corrections: every detector or metric must be shown to
+*distinguish* the phenomenon from its confounds, not merely to *respond* to
+it. The crossing detector responded to stability; the recovery metric
+responded to growth; the φ_sat predictor responded to saturation. Each
+needed a control to become a test: the baseline-pheromone control for the
+crossing, the mirror patch for the recovery, the action/linear condition for
+φ_sat. A metric that responds is a description; a metric that distinguishes
+is a test.

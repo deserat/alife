@@ -361,6 +361,20 @@ grid + agent framework, replacing the pheromone-deposit rule with a curvature-de
   (where to go). The unifying diagnostic is **whether spatial contrast in the routing input
   survives the response curve**, which depends on channel architecture, not just the saturation
   threshold. Determinism verified. See `phi_sat_probe.py` and H7/H11 Session-23 refinements.
+- **Does the crossing produce targeted scar repair? — DONE (Session 24). NO.** The
+  spatially-targeted recovery metric (`patch_recovery_probe.py`, queued-topic #60)
+  added a `patch_recovery` (material in the damaged patch / pre-damage patch material)
+  and a `mirror_recovery` control (an undamaged same-size region's growth). The grid-wide
+  `recovery` conflated scar repair with volume restoration — the baseline's 47× was
+  unbounded accumulation. `targeted_repair = patch_recovery − mirror_recovery` is
+  **negative in all four conditions** (tuned: curvature −1.95, baseline −1.65; default:
+  curvature −0.60, baseline −51.0). Neither channel preferentially repairs the damage
+  site; the scar grows slower than an equivalent undamaged region (re-nucleation lag)
+  in every case. The crossing fires (stability, roughness, mass-plateau) but the
+  structure does not self-repair in the targeted sense. The crossing is a
+  stability/persistence claim, not a scar-targeting claim. The Session 17 "self-repair"
+  report was an artifact of the grid-wide metric. Determinism verified. See
+  `patch_recovery_probe.py` and H7 Session-24 refinement.
 - Can the three channels be separated in simulation (curvature alone, humidity/evaporation
   alone, crowding alone) to identify which is load-bearing for the crossing? Facchini 2024 says
   curvature ≡ evaporation, so those two are one channel; crowding (Xiao 2026) is the independent

@@ -2,8 +2,8 @@
 title: "Hypotheses"
 topic: "testable hypotheses for the multi-scale ALife composition project"
 status: active
-date: "2026-08-07"
-session: 23
+date: "2026-08-08"
+session: 24
 count: 11
 active: [H1, H2, H3, H4, H5, H6, H7, H8, H9, H10, H11]
 logs: ["logs/H1/", "logs/H2/", "logs/H3/", "logs/H4/", "logs/H5/", "logs/H6/", "logs/H7/", "logs/H8/", "logs/H9/", "logs/H10/", "logs/H11/"]
@@ -92,15 +92,15 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **Current mechanism claim:** the crossing needs a non-saturating channel that *recruits* deposition as well as *limiting* it, not mere negative feedback through the cue field (see H11). The curvature channel (Facchini et al. 2020) is the strongest candidate: growth at convex tips recruits, biharmonic smoothing limits, and there is no saturating pheromone field in the model at all.
 
-**Status:** Refined ×12. The 2×2 is complete (Session 22) and a unifying-diagnostic candidate was tested and falsified (Session 23). **The φ_sat predictor (the deposit-probability saturation threshold) does not generalize across families: it is 50% accurate — correct for the cue family (saturated→fails) but wrong for the action family (action/linear is saturated but still crosses stably).** The clamping fraction is tiny everywhere (0–7%); the difference is that in the action family, spatial contrast survives via the *routing decision* (which direction to move), not the deposit probability. The unifying diagnostic is whether spatial contrast in the routing input survives the response curve — which depends on channel architecture (action preserves routing, cue does not), not just the saturation threshold.
+**Status:** Refined ×13. The 2×2 is complete (Session 22), the φ_sat predictor was falsified (Session 23), and the spatially-targeted recovery metric with a mirror control arm shows **no targeted scar repair** (Session 24). **The grid-wide recovery metric (Session 17) conflated scar repair with volume restoration; the baseline's 47× "recovery" was unbounded accumulation. The patch metric isolates the scar, and the mirror control (an undamaged same-size region) isolates the growth baseline. targeted_repair = patch_recovery − mirror_recovery is negative in all four conditions (tuned: curvature −1.95, baseline −1.65; default: curvature −0.60, baseline −51.0). Neither channel preferentially repairs the damage site.** The crossing fires (stability, roughness, mass-plateau) but the structure does not self-repair in the targeted sense. The crossing is a stability/persistence claim, not a scar-targeting claim.
 
 **Evidence:**
 - sim06: near miss — stability 0.849–0.893 vs a 0.90 threshold; self-maintenance fragments instead of consolidating (H11's first data point). Detector-bug corrected 2026-07-27. Session 22: the saturating cue (as-built) crosses 16/16 stable without SM; the non-saturating cue crosses 0/16 stable without SM — cue-family reversal.
 - sim07: null — scalar transport fragments monotonically (stability 0.876→0.739); wrong sign for consolidation.
 - sim08: partial — non-saturating density cap consolidates morphology (pillars 101→52) but stability doesn't rise; necessary, not sufficient.
-- sim09: **crossing fires** (Session 19, corrected detector) — curvature channel crosses at every d in the tuned probe; baseline control does not. Session 20: recruit half isolated as load-bearing + almost-sufficient; limit half as stability amplifier. Session 21: action-based property isolated as primary; non-saturating as secondary stability contributor (within action family). Session 23: φ_sat probe confirms the action/linear condition is saturated (max_curv 2.55 > c_sat 1.165, clamp_frac 1.0%) but still crosses — the routing decision preserves spatial contrast. Determinism verified.
+- sim09: **crossing fires** (Session 19, corrected detector) — curvature channel crosses at every d in the tuned probe; baseline control does not. Session 20: recruit half isolated as load-bearing + almost-sufficient; limit half as stability amplifier. Session 21: action-based property isolated as primary; non-saturating as secondary stability contributor (within action family). Session 23: φ_sat probe confirms the action/linear condition is saturated (max_curv 2.55 > c_sat 1.165, clamp_frac 1.0%) but still crosses — the routing decision preserves spatial contrast. **Session 24: spatially-targeted recovery metric (patch_recovery) with mirror-patch control arm shows no targeted scar repair — targeted_repair (patch − mirror) is negative in all conditions; the crossing is a stability claim, not a self-repair claim.** Determinism verified.
 
-**Next test:** a spatially-targeted recovery metric (measure repair in the damaged patch, not grid-wide) to make the perturbation acid test decisive. Then the L2 composition question: do two self-maintaining curvature structures compose (the sim05 L2 question reopened with a non-saturating stigmergic glue)?
+**Next test:** the L2 composition question: do two self-maintaining curvature structures compose (the sim05 L2 question reopened with a non-saturating stigmergic glue)? Also: a later perturbation (after true mass plateau) may give a different self-repair result — the current perturbation hits at 60% of steps when the mass is still rising.
 
 **Log:** [logs/H7/](logs/H7/)
 
@@ -218,7 +218,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 | H4: Dynamic Environment | Refined | Fitness landscape criticism supports this | [H4](logs/H4/) |
 | H5: Autopoiesis | Unchanged | Maturana & Varela grounding | [H5](logs/H5/) |
 | H6: Multi-Scale Autopoiesis | Strengthened | Smith & Bedau 8th property = autopoiesis | [H6](logs/H6/) |
-| H7: Trace→Actor Crossing | Refined ×12; φ_sat predictor does not generalize; spatial contrast survives via routing (action), not deposit prob (cue) | Session 23 φ_sat probe: predictor 50% accurate — action/linear saturated but crosses (routing preserves spatial contrast); cue/linear saturated and fails | [H7](logs/H7/) |
+| H7: Trace→Actor Crossing | Refined ×13; spatially-targeted recovery with control arm shows no targeted scar repair — crossing is a stability claim, not a self-repair claim | Session 24 patch_recovery_probe: targeted_repair (patch−mirror) negative in all 4 conditions; Session 23 φ_sat predictor 50% accurate; action/linear saturated but crosses (routing preserves spatial contrast) | [H7](logs/H7/) |
 | H8: Complexity Enables OEE | NEW | Kaznatcheev (2019), Wiser et al. (2013) | [H8](logs/H8/) |
 | H9: Evolving Network | Untested (2026-07-27 correction) | Vasas et al. (2012) literature support; sim04's finite-space exhaustion survives but doesn't test the claim; sim03/sim05 withdrawn | [H9](logs/H9/) |
 | H10: Unbounded Space Insufficiency | Weakened (2026-07-27) | sim05 corrected: 2/6 L2 coexistence (was 0/6 — artifact); Mathis et al. 2024, Fontana & Buss 1994 unaffected | [H10](logs/H10/) |

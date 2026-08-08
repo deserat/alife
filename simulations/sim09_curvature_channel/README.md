@@ -50,7 +50,7 @@ The **Facchini/Calovi action-component split** is the single most important desi
 | `ROUGH_ELEV_THRESH` | 0.02 | crossing criterion 2 (roughness) |
 | `CONSTRAIN_THRESH` | 0.60 | crossing criterion 3 (deposits on convex) |
 
-The perturbation/self-repair test (Part 8) damages a central 25%-area square at step 0.6×steps and measures `recovery = total_material / pre_perturb_total_material` for each post-damage record.
+The perturbation/self-repair test (Part 8) damages a central 25%-area square at step 0.6×steps and measures `recovery = total_material / pre_perturb_total_material` for each post-damage record. **Part 8b (Session 24) adds `patch_recovery`** (material in the damaged patch / pre-damage patch material) and a **`mirror_recovery` control arm** (an undamaged same-size region). `targeted_repair = patch_recovery − mirror_recovery` isolates preferential scar repair from background growth. Result: targeted_repair is negative in all conditions — neither channel preferentially repairs the damage site; the crossing is a stability claim, not a self-repair claim.
 
 **Cited:** Calovi et al. 2019 (*Phil Trans R Soc B*); Facchini, Lazarescu, Perna & Douady 2020 (*J R Soc Interface*), public code at github.com/oiluigioi/JRSI_2020_termite_nest; Facchini et al. 2024 (*eLife*).
 
@@ -70,8 +70,13 @@ The perturbation/self-repair test (Part 8) damages a central 25%-area square at 
 
 | Metric | Curvature Channel | Baseline Pheromone |
 |---|---:|---:|
-| recovery_final | 1.13× | 47.34× |
+| recovery_final (grid-wide) | 1.13× | 47.34× |
+| patch_recovery_final (scar) | 0.79× | 3.40× |
+| mirror_recovery_final (control) | 1.40× | 54.40× |
+| targeted_repair (patch − mirror) | **−0.60** | **−51.00** |
 | perturbed final_cells | 9,999 | 4,896 |
+
+**Session 24 finding:** the grid-wide `recovery_final` conflates scar repair with volume restoration (baseline's 47× is unbounded accumulation). The `patch_recovery` isolates the scar; the `mirror_recovery` control arm (undamaged same-size region) isolates the growth baseline. `targeted_repair = patch − mirror` is negative in all conditions — neither channel preferentially repairs the damage site. The crossing fires but does not self-repair in the targeted sense. See `patch_recovery_probe.py`.
 
 **d-sweep (reduced grid 80², 150 termites, 2000 steps):** under the original detector, no phase transition at default `DEPOSIT_PROB_BASE=0.10` — the curvature channel saturates the grid (pillars=1, retention=1.0 at every d ∈ {0, 0.2, 0.5, 1, 2, 4, 8}). **Session 19 d* sweep (100 combos, `dpb × decay × d`): 0/100 crossed under the original detector** — criterion 2's mass-saturation gate (`|growth_rate|<0.01`) was an unfalsifiable metric-ceiling bug (threshold ~100× below the Poisson noise floor of a 150-termite deposit process). **Corrected to a relative-slope plateau** (`|slope(M)|/mean(M)<0.001` over K=16 samples): the crossing fires in the curvature channel at every d∈[0,4] in the tuned probe (dpb=0.01, decay=0.002, non-saturating grid 3123–5754/6400 cells) and does NOT fire in the baseline-pheromone control (same detector, 0/3 — saturating rule never elevates the pheromone cue enough). crossing_step 1550→900, pillars 12→1, roughness 0.44→0.77 as d rises. Determinism verified (0/80 history diffs).
 
@@ -94,7 +99,7 @@ sim09's result is now a **positive test of H7 with a control arm and a mechanism
 
 **Session 21 (2026-08-05) saturating-action control:** the recruit half is action-based AND non-saturating simultaneously — H11's two claimed properties are confounded. A saturating response `p = base + gain·c/(1+|c|)` (action-based, compresses) was tested against the linear `p = base + gain·c` (action-based, non-saturating) in a 2×2×2 factorial (response × recruit × d) with a 4-seed robustness pass. The saturating action crosses in 8/8 recruit-ON seeds and is stable in 6/8 (linear is 7/8); the limit half rescues both to 4/4 at d=1. Saturation costs ~0.05 in mean hold rate at d=0 (0.91→0.86) but does not collapse the crossing — criterion 3 (deposits_on_convex_fraction) holds 1.00 for both forms; only the mass-plateau gate (criterion 2p) flickers more under saturation. **Action-based routing is the primary load-bearing property; non-saturating is a secondary stability amplifier.** H11's strict "non-saturating" claim is partially weakened: a saturating action-based channel still crosses stably, but less robustly. See `saturating_action_sweep.py`.
 
-The next test is a **spatially-targeted recovery metric** (measure repair in the damaged patch, not grid-wide) to make the perturbation acid test decisive, and then the **L2 composition question**: do two self-maintaining curvature structures compose (the sim05 L2 question reopened with a non-saturating stigmergic glue — the direct test of H1/H10)?
+The next test is the **L2 composition question**: do two self-maintaining curvature structures compose (the sim05 L2 question reopened with a non-saturating stigmergic glue — the direct test of H1/H10)? Also: a **late perturbation** after true mass plateau (the current perturbation hits at 60% of steps when mass is still rising) may give a different self-repair result.
 
 ## Limitations
 
@@ -103,14 +108,14 @@ The next test is a **spatially-targeted recovery metric** (measure repair in the
 - Parameter-sensitive: at default `deposit_prob_base=0.10` the grid saturates before spatial selectivity emerges; the phase-transition regime needs lower nucleation + higher erosion.
 - The roughness-as-maintenance mechanism (deposits roughen the surface, focusing further deposition) is **inferred**, not directly measured.
 - Explicit-step integration of the biharmonic `d·Δ²f` is numerically fragile at high `d` (a `d=8` probe showed a blowup; the `0.0001` prefactor needs reducing for the upper sweep range).
-- The perturbation recovery metric is grid-wide; it cannot distinguish "repair at the scar" from "continued growth elsewhere." A spatially-targeted variant would make the acid test decisive without needing the full mass-saturating regime.
+- The perturbation recovery metric is grid-wide; it cannot distinguish "repair at the scar" from "continued growth elsewhere." **Session 24 added `patch_recovery` (scar-isolating) and `mirror_recovery` (control arm); targeted_repair is negative in all conditions — neither channel preferentially repairs the damage site.**
 
 ## What it teaches / next steps
 
 1. **The crossing fires (Session 19).** The d* sweep found the original detector's mass-saturation gate was an unfalsifiable metric-ceiling bug (threshold ~100× below the Poisson noise floor). Corrected to a relative-slope plateau, the crossing fires in the curvature channel and not in the baseline-pheromone control — the first H7 crossing with a control arm. `dstar_sweep.py` is the sweep script; `sim09.py`'s `detect_crossing` carries the corrected gate.
 2. **The recruit and limit halves are isolated (Session 20).** A 2×2 factorial (recruit ON/OFF × limit ON/OFF, 4-seed robustness pass) found the recruit half is necessary and almost-sufficient for a stable crossing (3/4 seeds stable at d=0; neither = 0/4); the limit half alone is never stable (0/4 — criteria flicker) but is a stability amplifier (recruit+limit = 4/4 stable, rescuing the borderline seed). See `recruit_limit_sweep.py`.
 3. **The action-based vs non-saturating confound is resolved (Session 21).** A saturating-action control (same curvature routing, saturating response `c/(1+|c|)` vs linear `c`) found action-based routing is the primary load-bearing property (saturating crosses 8/8 seeds, stable 6/8; linear 8/8, stable 7/8); non-saturating is a secondary stability amplifier (mean hold drops 0.91→0.86 at d=0; criterion 3 holds 1.00 for both). The limit half rescues both to 4/4 at d=1. See `saturating_action_sweep.py`.
-4. **Spatially-targeted recovery metric.** Measure recovery in the damaged patch specifically, not grid-wide, to make the perturbation test decisive.
+4. **Spatially-targeted recovery metric (Session 24).** `patch_recovery` (material in the scar / pre-damage) + `mirror_recovery` (control arm: undamaged same-size region). `targeted_repair = patch − mirror` is negative in all conditions — neither channel preferentially repairs the damage site. The crossing is a stability claim, not a self-repair claim. See `patch_recovery_probe.py`.
 5. **Composition (the L2 question).** The curvature channel crosses — do *two* self-maintaining curvature structures compose? This is the sim05 L2 question reopened with a non-saturating stigmergic glue — the direct test of H1/H10.
 6. **The crowding channel (Xiao 2026).** The third non-saturating channel, independent of curvature/evaporation. A sim10 could test whether crowding (distributed inhibition preventing saturation) crosses where the density cap (sim08) didn't — the cap limited without recruiting; crowding might recruit via local density gradients.
 
@@ -124,6 +129,7 @@ uv run python3 sim09_curvature_channel/sim09.py selftest    # fast internal sani
 uv run python3 sim09_curvature_channel/saturating_action_sweep.py  # Session 21 confound test
 uv run python3 sim09_curvature_channel/recruit_limit_sweep.py  # Session 20 2x2 isolation
 uv run python3 sim09_curvature_channel/dstar_sweep.py          # Session 19 d* sweep
+uv run python3 sim09_curvature_channel/patch_recovery_probe.py  # Session 24 targeted recovery
 ```
 
 Visualization: [visualize.html](https://alife.vancedubberly.com/simulations/sim09_curvature_channel/visualize.html) — fetches `results.json` and the optional `output/sweep_data.json`.
