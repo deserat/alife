@@ -45,7 +45,7 @@ The curvature channel and the baseline-pheromone control produce the *same* outc
 
 ### The offset×decay sweep (4 offsets × 6 decays × 4 seeds × 2 channels)
 
-Coexistence appears at higher decay (0.005–0.015), but the 1-seed control also fires there — the single structure fragments and pieces land on both sides. The 2-seed coexist rate (25/96 curvature, 21/96 baseline) is not meaningfully higher than the 1-seed rate (16/96 curvature, 22/96 baseline). The curvature channel does not compose more than the baseline.
+At the crossing regime (decay=0.002), there is no composition advantage — both channels merge 15/16. At higher decay (0.003–0.015, the fragmentation regime), the curvature channel shows a modest stable_l2 advantage (+11/80 over the 1-seed control) that the baseline does not (+3/80) — but the 1-seed control still fires there (16/80 coexist, 11/80 stable), so this is partial composition at best, not clean L2 emergence.
 
 ### Determinism
 

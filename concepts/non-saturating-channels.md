@@ -396,7 +396,11 @@ grid + agent framework, replacing the pheromone-deposit rule with a curvature-de
   25/96 curvature vs 21/96 baseline; 1-seed: 16/96 vs 22/96). The crossing
   is a single-structure phenomenon; L2 needs a boundary mechanism the
   curvature channel lacks. Determinism verified. See `sim10_l2_composition/`
-  and H7/H10 Session-25 refinements.
+  and H7/H10 Session-25 refinements. **Honest nuance:** at higher decay
+  (the fragmentation regime), the curvature channel shows a modest
+  stable_l2 advantage over the 1-seed control (+11/80 vs +3/80 for
+  baseline), but the 1-seed control still fires there (16/80 coexist),
+  so this is partial composition at best, not clean L2 emergence.
 - Is the state-gating (loaded vs seeking) essential, or does a deposit-only curvature rule
   (deposit at convex tips, no excavation) suffice to consolidate? Facchini's growth model uses
   only growth (no excavation term) and still reproduces morphology.
