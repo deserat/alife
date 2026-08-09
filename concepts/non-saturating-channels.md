@@ -379,6 +379,24 @@ grid + agent framework, replacing the pheromone-deposit rule with a curvature-de
   alone, crowding alone) to identify which is load-bearing for the crossing? Facchini 2024 says
   curvature ≡ evaporation, so those two are one channel; crowding (Xiao 2026) is the independent
   third. sim09 tests the curvature/evaporation channel; the crowding channel is a candidate sim10.
+- **Does the crossing compose? — DONE (Session 25). NO.** sim10 ran two
+  curvature-channel structures in adjacent regions of one grid (shared
+  field, shared agent pool, one-seed control, baseline-pheromone control).
+  At the H7 crossing regime (decay=0.002), **15/16 two-seed runs merge
+  into a single structure crossing the midline** — the curvature channel
+  consolidates too aggressively for coexistence. The first L2 detector
+  (per-region material retention) was broken: the one-seed control fired
+  "coexist" because a single structure fills both halves (the control-arm
+  lesson #75 again). The corrected detector counts connected components
+  lying entirely within each region (crossing the midline = merged). The
+  1-seed control then correctly fires 0/16 coexist. The offset×decay sweep
+  (384 runs) found coexistence at higher erosion, but the 1-seed control
+  fires there too (fragmentation, not composition). The non-saturating
+  glue composes no better than the saturating control (2-seed coexist:
+  25/96 curvature vs 21/96 baseline; 1-seed: 16/96 vs 22/96). The crossing
+  is a single-structure phenomenon; L2 needs a boundary mechanism the
+  curvature channel lacks. Determinism verified. See `sim10_l2_composition/`
+  and H7/H10 Session-25 refinements.
 - Is the state-gating (loaded vs seeking) essential, or does a deposit-only curvature rule
   (deposit at convex tips, no excavation) suffice to consolidate? Facchini's growth model uses
   only growth (no excavation term) and still reproduces morphology.

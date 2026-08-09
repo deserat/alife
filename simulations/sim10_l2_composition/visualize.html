@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>sim10 — L2 Composition</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --border: #30363d;
+    --text: #c9d1d9;
+    --muted: #8b949e;
+    --accent: #58a6ff;
+    --green: #3fb950;
+    --red: #f85149;
+    --yellow: #d29922;
+    --purple: #bc8cff;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+    padding: 1.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  h1 { font-size: 1.5rem; margin-bottom: 0.25rem; }
+  h2 { font-size: 1.15rem; margin: 1.5rem 0 0.5rem; color: var(--accent); border-bottom: 1px solid var(--border); padding-bottom: 0.25rem; }
+  p { margin-bottom: 0.75rem; color: var(--muted); }
+  .subtitle { color: var(--muted); font-size: 0.95rem; margin-bottom: 1rem; }
+  .controls { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; margin-bottom: 1rem; }
+  .controls label { color: var(--muted); font-size: 0.85rem; }
+  select, button {
+    background: var(--surface); color: var(--text); border: 1px solid var(--border);
+    border-radius: 4px; padding: 0.35rem 0.6rem; font-size: 0.85rem; cursor: pointer;
+  }
+  select:hover, button:hover { border-color: var(--accent); }
+  .grid-display { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  .canvas-box { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 0.75rem; }
+  .canvas-box h3 { font-size: 0.85rem; color: var(--muted); margin-bottom: 0.5rem; }
+  canvas { display: block; image-rendering: pixelated; width: 100%; aspect-ratio: 1; border-radius: 4px; }
+  .slider-row { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; }
+  .slider-row label { min-width: 80px; color: var(--muted); font-size: 0.8rem; }
+  input[type=range] { flex: 1; accent-color: var(--accent); }
+  .metrics { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 0.5rem; margin-bottom: 1rem; }
+  .metric { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 0.5rem 0.75rem; }
+  .metric .label { color: var(--muted); font-size: 0.75rem; }
+  .metric .value { color: var(--text); font-size: 1.1rem; font-weight: 600; }
+  .outcome-badge { display: inline-block; padding: 0.2rem 0.6rem; border-radius: 12px; font-size: 0.8rem; font-weight: 600; }
+  .outcome-coexist { background: rgba(63,185,80,0.2); color: var(--green); border: 1px solid var(--green); }
+  .outcome-merged { background: rgba(248,81,73,0.15); color: var(--red); border: 1px solid var(--red); }
+  .outcome-fragmented { background: rgba(210,153,34,0.2); color: var(--yellow); border: 1px solid var(--yellow); }
+  .outcome-dominance { background: rgba(188,140,255,0.2); color: var(--purple); border: 1px solid var(--purple); }
+  .outcome-none { background: var(--surface); color: var(--muted); border: 1px solid var(--border); }
+  .outcome-destruction { background: rgba(139,148,158,0.2); color: var(--muted); border: 1px solid var(--border); }
+  table { width: 100%; border-collapse: collapse; margin-bottom: 1rem; font-size: 0.82rem; }
+  th, td { border: 1px solid var(--border); padding: 0.4rem 0.6rem; text-align: left; }
+  th { background: var(--surface); color: var(--accent); font-weight: 600; }
+  td { color: var(--text); }
+  .midline { position: relative; }
+  .midline::after { content: ''; position: absolute; top: 0; bottom: 0; left: 50%; width: 1px; background: rgba(88,166,255,0.4); }
+  .chart-box { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 0.75rem; margin-bottom: 1rem; }
+  .chart-box h3 { font-size: 0.85rem; color: var(--muted); margin-bottom: 0.5rem; }
+  .note { color: var(--muted); font-size: 0.82rem; font-style: italic; }
+</style>
+</head>
+<body>
+<h1>sim10 — L2 Composition: Does the Crossing Compose?</h1>
+<p class="subtitle">Two curvature-channel structures in adjacent regions of one grid. Do they coexist (L2), merge, dominate, or fragment?</p>
+
+<div class="controls">
+  <label>Condition:</label>
+  <select id="condSelect">
+    <option value="curvature_2seed">A: curvature, 2 seeds (L2 test)</option>
+    <option value="baseline_2seed">B: baseline pheromone, 2 seeds</option>
+    <option value="curvature_1seed">C: curvature, 1 seed (L1 control)</option>
+    <option value="baseline_1seed">D: baseline pheromone, 1 seed</option>
+  </select>
+  <label>Step:</label>
+  <input type="range" id="stepSlider" min="0" max="0" value="0" style="flex:1;max-width:300px;">
+  <span id="stepLabel" style="color:var(--muted);font-size:0.85rem;min-width:60px;">0</span>
+</div>
+
+<div class="metrics" id="metricsBox"></div>
+
+<div class="grid-display">
+  <div class="canvas-box midline">
+    <h3>Material field (left | right regions)</h3>
+    <canvas id="matCanvas" width="40" height="40"></canvas>
+  </div>
+  <div class="canvas-box midline">
+    <h3>Curvature field</h3>
+    <canvas id="curvCanvas" width="40" height="40"></canvas>
+  </div>
+</div>
+
+<div class="chart-box">
+  <h3>Per-region independent components (L2 criterion)</h3>
+  <canvas id="compChart" width="700" height="200" style="width:100%;"></canvas>
+</div>
+
+<div class="chart-box">
+  <h3>Per-region material</h3>
+  <canvas id="matChart" width="700" height="200" style="width:100%;"></canvas>
+</div>
+
+<h2>Summary</h2>
+<table id="summaryTable">
+  <tr><th>Condition</th><th>L2 crossed</th><th>Outcome</th><th>Stable</th><th>L retain</th><th>R retain</th><th>Mean L comp</th><th>Mean R comp</th><th>Cells</th></tr>
+</table>
+
+<p class="note">The vertical blue line marks the midline. A component crossing it is a single merged structure — counted in neither region. L2 coexistence requires an independent component in EACH region.</p>
+
+<script>
+const CONDITIONS = ["curvature_2seed","baseline_2seed","curvature_1seed","baseline_1seed"];
+let data = {};
+let currentCond = "curvature_2seed";
+let currentStep = 0;
+
+async function loadResults() {
+  const resp = await fetch("results.json");
+  data = await resp.json();
+  for (const c of CONDITIONS) {
+    if (data[c]) {
+      const s = data[c].summary;
+      const row = document.getElementById("summaryTable").insertRow();
+      row.insertCell().textContent = c;
+      row.insertCell().textContent = s.l2_crossed ? "✓" : "✗";
+      const oc = row.insertCell();
+      oc.innerHTML = `<span class="outcome-badge outcome-${s.l2_outcome}">${s.l2_outcome}</span>`;
+      row.insertCell().textContent = s.l2_stable ? "✓" : "✗";
+      row.insertCell().textContent = s.l2_left_retain?.toFixed(2) ?? "—";
+      row.insertCell().textContent = s.l2_right_retain?.toFixed(2) ?? "—";
+      row.insertCell().textContent = s.l2_late_mean_lc?.toFixed(1) ?? "—";
+      row.insertCell().textContent = s.l2_late_mean_rc?.toFixed(1) ?? "—";
+      row.insertCell().textContent = s.final_n_structure_cells;
+    }
+  }
+  updateSlider();
+  render();
+}
+
+function updateSlider() {
+  const hist = data[currentCond]?.history ?? [];
+  const slider = document.getElementById("stepSlider");
+  slider.max = Math.max(0, hist.length - 1);
+  slider.value = Math.min(currentStep, hist.length - 1);
+  currentStep = parseInt(slider.value);
+  document.getElementById("stepLabel").textContent = hist[currentStep]?.step ?? 0;
+}
+
+document.getElementById("condSelect").addEventListener("change", e => {
+  currentCond = e.target.value;
+  currentStep = 0;
+  updateSlider();
+  render();
+});
+
+document.getElementById("stepSlider").addEventListener("input", e => {
+  currentStep = parseInt(e.target.value);
+  document.getElementById("stepLabel").textContent = data[currentCond]?.history[currentStep]?.step ?? 0;
+  render();
+});
+
+function render() {
+  const cond = data[currentCond];
+  if (!cond) return;
+  const hist = cond.history;
+  const rec = hist[currentStep];
+  if (!rec) return;
+
+  // Metrics
+  const mb = document.getElementById("metricsBox");
+  const outcome = rec.l2_outcome || (hist[hist.length-1].l2_outcome);
+  mb.innerHTML = `
+    <div class="metric"><div class="label">Step</div><div class="value">${rec.step}</div></div>
+    <div class="metric"><div class="label">L components</div><div class="value" style="color:${rec.left_components>=1?'var(--green)':'var(--red)'}">${rec.left_components ?? 0}</div></div>
+    <div class="metric"><div class="label">R components</div><div class="value" style="color:${rec.right_components>=1?'var(--green)':'var(--red)'}">${rec.right_components ?? 0}</div></div>
+    <div class="metric"><div class="label">L material</div><div class="value">${(rec.left_total??0).toFixed(0)}</div></div>
+    <div class="metric"><div class="label">R material</div><div class="value">${(rec.right_total??0).toFixed(0)}</div></div>
+    <div class="metric"><div class="label">Total cells</div><div class="value">${rec.n_structure_cells}</div></div>
+    <div class="metric"><div class="label">Pillars</div><div class="value">${rec.n_pillars}</div></div>
+    <div class="metric"><div class="label">Outcome</div><div class="value"><span class="outcome-badge outcome-${outcome}">${outcome}</span></div></div>
+  `;
+
+  // Snapshots
+  const snaps = cond.snapshots || [];
+  // Find nearest snapshot to current step
+  let snap = snaps[snaps.length - 1];
+  for (const s of snaps) {
+    if (s.step <= rec.step) snap = s;
+  }
+  if (snap) {
+    drawGrid("matCanvas", snap.material, 40, true);
+    drawGrid("curvCanvas", snap.curvature, 40, false);
+  }
+
+  // Charts
+  drawChart("compChart", hist, ["left_components","right_components"], ["#58a6ff","#f85149"], "Components");
+  drawChart("matChart", hist, ["left_total","right_total"], ["#3fb950","#d29922"], "Material");
+}
+
+function drawGrid(canvasId, flat, size, diverging) {
+  const canvas = document.getElementById(canvasId);
+  const ctx = canvas.getContext("2d");
+  canvas.width = size;
+  canvas.height = size;
+  const img = ctx.createImageData(size, size);
+  for (let i = 0; i < flat.length; i++) {
+    const r = Math.floor(i / size);
+    const c = i % size;
+    const v = flat[i];
+    let rr, gg, bb;
+    if (diverging) {
+      // material: black→white
+      rr = gg = bb = Math.floor(v * 255);
+    } else {
+      // curvature: blue (concave) → black → red (convex)
+      if (v > 0.5) {
+        const t = (v - 0.5) * 2;
+        rr = Math.floor(t * 255); gg = 0; bb = Math.floor((1-t) * 100);
+      } else {
+        const t = v * 2;
+        rr = 0; gg = Math.floor(t * 50); bb = Math.floor((1-t) * 255);
+      }
+    }
+      const idx = (r * size + c) * 4;
+      img.data[idx] = rr;
+      img.data[idx+1] = gg;
+      img.data[idx+2] = bb;
+      img.data[idx+3] = 255;
+  }
+  ctx.putImageData(img, 0, 0);
+}
+
+function drawChart(canvasId, hist, keys, colors, label) {
+  const canvas = document.getElementById(canvasId);
+  const ctx = canvas.getContext("2d");
+  const W = canvas.width, H = canvas.height;
+  ctx.clearRect(0, 0, W, H);
+  ctx.fillStyle = "#161b22";
+  ctx.fillRect(0, 0, W, H);
+  // Determine max
+  let maxV = 0;
+  for (const r of hist) {
+    for (const k of keys) {
+      const v = r[k] || 0;
+      if (v > maxV) maxV = v;
+    }
+  }
+  maxV = Math.max(maxV, 1);
+  const n = hist.length;
+  const stepW = W / n;
+  // Draw lines
+  for (let ki = 0; ki < keys.length; ki++) {
+    ctx.strokeStyle = colors[ki];
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    for (let i = 0; i < n; i++) {
+      const v = hist[i][keys[ki]] || 0;
+      const x = i * stepW;
+      const y = H - (v / maxV) * (H - 20) - 10;
+      if (i === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+  }
+  // Current step marker
+  ctx.strokeStyle = "rgba(255,255,255,0.3)";
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(currentStep * stepW, 0);
+  ctx.lineTo(currentStep * stepW, H);
+  ctx.stroke();
+  // Legend
+  ctx.fillStyle = "#8b949e";
+  ctx.font = "11px sans-serif";
+  for (let ki = 0; ki < keys.length; ki++) {
+    ctx.fillStyle = colors[ki];
+    ctx.fillRect(10 + ki * 120, 8, 12, 12);
+    ctx.fillStyle = "#8b949e";
+    ctx.fillText(keys[ki].replace("_"," "), 26 + ki * 120, 18);
+  }
+  // Axis label
+  ctx.fillStyle = "#8b949e";
+  ctx.fillText(label + " (max=" + maxV.toFixed(0) + ")", W - 120, H - 5);
+}
+
+loadResults();
+</script>
+</body>
+</html>

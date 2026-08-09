@@ -602,10 +602,59 @@ to compare.
     finding is robust; if it becomes positive, the current result is a
     timing artifact. Cheap: change perturb_at and re-run the probe.
 
-77. **The L2 composition question with a non-saturating glue** — Now the top
-    priority. The curvature channel crosses (Session 19), but it does not
-    self-repair (Session 24). Does it compose? Run two curvature-channel
-    structures in adjacent grids with a shared boundary and test whether a
-    composite organization emerges. This is the sim05 L2 question reopened
-    with a non-saturating stigmergic glue — the direct test of H1/H10.
-    (Previously queued as #62; now the next major test after #60 is done.)
+77. **The L2 composition question with a non-saturating glue** — DONE (Session 25).
+    The curvature channel crosses (Session 19), but it does not self-repair
+    (Session 24). Does it compose? sim10 ran two curvature-channel structures
+    in adjacent regions of one grid (shared field, shared agent pool, one-seed
+    control, baseline-pheromone control). The first L2 detector (per-region
+    material retention) was broken — the one-seed control fired "coexist"
+    because a single structure fills both halves (control-arm lesson #75
+    again). The corrected detector counts connected components lying entirely
+    within each region (crossing the midline = merged). Result: at the H7
+    crossing regime (decay=0.002), **15/16 two-seed runs merge into a single
+    structure** — the curvature channel consolidates too aggressively for
+    coexistence. At higher erosion, apparent coexistence appears but the
+    1-seed control fires too (fragmentation, not composition). The
+    non-saturating glue composes no better than the saturating control
+    (2-seed coexist: 25/96 curvature vs 21/96 baseline; 1-seed: 16/96 vs
+    22/96). The crossing is a single-structure phenomenon; L2 needs a
+    boundary mechanism the curvature channel lacks. H7 refined ×14, H10
+    strengthened. Determinism verified. See `sim10_l2_composition/`,
+    `l2_sweep.py`, and H7/H10 Session-25 refinements. NEXT PRIORITY:
+    what mechanism prevents merging? (#78, #79, #80).
+
+## From Session 25 (2026-08-09)
+
+78. **The boundary mechanism — what prevents two self-maintaining
+    structures from merging?** — TOP PRIORITY. sim10 showed the curvature
+    channel consolidates two seeds into one (15/16 merge at the crossing
+    regime). The missing ingredient is a boundary — a mechanism that
+    maintains separation between two self-maintaining structures so they
+    can interact without merging. Candidates from biology: (a) a repulsion
+    field (structures emit an anti-building signal at their edges), (b)
+    heterogeneous agent policies (two agent types that build differently,
+    like two termite species), (c) a physical barrier (a no-build zone
+    that emerges from the interaction). Test: add a repulsion/boundary
+    term to sim10 and see if two structures coexist without merging. This
+    is the direct test of what "explicit composition mechanisms" (H10's
+    prescription) actually means in a stigmergic system.
+
+79. **Heterogeneous agent policies as a composition mechanism** — The
+    Singh et al. (2025/2026) MARL fish paper (queued-topic #74) shows
+    emergent collective behavior from individual fitness rewards with
+    homogeneous policies. What if the two L1 structures are built by
+    DIFFERENT agent types (different deposit rules, different curvature
+    responses)? Would two heterogeneous-built structures coexist where
+    two homogeneous-built structures merge? This tests whether
+    compositional diversity (H1) requires agent heterogeneity, not just
+    a non-saturating glue. Could be a sim10 extension: two agent
+    populations with different deposit_prob_gain or curve_follow.
+
+80. **The one-seed control as a standing methodology pattern** — sim10's
+    L2 detector was broken until the one-seed control proved it was
+    measuring "material exists in both halves" not "two structures
+    coexist." This generalizes the control-arm lesson (#75): any
+    composition or plurality detector needs a single-component control
+    to prove it is detecting plurality, not ubiquity. Could be added to
+    CLAUDE.md §4 step 6 alongside the metric-ceiling (#61),
+    stable_crossed (#65), and control-arm (#75) rules.

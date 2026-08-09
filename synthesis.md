@@ -1275,3 +1275,49 @@ needed a control to become a test: the baseline-pheromone control for the
 crossing, the mirror patch for the recovery, the action/linear condition for
 φ_sat. A metric that responds is a description; a metric that distinguishes
 is a test.
+
+## Session 25 — 2026-08-09
+
+**The crossing does not compose, and the L2 detector needed a one-seed
+control to prove it.**
+
+sim10 tested the L2 composition question (queued-topic #62/#77): does the
+trace→actor crossing compose? Two curvature-channel structures in adjacent
+regions of one grid, sharing the material and curvature fields and the
+agent pool. The first L2 detector — per-region material retention — was
+broken: it fired "coexist" for ALL conditions, including the one-seed
+control where a single structure fills both halves. This is the
+control-arm lesson (#75) a fourth time: a metric that responds is a
+description, not a test. The corrected detector counts connected components
+of structure lying entirely within each region (components crossing the
+midline are a single merged structure, counted in neither). The one-seed
+control then correctly fires 0/16 coexist.
+
+At the H7 crossing regime (decay=0.002, where the single-structure
+crossing fires), 15/16 two-seed runs merge into a single structure
+crossing the midline. The curvature channel consolidates too aggressively
+for two structures to coexist. At higher erosion, apparent coexistence
+appears but the one-seed control fires too — fragmentation, not
+composition. The non-saturating glue composes no better than the
+saturating baseline control.
+
+**Cross-domain connection: the composition problem is channel-independent.**
+The failure to compose now spans four independent glue types: chemical
+collisions (AlChemy/sim05: 2/6 coexistence), saturating stigmergic
+(sim06/sim07: fragmentation), non-saturating density cap (sim08: no
+crossing), and non-saturating curvature (sim10: 15/16 merge). The missing
+ingredient is not the channel type — it is a boundary or interaction
+mechanism that prevents two self-maintaining structures from merging into
+one. This is consistent with Mathis et al. 2024 ("stable organizations
+cannot be easily combined into higher order entities") and with H10's
+claim that explicit composition mechanisms are needed. The crossing is a
+single-structure phenomenon; L2 composition is a different problem that
+the curvature channel does not solve.
+
+**The one-seed control as a methodology pattern.** The one-seed control is
+the L2 analog of the mirror patch (Session 24): it shows what a single
+structure does on the same grid, same agents. If the L2 detector fires for
+a single structure, it is measuring "material exists in both halves," not
+"two structures coexist." This generalizes: any composition detector needs
+a single-component control to prove it is detecting plurality, not
+ubiquity.
