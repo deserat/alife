@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>sim11 — Boundary Mechanism (Long-Range Inhibition)</title>
+<style>
+  :root { --bg: #0d1117; --fg: #c9d1d9; --accent: #58a6ff; --dim: #6e7681; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--fg); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; padding: 20px; max-width: 1200px; margin: 0 auto; }
+  h1 { color: var(--accent); font-size: 1.4em; margin-bottom: 4px; }
+  h2 { color: var(--accent); font-size: 1.1em; margin: 20px 0 8px; }
+  .subtitle { color: var(--dim); font-size: 0.85em; margin-bottom: 16px; }
+  .condition-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+  .condition { border: 1px solid #30363d; border-radius: 6px; padding: 12px; background: #161b22; }
+  .condition h3 { font-size: 0.9em; color: var(--accent); margin-bottom: 6px; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 3px; font-size: 0.75em; font-weight: 600; }
+  .badge-true { background: #238636; color: #fff; }
+  .badge-false { background: #da3633; color: #fff; }
+  .badge-coexist { background: #1a7f37; color: #fff; }
+  .badge-none { background: #6e7681; color: #fff; }
+  .stats { font-size: 0.8em; color: var(--dim); margin-top: 4px; }
+  canvas { width: 100%; height: auto; border: 1px solid #30363d; border-radius: 4px; image-rendering: pixelated; }
+  .controls { margin: 12px 0; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  button { background: #21262d; color: var(--fg); border: 1px solid #30363d; border-radius: 4px; padding: 4px 12px; cursor: pointer; font-size: 0.85em; }
+  button:hover { background: #30363d; }
+  select { background: #161b22; color: var(--fg); border: 1px solid #30363d; border-radius: 4px; padding: 4px 8px; font-size: 0.85em; }
+  .slider-row { display: flex; align-items: center; gap: 8px; font-size: 0.85em; }
+  .chart-container { border: 1px solid #30363d; border-radius: 6px; padding: 12px; background: #161b22; margin-bottom: 12px; }
+  .sweep-table { width: 100%; border-collapse: collapse; font-size: 0.8em; margin-top: 12px; }
+  .sweep-table th, .sweep-table td { border: 1px solid #30363d; padding: 4px 8px; text-align: center; }
+  .sweep-table th { color: var(--accent); }
+  .note { color: var(--dim); font-size: 0.8em; margin-top: 8px; font-style: italic; }
+</style>
+</head>
+<body>
+
+<h1>sim11: The Boundary Mechanism — Does Long-Range Inhibition Enable L2 Composition?</h1>
+<div class="subtitle">Two curvature-channel structures with a long-range inhibitor (far-field shadow − local material). Tests whether local activation + long-range inhibition (Turing/Gierer-Meinhardt) creates a boundary that prevents merging.</div>
+
+<div class="controls">
+  <label for="conditionSelect">Condition:</label>
+  <select id="conditionSelect">
+    <option value="curv_inh_2seed">A: Curvature + Inhibition, 2 seeds (L2 test)</option>
+    <option value="curv_inh_1seed">B: Curvature + Inhibition, 1 seed (L1 control)</option>
+    <option value="curv_noinh_2seed">C: Curvature, no inhibition, 2 seeds (baseline)</option>
+    <option value="curv_noinh_1seed">D: Curvature, no inhibition, 1 seed (control)</option>
+  </select>
+  <label for="snapshotSlider">Snapshot:</label>
+  <input type="range" id="snapshotSlider" min="0" max="0" value="0" style="width: 200px;">
+  <span id="snapshotLabel" style="font-size:0.85em; color: var(--dim);">Step 0</span>
+  <button id="playBtn">▶ Play</button>
+</div>
+
+<div class="condition-grid">
+  <div class="condition" id="cond-A">
+    <h3>A: Curvature + Inhibition, 2 seeds</h3>
+    <span id="badge-A" class="badge">—</span>
+    <div class="stats" id="stats-A"></div>
+  </div>
+  <div class="condition" id="cond-B">
+    <h3>B: Curvature + Inhibition, 1 seed (L1 control)</h3>
+    <span id="badge-B" class="badge">—</span>
+    <div class="stats" id="stats-B"></div>
+  </div>
+  <div class="condition" id="cond-C">
+    <h3>C: Curvature, no inhibition, 2 seeds (baseline)</h3>
+    <span id="badge-C" class="badge">—</span>
+    <div class="stats" id="stats-C"></div>
+  </div>
+  <div class="condition" id="cond-D">
+    <h3>D: Curvature, no inhibition, 1 seed (control)</h3>
+    <span id="badge-D" class="badge">—</span>
+    <div class="stats" id="stats-D"></div>
+  </div>
+</div>
+
+<h2>Material Field (current snapshot)</h2>
+<canvas id="materialCanvas" width="400" height="400"></canvas>
+
+<h2>Inhibitor Field (current snapshot)</h2>
+<canvas id="inhibitorCanvas" width="400" height="400"></canvas>
+<div class="note" id="inhibitorNote" style="display:none;">Inhibitor not available for no-inhibition conditions.</div>
+
+<h2>Per-Region Components Over Time</h2>
+<div class="chart-container">
+  <canvas id="componentsChart" width="800" height="200"></canvas>
+</div>
+
+<h2>Robustness Sweep (4 seeds)</h2>
+<table class="sweep-table" id="sweepTable">
+  <tr><th>inh_gain</th><th>seeds</th><th>l2_crossed</th><th>coexist</th><th>stable</th><th>h7</th><th>clean comp</th></tr>
+</table>
+<div class="note">Clean composition = 2-seed coexist AND 1-seed does NOT. The inhibitor converts 0/4 merge (no inhibition) to 2/4 clean coexistence at g=0.9 — a weak positive, not robust.</div>
+
+<script>
+let data = null;
+let snapshots = {};
+let histories = {};
+let summaries = {};
+let currentCondition = 'curv_inh_2seed';
+let playing = false;
+let playInterval = null;
+
+async function load() {
+  const resp = await fetch('results.json');
+  data = await resp.json();
+  
+  for (const key of ['curv_inh_2seed', 'curv_inh_1seed', 'curv_noinh_2seed', 'curv_noinh_1seed']) {
+    snapshots[key] = data[key].snapshots || [];
+    histories[key] = data[key].history || [];
+    summaries[key] = data[key].summary || {};
+  }
+  
+  updateBadges();
+  updateSlider();
+  draw();
+  drawCharts();
+  
+  try {
+    const sweepResp = await fetch('output/robustness_sweep.json');
+    if (sweepResp.ok) {
+      const sweepData = await sweepResp.json();
+      populateSweepTable(sweepData);
+    }
+  } catch(e) { /* sweep file optional */ }
+}
+
+function updateBadges() {
+  const labels = {A:'curv_inh_2seed', B:'curv_inh_1seed', C:'curv_noinh_2seed', D:'curv_noinh_1seed'};
+  for (const [id, key] of Object.entries(labels)) {
+    const s = summaries[key];
+    const badge = document.getElementById('badge-' + id);
+    const stats = document.getElementById('stats-' + id);
+    const crossed = s.l2_crossed;
+    const outcome = s.l2_outcome;
+    badge.className = 'badge ' + (crossed ? 'badge-true' : 'badge-false');
+    badge.textContent = crossed ? 'L2 CROSSED' : 'no L2';
+    const outcomeClass = outcome === 'coexist' ? 'badge-coexist' : 'badge-none';
+    stats.innerHTML = `outcome: <span class="badge ${outcomeClass}">${outcome}</span> | ` +
+      `L_retain=${s.l2_left_retain?.toFixed(2)} R_retain=${s.l2_right_retain?.toFixed(2)} | ` +
+      `h7=${s.crossed_h7} | cells=${s.final_n_structure_cells}`;
+  }
+}
+
+function updateSlider() {
+  const snaps = snapshots[currentCondition] || [];
+  const slider = document.getElementById('snapshotSlider');
+  slider.max = Math.max(0, snaps.length - 1);
+  slider.value = snaps.length - 1; // start at last snapshot
+  document.getElementById('snapshotLabel').textContent = 
+    'Step ' + (snaps[snaps.length-1]?.step || 0);
+}
+
+function draw() {
+  const snaps = snapshots[currentCondition] || [];
+  const idx = parseInt(document.getElementById('snapshotSlider').value);
+  const snap = snaps[idx];
+  if (!snap) return;
+  
+  drawGrid('materialCanvas', snap.material, 40);
+  if (snap.inhibitor) {
+    document.getElementById('inhibitorNote').style.display = 'none';
+    document.getElementById('inhibitorCanvas').style.display = '';
+    drawGrid('inhibitorCanvas', snap.inhibitor, 40);
+  } else {
+    document.getElementById('inhibitorNote').style.display = '';
+    document.getElementById('inhibitorCanvas').style.display = 'none';
+  }
+  
+  document.getElementById('snapshotLabel').textContent = 'Step ' + snap.step;
+}
+
+function drawGrid(canvasId, flatData, size) {
+  const canvas = document.getElementById(canvasId);
+  const ctx = canvas.getContext('2d');
+  const cellSize = canvas.width / size;
+  const imgData = ctx.createImageData(canvas.width, canvas.height);
+  
+  for (let r = 0; r < size; r++) {
+    for (let c = 0; c < size; c++) {
+      const val = flatData[r * size + c];
+      const x = Math.floor(c * cellSize);
+      const y = Math.floor(r * cellSize);
+      // Material: yellow-white gradient; inhibitor: cyan-blue gradient
+      let red, green, blue;
+      if (canvasId === 'inhibitorCanvas') {
+        red = Math.floor(val * 50);
+        green = Math.floor(val * 150 + 30);
+        blue = Math.floor(val * 200 + 55);
+      } else {
+        red = Math.floor(val * 230 + 25);
+        green = Math.floor(val * 210 + 25);
+        blue = Math.floor(val * 100 + 30);
+      }
+      for (let dy = 0; dy < cellSize; dy++) {
+        for (let dx = 0; dx < cellSize; dx++) {
+          const px = x + dx, py = y + dy;
+          if (px < canvas.width && py < canvas.height) {
+            const pi = (py * canvas.width + px) * 4;
+            imgData.data[pi] = red;
+            imgData.data[pi+1] = green;
+            imgData.data[pi+2] = blue;
+            imgData.data[pi+3] = 255;
+          }
+        }
+      }
+    }
+  }
+  ctx.putImageData(imgData, 0, 0);
+  
+  // Draw midline
+  ctx.strokeStyle = '#58a6ff';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(canvas.width / 2, 0);
+  ctx.lineTo(canvas.width / 2, canvas.height);
+  ctx.stroke();
+}
+
+function drawCharts() {
+  const canvas = document.getElementById('componentsChart');
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  
+  const h = histories[currentCondition] || [];
+  if (h.length === 0) return;
+  
+  const maxStep = h[h.length - 1].step;
+  const maxComp = 6;
+  
+  // Grid lines
+  ctx.strokeStyle = '#30363d';
+  ctx.lineWidth = 0.5;
+  for (let i = 0; i <= maxComp; i++) {
+    const y = canvas.height - (i / maxComp) * canvas.height;
+    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
+  }
+  
+  // Left components (blue)
+  ctx.strokeStyle = '#58a6ff';
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  h.forEach((r, i) => {
+    const x = (r.step / maxStep) * canvas.width;
+    const y = canvas.height - (Math.min(r.left_components, maxComp) / maxComp) * canvas.height;
+    if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+  });
+  ctx.stroke();
+  
+  // Right components (green)
+  ctx.strokeStyle = '#3fb950';
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  h.forEach((r, i) => {
+    const x = (r.step / maxStep) * canvas.width;
+    const y = canvas.height - (Math.min(r.right_components, maxComp) / maxComp) * canvas.height;
+    if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+  });
+  ctx.stroke();
+  
+  // Labels
+  ctx.fillStyle = '#6e7681';
+  ctx.font = '11px sans-serif';
+  ctx.fillText('Left components (blue) / Right components (green)', 8, 14);
+  ctx.fillText('Midline merge = both 0', 8, canvas.height - 4);
+}
+
+function populateSweepTable(sweepData) {
+  const table = document.getElementById('sweepTable');
+  const gains = [0.0, 0.7, 0.9, 0.95];
+  const seeds = sweepData.config.seeds;
+  
+  for (const g of gains) {
+    for (const n of [2, 1]) {
+      const runs = sweepData.runs.filter(r => r.inh_gain === g && r.n_seeds === n);
+      const l2 = runs.filter(r => r.l2_crossed).length;
+      const co = runs.filter(r => r.l2_outcome === 'coexist').length;
+      const st = runs.filter(r => r.l2_stable).length;
+      const h7 = runs.filter(r => r.crossed_h7).length;
+      
+      // Clean composition: 2-seed coexist AND 1-seed does NOT
+      let clean = 0;
+      if (n === 2) {
+        for (const seed of seeds) {
+          const r2 = runs.find(r => r.seed === seed);
+          const r1 = sweepData.runs.find(r => r.inh_gain === g && r.seed === seed && r.n_seeds === 1);
+          if (r2 && r1 && r2.l2_outcome === 'coexist' && r1.l2_outcome !== 'coexist') clean++;
+        }
+      }
+      
+      const row = table.insertRow();
+      row.insertCell().textContent = g.toFixed(2);
+      row.insertCell().textContent = n;
+      row.insertCell().textContent = l2 + '/' + runs.length;
+      row.insertCell().textContent = co + '/' + runs.length;
+      row.insertCell().textContent = st + '/' + runs.length;
+      row.insertCell().textContent = h7 + '/' + runs.length;
+      const cleanCell = row.insertCell();
+      if (n === 2) {
+        cleanCell.textContent = clean + '/' + seeds.length;
+        if (clean >= 2) cleanCell.style.color = '#3fb950';
+      } else {
+        cleanCell.textContent = '—';
+      }
+    }
+  }
+}
+
+document.getElementById('conditionSelect').addEventListener('change', e => {
+  currentCondition = e.target.value;
+  updateSlider();
+  draw();
+  drawCharts();
+});
+
+document.getElementById('snapshotSlider').addEventListener('input', draw);
+
+document.getElementById('playBtn').addEventListener('click', () => {
+  playing = !playing;
+  document.getElementById('playBtn').textContent = playing ? '⏸ Pause' : '▶ Play';
+  if (playing) {
+    playInterval = setInterval(() => {
+      const slider = document.getElementById('snapshotSlider');
+      let v = parseInt(slider.value) + 1;
+      if (v > parseInt(slider.max)) v = 0;
+      slider.value = v;
+      draw();
+    }, 200);
+  } else {
+    clearInterval(playInterval);
+  }
+});
+
+load();
+</script>
+</body>
+</html>

@@ -626,18 +626,24 @@ to compare.
 ## From Session 25 (2026-08-09)
 
 78. **The boundary mechanism — what prevents two self-maintaining
-    structures from merging?** — TOP PRIORITY. sim10 showed the curvature
-    channel consolidates two seeds into one (15/16 merge at the crossing
-    regime). The missing ingredient is a boundary — a mechanism that
-    maintains separation between two self-maintaining structures so they
-    can interact without merging. Candidates from biology: (a) a repulsion
-    field (structures emit an anti-building signal at their edges), (b)
-    heterogeneous agent policies (two agent types that build differently,
-    like two termite species), (c) a physical barrier (a no-build zone
-    that emerges from the interaction). Test: add a repulsion/boundary
-    term to sim10 and see if two structures coexist without merging. This
-    is the direct test of what "explicit composition mechanisms" (H10's
-    prescription) actually means in a stigmergic system.
+    structures from merging?** — DONE (Session 26). sim11 tested the
+    textbook boundary mechanism from Turing/Gierer-Meinhardt: a
+    long-range inhibitor (`I = max(0, far_smoothed_material − material)` —
+    self-cancelling: zero at structures, high in the gap). Deposit
+    probability is multiplied by `(1 − g·I_norm/(1+I_norm))`. Result: a
+    **weak positive**. At g=0.9, 2/4 seeds show clean composition (2-seed
+    coexist AND 1-seed does NOT) — up from 0/4 with no inhibition. But
+    2/4 seeds fragment (the 1-seed control fires too), and stable_l2
+    shows no stable advantage (0/4 at all gains). The H7 crossing
+    survives inhibition (h7=4/4 at all gains). The self-cancelling
+    inhibitor is the critical design insight: a simple smoothed-material
+    inhibitor (without the far−local subtraction) is self-defeating — it
+    is always highest AT the structure and kills all building. The
+    composition problem is not just missing lateral inhibition; even the
+    textbook boundary mechanism produces only weak, non-robust partial
+    coexistence. Determinism verified. See `sim11_boundary_mechanism/`
+    and H7/H10 Session-26 refinements. NEXT PRIORITY: heterogeneous agent
+    policies (#79), autopoietic boundary (#81).
 
 79. **Heterogeneous agent policies as a composition mechanism** — The
     Singh et al. (2025/2026) MARL fish paper (queued-topic #74) shows
@@ -658,3 +664,50 @@ to compare.
     to prove it is detecting plurality, not ubiquity. Could be added to
     CLAUDE.md §4 step 6 alongside the metric-ceiling (#61),
     stable_crossed (#65), and control-arm (#75) rules.
+
+## From Session 26 (2026-08-10)
+
+81. **An autopoietic boundary — a self-maintaining inhibitor, not a
+    passive field** — TOP PRIORITY. sim11's long-range inhibitor is a
+    passive field — it exists only because the structures are there. If
+    a structure dies, its inhibitor shadow vanishes, and the boundary
+    collapses. A genuinely autopoietic boundary would self-maintain:
+    the boundary itself would need to be built/maintained by the
+    interaction of the two structures, so it persists even if one
+    structure wobbles. This is the H5/H6 connection: the boundary
+    must be autopoietic to be a genuine "actor" at the L2 level.
+    Candidate: a boundary that is reinforced by the conflict between
+    the two structures' growth fronts — each structure's deposits
+    push toward the gap, the gap's inhibitor pushes back, and the
+    boundary is the equilibrium that self-maintains. Test in sim11:
+    add a boundary-reinforcement term (the inhibitor grows when both
+    sides have material nearby, decays when one side is empty).
+
+82. **The self-cancelling inhibitor as a general principle** — sim11's
+    critical design insight was that a long-range inhibitor must not
+    self-inhibit: `I = max(0, far_smoothed − local)` isolates the
+    distant signal from the local. This is the spatial analog of the
+    two-wire principle (#73, Session 23): the distant-structure signal
+    and the local-structure signal travel on separate wires. Without
+    separation, saturating one (the local) destroys the other (the
+    distant). This deserves a formal write-up: in any system where a
+    long-range inhibitory field is derived from a local activator
+    (material → smoothed shadow), the naive form (just the shadow) is
+    self-defeating. The difference form (shadow − source) is necessary.
+    This may connect to lateral inhibition in neural systems (where the
+    inhibitory interneuron receives excitation from the very cells it
+    inhibits — and the circuit architecture separates self-excitation
+    from lateral inhibition).
+
+83. **The crossing is separable from composition** — Session 26 found
+    the H7 crossing survives inhibition (h7=4/4) while composition is
+    only weakly improved (2/4 clean). This means the single-structure
+    crossing and the multi-structure composition are independent
+    problems needing different mechanisms. The crossing is about one
+    structure's self-maintenance; composition is about two structures'
+    interaction. This sharpens H1/H10: "explicit composition mechanisms"
+    are not just better channels or better single-structure rules —
+    they are a separate class of mechanism (boundary, interaction,
+    heterogeneous policies) that operates BETWEEN structures, not
+    within them. The research program should now separate these two
+    tracks explicitly.

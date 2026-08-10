@@ -1321,3 +1321,40 @@ a single structure, it is measuring "material exists in both halves," not
 "two structures coexist." This generalizes: any composition detector needs
 a single-component control to prove it is detecting plurality, not
 ubiquity.
+
+## Session 26 — The boundary mechanism: lateral inhibition is a weak positive; the self-cancelling inhibitor; the crossing is separable from composition
+
+sim11 tested the first explicit boundary mechanism: a long-range inhibitor
+(Turing/Gierer-Meinhardt lateral inhibition) added to the curvature channel.
+The curvature channel has local self-activation (deposit at convex tips
+recruits further building) but no long-range inhibition — so two structures
+merge (sim10). The inhibitor `I = max(0, far_smoothed_material − material)`
+adds the missing half: it is zero at structures (self-cancellation: local
+material cancels the smoothed shadow) and high in the gap (both shadows sum,
+local material is ~0).
+
+**The self-cancelling inhibitor is a general design principle.** The first
+attempt used a simple smoothed-material inhibitor — always highest AT the
+structure, so it suppressed the very building it was meant to protect. This
+killed all growth. The subtraction (far − local) isolates the distant-
+structure signal from the local-structure signal. This generalizes: a
+long-range inhibitor must not self-inhibit. The distant signal and the local
+signal must travel on separate wires — a spatial analog of the two-wire
+principle (queued-topic #73, Session 23).
+
+**The boundary mechanism is a weak positive, not a solution.** At g=0.9,
+2/4 seeds show clean composition (2-seed coexist AND 1-seed does NOT) — up
+from 0/4. But 2/4 fragment (the 1-seed control fires too), and stable_l2
+shows no stable advantage (0/4 at all gains). The composition problem is not
+just "missing lateral inhibition"; even the textbook boundary mechanism
+produces only weak, non-robust partial coexistence. The missing ingredient
+may be a boundary that is itself autopoietic (self-maintaining), not just a
+passive inhibitor field.
+
+**The crossing is separable from composition.** The H7 crossing survives
+inhibition at all gains (h7=4/4). The inhibitor adds a boundary without
+breaking the L1 crossing. This means the single-structure crossing and the
+multi-structure composition are independent problems — a boundary mechanism
+can address one without the other. H7's crossing is about a single
+structure's self-maintenance; L2 composition is about the interaction
+between two self-maintaining structures. They need different mechanisms.

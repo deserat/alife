@@ -401,6 +401,22 @@ grid + agent framework, replacing the pheromone-deposit rule with a curvature-de
   stable_l2 advantage over the 1-seed control (+11/80 vs +3/80 for
   baseline), but the 1-seed control still fires there (16/80 coexist),
   so this is partial composition at best, not clean L2 emergence.
+- **Session 26: the boundary mechanism (long-range inhibition).** sim11
+  added the Turing/Gierer-Meinhardt long-range inhibitor
+  (`I = max(0, far_smoothed_material − material)` — self-cancelling:
+  zero at structures, high in the gap). At g=0.9, 2/4 seeds show clean
+  composition (2-seed coexist AND 1-seed does NOT) — up from 0/4 with no
+  inhibition. But 2/4 fragment (the 1-seed control fires too), and
+  stable_l2 shows no stable advantage (0/4 at all gains). The H7
+  crossing survives inhibition (h7=4/4). **The self-cancelling
+  inhibitor is the critical design insight**: a simple smoothed-material
+  inhibitor is always highest AT the structure (self-defeating) — it
+  killed all building. The subtraction (far − local) isolates the
+  distant-structure signal from the local-structure signal, so the
+  inhibitor acts only in the gap. This is a general principle: a
+  long-range inhibitor must not self-inhibit. The composition problem is
+  not just missing lateral inhibition; even the textbook boundary
+  mechanism produces only weak, non-robust partial coexistence.
 - Is the state-gating (loaded vs seeking) essential, or does a deposit-only curvature rule
   (deposit at convex tips, no excavation) suffice to consolidate? Facchini's growth model uses
   only growth (no excavation term) and still reproduces morphology.
