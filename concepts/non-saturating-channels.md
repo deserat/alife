@@ -498,3 +498,13 @@ also broad enough to pick up wander material. The fix is not a better
 spatial filter — it is a mechanism that keeps agents near their structure
 (agent fidelity, heterogeneous policies). A spatial filter can detect
 WHERE material is but cannot determine WHICH structure it belongs to.
+
+### Session 29 (2026-08-13) — ID-tagged agents: structural specificity, strength-vs-growth trade-off
+
+sim14 tested agent-level fidelity: each termite carries a structure ID (0=left, 1=right). Deposits are tagged with the depositor's ID. Co-presence = min(dilate(material_by_id[0]), dilate(material_by_id[1])). For a single seed, all material is id=0 — co-presence is **structurally zero** (B_max=0.0 across all seeds). The 1-seed control is 0/4 on ALL metrics — the first structurally clean composition.
+
+**The false-positive mechanism is broken.** Compare: sim12 shadow 1-seed l2=4/4, coexist=2/4; sim13 direct 1-seed l2=4/4, coexist=1/4; sim14 hetero 1-seed l2=0/4, coexist=0/4. Agent IDs provide structural specificity that no spatial filter can: the boundary grows only where two DISTINCT agent populations meet.
+
+**But the H7 crossing is suppressed (0/4).** The ID-based co-presence is higher and more localized, producing a stronger B that suppresses growth below the crossing threshold (cells: 167 vs 3714 for shadow). Clean composition is 2/4 (matching shadow/passive).
+
+**The trade-off shifts from specificity-vs-memory to strength-vs-growth.** Sessions 27-28: memory (persistence) vs. specificity (no false positives). sim14 resolves specificity — agent IDs are structurally specific. But the stronger boundary suppresses the structures it protects. The crossing (self-maintenance) and composition (interaction) are now in tension, not just separable. The missing ingredient is a mechanism that decouples boundary strength from boundary specificity.

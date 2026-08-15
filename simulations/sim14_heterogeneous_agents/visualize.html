@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>sim14 — Heterogeneous Agent Policies</title>
+<style>
+:root {
+  --bg: #0d1117;
+  --text: #c9d1d9;
+  --border: #30363d;
+  --accent: #58a6ff;
+  --green: #3fb950;
+  --red: #f85149;
+  --yellow: #d29922;
+  --card: #161b22;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; line-height: 1.6; max-width: 1100px; margin: 0 auto; padding: 20px; }
+h1 { color: var(--accent); font-size: 1.5em; margin-bottom: 8px; }
+h2 { color: var(--text); font-size: 1.2em; margin: 24px 0 12px; border-bottom: 1px solid var(--border); padding-bottom: 6px; }
+.desc { color: #8b949e; margin-bottom: 20px; font-size: 0.95em; }
+table { border-collapse: collapse; width: 100%; margin: 12px 0; font-size: 0.9em; }
+th, td { border: 1px solid var(--border); padding: 8px 12px; text-align: left; }
+th { background: var(--card); color: var(--accent); font-weight: 600; }
+tr:nth-child(even) { background: var(--card); }
+.tag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.8em; font-weight: 600; }
+.tag-yes { background: rgba(63,185,80,0.15); color: var(--green); }
+.tag-no { background: rgba(248,81,73,0.15); color: var(--red); }
+.tag-warn { background: rgba(210,153,34,0.15); color: var(--yellow); }
+.canvas-container { display: flex; flex-wrap: wrap; gap: 16px; margin: 16px 0; }
+.canvas-box { border: 1px solid var(--border); border-radius: 6px; padding: 12px; background: var(--card); }
+.canvas-box h3 { font-size: 0.9em; color: var(--accent); margin-bottom: 8px; }
+canvas { image-rendering: pixelated; border: 1px solid var(--border); }
+select, button { background: var(--card); color: var(--text); border: 1px solid var(--border); padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 0.9em; }
+select:hover, button:hover { border-color: var(--accent); }
+.controls { display: flex; gap: 12px; align-items: center; margin-bottom: 16px; }
+.legend { display: flex; gap: 16px; flex-wrap: wrap; margin: 12px 0; font-size: 0.85em; }
+.legend-item { display: flex; align-items: center; gap: 6px; }
+.legend-swatch { width: 14px; height: 14px; border-radius: 2px; }
+.insight { background: var(--card); border-left: 3px solid var(--accent); padding: 12px 16px; margin: 16px 0; border-radius: 0 6px 6px 0; font-size: 0.95em; }
+.insight strong { color: var(--accent); }
+</style>
+</head>
+<body>
+<h1>sim14 — Heterogeneous Agent Policies: Structure-ID Tagging</h1>
+<p class="desc">Agents tagged with a structure ID (0=left, 1=right). Deposits carry the depositor's ID. Co-presence = min(dilate(id0 material), dilate(id1 material)). For a single seed, all material is id=0 → co-presence = 0 → boundary = 0. <strong>Structural guarantee: no spatial filter needed.</strong></p>
+
+<div class="insight">
+<strong>Key finding:</strong> The 1-seed control is 0/4 on all metrics — l2_crossed, coexist, and B are structurally zero across all seeds. This is the first time the false-positive rate has been zero. Clean composition 2/4 (matching shadow/passive), but the boundary suppresses H7 crossing (0/4) — the trade-off is specificity vs. growth.
+</div>
+
+<h2>8-Condition Experiment (seed 42)</h2>
+<table id="main-table">
+<tr><th>Condition</th><th>L2 Crossed</th><th>Outcome</th><th>Stable</th><th>H7</th><th>Cells</th><th>L Retain</th><th>R Retain</th></tr>
+</table>
+
+<h2>4-Seed Robustness Sweep</h2>
+<table id="robust-table">
+<tr><th>Mode</th><th>Seeds</th><th>L2 Crossed</th><th>Coexist</th><th>Stable</th><th>H7</th><th>Clean</th></tr>
+</table>
+
+<h2>Material & Boundary Visualization</h2>
+<div class="controls">
+  <label for="cond-select">Condition:</label>
+  <select id="cond-select" onchange="loadSnapshot()">
+    <option value="hetero_2seed">Hetero Autopoietic — 2 seeds (L2 test)</option>
+    <option value="hetero_1seed">Hetero Autopoietic — 1 seed (control)</option>
+    <option value="shadow_2seed">Shadow Autopoietic — 2 seeds</option>
+    <option value="shadow_1seed">Shadow Autopoietic — 1 seed</option>
+    <option value="passive_2seed">Passive Inhibitor — 2 seeds</option>
+    <option value="none_2seed">No Inhibition — 2 seeds (baseline)</option>
+  </select>
+  <label for="snap-select">Snapshot:</label>
+  <select id="snap-select" onchange="drawSnapshot()"></select>
+</div>
+<div class="canvas-container">
+  <div class="canvas-box">
+    <h3>Material</h3>
+    <canvas id="material-canvas" width="200" height="200"></canvas>
+  </div>
+  <div class="canvas-box">
+    <h3>Curvature</h3>
+    <canvas id="curvature-canvas" width="200" height="200"></canvas>
+  </div>
+  <div class="canvas-box">
+    <h3>Boundary B</h3>
+    <canvas id="boundary-canvas" width="200" height="200"></canvas>
+  </div>
+</div>
+<div class="legend">
+  <div class="legend-item"><div class="legend-swatch" style="background:#1a1a2e"></div>Material: low</div>
+  <div class="legend-item"><div class="legend-swatch" style="background:#58a6ff"></div>Material: high</div>
+  <div class="legend-item"><div class="legend-swatch" style="background:#1a1a2e"></div>Curvature: low (concave)</div>
+  <div class="legend-item"><div class="legend-swatch" style="background:#d29922"></div>Curvature: high (convex)</div>
+  <div class="legend-item"><div class="legend-swatch" style="background:#1a1a2e"></div>Boundary: none</div>
+  <div class="legend-item"><div class="legend-swatch" style="background:#f85149"></div>Boundary: strong</div>
+</div>
+
+<script>
+let resultsData = null;
+let robustData = null;
+let currentSnapshots = [];
+let snapshotSize = 0;
+
+async function loadData() {
+  const [resRes, robRes] = await Promise.all([
+    fetch('results.json').then(r => r.json()),
+    fetch('output/robustness_sweep.json').then(r => r.json())
+  ]);
+  resultsData = resRes;
+  robustData = robRes;
+  populateMainTable();
+  populateRobustTable();
+  populateConditionSelect();
+  loadSnapshot();
+}
+
+function tag(val, yes='YES', no='NO', warn='WARN') {
+  if (val === true) return `<span class="tag tag-yes">${yes}</span>`;
+  if (val === false) return `<span class="tag tag-no">${no}</span>`;
+  return `<span class="tag tag-warn">${val}</span>`;
+}
+
+function populateMainTable() {
+  const tbl = document.getElementById('main-table');
+  const labels = [
+    ['hetero_2seed', 'Hetero Auto 2-seed'],
+    ['hetero_1seed', 'Hetero Auto 1-seed (ctrl)'],
+    ['passive_2seed', 'Passive 2-seed'],
+    ['passive_1seed', 'Passive 1-seed (ctrl)'],
+    ['none_2seed', 'No Inhibition 2-seed'],
+    ['none_1seed', 'No Inhibition 1-seed'],
+    ['shadow_2seed', 'Shadow Auto 2-seed'],
+    ['shadow_1seed', 'Shadow Auto 1-seed'],
+  ];
+  for (const [key, label] of labels) {
+    const r = resultsData[key];
+    if (!r) continue;
+    const s = r.summary;
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${label}</td>
+      <td>${tag(s.l2_crossed)}</td>
+      <td>${s.l2_outcome}</td>
+      <td>${tag(s.l2_stable)}</td>
+      <td>${tag(s.crossed_h7)}</td>
+      <td>${s.final_n_structure_cells}</td>
+      <td>${s.l2_left_retain?.toFixed(2) || '—'}</td>
+      <td>${s.l2_right_retain?.toFixed(2) || '—'}</td>`;
+    tbl.appendChild(tr);
+  }
+}
+
+function populateRobustTable() {
+  const tbl = document.getElementById('robust-table');
+  const modes = ['hetero', 'shadow', 'passive', 'none'];
+  for (const mode of modes) {
+    for (const ns of [2, 1]) {
+      const key = `${mode}_${ns}seed`;
+      const entries = robustData[key];
+      if (!entries) continue;
+      const nCross = entries.filter(e => e.l2_crossed).length;
+      const nCoexist = entries.filter(e => e.l2_outcome === 'coexist').length;
+      const nStable = entries.filter(e => e.l2_stable).length;
+      const nH7 = entries.filter(e => e.crossed_h7).length;
+      const twoKey = `${mode}_2seed`;
+      const oneKey = `${mode}_1seed`;
+      let clean = 0;
+      for (let i = 0; i < entries.length; i++) {
+        const te = robustData[twoKey][i];
+        const oe = robustData[oneKey][i];
+        if (te.l2_outcome === 'coexist' && oe.l2_outcome !== 'coexist') clean++;
+      }
+      const cleanStr = ns === 2 ? `${clean}/4` : '—';
+      tr = document.createElement('tr');
+      tr.innerHTML = `<td>${mode}</td><td>${ns}</td>
+        <td>${nCross}/4</td><td>${nCoexist}/4</td>
+        <td>${nStable}/4</td><td>${nH7}/4</td><td>${cleanStr}</td>`;
+      tbl.appendChild(tr);
+    }
+  }
+}
+
+function populateConditionSelect() {
+  const sel = document.getElementById('cond-select');
+  // Keep the current selection, just make sure snapshots load
+}
+
+function loadSnapshot() {
+  const condKey = document.getElementById('cond-select').value;
+  const r = resultsData[condKey];
+  if (!r || !r.snapshots || r.snapshots.length === 0) {
+    currentSnapshots = [];
+    document.getElementById('snap-select').innerHTML = '';
+    clearCanvases();
+    return;
+  }
+  currentSnapshots = r.snapshots;
+  const snapSel = document.getElementById('snap-select');
+  snapSel.innerHTML = '';
+  currentSnapshots.forEach((s, i) => {
+    const opt = document.createElement('option');
+    opt.value = i;
+    opt.textContent = `Step ${s.step}`;
+    snapSel.appendChild(opt);
+  });
+  if (currentSnapshots.length > 0) {
+    snapSel.selectedIndex = currentSnapshots.length - 1;
+  }
+  drawSnapshot();
+}
+
+function drawSnapshot() {
+  const snapIdx = parseInt(document.getElementById('snap-select').value);
+  if (isNaN(snapIdx) || !currentSnapshots[snapIdx]) {
+    clearCanvases();
+    return;
+  }
+  const snap = currentSnapshots[snapIdx];
+  // Infer snapshot grid size from the material array length
+  const n = snap.material.length;
+  const sz = Math.round(Math.sqrt(n));
+  snapshotSize = sz;
+
+  drawGrid('material-canvas', snap.material, sz, 'blues');
+  drawGrid('curvature-canvas', snap.curvature, sz, 'amber');
+  if (snap.boundary) {
+    drawGrid('boundary-canvas', snap.boundary, sz, 'reds');
+  } else {
+    clearCanvas('boundary-canvas', sz);
+  }
+}
+
+function drawGrid(canvasId, data, sz, scheme) {
+  const canvas = document.getElementById(canvasId);
+  canvas.width = sz;
+  canvas.height = sz;
+  const ctx = canvas.getContext('2d');
+  const imgData = ctx.createImageData(sz, sz);
+  for (let i = 0; i < data.length; i++) {
+    const v = Math.max(0, Math.min(1, data[i]));
+    const r = i * 4, g = r + 1, b = r + 2, a = r + 3;
+    if (scheme === 'blues') {
+      imgData.data[r] = v * 88;
+      imgData.data[g] = v * 166;
+      imgData.data[b] = v * 255;
+    } else if (scheme === 'amber') {
+      imgData.data[r] = v * 210;
+      imgData.data[g] = v * 153;
+      imgData.data[b] = v * 34;
+    } else if (scheme === 'reds') {
+      imgData.data[r] = v * 248;
+      imgData.data[g] = v * 81;
+      imgData.data[b] = v * 73;
+    }
+    imgData.data[a] = 255;
+  }
+  ctx.putImageData(imgData, 0, 0);
+}
+
+function clearCanvas(canvasId, sz) {
+  const canvas = document.getElementById(canvasId);
+  canvas.width = sz || 1;
+  canvas.height = sz || 1;
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+}
+
+function clearCanvases() {
+  ['material-canvas', 'curvature-canvas', 'boundary-canvas'].forEach(id => clearCanvas(id, 1));
+}
+
+loadData().catch(err => {
+  document.body.innerHTML += `<p style="color:#f85149">Error loading data: ${err}</p>`;
+});
+</script>
+</body>
+</html>

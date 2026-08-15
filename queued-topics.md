@@ -765,19 +765,20 @@ to compare.
 ## From Session 28 (2026-08-12)
 
 88. **Heterogeneous agent policies — agents tagged with a structure ID**
-    — TOP PRIORITY. sim13 ruled out the spatial filter as the cause of
-    false boundaries — agent wander is the cause. The next approach:
-    agents carry a "structure ID" (left or right). The co-presence signal
-    checks for material from TWO DIFFERENT IDs within a local radius, not
-    just material on both sides of the midline. The boundary grows only
-    where two distinct agent populations meet. This provides agent-level
-    specificity that no spatial filter can. Tests whether agent fidelity
-    breaks the memory-specificity trade-off. Could be a sim14 extension
-    of sim12/sim13: agents tagged with their seed structure, deposits
-    tagged with the agent's ID, co-presence = overlap of two distinct IDs.
-    The 1-seed control has only one ID, so co-presence is always zero —
-    the boundary cannot grow. The 2-seed case has two IDs, and the
-    boundary grows where they meet.
+    — DONE (Session 29).
+    sim14 tested agent-level fidelity: agents carry a structure ID
+    (0=left, 1=right). Deposits are tagged with the depositor's ID.
+    Co-presence = min(dilate(material_by_id[0]), dilate(material_by_id[1])).
+    For a single seed, all material is id=0 — co-presence is structurally
+    zero (B_max=0.0 across all seeds). The 1-seed control is 0/4 on ALL
+    metrics — the first structurally clean composition. Clean composition
+    is 2/4 (matching shadow/passive). But the stronger boundary suppresses
+    H7 crossing (0/4 — first time crossing lost across all seeds). The
+    trade-off shifts from specificity-vs-memory to strength-vs-growth:
+    the boundary that enables composition kills the crossing. See
+    `sim14_heterogeneous_agents/` and H5/H6/H7/H10 Session-29
+    refinements. NEXT PRIORITY: tune inh_gain to find the regime where
+    both crossing and composition co-occur (#91, #92).
 
 89. **The l2_crossed ≠ l2_outcome distinction — fragmentation as a third
     outcome** — sim13 revealed that the L2 detector can fire (l2_crossed:
@@ -799,3 +800,52 @@ to compare.
     direct-material approach. A sweep of b_scale (or using a fixed scale
     instead of the 95th percentile) would determine whether the
     normalization is load-bearing.
+
+## From Session 29 (2026-08-13)
+
+91. **The inh_gain sweep — finding the strength-vs-growth sweet spot** —
+    TOP PRIORITY. sim14's ID-tagged boundary at g=0.9 is too strong (H7
+    suppressed 0/4, cells=167). A sweep of inh_gain (0.1, 0.3, 0.5, 0.7,
+    0.9) with 4-seed robustness would map the strength-vs-growth frontier:
+    at low gain, the boundary is too weak (structures merge); at high gain,
+    the boundary is too strong (H7 suppressed). The sweet spot (if it
+    exists) is where both H7 crossing AND L2 composition co-occur. If no
+    gain produces both, the strength-vs-growth trade-off is fundamental,
+    not a parameter issue. Cheap: re-run the robustness sweep at different
+    inh_gain values.
+
+92. **Decoupling boundary strength from co-presence precision** — The
+    ID-based co-presence is both more specific AND stronger than spatial
+    versions, because the signal is higher and more localized. The
+    boundary's suppression is proportional to B_norm, which is
+    proportional to co-presence, which is higher for ID-based signals.
+    A decoupled design: the boundary grows where two IDs meet (specificity
+    from IDs), but the suppression strength is fixed (not proportional to
+    co-presence magnitude). This would test whether the strength-vs-growth
+    trade-off is caused by the coupling between signal precision and
+    boundary strength, or by the boundary mechanism itself. Could be a
+    sim14 variant: `p_dep *= (1 - g * B_threshold)` where B_threshold is
+    a fixed constant, not B_norm.
+
+93. **Agent movement restriction — keeping agents near their structure** —
+    sim14 tags deposits but not movement: agents still wander freely on
+    the torus. Their deposits carry the right ID (so co-presence is
+    specific), but the spatial distribution of each ID's material is
+    still determined by wander. A movement bias (agents preferentially
+    move toward their own structure's center) would concentrate each ID's
+    material, reducing the boundary width and potentially the strength-
+    vs-growth trade-off. Tests whether agent fidelity needs both deposit
+    tagging AND movement restriction, or deposit tagging alone suffices.
+
+94. **The strength-vs-growth trade-off as a general principle** — The
+    memory-specificity trade-off (Sessions 27-28) was about temporal
+    properties (persistence vs. false positives). The strength-vs-growth
+    trade-off (Session 29) is about spatial properties (boundary strength
+    vs. structure growth). Both are instances of a general principle: in
+    any system where a boundary separates two self-organizing structures,
+    the boundary must be strong enough to prevent merging but weak enough
+    to allow growth. This connects to surface tension (Laplace pressure),
+    cell membranes (permeability vs. integrity), and control theory (gain
+    margin). Could be added to CLAUDE.md §4 step 6 alongside the
+    metric-ceiling (#61), stable_crossed (#65), control-arm (#75), and
+    one-seed control (#80) rules.

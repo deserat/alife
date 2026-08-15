@@ -1436,3 +1436,56 @@ it belongs to. This connects to:
 The composition problem now spans seven independent mechanisms (adding
 direct-material autopoietic boundary to the previous six). The missing
 ingredient is agent fidelity — not a better spatial filter.
+
+## Session 29 (2026-08-13) — Agent IDs as immunological markers; the strength-vs-growth trade-off
+
+sim14 tested the agent-fidelity prescription from Session 28: agents tagged
+with a structure ID (0=left, 1=right), deposits tagged with the depositor's
+ID, co-presence requiring material from TWO DISTINCT IDs. For a single seed,
+all material is id=0 — co-presence is structurally zero (B_max=0.0 across
+all seeds). The 1-seed control is 0/4 on ALL metrics — the first structurally
+clean composition.
+
+**Agent IDs as immunological markers.** The connection to immunology
+(Session 28's cross-domain link) is now operational: agents carry a
+"structure ID" that the boundary signal reads, exactly as the immune
+system uses MHC molecules to distinguish self from non-self. A spatial
+filter (diffusion, max filter) is a purely spatial description — it detects
+WHERE material is. Agent IDs add a molecular-marker dimension — they
+detect WHOSE material it is. The co-presence signal now requires two
+distinct markers, not just two spatial locations. This is the computational
+analog of self/non-self discrimination: the boundary grows only where self
+and non-self meet.
+
+**The strength-vs-growth trade-off.** The specificity problem is solved
+(1-seed 0/4), but a new trade-off emerges: the ID-based co-presence is
+higher and more localized than spatial versions, producing a stronger
+boundary B that suppresses growth below the H7 crossing threshold (0/4).
+The crossing (one structure's self-maintenance) and composition (two
+structures' interaction) are now in tension: the boundary that enables
+composition kills the crossing. This is a new connection:
+
+- **Physics (surface tension):** a boundary that is too strong relative to
+  the structures it separates will collapse them. The Laplace pressure
+  (∝ surface tension / radius) means a small droplet with high surface
+  tension evaporates. The sim14 boundary is the analog: high boundary
+  strength suppresses the small structures.
+- **Biology (cell boundaries):** a cell membrane must be strong enough to
+  maintain compartmentalization but permeable enough to allow nutrient
+  transport. A membrane that is too strong kills the cell; too weak and
+  it dissolves. The sim14 boundary faces the same trade-off: strong enough
+  to prevent merging, weak enough to allow growth.
+- **Control theory (feedback gain):** in a feedback loop, the gain must be
+  high enough to reject disturbances but low enough to avoid oscillation or
+  suppression. The boundary's suppression gain (inh_gain) must be high
+  enough to prevent merging but low enough to allow growth — the classic
+  gain margin problem.
+
+**The composition problem has shifted.** Sessions 25-28: the problem was
+"no mechanism prevents merging without creating false positives." Session
+29: the false-positive problem is solved (agent IDs), but the problem is
+now "every mechanism that prevents merging also suppresses growth." The
+missing ingredient is not agent fidelity (that was necessary and is now
+achieved) but a mechanism that decouples boundary strength from boundary
+specificity — a boundary that is specific (grows only where two IDs meet)
+but not too strong (doesn't suppress the structures it protects).
