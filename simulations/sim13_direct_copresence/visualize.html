@@ -215,7 +215,7 @@ function renderStats(summary, key) {
 
 async function loadRadiusSweep() {
   try {
-    const resp = await fetch("output/radius_sweep.json");
+    const resp = await fetch("radius_sweep.json");
     const data = await resp.json();
     const body = document.getElementById("radius-body");
     const radii = [8, 12, 15, 20, 25, 30];
@@ -237,7 +237,7 @@ async function loadRadiusSweep() {
 
 async function loadRobustnessSweep() {
   try {
-    const resp = await fetch("output/robustness_sweep.json");
+    const resp = await fetch("robustness_sweep.json");
     const data = await resp.json();
     const body = document.getElementById("robustness-body");
     const modes = ["direct", "shadow", "passive", "none"];
