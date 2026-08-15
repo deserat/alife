@@ -508,3 +508,23 @@ sim14 tested agent-level fidelity: each termite carries a structure ID (0=left, 
 **But the H7 crossing is suppressed (0/4).** The ID-based co-presence is higher and more localized, producing a stronger B that suppresses growth below the crossing threshold (cells: 167 vs 3714 for shadow). Clean composition is 2/4 (matching shadow/passive).
 
 **The trade-off shifts from specificity-vs-memory to strength-vs-growth.** Sessions 27-28: memory (persistence) vs. specificity (no false positives). sim14 resolves specificity — agent IDs are structurally specific. But the stronger boundary suppresses the structures it protects. The crossing (self-maintenance) and composition (interaction) are now in tension, not just separable. The missing ingredient is a mechanism that decouples boundary strength from boundary specificity.
+
+### Session 30 (2026-08-14) — inh_gain sweep: the trade-off is partially breakable
+
+The inh_gain sweep tested sim14's ID-tagged boundary at five gains (0.1, 0.3, 0.5, 0.7, 0.9) with 4-seed robustness, mapping the strength-vs-growth frontier. Session 29 tested only g=0.9 (too strong — H7=0/4). The sweep asks: is there a gain where both H7 crossing AND L2 composition co-occur?
+
+| gain | l2(2s) | coexist | stable | h7(2s) | clean | l2(1s) | h7(1s) | cells |
+|------|--------|---------|--------|--------|-------|--------|--------|-------|
+| 0.1  | 0/4    | 1/4     | 0/4    | 4/4    | 1/4   | 0/4    | 4/4    | 4107  |
+| 0.3  | 2/4    | 1/4     | 1/4    | 4/4    | 1/4   | 0/4    | 4/4    | 3515  |
+| 0.5  | 4/4    | 2/4     | 0/4    | 4/4    | 2/4   | 0/4    | 4/4    | 2672  |
+| 0.7  | 4/4    | 1/4     | 0/4    | 4/4    | 1/4   | 0/4    | 4/4    | 1383  |
+| 0.9  | 4/4    | 2/4     | 2/4    | 0/4    | 2/4   | 0/4    | 4/4    | 194   |
+
+**The trade-off is partially breakable.** At g=0.5, H7=4/4 and L2=4/4 co-occur with 2/4 clean composition — the first co-occurrence of crossing and composition. At g=0.3, seed 999 achieves stable composition WITH H7 crossing — the single best co-occurrence. But stable composition (2/4 at g=0.9) comes at the cost of H7 suppression (0/4).
+
+**The 1-seed control is 0/4 at ALL gains.** The structural specificity of agent-level tagging holds across the entire strength spectrum — it is not a parameter artifact but a structural property.
+
+**The tension is between crossing and *stable* composition, not crossing and composition per se.** At g=0.5 (H7=4/4, L2=4/4), stable=0/4 — the composition is present but transient. At g=0.9 (stable=2/4), H7=0/4. The boundary strength that stabilizes composition is the same strength that suppresses the crossing's self-maintenance. The trade-off is parameter-dependent, not fundamental, but is not robust (seed-dependent, rarely stable).
+
+**The missing ingredient is refined.** Session 29 said "decouple boundary strength from boundary specificity." Session 30 sharpens: specificity is solved at all gains (1-seed 0/4). The missing ingredient is "decouple boundary strength from growth suppression" — a boundary whose suppression is independent of the co-presence signal's magnitude (queued-topic #92), or agent movement restriction (queued-topic #93).

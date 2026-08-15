@@ -804,15 +804,19 @@ to compare.
 ## From Session 29 (2026-08-13)
 
 91. **The inh_gain sweep — finding the strength-vs-growth sweet spot** —
-    TOP PRIORITY. sim14's ID-tagged boundary at g=0.9 is too strong (H7
-    suppressed 0/4, cells=167). A sweep of inh_gain (0.1, 0.3, 0.5, 0.7,
-    0.9) with 4-seed robustness would map the strength-vs-growth frontier:
-    at low gain, the boundary is too weak (structures merge); at high gain,
-    the boundary is too strong (H7 suppressed). The sweet spot (if it
-    exists) is where both H7 crossing AND L2 composition co-occur. If no
-    gain produces both, the strength-vs-growth trade-off is fundamental,
-    not a parameter issue. Cheap: re-run the robustness sweep at different
-    inh_gain values.
+    DONE (Session 30).
+    A sweep of inh_gain (0.1, 0.3, 0.5, 0.7, 0.9) with 4-seed robustness
+    found the trade-off is PARTIALLY BREAKABLE. At g=0.5, H7=4/4 and
+    L2=4/4 co-occur with 2/4 clean composition — the first co-occurrence
+    of crossing and composition. At g=0.3, seed 999 achieves stable
+    composition WITH H7 crossing. But stable composition (2/4 at g=0.9)
+    requires the strong boundary that kills H7 (0/4). The 1-seed control
+    is 0/4 at ALL gains — the structural specificity guarantee holds
+    across the entire strength spectrum. The tension is between crossing
+    and *stable* composition, not crossing and composition per se. See
+    `inh_gain_sweep.py` and H7/H5/H6/H10 Session-30 refinements. NEXT
+    PRIORITY: structural decoupling (#92), agent movement restriction
+    (#93).
 
 92. **Decoupling boundary strength from co-presence precision** — The
     ID-based co-presence is both more specific AND stronger than spatial
@@ -849,3 +853,39 @@ to compare.
     margin). Could be added to CLAUDE.md §4 step 6 alongside the
     metric-ceiling (#61), stable_crossed (#65), control-arm (#75), and
     one-seed control (#80) rules.
+
+## From Session 30 (2026-08-14)
+
+95. **The stable-vs-transient distinction — why does composition at the
+    sweet spot (g=0.5) not persist?** — At g=0.5, H7=4/4 and L2=4/4
+    co-occur, but 0/4 are stable (l2_stable). The composition is present
+    but transient. What makes a composition transient vs. stable? Is
+    it that the boundary is too weak to prevent slow merging over time
+    (the structures eventually drift together)? Or is it that the
+    crossing detector's criteria flicker (like the limit-only case in
+    Session 20)? Inspect the late-window hold rates and the l2_outcome
+    trajectory over time for the g=0.5 co-occurring seeds. Cheap: the
+    sweep JSON has per-seed outcomes; need to run a time-series probe
+    at g=0.5 seed=42 to see if the composition degrades.
+
+96. **The gain margin analogy — formalizing the strength-vs-growth
+    trade-off** — The inh_gain sweep maps directly to the gain margin
+    problem in control theory. The boundary's inh_gain is the feedback
+    gain: too low → disturbance rejection fails (structures merge),
+    too high → suppression (growth killed). The sweet spot (g=0.5)
+    is the gain margin — the range where the system is stable. But
+    "stable" here means the crossing fires AND composition holds, not
+    just that the system doesn't diverge. Could formalize this as a
+    transfer function: input = deposit probability, output = structure
+    growth, feedback = boundary suppression. The phase margin would
+    predict the robustness of the co-occurrence. Could connect to
+    queued-topic #94 (strength-vs-growth as a general principle).
+
+97. **Finer inh_gain resolution around the sweet spot** — The sweep
+    tested 5 gains (0.1, 0.3, 0.5, 0.7, 0.9). The H7 transition
+    happens between 0.7 (4/4) and 0.9 (0/4). A finer sweep (0.7, 0.75,
+    0.8, 0.85, 0.9) would locate the exact H7 threshold and whether
+    there's a narrow window where H7=4/4 AND stable>0/4. Also: finer
+    resolution around g=0.3-0.5 (0.3, 0.35, 0.4, 0.45, 0.5) to see if
+    the stable+H7 co-occurrence (seed 999 at g=0.3) is robust at nearby
+    gains. Cheap: re-run the sweep at finer resolution.

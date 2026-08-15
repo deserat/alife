@@ -1489,3 +1489,13 @@ missing ingredient is not agent fidelity (that was necessary and is now
 achieved) but a mechanism that decouples boundary strength from boundary
 specificity — a boundary that is specific (grows only where two IDs meet)
 but not too strong (doesn't suppress the structures it protects).
+
+## Session 30 (2026-08-14) — The strength-vs-growth trade-off is partially breakable
+
+The inh_gain sweep (sim14 at five boundary strengths) found that the strength-vs-growth trade-off identified in Session 29 is not fundamental. At g=0.5, H7 crossing (4/4) and L2 composition (4/4) co-occur with 2/4 clean composition — the first co-occurrence of crossing and composition in the project. At g=0.3, one seed achieves stable composition WITH H7 crossing. But stable composition (2/4 at g=0.9) comes at the cost of H7 suppression (0/4).
+
+**The tension is between crossing and *stable* composition, not crossing and composition per se.** At g=0.5, the composition is present but transient (0/4 stable). The boundary strength that stabilizes composition is the same strength that suppresses the crossing's self-maintenance. This connects to the gain margin problem in control theory: the gain must be high enough to reject disturbances (prevent merging) but low enough to avoid suppression (allow growth). The sweet spot exists but is not robust — seed-dependent and rarely stable.
+
+**The 1-seed control is 0/4 at ALL gains** — the structural specificity of agent-level tagging (Session 29's key innovation) holds across the entire strength spectrum. Specificity is solved; the remaining problem is decoupling boundary strength from growth suppression.
+
+**Cross-domain connection: the stability-specificity-strength triangle.** Sessions 27-29 traced a triangle of trade-offs: (1) memory vs. specificity (temporal), (2) specificity vs. strength (signal), (3) strength vs. growth (spatial). Session 30 resolves (2) — specificity is structurally solved by agent IDs at all strengths — and reveals that (3) is parameter-dependent, not fundamental. The remaining vertex is (3): a boundary strong enough for stable composition but weak enough for crossing. The solution is not parameter tuning (which produces transient co-occurrence) but structural decoupling — a boundary whose suppression strength is independent of its specificity signal.
