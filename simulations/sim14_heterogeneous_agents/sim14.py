@@ -245,7 +245,14 @@ def termite_step_hetero(termites, field, rng, params, curvature,
                 p_dep = deposit_prob_base
             # Autopoietic boundary suppression.
             if inh_gain > 0.0:
-                supp = inh_gain * B_norm[y, x] / (1.0 + B_norm[y, x])
+                boundary_mode = params.get("boundary_mode", "proportional")
+                if boundary_mode == "decoupled":
+                    # Fixed suppression wherever B exists (B_norm > threshold).
+                    # Decouples suppression strength from co-presence magnitude.
+                    supp = inh_gain if B_norm[y, x] > 0.01 else 0.0
+                else:
+                    # Proportional suppression (original sim12/sim14 behavior).
+                    supp = inh_gain * B_norm[y, x] / (1.0 + B_norm[y, x])
                 p_dep = p_dep * (1.0 - supp)
             p_dep = min(max(p_dep, 0.0), 1.0)
             if rng.random() < p_dep:

@@ -889,3 +889,53 @@ to compare.
     resolution around g=0.3-0.5 (0.3, 0.35, 0.4, 0.45, 0.5) to see if
     the stable+H7 co-occurrence (seed 999 at g=0.3) is robust at nearby
     gains. Cheap: re-run the sweep at finer resolution.
+
+## From Session 31 (2026-08-15)
+
+98. **Decoupling boundary strength from co-presence precision** — DONE (Session 31).
+    The decoupled boundary sweep tested fixed suppression (binary
+    gate: `supp = g` wherever B exists) vs proportional suppression
+    (gradient gate: `supp = g * B_norm/(1+B_norm)`). Result: H7
+    unchanged between modes (4/4 at g=0.3–0.7, 0/4 at g=0.9 in both).
+    Binary gate produces MORE STABLE composition (g=0.5: 0/4→2/4;
+    g=0.9: 2/4→4/4) but LESS L2 formation (g=0.5: 4/4→2/4). The
+    suppression curve's SHAPE matters for stability, not just its
+    magnitude. A new stable co-occurrence at decoupled g=0.7 seed=999
+    (H7=YES + coexist + stable). 1-seed control 0/4 at ALL gains in
+    BOTH modes. The trade-off is not just strength vs growth — it is
+    gradient vs binary suppression. See `decoupled_sweep.py` and
+    H7/H5/H6/H10 Session-31 refinements. NEXT PRIORITY: a hybrid
+    curve (wide coverage + full strength) — e.g. a clipped gradient
+    that is proportional at low B_norm but saturates at a fixed
+    plateau, combining the formation advantage of the gradient with
+    the stability advantage of the binary (#99).
+
+99. **The hybrid suppression curve — combining gradient formation with
+    binary stability** — The decoupled sweep (Session 31) found binary
+    gates are more stable but less effective at formation, while
+    gradient gates are the reverse. A hybrid curve could combine both:
+    proportional at low B_norm (wide coverage for formation) with a
+    fixed plateau at high B_norm (full strength for persistence).
+    Candidate: `supp = min(g * B_norm / (1 + B_norm), g * k)` where k
+    is a plateau fraction (e.g. 0.8). This is the suppression-curve
+    analog of a soft-margin SVM with a hinge loss cap. Tests whether
+    the persistence-formation trade-off is truly about curve shape
+    or can be broken by a hybrid. Cheap: a variant of the decoupled
+    sweep with one more mode.
+
+100. **The H7 crossing is independent of the suppression curve** —
+     Session 31 found H7 is identical between proportional and
+     decoupled modes at every gain. This is a new finding: the H7
+     crossing depends on overall structure growth (cells, stability,
+     roughness), not on how the boundary suppresses deposition. The
+     boundary affects WHERE structures grow, not WHETHER they cross.
+     This sharpens the separability claim from Session 26: the crossing
+     and composition are not just separable — the crossing is
+     invariant to the boundary mechanism. The boundary is a composition
+     mechanism (prevents merging) but not a crossing mechanism
+     (doesn't affect self-maintenance). This means the crossing can be
+     studied without any boundary at all, and the boundary can be
+     tuned without affecting the crossing — they are on truly separate
+     wires. Could be formalized as a principle: the H7 crossing is a
+     single-structure property; the boundary is a multi-structure
+     property; they operate on independent axes.

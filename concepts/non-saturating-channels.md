@@ -528,3 +528,26 @@ The inh_gain sweep tested sim14's ID-tagged boundary at five gains (0.1, 0.3, 0.
 **The tension is between crossing and *stable* composition, not crossing and composition per se.** At g=0.5 (H7=4/4, L2=4/4), stable=0/4 — the composition is present but transient. At g=0.9 (stable=2/4), H7=0/4. The boundary strength that stabilizes composition is the same strength that suppresses the crossing's self-maintenance. The trade-off is parameter-dependent, not fundamental, but is not robust (seed-dependent, rarely stable).
 
 **The missing ingredient is refined.** Session 29 said "decouple boundary strength from boundary specificity." Session 30 sharpens: specificity is solved at all gains (1-seed 0/4). The missing ingredient is "decouple boundary strength from growth suppression" — a boundary whose suppression is independent of the co-presence signal's magnitude (queued-topic #92), or agent movement restriction (queued-topic #93).
+
+### Session 31 (2026-08-15) — decoupled boundary: binary vs gradient suppression
+
+The decoupled boundary sweep (queued-topic #92) tested whether decoupling boundary strength from co-presence precision breaks the strength-vs-growth trade-off. The decoupled mode uses fixed suppression (`supp = g` wherever B exists, `B_norm > 0.01`) instead of proportional suppression (`supp = g * B_norm / (1 + B_norm)`). Same B field, same b_scale, same gains — only the suppression curve shape differs.
+
+**H7 is unchanged between modes.** Both preserve H7 at g=0.3–0.7 (4/4) and suppress at g=0.9 (0/4). The crossing depends on overall structure growth, not the boundary's suppression curve shape.
+
+**The suppression curve's SHAPE matters for stability, not just its magnitude.** A binary gate (full suppression or none) produces MORE STABLE composition than a gradient gate (proportional suppression) at the same max gain:
+
+| mode | gain | l2(2s) | coexist | stable | h7(2s) | clean | cells |
+|---|---|---|---|---|---|---|---|
+| proportional | 0.5 | 4/4 | 2/4 | 0/4 | 4/4 | 2/4 | 2672 |
+| decoupled | 0.5 | 2/4 | 1/4 | **2/4** | 4/4 | 1/4 | 2584 |
+| proportional | 0.9 | 4/4 | 2/4 | 2/4 | 0/4 | 2/4 | 194 |
+| decoupled | 0.9 | 4/4 | 2/4 | **4/4** | 0/4 | 2/4 | 204 |
+
+But the binary gate produces LESS L2 formation (g=0.5: 4/4→2/4). The gradient provides a wider zone of partial suppression that better prevents merging; the binary gate's sharp cutoff leaves a narrower barrier. The trade-off: binary = narrower but stronger (more stable); gradient = wider but weaker (more formation).
+
+**A new stable co-occurrence.** Decoupled g=0.7 seed=999 achieves H7=YES + coexist + stable — the first stable co-occurrence at g=0.7 (proportional mode's only stable co-occurrence was g=0.3 seed=999).
+
+**The 1-seed control is 0/4 at ALL gains in BOTH modes.** The structural specificity guarantee holds regardless of the suppression curve.
+
+**The persistence-formation trade-off.** Persistence (stability) and formation (L2 crossing) respond to different properties of the suppression curve: persistence needs full strength (binary); formation needs wide coverage (gradient). This is a new axis of the trade-off — not strength vs growth, but gradient vs binary. The missing ingredient is a boundary whose curve shape provides both wide coverage (formation) and full strength (persistence).
