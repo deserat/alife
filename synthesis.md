@@ -1399,3 +1399,40 @@ memory with specificity. The composition problem now spans six independent
 mechanisms (chemical, saturating stigmergic, non-saturating density cap,
 non-saturating curvature, passive lateral inhibition, autopoietic lateral
 inhibition) — all producing at most 2/4 clean composition.
+
+## Session 28 — Agent Wander, Not the Spatial Filter, Causes False Boundaries
+
+sim13 tested whether the false boundaries in sim12's autopoietic boundary
+were caused by the diffusion torus leak (diffused shadows wrapping around
+the torus, creating phantom co-presence for a single seed). The
+direct-material max filter eliminates the torus leak — initial 1-seed
+co-presence drops to <1% of the 2-seed value. But the 1-seed control still
+fires 1/4 — agent wander on the torus deposits material in both halves,
+creating real (not phantom) co-presence.
+
+**The memory-specificity trade-off is a system property, not a signal
+property.** This is a new cross-domain connection: in any system where
+agents move freely (on a torus or any connected space), a spatial
+co-presence signal cannot distinguish between "material from two
+structures" and "material from one structure whose agents wandered." The
+signal can detect WHERE material is but cannot determine WHICH structure
+it belongs to. This connects to:
+
+- **Actor Network Theory (Latour):** the boundary between actors is not
+  just a spatial pattern — it requires tracing the associations (which
+  agent deposited which material). A purely spatial signal is an
+  actant-level description; the actor-level distinction requires network
+  structure (which agents belong to which structure).
+- **Immunology (self/non-self discrimination):** the immune system
+  distinguishes self from non-self not by spatial location but by
+  molecular markers (MHC). Agent fidelity is the computational analog:
+  agents carry a "structure ID" that the boundary signal reads.
+- **Stigmergy (Grassé):** stigmergic signals are left BY agents, not just
+  AT locations. A signal that reads only location loses the agent
+  information. The next simulation should tag deposits with their source
+  structure, so the boundary can grow only where two distinct sources
+  meet — the agent-fidelity approach (queued-topic #79).
+
+The composition problem now spans seven independent mechanisms (adding
+direct-material autopoietic boundary to the previous six). The missing
+ingredient is agent fidelity — not a better spatial filter.

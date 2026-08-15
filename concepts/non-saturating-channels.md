@@ -472,3 +472,29 @@ boundary needs both properties on separate wires: (1) persistence
 specificity (the boundary exists because TWO structures interact, not
 one). This is the temporal analog of the two-wire principle (#73) and the
 self-cancelling inhibitor (#82).
+
+### Session 28 — Direct-material co-presence: the torus leak was not the cause
+
+sim13 replaced sim12's diffused-shadow co-presence (which wraps on the
+torus, creating false boundaries) with a direct-material max filter (no
+x-wrapping). The initial 1-seed co-presence drops to <1% of the 2-seed
+value — the torus leak IS eliminated. But the 1-seed control still fires
+1/4 (seed 123) — **agent wander on the torus deposits material in both
+halves, creating real co-presence from a single structure**. The false
+boundaries are not caused by the diffusion wrapping; they are caused by
+agent wander.
+
+A radius sweep (8-30) reveals a breadth-specificity dimension of the
+trade-off: small radius → boundary too narrow → structures merge; medium
+radius → agent-wander false positives; large radius → b_scale
+normalization produces clean composition for 1 seed but fragmentation
+(3/4). At no radius does the direct-material approach achieve better than
+1/4 clean composition — strictly worse than sim12's 2/4.
+
+**The memory-specificity trade-off is not a property of the co-presence
+signal — it is a property of the system.** Agents on a torus distribute
+material everywhere, and any boundary broad enough to prevent merging is
+also broad enough to pick up wander material. The fix is not a better
+spatial filter — it is a mechanism that keeps agents near their structure
+(agent fidelity, heterogeneous policies). A spatial filter can detect
+WHERE material is but cannot determine WHICH structure it belongs to.

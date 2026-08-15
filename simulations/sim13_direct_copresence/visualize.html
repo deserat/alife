@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>sim13 — Direct-Material Co-Presence</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --border: #30363d;
+    --text: #c9d1d9;
+    --text-muted: #8b949e;
+    --accent: #58a6ff;
+    --green: #3fb950;
+    --red: #f85149;
+    --yellow: #d29922;
+    --purple: #bc8cff;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    padding: 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  h1 { font-size: 1.5em; margin-bottom: 0.3em; }
+  h2 { font-size: 1.2em; margin: 1.5em 0 0.5em; border-bottom: 1px solid var(--border); padding-bottom: 0.3em; }
+  p { margin-bottom: 0.8em; color: var(--text-muted); }
+  .summary { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 16px; margin-bottom: 20px; }
+  .summary strong { color: var(--text); }
+  .controls { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; }
+  select, button {
+    background: var(--surface); border: 1px solid var(--border); color: var(--text);
+    padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 0.9em;
+  }
+  button:hover { border-color: var(--accent); }
+  .canvases { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+  .canvas-wrap { text-align: center; }
+  .canvas-wrap h3 { font-size: 0.9em; color: var(--text-muted); margin-bottom: 4px; }
+  canvas { border: 1px solid var(--border); border-radius: 4px; image-rendering: pixelated; }
+  .stats { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px; margin-bottom: 20px; }
+  .stat { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 8px 12px; }
+  .stat-label { color: var(--text-muted); font-size: 0.75em; text-transform: uppercase; letter-spacing: 0.5px; }
+  .stat-value { color: var(--text); font-size: 1.1em; font-weight: bold; }
+  .stat-value.green { color: var(--green); }
+  .stat-value.red { color: var(--red); }
+  .stat-value.yellow { color: var(--yellow); }
+  table { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 0.85em; }
+  th, td { border: 1px solid var(--border); padding: 6px 10px; text-align: left; }
+  th { background: var(--surface); color: var(--text-muted); font-weight: 600; }
+  tr:hover { background: rgba(88, 166, 255, 0.05); }
+  .yes { color: var(--green); }
+  .no { color: var(--red); }
+  .slider-wrap { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+  .slider-wrap label { color: var(--text-muted); font-size: 0.85em; min-width: 100px; }
+  input[type=range] { width: 200px; }
+  .slider-val { color: var(--accent); font-weight: bold; min-width: 40px; }
+</style>
+</head>
+<body>
+
+<h1>sim13 — Direct-Material Co-Presence</h1>
+<p>Does eliminating the torus leak (diffused shadows → max filter, no x-wrap) break the memory-specificity trade-off?</p>
+
+<div class="summary">
+  <p><strong>Finding:</strong> Direct-material co-presence (max filter, no x-wrapping) eliminates the torus leak that created sim12's false boundaries. The initial 1-seed co-presence is &lt;1% of the 2-seed value. But the max filter's hard cutoff creates a narrower boundary band than diffusion — at small radii (8-12), the boundary is too narrow to prevent merging. At medium radii (15-20), agent-wander material creates false positives. At radius=30, the b_scale normalization effect produces clean composition (2-seed coexist, 1-seed does not) — the first clean composition where the 1-seed control does not fire.</p>
+</div>
+
+<div class="controls">
+  <label for="condition">Condition:</label>
+  <select id="condition">
+    <option value="direct_2seed">Direct-material, 2 seeds (L2 test)</option>
+    <option value="direct_1seed">Direct-material, 1 seed (L1 control)</option>
+    <option value="shadow_2seed">Shadow (sim12), 2 seeds</option>
+    <option value="shadow_1seed">Shadow (sim12), 1 seed</option>
+    <option value="passive_2seed">Passive inhibitor, 2 seeds</option>
+    <option value="passive_1seed">Passive inhibitor, 1 seed</option>
+    <option value="none_2seed">No inhibition, 2 seeds</option>
+    <option value="none_1seed">No inhibition, 1 seed</option>
+  </select>
+  <button id="prev">◀ Prev</button>
+  <button id="play">▶ Play</button>
+  <button id="next">Next ▶</button>
+  <span id="step-info" style="color: var(--text-muted); font-size: 0.9em;"></span>
+</div>
+
+<div class="canvases">
+  <div class="canvas-wrap">
+    <h3>Material Field</h3>
+    <canvas id="material-canvas" width="200" height="200"></canvas>
+  </div>
+  <div class="canvas-wrap">
+    <h3>Boundary Field B</h3>
+    <canvas id="boundary-canvas" width="200" height="200"></canvas>
+  </div>
+</div>
+
+<h2>Condition Summary</h2>
+<div class="stats" id="stats"></div>
+
+<h2>Radius Sweep (seed 42)</h2>
+<table id="radius-table">
+  <thead>
+    <tr><th>Radius</th><th>2-seed outcome</th><th>2-seed stable</th><th>2-seed cells</th><th>1-seed outcome</th><th>Clean?</th></tr>
+  </thead>
+  <tbody id="radius-body"></tbody>
+</table>
+
+<h2>Robustness Sweep (4 seeds)</h2>
+<table id="robustness-table">
+  <thead>
+    <tr><th>Mode</th><th>Seeds</th><th>L2 crossed</th><th>Coexist</th><th>Stable</th><th>H7</th><th>Clean</th></tr>
+  </thead>
+  <tbody id="robustness-body"></tbody>
+</table>
+
+<script>
+let results = null;
+let snapshots = [];
+let currentIdx = 0;
+let playing = false;
+let playTimer = null;
+
+const CONDITIONS = [
+  "direct_2seed", "direct_1seed", "shadow_2seed", "shadow_1seed",
+  "passive_2seed", "passive_1seed", "none_2seed", "none_1seed"
+];
+
+async function loadResults() {
+  try {
+    const resp = await fetch("results.json");
+    results = await resp.json();
+  } catch(e) {
+    console.error("Failed to load results.json:", e);
+    return;
+  }
+  loadCondition();
+  loadRadiusSweep();
+  loadRobustnessSweep();
+}
+
+function loadCondition() {
+  const sel = document.getElementById("condition");
+  const key = sel.value;
+  if (!results || !results[key]) return;
+  snapshots = results[key].snapshots || [];
+  currentIdx = 0;
+  renderFrame();
+  renderStats(results[key].summary, key);
+}
+
+function renderFrame() {
+  if (snapshots.length === 0) return;
+  const snap = snapshots[currentIdx];
+  document.getElementById("step-info").textContent = `Step ${snap.step} (${currentIdx+1}/${snapshots.length})`;
+
+  // Material
+  const matCanvas = document.getElementById("material-canvas");
+  const matCtx = matCanvas.getContext("2d");
+  drawGrid(matCtx, snap.material, [[0,0,0,0], [0, 200, 180, 0, 255]]);
+
+  // Boundary
+  const bCanvas = document.getElementById("boundary-canvas");
+  const bCtx = bCanvas.getContext("2d");
+  if (snap.boundary) {
+    drawGrid(bCtx, snap.boundary, [[0,0,0,0], [188, 140, 255, 255]]);
+  } else {
+    bCtx.fillStyle = "#0d1117";
+    bCtx.fillRect(0, 0, 200, 200);
+    bCtx.fillStyle = "#8b949e";
+    bCtx.font = "12px sans-serif";
+    bCtx.textAlign = "center";
+    bCtx.fillText("No boundary field", 100, 100);
+  }
+}
+
+function drawGrid(ctx, flatArr, colorMap) {
+  if (!flatArr) return;
+  const size = Math.sqrt(flatArr.length);
+  const cw = ctx.canvas.width / size;
+  const ch = ctx.canvas.height / size;
+  for (let i = 0; i < flatArr.length; i++) {
+    const y = Math.floor(i / size);
+    const x = i % size;
+    const v = flatArr[i];
+    const [r, g, b, a] = v > 0
+      ? [Math.round(colorMap[1][0]*v), Math.round(colorMap[1][1]*v),
+         Math.round(colorMap[1][2]*v), Math.round(colorMap[1][3]*v)]
+      : [13, 17, 23, 255];
+    ctx.fillStyle = `rgb(${r},${g},${b})`;
+    ctx.fillRect(x*cw, y*ch, Math.ceil(cw), Math.ceil(ch));
+  }
+}
+
+function renderStats(summary, key) {
+  const stats = document.getElementById("stats");
+  const items = [
+    ["Condition", key],
+    ["L2 Crossed", summary.l2_crossed ? "YES" : "NO", summary.l2_crossed ? "green" : "red"],
+    ["Outcome", summary.l2_outcome],
+    ["Stable", summary.l2_stable ? "YES" : "NO", summary.l2_stable ? "green" : "red"],
+    ["H7 Crossing", summary.crossed_h7 ? "YES" : "NO", summary.crossed_h7 ? "green" : "red"],
+    ["L Retain", summary.l2_left_retain?.toFixed(2) || "—"],
+    ["R Retain", summary.l2_right_retain?.toFixed(2) || "—"],
+    ["Structure Cells", summary.final_n_structure_cells || "—"],
+  ];
+  stats.innerHTML = items.map(([label, value, cls]) =>
+    `<div class="stat"><div class="stat-label">${label}</div><div class="stat-value ${cls||''}">${value}</div></div>`
+  ).join("");
+}
+
+async function loadRadiusSweep() {
+  try {
+    const resp = await fetch("output/radius_sweep.json");
+    const data = await resp.json();
+    const body = document.getElementById("radius-body");
+    const radii = [8, 12, 15, 20, 25, 30];
+    body.innerHTML = radii.map(r => {
+      const s2 = data[`r${r}_2seed`];
+      const s1 = data[`r${r}_1seed`];
+      const clean = s2?.outcome === "coexist" && s1?.outcome !== "coexist";
+      return `<tr>
+        <td>${r}</td>
+        <td class="${s2?.outcome === 'coexist' ? 'yes' : 'no'}">${s2?.outcome || '—'}</td>
+        <td class="${s2?.stable ? 'yes' : 'no'}">${s2?.stable ? 'YES' : 'NO'}</td>
+        <td>${s2?.cells || '—'}</td>
+        <td class="${s1?.outcome === 'coexist' ? 'no' : ''}">${s1?.outcome || '—'}</td>
+        <td class="${clean ? 'yes' : 'no'}">${clean ? 'YES' : 'no'}</td>
+      </tr>`;
+    }).join("");
+  } catch(e) { console.log("radius_sweep.json not available"); }
+}
+
+async function loadRobustnessSweep() {
+  try {
+    const resp = await fetch("output/robustness_sweep.json");
+    const data = await resp.json();
+    const body = document.getElementById("robustness-body");
+    const modes = ["direct", "shadow", "passive", "none"];
+    let rows = "";
+    for (const mode of modes) {
+      for (const ns of [2, 1]) {
+        const key = `${mode}_${ns}seed`;
+        const entries = data[key];
+        if (!entries) continue;
+        const nCross = entries.filter(e => e.l2_crossed).length;
+        const nCoexist = entries.filter(e => e.l2_outcome === "coexist").length;
+        const nStable = entries.filter(e => e.l2_stable).length;
+        const nH7 = entries.filter(e => e.crossed_h7).length;
+        let clean = "—";
+        if (ns === 2) {
+          const twoE = entries;
+          const oneE = data[`${mode}_1seed`];
+          if (oneE) {
+            clean = 0;
+            for (let i = 0; i < twoE.length; i++) {
+              if (twoE[i].l2_outcome === "coexist" && oneE[i].l2_outcome !== "coexist") clean++;
+            }
+            clean = `${clean}/4`;
+          }
+        }
+        rows += `<tr>
+          <td>${mode}</td><td>${ns}</td>
+          <td>${nCross}/4</td>
+          <td class="${nCoexist > 0 ? 'yes' : 'no'}">${nCoexist}/4</td>
+          <td class="${nStable > 0 ? 'yes' : 'no'}">${nStable}/4</td>
+          <td>${nH7}/4</td>
+          <td>${clean}</td>
+        </tr>`;
+      }
+    }
+    body.innerHTML = rows;
+  } catch(e) { console.log("robustness_sweep.json not available"); }
+}
+
+// Controls
+document.getElementById("condition").addEventListener("change", loadCondition);
+document.getElementById("prev").addEventListener("click", () => {
+  if (snapshots.length === 0) return;
+  currentIdx = (currentIdx - 1 + snapshots.length) % snapshots.length;
+  renderFrame();
+});
+document.getElementById("next").addEventListener("click", () => {
+  if (snapshots.length === 0) return;
+  currentIdx = (currentIdx + 1) % snapshots.length;
+  renderFrame();
+});
+document.getElementById("play").addEventListener("click", function() {
+  playing = !playing;
+  this.textContent = playing ? "⏸ Pause" : "▶ Play";
+  if (playing) {
+    playTimer = setInterval(() => {
+      currentIdx = (currentIdx + 1) % snapshots.length;
+      renderFrame();
+    }, 300);
+  } else {
+    clearInterval(playTimer);
+  }
+});
+
+loadResults();
+</script>
+
+</body>
+</html>

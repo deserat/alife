@@ -714,29 +714,30 @@ to compare.
     within them. The research program should now separate these two
     tracks explicitly.
 
-## From Session 27 (2026-08-15)
+## From Session 27 (2026-08-11)
 
-84. **The memory-specificity trade-off — a mechanism that combines both**
-    — TOP PRIORITY. sim12's autopoietic boundary has memory (persistence)
-    but lacks specificity (creates false boundaries for a single seed).
-    The passive inhibitor has specificity (1-seed control fires less)
-    but lacks persistence (merges before the perturbation). Neither
-    alone achieves more than 2/4 clean composition. A mechanism that
-    combines both — e.g., an autopoietic boundary whose growth requires
-    DIRECT material from both sides (not smoothed shadows, eliminating
-    the torus leak), or agent-fidelity-based boundary (the boundary
-    grows only where two DISTINCT agent populations meet) — might break
-    the trade-off. This is the temporal analog of the two-wire principle:
-    persistence and specificity must travel on separate wires.
+84. **The memory-specificity trade-off — a mechanism that combines both** —
+    DONE (Session 28).
+    sim13 tested the direct-material co-presence approach (#85): replacing
+    sim12's diffused-shadow co-presence with a max filter that doesn't wrap
+    in x, eliminating the torus leak. Result: the torus leak IS eliminated
+    (initial 1-seed co-presence <1% of 2-seed) but the false boundaries
+    persist (1-seed control 1/4) — **agent wander on the torus, not the
+    spatial filter, causes false boundaries**. A radius sweep (8-30)
+    reveals a breadth-specificity dimension: small → merges, medium → false
+    positives, large → fragmentation. Clean composition is 1/4 (worse than
+    sim12's 2/4). The memory-specificity trade-off is a system property
+    (agents on a torus distribute material everywhere), not a signal
+    property (diffusion vs. direct-material). The fix requires agent
+    fidelity, not a better spatial filter. See `sim13_direct_copresence/`
+    and H5/H6/H7/H10 Session-28 refinements. NEXT PRIORITY: heterogeneous
+    agent policies (#79) — agents tagged with a structure ID so the
+    boundary grows only where two distinct populations meet.
 
-85. **Direct-material co-presence — eliminating the torus leak** — The
-    co-presence signal `min(left_shadow, right_shadow)` leaks on the torus
-    because smoothed shadows wrap around. A direct-material version would
-    check whether there is actual structure (material > threshold) within
-    a local radius on BOTH sides of the cell, without smoothing. This
-    eliminates the wrap-around but may be too discrete (no gradient). Test
-    whether direct-material co-presence reduces the 1-seed false-boundary
-    rate while maintaining the 2-seed coexistence rate.
+85. **Direct-material co-presence — eliminating the torus leak** — DONE (Session 28).
+    See #84 above. The direct-material max filter (no x-wrapping) eliminates
+    the diffusion torus leak but does not eliminate false boundaries — agent
+    wander is the true cause.
 
 86. **The memory-specificity trade-off as a general principle** — The
     three "separate wires" principles now form a family: (1) two-wire
@@ -760,3 +761,41 @@ to compare.
     frontier might break the 2/4 clean composition ceiling — or it
     might not. Cheap: re-run the robustness sweep at different
     parameter settings.
+
+## From Session 28 (2026-08-12)
+
+88. **Heterogeneous agent policies — agents tagged with a structure ID**
+    — TOP PRIORITY. sim13 ruled out the spatial filter as the cause of
+    false boundaries — agent wander is the cause. The next approach:
+    agents carry a "structure ID" (left or right). The co-presence signal
+    checks for material from TWO DIFFERENT IDs within a local radius, not
+    just material on both sides of the midline. The boundary grows only
+    where two distinct agent populations meet. This provides agent-level
+    specificity that no spatial filter can. Tests whether agent fidelity
+    breaks the memory-specificity trade-off. Could be a sim14 extension
+    of sim12/sim13: agents tagged with their seed structure, deposits
+    tagged with the agent's ID, co-presence = overlap of two distinct IDs.
+    The 1-seed control has only one ID, so co-presence is always zero —
+    the boundary cannot grow. The 2-seed case has two IDs, and the
+    boundary grows where they meet.
+
+89. **The l2_crossed ≠ l2_outcome distinction — fragmentation as a third
+    outcome** — sim13 revealed that the L2 detector can fire (l2_crossed:
+    components in both halves) while the outcome is "fragmented" (multiple
+    components, not two clean structures) rather than "coexist." This is a
+    third outcome beyond "coexist" and "none/merged" that previous
+    simulations didn't encounter. The broad boundary (radius=30) prevents
+    merging but over-fragments. This suggests the L2 detector should
+    distinguish "two clean structures" (coexist) from "multiple fragments
+    in both halves" (fragmented) — the latter is not genuine composition.
+    Could refine the L2 outcome classifier in sim10's detect_l2.
+
+90. **The b_scale normalization effect — a hidden parameter** — sim13's
+    radius sweep found that at radius=30, the b_scale (set from the 95th
+    percentile of initial co-presence) is very large because the dilated
+    seeds overlap strongly. This makes B_norm = B / b_scale small, weakening
+    the boundary suppression. The clean composition at seed 42 may be an
+    artifact of this normalization rather than a genuine property of the
+    direct-material approach. A sweep of b_scale (or using a fixed scale
+    instead of the 95th percentile) would determine whether the
+    normalization is load-bearing.
