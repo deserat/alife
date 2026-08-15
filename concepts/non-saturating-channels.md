@@ -438,3 +438,37 @@ grid + agent framework, replacing the pheromone-deposit rule with a curvature-de
 - [[concepts/stigmergy]] — the base mechanism; the cement pheromone assumption is in doubt
 - [[concepts/multi-rate-environment]] — humidity template's wind-perturbation is a multi-rate
   external driver acting through a non-saturating channel
+
+## Session 27: The Autopoietic Boundary — Memory Buys Persistence, Costs Specificity
+
+sim12 added an autopoietic boundary field B with its own growth/decay
+dynamics: `B_new = B * (1 − b_decay) + b_growth * co_presence`, where
+`co_presence = min(left_shadow, right_shadow)` — the overlap of the two
+structures' far-field shadows. B suppresses deposit probability in the gap,
+like sim11's passive I, but B has a time constant of its own (half-life ~138
+steps) — it has **memory**.
+
+**The autopoietic boundary is more stable.** In a 4-seed robustness sweep,
+B produces stable coexistence in 4/4 seeds (vs 1/4 for the passive). It
+survives a 50% material-removal perturbation (B retains 91% at 100 steps;
+the coexistence persists). This is the first perturbation in this project
+where coexistence actually persists through a structural shock — the
+memory gives B a persistence the passive I lacks.
+
+**But its memory also creates false boundaries.** The 1-seed control fires
+in 2/4 (vs 1/4 for the passive) — B's memory accumulates co-presence from
+a single structure's spread across the torus. The co-presence signal (min
+of left and right shadows) was designed to be specific to two-structure
+interaction, but on a small torus the single seed's shadow wraps around,
+and agent-deposited material in both halves creates a non-zero co-presence
+even for one seed.
+
+**Clean composition is 2/4 for both — the memory-specificity trade-off
+cancels out.** The autopoietic boundary trades specificity for stability.
+The missing ingredient is not just autopoiesis (memory) or a boundary
+mechanism — it is a mechanism that combines memory with specificity. The
+boundary needs both properties on separate wires: (1) persistence
+(autopoiesis — memory, self-maintenance through perturbation) and (2)
+specificity (the boundary exists because TWO structures interact, not
+one). This is the temporal analog of the two-wire principle (#73) and the
+self-cancelling inhibitor (#82).

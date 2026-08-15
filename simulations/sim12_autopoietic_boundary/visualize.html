@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>sim12 — Autopoietic Boundary</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --text: #c9d1d9;
+    --border: #30363d;
+    --accent: #58a6ff;
+    --accent2: #f0883e;
+    --green: #3fb950;
+    --red: #f85149;
+    --dim: #8b949e;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; line-height: 1.6; padding: 20px; max-width: 1200px; margin: 0 auto; }
+  h1 { font-size: 1.5em; margin-bottom: 0.3em; }
+  h2 { font-size: 1.2em; margin: 1.2em 0 0.5em; color: var(--accent); border-bottom: 1px solid var(--border); padding-bottom: 0.2em; }
+  .subtitle { color: var(--dim); font-size: 0.9em; margin-bottom: 1em; }
+  .grid6 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 1em; }
+  .cond { border: 1px solid var(--border); border-radius: 6px; padding: 10px; }
+  .cond h3 { font-size: 0.85em; margin-bottom: 6px; }
+  .cond canvas { width: 100%; image-rendering: pixelated; border-radius: 4px; }
+  .stats { font-size: 0.75em; color: var(--dim); margin-top: 6px; }
+  .stats .val { color: var(--text); }
+  .stats .pass { color: var(--green); }
+  .stats .fail { color: var(--red); }
+  table { border-collapse: collapse; width: 100%; font-size: 0.8em; margin-bottom: 1em; }
+  th, td { border: 1px solid var(--border); padding: 6px 10px; text-align: center; }
+  th { background: #161b22; color: var(--accent); }
+  tr:hover { background: #161b22; }
+  .toggle-group { margin-bottom: 1em; }
+  .toggle-group button { background: #21262d; color: var(--text); border: 1px solid var(--border); border-radius: 4px; padding: 4px 12px; margin-right: 6px; cursor: pointer; font-size: 0.85em; }
+  .toggle-group button.active { background: var(--accent); color: #0d1117; border-color: var(--accent); }
+  canvas.chart { width: 100%; height: 200px; border: 1px solid var(--border); border-radius: 4px; }
+  .legend { font-size: 0.75em; color: var(--dim); display: flex; gap: 16px; margin-top: 4px; }
+  .legend span { display: flex; align-items: center; gap: 4px; }
+  .legend .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+  .perturb-line { stroke: var(--accent2); stroke-width: 2; stroke-dasharray: 4 2; }
+</style>
+</head>
+<body>
+<h1>sim12 — Autopoietic Boundary</h1>
+<p class="subtitle">Does a self-maintaining boundary (with memory) enable L2 composition where the passive inhibitor (no memory) only weakly helped?</p>
+
+<div class="toggle-group" id="modeToggle">
+  <button class="active" data-mode="headline">Headline (6 conditions)</button>
+  <button data-mode="perturbation">Perturbation Test</button>
+  <button data-mode="robustness">Robustness Sweep</button>
+</div>
+
+<div id="headline-section">
+  <h2>Six Conditions — Final Material + Boundary Field</h2>
+  <div class="grid6" id="condGrid"></div>
+
+  <h2>Component Counts Over Time</h2>
+  <canvas class="chart" id="compChart"></canvas>
+  <div class="legend">
+    <span><span class="dot" style="background:#58a6ff"></span> Auto 2-seed L</span>
+    <span><span class="dot" style="background:#f0883e"></span> Auto 2-seed R</span>
+    <span><span class="dot" style="background:#3fb950"></span> Passive 2-seed L</span>
+    <span><span class="dot" style="background:#f85149"></span> Passive 2-seed R</span>
+    <span><span class="dot" style="background:#8b949e"></span> None 2-seed L</span>
+  </div>
+</div>
+
+<div id="perturbation-section" style="display:none;">
+  <h2>Boundary Trace — B Persists Through Perturbation</h2>
+  <canvas class="chart" id="perturbChart"></canvas>
+  <div class="legend">
+    <span><span class="dot" style="background:#58a6ff"></span> B_gap (autopoietic, with memory)</span>
+    <span><span class="dot" style="background:#f0883e"></span> I_gap (passive, no memory)</span>
+    <span><span class="dot" style="background:#3fb950"></span> Right total material</span>
+    <span style="color:var(--accent2)">┊ Perturbation at step 1500</span>
+  </div>
+  <p class="subtitle" style="margin-top:8px;">B drops 9% in 100 steps after perturbation (memory); I drops 17% immediately (no memory). The coexistence survives under B (outcome=coexist) but the passive structures had already merged before the perturbation.</p>
+</div>
+
+<div id="robustness-section" style="display:none;">
+  <h2>Robustness Sweep — 4 Seeds × 3 Modes × {1,2} Seeds</h2>
+  <table id="robustTable"></table>
+</div>
+
+<script>
+const COLORS = {material: ['transparent', '#1a3a5a', '#2d5a8a', '#4a8ac4', '#7ab8e8', '#c4e0f0'],
+                boundary: ['transparent', '#3a1a1a', '#5a2d2d', '#8a4a4a', '#c47a7a', '#f0c4c4']};
+
+function drawGrid(canvas, data, label, sub) {
+  const ctx = canvas.getContext('2d');
+  const w = canvas.width = canvas.height = 200;
+  if (!data || !data.length) return;
+  const n = Math.sqrt(data.length);
+  const cell = w / n;
+  for (let i = 0; i < n; i++) {
+    for (let j = 0; j < n; j++) {
+      const v = data[i * n + j];
+      ctx.fillStyle = v < 0.01 ? '#0d1117' : `rgba(${Math.round(v*100)},${Math.round(v*180)},${Math.round(v*255)},${Math.min(1,v*1.5)})`;
+      ctx.fillRect(j * cell, i * cell, cell + 0.5, cell + 0.5);
+    }
+  }
+}
+
+function drawBoundaryGrid(canvas, data) {
+  const ctx = canvas.getContext('2d');
+  const w = canvas.width = canvas.height = 100;
+  if (!data || !data.length) return;
+  const n = Math.sqrt(data.length);
+  const cell = w / n;
+  for (let i = 0; i < n; i++) {
+    for (let j = 0; j < n; j++) {
+      const v = data[i * n + j];
+      ctx.fillStyle = v < 0.01 ? '#0d1117' : `rgba(${Math.round(v*255)},${Math.round(v*80)},${Math.round(v*80)},${Math.min(1,v*2)})`;
+      ctx.fillRect(j * cell, i * cell, cell + 0.5, cell + 0.5);
+    }
+  }
+}
+
+let resultsData = null;
+let perturbData = null;
+let robustData = null;
+
+async function loadResults() {
+  try {
+    const r = await fetch('results.json');
+    resultsData = await r.json();
+  } catch(e) { console.warn('results.json not loaded', e); }
+  try {
+    const r2 = await fetch('output/perturbation_results.json');
+    perturbData = await r2.json();
+  } catch(e) { console.warn('perturbation not loaded', e); }
+  try {
+    const r3 = await fetch('output/robustness_sweep.json');
+    robustData = await r3.json();
+  } catch(e) { console.warn('robustness not loaded', e); }
+  renderHeadline();
+  renderPerturbation();
+  renderRobustness();
+}
+
+function getLastSnapshot(snapshots) {
+  return snapshots && snapshots.length > 0 ? snapshots[snapshots.length - 1] : null;
+}
+
+function renderHeadline() {
+  if (!resultsData) return;
+  const grid = document.getElementById('condGrid');
+  grid.innerHTML = '';
+  const conds = [
+    {key: 'auto_2seed', label: 'A: Autopoietic, 2 seeds', showB: true},
+    {key: 'auto_1seed', label: 'B: Autopoietic, 1 seed (control)', showB: true},
+    {key: 'passive_2seed', label: 'C: Passive, 2 seeds', showB: false},
+    {key: 'passive_1seed', label: 'D: Passive, 1 seed (control)', showB: false},
+    {key: 'none_2seed', label: 'E: No inhibition, 2 seeds', showB: false},
+    {key: 'none_1seed', label: 'F: No inhibition, 1 seed', showB: false},
+  ];
+  conds.forEach(c => {
+    const r = resultsData[c.key];
+    if (!r) return;
+    const snap = getLastSnapshot(r.snapshots);
+    const s = r.summary;
+    const div = document.createElement('div');
+    div.className = 'cond';
+    let html = `<h3>${c.label}</h3>`;
+    if (snap) {
+      html += `<canvas class="matCanvas"></canvas>`;
+      if (c.showB && snap.boundary) {
+        html += `<canvas class="bCanvas" style="height:100px;margin-top:4px"></canvas>`;
+      }
+    }
+    html += `<div class="stats">
+      <span class="val">L2: ${s.l2_crossed ? '✓' : '✗'}</span> |
+      <span class="val">${s.l2_outcome}</span> |
+      <span class="${s.l2_stable ? 'pass' : 'fail'}">stable=${s.l2_stable}</span> |
+      <span class="val">h7=${s.crossed_h7 ? '✓' : '✗'}</span> |
+      <span class="val">${s.final_n_structure_cells} cells</span>
+    </div>`;
+    div.innerHTML = html;
+    grid.appendChild(div);
+    if (snap) {
+      const mc = div.querySelector('.matCanvas');
+      if (mc) drawGrid(mc, snap.material);
+      const bc = div.querySelector('.bCanvas');
+      if (bc && snap.boundary) drawBoundaryGrid(bc, snap.boundary);
+    }
+  });
+
+  // Component chart
+  drawCompChart();
+}
+
+function drawCompChart() {
+  const canvas = document.getElementById('compChart');
+  if (!canvas || !resultsData) return;
+  const ctx = canvas.getContext('2d');
+  const w = canvas.width = canvas.offsetWidth;
+  const h = canvas.height = 200;
+  ctx.fillStyle = '#0d1117';
+  ctx.fillRect(0, 0, w, h);
+
+  const conds = [
+    {key: 'auto_2seed', color: '#58a6ff', side: 'left'},
+    {key: 'auto_2seed', color: '#f0883e', side: 'right'},
+    {key: 'passive_2seed', color: '#3fb950', side: 'left'},
+    {key: 'passive_2seed', color: '#f85149', side: 'right'},
+    {key: 'none_2seed', color: '#8b949e', side: 'left'},
+  ];
+
+  const allHist = conds.map(c => resultsData[c.key]?.history || []);
+  if (!allHist[0]?.length) return;
+  const maxSteps = allHist[0][allHist[0].length - 1]?.step || 1;
+  const maxComp = 5;
+
+  ctx.strokeStyle = '#30363d';
+  for (let i = 0; i <= 5; i++) {
+    const y = h - (i / maxComp) * h;
+    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
+  }
+
+  conds.forEach((c, idx) => {
+    const hist = resultsData[c.key]?.history || [];
+    ctx.strokeStyle = c.color;
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    hist.forEach((rec, i) => {
+      const x = (rec.step / maxSteps) * w;
+      const comp = c.side === 'left' ? rec.left_components : rec.right_components;
+      const y = h - (Math.min(comp, maxComp) / maxComp) * h;
+      if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+    });
+    ctx.stroke();
+  });
+}
+
+function renderPerturbation() {
+  if (!perturbData) return;
+  const canvas = document.getElementById('perturbChart');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const w = canvas.width = canvas.offsetWidth;
+  const h = canvas.height = 200;
+  ctx.fillStyle = '#0d1117';
+  ctx.fillRect(0, 0, w, h);
+
+  const bt = perturbData.auto_perturb?.boundary_trace || [];
+  if (!bt.length) return;
+  const maxStep = bt[bt.length - 1].step;
+  const perturbStep = perturbData.config?.perturb_at || 1500;
+
+  // Find ranges
+  let maxB = 0.01, maxI = 0.01, maxR = 0.01;
+  bt.forEach(b => {
+    maxB = Math.max(maxB, b.b_gap);
+    maxI = Math.max(maxI, b.i_gap);
+    maxR = Math.max(maxR, b.right_total);
+  });
+  const scale = Math.max(maxB, maxI);
+
+  // Grid lines
+  ctx.strokeStyle = '#30363d';
+  for (let i = 0; i <= 4; i++) {
+    const y = h - (i / 4) * h;
+    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
+  }
+
+  // Perturbation line
+  const px = (perturbStep / maxStep) * w;
+  ctx.strokeStyle = '#f0883e';
+  ctx.setLineDash([4, 2]);
+  ctx.beginPath(); ctx.moveTo(px, 0); ctx.lineTo(px, h); ctx.stroke();
+  ctx.setLineDash([]);
+
+  // B_gap
+  ctx.strokeStyle = '#58a6ff';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  bt.forEach((b, i) => {
+    const x = (b.step / maxStep) * w;
+    const y = h - (b.b_gap / scale) * h;
+    if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+  });
+  ctx.stroke();
+
+  // I_gap
+  ctx.strokeStyle = '#f0883e';
+  ctx.beginPath();
+  bt.forEach((b, i) => {
+    const x = (b.step / maxStep) * w;
+    const y = h - (b.i_gap / scale) * h;
+    if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+  });
+  ctx.stroke();
+
+  // Right total (normalized to same scale)
+  ctx.strokeStyle = '#3fb950';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  bt.forEach((b, i) => {
+    const x = (b.step / maxStep) * w;
+    const y = h - (b.right_total / maxR) * h * 0.8;
+    if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+  });
+  ctx.stroke();
+}
+
+function renderRobustness() {
+  if (!robustData) return;
+  const table = document.getElementById('robustTable');
+  if (!table) return;
+  const modes = ['auto', 'passive', 'none'];
+  const seeds = [42, 123, 256, 999];
+  let html = '<tr><th>Mode</th><th>Seeds</th>';
+  seeds.forEach(s => html += `<th>seed ${s}</th>`);
+  html += '<th>Summary</th></tr>';
+
+  modes.forEach(mode => {
+    [2, 1].forEach(ns => {
+      const key = `${mode}_${ns}seed`;
+      const entries = robustData[key] || [];
+      html += `<tr><td>${mode}</td><td>${ns}</td>`;
+      entries.forEach(e => {
+        const color = e.l2_outcome === 'coexist' ? 'var(--green)' : (e.l2_outcome === 'none' ? 'var(--red)' : 'var(--accent2)');
+        html += `<td style="color:${color}">${e.l2_outcome}${e.l2_stable ? '★' : ''}</td>`;
+      });
+      const nCo = entries.filter(e => e.l2_outcome === 'coexist').length;
+      const nSt = entries.filter(e => e.l2_stable).length;
+      html += `<td>coexist=${nCo}/4 stable=${nSt}/4</td></tr>`;
+    });
+  });
+  table.innerHTML = html;
+}
+
+// Mode toggle
+document.getElementById('modeToggle').addEventListener('click', e => {
+  if (e.target.tagName !== 'BUTTON') return;
+  const mode = e.target.dataset.mode;
+  document.querySelectorAll('#modeToggle button').forEach(b => b.classList.remove('active'));
+  e.target.classList.add('active');
+  document.getElementById('headline-section').style.display = mode === 'headline' ? '' : 'none';
+  document.getElementById('perturbation-section').style.display = mode === 'perturbation' ? '' : 'none';
+  document.getElementById('robustness-section').style.display = mode === 'robustness' ? '' : 'none';
+});
+
+loadResults();
+</script>
+</body>
+</html>

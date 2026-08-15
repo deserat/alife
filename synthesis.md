@@ -1358,3 +1358,44 @@ multi-structure composition are independent problems — a boundary mechanism
 can address one without the other. H7's crossing is about a single
 structure's self-maintenance; L2 composition is about the interaction
 between two self-maintaining structures. They need different mechanisms.
+
+## Session 27 — The Memory-Specificity Trade-Off
+
+sim12 tested an autopoietic boundary — a boundary field B with its own
+growth/decay dynamics (memory), as opposed to sim11's passive inhibitor
+(no memory). The result reveals a **fundamental trade-off**: memory buys
+persistence at the cost of specificity.
+
+The autopoietic boundary produces stable coexistence in 4/4 seeds (vs 1/4
+for the passive) and survives a 50% material-removal perturbation (B
+retains 91% at 100 steps, coexistence persists). This is the first
+perturbation in this project where coexistence actually persists through a
+structural shock. Memory works: B's independent decay rate (half-life ~138
+steps) gives it a persistence the passive I (recomputed each step) cannot
+match.
+
+But the same memory accumulates co-presence from a single structure's
+spread across the torus, creating false boundaries. The 1-seed control
+fires in 2/4 (vs 1/4 for the passive). Clean composition is 2/4 for both
+— the trade-off cancels out.
+
+**The memory-specificity trade-off is the temporal analog of the two-wire
+principle** (#73, Session 23). In the two-wire principle, the feedback
+signal and the spatial signal must travel on separate channels —
+saturating one destroys the other. In the self-cancelling inhibitor
+(#82, Session 26), the distant-structure signal and the local-structure
+signal must travel on separate wires — without separation, the inhibitor
+self-inhibits. In the memory-specificity trade-off, the persistence
+mechanism (memory, autopoiesis) and the specificity mechanism (co-presence
+of two distinct structures) must travel on separate wires — without
+separation, memory accumulates from any material spread, not just from
+two-structure interaction.
+
+This sharpens H5/H6: autopoiesis (memory) is necessary for persistence but
+not sufficient for genuine L2 composition. The boundary needs both
+properties on separate channels. The missing ingredient is not just
+autopoiesis or a boundary mechanism — it is a mechanism that combines
+memory with specificity. The composition problem now spans six independent
+mechanisms (chemical, saturating stigmergic, non-saturating density cap,
+non-saturating curvature, passive lateral inhibition, autopoietic lateral
+inhibition) — all producing at most 2/4 clean composition.

@@ -668,20 +668,22 @@ to compare.
 ## From Session 26 (2026-08-10)
 
 81. **An autopoietic boundary — a self-maintaining inhibitor, not a
-    passive field** — TOP PRIORITY. sim11's long-range inhibitor is a
-    passive field — it exists only because the structures are there. If
-    a structure dies, its inhibitor shadow vanishes, and the boundary
-    collapses. A genuinely autopoietic boundary would self-maintain:
-    the boundary itself would need to be built/maintained by the
-    interaction of the two structures, so it persists even if one
-    structure wobbles. This is the H5/H6 connection: the boundary
-    must be autopoietic to be a genuine "actor" at the L2 level.
-    Candidate: a boundary that is reinforced by the conflict between
-    the two structures' growth fronts — each structure's deposits
-    push toward the gap, the gap's inhibitor pushes back, and the
-    boundary is the equilibrium that self-maintains. Test in sim11:
-    add a boundary-reinforcement term (the inhibitor grows when both
-    sides have material nearby, decays when one side is empty).
+    passive field** — DONE (Session 27).
+    sim12 tested a boundary field B with its own growth/decay dynamics
+    (memory): `B_new = B * (1 − b_decay) + b_growth * co_presence`
+    where `co_presence = min(left_shadow, right_shadow)`. B is more
+    stable (4/4 vs 1/4 for the passive) and survives a 50%
+    material-removal perturbation (B retains 91% at 100 steps,
+    coexistence persists). But its memory also creates false
+    boundaries — the 1-seed control fires in 2/4 (vs 1/4 for the
+    passive). Clean composition is 2/4 for both — the
+    memory-specificity trade-off cancels out. The co-presence signal
+    leaks on the torus (agent-deposited material in both halves
+    creates a non-zero co-presence even for one seed). The H7
+    crossing survives all conditions (h7=4/4). See
+    `sim12_autopoietic_boundary/` and H5/H6/H7/H10 Session-27
+    refinements. NEXT PRIORITY: a mechanism that combines memory with
+    specificity (#84, #85, #79).
 
 82. **The self-cancelling inhibitor as a general principle** — sim11's
     critical design insight was that a long-range inhibitor must not
@@ -711,3 +713,50 @@ to compare.
     heterogeneous policies) that operates BETWEEN structures, not
     within them. The research program should now separate these two
     tracks explicitly.
+
+## From Session 27 (2026-08-15)
+
+84. **The memory-specificity trade-off — a mechanism that combines both**
+    — TOP PRIORITY. sim12's autopoietic boundary has memory (persistence)
+    but lacks specificity (creates false boundaries for a single seed).
+    The passive inhibitor has specificity (1-seed control fires less)
+    but lacks persistence (merges before the perturbation). Neither
+    alone achieves more than 2/4 clean composition. A mechanism that
+    combines both — e.g., an autopoietic boundary whose growth requires
+    DIRECT material from both sides (not smoothed shadows, eliminating
+    the torus leak), or agent-fidelity-based boundary (the boundary
+    grows only where two DISTINCT agent populations meet) — might break
+    the trade-off. This is the temporal analog of the two-wire principle:
+    persistence and specificity must travel on separate wires.
+
+85. **Direct-material co-presence — eliminating the torus leak** — The
+    co-presence signal `min(left_shadow, right_shadow)` leaks on the torus
+    because smoothed shadows wrap around. A direct-material version would
+    check whether there is actual structure (material > threshold) within
+    a local radius on BOTH sides of the cell, without smoothing. This
+    eliminates the wrap-around but may be too discrete (no gradient). Test
+    whether direct-material co-presence reduces the 1-seed false-boundary
+    rate while maintaining the 2-seed coexistence rate.
+
+86. **The memory-specificity trade-off as a general principle** — The
+    three "separate wires" principles now form a family: (1) two-wire
+    principle (#73): feedback signal and spatial signal on separate
+    channels; (2) self-cancelling inhibitor (#82): distant signal and
+    local signal on separate wires; (3) memory-specificity trade-off:
+    persistence and specificity on separate wires. All three say the
+    same thing: when two properties are carried on the same wire,
+    saturating one destroys the other. This is a general design
+    principle for self-organizing systems. Could be added to CLAUDE.md
+    §4 step 6 alongside the metric-ceiling (#61), stable_crossed (#65),
+    and control-arm (#75) rules.
+
+87. **B parameter sweep — growth, decay, and copresence_passes** —
+    sim12's B parameters (b_growth=0.1, b_decay=0.005, 8 passes) were
+    chosen, not swept. A systematic sweep of b_growth × b_decay ×
+    copresence_passes would map the stability-specificity frontier:
+    faster decay (less memory) should move toward the passive inhibitor
+    (more specific, less stable); slower decay (more memory) should
+    move toward more false boundaries. The optimal point on this
+    frontier might break the 2/4 clean composition ceiling — or it
+    might not. Cheap: re-run the robustness sweep at different
+    parameter settings.
