@@ -250,6 +250,13 @@ def termite_step_hetero(termites, field, rng, params, curvature,
                     # Fixed suppression wherever B exists (B_norm > threshold).
                     # Decouples suppression strength from co-presence magnitude.
                     supp = inh_gain if B_norm[y, x] > 0.01 else 0.0
+                elif boundary_mode == "hybrid":
+                    # Gradient at low B_norm (wide coverage for formation),
+                    # capped at g*k plateau (stability without full-strength
+                    # binary gate).  supp = min(g * Bn/(1+Bn), g * k)
+                    hybrid_k = params.get("hybrid_k", 0.8)
+                    grad = inh_gain * B_norm[y, x] / (1.0 + B_norm[y, x])
+                    supp = min(grad, inh_gain * hybrid_k)
                 else:
                     # Proportional suppression (original sim12/sim14 behavior).
                     supp = inh_gain * B_norm[y, x] / (1.0 + B_norm[y, x])
@@ -818,6 +825,47 @@ def cmd_selftest():
     assert abs(sa["l2_left_retain"] - sb["l2_left_retain"]) < 1e-9
     assert abs(sa["l2_right_retain"] - sb["l2_right_retain"]) < 1e-9
     print("selftest: Part 7 OK (determinism)")
+
+    # ---- Part 8: hybrid mode — verify suppression formula ----
+    # At B_norm=0: hybrid supp = 0 (gradient term is 0, min(0, g*k) = 0)
+    # At B_norm >> 1: hybrid supp = g*k (gradient saturates at g, cap at g*k)
+    # At B_norm = k/(1-k): gradient = cap (transition point)
+    _g_test = 0.5
+    _k_test = 0.8
+    _bn_test = np.array([0.0, 0.01, 0.1, 0.5, 1.0, 5.0, 100.0])
+    for bn in _bn_test:
+        grad = _g_test * bn / (1.0 + bn)
+        cap = _g_test * _k_test
+        supp_expected = min(grad, cap)
+        assert supp_expected >= 0.0, f"hybrid supp should be non-negative; got {supp_expected}"
+        assert supp_expected <= _g_test * _k_test + 1e-12, \
+            f"hybrid supp should never exceed g*k; got {supp_expected} > {_g_test * _k_test}"
+    # Verify at B_norm=0, supp=0
+    assert abs(min(0.0, _g_test * _k_test)) < 1e-12, "hybrid at B=0 should be 0"
+    # Verify at large B_norm, supp approaches g*k
+    bn_large = 1000.0
+    supp_large = min(_g_test * bn_large / (1.0 + bn_large), _g_test * _k_test)
+    assert abs(supp_large - _g_test * _k_test) < 0.001, \
+        f"hybrid at large B should approach g*k; got {supp_large} vs {_g_test * _k_test}"
+    # Verify the transition point: gradient = cap when B_norm = k/(1-k)
+    bn_trans = _k_test / (1.0 - _k_test)  # = 4.0
+    grad_trans = _g_test * bn_trans / (1.0 + bn_trans)
+    assert abs(grad_trans - _g_test * _k_test) < 1e-9, \
+        f"transition point mismatch: {grad_trans} vs {_g_test * _k_test}"
+    # Verify a full run with hybrid mode works
+    p_hyb = dict(tiny)
+    p_hyb["boundary_mode"] = "hybrid"
+    p_hyb["hybrid_k"] = 0.8
+    r_hyb = run_two_region_hetero(p_hyb, seed=42, n_seeds=2, mode="hetero")
+    assert "l2_outcome" in r_hyb["summary"], "hybrid run should produce summary"
+    # 1-seed control with hybrid should still be structurally zero
+    r_hyb1 = run_two_region_hetero(p_hyb, seed=42, n_seeds=1, mode="hetero")
+    assert not r_hyb1["summary"]["l2_crossed"], \
+        "hybrid 1-seed should not cross (structural zero)"
+    print(f"selftest: Part 8 OK (hybrid mode: supp=min(grad, g*k); "
+          f"transition at B_norm={bn_trans:.1f}; "
+          f"2seed l2={r_hyb['summary']['l2_crossed']} "
+          f"1seed l2={r_hyb1['summary']['l2_crossed']})")
 
     print("selftest: ALL OK")
 

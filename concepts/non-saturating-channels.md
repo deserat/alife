@@ -551,3 +551,20 @@ But the binary gate produces LESS L2 formation (g=0.5: 4/4→2/4). The gradient 
 **The 1-seed control is 0/4 at ALL gains in BOTH modes.** The structural specificity guarantee holds regardless of the suppression curve.
 
 **The persistence-formation trade-off.** Persistence (stability) and formation (L2 crossing) respond to different properties of the suppression curve: persistence needs full strength (binary); formation needs wide coverage (gradient). This is a new axis of the trade-off — not strength vs growth, but gradient vs binary. The missing ingredient is a boundary whose curve shape provides both wide coverage (formation) and full strength (persistence).
+
+## Session 32: The Hybrid Suppression Curve
+
+Queued-topic #99: a clipped gradient `supp = min(g * B_norm / (1 + B_norm), g * k)` — proportional at low B_norm (gradient coverage for formation) with a fixed plateau at g*k (stability without full-strength binary gate). The SVM hinge-loss-cap analogy: cap the loss to prevent overfitting (cap the suppression to prevent over-killing the crossing).
+
+**The hybrid cap PRESERVES the H7 crossing at g=0.9 where both proportional and decoupled lose it.** At g=0.9: proportional H7=0/4, decoupled H7=0/4, hybrid_k08 H7=4/4. The cap at g*k reduces max suppression below the crossing-killing threshold (transition between g*k=0.72 and 0.81). This refines Session 31's claim that "H7 is independent of the suppression curve": the crossing is independent of the curve SHAPE at a given max suppression, but NOT independent of the max suppression magnitude. H7 depends on max supp (g*k), not gain (g) or curve shape.
+
+**A new stable co-occurrence at g=0.9.** hybrid_k05 g=0.9 seed=123 achieves H7=YES + coexist + stable — the first stable co-occurrence at the highest gain with H7 preserved. Both pure modes lose H7 at g=0.9 (the gain that produces the most stable composition: decoupled stable=4/4 at g=0.9). The hybrid with low k extends H7 into the high-stability regime.
+
+**The hybrid produces MORE clean co-occurrences overall.** hybrid_k08: 5 clean (1 stable); hybrid_k07: 4 clean (2 stable); proportional: 4 clean (1 stable); hybrid_k05: 3 clean (2 stable); decoupled: 2 clean (1 stable); hybrid_k09: 2 clean (1 stable). The hybrid generates more composition events than either pure mode.
+
+**But the persistence-formation trade-off is only PARTIALLY broken.** At g=0.9: hybrid_k05 achieves stable (2/4) but L2=2/4; hybrid_k07/08 achieve L2=4/4 but stable=0/4. The trade-off shifts from "H7 vs stability" (proportional/decoupled) to "H7+L2 vs H7+stable" (hybrid). The full co-occurrence (H7 + L2 + stable + clean) remains 2/4 at best (hybrid_k07 at g=0.5, g=0.7) — the same ceiling as both pure modes.
+
+**The trade-off is about max suppression magnitude.** The hybrid's key insight: H7 depends on the max suppression (g*k), not the gain (g) or the curve shape. At g=0.9, proportional (max supp=0.9) and decoupled (max supp=0.9) both lose H7; hybrid_k08 (max supp=0.72) preserves it. The composition problem is not about finding the right curve shape — it's about the fundamental tension between max suppression high enough for stability and low enough for the crossing.
+
+**The cap as saturation prevention.** The hybrid cap is structurally analogous to MAX-MIN Ant System's τ_max bound (Stützle & Hoos, 2000): bounding the maximum value to prevent stagnation. The hybrid bounds the maximum suppression rather than the maximum pheromone, but the principle is the same: unbounded feedback kills the system; a cap preserves responsiveness. This connects to H11's two-wire principle: combining formation (gradient) and persistence (plateau) on one wire (the B field) partially works, but the tension persists because the cap constrains both.
+

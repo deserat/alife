@@ -911,31 +911,56 @@ to compare.
     the stability advantage of the binary (#99).
 
 99. **The hybrid suppression curve — combining gradient formation with
-    binary stability** — The decoupled sweep (Session 31) found binary
-    gates are more stable but less effective at formation, while
-    gradient gates are the reverse. A hybrid curve could combine both:
-    proportional at low B_norm (wide coverage for formation) with a
-    fixed plateau at high B_norm (full strength for persistence).
-    Candidate: `supp = min(g * B_norm / (1 + B_norm), g * k)` where k
-    is a plateau fraction (e.g. 0.8). This is the suppression-curve
-    analog of a soft-margin SVM with a hinge loss cap. Tests whether
-    the persistence-formation trade-off is truly about curve shape
-    or can be broken by a hybrid. Cheap: a variant of the decoupled
-    sweep with one more mode.
+     binary stability** — DONE (Session 32).
+     The hybrid `supp = min(g * B_norm / (1 + B_norm), g * k)` was
+     tested across 6 modes × 4 gains × 4 seeds (192 runs). Result:
+     the hybrid cap PRESERVES the H7 crossing at g=0.9 where both
+     proportional and decoupled lose it (hybrid_k08 H7=4/4 vs 0/4 for
+     both pure modes). The transition is between g*k=0.72 and 0.81.
+     A new stable co-occurrence at g=0.9 (hybrid_k05 seed=123:
+     H7=YES + coexist + stable) — the first at the highest gain.
+     The hybrid produces the most clean co-occurrences (5, hybrid_k08).
+     But the full co-occurrence ceiling (H7 + L2 + stable + clean)
+     remains 2/4 — the trade-off is only partially broken. The key
+     insight: H7 depends on max suppression magnitude (g*k), not gain
+     (g) or curve shape. The hybrid cap is analogous to MAX-MIN Ant
+     System's τ_max bound (Stützle & Hoos, 2000). See `hybrid_sweep.py`
+     and H7/H5/H6/H10/H11 Session-32 refinements. NEXT PRIORITY:
+     separate B fields for formation and persistence (#101), agent
+     movement restriction (#93).
 
-100. **The H7 crossing is independent of the suppression curve** —
-     Session 31 found H7 is identical between proportional and
-     decoupled modes at every gain. This is a new finding: the H7
-     crossing depends on overall structure growth (cells, stability,
-     roughness), not on how the boundary suppresses deposition. The
-     boundary affects WHERE structures grow, not WHETHER they cross.
-     This sharpens the separability claim from Session 26: the crossing
-     and composition are not just separable — the crossing is
-     invariant to the boundary mechanism. The boundary is a composition
-     mechanism (prevents merging) but not a crossing mechanism
-     (doesn't affect self-maintenance). This means the crossing can be
-     studied without any boundary at all, and the boundary can be
-     tuned without affecting the crossing — they are on truly separate
-     wires. Could be formalized as a principle: the H7 crossing is a
-     single-structure property; the boundary is a multi-structure
-     property; they operate on independent axes.
+100. **The H7 crossing depends on max suppression, not curve shape** —
+     REFINED (Session 32). Session 31 found H7 is identical between
+     proportional and decoupled modes at every gain, suggesting the
+     crossing is independent of the suppression curve. Session 32's
+     hybrid sweep refines this: the crossing IS independent of the
+     curve SHAPE at a given max suppression, but NOT independent of
+     the max suppression magnitude. At g=0.9, proportional (max
+     supp=0.9) and decoupled (max supp=0.9) both lose H7; hybrid_k08
+     (max supp=g*k=0.72) preserves it. The threshold is between
+     g*k=0.72 and 0.81. The crossing is a single-structure property;
+     the boundary is a multi-structure property; they operate on
+     independent axes — but the crossing's axis is max suppression,
+     not gain. The boundary can be tuned (curve shape, gain) without
+     affecting the crossing AS LONG AS the max suppression stays below
+     the threshold.
+
+## From Session 32 (2026-08-16)
+
+101. **Separate B fields for formation and persistence — the two-wire
+     principle's next test** — The hybrid curve (Session 32) combines
+     gradient formation and binary persistence on ONE wire (the same B
+     field). Result: partially works — H7 extends to g=0.9 — but the
+     formation-vs-persistence tension persists because the cap
+     constrains both. The next test: TWO B fields with separate growth/
+     decay dynamics — B_form (gradient, low gain, wide coverage for
+     formation) and B_persist (binary, high gain, strong plateau for
+     persistence). Deposit suppression = gradient(B_form) + binary
+     (B_persist). This would test whether the two-wire principle
+     requires truly separate channels (different fields, different
+     dynamics) or whether one field with a hybrid curve suffices.
+     Prediction: if separate fields break the trade-off (full
+     co-occurrence > 2/4), the two-wire principle is confirmed as a
+     design requirement. If not, the trade-off is more fundamental
+     than channel separation. Could be a sim14 variant: add a second
+     B field with its own growth/decay, sum the suppressions.
