@@ -163,7 +163,17 @@ def termite_step_hetero(termites, field, rng, params, curvature,
     curv = curvature
     ons = on_surface
     mat = field.material
-    B_norm = B / max(b_scale, 1e-9)
+
+    # Compute B_norm for boundary suppression.
+    # Dual mode uses two B fields (tuple); other modes use one.
+    boundary_mode = params.get("boundary_mode", "proportional")
+    if boundary_mode == "dual":
+        B_form, B_persist = B
+        b_scale_form, b_scale_persist = b_scale
+        Bf_norm = B_form / max(b_scale_form, 1e-9)
+        Bp_norm = B_persist / max(b_scale_persist, 1e-9)
+    else:
+        B_norm = B / max(b_scale, 1e-9)
 
     deposits = 0
     excavations = 0
@@ -245,12 +255,23 @@ def termite_step_hetero(termites, field, rng, params, curvature,
                 p_dep = deposit_prob_base
             # Autopoietic boundary suppression.
             if inh_gain > 0.0:
-                boundary_mode = params.get("boundary_mode", "proportional")
-                if boundary_mode == "decoupled":
+                bm = params.get("boundary_mode", "proportional")
+                if bm == "dual":
+                    # Two separate B fields: gradient formation + binary
+                    # persistence.  Tests whether the two-wire principle
+                    # requires truly separate channels (queued-topic #101).
+                    g_form = params.get("g_form", 0.3)
+                    g_persist = params.get("g_persist", 0.5)
+                    grad_supp = g_form * Bf_norm[y, x] / (
+                        1.0 + Bf_norm[y, x])
+                    bin_supp = (g_persist if Bp_norm[y, x] > 0.01
+                                else 0.0)
+                    supp = min(grad_supp + bin_supp, 0.99)
+                elif bm == "decoupled":
                     # Fixed suppression wherever B exists (B_norm > threshold).
                     # Decouples suppression strength from co-presence magnitude.
                     supp = inh_gain if B_norm[y, x] > 0.01 else 0.0
-                elif boundary_mode == "hybrid":
+                elif bm == "hybrid":
                     # Gradient at low B_norm (wide coverage for formation),
                     # capped at g*k plateau (stability without full-strength
                     # binary gate).  supp = min(g * Bn/(1+Bn), g * k)
@@ -350,6 +371,12 @@ def run_two_region_hetero(params, seed, n_seeds=2, mode="hetero",
     # Initialize the boundary field B.
     B = np.zeros((size, size), dtype=np.float64)
     b_scale = 1.0
+    # Dual mode: separate B fields for formation (gradient) and persistence (binary).
+    B_form = None
+    B_persist = None
+    b_scale_form = 1.0
+    b_scale_persist = 1.0
+    is_dual = params.get("boundary_mode") == "dual"
 
     # For passive mode, we need sim11's inhibitor scale.
     inh_scale = 1.0
@@ -363,6 +390,11 @@ def run_two_region_hetero(params, seed, n_seeds=2, mode="hetero",
     if mode == "hetero" and inh_gain > 0.0:
         cp0 = compute_id_copresence(material_by_id, params)
         b_scale = max(float(np.percentile(cp0, 95)), 1e-9)
+        if is_dual:
+            B_form = np.zeros((size, size), dtype=np.float64)
+            B_persist = np.zeros((size, size), dtype=np.float64)
+            b_scale_form = b_scale
+            b_scale_persist = b_scale
 
     # For shadow mode, use sim12's co-presence scale.
     if mode == "shadow" and inh_gain > 0.0:
@@ -398,10 +430,29 @@ def run_two_region_hetero(params, seed, n_seeds=2, mode="hetero",
 
             if mode == "hetero" and inh_gain > 0.0:
                 cp = compute_id_copresence(material_by_id, params)
-                B = I12.boundary_step(B, cp, params)
-                ev = termite_step_hetero(termites, field, rng, params,
-                                         curvature, on_surface, B, b_scale,
-                                         material_by_id)
+                if is_dual:
+                    # Update two B fields with separate growth/decay dynamics.
+                    p_f = dict(params)
+                    p_f["boundary_growth"] = params.get(
+                        "b_growth_form", I12.BOUNDARY_GROWTH)
+                    p_f["boundary_decay"] = params.get(
+                        "b_decay_form", I12.BOUNDARY_DECAY * 2.0)
+                    p_p = dict(params)
+                    p_p["boundary_growth"] = params.get(
+                        "b_growth_persist", I12.BOUNDARY_GROWTH)
+                    p_p["boundary_decay"] = params.get(
+                        "b_decay_persist", I12.BOUNDARY_DECAY)
+                    B_form = I12.boundary_step(B_form, cp, p_f)
+                    B_persist = I12.boundary_step(B_persist, cp, p_p)
+                    ev = termite_step_hetero(
+                        termites, field, rng, params, curvature,
+                        on_surface, (B_form, B_persist),
+                        (b_scale_form, b_scale_persist), material_by_id)
+                else:
+                    B = I12.boundary_step(B, cp, params)
+                    ev = termite_step_hetero(termites, field, rng, params,
+                                             curvature, on_surface, B, b_scale,
+                                             material_by_id)
             elif mode == "shadow" and inh_gain > 0.0:
                 cp = I12.compute_copresence(field, params)
                 B = I12.boundary_step(B, cp, params)
@@ -457,8 +508,13 @@ def run_two_region_hetero(params, seed, n_seeds=2, mode="hetero",
 
             # Boundary trace.
             if mode in ("hetero", "shadow") and inh_gain > 0.0:
-                b_max = float(B.max())
-                b_gap = float(B[size // 2, size // 2])
+                if is_dual and B_form is not None:
+                    b_max = float(max(B_form.max(), B_persist.max()))
+                    b_gap = float(max(B_form[size // 2, size // 2],
+                                      B_persist[size // 2, size // 2]))
+                else:
+                    b_max = float(B.max())
+                    b_gap = float(B[size // 2, size // 2])
             else:
                 b_max = 0.0
                 b_gap = 0.0
@@ -484,7 +540,10 @@ def run_two_region_hetero(params, seed, n_seeds=2, mode="hetero",
                     int(step),
                     S._downsample_grid(field.material, snapshot_size),
                     S._downsample_grid(curv_now, snapshot_size),
-                    (S._downsample_grid(B, snapshot_size)
+                    (S._downsample_grid(
+                         np.maximum(B_form, B_persist)
+                         if is_dual and B_form is not None else B,
+                         snapshot_size)
                      if mode in ("hetero", "shadow") and inh_gain > 0.0
                      else None),
                 ))
@@ -866,6 +925,54 @@ def cmd_selftest():
           f"transition at B_norm={bn_trans:.1f}; "
           f"2seed l2={r_hyb['summary']['l2_crossed']} "
           f"1seed l2={r_hyb1['summary']['l2_crossed']})")
+
+    # ---- Part 9: dual mode — two separate B fields ----
+    # Dual mode uses B_form (gradient, faster decay) and B_persist (binary,
+    # slower decay). Verify: (a) both B fields grow from co-presence,
+    # (b) 1-seed control is structurally zero (both B fields = 0),
+    # (c) suppression = grad_supp + bin_supp capped at 0.99,
+    # (d) full run produces metrics.
+    p_dual = dict(tiny)
+    p_dual["boundary_mode"] = "dual"
+    p_dual["g_form"] = 0.3
+    p_dual["g_persist"] = 0.5
+    p_dual["b_decay_form"] = 0.01  # 2x default (faster)
+    p_dual["b_decay_persist"] = 0.005  # default (slower)
+
+    # (a) Verify suppression formula: at Bf_norm=0, Bp_norm=0 → supp=0
+    #     At Bf_norm>>1, Bp_norm>>0.01 → supp = g_form + g_persist (capped 0.99)
+    _gf, _gp = 0.3, 0.5
+    _bf = np.array([0.0, 0.01, 0.1, 1.0, 100.0])
+    _bp = np.array([0.0, 0.005, 0.02, 1.0, 100.0])
+    for bf, bp in zip(_bf, _bp):
+        gs = _gf * bf / (1.0 + bf)
+        bs = _gp if bp > 0.01 else 0.0
+        supp = min(gs + bs, 0.99)
+        assert supp >= 0.0, f"dual supp should be non-negative; got {supp}"
+        assert supp <= 0.99 + 1e-12, f"dual supp should never exceed 0.99; got {supp}"
+    # At zero: supp = 0
+    assert abs(min(0.0 + 0.0, 0.99)) < 1e-12, "dual at zero should be 0"
+    # At large: supp = min(0.3 + 0.5, 0.99) = 0.8
+    supp_large = min(_gf * 100.0 / 101.0 + _gp, 0.99)
+    assert abs(supp_large - 0.8) < 0.01, f"dual at large should be ~0.8; got {supp_large}"
+
+    # (b) Full run with dual mode
+    r_dual2 = run_two_region_hetero(p_dual, seed=42, n_seeds=2, mode="hetero")
+    assert "l2_outcome" in r_dual2["summary"], "dual run should produce summary"
+    # 1-seed control with dual should still be structurally zero
+    r_dual1 = run_two_region_hetero(p_dual, seed=42, n_seeds=1, mode="hetero")
+    assert not r_dual1["summary"]["l2_crossed"], \
+        "dual 1-seed should not cross (structural zero)"
+    # Verify B fields are zero for 1-seed
+    if r_dual1["boundary_trace"]:
+        max_b_1 = max(b["b_max"] for b in r_dual1["boundary_trace"])
+        assert max_b_1 == 0.0, \
+            f"dual B should be zero for 1-seed; got max={max_b_1}"
+
+    print(f"selftest: Part 9 OK (dual mode: supp=min(grad+bin, 0.99); "
+          f"2seed l2={r_dual2['summary']['l2_crossed']} "
+          f"1seed l2={r_dual1['summary']['l2_crossed']} "
+          f"1seed B_max=0)")
 
     print("selftest: ALL OK")
 

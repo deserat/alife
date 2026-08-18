@@ -568,3 +568,17 @@ Queued-topic #99: a clipped gradient `supp = min(g * B_norm / (1 + B_norm), g * 
 
 **The cap as saturation prevention.** The hybrid cap is structurally analogous to MAX-MIN Ant System's τ_max bound (Stützle & Hoos, 2000): bounding the maximum value to prevent stagnation. The hybrid bounds the maximum suppression rather than the maximum pheromone, but the principle is the same: unbounded feedback kills the system; a cap preserves responsiveness. This connects to H11's two-wire principle: combining formation (gradient) and persistence (plateau) on one wire (the B field) partially works, but the tension persists because the cap constrains both.
 
+### Session 33: The dual mode — two-wire principle confirmed
+
+**Separate B fields with different dynamics break the persistence-formation trade-off for stability.** The dual mode uses two B fields: B_form (gradient suppression, faster decay 2× default — responsive, wide coverage for formation) and B_persist (binary suppression, slower decay 1× default — memory, plateau for persistence). Total suppression = min(g_form * Bf_norm/(1+Bf_norm) + g_persist * [Bp>0.01], 0.99).
+
+**Best config: dual f=0.3 p=0.3 (max_supp=0.60).** H7=4/4, L2=4/4, clean=2/4, **stable=3/4**. The 3/4 stable rate is the highest ever achieved with full H7 AND full L2. At the same L2 and clean rates as proportional g=0.5 (which had stable=0/4), stability improved from 0/4 to 3/4. The two-wire principle works: separate dynamics (faster decay for formation, slower for persistence) break the trade-off that single-wire modes (proportional, decoupled, hybrid) could not.
+
+**But the full co-occurrence (H7+clean+stable) is 1/4.** The 3/4 stable includes seeds where the composition is stable but not clean (fragmented, or merged at the end). The ceiling is about outcome quality, not stability.
+
+**The max suppression threshold holds across channel architectures.** H7=4/4 at max_supp ≤ 0.70, partial (1-2/4) at 0.80, 0/4 at ≥ 0.90. The threshold between 0.72 and 0.81 (Session 32) is independent of whether the boundary uses one wire or two.
+
+**The 1-seed control is 0/4 at ALL 9 configs.** Both B fields are structurally zero for a single seed (ID-tagged co-presence = 0 → both B_form and B_persist = 0).
+
+**The two-wire principle in its purest form.** The family of "separate wires" principles (two-wire #73, self-cancelling inhibitor #82, memory-specificity #86) all say the same thing: when two properties are carried on the same wire, saturating one destroys the other. The dual mode is the strongest confirmation: formation and persistence on the same B field (one wire) could not achieve 3/4 stable; on separate B fields with different dynamics, they can.
+

@@ -1522,3 +1522,13 @@ The hybrid suppression curve (`supp = min(g * B_norm / (1 + B_norm), g * k)`) co
 
 **The two-wire principle holds.** Combining formation (gradient) and persistence (plateau) on one wire (the B field) partially works — H7 extends to g=0.9 — but the tension persists because the cap constrains both. The wires may need to be truly separate: different B fields with different growth dynamics, not just different curve shapes on the same field. This is the next direction.
 
+### Session 33: The two-wire principle confirmed — separate B fields break the stability trade-off
+
+**The dual mode (two separate B fields with different dynamics) is the strongest confirmation of the two-wire principle.** B_form (gradient, faster decay 2×) for formation and B_persist (binary, slower decay 1×) for persistence. At f=0.3 p=0.3 (max_supp=0.60): H7=4/4, L2=4/4, clean=2/4, stable=3/4. The 3/4 stable rate is the highest ever with full H7 and L2 — up from 0/4 for proportional g=0.5 at the same L2 and clean rates. The separate dynamics are key: B_form's faster decay tracks current co-presence (responsive formation), B_persist's slower decay maintains the boundary (memory persistence). One-wire modes could not achieve this because the same B field's dynamics serve both functions.
+
+**But the full co-occurrence ceiling (H7+clean+stable) is 1/4.** The 3/4 stable includes seeds where the composition is stable but not clean (fragmented, or merged at the end). The two-wire principle breaks the stability trade-off but not the outcome-quality ceiling.
+
+**The max suppression threshold is channel-architecture-independent.** H7=4/4 at max_supp ≤ 0.70, 0/4 at ≥ 0.90. The threshold between 0.72 and 0.81 holds across single-wire and dual-wire boundaries.
+
+**Cross-domain connection: PID control.** The dual mode maps onto a PID controller: B_form (gradient, responsive) is the P (proportional) term — fast response to current error; B_persist (binary, memory) is the I (integral) term — accumulates over time for steady-state stability. The D (derivative) term is absent (no rate-of-change sensing). The persistence-formation trade-off is the classic P-I trade-off: fast response (P) overshoots and oscillates; integral (I) eliminates steady-state error but slows response. Two separate B fields with different dynamics is the analog of tuning P and I independently rather than with a single gain.
+

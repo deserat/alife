@@ -948,19 +948,57 @@ to compare.
 ## From Session 32 (2026-08-16)
 
 101. **Separate B fields for formation and persistence — the two-wire
-     principle's next test** — The hybrid curve (Session 32) combines
-     gradient formation and binary persistence on ONE wire (the same B
-     field). Result: partially works — H7 extends to g=0.9 — but the
-     formation-vs-persistence tension persists because the cap
-     constrains both. The next test: TWO B fields with separate growth/
-     decay dynamics — B_form (gradient, low gain, wide coverage for
-     formation) and B_persist (binary, high gain, strong plateau for
-     persistence). Deposit suppression = gradient(B_form) + binary
-     (B_persist). This would test whether the two-wire principle
-     requires truly separate channels (different fields, different
-     dynamics) or whether one field with a hybrid curve suffices.
-     Prediction: if separate fields break the trade-off (full
-     co-occurrence > 2/4), the two-wire principle is confirmed as a
-     design requirement. If not, the trade-off is more fundamental
-     than channel separation. Could be a sim14 variant: add a second
-     B field with its own growth/decay, sum the suppressions.
+     principle's next test** — DONE (Session 33).
+     The dual mode uses TWO B fields with separate growth/decay
+     dynamics — B_form (gradient, faster decay 2×) for formation
+     and B_persist (binary, slower decay 1×) for persistence.
+     Total suppression = min(g_form * Bf_norm/(1+Bf_norm) + g_persist
+     * [Bp>0.01], 0.99). Result: the two-wire principle BREAKS the
+     persistence-formation trade-off for stability. At dual f=0.3
+     p=0.3 (max_supp=0.60): H7=4/4, L2=4/4, clean=2/4, **stable=3/4**
+     — the highest stability rate ever with full H7 and L2. At the
+     same L2 and clean as proportional g=0.5 (stable=0/4), stability
+     improved 0/4 → 3/4. The dual mode dominates every single-wire
+     mode on every axis simultaneously. But the full co-occurrence
+     (H7+clean+stable) remains 1/4 — the outcome-quality ceiling is
+     not broken. The max suppression threshold (0.72–0.81) is
+     channel-architecture-independent. 1-seed control 0/4 at ALL 9
+     configs. Determinism verified. See `dual_sweep.py` and
+     H5/H6/H7/H10/H11 Session-33 refinements. NEXT PRIORITY: agent
+     movement restriction (#93), the outcome-quality ceiling
+     (fragmented/merged outcomes), the PID D-term (B_derivative).
+
+## From Session 33 (2026-08-18)
+
+102. **The outcome-quality ceiling — why is the composed state
+     fragmented or merged, not clean coexistence?** — The dual mode
+     achieves 3/4 stable with H7=4/4 and L2=4/4, but only 1/4 is
+     clean coexistence. The other stable seeds are "fragmented"
+     (multiple small components) or "merged at the end" (structures
+     held for most of the late window but merged in the final steps).
+     What mechanism ensures the composed state is two clean
+     structures, not fragmentation or late merging? Candidate:
+     agent movement restriction (#93) to concentrate each ID's
+     material, reducing boundary width and fragmentation. Or: a
+     repulsive force between the two structures that prevents late
+     merging.
+
+103. **The PID D-term — a B_derivative field** — The dual mode maps
+     onto a PID controller: B_form = P (proportional, responsive),
+     B_persist = I (integral, memory). The D (derivative) term is
+     absent. A B_derivative field that responds to the rate of
+     change of co-presence (growing when co-presence is rising,
+     decaying when falling) could provide anticipatory suppression —
+     strengthening the boundary before the structures actually merge,
+     not after. This might prevent the "merged at the end" outcome
+     (seed 999 at f=0.3 p=0.3) by detecting the merger trend early.
+     Could be a sim14 variant: B_deriv = d(co-presence)/dt, supp +=
+     g_deriv * sigmoid(B_deriv).
+
+104. **Finer g_form/g_persist resolution around the sweet spot** — The
+     sweep tested 3×3 (g_form × g_persist). The best config (f=0.3
+     p=0.3) has max_supp=0.60. A finer sweep (0.2, 0.25, 0.3, 0.35,
+     0.4 for each) might find a config with 4/4 stable or 2/4 full
+     co-occurrence. Also: test asymmetric decay rates (b_decay_form
+     = 3×, 4× default) to see if the decay ratio matters as much as
+     the gain ratio. Cheap: re-run the sweep at finer resolution.
