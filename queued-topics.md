@@ -832,14 +832,22 @@ to compare.
     a fixed constant, not B_norm.
 
 93. **Agent movement restriction — keeping agents near their structure** —
-    sim14 tags deposits but not movement: agents still wander freely on
-    the torus. Their deposits carry the right ID (so co-presence is
-    specific), but the spatial distribution of each ID's material is
-    still determined by wander. A movement bias (agents preferentially
-    move toward their own structure's center) would concentrate each ID's
-    material, reducing the boundary width and potentially the strength-
-    vs-growth trade-off. Tests whether agent fidelity needs both deposit
-    tagging AND movement restriction, or deposit tagging alone suffices.
+    DONE (Session 34).
+    sim14's movement_bias parameter (agents step toward home center when
+    not curvature-following) was swept at dual f=0.3 p=0.3:
+    bias [0.0, 0.3, 0.5, 0.7, 0.9] × 4 seeds × {2, 1} seeds. Result:
+    **movement_bias ≥ 0.3 produces 4/4 full co-occurrence** (H7+clean+stable)
+    — up from 1/4 at bias=0.0. The transition is sharp: 0.0→1/4, 0.3→4/4.
+    H7=4/4 at all bias values (crossing independent of agent distribution).
+    1-seed control 0/4 at all bias values. Agent wander was saturating the
+    co-presence signal (high everywhere, not just at the boundary);
+    movement_bias concentrates each ID's material, making the boundary
+    signal sharper. This breaks the outcome-quality ceiling that 11 boundary
+    mechanisms couldn't. Cross-domain: Richardson et al. (2022) found real
+    insects use local mechanisms (diffusivity adjustment, boundary effects),
+    not focal-point attraction. See `movement_sweep.py` and H5/H6/H7/H10
+    Session-34 refinements. NEXT PRIORITY: finer threshold sweep, local
+    movement mechanisms (#105), test at proportional mode (#106).
 
 94. **The strength-vs-growth trade-off as a general principle** — The
     memory-specificity trade-off (Sessions 27-28) was about temporal
@@ -1002,3 +1010,55 @@ to compare.
      co-occurrence. Also: test asymmetric decay rates (b_decay_form
      = 3×, 4× default) to see if the decay ratio matters as much as
      the gain ratio. Cheap: re-run the sweep at finer resolution.
+
+## From Session 34 (2026-08-20)
+
+105. **Local movement mechanisms — boundary effects and diffusivity
+     adjustment** — Richardson et al. (2022, Nature Comms) found that
+     real social insects achieve spatial fidelity through LOCAL
+     mechanisms, not focal-point attraction (our movement_bias). Two
+     candidate mechanisms: (a) boundary effects — agents turn back
+     when they encounter the B field (an agent at a high-B cell
+     reverses direction, staying within its home region); (b)
+     diffusivity adjustment — agents move with low diffusivity (small
+     steps) inside their home region and high diffusivity (large
+     steps) outside it. These are more biologically grounded than
+     focal-point attraction and might produce different (better or
+     worse) results. A boundary-effect mechanism would also close
+     the loop: the B field (grown from co-presence) influences agent
+     movement (agents stay in their region) which influences co-
+     presence (concentrated material) which influences B — a true
+     stigmergic feedback loop. TOP PRIORITY.
+
+106. **Finer movement_bias resolution around the threshold** — The
+     transition from 1/4 to 4/4 full co-occurrence happens between
+     bias=0.0 and 0.3. A finer sweep (0.05, 0.1, 0.15, 0.2, 0.25)
+     would locate the exact threshold and confirm it's a genuine
+     phase transition rather than a discretization artifact. Also:
+     8 seeds at the threshold for robustness. Cheap: re-run the
+     sweep at finer resolution.
+
+107. **Test movement_bias at proportional mode** — The movement sweep
+     was run only at dual f=0.3 p=0.3. Does movement_bias help with
+     single-wire boundaries (proportional g=0.5) too, or only with
+     the dual mode? If it helps equally, the agent distribution is
+     truly independent of the boundary mechanism. If it helps more
+     with the dual mode, there's an interaction between agent
+     distribution and channel architecture. Cheap: re-run the sweep
+     at proportional g=0.5 with the same bias values.
+
+108. **The three-wire principle as a general design principle** — The
+     family of "separate wires" principles now has five members: (1)
+     two-wire (#73): feedback signal and spatial signal on separate
+     channels; (2) self-cancelling inhibitor (#82): distant signal
+     and local signal on separate wires; (3) memory-specificity
+     (#86): persistence and specificity on separate wires; (4) dual
+     mode (S33): formation and persistence on separate B fields;
+     (5) agent distribution (S34): boundary and agent movement on
+     separate axes. All five say the same thing: when two properties
+     are carried on the same wire, saturating one destroys the other.
+     This deserves a formal write-up as a general design principle
+     for self-organizing systems. Could be added to CLAUDE.md §4
+     step 6 alongside the metric-ceiling (#61), stable_crossed (#65),
+     control-arm (#75), one-seed control (#80), and strength-vs-
+     growth (#94) rules.

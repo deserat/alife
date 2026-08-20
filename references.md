@@ -299,3 +299,10 @@ References will be accumulated through daily research.
 ### Alexandre Guillet, Frank Jülicher
 - "Continuous Game of Life: cell emergence and self-organization at the edge of growth" (arXiv:2607.27402, July 2026; to appear in Artificial Life)
 - A continuous-space, continuous-time Game of Life producing self-replicating, motile, dying cell-like patterns with 7 parameters. A global resource constraint (conservation law) drives self-organization to a phase transition boundary ("edge of growth") where morphologies are richest. Maps onto a reaction-diffusion system with homeostatic morphogen concentrations. Directly relevant to H1/H7 (trace→actor crossing — emergent cells are self-maintaining actors), H4 (dynamic environment — resource feedback), H11 (non-saturating channel — resource scarcity doesn't saturate). Reference code (Julia, GPLv3) at codeberg.org/A-Guillet/cGoL, cloned to simulations/cGoL_reference/. DOI: 10.48550/arXiv.2607.27402
+
+## Spatial Fidelity & Movement Mechanisms in Social Insects (Session 34)
+
+### Thomas O. Richardson, Nathalie Stroeymeyt, Andrea Crespi, Jean-Louis Deneubourg, Iain D. Couzin, Laurent Keller
+- "Two simple movement mechanisms for spatial division of labour in social insects" (Nature Communications, 2022, 13:6985)
+- Individual tracking experiments on four species of social insects. Colonies consist of different groups of workers that inhabit separate but partially-overlapping spatial zones. Worker movement is consistent with TWO LOCAL mechanisms: (1) locomotion adjustment — workers increase movement diffusivity outside their primary zone, and (2) boundary effects — workers modulate turning behaviour when approaching zone boundaries. Focal-point attraction (global bias toward a center point, our movement_bias) was NOT supported by the data. This is directly relevant to sim14's movement_bias: our simulation uses the simplest global mechanism, but the biological evidence suggests local mechanisms (boundary effects, diffusivity adjustment) are what real insects use. A boundary-effect mechanism (agents turn back at the B field) would be a biologically grounded next step.
+- DOI: 10.1038/s41467-022-34706-7

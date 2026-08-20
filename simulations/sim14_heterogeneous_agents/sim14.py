@@ -146,6 +146,10 @@ def termite_step_hetero(termites, field, rng, params, curvature,
     Mirrors sim12's termite_step_autopoietic exactly, except:
     - Deposits go into material_by_id[agent.id] as well as field.material
     - Excavations/pickups remove proportionally from both ID arrays
+    - Movement bias: when not curvature-following, agents with movement_bias>0
+      step toward their home region center (id=0 → left half, id=1 → right half).
+      This concentrates each ID's material, reducing boundary fragmentation
+      (queued-topic #93).
     """
     n = termites.n
     size = termites.size
@@ -159,6 +163,11 @@ def termite_step_hetero(termites, field, rng, params, curvature,
     pickup_prob_base = params.get("pickup_prob_base", S.PICKUP_PROB_BASE)
     inh_gain = params.get("inh_gain", 0.0)
     recruit_response = params.get("recruit_response", "linear")
+    movement_bias = params.get("movement_bias", 0.0)
+
+    # Home centers for each ID (used for movement bias).
+    mid = size // 2
+    home_x = [mid // 2, mid + mid // 2]  # id=0 → left center, id=1 → right center
 
     curv = curvature
     ons = on_surface
@@ -215,9 +224,20 @@ def termite_step_hetero(termites, field, rng, params, curvature,
             y = (y + best_dy) % size
             x = (x + best_dx) % size
         else:
-            dy, dx = S._MOORE[int(rng.integers(0, 8))]
-            y = (y + dy) % size
-            x = (x + dx) % size
+            if movement_bias > 0.0 and rng.random() < movement_bias:
+                # Biased step: move toward home region center.
+                hx = home_x[aid]
+                # Shortest toroidal distance in x.
+                dx_h = ((hx - x + size // 2) % size) - size // 2
+                # Step in x toward home (dx = sign(dx_h), dy = 0).
+                dx_step = 1 if dx_h > 0 else (-1 if dx_h < 0 else 0)
+                dy_step = int(rng.choice([-1, 0, 1]))
+                y = (y + dy_step) % size
+                x = (x + dx_step) % size
+            else:
+                dy, dx = S._MOORE[int(rng.integers(0, 8))]
+                y = (y + dy) % size
+                x = (x + dx) % size
         termites.y[i] = y
         termites.x[i] = x
 
