@@ -594,3 +594,30 @@ Queued-topic #99: a clipped gradient `supp = min(g * B_norm / (1 + B_norm), g * 
 
 **The three-wire principle.** The family of "separate wires" principles extends: (1) two-wire principle (#73): feedback signal and spatial signal on separate channels; (2) self-cancelling inhibitor (#82): distant signal and local signal on separate wires; (3) memory-specificity (#86): persistence and specificity on separate wires; (4) dual mode (S33): formation and persistence on separate B fields; (5) agent distribution (S34): boundary and agent movement on separate axes. All five say the same thing: when two properties are carried on the same wire, saturating one destroys the other.
 
+### Session 35: Local movement mechanisms — the stigmergic feedback loop is self-defeating
+
+**Biologically-grounded local movement mechanisms (Richardson et al. 2022) fail where global focal-point attraction succeeds.** Two local mechanisms that real social insects use were implemented: (1) boundary effects — agents turn back when they encounter the B field (closes a stigmergic loop: B → movement → co-presence → B); (2) locomotion adjustment — agents move slowly inside their home half, quickly outside.
+
+| mode | coexist | stable | clean | full | cells | b_max |
+|------|---------|--------|-------|------|-------|-------|
+| none (no restriction) | 2/4 | 3/4 | 2/4 | 1/4 | 2031 | ~48 |
+| focal (global, bias=0.3) | 4/4 | 4/4 | 4/4 | 4/4 | 1770 | ~33 |
+| boundary (local, stigmergic) | 0/4 | 0/4 | 0/4 | 0/4 | 951 | ~104 |
+| diffusivity (local, zone-based) | 1/4 | 1/4 | 1/4 | 0/4 | 2665 | ~48 |
+
+**The boundary mode is self-defeating — the stigmergic feedback loop over-amplifies B.** When agents turn back at high B, they concentrate material → increase co-presence → grow B → more agents turn back. This positive feedback pushes b_max to 70-203 (vs 30-50 for focal), fragmenting all structures (4/4 fragmented, 0/4 coexist). The B field serves double duty — deposit suppression AND agent movement — and the feedback amplifies B beyond what deposit suppression needs. This is the same pattern as H11's saturating cue channel: the feedback signal (B) and the spatial signal (agent distribution) on the SAME WIRE.
+
+**The focal mode succeeds because it uses SEPARATE wires.** B → deposit suppression (feedback signal); fixed home center → agent movement (spatial signal). The movement target doesn't depend on the emergent B field, so no feedback loop amplifies it.
+
+**The two-wire principle's sixth member: movement-wire decoupling.** The family now has six members:
+1. Two-wire (#73): feedback signal and spatial signal on separate channels
+2. Self-cancelling inhibitor (#82): distant signal and local signal on separate wires
+3. Memory-specificity (#86): persistence and specificity on separate wires
+4. Dual mode (S33): formation and persistence on separate B fields
+5. Agent distribution (S34): boundary and agent movement on separate axes
+6. Movement-wire decoupling (S35): deposit suppression and agent movement on separate signals
+
+**Cross-domain: Richardson et al. (2022) — real insects use local mechanisms with separate sensory channels.** Real social insects achieve spatial fidelity through local mechanisms (boundary effects, locomotion adjustment), but they have richer sensory channels (chemical blends on nest surfaces) that provide separate wires for zone identification vs. boundary detection. Our simulation's B field is the only available signal, so using it for both deposit suppression and agent movement creates the self-defeating loop. The biological lesson is not that local mechanisms fail — it's that local mechanisms require separate sensory channels to avoid the self-defeating feedback.
+
+**H7 crossing is 4/4 across ALL modes.** The crossing is independent not just of agent movement magnitude (Session 34) but of the movement MECHANISM. The 1-seed control is 0/4 at all modes.
+

@@ -164,10 +164,28 @@ def termite_step_hetero(termites, field, rng, params, curvature,
     inh_gain = params.get("inh_gain", 0.0)
     recruit_response = params.get("recruit_response", "linear")
     movement_bias = params.get("movement_bias", 0.0)
+    movement_mode = params.get("movement_mode", "focal")
+    boundary_threshold = params.get("boundary_threshold", 0.05)
 
     # Home centers for each ID (used for movement bias).
     mid = size // 2
     home_x = [mid // 2, mid + mid // 2]  # id=0 → left center, id=1 → right center
+
+    # For boundary/diffusivity modes, compute a combined B_norm for the
+    # local stigmergic signal the agent reads.
+    _bm = params.get("boundary_mode", "proportional")
+    if inh_gain > 0.0 and movement_mode in ("boundary", "diffusivity"):
+        if _bm == "dual":
+            _bf, _bp = B
+            _bsf, _bsp = b_scale
+            B_combined = np.maximum(_bf, _bp)
+            bs_combined = max(_bsf, _bsp)
+        else:
+            B_combined = B
+            bs_combined = b_scale
+        B_local = B_combined / max(bs_combined, 1e-9)
+    else:
+        B_local = None
 
     curv = curvature
     ons = on_surface
@@ -224,8 +242,49 @@ def termite_step_hetero(termites, field, rng, params, curvature,
             y = (y + best_dy) % size
             x = (x + best_dx) % size
         else:
-            if movement_bias > 0.0 and rng.random() < movement_bias:
-                # Biased step: move toward home region center.
+            if movement_mode == "boundary" and B_local is not None:
+                # Boundary effect (Richardson et al. 2022): agents at high-B
+                # cells turn back — step toward lower B.  This is stigmergic:
+                # the B field (grown from co-presence) influences agent
+                # movement, which concentrates material, which sharpens B.
+                if B_local[y, x] > boundary_threshold:
+                    best_dy = 0
+                    best_dx = 0
+                    best_b = B_local[y, x]
+                    for dy, dx in S._MOORE:
+                        yy = (y + dy) % size
+                        xx = (x + dx) % size
+                        if B_local[yy, xx] < best_b:
+                            best_b = B_local[yy, xx]
+                            best_dy = dy
+                            best_dx = dx
+                    y = (y + best_dy) % size
+                    x = (x + best_dx) % size
+                else:
+                    dy, dx = S._MOORE[int(rng.integers(0, 8))]
+                    y = (y + dy) % size
+                    x = (x + dx) % size
+            elif movement_mode == "diffusivity":
+                # Locomotion adjustment (Richardson et al. 2022): agents
+                # inside their home half move slowly (1-cell steps); agents
+                # outside take large steps toward home (high diffusivity).
+                in_home = (x < mid) if aid == 0 else (x >= mid)
+                if in_home:
+                    # Low diffusivity: 50% stay, 50% small step.
+                    if rng.random() < 0.5:
+                        dy, dx = S._MOORE[int(rng.integers(0, 8))]
+                        y = (y + dy) % size
+                        x = (x + dx) % size
+                else:
+                    # High diffusivity: 2-cell step toward home.
+                    hx = home_x[aid]
+                    dx_h = ((hx - x + size // 2) % size) - size // 2
+                    dx_step = 1 if dx_h > 0 else (-1 if dx_h < 0 else 0)
+                    dy_step = int(rng.choice([-1, 0, 1]))
+                    y = (y + dy_step) % size
+                    x = (x + dx_step * 2) % size
+            elif movement_bias > 0.0 and rng.random() < movement_bias:
+                # Focal-point attraction: move toward home region center.
                 hx = home_x[aid]
                 # Shortest toroidal distance in x.
                 dx_h = ((hx - x + size // 2) % size) - size // 2
@@ -993,6 +1052,56 @@ def cmd_selftest():
           f"2seed l2={r_dual2['summary']['l2_crossed']} "
           f"1seed l2={r_dual1['summary']['l2_crossed']} "
           f"1seed B_max=0)")
+
+    # ---- Part 10: local movement modes (boundary + diffusivity) ----
+    # Boundary mode: agents at high B turn back (stigmergic loop).
+    # Diffusivity mode: agents outside home half take large steps.
+    # Both must: (a) produce a valid run, (b) maintain 1-seed structural
+    # zero (boundary: B=0 so no effect; diffusivity: uses midline, fine),
+    # (c) be deterministic.
+
+    for mmode in ["boundary", "diffusivity"]:
+        p_mm = dict(tiny)
+        p_mm["boundary_mode"] = "dual"
+        p_mm["g_form"] = 0.3
+        p_mm["g_persist"] = 0.5
+        p_mm["movement_mode"] = mmode
+        p_mm["movement_bias"] = 0.0  # focal mode off; using local mode
+
+        # (a) Full run produces metrics
+        r_mm2 = run_two_region_hetero(p_mm, seed=42, n_seeds=2,
+                                       mode="hetero")
+        assert "l2_outcome" in r_mm2["summary"], \
+            f"{mmode} run should produce summary"
+
+        # (b) 1-seed control: B is structurally zero
+        r_mm1 = run_two_region_hetero(p_mm, seed=42, n_seeds=1,
+                                       mode="hetero")
+        assert not r_mm1["summary"]["l2_crossed"], \
+            f"{mmode} 1-seed should not cross (structural zero)"
+
+        # For boundary mode, verify B is zero for 1-seed (no boundary to
+        # turn back from — agents do pure random walk).
+        if mmode == "boundary" and r_mm1["boundary_trace"]:
+            max_b_1 = max(b["b_max"] for b in r_mm1["boundary_trace"])
+            assert max_b_1 == 0.0, \
+                f"boundary mode 1-seed B should be zero; got {max_b_1}"
+
+        # (c) Determinism
+        r_mm2b = run_two_region_hetero(p_mm, seed=42, n_seeds=2,
+                                        mode="hetero")
+        assert (r_mm2["summary"]["l2_crossed"]
+                == r_mm2b["summary"]["l2_crossed"]), \
+            f"{mmode} determinism: l2_crossed"
+        assert (r_mm2["summary"]["l2_outcome"]
+                == r_mm2b["summary"]["l2_outcome"]), \
+            f"{mmode} determinism: l2_outcome"
+
+        print(f"selftest: Part 10 OK ({mmode}: "
+              f"2seed l2={r_mm2['summary']['l2_crossed']} "
+              f"outcome={r_mm2['summary']['l2_outcome']} "
+              f"1seed l2={r_mm1['summary']['l2_crossed']} "
+              f"deterministic)")
 
     print("selftest: ALL OK")
 

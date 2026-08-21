@@ -1014,21 +1014,34 @@ to compare.
 ## From Session 34 (2026-08-20)
 
 105. **Local movement mechanisms — boundary effects and diffusivity
-     adjustment** — Richardson et al. (2022, Nature Comms) found that
-     real social insects achieve spatial fidelity through LOCAL
-     mechanisms, not focal-point attraction (our movement_bias). Two
-     candidate mechanisms: (a) boundary effects — agents turn back
-     when they encounter the B field (an agent at a high-B cell
-     reverses direction, staying within its home region); (b)
-     diffusivity adjustment — agents move with low diffusivity (small
-     steps) inside their home region and high diffusivity (large
-     steps) outside it. These are more biologically grounded than
+     adjustment** — DONE (Session 35).
+     Richardson et al. (2022, Nature Comms) found that real social
+     insects achieve spatial fidelity through LOCAL mechanisms, not
+     focal-point attraction (our movement_bias). Two candidate
+     mechanisms: (a) boundary effects — agents turn back when they
+     encounter the B field (an agent at a high-B cell reverses
+     direction, staying within its home region); (b) diffusivity
+     adjustment — agents move with low diffusivity (small steps)
+     inside their home region and high diffusivity (large steps)
+     outside it. These are more biologically grounded than
      focal-point attraction and might produce different (better or
      worse) results. A boundary-effect mechanism would also close
      the loop: the B field (grown from co-presence) influences agent
      movement (agents stay in their region) which influences co-
      presence (concentrated material) which influences B — a true
-     stigmergic feedback loop. TOP PRIORITY.
+     stigmergic feedback loop. RESULT: Both local mechanisms FAIL.
+     Boundary mode is self-defeating — the stigmergic feedback loop
+     (B → movement → co-presence → B) over-amplifies B (b_max 70-203
+     vs 30-50 for focal), fragmenting all structures (4/4 fragmented,
+     0/4 coexist). Diffusivity mode is worse than baseline (1/4 vs
+     2/4 coexist). The global focal-point attraction outperforms
+     both. The boundary mode's failure is the two-wire principle's
+     sixth instance: deposit suppression and agent movement on the
+     same signal create a self-defeating positive feedback. The
+     biological lesson: local mechanisms require separate sensory
+     channels (Richardson et al.) — our simulation lacks those
+     channels. See `local_movement_sweep.py` and H5/H6/H7/H10
+     Session-35 refinements.
 
 106. **Finer movement_bias resolution around the threshold** — The
      transition from 1/4 to 4/4 full co-occurrence happens between
@@ -1048,17 +1061,50 @@ to compare.
      at proportional g=0.5 with the same bias values.
 
 108. **The three-wire principle as a general design principle** — The
-     family of "separate wires" principles now has five members: (1)
+     family of "separate wires" principles now has six members: (1)
      two-wire (#73): feedback signal and spatial signal on separate
      channels; (2) self-cancelling inhibitor (#82): distant signal
      and local signal on separate wires; (3) memory-specificity
      (#86): persistence and specificity on separate wires; (4) dual
      mode (S33): formation and persistence on separate B fields;
      (5) agent distribution (S34): boundary and agent movement on
-     separate axes. All five say the same thing: when two properties
-     are carried on the same wire, saturating one destroys the other.
-     This deserves a formal write-up as a general design principle
-     for self-organizing systems. Could be added to CLAUDE.md §4
-     step 6 alongside the metric-ceiling (#61), stable_crossed (#65),
-     control-arm (#75), one-seed control (#80), and strength-vs-
-     growth (#94) rules.
+     separate axes; (6) movement-wire decoupling (S35): deposit
+     suppression and agent movement on separate signals. All six
+     say the same thing: when two properties are carried on the same
+     wire, the feedback amplifying one destroys the other. The sixth
+     adds a new dimension: when one signal is a feedback signal the
+     system generates from its own state, the positive feedback loop
+     doesn't just saturate — it actively amplifies until the structure
+     fragments. This deserves a formal write-up as a general design
+     principle for self-organizing systems. Could be added to
+     CLAUDE.md §4 step 6 alongside the metric-ceiling (#61),
+     stable_crossed (#65), control-arm (#75), one-seed control (#80),
+     and strength-vs-growth (#94) rules.
+
+## From Session 35 (2026-08-21)
+
+109. **Richer sensory channels — a second signal field for zone
+     identification** — The boundary mode's failure shows that local
+     mechanisms need separate sensory channels. Real insects have
+     chemical blends on nest surfaces, tactile cues, temperature
+     gradients — multiple signals for zone identification vs.
+     boundary detection. Our simulation has only one signal (the B
+     field). A second signal field (independent of B, e.g. a
+     "zone field" that marks each agent's home region) could provide
+     the separate wire that local mechanisms need. A boundary-effect
+     mechanism that reads the zone field (not B) for movement
+     decisions would close a DIFFERENT loop (zone → movement →
+     material concentration → co-presence → B → deposit suppression)
+     where the movement signal is independent of B. This could make
+     local mechanisms viable without the self-defeating feedback.
+
+110. **The stigmergic feedback loop as a control-theory instability —
+     formalizing the gain margin** — The boundary mode's
+     stigmergic loop (B → movement → co-presence → B) is a positive
+     feedback loop with gain > 1 (unstable). The focal mode breaks
+     the loop by making the movement signal exogenous (zero feedback
+     gain). Could formalize this as a transfer function: input =
+     deposit probability, output = structure growth, feedback =
+     boundary suppression, movement feedback = additional loop.
+     The gain margin would predict which movement modes are stable.
+     Could connect to queued-topic #96 (gain margin analogy).

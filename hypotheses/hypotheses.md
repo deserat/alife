@@ -2,8 +2,8 @@
 title: "Hypotheses"
 topic: "testable hypotheses for the multi-scale ALife composition project"
 status: active
-date: "2026-08-20"
-session: 34
+date: "2026-08-21"
+session: 35
 count: 11
 active: [H1, H2, H3, H4, H5, H6, H7, H8, H9, H10, H11]
 logs: ["logs/H1/", "logs/H2/", "logs/H3/", "logs/H4/", "logs/H5/", "logs/H6/", "logs/H7/", "logs/H8/", "logs/H9/", "logs/H10/", "logs/H11/"]
@@ -70,7 +70,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **For an emergent structure to persist as a new actor at a higher scale, it must be autopoietic — it must maintain the network that constitutes it.** Self-maintenance is the persistence condition. Without it, emergent structures are transient patterns, not new actors.
 
-**Status:** Refined (Session 34). Agent movement restriction (focal-point attraction) breaks the outcome-quality ceiling: full co-occurrence (H7+clean+stable) goes from 1/4 → 4/4 at movement_bias ≥ 0.3. The persistence-formation trade-off has three axes: (1) boundary curve shape (S31), (2) boundary channel dynamics (S33), (3) agent distribution (S34). The first two break the stability trade-off; the third breaks the outcome-quality ceiling. The 1-seed control is 0/4 at all bias values.
+**Status:** Refined (Session 35). The stigmergic feedback loop (B → movement → co-presence → B) is self-defeating: the boundary movement mode over-amplifies B (b_max 70-203 vs 30-50 for focal), fragmenting all structures (4/4 fragmented, 0/4 coexist). The persistence-formation trade-off's fourth axis is movement-wire coupling — when the movement mechanism reads the same field as deposit suppression, the positive feedback is self-defeating (sixth instance of the two-wire principle). Diffusivity mode also worse than baseline (1/4 vs 2/4). H7 crossing 4/4 across all modes. The 1-seed control is 0/4 at all modes.
 
 **Log:** [logs/H5/](logs/H5/)
 
@@ -80,7 +80,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **Complexification occurs when autopoietic systems interact stigmergically — through environmental modifications that persist and constrain.** The interaction network itself (mediated by stigmergic traces) becomes a candidate for higher-level autopoiesis.
 
-**Status:** Refined (Session 34). The two-wire principle extends to a third wire: agent distribution. The boundary (B field) and agent movement (movement_bias) are separate axes — both needed for clean composition. At dual f=0.3 p=0.3 with movement_bias ≥ 0.3: H7=4/4, L2=4/4, clean=4/4, stable=4/4 — the first time ALL four axes are simultaneously 4/4. Agent wander was saturating the co-presence signal; movement_bias sharpens the boundary by reducing spatial noise. Cross-domain: Richardson et al. (2022) — real insects use local mechanisms (diffusivity adjustment, boundary effects) for spatial fidelity, not focal-point attraction. The 1-seed control is 0/4 at all bias values.
+**Status:** Refined (Session 35). The stigmergic feedback loop (B → movement → co-presence → B) is self-defeating — the two-wire principle's sixth member. The boundary mode over-amplifies B (4/4 fragmented, 0/4 coexist) because the B field serves double duty (deposit suppression + agent movement). The focal mode succeeds because the movement target (fixed home center) is independent of B — separate wires. Real insects use local mechanisms with separate sensory channels; our simulation lacks those channels. Diffusivity mode also fails (1/4 vs 2/4). H7=4/4, 1-seed 0/4 across all modes.
 
 **Log:** [logs/H6/](logs/H6/)
 
@@ -92,7 +92,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **Current mechanism claim:** the crossing needs a non-saturating channel that *recruits* deposition as well as *limiting* it, not mere negative feedback through the cue field (see H11). The curvature channel (Facchini et al. 2020) is the strongest candidate: growth at convex tips recruits, biharmonic smoothing limits, and there is no saturating pheromone field in the model at all.
 
-**Status:** Refined ×23. H7 crossing is preserved at all movement_bias values (4/4) — independent of agent movement, curve shape, and channel architecture. The crossing is a single-structure property operating on a separate axis from agent distribution. At dual f=0.3 p=0.3 with movement_bias ≥ 0.3: H7=4/4, L2=4/4, clean=4/4, stable=4/4 — full co-occurrence 4/4. The crossing is robust to structure size reduction (cells: 2031→1375 from bias 0.0→0.9). Max suppression threshold (0.72–0.81) holds across all boundary architectures and agent movement regimes. The 1-seed control is 0/4 at all bias values.
+**Status:** Refined ×24. H7 crossing is preserved across ALL movement modes (focal, boundary, diffusivity, none — 4/4 each). The crossing is independent of the movement MECHANISM, not just the magnitude. Whether agents navigate globally, respond to the stigmergic B field, adjust diffusivity by zone, or wander freely, the single-structure crossing fires identically. Max suppression threshold (0.72–0.81) holds across all boundary architectures and movement regimes. The 1-seed control is 0/4 at all modes.
 
 **Evidence:**
 - sim06: near miss — stability 0.849–0.893 vs a 0.90 threshold; self-maintenance fragments instead of consolidating (H11's first data point). Detector-bug corrected 2026-07-27. Session 22: the saturating cue (as-built) crosses 16/16 stable without SM; the non-saturating cue crosses 0/16 stable without SM — cue-family reversal.
@@ -160,7 +160,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **Three paths, same failure:** Echo (CAS theory), chemical organizations (origin-of-life chemistry), and AlChemy (computational theory) all fail at multi-scale composition, from three different starting points — evidence the composition problem is fundamental, though sim05's leg of this argument is weaker post-correction.
 
-**Status:** Strengthened (Session 34). Agent movement restriction (twelfth mechanism) breaks the outcome-quality ceiling: full co-occurrence (H7+clean+stable) goes from 1/4 → 4/4 at movement_bias ≥ 0.3. The composition problem was about agent distribution, not just boundary design — 11 boundary mechanisms (Sessions 25-33) couldn't break the ceiling; agent fidelity does. Session 28's root cause (agent wander, not the spatial filter) confirmed and addressed. The 1-seed control is 0/4 at all bias values.
+**Status:** Refined (Session 35). Biologically-grounded local movement mechanisms (Richardson et al. 2022) fail: boundary mode is self-defeating (stigmergic feedback loop over-amplifies B — 4/4 fragmented, 0/4 coexist), diffusivity mode is weaker than baseline (1/4 coexist). The global focal-point attraction outperforms both. The boundary mode's failure is a sixth instance of the two-wire principle: the feedback signal (B) and the spatial signal (agent distribution) on the same wire create a self-defeating positive feedback. The 1-seed control is 0/4 at all modes.
 
 **Test:** Build a simulation with explicit composition mechanisms (stigmergic bridges between organizations, autopoietic boundaries, selection for composability) and compare to AlChemy without these mechanisms. Measure: does the version with composition mechanisms produce L2 where the plain version fails?
 
@@ -216,10 +216,10 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 | H2: ANT Translation | Unchanged | Theoretical, untested | [H2](logs/H2/) |
 | H3: Quasi-Object | Strengthened | Stigmergy literature support; Echo partial support | [H3](logs/H3/) |
 | H4: Dynamic Environment | Refined | Fitness landscape criticism supports this | [H4](logs/H4/) |
-| H5: Autopoiesis | Refined (S34) | sim14 dual+movement: full co-occurrence (H7+clean+stable) 1/4→4/4 at bias≥0.3; three trade-off axes: curve shape (S31), channel dynamics (S33), agent distribution (S34); 1-seed 0/4 | [H5](logs/H5/) |
-| H6: Multi-Scale Autopoiesis | Refined (S34) | sim14 dual+movement: three-wire principle (boundary + agent distribution); full co-occurrence 4/4 at bias≥0.3; agent wander was saturating co-presence; Richardson et al. (2022) cross-domain | [H6](logs/H6/) |
-| H7: Trace→Actor Crossing | Refined ×23; H7 preserved at all movement_bias (4/4); crossing independent of agent movement; full co-occurrence 4/4 at bias≥0.3; crossing robust to structure size reduction; max supp threshold holds across all regimes | Session 34 movement sweep: H7=4/4 at all bias values; crossing independent of agent distribution; Session 33 dual: H7=4/4 at max_supp≤0.70; Session 32 hybrid: H7 at g=0.9 via cap; Session 23: φ_sat 50% accurate; Session 22: 2×2 complete | [H7](logs/H7/) |
+| H5: Autopoiesis | Refined (S35) | sim14 local-movement: stigmergic feedback loop self-defeating (B→movement→co-presence→B over-amplifies B); boundary mode 4/4 fragmented; movement-wire coupling is trade-off's 4th axis; two-wire principle #6; H7 4/4 across all modes; 1-seed 0/4 | [H5](logs/H5/) |
+| H6: Multi-Scale Autopoiesis | Refined (S35) | sim14 local-movement: two-wire principle's 6th member (deposit suppression + agent movement on separate signals); boundary mode self-defeating (0/4 coexist); focal succeeds (fixed home center independent of B); real insects use separate sensory channels; diffusivity also fails (1/4); H7 4/4, 1-seed 0/4 | [H6](logs/H6/) |
+| H7: Trace→Actor Crossing | Refined ×24; H7=4/4 across ALL movement modes (focal, boundary, diffusivity, none); crossing independent of movement MECHANISM; 1-seed 0/4 at all modes | Session 35 local-movement sweep: H7=4/4 at all 4 modes; Session 34 movement sweep; Session 33 dual; Session 32 hybrid; Session 23: φ_sat 50% accurate; Session 22: 2×2 complete | [H7](logs/H7/) |
 | H8: Complexity Enables OEE | NEW | Kaznatcheev (2019), Wiser et al. (2013) | [H8](logs/H8/) |
 | H9: Evolving Network | Untested (2026-07-27 correction) | Vasas et al. (2012) literature support; sim04's finite-space exhaustion survives but doesn't test the claim; sim03/sim05 withdrawn | [H9](logs/H9/) |
-| H10: Unbounded Space Insufficiency | Strengthened (S34) | sim14 dual+movement: twelfth mechanism breaks outcome-quality ceiling (1/4→4/4); composition was about agent distribution not just boundary design; 11 boundary mechanisms couldn't break ceiling; agent fidelity does; 1-seed 0/4 | [H10](logs/H10/) |
+| H10: Unbounded Space Insufficiency | Refined (S35) | sim14 local-movement: boundary mode self-defeating (stigmergic loop over-amplifies B, 4/4 fragmented); diffusivity worse than baseline (1/4); global focal outperforms both local mechanisms; two-wire principle #6; 1-seed 0/4 | [H10](logs/H10/) |
 | H11: Saturating Channel | Directionally confirmed (4/4); causal with control arm; 2×2-complete; φ_sat predictor family-specific; two-wire principle confirmed (S33) | Session 33: two-wire principle confirmed — separate B fields break persistence-formation trade-off for stability; Session 23: φ_sat probe 50% accurate — deposit-probability saturation self-defeating only in cue channels | [H11](logs/H11/) |

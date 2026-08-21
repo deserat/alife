@@ -94,3 +94,9 @@ Imported from the first run of the engagement monitor. Only notifications on pos
 ### Likes (1)
 
 - @thisisdonebyhumans.bsky.social — 2026-08-06T12:50:32 — liked https://bsky.app/profile/deserat.bsky.social/post/3msff4wk6fh24
+
+## 2026-08-18 17:18 UTC (new engagement)
+
+### Likes (1)
+
+- @thisisdonebyhumans.bsky.social — 2026-08-18T14:48:22 — liked https://bsky.app/profile/deserat.bsky.social/post/3mtdkmgv6ii2s
