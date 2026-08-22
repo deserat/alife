@@ -34,12 +34,29 @@ tr:nth-child(even) { background: var(--card); }
 canvas { image-rendering: pixelated; border: 1px solid var(--border); }
 select, button { background: var(--card); color: var(--text); border: 1px solid var(--border); padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 0.9em; }
 select:hover, button:hover { border-color: var(--accent); }
-.controls { display: flex; gap: 12px; align-items: center; margin-bottom: 16px; }
+.controls { display: flex; gap: 12px; align-items: center; margin-bottom: 16px; flex-wrap: wrap; }
 .legend { display: flex; gap: 16px; flex-wrap: wrap; margin: 12px 0; font-size: 0.85em; }
 .legend-item { display: flex; align-items: center; gap: 6px; }
 .legend-swatch { width: 14px; height: 14px; border-radius: 2px; }
 .insight { background: var(--card); border-left: 3px solid var(--accent); padding: 12px 16px; margin: 16px 0; border-radius: 0 6px 6px 0; font-size: 0.95em; }
 .insight strong { color: var(--accent); }
+.bar-chart { display: flex; align-items: flex-end; gap: 4px; margin: 12px 0; height: 120px; padding: 8px 0; }
+.bar-group { display: flex; flex-direction: column; align-items: center; flex: 1; }
+.bar { width: 80%; border-radius: 3px 3px 0 0; transition: opacity 0.2s; min-height: 2px; }
+.bar:hover { opacity: 0.7; }
+.bar-label { font-size: 0.7em; color: #8b949e; margin-top: 4px; text-align: center; word-break: break-all; }
+.bar-value { font-size: 0.7em; color: var(--accent); margin-bottom: 2px; }
+.sweep-section { margin: 20px 0; padding: 16px; border: 1px solid var(--border); border-radius: 6px; background: rgba(22,27,34,0.5); }
+.sweep-section h3 { color: var(--accent); font-size: 1em; margin-bottom: 12px; }
+.sweep-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+.sweep-card { background: var(--card); border: 1px solid var(--border); border-radius: 6px; padding: 12px; }
+.sweep-card h4 { font-size: 0.85em; color: var(--text); margin-bottom: 8px; }
+.stat-row { display: flex; justify-content: space-between; font-size: 0.8em; padding: 2px 0; }
+.stat-label { color: #8b949e; }
+.stat-val { font-weight: 600; }
+.stat-val.good { color: var(--green); }
+.stat-val.bad { color: var(--red); }
+.stat-val.warn { color: var(--yellow); }
 </style>
 </head>
 <body>
@@ -97,35 +114,89 @@ select:hover, button:hover { border-color: var(--accent); }
   <div class="legend-item"><div class="legend-swatch" style="background:#f85149"></div>Boundary: strong</div>
 </div>
 
+<!-- Sweep comparison sections -->
+<h2>inh_gain Sweep — Boundary Strength vs Growth</h2>
+<p class="desc">5 inhibition gains × 4 seeds. Tests whether a stronger boundary enables or suppresses L2 composition. The trade-off: strong boundary suppresses the H7 crossing but enables clean composition.</p>
+<div id="inh-gain-section" class="sweep-grid"></div>
+
+<h2>Decoupled Boundary Sweep — Binary vs Gradient Suppression</h2>
+<p class="desc">2 modes (proportional, decoupled) × 4 gains × 4 seeds. Decoupled = fixed binary suppression; proportional = gradient. H7 unchanged between modes — the crossing is independent of the suppression curve.</p>
+<div id="decoupled-section" class="sweep-grid"></div>
+
+<h2>Dual B-field Sweep — Separate Formation and Persistence</h2>
+<p class="desc">3 formation gains × 3 persistence gains × 4 seeds. Two separate B fields: B_form (drives boundary growth from co-presence) and B_persist (maintains boundary through memory). Tests the two-wire principle.</p>
+<div id="dual-section" class="sweep-grid"></div>
+
+<h2>Hybrid Suppression Sweep — Combining Gradient and Binary</h2>
+<p class="desc">6 modes (proportional, decoupled, hybrid k=0.5/0.7/0.8/0.9) × 4 gains × 4 seeds. Hybrid blends gradient formation with binary stability. Tests whether the blend breaks the trade-off.</p>
+<div id="hybrid-section" class="sweep-grid"></div>
+
+<h2>Movement Bias Sweep — Restricting Agent Wander</h2>
+<p class="desc">5 bias levels (0.0–0.9) × 4 seeds. Agents biased toward their structure's centroid. Tests whether restricting wander improves clean composition by keeping agents local.</p>
+<div id="movement-section" class="sweep-grid"></div>
+
+<h2>Local Movement Sweep — Movement Mechanism Comparison</h2>
+<p class="desc">4 movement modes (none, focal, boundary, diffusivity) × 4 seeds. Tests whether local movement mechanisms can break the stigmergic feedback loop.</p>
+<div id="local-movement-section" class="sweep-grid"></div>
+
+<h2>Zone-Mode Sweep — Separate Sensory Channel for Movement</h2>
+<p class="desc">4 movement modes (none, focal, boundary, zone) × 4 seeds. Zone mode reads own-ID material (not B) for zone identification — breaking the stigmergic feedback loop. Tests whether a separate sensory channel makes local mechanisms viable.</p>
+<div id="zone-section" class="sweep-grid"></div>
+
 <script>
 let resultsData = null;
 let robustData = null;
 let currentSnapshots = [];
 let snapshotSize = 0;
 
+// ─── Data loading ───────────────────────────────────────────
 async function loadData() {
-  const [resRes, robRes] = await Promise.all([
+  const fetches = [
     fetch('results.json').then(r => r.json()),
-    fetch('output/robustness_sweep.json').then(r => r.json())
-  ]);
+    fetch('output/robustness_sweep.json').then(r => r.json()),
+  ];
+  // Load sweep files (may not all exist on all deployments)
+  const sweepFiles = {
+    'inhGain': 'output/inh_gain_sweep.json',
+    'decoupled': 'output/decoupled_sweep.json',
+    'dual': 'output/dual_sweep.json',
+    'hybrid': 'output/hybrid_sweep.json',
+    'movement': 'output/movement_sweep.json',
+    'localMovement': 'output/local_movement_sweep.json',
+    'zoneSweep': 'output/zone_sweep.json',
+  };
+  const sweepPromises = Object.entries(sweepFiles).map(([key, path]) =>
+    fetch(path).then(r => r.json()).catch(() => null)
+  );
+  const [resRes, robRes, ...sweeps] = await Promise.all(fetches.concat(sweepPromises));
   resultsData = resRes;
   robustData = robRes;
+  const sweepKeys = Object.keys(sweepFiles);
+  sweeps.forEach((data, i) => {
+    if (data) window[sweepKeys[i] + 'Data'] = data;
+  });
+
   populateMainTable();
   populateRobustTable();
-  populateConditionSelect();
+  populateSweepSections();
   loadSnapshot();
 }
 
+// ─── Helpers ────────────────────────────────────────────────
 function tag(val, yes='YES', no='NO', warn='WARN') {
   if (val === true) return `<span class="tag tag-yes">${yes}</span>`;
   if (val === false) return `<span class="tag tag-no">${no}</span>`;
   return `<span class="tag tag-warn">${val}</span>`;
 }
 
+function pct(n, d) { return `${n}/${d}`; }
+function fmt(v) { return v != null ? Number(v).toFixed(2) : '—'; }
+
+// ─── Main table ──────────────────────────────────────────────
 function populateMainTable() {
   const tbl = document.getElementById('main-table');
   const labels = [
-    ['hetero_2seed', 'Hetero Auto 2-seed'],
+    ['hetero_2seed', 'Hetero Auto 2-seeds'],
     ['hetero_1seed', 'Hetero Auto 1-seed (ctrl)'],
     ['passive_2seed', 'Passive 2-seed'],
     ['passive_1seed', 'Passive 1-seed (ctrl)'],
@@ -145,12 +216,13 @@ function populateMainTable() {
       <td>${tag(s.l2_stable)}</td>
       <td>${tag(s.crossed_h7)}</td>
       <td>${s.final_n_structure_cells}</td>
-      <td>${s.l2_left_retain?.toFixed(2) || '—'}</td>
-      <td>${s.l2_right_retain?.toFixed(2) || '—'}</td>`;
+      <td>${fmt(s.l2_left_retain)}</td>
+      <td>${fmt(s.l2_right_retain)}</td>`;
     tbl.appendChild(tr);
   }
 }
 
+// ─── Robustness table ────────────────────────────────────────
 function populateRobustTable() {
   const tbl = document.getElementById('robust-table');
   const modes = ['hetero', 'shadow', 'passive', 'none'];
@@ -172,7 +244,7 @@ function populateRobustTable() {
         if (te.l2_outcome === 'coexist' && oe.l2_outcome !== 'coexist') clean++;
       }
       const cleanStr = ns === 2 ? `${clean}/4` : '—';
-      tr = document.createElement('tr');
+      let tr = document.createElement('tr');
       tr.innerHTML = `<td>${mode}</td><td>${ns}</td>
         <td>${nCross}/4</td><td>${nCoexist}/4</td>
         <td>${nStable}/4</td><td>${nH7}/4</td><td>${cleanStr}</td>`;
@@ -181,11 +253,153 @@ function populateRobustTable() {
   }
 }
 
-function populateConditionSelect() {
-  const sel = document.getElementById('cond-select');
-  // Keep the current selection, just make sure snapshots load
+// ─── Sweep card builder ──────────────────────────────────────
+function buildSweepCard(label, entries2, entries1) {
+  if (!entries2 && !entries1) return '';
+  const e2 = entries2 || [];
+  const e1 = entries1 || [];
+  const nCross = e2.filter(e => e.l2_crossed).length;
+  const nCoexist = e2.filter(e => e.l2_outcome === 'coexist').length;
+  const nStable = e2.filter(e => e.l2_stable).length;
+  const nH7 = e2.filter(e => e.crossed_h7).length;
+  const nCtrl = e1.filter(e => e.l2_crossed).length;
+  const nCtrlCoexist = e1.filter(e => e.l2_outcome === 'coexist').length;
+  let clean = 0;
+  for (let i = 0; i < Math.min(e2.length, e1.length); i++) {
+    if (e2[i].l2_outcome === 'coexist' && e1[i].l2_outcome !== 'coexist') clean++;
+  }
+  const avgB = e2.length ? (e2.reduce((s, e) => s + (e.b_max || 0), 0) / e2.length).toFixed(1) : '—';
+  const avgCells = e2.length ? Math.round(e2.reduce((s, e) => s + (e.cells || 0), 0) / e2.length) : '—';
+
+  const cls = (n, d) => n === d ? 'good' : n === 0 ? 'bad' : 'warn';
+  return `<div class="sweep-card">
+    <h4>${label}</h4>
+    <div class="stat-row"><span class="stat-label">L2 crossed</span><span class="stat-val ${cls(nCross, e2.length)}">${nCross}/${e2.length}</span></div>
+    <div class="stat-row"><span class="stat-label">Coexist</span><span class="stat-val ${cls(nCoexist, e2.length)}">${nCoexist}/${e2.length}</span></div>
+    <div class="stat-row"><span class="stat-label">Stable</span><span class="stat-val ${cls(nStable, e2.length)}">${nStable}/${e2.length}</span></div>
+    <div class="stat-row"><span class="stat-label">H7 crossing</span><span class="stat-val ${cls(nH7, e2.length)}">${nH7}/${e2.length}</span></div>
+    <div class="stat-row"><span class="stat-label">Clean (2-seed coexist, 1-seed not)</span><span class="stat-val ${cls(clean, e2.length)}">${clean}/${e2.length}</span></div>
+    <div class="stat-row"><span class="stat-label">1-seed ctrl (coexist)</span><span class="stat-val ${nCtrlCoexist === 0 ? 'good' : 'bad'}">${nCtrlCoexist}/${e1.length || 4}</span></div>
+    <div class="stat-row"><span class="stat-label">Avg B_max</span><span class="stat-val">${avgB}</span></div>
+    <div class="stat-row"><span class="stat-label">Avg cells</span><span class="stat-val">${avgCells}</span></div>
+  </div>`;
 }
 
+function populateSweepSections() {
+  // inh_gain sweep
+  if (window.inhGainData) {
+    const d = window.inhGainData;
+    const gains = d.config.gains;
+    let html = '';
+    for (const g of gains) {
+      const key = String(g);
+      const ent = d[key];
+      if (!ent) continue;
+      html += buildSweepCard(`gain=${g}`, ent.hetero_2seed, ent.hetero_1seed);
+    }
+    const el = document.getElementById('inh-gain-section');
+    if (el) el.innerHTML = html;
+  }
+
+  // decoupled sweep
+  if (window.decoupledData) {
+    const d = window.decoupledData;
+    const modes = d.config.modes;
+    const gains = d.config.gains;
+    let html = '';
+    for (const mode of modes) {
+      for (const g of gains) {
+        const key = `${mode}_${g}`;
+        const ent = d[key];
+        if (!ent) continue;
+        html += buildSweepCard(`${mode} g=${g}`, ent.hetero_2seed, ent.hetero_1seed);
+      }
+    }
+    const el = document.getElementById('decoupled-section');
+    if (el) el.innerHTML = html;
+  }
+
+  // dual sweep
+  if (window.dualData) {
+    const d = window.dualData;
+    const gForms = d.config.g_forms;
+    const gPersists = d.config.g_persists;
+    let html = '';
+    for (const gf of gForms) {
+      for (const gp of gPersists) {
+        const key = `dual_f${gf}_p${gp}`;
+        const ent = d[key];
+        if (!ent) continue;
+        html += buildSweepCard(`f=${gf} p=${gp}`, ent.hetero_2seed, ent.hetero_1seed);
+      }
+    }
+    const el = document.getElementById('dual-section');
+    if (el) el.innerHTML = html;
+  }
+
+  // hybrid sweep
+  if (window.hybridData) {
+    const d = window.hybridData;
+    const modes = d.config.modes;
+    const gains = d.config.gains;
+    let html = '';
+    for (const mode of modes) {
+      for (const g of gains) {
+        const key = `${mode}_${g}`;
+        const ent = d[key];
+        if (!ent) continue;
+        html += buildSweepCard(`${mode} g=${g}`, ent.hetero_2seed, ent.hetero_1seed);
+      }
+    }
+    const el = document.getElementById('hybrid-section');
+    if (el) el.innerHTML = html;
+  }
+
+  // movement sweep
+  if (window.movementData) {
+    const d = window.movementData;
+    const biases = d.config.biases;
+    let html = '';
+    for (const b of biases) {
+      const key = `bias_${b}`;
+      const ent = d[key];
+      if (!ent) continue;
+      html += buildSweepCard(`bias=${b}`, ent.hetero_2seed, ent.hetero_1seed);
+    }
+    const el = document.getElementById('movement-section');
+    if (el) el.innerHTML = html;
+  }
+
+  // local movement sweep
+  if (window.localMovementData) {
+    const d = window.localMovementData;
+    const modes = d.config.modes;
+    let html = '';
+    for (const mode of modes) {
+      const ent = d[mode];
+      if (!ent) continue;
+      html += buildSweepCard(mode, ent.hetero_2seed, ent.hetero_1seed);
+    }
+    const el = document.getElementById('local-movement-section');
+    if (el) el.innerHTML = html;
+  }
+
+  // zone sweep
+  if (window.zoneSweepData) {
+    const d = window.zoneSweepData;
+    const modes = d.config.modes;
+    let html = '';
+    for (const mode of modes) {
+      const ent = d[mode];
+      if (!ent) continue;
+      html += buildSweepCard(mode, ent.hetero_2seed, ent.hetero_1seed);
+    }
+    const el = document.getElementById('zone-section');
+    if (el) el.innerHTML = html;
+  }
+}
+
+// ─── Snapshot visualization ─────────────────────────────────
 function loadSnapshot() {
   const condKey = document.getElementById('cond-select').value;
   const r = resultsData[condKey];
@@ -217,7 +431,6 @@ function drawSnapshot() {
     return;
   }
   const snap = currentSnapshots[snapIdx];
-  // Infer snapshot grid size from the material array length
   const n = snap.material.length;
   const sz = Math.round(Math.sqrt(n));
   snapshotSize = sz;

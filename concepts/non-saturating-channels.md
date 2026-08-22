@@ -621,3 +621,26 @@ Queued-topic #99: a clipped gradient `supp = min(g * B_norm / (1 + B_norm), g * 
 
 **H7 crossing is 4/4 across ALL modes.** The crossing is independent not just of agent movement magnitude (Session 34) but of the movement MECHANISM. The 1-seed control is 0/4 at all modes.
 
+### Session 36: Zone mode — separate sensory channel breaks the loop but doesn't recover composition
+
+**The zone mode gives agents a separate sensory channel: own-ID material (dilated) for zone identification, NOT B for deposit suppression.** Session 35 predicted that local mechanisms need separate sensory channels (Richardson et al. 2022). The zone mode implements this: agents read their own ID's material to determine zone membership, and B for deposit suppression. The movement signal (own-ID material) is independent of B — no B → movement feedback can amplify.
+
+| mode | coexist | stable | clean | full | cells | b_max |
+|------|---------|--------|-------|------|-------|-------|
+| none (no restriction) | 2/4 | 3/4 | 2/4 | 1/4 | 2030 | 47.9 |
+| focal (global, bias=0.3) | 4/4 | 4/4 | 4/4 | 4/4 | 1770 | 32.9 |
+| boundary (local, stigmergic) | 0/4 | 0/4 | 0/4 | 0/4 | 951 | 104.5 |
+| zone (separate channel) | 0/4 | 1/4 | 0/4 | 0/4 | 1873 | 50.2 |
+
+**The stigmergic feedback loop IS broken (b_max 50.2 ≈ none's 47.9 vs boundary's 104.5).** The zone mode's b_max is nearly identical to the no-restriction baseline — the B → movement → co-presence → B loop is absent. The boundary mode's 2× amplification was the loop's signature; the zone mode eliminates it. This confirms Session 35's diagnosis: the movement-wire coupling (not the movement mechanism per se) is the causal variable.
+
+**But composition is WORSE than no restriction (0/4 coexist vs 2/4 for "none").** The separate wire exists but carries a noisy signal. The zone signal (dilated own-ID material) is endogenous (depends on agent deposits) and diffuse (dilation spreads it). Agents outside their zone take large steps toward home; inside, small random steps. The large-step-outside rule fragments structures (3/4 fragmented). The focal mode's signal (fixed home center) is exogenous and precise — it tells agents exactly where to go.
+
+**The two-wire principle's seventh member: signal quality on the separate wire.** A separate wire with a noisy signal doesn't recover the function. Breaking the feedback loop is necessary but not sufficient — the replacement signal must also be precise enough to concentrate agents effectively. The focal mode's exogenous fixed-center signal is the gold standard; the zone mode's endogenous dilated-material signal is too coarse.
+
+**The 1-seed control: l2_crossed=0/4 (structural guarantee holds), but l2_outcome has a new leak (1/4 "coexist").** The movement restriction fragments the single-seed structure, creating components on both sides of the midline. The l2_crossed metric (sustained persistence) is 0/4, but the outcome classifier (final-state) flags "coexist" in 1/4. This is a new failure mode: the movement mechanism itself creates spurious multi-region components.
+
+**H7 crossing is 4/4 across all modes.** The crossing is independent of the movement mechanism and the movement signal quality. The 1-seed control is 0/4 on l2_crossed at all modes.
+
+**Determinism verified** (zone seed=42: fragmented, 2007 cells — identical across two runs).
+

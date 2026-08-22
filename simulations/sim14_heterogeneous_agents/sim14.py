@@ -166,6 +166,7 @@ def termite_step_hetero(termites, field, rng, params, curvature,
     movement_bias = params.get("movement_bias", 0.0)
     movement_mode = params.get("movement_mode", "focal")
     boundary_threshold = params.get("boundary_threshold", 0.05)
+    zone_threshold = params.get("zone_threshold", 0.1)
 
     # Home centers for each ID (used for movement bias).
     mid = size // 2
@@ -186,6 +187,16 @@ def termite_step_hetero(termites, field, rng, params, curvature,
         B_local = B_combined / max(bs_combined, 1e-9)
     else:
         B_local = None
+
+    # For zone mode, precompute the dilated own-ID material for each ID.
+    # The zone signal is own-ID material (not B), so the movement signal
+    # is independent of the deposit suppression signal — separate wires.
+    zone_dilated = None
+    if movement_mode == "zone":
+        zone_dilated = [
+            I13._dilate_no_x_wrap(material_by_id[0], DIRECT_RADIUS),
+            I13._dilate_no_x_wrap(material_by_id[1], DIRECT_RADIUS),
+        ]
 
     curv = curvature
     ons = on_surface
@@ -264,6 +275,30 @@ def termite_step_hetero(termites, field, rng, params, curvature,
                     dy, dx = S._MOORE[int(rng.integers(0, 8))]
                     y = (y + dy) % size
                     x = (x + dx) % size
+            elif movement_mode == "zone" and zone_dilated is not None:
+                # Zone mode (queued-topic #109): agents read their OWN ID's
+                # material (dilated) to determine zone boundaries — NOT the B
+                # field. This separates the movement signal (own-ID material)
+                # from the deposit suppression signal (B), breaking the
+                # stigmergic feedback loop that made boundary mode
+                # self-defeating (Session 35's sixth two-wire instance).
+                # If the agent is outside its own zone (own-ID material low),
+                # it takes a large step toward home; if inside, small steps.
+                own_zone = zone_dilated[aid]
+                if own_zone[y, x] < zone_threshold:
+                    # Outside zone — take large step toward home center.
+                    hx = home_x[aid]
+                    dx_h = ((hx - x + size // 2) % size) - size // 2
+                    dx_step = 1 if dx_h > 0 else (-1 if dx_h < 0 else 0)
+                    dy_step = int(rng.choice([-1, 0, 1]))
+                    y = (y + dy_step) % size
+                    x = (x + dx_step * 2) % size
+                else:
+                    # Inside zone — small random step (low diffusivity).
+                    if rng.random() < 0.5:
+                        dy, dx = S._MOORE[int(rng.integers(0, 8))]
+                        y = (y + dy) % size
+                        x = (x + dx) % size
             elif movement_mode == "diffusivity":
                 # Locomotion adjustment (Richardson et al. 2022): agents
                 # inside their home half move slowly (1-cell steps); agents
@@ -1060,7 +1095,7 @@ def cmd_selftest():
     # zero (boundary: B=0 so no effect; diffusivity: uses midline, fine),
     # (c) be deterministic.
 
-    for mmode in ["boundary", "diffusivity"]:
+    for mmode in ["boundary", "diffusivity", "zone"]:
         p_mm = dict(tiny)
         p_mm["boundary_mode"] = "dual"
         p_mm["g_form"] = 0.3

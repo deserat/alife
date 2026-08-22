@@ -1084,19 +1084,30 @@ to compare.
 ## From Session 35 (2026-08-21)
 
 109. **Richer sensory channels — a second signal field for zone
-     identification** — The boundary mode's failure shows that local
-     mechanisms need separate sensory channels. Real insects have
-     chemical blends on nest surfaces, tactile cues, temperature
-     gradients — multiple signals for zone identification vs.
-     boundary detection. Our simulation has only one signal (the B
-     field). A second signal field (independent of B, e.g. a
-     "zone field" that marks each agent's home region) could provide
-     the separate wire that local mechanisms need. A boundary-effect
-     mechanism that reads the zone field (not B) for movement
-     decisions would close a DIFFERENT loop (zone → movement →
-     material concentration → co-presence → B → deposit suppression)
-     where the movement signal is independent of B. This could make
-     local mechanisms viable without the self-defeating feedback.
+    identification** — DONE (Session 36).
+    The boundary mode's failure shows that local mechanisms need
+    separate sensory channels. Real insects have chemical blends on
+    nest surfaces, tactile cues, temperature gradients — multiple
+    signals for zone identification vs. boundary detection. Our
+    simulation has only one signal (the B field). A second signal
+    field (independent of B, e.g. a "zone field" that marks each
+    agent's home region) could provide the separate wire that local
+    mechanisms need. A boundary-effect mechanism that reads the zone
+    field (not B) for movement decisions would close a DIFFERENT loop
+    (zone → movement → material concentration → co-presence → B →
+    deposit suppression) where the movement signal is independent of
+    B. RESULT: The zone mode (agents read own-ID dilated material,
+    not B) broke the stigmergic feedback loop (b_max 50.2 ≈ none's
+    47.9 vs boundary's 104.5) but produced 0/4 coexist — WORSE than
+    no restriction (2/4). The separate wire exists but carries a
+    noisy signal: dilated own-ID material is diffuse and endogenous.
+    The two-wire principle's seventh member: a separate wire with a
+    noisy signal doesn't recover the function. The focal mode's
+    exogenous fixed-center signal remains the gold standard — it is
+    the only mechanism achieving 4/4 full co-occurrence. The 1-seed
+    l2_crossed=0/4 (structural guarantee holds); l2_outcome has a new
+    leak (1/4 "coexist" from movement-induced fragmentation). See
+    `zone_sweep.py` and H5/H6/H7/H10 Session-36 refinements.
 
 110. **The stigmergic feedback loop as a control-theory instability —
      formalizing the gain margin** — The boundary mode's
@@ -1108,3 +1119,42 @@ to compare.
      boundary suppression, movement feedback = additional loop.
      The gain margin would predict which movement modes are stable.
      Could connect to queued-topic #96 (gain margin analogy).
+
+## From Session 36 (2026-08-22)
+
+111. **A precise endogenous signal — can the zone signal be sharpened?** — The
+     zone mode's signal (dilated own-ID material) is too noisy. The
+     dilation radius (8) spreads the signal, making zone boundaries
+     diffuse. A sharper signal — e.g. a threshold on undilated own-ID
+     material (radius=0), or a smaller radius (2-3), or a gradient
+     rather than a threshold — might produce a more precise zone
+     boundary without the stigmergic feedback loop. Alternatively, a
+     decayed "scent trail" (own-ID material decayed at a faster rate
+     than the structure) might give a sharper boundary. Test: sweep
+     the dilation radius and the zone_threshold for the zone mode.
+
+112. **The l2_outcome leak — movement-induced fragmentation as a
+     false positive** — The zone mode's 1-seed control has
+     l2_crossed=0/4 (structural guarantee holds) but l2_outcome="coexist"
+     in 1/4. The movement restriction fragments the single-seed
+     structure, creating components on both sides of the midline.
+     The l2_crossed metric (sustained persistence) catches this;
+     the l2_outcome classifier (final-state) does not. This is a new
+     failure mode: the movement mechanism itself creates the
+     appearance of composition. Should the l2_outcome classifier
+     be hardened against this? Or is this a genuine limitation of
+     any movement-based zone mechanism?
+
+113. **The focal mode's exogenous advantage — why does a fixed
+     reference outperform endogenous signals?** — The focal mode
+     (4/4 full co-occurrence) uses a fixed home center that is
+     completely independent of the system state. The zone mode
+     (0/4 coexist) uses dilated own-ID material, which depends on
+     agent deposits. The focal mode's signal is noise-free; the
+     zone mode's signal is noisy. Is the focal mode's advantage
+     fundamentally about being exogenous (unreachable by the
+     feedback loop), or about being precise (noise-free)? A
+     noisy exogenous signal (e.g. a fixed home center with
+     Gaussian jitter) would distinguish these. If jitter kills
+     the advantage, precision is the key; if jitter is tolerated,
+     exogeneity (loop-breaking) is the key.
