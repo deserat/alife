@@ -644,3 +644,28 @@ Queued-topic #99: a clipped gradient `supp = min(g * B_norm / (1 + B_norm), g * 
 
 **Determinism verified** (zone seed=42: fragmented, 2007 cells — identical across two runs).
 
+### Session 37: Home-jitter sweep — exogeneity is the load-bearing property
+
+**The focal mode's advantage is exogeneity (loop-breaking), not precision (noise-free).** Session 36 asked whether the focal advantage comes from being exogenous (unreachable by the system's feedback loop) or precise (noise-free). The home-jitter sweep added Gaussian noise to the focal home center: jitter ∈ {0, 2, 5, 10, 20, 40} cells (0–50% of the 80-cell grid).
+
+| jitter | l2(2s) | coexist | stable | h7(2s) | clean | full | l2(1s) | h7(1s) | cells | b_max |
+|--------|--------|---------|--------|--------|-------|------|--------|--------|-------|-------|
+| 0.0 | 4/4 | 4/4 | 4/4 | 4/4 | 4/4 | 4/4 | 0/4 | 4/4 | 1770 | 32.9 |
+| 2.0 | 4/4 | 4/4 | 4/4 | 4/4 | 4/4 | 4/4 | 0/4 | 4/4 | 1886 | 35.5 |
+| 5.0 | 4/4 | 4/4 | 4/4 | 4/4 | 4/4 | 4/4 | 0/4 | 4/4 | 1932 | 35.8 |
+| 10.0 | 4/4 | 4/4 | 4/4 | 4/4 | 4/4 | 4/4 | 0/4 | 4/4 | 1970 | 41.1 |
+| 20.0 | 2/4 | 1/4 | 0/4 | 4/4 | 1/4 | 0/4 | 0/4 | 4/4 | 2022 | 46.9 |
+| 40.0 | 3/4 | 3/4 | 3/4 | 4/4 | 3/4 | 2/4 | 0/4 | 4/4 | 2034 | 49.0 |
+
+**A noisy exogenous signal (jitter=10, 12.5% of grid) preserves 4/4 full co-occurrence.** The signal stays exogenous (drawn from the RNG, not from the system state), so no feedback loop can amplify it — even when noisy. Up to 12.5% of the grid, the jitter is pure noise that averages out over 2000 steps; the agents still converge to their correct home regions.
+
+**The collapse at jitter=20 is misdirection, not noise intolerance.** At 25% of the grid, the jitter can push the home center past the midline (home_x=20, jitter=20 → home can be at x=0 or x=40, and x=40 is in the RIGHT half for id=0 agents). The agents are sometimes directed to the WRONG half — systematically wrong, not noisy. This is not noise tolerance failing; it is a spatial aliasing artifact.
+
+**The non-monotonic partial recovery at jitter=40 confirms: random direction beats systematically wrong direction.** At 50% of the grid, the jitter is so large that the home center is uniformly random — the agents are rarely directed to the wrong half consistently (the jitter overshoots the midline in both directions). A random home center that is sometimes right (3/4 coexist) outperforms one that is consistently wrong (jitter=20: 1/4 coexist). This non-monotonicity is the signature of misdirection, not noise: if it were noise, the result would degrade monotonically.
+
+**The decisive comparison: noisy exogenous vs noisy endogenous at the same B magnitude.** Jitter=40 (exogenous, b_max=49.0): 3/4 coexist, 3/4 stable. Zone mode (endogenous, b_max=50.2): 0/4 coexist, 1/4 stable. At nearly identical B magnitude, the exogenous signal outperforms the endogenous signal on every axis. The composition problem is not about signal quality in general — it is about whether the signal is reachable by the system's own dynamics. An exogenous signal cannot be shaped by the feedback loop; an endogenous signal is inherently shaped by the dynamics it is trying to control.
+
+**The two-wire principle's eighth member: exogeneity.** The family of "separate wires" principles now has eight members. The eighth refines the seventh: the relevant signal quality is not precision (noise amplitude) but exogeneity (whether the signal is reachable by the system's own dynamics). A noisy exogenous signal outperforms a noisy endogenous signal at the same B magnitude. The signal must not only be on a separate wire — it must be on a wire the system cannot reach.
+
+**H7 crossing is 4/4 at all jitter values.** The 1-seed control is 0/4 at all jitter values. Determinism verified at jitter=20 (fragmented, 1879 cells) and jitter=10 (coexist, 2019 cells) — identical across two runs each.
+

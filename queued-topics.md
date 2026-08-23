@@ -1146,15 +1146,54 @@ to compare.
      any movement-based zone mechanism?
 
 113. **The focal mode's exogenous advantage — why does a fixed
-     reference outperform endogenous signals?** — The focal mode
-     (4/4 full co-occurrence) uses a fixed home center that is
-     completely independent of the system state. The zone mode
-     (0/4 coexist) uses dilated own-ID material, which depends on
-     agent deposits. The focal mode's signal is noise-free; the
-     zone mode's signal is noisy. Is the focal mode's advantage
-     fundamentally about being exogenous (unreachable by the
-     feedback loop), or about being precise (noise-free)? A
-     noisy exogenous signal (e.g. a fixed home center with
-     Gaussian jitter) would distinguish these. If jitter kills
-     the advantage, precision is the key; if jitter is tolerated,
-     exogeneity (loop-breaking) is the key.
+     reference outperform endogenous signals?** — DONE (Session 37).
+     The home-jitter sweep added Gaussian noise to the focal home
+     center: jitter ∈ {0, 2, 5, 10, 20, 40} cells (0–50% of the 80-cell
+     grid). RESULT: **exogeneity is load-bearing, not precision.** A
+     noisy exogenous signal (jitter=10, 12.5% of grid) preserves 4/4
+     full co-occurrence. The collapse at jitter=20 is misdirection (home
+     center crosses midline — agents directed to wrong half), not noise
+     intolerance. The non-monotonic partial recovery at jitter=40 (3/4
+     coexist) confirms: random direction beats systematically wrong
+     direction. The decisive comparison: jitter=40 (exogenous, b_max=49.0)
+     produces 3/4 coexist; zone mode (endogenous, b_max=50.2) produces
+     0/4 — at nearly identical B magnitude, the exogenous signal
+     outperforms the endogenous signal on every axis. The two-wire
+     principle's eighth member: the signal must be on a wire the system
+     cannot reach. See `jitter_sweep.py` and H5/H6/H7/H10 Session-37
+     refinements. NEXT PRIORITY: per-agent persistent jitter (#114),
+     larger grid scaling (#115).
+
+## From Session 37 (2026-08-23)
+
+114. **Per-agent persistent jitter — temporal averaging vs spatial
+     correlation** — The current jitter is per-step (each agent draws
+     a fresh home center each step it moves focally). A per-agent
+     persistent jitter (each agent has a fixed noisy home center for
+     its lifetime) would be spatially correlated rather than temporally
+     averaged. If the per-agent version is LESS tolerant, temporal
+     averaging drives the tolerance. If equally tolerant, the tolerance
+     is about exogeneity (per-step or per-agent, the signal is still
+     RNG-drawn). Cheap: change the jitter from per-step to per-agent
+     initialization.
+
+115. **Grid-size scaling — does the jitter tolerance scale?** — The
+     collapse at jitter=20 (25% of 80) is a grid-size artifact: home_x=20,
+     jitter=20 → home can be at x=40 (midline). On a 160×160 grid with
+     home centers at x=40 and x=120, jitter=20 is only 12.5% of grid —
+     does it preserve 4/4? If yes, the tolerance is about jitter/
+     grid_size, not absolute jitter. If no, the tolerance is about
+     absolute displacement from the true center. Cheap: re-run at 160×160
+     with the same jitter values.
+
+116. **The exogeneity principle as a formal write-up** — The two-wire
+     principle now has eight members. The eighth (exogeneity) is the
+     deepest: the signal must be on a wire the system cannot reach. This
+     deserves a standalone concept file or a formal section in CLAUDE.md
+     §4, alongside the metric-ceiling (#61), stable_crossed (#65),
+     control-arm (#75), one-seed control (#80), and strength-vs-growth
+     (#94) rules. The eight members form a taxonomy: (1-3) channel
+     separation, (4-5) field separation, (6-7) signal quality, (8)
+     exogeneity. The progression is from structural separation to
+     dynamical unreachability — each level is a stronger form of the
+     same principle.

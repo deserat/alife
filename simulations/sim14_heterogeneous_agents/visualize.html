@@ -143,6 +143,10 @@ select:hover, button:hover { border-color: var(--accent); }
 <p class="desc">4 movement modes (none, focal, boundary, zone) × 4 seeds. Zone mode reads own-ID material (not B) for zone identification — breaking the stigmergic feedback loop. Tests whether a separate sensory channel makes local mechanisms viable.</p>
 <div id="zone-section" class="sweep-grid"></div>
 
+<h2>Home-Jitter Sweep — Exogenous vs Precise (queued-topic #113)</h2>
+<p class="desc">6 jitter levels (0–40) × 4 seeds. Gaussian noise on the focal home center. Tests whether the focal mode's advantage is exogeneity (loop-breaking, unreachable by system dynamics) or precision (noise-free). Jitter=10 (12.5% of grid) preserves 4/4 full co-occurrence; jitter=20 (25%) collapses composition.</p>
+<div id="jitter-section" class="sweep-grid"></div>
+
 <script>
 let resultsData = null;
 let robustData = null;
@@ -164,6 +168,7 @@ async function loadData() {
     'movement': 'output/movement_sweep.json',
     'localMovement': 'output/local_movement_sweep.json',
     'zoneSweep': 'output/zone_sweep.json',
+    'jitterSweep': 'output/jitter_sweep.json',
   };
   const sweepPromises = Object.entries(sweepFiles).map(([key, path]) =>
     fetch(path).then(r => r.json()).catch(() => null)
@@ -395,6 +400,21 @@ function populateSweepSections() {
       html += buildSweepCard(mode, ent.hetero_2seed, ent.hetero_1seed);
     }
     const el = document.getElementById('zone-section');
+    if (el) el.innerHTML = html;
+  }
+
+  // jitter sweep
+  if (window.jitterSweepData) {
+    const d = window.jitterSweepData;
+    const jitters = d.config.jitters;
+    let html = '';
+    for (const jit of jitters) {
+      const key = `jitter_${jit}`;
+      const ent = d[key];
+      if (!ent) continue;
+      html += buildSweepCard(`jitter=${jit}`, ent.hetero_2seed, ent.hetero_1seed);
+    }
+    const el = document.getElementById('jitter-section');
     if (el) el.innerHTML = html;
   }
 }

@@ -165,12 +165,15 @@ def termite_step_hetero(termites, field, rng, params, curvature,
     recruit_response = params.get("recruit_response", "linear")
     movement_bias = params.get("movement_bias", 0.0)
     movement_mode = params.get("movement_mode", "focal")
+    home_jitter = params.get("home_jitter", 0.0)  # Gaussian noise on focal home center
     boundary_threshold = params.get("boundary_threshold", 0.05)
     zone_threshold = params.get("zone_threshold", 0.1)
 
     # Home centers for each ID (used for movement bias).
+    # If home_jitter > 0, the home center is perturbed per-agent per-step
+    # by Gaussian noise — a noisy exogenous signal (queued-topic #113).
     mid = size // 2
-    home_x = [mid // 2, mid + mid // 2]  # id=0 → left center, id=1 → right center
+    home_x_base = [mid // 2, mid + mid // 2]  # id=0 → left center, id=1 → right center
 
     # For boundary/diffusivity modes, compute a combined B_norm for the
     # local stigmergic signal the agent reads.
@@ -287,7 +290,7 @@ def termite_step_hetero(termites, field, rng, params, curvature,
                 own_zone = zone_dilated[aid]
                 if own_zone[y, x] < zone_threshold:
                     # Outside zone — take large step toward home center.
-                    hx = home_x[aid]
+                    hx = home_x_base[aid]
                     dx_h = ((hx - x + size // 2) % size) - size // 2
                     dx_step = 1 if dx_h > 0 else (-1 if dx_h < 0 else 0)
                     dy_step = int(rng.choice([-1, 0, 1]))
@@ -312,7 +315,7 @@ def termite_step_hetero(termites, field, rng, params, curvature,
                         x = (x + dx) % size
                 else:
                     # High diffusivity: 2-cell step toward home.
-                    hx = home_x[aid]
+                    hx = home_x_base[aid]
                     dx_h = ((hx - x + size // 2) % size) - size // 2
                     dx_step = 1 if dx_h > 0 else (-1 if dx_h < 0 else 0)
                     dy_step = int(rng.choice([-1, 0, 1]))
@@ -320,7 +323,13 @@ def termite_step_hetero(termites, field, rng, params, curvature,
                     x = (x + dx_step * 2) % size
             elif movement_bias > 0.0 and rng.random() < movement_bias:
                 # Focal-point attraction: move toward home region center.
-                hx = home_x[aid]
+                # If home_jitter > 0, the home center is perturbed by
+                # Gaussian noise — a noisy exogenous signal (queued-topic
+                # #113). Tests whether the focal advantage is exogeneity
+                # (loop-breaking) or precision (noise-free).
+                hx = home_x_base[aid]
+                if home_jitter > 0.0:
+                    hx = int(round(hx + rng.normal(0, home_jitter))) % size
                 # Shortest toroidal distance in x.
                 dx_h = ((hx - x + size // 2) % size) - size // 2
                 # Step in x toward home (dx = sign(dx_h), dy = 0).
