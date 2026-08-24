@@ -147,6 +147,14 @@ select:hover, button:hover { border-color: var(--accent); }
 <p class="desc">6 jitter levels (0–40) × 4 seeds. Gaussian noise on the focal home center. Tests whether the focal mode's advantage is exogeneity (loop-breaking, unreachable by system dynamics) or precision (noise-free). Jitter=10 (12.5% of grid) preserves 4/4 full co-occurrence; jitter=20 (25%) collapses composition.</p>
 <div id="jitter-section" class="sweep-grid"></div>
 
+<h2>Jitter Mode Sweep — Per-Step vs Per-Agent (queued-topic #114)</h2>
+<p class="desc">2 jitter modes (per_step, per_agent) × 6 jitter levels (0–40) × 4 seeds. Per-step = fresh jitter each step (temporal averaging); per-agent = fixed at init (spatial correlation). Tests whether temporal averaging drives tolerance. Per-agent jitter=20 outperforms per-step (3/4 vs 1/4 coexist) — spatial correlation is more robust at high noise.</p>
+<div id="jitter-mode-section" class="sweep-grid"></div>
+
+<h2>Grid-Size Scaling Sweep (queued-topic #115)</h2>
+<p class="desc">2 grid sizes (80, 160) × 4 jitter levels (0–40) × 4 seeds. Tests whether jitter tolerance scales with grid size. Result: it does NOT — the 160×160 grid is worse at the same jitter fraction. The 1-seed l2 control leaks at larger grids. Tolerance is about absolute displacement, not jitter/grid fraction.</p>
+<div id="grid-size-section" class="sweep-grid"></div>
+
 <script>
 let resultsData = null;
 let robustData = null;
@@ -169,6 +177,8 @@ async function loadData() {
     'localMovement': 'output/local_movement_sweep.json',
     'zoneSweep': 'output/zone_sweep.json',
     'jitterSweep': 'output/jitter_sweep.json',
+    'jitterModeSweep': 'output/jitter_mode_sweep.json',
+    'gridSizeSweep': 'output/grid_size_sweep.json',
   };
   const sweepPromises = Object.entries(sweepFiles).map(([key, path]) =>
     fetch(path).then(r => r.json()).catch(() => null)
@@ -415,6 +425,43 @@ function populateSweepSections() {
       html += buildSweepCard(`jitter=${jit}`, ent.hetero_2seed, ent.hetero_1seed);
     }
     const el = document.getElementById('jitter-section');
+    if (el) el.innerHTML = html;
+  }
+
+  // jitter mode sweep
+  if (window.jitterModeSweepData) {
+    const d = window.jitterModeSweepData;
+    const modes = d.config.modes;
+    const jitters = d.config.jitters;
+    let html = '';
+    for (const mode of modes) {
+      for (const jit of jitters) {
+        const key = `${mode}_jitter_${jit}`;
+        const ent = d[key];
+        if (!ent) continue;
+        html += buildSweepCard(`${mode} jit=${jit}`, ent.hetero_2seed, ent.hetero_1seed);
+      }
+    }
+    const el = document.getElementById('jitter-mode-section');
+    if (el) el.innerHTML = html;
+  }
+
+  // grid-size sweep
+  if (window.gridSizeSweepData) {
+    const d = window.gridSizeSweepData;
+    const gridSizes = d.config.grid_sizes;
+    const jitters = d.config.jitters;
+    let html = '';
+    for (const gs of gridSizes) {
+      for (const jit of jitters) {
+        const key = `grid_${gs}_jitter_${jit}`;
+        const ent = d[key];
+        if (!ent) continue;
+        const frac = (jit / gs * 100).toFixed(1);
+        html += buildSweepCard(`grid=${gs} jit=${jit} (${frac}%)`, ent.hetero_2seed, ent.hetero_1seed);
+      }
+    }
+    const el = document.getElementById('grid-size-section');
     if (el) el.innerHTML = html;
   }
 }

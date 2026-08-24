@@ -669,3 +669,39 @@ Queued-topic #99: a clipped gradient `supp = min(g * B_norm / (1 + B_norm), g * 
 
 **H7 crossing is 4/4 at all jitter values.** The 1-seed control is 0/4 at all jitter values. Determinism verified at jitter=20 (fragmented, 1879 cells) and jitter=10 (coexist, 2019 cells) — identical across two runs each.
 
+
+### Session 38: Per-agent jitter and grid-size scaling — noise structure and density dependence
+
+**Per-agent persistent jitter reverses the mode advantage at high noise.** The per-step jitter (fresh noise each step) is temporally averaged — errors cancel over many steps. The per-agent jitter (fixed at init) is spatially correlated — the error is consistent. At jitter=10 (12.5%): per_step 4/4, per_agent 1/4 coexist — temporal averaging wins. At jitter=20 (25%): per_step 1/4, per_agent 3/4 coexist + 4/4 stable — spatial correlation wins. The crossover is non-monotonic.
+
+| mode | jitter | l2(2s) | coexist | stable | h7(2s) | clean | full | l2(1s) | h7(1s) | cells | b_max |
+|------|--------|--------|---------|--------|--------|-------|------|--------|--------|-------|-------|
+| per_step | 0.0 | 4/4 | 4/4 | 4/4 | 4/4 | 4/4 | 4/4 | 0/4 | 4/4 | 1770 | 32.9 |
+| per_step | 10.0 | 4/4 | 4/4 | 4/4 | 4/4 | 4/4 | 4/4 | 0/4 | 4/4 | 1970 | 41.1 |
+| per_step | 20.0 | 2/4 | 1/4 | 0/4 | 4/4 | 1/4 | 0/4 | 0/4 | 4/4 | 2022 | 46.9 |
+| per_step | 40.0 | 3/4 | 3/4 | 3/4 | 4/4 | 3/4 | 2/4 | 0/4 | 4/4 | 2034 | 49.0 |
+| per_agent | 0.0 | 4/4 | 4/4 | 4/4 | 4/4 | 4/4 | 4/4 | 0/4 | 4/4 | 1770 | 32.9 |
+| per_agent | 10.0 | 3/4 | 1/4 | 1/4 | 4/4 | 1/4 | 1/4 | 0/4 | 4/4 | 2145 | 40.3 |
+| per_agent | 20.0 | 4/4 | 3/4 | 4/4 | 4/4 | 3/4 | 3/4 | 0/4 | 4/4 | 2038 | 46.4 |
+| per_agent | 40.0 | 2/4 | 2/4 | 0/4 | 4/4 | 2/4 | 0/4 | 1/4 | 4/4 | 1954 | 47.7 |
+
+**Mechanism: consistency vs averaging.** At moderate noise, per-step's temporal averaging keeps the mean home center near the true center (errors cancel); per-agent's fixed error doesn't cancel, and some agents are systematically in the wrong half. At high noise, per-step's averaging breaks down (each step can cross the midline, scattering agents); per-agent's fixed error keeps material concentrated — the structure may be misplaced but doesn't fragment.
+
+**Grid-size does not scale the tolerance.** The 160×160 grid at jitter=20 (12.5% of 160, same fraction as 80×80 at jitter=10) produces 0/4 coexist and 0/4 H7. The same 150 termites on 4× the area produce sparser structures. The 1-seed l2 control leaks at 160×160 (2/4 at jit=20, 4/4 at jit=40).
+
+| grid | jitter | frac% | l2(2s) | coexist | stable | h7(2s) | clean | full | l2(1s) | h7(1s) | cells |
+|------|--------|-------|--------|---------|--------|--------|-------|------|--------|--------|-------|
+| 80 | 0.0 | 0.0% | 4/4 | 4/4 | 4/4 | 4/4 | 4/4 | 4/4 | 0/4 | 4/4 | 1770 |
+| 80 | 10.0 | 12.5% | 4/4 | 4/4 | 4/4 | 4/4 | 4/4 | 4/4 | 0/4 | 4/4 | 1970 |
+| 80 | 20.0 | 25.0% | 2/4 | 1/4 | 0/4 | 4/4 | 1/4 | 0/4 | 0/4 | 4/4 | 2022 |
+| 80 | 40.0 | 50.0% | 3/4 | 3/4 | 3/4 | 4/4 | 3/4 | 2/4 | 0/4 | 4/4 | 2034 |
+| 160 | 0.0 | 0.0% | 4/4 | 4/4 | 3/4 | 4/4 | 4/4 | 3/4 | 0/4 | 4/4 | 1674 |
+| 160 | 10.0 | 6.2% | 4/4 | 4/4 | 1/4 | 2/4 | 4/4 | 1/4 | 0/4 | 4/4 | 1685 |
+| 160 | 20.0 | 12.5% | 4/4 | 0/4 | 0/4 | 0/4 | 0/4 | 0/4 | 2/4 | 4/4 | 1216 |
+| 160 | 40.0 | 25.0% | 4/4 | 0/4 | 0/4 | 0/4 | 0/4 | 0/4 | 4/4 | 4/4 | 921 |
+
+**The tolerance is about absolute displacement relative to structure density, not jitter/grid fraction.** The composition problem is density-dependent: the same termite count on a larger grid produces sparser structures that are more vulnerable to fragmentation and to the 1-seed control leaking.
+
+**The two-wire principle's ninth member: noise structure on the exogenous wire.** The family now has nine members. The ninth refines the eighth: exogeneity is necessary but not sufficient — the noise structure (temporal vs spatial correlation) must match the noise magnitude. Temporal averaging at moderate noise, spatial correlation at high noise.
+
+**H7 crossing is 4/4 at 80×80 all conditions.** At 160×160, H7 drops with jitter (2/4 at jit=10, 0/4 at jit≥20) — a structure-density effect, not a crossing-mechanism effect. Determinism verified.

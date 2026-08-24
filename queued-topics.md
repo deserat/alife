@@ -1167,33 +1167,54 @@ to compare.
 ## From Session 37 (2026-08-23)
 
 114. **Per-agent persistent jitter — temporal averaging vs spatial
-     correlation** — The current jitter is per-step (each agent draws
-     a fresh home center each step it moves focally). A per-agent
-     persistent jitter (each agent has a fixed noisy home center for
-     its lifetime) would be spatially correlated rather than temporally
-     averaged. If the per-agent version is LESS tolerant, temporal
-     averaging drives the tolerance. If equally tolerant, the tolerance
-     is about exogeneity (per-step or per-agent, the signal is still
-     RNG-drawn). Cheap: change the jitter from per-step to per-agent
-     initialization.
+     correlation** — DONE (Session 38).
+     The current jitter is per-step (each agent draws a fresh home center
+     each step it moves focally). A per-agent persistent jitter (each
+     agent has a fixed noisy home center for its lifetime) is spatially
+     correlated rather than temporally averaged. RESULT: **the noise
+     structure matters, non-monotonically.** At jitter=10 (12.5% of
+     80-cell grid): per_step 4/4 full co-occurrence, per_agent 1/4
+     coexist — temporal averaging wins (errors cancel). At jitter=20
+     (25%): per_step 1/4 coexist 0/4 stable, per_agent 3/4 coexist 4/4
+     stable — spatial correlation wins (consistency prevents
+     fragmentation). The crossover is non-monotonic: at moderate noise
+     temporal averaging is better; at high noise spatial correlation is
+     better. The two-wire principle's ninth member: the noise structure
+     on the exogenous wire must match the noise magnitude. H7 4/4 at
+     all conditions at 80×80. 1-seed 0/4 at all conditions. See
+     `jitter_mode_sweep.py` and H5/H6/H7/H10 Session-38 refinements.
 
-115. **Grid-size scaling — does the jitter tolerance scale?** — The
-     collapse at jitter=20 (25% of 80) is a grid-size artifact: home_x=20,
+115. **Grid-size scaling — does the jitter tolerance scale?** — DONE
+     (Session 38).
+     The collapse at jitter=20 (25% of 80) is a grid-size artifact: home_x=20,
      jitter=20 → home can be at x=40 (midline). On a 160×160 grid with
      home centers at x=40 and x=120, jitter=20 is only 12.5% of grid —
-     does it preserve 4/4? If yes, the tolerance is about jitter/
-     grid_size, not absolute jitter. If no, the tolerance is about
-     absolute displacement from the true center. Cheap: re-run at 160×160
-     with the same jitter values.
+     does it preserve 4/4? RESULT: **it does NOT scale.** The 160×160
+     grid at jitter=20 (12.5%) produces 0/4 coexist, 0/4 H7 — worse
+     than 80×80 at 25%. The same 150 termites on 4× the area produce
+     sparser structures; the curvature channel has less material to
+     consolidate. The 1-seed l2 control leaks (2/4 at jit=20, 4/4 at
+     jit=40) because the sparser single structure spreads across the
+     midline. The tolerance is about absolute displacement relative to
+     structure density, not jitter/grid fraction. H7 drops at 160×160
+     with jitter≥10 — a density effect, not a crossing-mechanism effect.
+     See `grid_size_sweep.py` and H5/H6/H7/H10 Session-38 refinements.
+     NEXT PRIORITY: scale n_termites with grid area (150→600) to
+     maintain density and test whether the tolerance is truly
+     density-dependent.
 
 116. **The exogeneity principle as a formal write-up** — The two-wire
-     principle now has eight members. The eighth (exogeneity) is the
-     deepest: the signal must be on a wire the system cannot reach. This
+     principle now has nine members. The eighth (exogeneity) is the
+     deepest: the signal must be on a wire the system cannot reach. The
+     ninth (noise structure, Session 38) refines it: the noise on the
+     exogenous wire must match the noise magnitude — temporal averaging
+     at moderate noise, spatial correlation at high noise. This
      deserves a standalone concept file or a formal section in CLAUDE.md
      §4, alongside the metric-ceiling (#61), stable_crossed (#65),
      control-arm (#75), one-seed control (#80), and strength-vs-growth
-     (#94) rules. The eight members form a taxonomy: (1-3) channel
+     (#94) rules. The nine members form a taxonomy: (1-3) channel
      separation, (4-5) field separation, (6-7) signal quality, (8)
-     exogeneity. The progression is from structural separation to
-     dynamical unreachability — each level is a stronger form of the
-     same principle.
+     exogeneity, (9) noise structure. The progression is from
+     structural separation to dynamical unreachability to noise-
+     structure matching — each level is a stronger form of the same
+     principle.

@@ -98,7 +98,8 @@ class HeteroTermites:
     control, ALL agents get id=0.
     """
 
-    def __init__(self, n, size, rng, n_ids=2):
+    def __init__(self, n, size, rng, n_ids=2, home_jitter=0.0,
+                 jitter_mode="per_step"):
         self.n = n
         self.size = size
         self.x = rng.integers(0, size, n)
@@ -110,6 +111,20 @@ class HeteroTermites:
             half = n // 2
             self.id = np.zeros(n, dtype=np.int8)
             self.id[half:] = 1
+        # Per-agent persistent home centers (queued-topic #114).
+        # When jitter_mode == "per_agent", each agent gets a fixed noisy
+        # home center for its lifetime — spatially correlated noise,
+        # not temporally averaged.
+        mid = size // 2
+        base_homes = [mid // 2, mid + mid // 2]
+        self.home_x = np.empty(n, dtype=np.float64)
+        for i in range(n):
+            aid = int(self.id[i])
+            if jitter_mode == "per_agent" and home_jitter > 0.0:
+                self.home_x[i] = int(round(
+                    base_homes[aid] + rng.normal(0, home_jitter))) % size
+            else:
+                self.home_x[i] = base_homes[aid]
 
 
 # --------------------------------------------------------------------------#
@@ -166,6 +181,7 @@ def termite_step_hetero(termites, field, rng, params, curvature,
     movement_bias = params.get("movement_bias", 0.0)
     movement_mode = params.get("movement_mode", "focal")
     home_jitter = params.get("home_jitter", 0.0)  # Gaussian noise on focal home center
+    jitter_mode = params.get("jitter_mode", "per_step")  # per_step or per_agent
     boundary_threshold = params.get("boundary_threshold", 0.05)
     zone_threshold = params.get("zone_threshold", 0.1)
 
@@ -324,12 +340,15 @@ def termite_step_hetero(termites, field, rng, params, curvature,
             elif movement_bias > 0.0 and rng.random() < movement_bias:
                 # Focal-point attraction: move toward home region center.
                 # If home_jitter > 0, the home center is perturbed by
-                # Gaussian noise — a noisy exogenous signal (queued-topic
-                # #113). Tests whether the focal advantage is exogeneity
-                # (loop-breaking) or precision (noise-free).
-                hx = home_x_base[aid]
-                if home_jitter > 0.0:
-                    hx = int(round(hx + rng.normal(0, home_jitter))) % size
+                # Gaussian noise.  Two modes (queued-topic #114):
+                #   "per_step"  — fresh jitter each step (temporal averaging)
+                #   "per_agent" — fixed at init (spatially correlated)
+                if jitter_mode == "per_agent":
+                    hx = int(termites.home_x[i])
+                else:
+                    hx = home_x_base[aid]
+                    if home_jitter > 0.0:
+                        hx = int(round(hx + rng.normal(0, home_jitter))) % size
                 # Shortest toroidal distance in x.
                 dx_h = ((hx - x + size // 2) % size) - size // 2
                 # Step in x toward home (dx = sign(dx_h), dy = 0).
@@ -526,7 +545,11 @@ def run_two_region_hetero(params, seed, n_seeds=2, mode="hetero",
 
     # Create termites.
     if mode == "hetero":
-        termites = HeteroTermites(n, size, rng, n_ids=n_seeds)
+        home_jitter = params.get("home_jitter", 0.0)
+        jitter_mode = params.get("jitter_mode", "per_step")
+        termites = HeteroTermites(n, size, rng, n_ids=n_seeds,
+                                   home_jitter=home_jitter,
+                                   jitter_mode=jitter_mode)
     else:
         termites = S.Termites(n, size, rng)
 
@@ -1146,6 +1169,48 @@ def cmd_selftest():
               f"outcome={r_mm2['summary']['l2_outcome']} "
               f"1seed l2={r_mm1['summary']['l2_crossed']} "
               f"deterministic)")
+
+    print("selftest: ALL OK")
+
+    # ---- Part 11: per-agent jitter — persistent home centers ----
+    # Queued-topic #114: per-agent jitter assigns a fixed noisy home center
+    # at init (spatially correlated), vs per-step (temporal averaging).
+    # Verify: (a) per_agent run produces valid metrics, (b) 1-seed
+    # structural zero holds, (c) determinism holds, (d) home_x is set
+    # and varies across agents when jitter > 0.
+    p_pa = dict(tiny)
+    p_pa["home_jitter"] = 5.0
+    p_pa["jitter_mode"] = "per_agent"
+    p_pa["movement_bias"] = 0.3
+    r_pa2 = run_two_region_hetero(p_pa, seed=42, n_seeds=2, mode="hetero")
+    assert "l2_outcome" in r_pa2["summary"], "per_agent run should produce summary"
+
+    # (b) 1-seed structural zero
+    r_pa1 = run_two_region_hetero(p_pa, seed=42, n_seeds=1, mode="hetero")
+    assert not r_pa1["summary"]["l2_crossed"], \
+        "per_agent 1-seed should not cross (structural zero)"
+
+    # (c) Determinism
+    r_pa2b = run_two_region_hetero(p_pa, seed=42, n_seeds=2, mode="hetero")
+    assert (r_pa2["summary"]["l2_crossed"]
+            == r_pa2b["summary"]["l2_crossed"]), \
+        "per_agent determinism: l2_crossed"
+    assert (r_pa2["summary"]["l2_outcome"]
+            == r_pa2b["summary"]["l2_outcome"]), \
+        "per_agent determinism: l2_outcome"
+
+    # (d) Verify home_x varies across agents when jitter > 0
+    rng_test = S.make_rng(42)
+    t_test = HeteroTermites(20, 80, rng_test, n_ids=2,
+                            home_jitter=10.0, jitter_mode="per_agent")
+    n_unique_homes = len(set(t_test.home_x.tolist()))
+    assert n_unique_homes > 2, \
+        f"per_agent jitter should produce varied home centers; got {n_unique_homes} unique"
+
+    print(f"selftest: Part 11 OK (per_agent jitter: "
+          f"2seed l2={r_pa2['summary']['l2_crossed']} "
+          f"1seed l2={r_pa1['summary']['l2_crossed']} "
+          f"deterministic, {n_unique_homes} unique homes)")
 
     print("selftest: ALL OK")
 
