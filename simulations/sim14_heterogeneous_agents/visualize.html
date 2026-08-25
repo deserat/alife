@@ -155,6 +155,14 @@ select:hover, button:hover { border-color: var(--accent); }
 <p class="desc">2 grid sizes (80, 160) × 4 jitter levels (0–40) × 4 seeds. Tests whether jitter tolerance scales with grid size. Result: it does NOT — the 160×160 grid is worse at the same jitter fraction. The 1-seed l2 control leaks at larger grids. Tolerance is about absolute displacement, not jitter/grid fraction.</p>
 <div id="grid-size-section" class="sweep-grid"></div>
 
+<h2>PID D-Term Sweep — Anticipatory Suppression (queued-topic #103)</h2>
+<p class="desc">5 g_deriv levels (0–0.3) × 4 seeds. The D term responds to the rate of change of co-presence — strengthening the boundary BEFORE structures merge. Tests whether the PID D-term breaks the outcome-quality ceiling. Result: 4/4 full co-occurrence at ALL g_deriv — the D term is neutral at the optimal config (focal bias already achieves 4/4).</p>
+<div id="pid-section" class="sweep-grid"></div>
+
+<h2>PID D-Term Without Focal Bias — Substitution Test</h2>
+<p class="desc">5 g_deriv levels (0–0.5) × 4 seeds, NO focal bias. Tests whether the D term substitutes for agent locality. Without focal bias, dual mode achieves 1/4 full co-occurrence — does the D term recover it?</p>
+<div id="pid-no-focal-section" class="sweep-grid"></div>
+
 <script>
 let resultsData = null;
 let robustData = null;
@@ -179,6 +187,8 @@ async function loadData() {
     'jitterSweep': 'output/jitter_sweep.json',
     'jitterModeSweep': 'output/jitter_mode_sweep.json',
     'gridSizeSweep': 'output/grid_size_sweep.json',
+    'pidSweep': 'output/pid_sweep.json',
+    'pidNoFocalSweep': 'output/pid_no_focal_sweep.json',
   };
   const sweepPromises = Object.entries(sweepFiles).map(([key, path]) =>
     fetch(path).then(r => r.json()).catch(() => null)
@@ -462,6 +472,36 @@ function populateSweepSections() {
       }
     }
     const el = document.getElementById('grid-size-section');
+    if (el) el.innerHTML = html;
+  }
+
+  // PID sweep
+  if (window.pidSweepData) {
+    const d = window.pidSweepData;
+    const gDerivs = d.config.g_derivs;
+    let html = '';
+    for (const gd of gDerivs) {
+      const key = `gderiv_${gd}`;
+      const ent = d[key];
+      if (!ent) continue;
+      html += buildSweepCard(`g_deriv=${gd}`, ent.hetero_2seed, ent.hetero_1seed);
+    }
+    const el = document.getElementById('pid-section');
+    if (el) el.innerHTML = html;
+  }
+
+  // PID no-focal sweep
+  if (window.pidNoFocalSweepData) {
+    const d = window.pidNoFocalSweepData;
+    const gDerivs = d.config.g_derivs;
+    let html = '';
+    for (const gd of gDerivs) {
+      const key = `gderiv_${gd}`;
+      const ent = d[key];
+      if (!ent) continue;
+      html += buildSweepCard(`g_deriv=${gd} (no focal)`, ent.hetero_2seed, ent.hetero_1seed);
+    }
+    const el = document.getElementById('pid-no-focal-section');
     if (el) el.innerHTML = html;
   }
 }

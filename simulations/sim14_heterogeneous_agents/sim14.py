@@ -222,13 +222,20 @@ def termite_step_hetero(termites, field, rng, params, curvature,
     mat = field.material
 
     # Compute B_norm for boundary suppression.
-    # Dual mode uses two B fields (tuple); other modes use one.
+    # Dual mode uses two B fields (tuple); triple uses three (B_form, B_persist, B_deriv).
+    # Other modes use one.
     boundary_mode = params.get("boundary_mode", "proportional")
     if boundary_mode == "dual":
         B_form, B_persist = B
         b_scale_form, b_scale_persist = b_scale
         Bf_norm = B_form / max(b_scale_form, 1e-9)
         Bp_norm = B_persist / max(b_scale_persist, 1e-9)
+    elif boundary_mode == "triple":
+        B_form, B_persist, B_deriv = B
+        b_scale_form, b_scale_persist, b_scale_deriv = b_scale
+        Bf_norm = B_form / max(b_scale_form, 1e-9)
+        Bp_norm = B_persist / max(b_scale_persist, 1e-9)
+        Bd_norm = B_deriv / max(b_scale_deriv, 1e-9)
     else:
         B_norm = B / max(b_scale, 1e-9)
 
@@ -409,6 +416,22 @@ def termite_step_hetero(termites, field, rng, params, curvature,
                     bin_supp = (g_persist if Bp_norm[y, x] > 0.01
                                 else 0.0)
                     supp = min(grad_supp + bin_supp, 0.99)
+                elif bm == "triple":
+                    # PID triple: P (gradient formation) + I (binary persistence)
+                    # + D (derivative, anticipatory suppression).
+                    # The D term responds to the rate of change of co-presence:
+                    # strengthening the boundary BEFORE structures merge, not
+                    # after.  Tests queued-topic #103.
+                    g_form = params.get("g_form", 0.3)
+                    g_persist = params.get("g_persist", 0.3)
+                    g_deriv = params.get("g_deriv", 0.1)
+                    grad_supp = g_form * Bf_norm[y, x] / (
+                        1.0 + Bf_norm[y, x])
+                    bin_supp = (g_persist if Bp_norm[y, x] > 0.01
+                                else 0.0)
+                    deriv_supp = g_deriv * Bd_norm[y, x] / (
+                        1.0 + Bd_norm[y, x])
+                    supp = min(grad_supp + bin_supp + deriv_supp, 0.99)
                 elif bm == "decoupled":
                     # Fixed suppression wherever B exists (B_norm > threshold).
                     # Decouples suppression strength from co-presence magnitude.
@@ -514,11 +537,15 @@ def run_two_region_hetero(params, seed, n_seeds=2, mode="hetero",
     B = np.zeros((size, size), dtype=np.float64)
     b_scale = 1.0
     # Dual mode: separate B fields for formation (gradient) and persistence (binary).
+    # Triple mode: P (formation) + I (persistence) + D (derivative, anticipatory).
     B_form = None
     B_persist = None
+    B_deriv = None
     b_scale_form = 1.0
     b_scale_persist = 1.0
-    is_dual = params.get("boundary_mode") == "dual"
+    b_scale_deriv = 1.0
+    is_dual = params.get("boundary_mode") in ("dual", "triple")
+    is_triple = params.get("boundary_mode") == "triple"
 
     # For passive mode, we need sim11's inhibitor scale.
     inh_scale = 1.0
@@ -537,6 +564,9 @@ def run_two_region_hetero(params, seed, n_seeds=2, mode="hetero",
             B_persist = np.zeros((size, size), dtype=np.float64)
             b_scale_form = b_scale
             b_scale_persist = b_scale
+        if is_triple:
+            B_deriv = np.zeros((size, size), dtype=np.float64)
+            b_scale_deriv = b_scale  # initial scale; updated as D grows
 
     # For shadow mode, use sim12's co-presence scale.
     if mode == "shadow" and inh_gain > 0.0:
@@ -562,6 +592,7 @@ def run_two_region_hetero(params, seed, n_seeds=2, mode="hetero",
     snapshot_stride = max(1, round(expected_records / S.SNAPSHOT_TARGET_COUNT))
     raw_snapshots = []
     boundary_trace = []
+    cp_prev = None  # for triple mode (PID D-term)
 
     for step in range(steps):
         # --- perturbation ---
@@ -576,7 +607,50 @@ def run_two_region_hetero(params, seed, n_seeds=2, mode="hetero",
 
             if mode == "hetero" and inh_gain > 0.0:
                 cp = compute_id_copresence(material_by_id, params)
-                if is_dual:
+                if is_triple:
+                    # PID triple: P (formation), I (persistence), D (derivative).
+                    # The D term responds to the rate of change of co-presence —
+                    # strengthening the boundary BEFORE the structures merge.
+                    # B_deriv = g_deriv * max(0, cp − cp_prev), decayed each step.
+                    if cp_prev is None:
+                        cp_prev = np.zeros_like(cp)
+                    cp_delta = np.maximum(cp - cp_prev, 0.0)
+                    cp_prev = cp.copy()
+
+                    # Update B_form (P: gradient, faster decay).
+                    p_f = dict(params)
+                    p_f["boundary_growth"] = params.get(
+                        "b_growth_form", I12.BOUNDARY_GROWTH)
+                    p_f["boundary_decay"] = params.get(
+                        "b_decay_form", I12.BOUNDARY_DECAY * 2.0)
+                    # Update B_persist (I: binary, slower decay).
+                    p_p = dict(params)
+                    p_p["boundary_growth"] = params.get(
+                        "b_growth_persist", I12.BOUNDARY_GROWTH)
+                    p_p["boundary_decay"] = params.get(
+                        "b_decay_persist", I12.BOUNDARY_DECAY)
+                    # Update B_deriv (D: derivative, fastest decay).
+                    p_d = dict(params)
+                    p_d["boundary_growth"] = params.get(
+                        "b_growth_deriv", I12.BOUNDARY_GROWTH * 2.0)
+                    p_d["boundary_decay"] = params.get(
+                        "b_decay_deriv", I12.BOUNDARY_DECAY * 4.0)
+
+                    B_form = I12.boundary_step(B_form, cp, p_f)
+                    B_persist = I12.boundary_step(B_persist, cp, p_p)
+                    B_deriv = I12.boundary_step(B_deriv, cp_delta, p_d)
+
+                    # Update b_scale_deriv from B_deriv's current magnitude.
+                    bd_max = float(B_deriv.max())
+                    if bd_max > b_scale_deriv:
+                        b_scale_deriv = bd_max
+
+                    ev = termite_step_hetero(
+                        termites, field, rng, params, curvature,
+                        on_surface, (B_form, B_persist, B_deriv),
+                        (b_scale_form, b_scale_persist, b_scale_deriv),
+                        material_by_id)
+                elif is_dual:
                     # Update two B fields with separate growth/decay dynamics.
                     p_f = dict(params)
                     p_f["boundary_growth"] = params.get(
@@ -654,7 +728,13 @@ def run_two_region_hetero(params, seed, n_seeds=2, mode="hetero",
 
             # Boundary trace.
             if mode in ("hetero", "shadow") and inh_gain > 0.0:
-                if is_dual and B_form is not None:
+                if is_triple and B_form is not None:
+                    b_max = float(max(B_form.max(), B_persist.max(),
+                                      B_deriv.max()))
+                    b_gap = float(max(B_form[size // 2, size // 2],
+                                      B_persist[size // 2, size // 2],
+                                      B_deriv[size // 2, size // 2]))
+                elif is_dual and B_form is not None:
                     b_max = float(max(B_form.max(), B_persist.max()))
                     b_gap = float(max(B_form[size // 2, size // 2],
                                       B_persist[size // 2, size // 2]))
@@ -687,8 +767,10 @@ def run_two_region_hetero(params, seed, n_seeds=2, mode="hetero",
                     S._downsample_grid(field.material, snapshot_size),
                     S._downsample_grid(curv_now, snapshot_size),
                     (S._downsample_grid(
-                         np.maximum(B_form, B_persist)
-                         if is_dual and B_form is not None else B,
+                         np.maximum(np.maximum(B_form, B_persist), B_deriv)
+                         if is_triple and B_form is not None
+                         else (np.maximum(B_form, B_persist)
+                         if is_dual and B_form is not None else B),
                          snapshot_size)
                      if mode in ("hetero", "shadow") and inh_gain > 0.0
                      else None),
@@ -1211,6 +1293,67 @@ def cmd_selftest():
           f"2seed l2={r_pa2['summary']['l2_crossed']} "
           f"1seed l2={r_pa1['summary']['l2_crossed']} "
           f"deterministic, {n_unique_homes} unique homes)")
+
+    # ---- Part 12: triple mode (PID: P+I+D) — anticipatory suppression ----
+    # The D term responds to the rate of change of co-presence (cp_delta =
+    # max(0, cp - cp_prev)).  Tests queued-topic #103.  Verify:
+    # (a) full run produces metrics, (b) 1-seed structural zero holds
+    # (B_deriv grows from cp_delta which is zero for 1-seed since cp is
+    # always zero), (c) determinism, (d) suppression formula bounds.
+    p_tri = dict(tiny)
+    p_tri["boundary_mode"] = "triple"
+    p_tri["g_form"] = 0.3
+    p_tri["g_persist"] = 0.3
+    p_tri["g_deriv"] = 0.1
+    p_tri["b_decay_form"] = 0.01
+    p_tri["b_decay_persist"] = 0.005
+    p_tri["b_decay_deriv"] = 0.02
+    p_tri["b_growth_form"] = 0.1
+    p_tri["b_growth_persist"] = 0.1
+    p_tri["b_growth_deriv"] = 0.2
+    p_tri["movement_bias"] = 0.3
+    p_tri["movement_mode"] = "focal"
+
+    # (a) Full run produces metrics
+    r_tri2 = run_two_region_hetero(p_tri, seed=42, n_seeds=2,
+                                    mode="hetero")
+    assert "l2_outcome" in r_tri2["summary"], \
+        "triple run should produce summary"
+
+    # (b) 1-seed control: B is structurally zero (cp=0 → cp_delta=0 → B_deriv=0)
+    r_tri1 = run_two_region_hetero(p_tri, seed=42, n_seeds=1,
+                                    mode="hetero")
+    assert not r_tri1["summary"]["l2_crossed"], \
+        "triple 1-seed should not cross (structural zero)"
+    if r_tri1["boundary_trace"]:
+        max_b_1 = max(b["b_max"] for b in r_tri1["boundary_trace"])
+        assert max_b_1 == 0.0, \
+            f"triple 1-seed B should be zero; got max={max_b_1}"
+
+    # (c) Determinism
+    r_tri2b = run_two_region_hetero(p_tri, seed=42, n_seeds=2,
+                                     mode="hetero")
+    assert (r_tri2["summary"]["l2_crossed"]
+            == r_tri2b["summary"]["l2_crossed"]), \
+        "triple determinism: l2_crossed"
+    assert (r_tri2["summary"]["l2_outcome"]
+            == r_tri2b["summary"]["l2_outcome"]), \
+        "triple determinism: l2_outcome"
+
+    # (d) Verify the D-term suppression formula: at Bd_norm=0, deriv_supp=0.
+    # At Bd_norm >> 1, deriv_supp → g_deriv.  Total supp ≤ g_form + g_persist
+    # + g_deriv, capped at 0.99.
+    _gd = 0.1
+    for _bdn in [0.0, 0.01, 0.1, 1.0, 100.0]:
+        _ds = _gd * _bdn / (1.0 + _bdn)
+        assert 0.0 <= _ds <= _gd + 1e-12, \
+            f"deriv supp out of range: {_ds}"
+
+    print(f"selftest: Part 12 OK (triple PID: "
+          f"2seed l2={r_tri2['summary']['l2_crossed']} "
+          f"outcome={r_tri2['summary']['l2_outcome']} "
+          f"1seed l2={r_tri1['summary']['l2_crossed']} "
+          f"deterministic)")
 
     print("selftest: ALL OK")
 

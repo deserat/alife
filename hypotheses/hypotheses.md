@@ -70,7 +70,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **For an emergent structure to persist as a new actor at a higher scale, it must be autopoietic — it must maintain the network that constitutes it.** Self-maintenance is the persistence condition. Without it, emergent structures are transient patterns, not new actors.
 
-**Status:** Refined (Session 38). The per-agent jitter sweep found the noise structure matters: temporal averaging (per-step) wins at moderate noise (jitter=10: 4/4 vs 1/4 coexist), spatial correlation (per-agent) wins at high noise (jitter=20: 3/4 vs 1/4 coexist, 4/4 vs 0/4 stable). The persistence-formation trade-off's seventh axis: temporal vs spatial noise structure. Grid-size does not scale tolerance — 160×160 at 12.5% jitter = 0/4 (density-dependent, not fraction-dependent). H7 4/4 at 80×80; drops at 160×160 with jitter≥10. 1-seed l2 leaks at 160×160 (2/4 at jit=20, 4/4 at jit=40).
+**Status:** Refined (Session 39). The PID D-term sweep (16th mechanism) found endogenous anticipatory suppression is self-defeating: the D term (B_deriv from cp_delta) is neutral at the optimal config (4/4 full at all g_deriv with focal bias) but destructive without focal bias (stable 3/4→0/4, coexist 2/4→0/4). The persistence-formation trade-off's eighth axis: anticipatory vs reactive suppression. The two-wire principle's tenth member: an endogenous anticipatory signal amplifies oscillations rather than damping them.
 
 **Log:** [logs/H5/](logs/H5/)
 
@@ -80,7 +80,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **Complexification occurs when autopoietic systems interact stigmergically — through environmental modifications that persist and constrain.** The interaction network itself (mediated by stigmergic traces) becomes a candidate for higher-level autopoiesis.
 
-**Status:** Refined (Session 38). The two-wire principle's ninth member: the noise structure on the exogenous wire (temporal vs spatial) must match the noise magnitude — per-step averaging at moderate noise, per-agent correlation at high noise. Grid-size does not scale the tolerance (160×160 at 12.5% = 0/4). H7 4/4 at all conditions at 80×80. 1-seed l2 leaks at 160×160 (2/4).
+**Status:** Refined (Session 39). The two-wire principle's tenth member: an endogenous anticipatory signal (PID D-term, B_deriv from cp_delta) is self-defeating — it amplifies co-presence oscillations rather than damping them. The D term is neutral at the optimal config (focal bias provides the exogenous wire) but destructive without it (stable 3/4→0/4 at g_deriv=0.1). The D term is the temporal analog of the boundary mode's spatial failure (Session 35): both read an endogenous signal for suppression decisions, both create self-amplifying loops.
 
 **Log:** [logs/H6/](logs/H6/)
 
@@ -92,7 +92,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **Current mechanism claim:** the crossing needs a non-saturating channel that *recruits* deposition as well as *limiting* it, not mere negative feedback through the cue field (see H11). The curvature channel (Facchini et al. 2020) is the strongest candidate: growth at convex tips recruits, biharmonic smoothing limits, and there is no saturating pheromone field in the model at all.
 
-**Status:** Refined ×27. H7 crossing is preserved across both jitter modes at 80×80 (4/4 at per_step/per_agent jitter 0-20). Grid-size scaling: H7 drops at 160×160 with jitter≥10 (structure-density effect, not crossing-mechanism). 1-seed l2 leaks at 160×160 (2/4 at jit=20, 4/4 at jit=40). The crossing is a single-structure property; grid size affects structure formation, not the crossing. Max suppression threshold (0.72–0.81) holds across all boundary architectures and movement regimes.
+**Status:** Refined ×28. PID D-term: neutral at optimal config (4/4 full co-occurrence at all g_deriv 0.0–0.3 with focal bias=0.3). Without focal bias: destructive — stable 3/4→0/4 at g_deriv=0.1, coexist 2/4→0/4 at g_deriv=0.3. The D term is endogenous (cp_delta from system state) — the two-wire principle's tenth instance. Max suppression threshold (0.72–0.81) holds across all boundary architectures and movement regimes. The crossing is a single-structure property; grid size affects structure formation, not the crossing.
 
 **Evidence:**
 - sim06: near miss — stability 0.849–0.893 vs a 0.90 threshold; self-maintenance fragments instead of consolidating (H11's first data point). Detector-bug corrected 2026-07-27. Session 22: the saturating cue (as-built) crosses 16/16 stable without SM; the non-saturating cue crosses 0/16 stable without SM — cue-family reversal.
@@ -160,7 +160,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **Three paths, same failure:** Echo (CAS theory), chemical organizations (origin-of-life chemistry), and AlChemy (computational theory) all fail at multi-scale composition, from three different starting points — evidence the composition problem is fundamental, though sim05's leg of this argument is weaker post-correction.
 
-**Status:** Refined (Session 38). The per-agent jitter sweep (fifteenth mechanism) found the noise structure matters: temporal averaging wins at moderate noise, spatial correlation at high noise. Grid-size does not scale tolerance — 160×160 at 12.5% jitter = 0/4 (density-dependent, not fraction-dependent). The composition problem's missing ingredient is an exogenous movement signal with noise structure matched to the noise magnitude. H7 4/4 at 80×80; drops at 160×160 with jitter≥10. 1-seed l2 leaks at 160×160.
+**Status:** Refined (Session 39). PID D-term (16th mechanism): endogenous anticipatory suppression is self-defeating — neutral at optimal config (4/4 full at all g_deriv with focal bias), destructive without it (stable 3/4→0/4, coexist 2/4→0/4). The two-wire principle's tenth instance: the D term reads the system's own state. The composition problem's missing ingredient is an exogenous signal, not anticipatory dynamics. Sixteen mechanisms tested; the exogenous focal bias remains the only one achieving 4/4 full co-occurrence.
 
 **Test:** Build a simulation with explicit composition mechanisms (stigmergic bridges between organizations, autopoietic boundaries, selection for composability) and compare to AlChemy without these mechanisms. Measure: does the version with composition mechanisms produce L2 where the plain version fails?
 
@@ -216,10 +216,10 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 | H2: ANT Translation | Unchanged | Theoretical, untested | [H2](logs/H2/) |
 | H3: Quasi-Object | Strengthened | Stigmergy literature support; Echo partial support | [H3](logs/H3/) |
 | H4: Dynamic Environment | Refined | Fitness landscape criticism supports this | [H4](logs/H4/) |
-| H5: Autopoiesis | Refined (S38) | per-agent jitter: noise structure matters; temporal wins at moderate, spatial at high; grid-size doesn't scale; 7th axis: temporal vs spatial; H7 4/4; 1-seed leaks at 160 | [H5](logs/H5/) |
-| H6: Multi-Scale Autopoiesis | Refined (S38) | two-wire principle's 9th member: noise structure (temporal vs spatial) on exogenous wire; grid-size doesn't scale; H7 4/4; 1-seed l2 leaks at 160 | [H6](logs/H6/) |
-| H7: Trace→Actor Crossing | Refined ×27; H7=4/4 at 80×80 all jitter modes; drops at 160×160 with jitter≥10 (density effect); 1-seed l2 leaks at 160×160 (2/4) | Session 38 jitter-mode + grid-size; Session 37 jitter; Session 36 zone; Session 35 local-movement; Session 34 movement; Session 33 dual; Session 32 hybrid; Session 22: 2×2 complete | [H7](logs/H7/) |
+| H5: Autopoiesis | Refined (S39) | PID D-term (16th mechanism): neutral at optimal, destructive without focal bias; endogenous anticipatory suppression self-defeating; two-wire principle 10th member | [H5](logs/H5/) |
+| H6: Multi-Scale Autopoiesis | Refined (S39) | two-wire principle's 10th member: endogenous anticipatory signal (D-term) self-defeating; D term neutral at optimal (focal bias = exogenous wire), destructive without it | [H6](logs/H6/) |
+| H7: Trace→Actor Crossing | Refined ×28; PID D-term neutral at optimal (4/4 full at all g_deriv with focal bias); destructive without focal bias (stable 3/4→0/4); D term endogenous — two-wire 10th instance; max supp threshold 0.72–0.81 holds | Session 39 PID D-term; Session 38 jitter+grid; Session 34 movement; Session 33 dual; Session 32 hybrid; Session 22: 2×2 complete | [H7](logs/H7/) |
 | H8: Complexity Enables OEE | NEW | Kaznatcheev (2019), Wiser et al. (2013) | [H8](logs/H8/) |
 | H9: Evolving Network | Untested (2026-07-27 correction) | Vasas et al. (2012) literature support; sim04's finite-space exhaustion survives but doesn't test the claim; sim03/sim05 withdrawn | [H9](logs/H9/) |
-| H10: Unbounded Space Insufficiency | Refined (S38) | per-agent jitter (15th mechanism): noise structure matters; grid-size doesn't scale (density-dependent); missing ingredient = exogenous signal with matched noise structure; H7 4/4 at 80×80; 1-seed l2 leaks at 160 | [H10](logs/H10/) |
+| H10: Unbounded Space Insufficiency | Refined (S39) | PID D-term (16th mechanism): endogenous anticipatory suppression self-defeating; neutral at optimal, destructive without focal bias; two-wire 10th instance; missing ingredient = exogenous signal, not anticipatory dynamics | [H10](logs/H10/) |
 | H11: Saturating Channel | Directionally confirmed (4/4); causal with control arm; 2×2-complete; φ_sat predictor family-specific; two-wire principle confirmed (S33) | Session 33: two-wire principle confirmed — separate B fields break persistence-formation trade-off for stability; Session 23: φ_sat probe 50% accurate — deposit-probability saturation self-defeating only in cue channels | [H11](logs/H11/) |

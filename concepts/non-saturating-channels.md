@@ -705,3 +705,33 @@ Queued-topic #99: a clipped gradient `supp = min(g * B_norm / (1 + B_norm), g * 
 **The two-wire principle's ninth member: noise structure on the exogenous wire.** The family now has nine members. The ninth refines the eighth: exogeneity is necessary but not sufficient — the noise structure (temporal vs spatial correlation) must match the noise magnitude. Temporal averaging at moderate noise, spatial correlation at high noise.
 
 **H7 crossing is 4/4 at 80×80 all conditions.** At 160×160, H7 drops with jitter (2/4 at jit=10, 0/4 at jit≥20) — a structure-density effect, not a crossing-mechanism effect. Determinism verified.
+
+## Session 39 — PID D-term: endogenous anticipatory suppression is self-defeating
+
+The PID D-term (queued-topic #103) adds an anticipatory boundary wire to the dual mode: B_deriv grows from the positive part of the co-presence rate of change (cp_delta = max(0, cp - cp_prev)) and decays fast (4× default decay). The D term is anticipatory — it strengthens the boundary BEFORE structures merge, not after.
+
+**At the optimal config (dual f=0.3 p=0.3, focal bias=0.3): the D term is neutral.** 4/4 full co-occurrence at ALL g_deriv (0.0–0.3). The D term neither helps nor hurts — the focal bias already achieves 4/4.
+
+**Without focal bias: the D term is destructive.** The dual-no-focal baseline (g_deriv=0.0) achieves 4/4 L2, 2/4 coexist, 3/4 stable, 1/4 full. Adding g_deriv=0.1 drops stable to 0/4 and full to 0/4. At g_deriv=0.3, coexist collapses to 0/4 (all outcomes fragment). The D term's anticipatory suppression reads the system's own co-presence (endogenous), creating a stigmergic feedback loop: cp rises → B_deriv rises → suppression increases → structures stop growing → cp falls → B_deriv decays → suppression drops → structures grow again → cp rises. This oscillation amplifies rather than damps.
+
+| g_deriv | max_supp | l2(2s) | coexist | stable | h7(2s) | clean | full | l2(1s) | h7(1s) | cells |
+|----------|----------|--------|---------|--------|--------|-------|------|--------|--------|-------|
+| 0.00 | 0.60 | 4/4 | 4/4 | 4/4 | 4/4 | 4/4 | 4/4 | 0/4 | 4/4 | 1770 |
+| 0.05 | 0.65 | 4/4 | 4/4 | 4/4 | 4/4 | 4/4 | 4/4 | 0/4 | 4/4 | 1794 |
+| 0.10 | 0.70 | 4/4 | 4/4 | 4/4 | 4/4 | 4/4 | 4/4 | 0/4 | 4/4 | 1797 |
+| 0.20 | 0.80 | 4/4 | 4/4 | 4/4 | 4/4 | 4/4 | 4/4 | 0/4 | 4/4 | 1831 |
+| 0.30 | 0.90 | 4/4 | 4/4 | 4/4 | 4/4 | 4/4 | 4/4 | 0/4 | 4/4 | 1705 |
+
+Without focal bias:
+
+| g_deriv | max_supp | l2(2s) | coexist | stable | h7(2s) | clean | full | l2(1s) | h7(1s) | cells |
+|----------|----------|--------|---------|--------|--------|-------|------|--------|--------|-------|
+| 0.00 | 0.60 | 4/4 | 2/4 | 3/4 | 4/4 | 2/4 | 1/4 | 0/4 | 4/4 | 2031 |
+| 0.10 | 0.70 | 3/4 | 3/4 | 0/4 | 4/4 | 3/4 | 0/4 | 0/4 | 4/4 | 1957 |
+| 0.20 | 0.80 | 3/4 | 2/4 | 1/4 | 4/4 | 2/4 | 1/4 | 0/4 | 4/4 | 1940 |
+| 0.30 | 0.90 | 4/4 | 0/4 | 1/4 | 4/4 | 0/4 | 0/4 | 0/4 | 4/4 | 1848 |
+| 0.50 | 1.10 | 3/4 | 3/4 | 0/4 | 4/4 | 3/4 | 0/4 | 0/4 | 4/4 | 1865 |
+
+**The two-wire principle's tenth member: an endogenous anticipatory signal is self-defeating.** The nine previous members all say: when two properties are carried on the same wire, saturating one destroys the other. The tenth adds: when the signal is derived from the system's own state, the feedback loop amplifies oscillations rather than damping them. The D term is the temporal analog of the boundary mode's spatial failure (Session 35): both read an endogenous signal for suppression decisions, both create self-amplifying loops. Only an exogenous anticipatory signal (one the system cannot reach) could be beneficial — and no such signal exists in the current architecture.
+
+**The D term cannot substitute for agent locality.** The focal bias is exogenous (fixed home center, unreachable by system dynamics). The D term is endogenous (cp_delta from co-presence from agent positions). The D term's failure mirrors the boundary mode's failure (Session 35) and the zone mode's failure (Session 36): all three read the system's own state for movement/suppression decisions. The exogenous focal bias remains the only mechanism achieving 4/4 full co-occurrence — the composition problem's missing ingredient is an exogenous signal, not anticipatory dynamics.

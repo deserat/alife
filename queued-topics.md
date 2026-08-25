@@ -991,17 +991,62 @@ to compare.
      repulsive force between the two structures that prevents late
      merging.
 
-103. **The PID D-term — a B_derivative field** — The dual mode maps
-     onto a PID controller: B_form = P (proportional, responsive),
-     B_persist = I (integral, memory). The D (derivative) term is
-     absent. A B_derivative field that responds to the rate of
-     change of co-presence (growing when co-presence is rising,
-     decaying when falling) could provide anticipatory suppression —
-     strengthening the boundary before the structures actually merge,
+103. **The PID D-term — a B_derivative field** — DONE (Session 39).
+     The dual mode maps onto a PID controller: B_form = P
+     (proportional, responsive), B_persist = I (integral, memory).
+     The D (derivative) term was implemented as B_deriv, growing from
+     the positive part of the co-presence rate of change (cp_delta =
+     max(0, cp - cp_prev)) with fast decay (4× default). RESULT: The
+     D term is NEUTRAL at the optimal config (dual f=0.3 p=0.3, focal
+     bias=0.3: 4/4 full co-occurrence at all g_deriv 0.0–0.3). Without
+     focal bias: DESTRUCTIVE — stable 3/4→0/4 at g_deriv=0.1, coexist
+     2/4→0/4 at g_deriv=0.3 (all fragmented). The D term is
+     endogenous (cp_delta from system state), creating a stigmergic
+     feedback loop — the two-wire principle's tenth instance: an
+     endogenous anticipatory signal amplifies the oscillation it tries
+     to damp. The D term cannot substitute for agent locality (the
+     exogenous focal bias). See `pid_sweep.py`,
+     `pid_no_focal_sweep.py`, and H5/H6/H7/H10 Session-39 refinements.
      not after. This might prevent the "merged at the end" outcome
      (seed 999 at f=0.3 p=0.3) by detecting the merger trend early.
      Could be a sim14 variant: B_deriv = d(co-presence)/dt, supp +=
      g_deriv * sigmoid(B_deriv).
+
+## From Session 39 (2026-08-25)
+
+117. **The exogenous D-term — can an external anticipatory signal
+     help?** — The PID D-term is destructive because cp_delta is
+     endogenous. An exogenous D-term — e.g. a periodic external
+     oscillation that drives B_deriv independently of system state —
+     would test whether the D term's failure is specifically its
+     endogeneity or its anticipatory nature. If an exogenous
+     oscillation at the right frequency helps, the D term's failure
+     is the 10th two-wire instance (endogeneity). If it doesn't,
+     anticipation itself is the problem. Could be a sim14 variant:
+     B_deriv driven by a sine wave at frequency f, not by cp_delta.
+
+118. **The two-wire principle as a formal write-up — ten members and
+     counting** — The two-wire principle now has ten members forming
+     a taxonomy: (1-3) channel separation (two-wire, self-cancelling,
+     memory-specificity); (4-5) field separation (dual B, movement-
+     wire); (6-7) signal quality (exogeneity, noise structure);
+     (8) endogeneity vs exogeneity; (9) noise structure matching;
+     (10) endogenous anticipation. The progression is from structural
+     separation to dynamical unreachability to noise-structure
+     matching to feedback-loop instability. Each level is a stronger
+     form of the same principle: the signal must not be reachable by
+     the dynamics it controls. This deserves a standalone concept
+     file or a formal section in CLAUDE.md §4.
+
+119. **Scale termites with grid area — does density rescue the
+     160×160 failure?** — Still queued from Session 38. The 160×160
+     grid with 150 termites fails because the structure is too
+     sparse. Scaling n_termites with grid area (150→600 for 160×160)
+     would maintain the same termite density. If this rescues H7
+     and co-occurrence, the composition problem is purely
+     density-dependent. If it doesn't, there's a grid-size effect
+     beyond density. Cheap: re-run the grid-size sweep with
+     n_termites = 150 × (grid_size/80)².
 
 104. **Finer g_form/g_persist resolution around the sweet spot** — The
      sweep tested 3×3 (g_form × g_persist). The best config (f=0.3
