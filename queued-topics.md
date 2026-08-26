@@ -1015,28 +1015,37 @@ to compare.
 ## From Session 39 (2026-08-25)
 
 117. **The exogenous D-term — can an external anticipatory signal
-     help?** — The PID D-term is destructive because cp_delta is
-     endogenous. An exogenous D-term — e.g. a periodic external
-     oscillation that drives B_deriv independently of system state —
-     would test whether the D term's failure is specifically its
-     endogeneity or its anticipatory nature. If an exogenous
-     oscillation at the right frequency helps, the D term's failure
-     is the 10th two-wire instance (endogeneity). If it doesn't,
-     anticipation itself is the problem. Could be a sim14 variant:
-     B_deriv driven by a sine wave at frequency f, not by cp_delta.
+     help?** — DONE (Session 40).
+     An external sinusoid driving B_deriv independently of system
+     state. RESULT: less destructive than endogenous (stable 3/4→1/4
+     vs 3/4→0/4 at g_deriv=0.1 without focal bias) but still harmful.
+     The D-term's failure is PARTIALLY endogeneity (exogenous is less
+     destructive) and PARTIALLY anticipation itself (exogenous is
+     still destructive). The 1-seed control leaks (2/4 at g_deriv=0.05
+     and 0.2) — the spatially uniform exogenous signal creates B_deriv
+     even for 1-seed, breaking the structural guarantee. The two-wire
+     principle's eleventh member: the exogenous signal must be
+     spatially specific as well as temporally exogenous. The
+     Heisenberg trade-off: the signal cannot be simultaneously
+     exogenous (unreachable by dynamics) and spatially specific
+     (shaped by spatial structure). See `exo_dterm_sweep.py` and
+     H5/H6/H7/H10 Session-40 refinements.
 
-118. **The two-wire principle as a formal write-up — ten members and
-     counting** — The two-wire principle now has ten members forming
-     a taxonomy: (1-3) channel separation (two-wire, self-cancelling,
-     memory-specificity); (4-5) field separation (dual B, movement-
-     wire); (6-7) signal quality (exogeneity, noise structure);
-     (8) endogeneity vs exogeneity; (9) noise structure matching;
-     (10) endogenous anticipation. The progression is from structural
-     separation to dynamical unreachability to noise-structure
-     matching to feedback-loop instability. Each level is a stronger
-     form of the same principle: the signal must not be reachable by
-     the dynamics it controls. This deserves a standalone concept
-     file or a formal section in CLAUDE.md §4.
+118. **The two-wire principle as a formal write-up — eleven members
+     and counting** — The two-wire principle now has eleven members
+     forming a taxonomy: (1-3) channel separation (two-wire,
+     self-cancelling, memory-specificity); (4-5) field separation
+     (dual B, movement-wire); (6-7) signal quality (exogeneity,
+     noise structure); (8) endogeneity vs exogeneity; (9) noise
+     structure matching; (10) endogenous anticipation; (11) spatial
+     specificity of the exogenous signal. The progression is from
+     structural separation to dynamical unreachability to noise-
+     structure matching to feedback-loop instability to the
+     Heisenberg trade-off (exogeneity vs. spatial specificity).
+     Each level is a stronger form of the same principle: the signal
+     must not be reachable by the dynamics it controls, and must be
+     specific to where it should act. This deserves a standalone
+     concept file or a formal section in CLAUDE.md §4.
 
 119. **Scale termites with grid area — does density rescue the
      160×160 failure?** — Still queued from Session 38. The 160×160
@@ -1263,3 +1272,34 @@ to compare.
      structural separation to dynamical unreachability to noise-
      structure matching — each level is a stronger form of the same
      principle.
+
+## From Session 40 (2026-08-26)
+
+120. **The Heisenberg trade-off in control signals — exogeneity vs.
+     spatial specificity** — The exogenous D-term (Session 40) is
+     less destructive than endogenous but still harmful, and the
+     1-seed control leaks because the spatially uniform signal
+     creates B_deriv even for a single seed. The signal cannot be
+     simultaneously exogenous (unreachable by the system's dynamics)
+     and spatially specific (shaped by the spatial arrangement of
+     structures). Exogeneity requires independence from system state;
+     spatial specificity requires dependence on the spatial structure
+     — which IS system state. The focal mode's fixed home center is
+     the unique signal that is both (exogenous per-ID + spatially
+     specific per-ID). This may be the composition problem's
+     fundamental limit: the missing ingredient is a signal that is
+     both exogenous and spatially specific, which requires an external
+     spatial reference. Could be a standalone concept file.
+
+121. **A spatially structured exogenous signal** — The exogenous
+     D-term's 1-seed leak is caused by the signal being spatially
+     uniform. A spatially structured exogenous signal — one that is
+     highest at the boundary between the two home regions and zero
+     elsewhere — could preserve the 1-seed structural guarantee
+     while being exogenous. But this requires an external spatial
+     reference for the boundary location, which is the same as the
+     focal mode's fixed home center. The question is whether a
+     boundary-centered exogenous signal (rather than a uniform one)
+     can provide anticipatory suppression without the 1-seed leak.
+     Could be a sim14 variant: B_deriv driven by a sinusoid modulated
+     by a fixed Gaussian centered at the midline.

@@ -609,13 +609,25 @@ def run_two_region_hetero(params, seed, n_seeds=2, mode="hetero",
                 cp = compute_id_copresence(material_by_id, params)
                 if is_triple:
                     # PID triple: P (formation), I (persistence), D (derivative).
-                    # The D term responds to the rate of change of co-presence —
-                    # strengthening the boundary BEFORE the structures merge.
-                    # B_deriv = g_deriv * max(0, cp − cp_prev), decayed each step.
-                    if cp_prev is None:
-                        cp_prev = np.zeros_like(cp)
-                    cp_delta = np.maximum(cp - cp_prev, 0.0)
-                    cp_prev = cp.copy()
+                    # The D term's signal source (queued-topic #117):
+                    #   "endogenous" — cp_delta = max(0, cp - cp_prev)
+                    #     (reads system state → self-amplifying feedback loop)
+                    #   "exogenous"  — external sinusoid, independent of cp
+                    #     (breaks the feedback loop → tests whether the D
+                    #     term's Session-39 failure is endogeneity or
+                    #     anticipation itself)
+                    d_signal = params.get("d_signal", "endogenous")
+                    if d_signal == "exogenous":
+                        exo_period = params.get("exo_period", 200)
+                        exo_amp = params.get("exo_amplitude", 1.0)
+                        d_val = max(0.0, exo_amp * np.sin(
+                            2.0 * np.pi * step / max(exo_period, 1)))
+                        cp_delta = np.full_like(cp, d_val)
+                    else:
+                        if cp_prev is None:
+                            cp_prev = np.zeros_like(cp)
+                        cp_delta = np.maximum(cp - cp_prev, 0.0)
+                        cp_prev = cp.copy()
 
                     # Update B_form (P: gradient, faster decay).
                     p_f = dict(params)
@@ -1353,6 +1365,75 @@ def cmd_selftest():
           f"2seed l2={r_tri2['summary']['l2_crossed']} "
           f"outcome={r_tri2['summary']['l2_outcome']} "
           f"1seed l2={r_tri1['summary']['l2_crossed']} "
+          f"deterministic)")
+
+    # ---- Part 13: exogenous D-term — external oscillation ----
+    # The D term's signal source (queued-topic #117):
+    #   endogenous — cp_delta = max(0, cp - cp_prev) (reads system state)
+    #   exogenous  — external sinusoid, independent of cp
+    # Tests whether the D term's Session-39 failure is endogeneity or
+    # anticipation itself.  Verify: (a) full run produces metrics,
+    # (b) 1-seed structural zero holds (B_deriv grows from a constant
+    # exo signal which is uniform, but B_deriv = 0 for 1-seed since
+    # cp=0 → B_form/B_persist=0... wait, the exogenous signal is
+    # uniform, not from cp. So B_deriv grows for 1-seed too!
+    # Actually the 1-seed control: cp = 0 → B_form = 0, B_persist = 0,
+    # but B_deriv grows from the exo signal. The 1-seed structural
+    # zero for l2_crossed holds (B_form/B_persist = 0 → no co-presence
+    # detection), but B_deriv is non-zero. The l2 detector uses
+    # B_form/B_persist for co-presence, not B_deriv. So the 1-seed
+    # control should still be 0/4 on l2_crossed.
+    # But wait — the deposit suppression uses B_deriv too (triple mode).
+    # If B_deriv is non-zero for 1-seed, the deposit suppression fires
+    # for 1-seed, which is a new failure mode. The 1-seed control may
+    # not be structurally zero for the exogenous D-term.
+    # This is the test: does the exogenous D-term break the 1-seed
+    # structural zero?
+    p_exo = dict(tiny)
+    p_exo["boundary_mode"] = "triple"
+    p_exo["g_form"] = 0.3
+    p_exo["g_persist"] = 0.3
+    p_exo["g_deriv"] = 0.1
+    p_exo["b_decay_form"] = 0.01
+    p_exo["b_decay_persist"] = 0.005
+    p_exo["b_decay_deriv"] = 0.02
+    p_exo["b_growth_form"] = 0.1
+    p_exo["b_growth_persist"] = 0.1
+    p_exo["b_growth_deriv"] = 0.2
+    p_exo["movement_bias"] = 0.3
+    p_exo["movement_mode"] = "focal"
+    p_exo["d_signal"] = "exogenous"
+    p_exo["exo_period"] = 200
+    p_exo["exo_amplitude"] = 1.0
+
+    # (a) Full run produces metrics
+    r_exo2 = run_two_region_hetero(p_exo, seed=42, n_seeds=2,
+                                    mode="hetero")
+    assert "l2_outcome" in r_exo2["summary"], \
+        "exogenous D-term run should produce summary"
+
+    # (b) 1-seed control — B_deriv grows from exo signal (non-zero!)
+    # but l2_crossed should still be False (B_form/B_persist = 0)
+    r_exo1 = run_two_region_hetero(p_exo, seed=42, n_seeds=1,
+                                    mode="hetero")
+    # Note: l2_crossed may still be False because the l2 detector
+    # uses components in each half, not B directly. But the deposit
+    # suppression from B_deriv may affect the 1-seed structure.
+
+    # (c) Determinism
+    r_exo2b = run_two_region_hetero(p_exo, seed=42, n_seeds=2,
+                                     mode="hetero")
+    assert (r_exo2["summary"]["l2_crossed"]
+            == r_exo2b["summary"]["l2_crossed"]), \
+        "exogenous D-term determinism: l2_crossed"
+    assert (r_exo2["summary"]["l2_outcome"]
+            == r_exo2b["summary"]["l2_outcome"]), \
+        "exogenous D-term determinism: l2_outcome"
+
+    print(f"selftest: Part 13 OK (exogenous D-term: "
+          f"2seed l2={r_exo2['summary']['l2_crossed']} "
+          f"outcome={r_exo2['summary']['l2_outcome']} "
+          f"1seed l2={r_exo1['summary']['l2_crossed']} "
           f"deterministic)")
 
     print("selftest: ALL OK")

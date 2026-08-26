@@ -163,6 +163,14 @@ select:hover, button:hover { border-color: var(--accent); }
 <p class="desc">5 g_deriv levels (0–0.5) × 4 seeds, NO focal bias. Tests whether the D term substitutes for agent locality. Without focal bias, dual mode achieves 1/4 full co-occurrence — does the D term recover it?</p>
 <div id="pid-no-focal-section" class="sweep-grid"></div>
 
+<h2>Exogenous D-Term Sweep — External Oscillation (queued-topic #117)</h2>
+<p class="desc">5 g_deriv levels (0–0.3) × 4 seeds, with and without focal bias. The D term is driven by an external sinusoid (independent of system state) — tests whether the endogenous D-term's failure (Session 39) is endogeneity or anticipation itself. Result: less destructive than endogenous (stable 3/4→1/4 vs 3/4→0/4 at g_deriv=0.1 without focal bias) but still harmful. The 1-seed control leaks (spatially uniform signal breaks the structural guarantee).</p>
+<div id="exo-dterm-section" class="sweep-grid"></div>
+
+<h2>Exogenous D-Term Period Sweep — Frequency Dependence</h2>
+<p class="desc">3 periods (100, 200, 400) × 4 seeds at g_deriv=0.1 with focal bias. Tests whether the oscillation frequency matters. Result: all 4/4 full co-occurrence — the frequency doesn't matter when the system is already stable.</p>
+<div id="exo-period-section" class="sweep-grid"></div>
+
 <script>
 let resultsData = null;
 let robustData = null;
@@ -189,6 +197,7 @@ async function loadData() {
     'gridSizeSweep': 'output/grid_size_sweep.json',
     'pidSweep': 'output/pid_sweep.json',
     'pidNoFocalSweep': 'output/pid_no_focal_sweep.json',
+    'exoDtermSweep': 'output/exo_dterm_sweep.json',
   };
   const sweepPromises = Object.entries(sweepFiles).map(([key, path]) =>
     fetch(path).then(r => r.json()).catch(() => null)
@@ -503,6 +512,34 @@ function populateSweepSections() {
     }
     const el = document.getElementById('pid-no-focal-section');
     if (el) el.innerHTML = html;
+  }
+
+  // Exogenous D-term sweep
+  if (window.exoDtermSweepData) {
+    const d = window.exoDtermSweepData;
+    const gDerivs = d.config.g_deriv_levels;
+    let html = '';
+    for (const gd of gDerivs) {
+      // Group entries by g_deriv
+      const two_focal = d.with_focal.filter(e => e.g_deriv === gd && e.n_seeds === 2);
+      const one_focal = d.with_focal.filter(e => e.g_deriv === gd && e.n_seeds === 1);
+      const two_nofocal = d.without_focal.filter(e => e.g_deriv === gd && e.n_seeds === 2);
+      const one_nofocal = d.without_focal.filter(e => e.g_deriv === gd && e.n_seeds === 1);
+      if (two_focal.length) html += buildSweepCard(`g_deriv=${gd} (focal)`, two_focal, one_focal);
+      if (two_nofocal.length) html += buildSweepCard(`g_deriv=${gd} (no focal)`, two_nofocal, one_nofocal);
+    }
+    const el = document.getElementById('exo-dterm-section');
+    if (el) el.innerHTML = html;
+
+    // Period sweep
+    let pHtml = '';
+    for (const period of d.config.exo_periods) {
+      const two = d.period_sweep.filter(e => e.exo_period === period && e.n_seeds === 2);
+      const one = d.period_sweep.filter(e => e.exo_period === period && e.n_seeds === 1);
+      if (two.length) pHtml += buildSweepCard(`period=${period}`, two, one);
+    }
+    const pEl = document.getElementById('exo-period-section');
+    if (pEl) pEl.innerHTML = pHtml;
   }
 }
 

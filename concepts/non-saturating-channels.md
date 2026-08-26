@@ -735,3 +735,27 @@ Without focal bias:
 **The two-wire principle's tenth member: an endogenous anticipatory signal is self-defeating.** The nine previous members all say: when two properties are carried on the same wire, saturating one destroys the other. The tenth adds: when the signal is derived from the system's own state, the feedback loop amplifies oscillations rather than damping them. The D term is the temporal analog of the boundary mode's spatial failure (Session 35): both read an endogenous signal for suppression decisions, both create self-amplifying loops. Only an exogenous anticipatory signal (one the system cannot reach) could be beneficial — and no such signal exists in the current architecture.
 
 **The D term cannot substitute for agent locality.** The focal bias is exogenous (fixed home center, unreachable by system dynamics). The D term is endogenous (cp_delta from co-presence from agent positions). The D term's failure mirrors the boundary mode's failure (Session 35) and the zone mode's failure (Session 36): all three read the system's own state for movement/suppression decisions. The exogenous focal bias remains the only mechanism achieving 4/4 full co-occurrence — the composition problem's missing ingredient is an exogenous signal, not anticipatory dynamics.
+
+## Session 40 — Exogenous D-term: less destructive, but 1-seed leak
+
+The exogenous D-term (queued-topic #117) replaces the endogenous cp_delta with an external sinusoid: `cp_delta = max(0, amp * sin(2π * step / period))`. The signal is exogenous (unreachable by the system's feedback loop) and spatially uniform (constant across the grid at each step).
+
+**At the optimal config (dual f=0.3 p=0.3, focal bias=0.3): neutral — 4/4 full co-occurrence at all g_deriv.** Same as the endogenous D-term. The focal bias already achieves 4/4; the D term's contribution is irrelevant.
+
+**Without focal bias: less destructive than endogenous but still harmful.**
+
+| g_deriv | l2(2s) | coexist | stable | h7(2s) | clean | full | l2(1s) | h7(1s) | cells |
+|---------|--------|---------|--------|--------|-------|------|--------|--------|-------|
+| 0.00    | 4/4    | 2/4     | 3/4    | 4/4    | 2/4   | 1/4  | 0/4    | 4/4    | 2030  |
+| 0.05    | 3/4    | 0/4     | 2/4    | 4/4    | 0/4   | 0/4  | **2/4** | 4/4   | 1974  |
+| 0.10    | 4/4    | 2/4     | 1/4    | 4/4    | 1/4   | 1/4  | 0/4    | 4/4    | 1598  |
+| 0.20    | 4/4    | 2/4     | 2/4    | 4/4    | 2/4   | 1/4  | **2/4** | 4/4   | 1723  |
+| 0.30    | 4/4    | 1/4     | 0/4    | 3/4    | 1/4   | 0/4  | 0/4    | 4/4    | 1409  |
+
+The exogenous D-term degrades stable from 3/4 to 1/4 at g_deriv=0.1 (vs 0/4 for endogenous). The D-term's failure is PARTIALLY endogeneity (exogenous is less destructive) and PARTIALLY anticipation itself (exogenous is still destructive).
+
+**The 1-seed control leaks — a new failure mode.** The exogenous signal is spatially uniform, so B_deriv grows everywhere — even for a single seed (l2(1s) = 2/4 at g_deriv=0.05 and 0.2). The endogenous D-term preserved the 1-seed structural guarantee (cp_delta = 0 when cp = 0); the exogenous D-term breaks it. The 1-seed leak is the price of spatial uniformity: the signal that escapes the system's feedback loop also escapes the system's structural guarantees.
+
+**The period sweep is neutral.** Exo_period ∈ {100, 200, 400} at g_deriv=0.1 with focal bias: all 4/4 full co-occurrence. The oscillation frequency doesn't matter when the system is already stable.
+
+**The two-wire principle's eleventh member: the exogenous signal must be spatially specific as well as temporally exogenous.** The tenth member (Session 39) said an endogenous anticipatory signal is self-defeating. The eleventh refines this: exogeneity alone is not enough. A spatially uniform exogenous signal breaks the 1-seed structural guarantee — the boundary grows even for a single structure. The signal must also be spatially specific (non-zero only where two structures interact). The two-wire principle's progression: (1-3) channel separation, (4-5) field separation, (6-7) signal quality, (8) exogeneity, (9) noise structure, (10) endogeneity vs exogeneity, (11) spatial specificity of the exogenous signal.
