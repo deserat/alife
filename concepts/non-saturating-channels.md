@@ -759,3 +759,30 @@ The exogenous D-term degrades stable from 3/4 to 1/4 at g_deriv=0.1 (vs 0/4 for 
 **The period sweep is neutral.** Exo_period ∈ {100, 200, 400} at g_deriv=0.1 with focal bias: all 4/4 full co-occurrence. The oscillation frequency doesn't matter when the system is already stable.
 
 **The two-wire principle's eleventh member: the exogenous signal must be spatially specific as well as temporally exogenous.** The tenth member (Session 39) said an endogenous anticipatory signal is self-defeating. The eleventh refines this: exogeneity alone is not enough. A spatially uniform exogenous signal breaks the 1-seed structural guarantee — the boundary grows even for a single structure. The signal must also be spatially specific (non-zero only where two structures interact). The two-wire principle's progression: (1-3) channel separation, (4-5) field separation, (6-7) signal quality, (8) exogeneity, (9) noise structure, (10) endogeneity vs exogeneity, (11) spatial specificity of the exogenous signal.
+
+## Session 41 — Density scaling: H7 fully rescued, composition partially rescued, 1-seed leaks
+
+The density scaling sweep (queued-topic #119) tested whether the 160×160 grid's degradation (Session 38: H7=0/4, coexist=0/4 at jitter≥20) was purely density-dependent. Scaling n_termites with grid area (150→600 for 160×160, maintaining constant density ~23.4/kcell) partially rescues the failure.
+
+| grid | nT | density | jit | frac% | l2(2s) | coexist | stable | h7(2s) | clean | full | l2(1s) | h7(1s) | cells |
+|------|-----|---------|-----|-------|--------|---------|--------|--------|-------|------|--------|--------|-------|
+| 80 | 150 | 23.44 | 0.0 | 0.0% | 4/4 | 4/4 | 4/4 | 4/4 | 4/4 | 4/4 | 0/4 | 4/4 | 1770 |
+| 80 | 150 | 23.44 | 10.0 | 12.5% | 4/4 | 4/4 | 4/4 | 4/4 | 4/4 | 4/4 | 0/4 | 4/4 | 1970 |
+| 80 | 150 | 23.44 | 20.0 | 25.0% | 2/4 | 1/4 | 0/4 | 4/4 | 1/4 | 0/4 | 0/4 | 4/4 | 2022 |
+| 160 | 150 | 5.86 | 0.0 | 0.0% | 4/4 | 4/4 | 3/4 | 4/4 | 4/4 | 3/4 | 0/4 | 4/4 | 1674 |
+| 160 | 150 | 5.86 | 10.0 | 6.2% | 4/4 | 4/4 | 1/4 | 2/4 | 4/4 | 1/4 | 0/4 | 4/4 | 1685 |
+| 160 | 150 | 5.86 | 20.0 | 12.5% | 4/4 | 0/4 | 0/4 | 0/4 | 0/4 | 0/4 | 2/4 | 4/4 | 1216 |
+| 160 | 300 | 11.72 | 0.0 | 0.0% | 4/4 | 4/4 | 4/4 | 4/4 | 4/4 | 4/4 | 0/4 | 4/4 | 2744 |
+| 160 | 300 | 11.72 | 10.0 | 6.2% | 4/4 | 2/4 | 2/4 | 4/4 | 2/4 | 2/4 | 0/4 | 4/4 | 3393 |
+| 160 | 300 | 11.72 | 20.0 | 12.5% | 4/4 | 0/4 | 0/4 | 4/4 | 0/4 | 0/4 | 3/4 | 4/4 | 3324 |
+| 160 | 600 | 23.44 | 0.0 | 0.0% | 4/4 | 4/4 | 4/4 | 4/4 | 3/4 | 3/4 | 0/4 | 4/4 | 4515 |
+| 160 | 600 | 23.44 | 10.0 | 6.2% | 4/4 | 4/4 | 3/4 | 4/4 | 4/4 | 3/4 | **2/4** | 4/4 | 5780 |
+| 160 | 600 | 23.44 | 20.0 | 12.5% | 4/4 | 2/4 | 0/4 | 4/4 | 2/4 | 0/4 | **4/4** | 4/4 | 6748 |
+
+**H7 is fully rescued by density.** 160×600 (same density as 80×150): H7=4/4 at jitter=0, 10, and 20 — vs 160×150 which collapsed to H7=2/4 at jitter=10 and 0/4 at jitter=20. The crossing was never the problem on the larger grid — it was the sparse structure. More termites → more material → the crossing fires.
+
+**Composition is partially rescued.** At jitter=0: 160×600 achieves 4/4 coexist, 4/4 stable (matching 80×150). At jitter=10: 4/4 coexist, 3/4 stable (1/4 gap from 80×150's 4/4). At jitter=20: 2/4 coexist, 0/4 stable (better than 80×150's 1/4 but still degraded).
+
+**The 1-seed structural guarantee has a grid-size dependence beyond density.** 160×600 leaks at jitter=10 (2/4) and jitter=20 (4/4) — while 80×150 at the same density is 0/4. 600 termites on a 160×160 grid produce a bigger single structure (~2700 cells vs ~1700), and the bigger structure crosses the midline even with focal bias.
+
+**The two-wire principle's twelfth member: the structural guarantee depends on structure-to-grid ratio, not just agent density.** The previous eleven members all concerned signal properties (channel separation, field separation, exogeneity, noise structure). The twelfth is about a geometric property: the structure's physical extent relative to the grid's half-width. A bigger structure on a bigger grid (same density) overwhelms the boundary. The progression: (1-3) channel separation, (4-5) field separation, (6-7) signal quality, (8) exogeneity, (9) noise structure, (10) endogeneity, (11) spatial specificity, (12) structure-to-grid ratio.

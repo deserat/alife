@@ -1048,14 +1048,36 @@ to compare.
      concept file or a formal section in CLAUDE.md §4.
 
 119. **Scale termites with grid area — does density rescue the
-     160×160 failure?** — Still queued from Session 38. The 160×160
-     grid with 150 termites fails because the structure is too
-     sparse. Scaling n_termites with grid area (150→600 for 160×160)
-     would maintain the same termite density. If this rescues H7
-     and co-occurrence, the composition problem is purely
-     density-dependent. If it doesn't, there's a grid-size effect
-     beyond density. Cheap: re-run the grid-size sweep with
-     n_termites = 150 × (grid_size/80)².
+     160×160 failure?** — DONE (Session 41).
+     Scaling n_termites with grid area (150→600 for 160×160,
+     maintaining constant density ~23.4/kcell) FULLY rescues H7
+     (4/4 at all jitter) but only PARTIALLY rescues composition
+     (4/4 at jit=0, 3/4 stable at jit=10, 2/4 at jit=20). The 1-seed
+     structural guarantee leaks at 160×600 (2/4 at jit=10, 4/4 at
+     jit=20) — an absolute-size effect: the bigger single structure
+     (~2700 cells) overwhelms the midline even with focal bias.
+     The two-wire principle's twelfth member: the structural
+     guarantee depends on structure-to-grid ratio, not just agent
+     density. The crossing is density-dependent, not grid-size-
+     dependent. See `density_sweep.py` and H5/H6/H7/H10 Session-41
+     refinement. NEXT PRIORITY: the non-monotonic intermediate
+     density (#122), the two-wire principle formal write-up (#118).
+
+122. **The non-monotonic intermediate density — why is 160×300
+     worse than both 160×150 and 160×600?** — At jitter=10,
+     160×300 (11.7/kcell) achieves only 2/4 coexist — worse than
+     160×150 (4/4 at 5.9/kcell) and 160×600 (4/4 at 23.4/kcell).
+     The intermediate density may be in a regime where the
+     structure is too big for one half (overwhelming the midline
+     at 300 termites) but too sparse to consolidate well (not
+     enough for the curvature channel to create spatial
+     selectivity). This non-monotonicity could be a genuine
+     finite-size effect or a noise artifact (4 seeds). A finer
+     density sweep (100, 200, 400, 800 termites) would map the
+     density-composition frontier. Cheap: re-run the sweep at
+     finer density resolution.
+
+## From Session 41 (2026-08-27)
 
 104. **Finer g_form/g_persist resolution around the sweet spot** — The
      sweep tested 3×3 (g_form × g_persist). The best config (f=0.3

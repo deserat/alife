@@ -91,3 +91,24 @@ python3 sim14.py selftest     # 7-part selftest
 python3 sim14.py run         # 8-condition experiment
 python3 sim14.py robustness  # 4-seed robustness sweep
 ```
+
+## Density Scaling (Session 41)
+
+Queued-topic #119: does scaling n_termites with grid area rescue the 160×160 grid's degradation?
+
+| grid | nT | density | jit | l2(2s) | coexist | stable | h7(2s) | l2(1s) | cells |
+|------|-----|---------|-----|--------|---------|--------|--------|--------|-------|
+| 80 | 150 | 23.44 | 0.0 | 4/4 | 4/4 | 4/4 | 4/4 | 0/4 | 1770 |
+| 80 | 150 | 23.44 | 10.0 | 4/4 | 4/4 | 4/4 | 4/4 | 0/4 | 1970 |
+| 80 | 150 | 23.44 | 20.0 | 2/4 | 1/4 | 0/4 | 4/4 | 0/4 | 2022 |
+| 160 | 150 | 5.86 | 0.0 | 4/4 | 4/4 | 3/4 | 4/4 | 0/4 | 1674 |
+| 160 | 150 | 5.86 | 10.0 | 4/4 | 4/4 | 1/4 | 2/4 | 0/4 | 1685 |
+| 160 | 150 | 5.86 | 20.0 | 4/4 | 0/4 | 0/4 | 0/4 | 2/4 | 1216 |
+| 160 | 300 | 11.72 | 0.0 | 4/4 | 4/4 | 4/4 | 4/4 | 0/4 | 2744 |
+| 160 | 300 | 11.72 | 10.0 | 4/4 | 2/4 | 2/4 | 4/4 | 0/4 | 3393 |
+| 160 | 300 | 11.72 | 20.0 | 4/4 | 0/4 | 0/4 | 4/4 | 3/4 | 3324 |
+| 160 | 600 | 23.44 | 0.0 | 4/4 | 4/4 | 4/4 | 4/4 | 0/4 | 4515 |
+| 160 | 600 | 23.44 | 10.0 | 4/4 | 4/4 | 3/4 | 4/4 | 2/4 | 5780 |
+| 160 | 600 | 23.44 | 20.0 | 4/4 | 2/4 | 0/4 | 4/4 | 4/4 | 6748 |
+
+**H7 fully rescued by density** (4/4 at all jitter). **Composition partially rescued** (4/4 at jit=0, 3/4 stable at jit=10, 2/4 at jit=20). **1-seed structural guarantee leaks** at 160×600 (absolute-size effect — bigger structure overwhelms midline). See `density_sweep.py`.

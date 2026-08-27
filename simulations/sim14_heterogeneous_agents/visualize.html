@@ -171,6 +171,10 @@ select:hover, button:hover { border-color: var(--accent); }
 <p class="desc">3 periods (100, 200, 400) × 4 seeds at g_deriv=0.1 with focal bias. Tests whether the oscillation frequency matters. Result: all 4/4 full co-occurrence — the frequency doesn't matter when the system is already stable.</p>
 <div id="exo-period-section" class="sweep-grid"></div>
 
+<h2>Density Scaling Sweep (queued-topic #119)</h2>
+<p class="desc">4 density combos: 80×150 (baseline), 160×150 (1/4 density), 160×300 (1/2 density), 160×600 (same density) × 3 jitter levels (0, 10, 20) × 4 seeds. Tests whether the 160×160 grid's degradation (Session 38) is purely density-dependent. Result: scaling n_termites with grid area PARTIALLY rescues the 160×160 failure — 160×600 matches 80×150 at jitter=0 (4/4) and jitter=10 (4/4 coexist, 3/4 stable) — but the 1-seed control leaks at high jitter (4/4 at jitter=20) and jitter=20 still degrades (2/4 coexist, 0/4 stable). The crossing (H7) is fully rescued (4/4 at all jitter), but composition stability is not.</p>
+<div id="density-section" class="sweep-grid"></div>
+
 <script>
 let resultsData = null;
 let robustData = null;
@@ -198,6 +202,7 @@ async function loadData() {
     'pidSweep': 'output/pid_sweep.json',
     'pidNoFocalSweep': 'output/pid_no_focal_sweep.json',
     'exoDtermSweep': 'output/exo_dterm_sweep.json',
+    'densitySweep': 'output/density_sweep.json',
   };
   const sweepPromises = Object.entries(sweepFiles).map(([key, path]) =>
     fetch(path).then(r => r.json()).catch(() => null)
@@ -540,6 +545,27 @@ function populateSweepSections() {
     }
     const pEl = document.getElementById('exo-period-section');
     if (pEl) pEl.innerHTML = pHtml;
+  }
+
+  // Density sweep
+  if (window.densitySweepData) {
+    const d = window.densitySweepData;
+    const combos = d.config.combos;
+    const jitters = d.config.jitters;
+    let html = '';
+    for (const [gs, nt] of combos) {
+      for (const jit of jitters) {
+        const key = `grid_${gs}_n${nt}_jitter_${jit}`;
+        const ent = d[key];
+        if (!ent) continue;
+        const density = (nt / (gs * gs) * 1000).toFixed(2);
+        const frac = (jit / gs * 100).toFixed(1);
+        html += buildSweepCard(`grid=${gs} n=${nt} (${density}/kc) jit=${jit} (${frac}%)`,
+                               ent.hetero_2seed, ent.hetero_1seed);
+      }
+    }
+    const el = document.getElementById('density-section');
+    if (el) el.innerHTML = html;
   }
 }
 
