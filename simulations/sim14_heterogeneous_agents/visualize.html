@@ -175,6 +175,10 @@ select:hover, button:hover { border-color: var(--accent); }
 <p class="desc">4 density combos: 80×150 (baseline), 160×150 (1/4 density), 160×300 (1/2 density), 160×600 (same density) × 3 jitter levels (0, 10, 20) × 4 seeds. Tests whether the 160×160 grid's degradation (Session 38) is purely density-dependent. Result: scaling n_termites with grid area PARTIALLY rescues the 160×160 failure — 160×600 matches 80×150 at jitter=0 (4/4) and jitter=10 (4/4 coexist, 3/4 stable) — but the 1-seed control leaks at high jitter (4/4 at jitter=20) and jitter=20 still degrades (2/4 coexist, 0/4 stable). The crossing (H7) is fully rescued (4/4 at all jitter), but composition stability is not.</p>
 <div id="density-section" class="sweep-grid"></div>
 
+<h2>Finer Density Sweep (queued-topic #122)</h2>
+<p class="desc">4 density levels (100, 200, 400, 800 termites) on 160×160 at jitter=10 × 4 seeds. Tests whether the Session 41 non-monotonic intermediate density (160×300 worse than both 160×150 and 160×600) was genuine or a noise artifact. Result: monotonic improvement — the non-monotonicity was a 4-seed noise artifact. n=800 achieves 4/4 full co-occurrence (first time on 160×160) but the 1-seed control leaks (3/4) — the structure-to-grid ratio problem persists.</p>
+<div id="finer-density-section" class="sweep-grid"></div>
+
 <script>
 let resultsData = null;
 let robustData = null;
@@ -203,6 +207,7 @@ async function loadData() {
     'pidNoFocalSweep': 'output/pid_no_focal_sweep.json',
     'exoDtermSweep': 'output/exo_dterm_sweep.json',
     'densitySweep': 'output/density_sweep.json',
+    'finerDensitySweep': 'output/finer_density_sweep.json',
   };
   const sweepPromises = Object.entries(sweepFiles).map(([key, path]) =>
     fetch(path).then(r => r.json()).catch(() => null)
@@ -565,6 +570,27 @@ function populateSweepSections() {
       }
     }
     const el = document.getElementById('density-section');
+    if (el) el.innerHTML = html;
+  }
+
+  // Finer density sweep
+  if (window.finerDensitySweepData) {
+    const d = window.finerDensitySweepData;
+    const nT_list = d.config.n_termites_list;
+    const jitters = d.config.jitters;
+    let html = '';
+    for (const nt of nT_list) {
+      for (const jit of jitters) {
+        const key = `grid_${d.config.grid}_n${nt}_jitter_${jit}`;
+        const ent = d[key];
+        if (!ent) continue;
+        const density = (nt / (d.config.grid * d.config.grid) * 1000).toFixed(2);
+        const frac = (jit / d.config.grid * 100).toFixed(1);
+        html += buildSweepCard(`n=${nt} (${density}/kc) jit=${jit} (${frac}%)`,
+                               ent.hetero_2seed, ent.hetero_1seed);
+      }
+    }
+    const el = document.getElementById('finer-density-section');
     if (el) el.innerHTML = html;
   }
 }

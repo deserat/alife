@@ -1032,20 +1032,24 @@ to compare.
      H5/H6/H7/H10 Session-40 refinements.
 
 118. **The two-wire principle as a formal write-up — eleven members
-     and counting** — The two-wire principle now has eleven members
-     forming a taxonomy: (1-3) channel separation (two-wire,
-     self-cancelling, memory-specificity); (4-5) field separation
-     (dual B, movement-wire); (6-7) signal quality (exogeneity,
-     noise structure); (8) endogeneity vs exogeneity; (9) noise
-     structure matching; (10) endogenous anticipation; (11) spatial
-     specificity of the exogenous signal. The progression is from
-     structural separation to dynamical unreachability to noise-
-     structure matching to feedback-loop instability to the
-     Heisenberg trade-off (exogeneity vs. spatial specificity).
-     Each level is a stronger form of the same principle: the signal
-     must not be reachable by the dynamics it controls, and must be
-     specific to where it should act. This deserves a standalone
-     concept file or a formal section in CLAUDE.md §4.
+     and counting** — DONE (Session 42). The two-wire principle now
+     has a standalone concept file: `concepts/two-wire-principle.md`.
+     Twelve members across Sessions 23–41 form a progression: (1-3)
+     channel separation, (4-5) field separation, (6-7) signal quality,
+     (8) exogeneity, (9) noise structure, (10) endogeneity, (11)
+     spatial specificity, (12) structure-to-grid ratio. Each level
+     is a stronger form: the signal must not be reachable by the
+     dynamics it controls, must be specific to where it acts, and
+     the structure must be small enough for the boundary to separate
+     it. The Heisenberg trade-off (Members 10-11): the signal cannot
+     be simultaneously exogenous and spatially specific — the focal
+     mode's fixed home center is the unique signal that resolves it
+     (an external spatial reference). Cross-domain connections to
+     ACO, developmental morphogens, control theory, and statistical
+     physics. The finer density sweep (Session 42) provided the first
+     modest predictive confirmation: the 12th member predicted higher
+     density would worsen the 1-seed leak — confirmed (0/4 → 1/4 →
+     1/4 → 3/4).
 
 119. **Scale termites with grid area — does density rescue the
      160×160 failure?** — DONE (Session 41).
@@ -1064,18 +1068,18 @@ to compare.
      density (#122), the two-wire principle formal write-up (#118).
 
 122. **The non-monotonic intermediate density — why is 160×300
-     worse than both 160×150 and 160×600?** — At jitter=10,
-     160×300 (11.7/kcell) achieves only 2/4 coexist — worse than
-     160×150 (4/4 at 5.9/kcell) and 160×600 (4/4 at 23.4/kcell).
-     The intermediate density may be in a regime where the
-     structure is too big for one half (overwhelming the midline
-     at 300 termites) but too sparse to consolidate well (not
-     enough for the curvature channel to create spatial
-     selectivity). This non-monotonicity could be a genuine
-     finite-size effect or a noise artifact (4 seeds). A finer
-     density sweep (100, 200, 400, 800 termites) would map the
-     density-composition frontier. Cheap: re-run the sweep at
-     finer density resolution.
+     worse than both 160×150 and 160×600?** — DONE (Session 42).
+     At jitter=10, 160×300 (11.7/kcell) achieves only 2/4 coexist —
+     worse than 160×150 (4/4 at 5.9/kcell) and 160×600 (4/4 at
+     23.4/kcell). A finer density sweep (100, 200, 400, 800 termites)
+     at jitter=10 found composition improves MONOTONICALLY with density:
+     n=100 → 0/4, n=200 → 1/4, n=400 → 4/4 (3/4 stable), n=800 → 4/4
+     (4/4 full). The non-monotonicity was a 4-seed noise artifact —
+     160×300's 2/4 was within the noise band. n=800 achieves 4/4 full
+     co-occurrence (first on 160×160) but the 1-seed control leaks
+     (3/4) — the structure-to-grid ratio problem persists. H7 has a
+     percolation-like density threshold (0/4 below ~4/kcell, 4/4 above
+     ~8/kcell). See `finer_density_sweep.py`.
 
 ## From Session 41 (2026-08-27)
 
