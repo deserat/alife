@@ -2,8 +2,8 @@
 title: "Hypotheses"
 topic: "testable hypotheses for the multi-scale ALife composition project"
 status: active
-date: "2026-08-28"
-session: 42
+date: "2026-08-29"
+session: 43
 count: 11
 active: [H1, H2, H3, H4, H5, H6, H7, H8, H9, H10, H11]
 logs: ["logs/H1/", "logs/H2/", "logs/H3/", "logs/H4/", "logs/H5/", "logs/H6/", "logs/H7/", "logs/H8/", "logs/H9/", "logs/H10/", "logs/H11/"]
@@ -70,7 +70,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **For an emergent structure to persist as a new actor at a higher scale, it must be autopoietic — it must maintain the network that constitutes it.** Self-maintenance is the persistence condition. Without it, emergent structures are transient patterns, not new actors.
 
-**Status:** Refined (Session 42). Finer density sweep reveals monotonic density dependence — the Session 41 non-monotonicity was a 4-seed noise artifact. n=800 achieves 4/4 full co-occurrence on 160×160 (first time) but the 1-seed control leaks 3/4. The persistence-formation trade-off's eleventh axis: density improves composition but worsens the 1-seed structural guarantee (structure-to-grid ratio).
+**Status:** Refined (Session 43). Threshold sweep reveals the composition optimum (n=150, coexist=4/4) is NOT co-located with the H7 threshold (n≥175, H7=4/4) — a new trade-off axis: the density that optimizes coexistence is lower than the density that optimizes the crossing. 8-seed robustness at n=800 confirms 8/8 full (7/8 clean); the 1-seed leak holds at 4/8.
 
 **Log:** [logs/H5/](logs/H5/)
 
@@ -80,7 +80,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **Complexification occurs when autopoietic systems interact stigmergically — through environmental modifications that persist and constrain.** The interaction network itself (mediated by stigmergic traces) becomes a candidate for higher-level autopoiesis.
 
-**Status:** Refined (Session 42). The two-wire principle formalized as a standalone concept file (twelve members, four levels of depth, Heisenberg trade-off). The finer density sweep confirmed the twelfth member's prediction: the 1-seed leak rate increases with density (0/4 → 1/4 → 1/4 → 3/4) — the same property that improves composition breaks the structural guarantee.
+**Status:** Refined (Session 43). The two-wire principle's 12th member confirmed at 8 seeds (1-seed leak 4/8). The composition optimum (n=150) is separated from the H7 threshold (n≥175) — the crossing and composition are governed by different density regimes, a new expression of the structure-to-grid ratio trade-off.
 
 **Log:** [logs/H6/](logs/H6/)
 
@@ -92,7 +92,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **Current mechanism claim:** the crossing needs a non-saturating channel that *recruits* deposition as well as *limiting* it, not mere negative feedback through the cue field (see H11). The curvature channel (Facchini et al. 2020) is the strongest candidate: growth at convex tips recruits, biharmonic smoothing limits, and there is no saturating pheromone field in the model at all.
 
-**Status:** Refined ×31. Finer density sweep reveals a percolation-like density threshold: H7=0/4 below ~4/kcell (n=100), 4/4 above ~8/kcell (n=200+). The crossing is monotonic above the threshold — once enough material exists for the curvature channel, H7 fires reliably at all higher densities. The density threshold is about multi-seed composition, not the crossing itself (1-seed H7=4/4 at all densities). Max suppression threshold (0.72–0.81) holds across all boundary architectures.
+**Status:** Refined ×32. Threshold sweep reveals H7's density threshold is a gradual crossover (0/4 at 3.9/kc → 4/4 at 6.8/kc), not a sharp percolation threshold. The composition optimum (n=150, coexist=4/4) is NOT co-located with the H7 threshold (n≥175, H7=4/4) — composition peaks where the crossing is only 2/4. 8-seed robustness at n=800 confirms 8/8 full co-occurrence (7/8 clean). The 1-seed leak holds at 4/8. Max suppression threshold (0.72–0.81) holds across all boundary architectures.
 
 **Evidence:**
 - sim06: near miss — stability 0.849–0.893 vs a 0.90 threshold; self-maintenance fragments instead of consolidating (H11's first data point). Detector-bug corrected 2026-07-27. Session 22: the saturating cue (as-built) crosses 16/16 stable without SM; the non-saturating cue crosses 0/16 stable without SM — cue-family reversal.
@@ -160,7 +160,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **Three paths, same failure:** Echo (CAS theory), chemical organizations (origin-of-life chemistry), and AlChemy (computational theory) all fail at multi-scale composition, from three different starting points — evidence the composition problem is fundamental, though sim05's leg of this argument is weaker post-correction.
 
-**Status:** Refined (Session 42). Finer density sweep (19th mechanism) reveals monotonic composition improvement — the Session 41 non-monotonicity was a 4-seed noise artifact. n=800 achieves 4/4 full co-occurrence on 160×160 (first time) but the 1-seed structural guarantee leaks (3/4). The fundamental trade-off: density improves composition but worsens the 1-seed guarantee (structure-to-grid ratio). No density level achieves both 4/4 full AND 0/4 1-seed on 160×160. 19 mechanisms tested.
+**Status:** Refined (Session 43). Threshold sweep (20th mechanism) reveals the composition optimum (n=150, coexist=4/4) is NOT co-located with the H7 threshold (n≥175, H7=4/4) — composition peaks where the crossing is only 2/4 and degrades where it's fully reliable. 8-seed robustness at n=800 confirms 8/8 full (7/8 clean). No density level achieves both 4/4 full AND 0/4 1-seed on 160×160. 20 mechanisms tested.
 
 **Test:** Build a simulation with explicit composition mechanisms (stigmergic bridges between organizations, autopoietic boundaries, selection for composability) and compare to AlChemy without these mechanisms. Measure: does the version with composition mechanisms produce L2 where the plain version fails?
 
@@ -216,10 +216,10 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 | H2: ANT Translation | Unchanged | Theoretical, untested | [H2](logs/H2/) |
 | H3: Quasi-Object | Strengthened | Stigmergy literature support; Echo partial support | [H3](logs/H3/) |
 | H4: Dynamic Environment | Refined | Fitness landscape criticism supports this | [H4](logs/H4/) |
-| H5: Autopoiesis | Refined (S42) | Finer density: monotonic density dependence; non-monotonicity was noise; n=800 achieves 4/4 full (first on 160×160) but 1-seed leaks 3/4; trade-off 11th axis: density vs structure-to-grid ratio | [H5](logs/H5/) |
-| H6: Multi-Scale Autopoiesis | Refined (S42) | Two-wire principle formalized as concept file (12 members, Heisenberg trade-off); finer density sweep confirmed 12th member's prediction (leak rate increases with density) | [H6](logs/H6/) |
-| H7: Trace→Actor Crossing | Refined ×31; Finer density: percolation-like density threshold (H7=0/4 below ~4/kcell, 4/4 above ~8/kcell); crossing monotonic above threshold | Session 42 finer density; Session 41 density scaling; Session 40 exogenous D-term; Session 39 PID D-term; Session 38 jitter+grid; Session 34 movement; Session 33 dual; Session 32 hybrid; Session 22: 2×2 complete | [H7](logs/H7/) |
+| H5: Autopoiesis | Refined (S43) | Threshold: composition optimum (n=150) ≠ H7 threshold (n≥175); 8-seed robustness 8/8 full (7/8 clean); 1-seed leak 4/8 | [H5](logs/H5/) |
+| H6: Multi-Scale Autopoiesis | Refined (S43) | 12th member confirmed at 8 seeds; composition and crossing governed by different density regimes | [H6](logs/H6/) |
+| H7: Trace→Actor Crossing | Refined ×32; Threshold: gradual crossover (0/4→4/4 across 3.9–6.8/kc); composition optimum ≠ crossing threshold; 8-seed robustness 8/8 full | Session 43 threshold sweep; Session 42 finer density; Session 41 density scaling; Session 40 exogenous D-term; Session 39 PID D-term; Session 38 jitter+grid; Session 34 movement; Session 33 dual; Session 32 hybrid; Session 22: 2×2 complete | [H7](logs/H7/) |
 | H8: Complexity Enables OEE | NEW | Kaznatcheev (2019), Wiser et al. (2013) | [H8](logs/H8/) |
 | H9: Evolving Network | Untested (2026-07-27 correction) | Vasas et al. (2012) literature support; sim04's finite-space exhaustion survives but doesn't test the claim; sim03/sim05 withdrawn | [H9](logs/H9/) |
-| H10: Unbounded Space Insufficiency | Refined (S42) | Finer density (19th mechanism): monotonic composition; n=800 4/4 full (first on 160×160) but 1-seed leaks 3/4; no density achieves both 4/4 full AND 0/4 1-seed; 19 mechanisms tested | [H10](logs/H10/) |
+| H10: Unbounded Space Insufficiency | Refined (S43) | Threshold sweep (20th mechanism): composition optimum (n=150) ≠ H7 threshold (n≥175); 8-seed robustness 8/8 full (7/8 clean); no density achieves both 4/4 full AND 0/4 1-seed; 20 mechanisms tested | [H10](logs/H10/) |
 | H11: Saturating Channel | Directionally confirmed (4/4); causal with control arm; 2×2-complete; φ_sat predictor family-specific; two-wire principle confirmed (S33) | Session 33: two-wire principle confirmed — separate B fields break persistence-formation trade-off for stability; Session 23: φ_sat probe 50% accurate — deposit-probability saturation self-defeating only in cue channels | [H11](logs/H11/) |

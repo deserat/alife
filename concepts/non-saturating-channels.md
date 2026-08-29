@@ -790,3 +790,24 @@ The density scaling sweep (queued-topic #119) tested whether the 160×160 grid's
 ## Session 42 — The two-wire principle as a formal concept file
 
 The twelve members of the two-wire principle now have a standalone concept file: [`concepts/two-wire-principle.md`](two-wire-principle.md). It formalizes the taxonomy, the deepening progression, the cross-domain connections (ACO, developmental morphogens, control theory, statistical physics), the Heisenberg trade-off (Members 10-11), and the criticisms. The concept file cross-references each member to its simulation session and the empirical evidence that demonstrated it. The key insight: the twelve members form a progression from structural separation to dynamical unreachability to the Heisenberg trade-off — each level is a stronger form of the same principle. The Heisenberg trade-off (the signal cannot be simultaneously exogenous and spatially specific) may be the composition problem's fundamental limit, and the focal mode's fixed home center (an external spatial reference) is the unique signal that resolves it.
+
+## Session 43 — H7 threshold pinned; composition optimum ≠ crossing threshold
+
+The threshold sweep (5 density levels: 100, 125, 150, 175, 200 on 160×160 at jitter=10, 4 seeds) densified the H7 transition and added 8-seed robustness at n=800.
+
+**H7's density threshold is a gradual crossover, not a sharp percolation threshold.** n=100 (3.9/kc): H7=0/4. n=125 (4.9/kc): H7=1/4. n=150 (5.9/kc): H7=2/4. n=175 (6.8/kc): H7=4/4. The transition spans 4.9–6.8/kc — Session 42's two-point "sharp threshold" was an artifact of sparse sampling.
+
+**The composition optimum (n=150, coexist=4/4) is NOT co-located with the H7 threshold (n≥175, H7=4/4).** At n=150 where coexist=4/4 and clean=4/4, H7=2/4. At n=175 where H7=4/4, coexist=1/4. The crossing and composition are governed by different density regimes: the crossing needs more material (n≥175) than composition (n=150). This is a new finding — the two phenomena the project has been trying to co-locate are separated along the density axis.
+
+**8-seed robustness at n=800 confirms the headline.** 8/8 coexist, 8/8 stable, 8/8 H7, 7/8 clean, 7/8 full — the Session 42 4/4 result holds at 8 seeds. The 1-seed leak holds at 4/8 (was 3/4 at 4 seeds).
+
+| nT | density | l2(2s) | coexist | stable | h7(2s) | clean | full | l2(1s) | h7(1s) | cells |
+|-----|---------|--------|---------|--------|--------|-------|------|--------|--------|-------|
+| 100 | 3.91 | 4/4 | 0/4 | 0/4 | 0/4 | 0/4 | 0/4 | 0/4 | 4/4 | 677 |
+| 125 | 4.88 | 4/4 | 0/4 | 0/4 | 1/4 | 0/4 | 0/4 | 0/4 | 4/4 | 1289 |
+| 150 | 5.86 | 4/4 | 4/4 | 1/4 | 2/4 | 4/4 | 1/4 | 0/4 | 4/4 | 1685 |
+| 175 | 6.84 | 4/4 | 1/4 | 0/4 | 4/4 | 1/4 | 0/4 | 1/4 | 4/4 | 1932 |
+| 200 | 7.81 | 4/4 | 1/4 | 2/4 | 4/4 | 1/4 | 1/4 | 1/4 | 4/4 | 2146 |
+| 800 | 31.25 | 8/8 | 8/8 | 8/8 | 8/8 | 7/8 | 7/8 | 4/8 | 8/8 | 6787 |
+
+The separation between the composition optimum and the H7 threshold is a new expression of the two-wire principle's structure-to-grid ratio trade-off: the crossing and composition operate on different density regimes within the same system.

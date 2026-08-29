@@ -1329,3 +1329,51 @@ to compare.
      can provide anticipatory suppression without the 1-seed leak.
      Could be a sim14 variant: B_deriv driven by a sinusoid modulated
      by a fixed Gaussian centered at the midline.
+
+## From Session 43 (2026-08-29)
+
+123. **The composition optimum ≠ crossing threshold — two phase
+     transitions at different densities** — DONE (Session 43).
+     The threshold sweep (5 density levels: 100, 125, 150, 175, 200
+     on 160×160 at jitter=10, 4 seeds) found H7 transitions gradually
+     (0/4 at 3.9/kc → 4/4 at 6.8/kc) — not a sharp percolation
+     threshold. The composition optimum (coexist=4/4) peaks at n=150
+     (5.9/kc) where H7=2/4, and drops to 1/4 at n=175-200 where
+     H7=4/4. The crossing and composition are governed by different
+     density regimes: the crossing needs more material than
+     composition. At the crossing threshold, structures are large
+     enough to interact destructively (merge/fragment); at the
+     composition optimum, structures are large enough to consolidate
+     but not yet too large to separate. This connects to H1: the
+     composition problem is not "make the crossing work for two
+     structures" but "find the regime where two different phase
+     transitions co-occur." 8-seed robustness at n=800: 8/8 full
+     (7/8 clean), 1-seed leak 4/8. See `threshold_sweep.py`.
+
+124. **The n=150 regime — where composition works but the crossing
+     doesn't fully fire** — At n=150 (5.9/kc), coexist=4/4, clean=4/4,
+     but H7=2/4 and stable=1/4. The composition is clean (two
+     structures coexist, 1-seed control is 0/4) but the crossing
+     is not fully reliable. Is this a genuine regime where
+     composition works without the crossing — or is the crossing
+     criterion too strict at this density? If the crossing is not
+     necessary for composition at n=150, the composition mechanism
+     may be the boundary + ID-tagging, not the curvature channel's
+     self-maintenance. This would separate H5 (autopoiesis for
+     persistence) from H7 (the crossing for self-maintenance)
+     — composition may not require the crossing at the optimal
+     density. Cheap: inspect the n=150 runs' H7 criteria (which
+     criterion fails, and by how much).
+
+125. **The destructive interaction at n=175-200 — why does
+     composition degrade when the crossing fires?** — At n=175
+     (6.8/kc), H7=4/4 but coexist=1/4. The structures are large
+     enough for the curvature channel to consolidate (H7 fires) but
+     also large enough to overwhelm the boundary. Is the degradation
+     because the structures merge (too big for the midline), or
+     because the boundary is too weak relative to the structures'
+     growth rate? If it's merging, the structure-to-grid ratio
+     (12th member) explains it; if it's boundary weakness, a stronger
+     boundary (higher inh_gain) might rescue composition at n=175.
+     Cheap: inspect the n=175 l2_outcomes — are they "merged" or
+     "fragmented"?

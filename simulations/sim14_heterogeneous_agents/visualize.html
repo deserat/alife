@@ -179,6 +179,11 @@ select:hover, button:hover { border-color: var(--accent); }
 <p class="desc">4 density levels (100, 200, 400, 800 termites) on 160×160 at jitter=10 × 4 seeds. Tests whether the Session 41 non-monotonic intermediate density (160×300 worse than both 160×150 and 160×600) was genuine or a noise artifact. Result: monotonic improvement — the non-monotonicity was a 4-seed noise artifact. n=800 achieves 4/4 full co-occurrence (first time on 160×160) but the 1-seed control leaks (3/4) — the structure-to-grid ratio problem persists.</p>
 <div id="finer-density-section" class="sweep-grid"></div>
 
+<h2>Threshold Sweep + 8-Seed Robustness (Session 43)</h2>
+<p class="desc">Part 1: 5 density levels (100, 125, 150, 175, 200 termites) on 160×160 at jitter=10 × 4 seeds — pinning the H7 percolation threshold. H7 transitions from 0/4 (n=100, 3.9/kc) to 4/4 (n=175, 6.8/kc) with a mixed regime at n=125-150. Composition (coexist) peaks at n=150 (4/4) but degrades at n=175-200 (1/4) — the crossing threshold and the composition optimum are NOT co-located. Part 2: 8-seed robustness at n=800 confirms 8/8 coexist, 8/8 stable, 8/8 H7, 7/8 clean, 7/8 full — the headline result holds. 1-seed leak confirmed at 4/8 (was 3/4 at 4 seeds).</p>
+<div id="threshold-section" class="sweep-grid"></div>
+<div id="robust8-section" class="sweep-grid"></div>
+
 <script>
 let resultsData = null;
 let robustData = null;
@@ -208,6 +213,7 @@ async function loadData() {
     'exoDtermSweep': 'output/exo_dterm_sweep.json',
     'densitySweep': 'output/density_sweep.json',
     'finerDensitySweep': 'output/finer_density_sweep.json',
+    'thresholdSweep': 'output/threshold_sweep.json',
   };
   const sweepPromises = Object.entries(sweepFiles).map(([key, path]) =>
     fetch(path).then(r => r.json()).catch(() => null)
@@ -592,6 +598,33 @@ function populateSweepSections() {
     }
     const el = document.getElementById('finer-density-section');
     if (el) el.innerHTML = html;
+  }
+
+  // Threshold sweep (Session 43)
+  if (window.thresholdSweepData) {
+    const d = window.thresholdSweepData;
+
+    // Part 1: threshold sweep
+    const nList = d.config.threshold_n_list;
+    let threshHtml = '';
+    for (const nt of nList) {
+      const key = `threshold_grid_160_n${nt}_jitter_10`;
+      const ent = d[key];
+      if (!ent) continue;
+      const density = (nt / (160 * 160) * 1000).toFixed(2);
+      threshHtml += buildSweepCard(`n=${nt} (${density}/kc)`, ent.hetero_2seed, ent.hetero_1seed);
+    }
+    const tEl = document.getElementById('threshold-section');
+    if (tEl) tEl.innerHTML = threshHtml;
+
+    // Part 2: 8-seed robustness
+    const rKey = 'robust8_grid_160_n800_jitter_10';
+    const rEnt = d[rKey];
+    if (rEnt) {
+      const rHtml = buildSweepCard(`n=800 (8 seeds)`, rEnt.hetero_2seed, rEnt.hetero_1seed);
+      const rEl = document.getElementById('robust8-section');
+      if (rEl) rEl.innerHTML = rHtml;
+    }
   }
 }
 
