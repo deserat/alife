@@ -1351,29 +1351,65 @@ to compare.
      (7/8 clean), 1-seed leak 4/8. See `threshold_sweep.py`.
 
 124. **The n=150 regime — where composition works but the crossing
-     doesn't fully fire** — At n=150 (5.9/kc), coexist=4/4, clean=4/4,
-     but H7=2/4 and stable=1/4. The composition is clean (two
-     structures coexist, 1-seed control is 0/4) but the crossing
-     is not fully reliable. Is this a genuine regime where
-     composition works without the crossing — or is the crossing
-     criterion too strict at this density? If the crossing is not
-     necessary for composition at n=150, the composition mechanism
-     may be the boundary + ID-tagging, not the curvature channel's
-     self-maintenance. This would separate H5 (autopoiesis for
-     persistence) from H7 (the crossing for self-maintenance)
-     — composition may not require the crossing at the optimal
-     density. Cheap: inspect the n=150 runs' H7 criteria (which
-     criterion fails, and by how much).
+     doesn't fully fire** — DONE (Session 44).
+     At n=150 (5.9/kc), coexist=4/4, clean=4/4, but H7=2/4 and
+     stable=1/4. Per-criteria analysis: C1 (stability ≥ 0.90) is the
+     sole bottleneck — C2 and C3 pass 20/20 in all seeds, but stability
+     hovers at 0.88–0.89 (seeds 42, 123), just below the 0.90 threshold.
+     Max consecutive all-3 run is 2 (needs 4). **Composition does not
+     require the crossing** — 4/4 coexist with only 2/4 H7. The boundary
+     + ID-tagging is sufficient for coexistence at this density. The
+     crossing may be necessary for *stable* coexistence (1/4 stable)
+     but not for coexistence itself. This weakens H7's claim that the
+     crossing is the mechanism for composition. See
+     `criteria_analysis.py`.
 
 125. **The destructive interaction at n=175-200 — why does
-     composition degrade when the crossing fires?** — At n=175
-     (6.8/kc), H7=4/4 but coexist=1/4. The structures are large
-     enough for the curvature channel to consolidate (H7 fires) but
-     also large enough to overwhelm the boundary. Is the degradation
-     because the structures merge (too big for the midline), or
-     because the boundary is too weak relative to the structures'
-     growth rate? If it's merging, the structure-to-grid ratio
-     (12th member) explains it; if it's boundary weakness, a stronger
-     boundary (higher inh_gain) might rescue composition at n=175.
-     Cheap: inspect the n=175 l2_outcomes — are they "merged" or
-     "fragmented"?
+     composition degrade when the crossing fires?** — DONE (Session 44).
+     At n=175 (6.8/kc), H7=4/4 but coexist=1/4. Per-criteria analysis:
+     3/4 seeds have l2_outcome="fragmented" — both regions have 4+
+     connected components (mean_lc: 6.5, 2.5, 3.5, 6.0; mean_rc: 4.0,
+     6.5, 3.2, 4.0). The structures do NOT merge (l2_crossed=4/4);
+     they **over-fragment** — the boundary (dual g=0.3) over-splits
+     each region. The degradation mode is over-fragmentation, not
+     merging or boundary weakness. The boundary strength that enables
+     composition at n=150 is too strong at n=175 because the larger
+     structure has more surface area for the boundary to split. This
+     is a density-dependent expression of the strength-vs-growth
+     trade-off (Session 30). See `criteria_analysis.py`.
+
+## From Session 44 (2026-08-30)
+
+126. **Density-dependent boundary strength — should g scale with n?** —
+     The over-fragmentation at n=175 (boundary too strong for the larger
+     structure) suggests the boundary gain g should scale with density:
+     lower g at higher n, or a g(n) that keeps the component count at
+     1-3 per region. A sweep of g_form/g_persist at n=175 (lower than
+     0.3) might rescue composition at the H7 threshold. If g=0.15 at
+     n=175 produces 4/4 coexist with H7=4/4, the boundary strength
+     needs to be density-adaptive — the two-wire principle's 13th
+     member: the signal strength must scale with the structure size.
+
+127. **The crossing as a stability condition, not a composition
+     mechanism** — If composition at n=150 (4/4 coexist, 4/4 clean)
+     does not require the crossing (2/4 H7), the crossing may be a
+     stability condition (stable=1/4 at n=150, 8/8 stable at n=800
+     where H7=8/8) rather than the mechanism that produces
+     coexistence. This would reframe H7: the crossing is not what
+     creates multi-scale composition — the boundary + ID-tagging is.
+     The crossing is what makes composition *stable* (persistent
+     across perturbation). Test: does perturbation survival
+     correlate with H7 at n=150? If the 2/4 H7 seeds survive
+     perturbation less than the 2/4 non-H7 seeds, the crossing is
+     a stability condition. Cheap: re-run n=150 with perturbation.
+
+128. **The COEXIST_MAX_COMP threshold as a parameter** — The
+     fragmented/coexist distinction uses COEXIST_MAX_COMP=3 (1-3
+     components per region = coexist; 4+ = fragmented). Is this
+     threshold principled or arbitrary? At n=175, seed 256 has
+     mean_lc=3.6, mean_rc=3.3 — just above the threshold, classified
+     "coexist." If the threshold were 4, 3/4 seeds at n=175 would be
+     "coexist." The composition degradation at n=175 may be partly
+     an artifact of the COEXIST_MAX_COMP threshold being too
+     conservative. A sensitivity sweep of COEXIST_MAX_COMP (3, 4, 5)
+     at n=175 would test this. Cheap: re-classify the existing data.

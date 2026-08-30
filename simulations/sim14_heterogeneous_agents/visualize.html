@@ -184,6 +184,10 @@ select:hover, button:hover { border-color: var(--accent); }
 <div id="threshold-section" class="sweep-grid"></div>
 <div id="robust8-section" class="sweep-grid"></div>
 
+<h2>Per-Criteria Analysis — n=150 vs n=175 (Session 44)</h2>
+<p class="desc">Per-criterion H7 pass rates for the composition optimum (n=150, H7=2/4) and the crossing threshold (n=175, H7=4/4, coexist=1/4). At n=150, criterion 1 (stability ≥ 0.90) is the bottleneck — stability hovers at 0.88-0.89, flickering across the threshold. At n=175, H7 fires but the structures fragment (4+ components per region) — the boundary over-splits each region. The problem is over-fragmentation, not merging.</p>
+<div id="criteria-section"></div>
+
 <script>
 let resultsData = null;
 let robustData = null;
@@ -214,6 +218,7 @@ async function loadData() {
     'densitySweep': 'output/density_sweep.json',
     'finerDensitySweep': 'output/finer_density_sweep.json',
     'thresholdSweep': 'output/threshold_sweep.json',
+    'criteriaAnalysis': 'output/criteria_analysis.json',
   };
   const sweepPromises = Object.entries(sweepFiles).map(([key, path]) =>
     fetch(path).then(r => r.json()).catch(() => null)
@@ -625,6 +630,49 @@ function populateSweepSections() {
       const rEl = document.getElementById('robust8-section');
       if (rEl) rEl.innerHTML = rHtml;
     }
+  }
+
+  // Criteria analysis (Session 44)
+  if (window.criteriaAnalysisData) {
+    const d = window.criteriaAnalysisData;
+    let html = '';
+    for (const nKey of ['n150', 'n175']) {
+      const ent = d[nKey];
+      if (!ent) continue;
+      const two = ent['2seed'] || [];
+      const one = ent['1seed'] || [];
+      for (let i = 0; i < two.length; i++) {
+        const e = two[i];
+        const oe = one[i] || {};
+        const nSeeds = e.n_seeds || 2;
+        const c1Parts = (e.c1_pass || '0/0').split('/');
+        const c2Parts = (e.c2_pass || '0/0').split('/');
+        const c3Parts = (e.c3_pass || '0/0').split('/');
+        const c1Pct = c1Parts[0] + '/' + c1Parts[1];
+        const c2Pct = c2Parts[0] + '/' + c2Parts[1];
+        const c3Pct = c3Parts[0] + '/' + c3Parts[1];
+        const stabCls = e.mean_stab >= 0.90 ? 'good' : e.mean_stab >= 0.85 ? 'warn' : 'bad';
+        const fragCls = (e.mean_lc > 3 || e.mean_rc > 3) ? 'bad' : 'good';
+        html += `<div class="sweep-card">
+          <h4>${nKey} seed=${e.seed} (2-seed)</h4>
+          <div class="stat-row"><span class="stat-label">H7 crossing</span><span class="stat-val ${e.crossed_h7 ? 'good' : 'bad'}">${e.crossed_h7 ? 'YES' : 'NO'}</span></div>
+          <div class="stat-row"><span class="stat-label">L2 outcome</span><span class="stat-val">${e.l2_outcome}</span></div>
+          <div class="stat-row"><span class="stat-label">Stable</span><span class="stat-val ${e.l2_stable ? 'good' : 'bad'}">${e.l2_stable ? 'YES' : 'NO'}</span></div>
+          <div class="stat-row"><span class="stat-label">C1 (stab≥0.90)</span><span class="stat-val ${c1Parts[0] === c1Parts[1] ? 'good' : c1Parts[0] === '0' ? 'bad' : 'warn'}">${c1Pct}</span></div>
+          <div class="stat-row"><span class="stat-label">C2 (rough+plateau)</span><span class="stat-val ${c2Parts[0] === c2Parts[1] ? 'good' : 'bad'}">${c2Pct}</span></div>
+          <div class="stat-row"><span class="stat-label">C3 (dep_convex≥0.6)</span><span class="stat-val ${c3Parts[0] === c3Parts[1] ? 'good' : 'bad'}">${c3Pct}</span></div>
+          <div class="stat-row"><span class="stat-label">Mean stability</span><span class="stat-val ${stabCls}">${e.mean_stab.toFixed(4)}</span></div>
+          <div class="stat-row"><span class="stat-label">Mean roughness</span><span class="stat-val">${e.mean_rough.toFixed(6)}</span></div>
+          <div class="stat-row"><span class="stat-label">Mean dep_convex</span><span class="stat-val">${e.mean_dep_convex.toFixed(4)}</span></div>
+          <div class="stat-row"><span class="stat-label">Max consec all-3</span><span class="stat-val">${e.max_consec_all3} (need ${e.crossing_persist_needed})</span></div>
+          <div class="stat-row"><span class="stat-label">Mean left comp</span><span class="stat-val ${fragCls}">${e.mean_lc.toFixed(1)}</span></div>
+          <div class="stat-row"><span class="stat-label">Mean right comp</span><span class="stat-val ${fragCls}">${e.mean_rc.toFixed(1)}</span></div>
+          <div class="stat-row"><span class="stat-label">1-seed L2</span><span class="stat-val ${oe.l2_crossed ? 'bad' : 'good'}">${oe.l2_crossed ? 'LEAK' : 'clean'}</span></div>
+        </div>`;
+      }
+    }
+    const el = document.getElementById('criteria-section');
+    if (el) el.innerHTML = html;
   }
 }
 

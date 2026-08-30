@@ -811,3 +811,13 @@ The threshold sweep (5 density levels: 100, 125, 150, 175, 200 on 160×160 at ji
 | 800 | 31.25 | 8/8 | 8/8 | 8/8 | 8/8 | 7/8 | 7/8 | 4/8 | 8/8 | 6787 |
 
 The separation between the composition optimum and the H7 threshold is a new expression of the two-wire principle's structure-to-grid ratio trade-off: the crossing and composition operate on different density regimes within the same system.
+
+### Session 44: Per-criteria analysis — C1 bottleneck and over-fragmentation
+
+The per-criteria analysis (queued-topics #124, #125) instrumented the H7 detector's three criteria separately for n=150 and n=175.
+
+**At n=150 (composition optimum, H7=2/4):** C1 (stability ≥ 0.90) is the sole bottleneck. C2 (roughness + mass plateau) passes 20/20 in all seeds. C3 (deposit constraint) passes 20/20 in all seeds. C1 passes only 6/20 (seed 42, stab=0.8901) and 2/20 (seed 123, stab=0.8776) — stability hovers at 0.88–0.89, flickering across the 0.90 threshold. The max consecutive all-3 run is 2 (needs 4). The composition optimum sits at a density where the structure is just barely stable enough for coexistence but not quite stable enough for the crossing detector.
+
+**Composition at n=150 does not require the crossing.** 4/4 seeds coexist (4/4 clean, 0/4 1-seed) with only 2/4 H7. The boundary + ID-tagging is sufficient for coexistence — the curvature channel's self-maintenance is not the composition mechanism at this density.
+
+**At n=175 (H7 threshold, coexist=1/4):** H7 fires (4/4) but 3/4 seeds have l2_outcome="fragmented" — both regions have 4+ connected components (mean_lc: 6.5, 2.5, 3.5, 6.0; mean_rc: 4.0, 6.5, 3.2, 4.0). The structures do NOT merge (l2_crossed=4/4); they **over-fragment** — the boundary (dual g=0.3) over-splits each region. The degradation mode is over-fragmentation, not merging or boundary weakness. The boundary strength that enables composition at n=150 is too strong at n=175 because the larger structure has more surface area for the boundary to split. This is a density-dependent expression of the strength-vs-growth trade-off.
