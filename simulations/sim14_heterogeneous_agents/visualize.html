@@ -188,6 +188,10 @@ select:hover, button:hover { border-color: var(--accent); }
 <p class="desc">Per-criterion H7 pass rates for the composition optimum (n=150, H7=2/4) and the crossing threshold (n=175, H7=4/4, coexist=1/4). At n=150, criterion 1 (stability ≥ 0.90) is the bottleneck — stability hovers at 0.88-0.89, flickering across the threshold. At n=175, H7 fires but the structures fragment (4+ components per region) — the boundary over-splits each region. The problem is over-fragmentation, not merging.</p>
 <div id="criteria-section"></div>
 
+<h2>Density-Dependent Boundary Gain Sweep (Session 45)</h2>
+<p class="desc">7 (n, g) combos × 4 seeds. At n=175, lowering the boundary gain rescues composition (1/4 → 4/4 coexist) while preserving H7 (4/4). At n=150, raising the gain destroys composition (4/4 → 0/4). The boundary strength must scale with density — the two-wire principle's 13th member. n=175 g=0.20 achieves 2/4 full co-occurrence (H7+coexist+stable+clean) — the first at moderate density.</p>
+<div id="density-gain-section" class="sweep-grid"></div>
+
 <script>
 let resultsData = null;
 let robustData = null;
@@ -219,6 +223,7 @@ async function loadData() {
     'finerDensitySweep': 'output/finer_density_sweep.json',
     'thresholdSweep': 'output/threshold_sweep.json',
     'criteriaAnalysis': 'output/criteria_analysis.json',
+    'densityGainSweep': 'output/density_gain_sweep.json',
   };
   const sweepPromises = Object.entries(sweepFiles).map(([key, path]) =>
     fetch(path).then(r => r.json()).catch(() => null)
@@ -672,6 +677,22 @@ function populateSweepSections() {
       }
     }
     const el = document.getElementById('criteria-section');
+    if (el) el.innerHTML = html;
+  }
+
+  // Density-gain sweep (Session 45)
+  if (window.densityGainSweepData) {
+    const d = window.densityGainSweepData;
+    const combos = d.config.combos;
+    let html = '';
+    for (const [nt, gf, gp, label] of combos) {
+      const ent = d[label];
+      if (!ent) continue;
+      const density = (nt / (160 * 160) * 1000).toFixed(2);
+      html += buildSweepCard(`${label} (n=${nt}, ${density}/kc, g=${gf})`,
+                             ent.hetero_2seed, ent.hetero_1seed);
+    }
+    const el = document.getElementById('density-gain-section');
     if (el) el.innerHTML = html;
   }
 }

@@ -1381,14 +1381,19 @@ to compare.
 ## From Session 44 (2026-08-30)
 
 126. **Density-dependent boundary strength — should g scale with n?** —
-     The over-fragmentation at n=175 (boundary too strong for the larger
-     structure) suggests the boundary gain g should scale with density:
-     lower g at higher n, or a g(n) that keeps the component count at
-     1-3 per region. A sweep of g_form/g_persist at n=175 (lower than
-     0.3) might rescue composition at the H7 threshold. If g=0.15 at
-     n=175 produces 4/4 coexist with H7=4/4, the boundary strength
-     needs to be density-adaptive — the two-wire principle's 13th
-     member: the signal strength must scale with the structure size.
+     DONE (Session 45).
+     A sweep of 7 (n, g) combos (n=150 at g=0.30, 0.35, 0.40; n=175
+     at g=0.15, 0.20, 0.25, 0.30) × 4 seeds on 160×160 at jitter=10
+     found lowering g at n=175 RESCUES composition (1/4 → 4/4 coexist)
+     while preserving H7 (4/4 at all gains). Raising g at n=150
+     DESTROYS composition (4/4 → 0/4). The optimal gain is density-
+     dependent: g*≈0.30 at n=150 (5.9/kc), g*≈0.20 at n=175 (6.8/kc).
+     n=175 g=0.20 achieves 2/4 full co-occurrence (H7+coexist+stable+
+     clean) — the first at moderate density. The 1-seed control leaks
+     at n=175 (1/4 at all gains) — density-dependent, not gain-
+     dependent. The two-wire principle's 13th member: the signal
+     strength must scale with the structure size. See
+     `density_gain_sweep.py`.
 
 127. **The crossing as a stability condition, not a composition
      mechanism** — If composition at n=150 (4/4 coexist, 4/4 clean)
@@ -1413,3 +1418,30 @@ to compare.
      an artifact of the COEXIST_MAX_COMP threshold being too
      conservative. A sensitivity sweep of COEXIST_MAX_COMP (3, 4, 5)
      at n=175 would test this. Cheap: re-classify the existing data.
+
+## From Session 45 (2026-08-31)
+
+129. **The g*(n) scaling law — finer resolution and functional form** —
+     The density-gain sweep found g*≈0.30 at n=150 and g*≈0.20 at n=175.
+     Is the scaling linear (g* ∝ 1/n), power-law, or something else?
+     A finer sweep at n=160, 165, 170, 175, 180 with g=0.15–0.30 at
+     0.01 resolution would pin the scaling law. Also: does the scaling
+     hold at n=200+ (where H7 is already 4/4) or does it plateau?
+
+130. **Asymmetric g_form and g_persist at n=175** — The density-gain
+     sweep used symmetric g_form=g_persist. At n=175, the over-
+     fragmentation is from the boundary over-splitting — which B field
+     (form or persist) is responsible? An asymmetric sweep (g_form=0.30
+     + g_persist=0.15, or g_form=0.15 + g_persist=0.30) would isolate
+     which field's strength matters for over-fragmentation. If g_form
+     drives fragmentation (it shapes the surface), the 13th member is
+     specifically about the formation signal's strength, not the
+     persistence signal's.
+
+131. **The 1-seed leak at n=175 — is it fixable?** — The 1-seed control
+     leaks at n=175 (1/4 at all gains). The leak is density-dependent
+     (the bigger single structure overwhelms the midline) and gain-
+     independent. Can a spatially-structured exogenous signal (#121)
+     or a finer focal bias (#106) fix it without breaking composition?
+     Or is the 1-seed leak at n≥175 the fundamental limit of the
+     structure-to-grid ratio (the 12th member)?
