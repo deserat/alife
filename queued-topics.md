@@ -1422,11 +1422,16 @@ to compare.
 ## From Session 45 (2026-08-31)
 
 129. **The g*(n) scaling law — finer resolution and functional form** —
-     The density-gain sweep found g*≈0.30 at n=150 and g*≈0.20 at n=175.
-     Is the scaling linear (g* ∝ 1/n), power-law, or something else?
-     A finer sweep at n=160, 165, 170, 175, 180 with g=0.15–0.30 at
-     0.01 resolution would pin the scaling law. Also: does the scaling
-     hold at n=200+ (where H7 is already 4/4) or does it plateau?
+     DONE (Session 46).
+     A sweep of 20 (n, g) combos (n=155, 160, 165, 170, 180 × 4 gains each,
+     4 seeds × {2, 1} seeds = 160 runs) found the linear fit g* = 0.82 −
+     0.0036n (R²=0.75) and the 1/√n fit g* = −0.95 + 15.2/√n (R²=0.77).
+     Neither is strong — 4-seed variability produces ±0.02–0.04 uncertainty
+     in g* at each n. The 1/√n fit corresponds to Laplace pressure (ΔP =
+     2γ/R, R ∝ √n). n=170 g=0.24 achieves 3/4 full co-occurrence — the
+     best ever. H7 is 4/4 at all n≥155 except at the density boundary with
+     excessive gain. The 1-seed leak at n≥170 (1/4 at all gains) is
+     density-dependent and gain-independent. See `gain_scaling_sweep.py`.
 
 130. **Asymmetric g_form and g_persist at n=175** — The density-gain
      sweep used symmetric g_form=g_persist. At n=175, the over-
@@ -1445,3 +1450,35 @@ to compare.
      or a finer focal bias (#106) fix it without breaking composition?
      Or is the 1-seed leak at n≥175 the fundamental limit of the
      structure-to-grid ratio (the 12th member)?
+
+## From Session 46 (2026-09-01)
+
+132. **The 8-seed robustness of n=170 g=0.24** — n=170 g=0.24 achieves 3/4
+     full co-occurrence at 4 seeds. An 8-seed run would test whether this
+     holds up or was a lucky 4-seed draw. The g*(n) noise (±0.02–0.04)
+     means the 3/4 could be 2/8 or 6/8 at 8 seeds. Cheap: re-run with 8
+     seeds at the headline config.
+
+133. **The n=200+ plateau — does g* plateau or keep decreasing?** — The
+     linear fit predicts g*=0 at n≈230. Does the scaling hold at n=200,
+     210, 220, or does g* plateau before zero? If g* plateaus at g>0,
+     there is a minimum gain for coexistence independent of density. If
+     g* hits zero, there is a maximum density for composition. Test:
+     sweep n=200, 210, 220 at g=0.10–0.20.
+
+134. **The 1/√n vs linear distinction — can it be resolved?** — The
+     1/√n fit (R²=0.77) and linear fit (R²=0.75) are statistically
+     indistinguishable at 4-seed resolution. To distinguish them: the
+     linear predicts g*(n=200)=0.10, the 1/√n predicts g*(n=200)=0.12.
+     A sweep at n=200 with g=0.08–0.14 at 8 seeds could resolve the
+     difference. The 1/√n form would confirm the Laplace pressure
+     analogy; the linear form would suggest a different physics.
+
+135. **The composition optimum shift — why n=170, not n=150?** — The
+     composition optimum shifted from n=150 (Sessions 43–44, 4/4 coexist
+     but 2/4 H7) to n=170 (3/4 full, 4/4 H7) with density-dependent gain.
+     Is this because the crossing threshold (~6/kc) and the composition
+     optimum are converging at higher density? Or because the gain-
+     scaling fix (13th member) changed the optimum? Test: re-sweep n=150
+     at g=0.24–0.28 (the n=170 optimal) to see if the lower-density
+     optimum moves with the gain.

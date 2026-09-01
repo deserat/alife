@@ -192,6 +192,10 @@ select:hover, button:hover { border-color: var(--accent); }
 <p class="desc">7 (n, g) combos × 4 seeds. At n=175, lowering the boundary gain rescues composition (1/4 → 4/4 coexist) while preserving H7 (4/4). At n=150, raising the gain destroys composition (4/4 → 0/4). The boundary strength must scale with density — the two-wire principle's 13th member. n=175 g=0.20 achieves 2/4 full co-occurrence (H7+coexist+stable+clean) — the first at moderate density.</p>
 <div id="density-gain-section" class="sweep-grid"></div>
 
+<h2>g*(n) Scaling-Law Sweep (Session 46)</h2>
+<p class="desc">20 (n, g) combos × 4 seeds × {2, 1} seeds = 160 runs. Finer resolution around the g*(n) scaling law predicted by Sessions 43–45: g* ≈ 0.30 at n=150, g* ≈ 0.20 at n=175. The linear fit g* = 0.82 − 0.0036n (R²=0.75) predicts g*=0 at n≈230. The 1/√n fit is slightly better (R²=0.77). n=170 g=0.24 achieves 3/4 full co-occurrence — the best ever. H7 is 4/4 at all n≥155 across all gains except n=155 g=0.32 (2/4) and n=160 g=0.28 (1/4). The 1-seed control leaks at n≥170 (1/4 at all gains — density-dependent).</p>
+<div id="gain-scaling-section" class="sweep-grid"></div>
+
 <script>
 let resultsData = null;
 let robustData = null;
@@ -224,6 +228,7 @@ async function loadData() {
     'thresholdSweep': 'output/threshold_sweep.json',
     'criteriaAnalysis': 'output/criteria_analysis.json',
     'densityGainSweep': 'output/density_gain_sweep.json',
+    'gainScalingSweep': 'output/gain_scaling_sweep.json',
   };
   const sweepPromises = Object.entries(sweepFiles).map(([key, path]) =>
     fetch(path).then(r => r.json()).catch(() => null)
@@ -694,6 +699,22 @@ function populateSweepSections() {
     }
     const el = document.getElementById('density-gain-section');
     if (el) el.innerHTML = html;
+  }
+
+  // Gain scaling sweep (Session 46)
+  if (window.gainScalingSweepData) {
+    const d = window.gainScalingSweepData;
+    const combos = d.config.combos;
+    let html = '';
+    for (const [nt, gf, gp, label] of combos) {
+      const ent = d[label];
+      if (!ent) continue;
+      const density = (nt / (160 * 160) * 1000).toFixed(2);
+      html += buildSweepCard(`${label} (n=${nt}, ${density}/kc, g=${gf})`,
+                             ent.hetero_2seed, ent.hetero_1seed);
+    }
+    const el2 = document.getElementById('gain-scaling-section');
+    if (el2) el2.innerHTML = html;
   }
 }
 

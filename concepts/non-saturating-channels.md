@@ -829,3 +829,18 @@ The density-gain sweep tested whether the boundary gain g should scale with dens
 **The two-wire principle's 13th member: the signal strength must scale with the structure size.** The same gain that enables composition at n=150 over-fragments at n=175 because the larger structure has more surface area for the boundary to split. Lower density needs stronger boundary (more suppression to separate sparse structures); higher density needs weaker boundary (less suppression to avoid over-splitting). This is a density-dependent expression of the strength-vs-growth trade-off (Session 30).
 
 The 13th member completes a progression: (1-3) channel separation, (4-5) field separation, (6-7) signal quality, (8) exogeneity, (9) noise structure, (10) endogeneity, (11) spatial specificity, (12) structure-to-grid ratio, (13) density-dependent signal strength. Each level is a stronger form: the signal must not be reachable by the dynamics, must be specific to where it acts, must be small enough for the boundary to separate it, and must be strong enough to separate without over-splitting.
+
+## Session 46 — The g*(n) scaling law: linear vs 1/√n
+
+The g*(n) scaling-law sweep (20 combos, 160 runs) tested 5 new density levels (n=155, 160, 165, 170, 180) at 4 gains each, centered on the linear prediction g* = 0.90 − 0.004n from Sessions 43–45. Including the two known data points (n=150 g*=0.30, n=175 g*=0.20):
+
+- **Linear fit:** g* = 0.82 − 0.0036n (R²=0.75), zero crossing at n≈230
+- **1/√n fit:** g* = −0.95 + 15.2/√n (R²=0.77)
+
+Neither fit is strong — the 4-seed variability produces ±0.02–0.04 uncertainty in g* at each n. The linear and 1/√n fits are statistically indistinguishable at this resolution.
+
+**The 1/√n fit corresponds to Laplace pressure.** ΔP = 2γ/R for a spherical droplet, where R is the radius. If the structure's effective radius R ∝ √(n/area) (area ∝ n for a solid structure), then g* ∝ 1/R ∝ 1/√n — exactly the 1/√n fit. The slightly better R² (0.77 vs 0.75) is consistent with this physical interpretation, but the difference is too small to distinguish from noise.
+
+**n=170 g=0.24 achieves 3/4 full co-occurrence** — the best ever observed. This surpasses n=175 g=0.20 (2/4 full, Session 45) and n=800 (7/8 full, Session 42). The composition optimum has shifted from n=150 (Sessions 43–44) to n=170 with density-dependent gain.
+
+**The g*(n) noise as a composition limit.** The 4-seed variability in g* means the composition regime has a stochastic boundary — the same (n, g) pair can produce coexist or fragmented depending on nucleation trajectory. This is the 23rd mechanism in the composition problem: the gain-scaling itself is noisy, making the optimal gain ill-defined at 4-seed resolution.
