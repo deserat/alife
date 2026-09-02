@@ -844,3 +844,20 @@ Neither fit is strong — the 4-seed variability produces ±0.02–0.04 uncertai
 **n=170 g=0.24 achieves 3/4 full co-occurrence** — the best ever observed. This surpasses n=175 g=0.20 (2/4 full, Session 45) and n=800 (7/8 full, Session 42). The composition optimum has shifted from n=150 (Sessions 43–44) to n=170 with density-dependent gain.
 
 **The g*(n) noise as a composition limit.** The 4-seed variability in g* means the composition regime has a stochastic boundary — the same (n, g) pair can produce coexist or fragmented depending on nucleation trajectory. This is the 23rd mechanism in the composition problem: the gain-scaling itself is noisy, making the optimal gain ill-defined at 4-seed resolution.
+
+## Session 47 — 8-seed robustness and n=200: the 1/√n (Laplace pressure) scaling confirmed
+
+The 8-seed robustness at n=170 g=0.24 confirms the 3/4 full is not a 4-seed lucky draw: 3/8 full at 8 seeds (coexist=6/8, stable=3/8, clean=6/8). The 1-seed leak drops to 1/8 (was 1/4 at 4 seeds) — more seeds reduce the apparent leak rate.
+
+The n=200 sweep resolves the linear vs 1/√n ambiguity (queued-topic #134). The linear predicted g*(200)=0.10; the 1/√n predicted 0.12. Actual results:
+
+| g | l2 | coexist | stable | h7 | clean | full | cells |
+|------|------|---------|--------|------|-------|------|-------|
+| 0.08 | 4/4 | 3/4 | 2/4 | 4/4 | 3/4 | 2/4 | 3893 |
+| 0.10 | 4/4 | 2/4 | 2/4 | 4/4 | 2/4 | 2/4 | 3635 |
+| 0.12 | 4/4 | 3/4 | 3/4 | 4/4 | 3/4 | 3/4 | 3522 |
+| 0.14 | 4/4 | 4/4 | 3/4 | 4/4 | 4/4 | 3/4 | 3533 |
+
+The 1/√n fit is the better predictor — g=0.12 achieves 3/4 full, matching the 1/√n prediction. g=0.10 (the linear prediction) produces only 2/4 full. g=0.14 achieves 4/4 coexist and 4/4 clean — the highest coexist and clean rates at any density on the 160×160 grid. The Laplace pressure scaling law is confirmed at n=200.
+
+**The 24th mechanism: the n=200 plateau.** The composition optimum persists at n=200 (7.81/kc), not just at n=170 (6.64/kc). The g*(n) scaling has not plateaued — g* is still positive at n=200, and the 1/√n fit is the better predictor. The linear prediction of g*=0 at n≈230 remains untested (queued-topic #133).

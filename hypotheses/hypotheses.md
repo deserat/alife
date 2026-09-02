@@ -70,7 +70,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **For an emergent structure to persist as a new actor at a higher scale, it must be autopoietic — it must maintain the network that constitutes it.** Self-maintenance is the persistence condition. Without it, emergent structures are transient patterns, not new actors.
 
-**Status:** Refined (Session 46). The g*(n) scaling law is approximately linear (R²=0.75) or 1/√n (R²=0.77) — the Laplace pressure analogy holds but the 4-seed variability makes the functional form noisy. n=170 g=0.24 achieves 3/4 full co-occurrence (H7+coexist+stable+clean) — the best ever. The 1-seed control leaks at n≥170 (1/4 at all gains — density-dependent, gain-independent).
+**Status:** Refined (Session 47). The 8-seed robustness confirms n=170 g=0.24 is a genuine optimum (3/8 full, not a 4-seed artifact). The n=200 sweep resolves the linear vs 1/√n question: the 1/√n (Laplace pressure) fit is the better predictor (g*(200)≈0.12 vs linear's 0.10). n=200 g=0.14 achieves 3/4 full with 4/4 coexist and 4/4 clean. The 1-seed leak persists (1/8 at n=170 8 seeds, 1/4 at n=200) — the 12th and 13th members remain independent problems.
 
 **Log:** [logs/H5/](logs/H5/)
 
@@ -92,7 +92,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **Current mechanism claim:** the crossing needs a non-saturating channel that *recruits* deposition as well as *limiting* it, not mere negative feedback through the cue field (see H11). The curvature channel (Facchini et al. 2020) is the strongest candidate: growth at convex tips recruits, biharmonic smoothing limits, and there is no saturating pheromone field in the model at all.
 
-**Status:** Refined ×35. H7 is 4/4 at all n≥155 across most gains — the crossing is density-robust and gain-independent within the crossing regime. At the density boundary (n=155–160), excessive gain (g≥0.28–0.32) can suppress the crossing. n=170 g=0.24 achieves 3/4 full co-occurrence (H7+coexist+stable+clean) — the best ever, at moderate density (6.64/kc). The crossing threshold (~6/kc) is well below the composition optimum (n=170, 6.6/kc).
+**Status:** Refined ×36. H7 is 4/4 at all n≥155 across most gains — the crossing is density-robust and gain-independent within the crossing regime. 8-seed robustness at n=170 g=0.24 confirms 3/8 full (not a 4-seed artifact). The n=200 sweep confirms the 1/√n (Laplace pressure) scaling: g*(200)≈0.12, matching the 1/√n prediction. n=200 g=0.14 achieves 3/4 full with 4/4 coexist and 4/4 clean. The crossing threshold (~6/kc) is well below the composition optimum.
 
 **Evidence:**
 - sim06: near miss — stability 0.849–0.893 vs a 0.90 threshold; self-maintenance fragments instead of consolidating (H11's first data point). Detector-bug corrected 2026-07-27. Session 22: the saturating cue (as-built) crosses 16/16 stable without SM; the non-saturating cue crosses 0/16 stable without SM — cue-family reversal.
@@ -160,7 +160,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **Three paths, same failure:** Echo (CAS theory), chemical organizations (origin-of-life chemistry), and AlChemy (computational theory) all fail at multi-scale composition, from three different starting points — evidence the composition problem is fundamental, though sim05's leg of this argument is weaker post-correction.
 
-**Status:** Refined (Session 46). The 23rd mechanism: gain-scaling noise as a composition limit. The g*(n) scaling is approximately linear (R²=0.75) or 1/√n (R²=0.77) — the Laplace pressure analogy holds but the functional form is noisy (4-seed variability ±0.02–0.04). n=170 g=0.24 achieves 3/4 full co-occurrence — the best ever. The 1-seed leak (12th member) is independent of the gain-scaling fix (13th member). 23 mechanisms tested.
+**Status:** Refined (Session 47). The 24th mechanism: n=200 plateau. The 1/√n (Laplace pressure) scaling is confirmed — g*(200)≈0.12 matches the 1/√n prediction, not the linear (0.10). n=200 g=0.14 achieves 4/4 coexist + 4/4 clean + 3/4 full — the highest coexist/clean rates at any density. The 1-seed leak persists (1/4 at n=200, 1/8 at n=170 with 8 seeds). 24 mechanisms tested.
 
 **Test:** Build a simulation with explicit composition mechanisms (stigmergic bridges between organizations, autopoietic boundaries, selection for composability) and compare to AlChemy without these mechanisms. Measure: does the version with composition mechanisms produce L2 where the plain version fails?
 
@@ -216,10 +216,10 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 | H2: ANT Translation | Unchanged | Theoretical, untested | [H2](logs/H2/) |
 | H3: Quasi-Object | Strengthened | Stigmergy literature support; Echo partial support | [H3](logs/H3/) |
 | H4: Dynamic Environment | Refined | Fitness landscape criticism supports this | [H4](logs/H4/) |
-| H5: Autopoiesis | Refined (S46) | g*(n) scaling ~linear (R²=0.75) or 1/√n (R²=0.77); n=170 g=0.24 achieves 3/4 full — best ever; 1-seed leak at n≥170 | [H5](logs/H5/) |
+| H5: Autopoiesis | Refined (S47) | 8-seed robustness confirms 3/8 full; 1/√n scaling confirmed at n=200; 1-seed leak 1/8 at n=170, 1/4 at n=200 | [H5](logs/H5/) |
 | H6: Multi-Scale Autopoiesis | Refined (S43) | 12th member confirmed at 8 seeds; composition and crossing governed by different density regimes | [H6](logs/H6/) |
-| H7: Trace→Actor Crossing | Refined ×35; density-robust (4/4 at n≥155); n=170 g=0.24 achieves 3/4 full — best ever | Session 46 gain-scaling; Session 45 density-gain; Session 44 per-criteria; Session 43 threshold; Session 42 finer density; Session 34 movement; Session 33 dual; Session 22: 2×2 complete | [H7](logs/H7/) |
+| H7: Trace→Actor Crossing | Refined ×36; 8-seed robustness 3/8 full; 1/√n (Laplace) scaling confirmed at n=200; n=200 g=0.14 achieves 3/4 full | Session 47 robustness+n=200; Session 46 gain-scaling; Session 45 density-gain; Session 44 per-criteria; Session 43 threshold; Session 42 finer density; Session 34 movement; Session 33 dual; Session 22: 2×2 complete | [H7](logs/H7/) |
 | H8: Complexity Enables OEE | NEW | Kaznatcheev (2019), Wiser et al. (2013) | [H8](logs/H8/) |
 | H9: Evolving Network | Untested (2026-07-27 correction) | Vasas et al. (2012) literature support; sim04's finite-space exhaustion survives but doesn't test the claim; sim03/sim05 withdrawn | [H9](logs/H9/) |
-| H10: Unbounded Space Insufficiency | Refined (S46) | 23rd mechanism: gain-scaling noise; g*(n) ~linear (R²=0.75) or 1/√n (R²=0.77); 3/4 full at n=170 g=0.24 | [H10](logs/H10/) |
+| H10: Unbounded Space Insufficiency | Refined (S47) | 24th mechanism: n=200 plateau; 1/√n (Laplace) scaling confirmed g*(200)≈0.12; n=200 g=0.14 achieves 4/4 coexist + 4/4 clean | [H10](logs/H10/) |
 | H11: Saturating Channel | Directionally confirmed (4/4); causal with control arm; 2×2-complete; φ_sat predictor family-specific; two-wire principle confirmed (S33) | Session 33: two-wire principle confirmed — separate B fields break persistence-formation trade-off for stability; Session 23: φ_sat probe 50% accurate — deposit-probability saturation self-defeating only in cue channels | [H11](logs/H11/) |

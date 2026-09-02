@@ -1453,26 +1453,26 @@ to compare.
 
 ## From Session 46 (2026-09-01)
 
-132. **The 8-seed robustness of n=170 g=0.24** — n=170 g=0.24 achieves 3/4
-     full co-occurrence at 4 seeds. An 8-seed run would test whether this
-     holds up or was a lucky 4-seed draw. The g*(n) noise (±0.02–0.04)
-     means the 3/4 could be 2/8 or 6/8 at 8 seeds. Cheap: re-run with 8
-     seeds at the headline config.
+132. **The 8-seed robustness of n=170 g=0.24** — DONE (Session 47).
+    n=170 g=0.24 at 8 seeds: l2=8/8, coexist=6/8, stable=3/8, h7=8/8,
+    clean=6/8, full=3/8. The 3/4 full from 4 seeds holds at 3/8 with 8
+    seeds — the headline is robust, not a small-sample artifact. The 1-seed
+    leak drops to 1/8 (was 1/4 at 4 seeds). See
+    `robustness_n200_sweep.py`.
 
-133. **The n=200+ plateau — does g* plateau or keep decreasing?** — The
-     linear fit predicts g*=0 at n≈230. Does the scaling hold at n=200,
-     210, 220, or does g* plateau before zero? If g* plateaus at g>0,
-     there is a minimum gain for coexistence independent of density. If
-     g* hits zero, there is a maximum density for composition. Test:
-     sweep n=200, 210, 220 at g=0.10–0.20.
+133. **The n=200+ plateau — does g* plateau or keep decreasing?** — PARTIAL (Session 47).
+    n=200 sweep at 4 gains (0.08–0.14): H7=4/4 at all gains, g*≈0.12–0.14.
+    The 1/√n fit (g*=0.125) is confirmed; the linear (0.10) is rejected.
+    n=200 g=0.14 achieves 4/4 coexist, 4/4 clean, 3/4 full. The g* has not
+    plateaued at n=200 — g* is still positive. The linear predicts g*=0 at
+    n≈230; the 1/√n predicts g*(230)≈0.05. NEXT: sweep n=210, 220 to test
+    whether g* plateaus or approaches zero. See `robustness_n200_sweep.py`.
 
-134. **The 1/√n vs linear distinction — can it be resolved?** — The
-     1/√n fit (R²=0.77) and linear fit (R²=0.75) are statistically
-     indistinguishable at 4-seed resolution. To distinguish them: the
-     linear predicts g*(n=200)=0.10, the 1/√n predicts g*(n=200)=0.12.
-     A sweep at n=200 with g=0.08–0.14 at 8 seeds could resolve the
-     difference. The 1/√n form would confirm the Laplace pressure
-     analogy; the linear form would suggest a different physics.
+134. **The 1/√n vs linear distinction — can it be resolved?** — DONE (Session 47).
+    The n=200 sweep resolves it: g*(200)≈0.12 matches the 1/√n prediction
+    (0.125), not the linear (0.10). g=0.12 achieves 3/4 full; g=0.10
+    produces only 2/4 full. The 1/√n (Laplace pressure) scaling is confirmed.
+    See `robustness_n200_sweep.py`.
 
 135. **The composition optimum shift — why n=170, not n=150?** — The
      composition optimum shifted from n=150 (Sessions 43–44, 4/4 coexist

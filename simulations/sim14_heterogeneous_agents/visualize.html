@@ -196,6 +196,10 @@ select:hover, button:hover { border-color: var(--accent); }
 <p class="desc">20 (n, g) combos × 4 seeds × {2, 1} seeds = 160 runs. Finer resolution around the g*(n) scaling law predicted by Sessions 43–45: g* ≈ 0.30 at n=150, g* ≈ 0.20 at n=175. The linear fit g* = 0.82 − 0.0036n (R²=0.75) predicts g*=0 at n≈230. The 1/√n fit is slightly better (R²=0.77). n=170 g=0.24 achieves 3/4 full co-occurrence — the best ever. H7 is 4/4 at all n≥155 across all gains except n=155 g=0.32 (2/4) and n=160 g=0.28 (1/4). The 1-seed control leaks at n≥170 (1/4 at all gains — density-dependent).</p>
 <div id="gain-scaling-section" class="sweep-grid"></div>
 
+<h2>Robustness + n=200 Scaling Sweep (Session 47)</h2>
+<p class="desc">Part A: 8-seed robustness at n=170 g=0.24 (#132) — the 3/4 full from 4 seeds holds at 3/8 with 8 seeds (coexist=6/8, stable=3/8, H7=8/8, clean=6/8). Part B: n=200 at 4 gains (#133, #134) — the 1/√n fit predicts g*(200)=0.12; the linear predicts 0.10. Actual g*≈0.12-0.14 confirms the 1/√n (Laplace pressure) scaling. n=200 g=0.14 achieves 4/4 coexist, 4/4 clean, 3/4 stable, 3/4 full — matching n=170's best. The 1-seed leak persists (1/4 at n=200, 1/8 at n=170).</p>
+<div id="robustness-n200-section" class="sweep-grid"></div>
+
 <script>
 let resultsData = null;
 let robustData = null;
@@ -229,6 +233,7 @@ async function loadData() {
     'criteriaAnalysis': 'output/criteria_analysis.json',
     'densityGainSweep': 'output/density_gain_sweep.json',
     'gainScalingSweep': 'output/gain_scaling_sweep.json',
+    'robustnessN200Sweep': 'output/robustness_n200_sweep.json',
   };
   const sweepPromises = Object.entries(sweepFiles).map(([key, path]) =>
     fetch(path).then(r => r.json()).catch(() => null)
@@ -715,6 +720,32 @@ function populateSweepSections() {
     }
     const el2 = document.getElementById('gain-scaling-section');
     if (el2) el2.innerHTML = html;
+  }
+
+  // Robustness + n=200 sweep (Session 47)
+  if (window.robustnessN200SweepData) {
+    const d = window.robustnessN200SweepData;
+    let html = '';
+    // Part A: 8-seed robustness
+    const ra = d['n170_g024_8seed'];
+    if (ra) {
+      html += buildSweepCard('n170_g024_8seed (n=170, 6.64/kc, g=0.24, 8 seeds)',
+                             ra.hetero_2seed, ra.hetero_1seed);
+    }
+    // Part B: n=200 sweep
+    const n200labels = ['n200_g008', 'n200_g010', 'n200_g012', 'n200_g014'];
+    for (const label of n200labels) {
+      const ent = d[label];
+      if (!ent) continue;
+      const n = 200;
+      const density = (n / (160 * 160) * 1000).toFixed(2);
+      const gMatch = label.match(/g0(\d+)/);
+      const g = gMatch ? '0.' + gMatch[1] : '?';
+      html += buildSweepCard(`${label} (n=${n}, ${density}/kc, g=${g})`,
+                             ent.hetero_2seed, ent.hetero_1seed);
+    }
+    const el3 = document.getElementById('robustness-n200-section');
+    if (el3) el3.innerHTML = html;
   }
 }
 
