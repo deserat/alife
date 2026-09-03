@@ -1460,13 +1460,14 @@ to compare.
     leak drops to 1/8 (was 1/4 at 4 seeds). See
     `robustness_n200_sweep.py`.
 
-133. **The n=200+ plateau — does g* plateau or keep decreasing?** — PARTIAL (Session 47).
-    n=200 sweep at 4 gains (0.08–0.14): H7=4/4 at all gains, g*≈0.12–0.14.
-    The 1/√n fit (g*=0.125) is confirmed; the linear (0.10) is rejected.
-    n=200 g=0.14 achieves 4/4 coexist, 4/4 clean, 3/4 full. The g* has not
-    plateaued at n=200 — g* is still positive. The linear predicts g*=0 at
-    n≈230; the 1/√n predicts g*(230)≈0.05. NEXT: sweep n=210, 220 to test
-    whether g* plateaus or approaches zero. See `robustness_n200_sweep.py`.
+133. **The n=200+ plateau — does g* plateau or keep decreasing?** — DONE (Session 48).
+    The n=210–230 plateau sweep falsifies the linear scaling and confirms the
+    1/√n (Laplace pressure) scaling. At n=230 (the linear's predicted g*=0),
+    composition is alive: 3/4 coexist, 3/4 stable at g=0.08. n=220 g=0.06
+    and g=0.12 achieve 4/4 full — the first 4/4 full on 160×160. The
+    1-seed structural guarantee strengthens at higher density (0/4 at n=230).
+    8-seed robustness at n=200 g=0.14: 4/8 full (not a 4-seed artifact).
+    See `plateau_sweep.py`.
 
 134. **The 1/√n vs linear distinction — can it be resolved?** — DONE (Session 47).
     The n=200 sweep resolves it: g*(200)≈0.12 matches the 1/√n prediction
@@ -1476,9 +1477,43 @@ to compare.
 
 135. **The composition optimum shift — why n=170, not n=150?** — The
      composition optimum shifted from n=150 (Sessions 43–44, 4/4 coexist
-     but 2/4 H7) to n=170 (3/4 full, 4/4 H7) with density-dependent gain.
-     Is this because the crossing threshold (~6/kc) and the composition
-     optimum are converging at higher density? Or because the gain-
-     scaling fix (13th member) changed the optimum? Test: re-sweep n=150
-     at g=0.24–0.28 (the n=170 optimal) to see if the lower-density
-     optimum moves with the gain.
+     but 2/4 H7) to n=170 (3/4 full, 4/4 H7) to n=220 (4/4 full, Session 48)
+     with density-dependent gain. Is this because the crossing threshold
+     (~6/kc) and the composition optimum are converging at higher density?
+     Or because the gain-scaling fix (13th member) changed the optimum?
+     Test: re-sweep n=150 at g=0.24–0.28 (the n=170 optimal) to see if the
+     lower-density optimum moves with the gain.
+
+## From Session 48 (2026-09-03)
+
+136. **8-seed robustness at n=220 g=0.06** — The 4/4 full at n=220 is based
+     on 4 seeds. An 8-seed run would confirm whether 4/4 full is robust or
+     a small-sample artifact. The 8-seed at n=200 g=0.14 gave 4/8 full — so
+     the n=220 result may drop to ~4/8 or hold at 6-8/8. Cheap: re-run at
+     8 seeds.
+
+137. **The n=240–250 plateau — where does g* actually hit zero?** — The
+     1/√n fit predicts g*(240)≈0.04, g*(250)≈0.02. The linear is already
+     falsified. Does g* plateau at a small positive value, or does it
+     truly hit zero at some n? The LSW theory analogy says g* should hit
+     zero when the structure fills the grid (the droplet dissolves into
+     the continuous phase). Test: sweep n=240, 250 at g=0.02–0.08.
+
+138. **The 1-seed structural guarantee at n=230 (0/4) — why does it
+     strengthen?** — The 1-seed leak was 1/4 at n=200 and 1/8 at n=170
+     (8 seeds), but drops to 0/4 at n=230. More termites produce more
+     material, but the focal bias + curvature channel concentrate it
+     more effectively on the correct side. Is this because the bigger
+     single structure is more strongly confined by the curvature channel
+     (more material = more curvature = more routing)? Or because the
+     focal bias is more effective with more agents (more agents following
+     the home center = tighter concentration)? Inspect the 1-seed runs
+     at n=230 vs n=200: compare B_max, structure extent, and mean
+     curvature. Cheap: analysis of committed JSON.
+
+139. **Asymmetric g_form and g_persist at n=220** — The 4/4 full at n=220
+     uses symmetric g_form=g_persist. Which B field drives the 4/4 full?
+     An asymmetric sweep (g_form=0.06 + g_persist=0.12, or g_form=0.12 +
+     g_persist=0.06) would isolate which field is load-bearing for the
+     full co-occurrence. If g_form drives formation and g_persist drives
+     stability, the asymmetric configs should split the difference.

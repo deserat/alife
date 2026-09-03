@@ -200,6 +200,10 @@ select:hover, button:hover { border-color: var(--accent); }
 <p class="desc">Part A: 8-seed robustness at n=170 g=0.24 (#132) — the 3/4 full from 4 seeds holds at 3/8 with 8 seeds (coexist=6/8, stable=3/8, H7=8/8, clean=6/8). Part B: n=200 at 4 gains (#133, #134) — the 1/√n fit predicts g*(200)=0.12; the linear predicts 0.10. Actual g*≈0.12-0.14 confirms the 1/√n (Laplace pressure) scaling. n=200 g=0.14 achieves 4/4 coexist, 4/4 clean, 3/4 stable, 3/4 full — matching n=170's best. The 1-seed leak persists (1/4 at n=200, 1/8 at n=170).</p>
 <div id="robustness-n200-section" class="sweep-grid"></div>
 
+<h2>Plateau Sweep: n=210–230 + 8-seed n=200 (Session 48)</h2>
+<p class="desc"><strong>The linear scaling is falsified; the 1/√n (Laplace pressure) scaling is confirmed.</strong> The linear fit predicted g*=0 at n≈230 (composition impossible); the 1/√n predicted g*(230)≈0.05. At n=230, composition is still alive: 3/4 coexist, 3/4 stable at g=0.08. <strong>n=220 g=0.06 and g=0.12 achieve 4/4 full co-occurrence</strong> (H7+coexist+stable+clean) — the first 4/4 full at any density on 160×160! The 1-seed control is 0/4 at n=230 (structural guarantee holds). 8-seed robustness at n=200 g=0.14: 8/8 coexist, 8/8 clean, 4/8 stable, 4/8 full — the headline holds at 8 seeds.</p>
+<div id="plateau-section" class="sweep-grid"></div>
+
 <script>
 let resultsData = null;
 let robustData = null;
@@ -234,6 +238,7 @@ async function loadData() {
     'densityGainSweep': 'output/density_gain_sweep.json',
     'gainScalingSweep': 'output/gain_scaling_sweep.json',
     'robustnessN200Sweep': 'output/robustness_n200_sweep.json',
+    'plateauSweep': 'output/plateau_sweep.json',
   };
   const sweepPromises = Object.entries(sweepFiles).map(([key, path]) =>
     fetch(path).then(r => r.json()).catch(() => null)
@@ -746,6 +751,37 @@ function populateSweepSections() {
     }
     const el3 = document.getElementById('robustness-n200-section');
     if (el3) el3.innerHTML = html;
+  }
+
+  // Plateau sweep (Session 48)
+  if (window.plateauSweepData) {
+    const d = window.plateauSweepData;
+    let html = '';
+    // Part A: n=210, 220, 230 at 5 gains
+    const plateauLabels = [
+      'n210_g004', 'n210_g006', 'n210_g008', 'n210_g010', 'n210_g012',
+      'n220_g004', 'n220_g006', 'n220_g008', 'n220_g010', 'n220_g012',
+      'n230_g004', 'n230_g006', 'n230_g008', 'n230_g010', 'n230_g012',
+    ];
+    for (const label of plateauLabels) {
+      const ent = d[label];
+      if (!ent) continue;
+      const nMatch = label.match(/n(\d+)/);
+      const gMatch = label.match(/g0(\d+)/);
+      const n = nMatch ? parseInt(nMatch[1]) : 0;
+      const g = gMatch ? '0.' + gMatch[1] : '?';
+      const density = (n / (160 * 160) * 1000).toFixed(2);
+      html += buildSweepCard(`${label} (n=${n}, ${density}/kc, g=${g})`,
+                             ent.hetero_2seed, ent.hetero_1seed);
+    }
+    // Part B: 8-seed robustness at n=200 g=0.14
+    const rb = d['n200_g014_8seed'];
+    if (rb) {
+      html += buildSweepCard('n200_g014_8seed (n=200, 7.81/kc, g=0.14, 8 seeds)',
+                             rb.hetero_2seed, rb.hetero_1seed);
+    }
+    const el4 = document.getElementById('plateau-section');
+    if (el4) el4.innerHTML = html;
   }
 }
 

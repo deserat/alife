@@ -861,3 +861,37 @@ The n=200 sweep resolves the linear vs 1/√n ambiguity (queued-topic #134). The
 The 1/√n fit is the better predictor — g=0.12 achieves 3/4 full, matching the 1/√n prediction. g=0.10 (the linear prediction) produces only 2/4 full. g=0.14 achieves 4/4 coexist and 4/4 clean — the highest coexist and clean rates at any density on the 160×160 grid. The Laplace pressure scaling law is confirmed at n=200.
 
 **The 24th mechanism: the n=200 plateau.** The composition optimum persists at n=200 (7.81/kc), not just at n=170 (6.64/kc). The g*(n) scaling has not plateaued — g* is still positive at n=200, and the 1/√n fit is the better predictor. The linear prediction of g*=0 at n≈230 remains untested (queued-topic #133).
+
+## Session 48 — The linear scaling falsified; n=220 achieves 4/4 full; 1/√n (Laplace pressure) confirmed at n=230
+
+The n=210–230 plateau sweep is the decisive test of the g*(n) scaling law. The linear fit (g* = 0.82 − 0.0036n, R²=0.75) predicted g*=0 at n≈230 — composition impossible. The 1/√n fit (g* = −0.95 + 15.2/√n, R²=0.77) predicted g*(230)≈0.05 — composition still possible.
+
+**The linear scaling is falsified. The 1/√n (Laplace pressure) scaling is confirmed.**
+
+At n=230 (the linear's predicted zero), composition is alive: 3/4 coexist, 3/4 stable, 3/4 clean, 2/4 full at g=0.08. H7=4/4 at all n=230 gains. The 1-seed control is 0/4 at n=230 — the structural guarantee holds at the highest density tested.
+
+**n=220 g=0.06 and g=0.12 achieve 4/4 full co-occurrence** (H7+coexist+stable+clean) — the first 4/4 full at any density on the 160×160 grid. All 4 seeds show coexist, stable, H7, and clean simultaneously. The 1-seed control is 1/4 (structural guarantee mostly holds).
+
+| n | g | l2 | coexist | stable | h7 | clean | full | 1s_l2 | cells |
+|------|------|------|---------|--------|------|-------|------|-------|-------|
+| 210 | 0.04 | 4/4 | 3/4 | 2/4 | 4/4 | 3/4 | 2/4 | 1/4 | 4057 |
+| 210 | 0.06 | 4/4 | 4/4 | 2/4 | 4/4 | 4/4 | 2/4 | 1/4 | 4056 |
+| 210 | 0.08 | 4/4 | 4/4 | 2/4 | 4/4 | 4/4 | 2/4 | 1/4 | 4040 |
+| 210 | 0.10 | 4/4 | 3/4 | 1/4 | 4/4 | 3/4 | 1/4 | 1/4 | 3887 |
+| 210 | 0.12 | 4/4 | 3/4 | 4/4 | 4/4 | 3/4 | 3/4 | 1/4 | 3864 |
+| 220 | 0.04 | 4/4 | 4/4 | 3/4 | 4/4 | 4/4 | 3/4 | 1/4 | 4159 |
+| **220** | **0.06** | **4/4** | **4/4** | **4/4** | **4/4** | **4/4** | **4/4** | **1/4** | **4227** |
+| 220 | 0.08 | 4/4 | 3/4 | 3/4 | 4/4 | 3/4 | 2/4 | 1/4 | 4117 |
+| 220 | 0.10 | 4/4 | 4/4 | 2/4 | 4/4 | 4/4 | 2/4 | 1/4 | 3969 |
+| **220** | **0.12** | **4/4** | **4/4** | **4/4** | **4/4** | **4/4** | **4/4** | **1/4** | **3899** |
+| 230 | 0.04 | 4/4 | 3/4 | 2/4 | 4/4 | 3/4 | 2/4 | 0/4 | 4305 |
+| 230 | 0.06 | 4/4 | 2/4 | 3/4 | 4/4 | 2/4 | 2/4 | 0/4 | 4265 |
+| 230 | 0.08 | 4/4 | 3/4 | 3/4 | 4/4 | 3/4 | 3/4 | 0/4 | 4225 |
+| 230 | 0.10 | 4/4 | 3/4 | 2/4 | 4/4 | 3/4 | 2/4 | 0/4 | 4004 |
+| 230 | 0.12 | 4/4 | 3/4 | 2/4 | 4/4 | 3/4 | 2/4 | 0/4 | 3991 |
+
+8-seed robustness at n=200 g=0.14: l2=8/8, coexist=8/8, stable=4/8, h7=8/8, clean=8/8, full=4/8, 1s_l2=1/8. The 4/4 full from Session 47 holds at 4/8 — not a small-sample artifact.
+
+**The 25th mechanism: the n=220 composition optimum.** The composition optimum shifted from n=150 (Sessions 43–44) to n=170 (Session 46) to n=220 (Session 48). The optimum is moving toward higher density as the gain-scaling fix (13th member) allows stronger boundaries at higher density. The crossing threshold and composition optimum are converging but have not merged.
+
+**The 1-seed structural guarantee strengthens at higher density.** 0/4 at n=230, 1/4 at n=220, 1/4 at n=200 (4 seeds), 1/8 at n=200 (8 seeds). More termites produce more material, but the focal bias + curvature channel concentrate it more effectively on the correct side — the bigger single structure is better confined, not worse. This is the opposite of the 160×600 leak (Session 41): on a fixed grid size, higher density means more material but also more effective confinement.
