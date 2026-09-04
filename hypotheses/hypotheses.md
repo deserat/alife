@@ -2,8 +2,8 @@
 title: "Hypotheses"
 topic: "testable hypotheses for the multi-scale ALife composition project"
 status: active
-date: "2026-09-01"
-session: 46
+date: "2026-09-04"
+session: 49
 count: 11
 active: [H1, H2, H3, H4, H5, H6, H7, H8, H9, H10, H11]
 logs: ["logs/H1/", "logs/H2/", "logs/H3/", "logs/H4/", "logs/H5/", "logs/H6/", "logs/H7/", "logs/H8/", "logs/H9/", "logs/H10/", "logs/H11/"]
@@ -70,7 +70,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **For an emergent structure to persist as a new actor at a higher scale, it must be autopoietic — it must maintain the network that constitutes it.** Self-maintenance is the persistence condition. Without it, emergent structures are transient patterns, not new actors.
 
-**Status:** Refined (Session 48). The linear scaling is falsified — composition is alive at n=230 (the linear's predicted zero; 3/4 coexist at g=0.08). The 1/√n (Laplace pressure) scaling is confirmed. n=220 g=0.06 and g=0.12 achieve 4/4 full — the first 4/4 full on 160×160. 8-seed robustness at n=200 g=0.14: 4/8 full. The 1-seed leak is 0/4 at n=230 — the structural guarantee strengthens at higher density.
+**Status:** Refined (Session 49). The 4/4 full at n=220 g=0.06 holds at 6/8 with 8 seeds — robust but not universal (2/8 fragmenting seeds). The asymmetric g_form/g_persist sweep reveals neither B field is load-bearing — the symmetric balance is the optimum (form-heavy 2/4, persist-heavy 1/4, both symmetric configs 4/4). The two-wire principle's 14th member: formation and persistence must be balanced, not just separated.
 
 **Log:** [logs/H5/](logs/H5/)
 
@@ -92,7 +92,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **Current mechanism claim:** the crossing needs a non-saturating channel that *recruits* deposition as well as *limiting* it, not mere negative feedback through the cue field (see H11). The curvature channel (Facchini et al. 2020) is the strongest candidate: growth at convex tips recruits, biharmonic smoothing limits, and there is no saturating pheromone field in the model at all.
 
-**Status:** Refined ×37. The linear scaling is falsified — composition is alive at n=230 (3/4 coexist at g=0.08). The 1/√n (Laplace pressure) scaling is confirmed. n=220 g=0.06 and g=0.12 achieve 4/4 full — the first 4/4 full on 160×160. H7=4/4 at all n=210–230 gains. 8-seed robustness at n=200 g=0.14: 4/8 full (not a 4-seed artifact). 1-seed: 0/4 at n=230, 1/4 at n=220, 1/8 at n=200.
+**Status:** Refined ×38. 8-seed robustness at n=220 g=0.06: H7=8/8 (crossing fully robust at 8 seeds). The asymmetric g_form/g_persist sweep confirms H7=4/4 across all four configs — the crossing is independent of the formation/persistence balance (max suppression ≤ 0.18, below the 0.72 threshold). The crossing is not the bottleneck at n=220; the 6/8 full rate is degraded by composition quality (2/8 fragmenting), not by the crossing.
 
 **Evidence:**
 - sim06: near miss — stability 0.849–0.893 vs a 0.90 threshold; self-maintenance fragments instead of consolidating (H11's first data point). Detector-bug corrected 2026-07-27. Session 22: the saturating cue (as-built) crosses 16/16 stable without SM; the non-saturating cue crosses 0/16 stable without SM — cue-family reversal.
@@ -160,7 +160,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **Three paths, same failure:** Echo (CAS theory), chemical organizations (origin-of-life chemistry), and AlChemy (computational theory) all fail at multi-scale composition, from three different starting points — evidence the composition problem is fundamental, though sim05's leg of this argument is weaker post-correction.
 
-**Status:** Refined (Session 48). The 25th mechanism: the n=220 composition optimum. The linear scaling is falsified — composition is alive at n=230 (3/4 coexist). The 1/√n (Laplace pressure) scaling is confirmed. n=220 g=0.06 and g=0.12 achieve 4/4 full — the first 4/4 full on 160×160. The 1-seed structural guarantee strengthens at higher density (0/4 at n=230). 25 mechanisms tested.
+**Status:** Refined (Session 49). The 4/4 full at n=220 g=0.06 holds at 6/8 with 8 seeds — robust but not universal (stochastic boundary, consistent with LSW finite-N fluctuations). The 26th mechanism: the formation-persistence balance (symmetric 4/4, form-heavy 2/4, persist-heavy 1/4). Neither B field is load-bearing — the balance is the optimum. The two-wire principle's 14th member: formation and persistence must be balanced. 26 mechanisms tested.
 
 **Test:** Build a simulation with explicit composition mechanisms (stigmergic bridges between organizations, autopoietic boundaries, selection for composability) and compare to AlChemy without these mechanisms. Measure: does the version with composition mechanisms produce L2 where the plain version fails?
 
@@ -216,10 +216,10 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 | H2: ANT Translation | Unchanged | Theoretical, untested | [H2](logs/H2/) |
 | H3: Quasi-Object | Strengthened | Stigmergy literature support; Echo partial support | [H3](logs/H3/) |
 | H4: Dynamic Environment | Refined | Fitness landscape criticism supports this | [H4](logs/H4/) |
-| H5: Autopoiesis | Refined (S48) | Linear falsified at n=230; 1/√n confirmed; n=220 4/4 full (first on 160×160); 1-seed 0/4 at n=230 | [H5](logs/H5/) |
+| H5: Autopoiesis | Refined (S49) | 6/8 full at 8 seeds (n=220 g=0.06); asymmetric sweep: neither B field load-bearing — symmetric balance is optimum; 14th two-wire member | [H5](logs/H5/) |
 | H6: Multi-Scale Autopoiesis | Refined (S43) | 12th member confirmed at 8 seeds; composition and crossing governed by different density regimes | [H6](logs/H6/) |
-| H7: Trace→Actor Crossing | Refined ×37; linear falsified at n=230; 1/√n (Laplace) confirmed; n=220 4/4 full (first on 160×160); 8-seed n=200 4/8 full | Session 48 plateau; Session 47 robustness+n=200; Session 46 gain-scaling; Session 45 density-gain; Session 44 per-criteria; Session 43 threshold; Session 42 finer density; Session 34 movement; Session 33 dual; Session 22: 2×2 complete | [H7](logs/H7/) |
+| H7: Trace→Actor Crossing | Refined ×38; 8-seed H7=8/8 at n=220; asymmetric sweep H7=4/4 across all configs (crossing independent of form/persist balance); crossing not the bottleneck at n=220 | Session 49 robustness+asymmetric; Session 48 plateau; Session 47 robustness+n=200; Session 46 gain-scaling; Session 45 density-gain; Session 44 per-criteria; Session 43 threshold; Session 42 finer density; Session 34 movement; Session 33 dual; Session 22: 2×2 complete | [H7](logs/H7/) |
 | H8: Complexity Enables OEE | NEW | Kaznatcheev (2019), Wiser et al. (2013) | [H8](logs/H8/) |
 | H9: Evolving Network | Untested (2026-07-27 correction) | Vasas et al. (2012) literature support; sim04's finite-space exhaustion survives but doesn't test the claim; sim03/sim05 withdrawn | [H9](logs/H9/) |
-| H10: Unbounded Space Insufficiency | Refined (S48) | 25th mechanism: n=220 composition optimum; linear falsified at n=230; 1/√n confirmed; n=220 4/4 full (first on 160×160); 1-seed 0/4 at n=230 | [H10](logs/H10/) |
+| H10: Unbounded Space Insufficiency | Refined (S49) | 6/8 full at 8 seeds (n=220 g=0.06); 26th mechanism: formation-persistence balance; 14th two-wire member; symmetric balance is the optimum; 26 mechanisms tested | [H10](logs/H10/) |
 | H11: Saturating Channel | Directionally confirmed (4/4); causal with control arm; 2×2-complete; φ_sat predictor family-specific; two-wire principle confirmed (S33) | Session 33: two-wire principle confirmed — separate B fields break persistence-formation trade-off for stability; Session 23: φ_sat probe 50% accurate — deposit-probability saturation self-defeating only in cue channels | [H11](logs/H11/) |

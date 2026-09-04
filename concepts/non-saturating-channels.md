@@ -895,3 +895,20 @@ At n=230 (the linear's predicted zero), composition is alive: 3/4 coexist, 3/4 s
 **The 25th mechanism: the n=220 composition optimum.** The composition optimum shifted from n=150 (Sessions 43–44) to n=170 (Session 46) to n=220 (Session 48). The optimum is moving toward higher density as the gain-scaling fix (13th member) allows stronger boundaries at higher density. The crossing threshold and composition optimum are converging but have not merged.
 
 **The 1-seed structural guarantee strengthens at higher density.** 0/4 at n=230, 1/4 at n=220, 1/4 at n=200 (4 seeds), 1/8 at n=200 (8 seeds). More termites produce more material, but the focal bias + curvature channel concentrate it more effectively on the correct side — the bigger single structure is better confined, not worse. This is the opposite of the 160×600 leak (Session 41): on a fixed grid size, higher density means more material but also more effective confinement.
+
+## Session 49 — 8-seed robustness + asymmetric g_form/g_persist at n=220
+
+**8-seed robustness at n=220 g=0.06:** l2=8/8, coexist=6/8, stable=8/8, h7=8/8, clean=6/8, full=6/8, 1s_l2=1/8, 1s_h7=8/8, cells=4179. The 4/4 full from Session 48 holds at 6/8 — robust but not universal. Two seeds (100, 777) produce "fragmented" outcomes — the composition regime has a stochastic boundary. Consistent with Wilkinson (2025, arXiv:2507.07863): the LSW theory's growth-rate parameter ν fluctuates due to finite-N counting statistics (Ω = αx/√N controls breakdown).
+
+**Asymmetric g_form/g_persist sweep at n=220 (4 seeds):**
+
+| label | g_form | g_persist | l2 | coexist | stable | h7 | clean | full | 1s_l2 | 1s_h7 | cells |
+|-------|--------|-----------|-----|---------|--------|------|--------|------|-------|--------|-------|
+| sym006 | 0.06 | 0.06 | 4/4 | 4/4 | 4/4 | 4/4 | 4/4 | 4/4 | 1/4 | 4/4 | 4227 |
+| form012 | 0.12 | 0.06 | 4/4 | 3/4 | 2/4 | 4/4 | 3/4 | 2/4 | 1/4 | 4/4 | 4010 |
+| persist012 | 0.06 | 0.12 | 4/4 | 4/4 | 1/4 | 4/4 | 4/4 | 1/4 | 1/4 | 4/4 | 4099 |
+| sym012 | 0.12 | 0.12 | 4/4 | 4/4 | 4/4 | 4/4 | 4/4 | 4/4 | 1/4 | 4/4 | 3899 |
+
+**The 26th mechanism: the formation-persistence balance.** Neither B field alone is load-bearing — the symmetric balance is the optimum. Both asymmetric configs degrade: form-heavy (0.12, 0.06) degrades stability (2/4 stable) and clean (3/4); persist-heavy (0.06, 0.12) degrades stability worse (1/4 stable) while preserving coexist and clean. The total suppression matters (0.24 for symmetric vs 0.18 for asymmetric), but the split matters independently: form-heavy over-splits (too much formation, not enough persistence to hold); persist-heavy over-stabilizes (too much persistence, not enough formation to shape).
+
+**The two-wire principle's 14th member: formation and persistence must be balanced, not just separated.** The dual mode's two B fields each have a role — B_form shapes the surface (prevents merging), B_persist maintains it (prevents fragmentation) — but neither can substitute for the other. Raising one without the other breaks the balance. The LSW theory analogy (Wilkinson 2025): the critical radius depends on BOTH the surface tension (formation) and the supersaturation (persistence) — neither alone determines the coarsening dynamics.

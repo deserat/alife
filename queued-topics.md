@@ -1486,11 +1486,13 @@ to compare.
 
 ## From Session 48 (2026-09-03)
 
-136. **8-seed robustness at n=220 g=0.06** — The 4/4 full at n=220 is based
-     on 4 seeds. An 8-seed run would confirm whether 4/4 full is robust or
-     a small-sample artifact. The 8-seed at n=200 g=0.14 gave 4/8 full — so
-     the n=220 result may drop to ~4/8 or hold at 6-8/8. Cheap: re-run at
-     8 seeds.
+136. **8-seed robustness at n=220 g=0.06** — DONE (Session 49).
+    n=220 g=0.06 at 8 seeds: l2=8/8, coexist=6/8, stable=8/8, h7=8/8, clean=6/8,
+    full=6/8, 1s_l2=1/8, 1s_h7=8/8. The 4/4 full from Session 48 holds at
+    6/8 — robust but not universal. Two seeds (100, 777) fragment. The
+    composition regime has a stochastic boundary (consistent with LSW
+    finite-N fluctuations, Wilkinson 2025). See
+    `robustness_n220_sweep.py`.
 
 137. **The n=240–250 plateau — where does g* actually hit zero?** — The
      1/√n fit predicts g*(240)≈0.04, g*(250)≈0.02. The linear is already
@@ -1511,9 +1513,33 @@ to compare.
      at n=230 vs n=200: compare B_max, structure extent, and mean
      curvature. Cheap: analysis of committed JSON.
 
-139. **Asymmetric g_form and g_persist at n=220** — The 4/4 full at n=220
-     uses symmetric g_form=g_persist. Which B field drives the 4/4 full?
-     An asymmetric sweep (g_form=0.06 + g_persist=0.12, or g_form=0.12 +
-     g_persist=0.06) would isolate which field is load-bearing for the
-     full co-occurrence. If g_form drives formation and g_persist drives
-     stability, the asymmetric configs should split the difference.
+139. **Asymmetric g_form and g_persist at n=220** — DONE (Session 49).
+     The asymmetric sweep found **neither B field is load-bearing — the
+     symmetric balance is the optimum.** sym006 (0.06, 0.06) = 4/4 full;
+     form012 (0.12, 0.06) = 2/4 full (stability degrades);
+     persist012 (0.06, 0.12) = 1/4 full (stability degrades worse);
+     sym012 (0.12, 0.12) = 4/4 full. The 26th mechanism: the
+     formation-persistence balance. The two-wire principle's 14th member:
+     formation and persistence must be balanced, not just separated. See
+     `robustness_n220_sweep.py`.
+
+## From Session 49 (2026-09-04)
+
+140. **The n=240–250 plateau (continuation of #137)** — Where does g*
+     actually hit zero? The 1/√n predicts g*(240)≈0.04, g*(250)≈0.02.
+     At n=240–250 the structures fill most of the grid; the 1-seed
+     structural guarantee should be at its strongest. Does g* plateau at
+     a small positive value, or does it truly hit zero?
+
+141. **The stochastic composition boundary — what distinguishes the 2/8
+     fragmenting seeds?** At n=220 g=0.06, seeds 100 and 777 produce
+     "fragmented" outcomes while the other 6 produce "coexist." Is it
+     nucleation trajectory (initial deposit scatter) or dynamical
+     (criterion flickering)? Inspect the 2 fragmenting seeds' histories
+     vs the 6 coexisting seeds: where does l2_outcome diverge?
+
+142. **Finer asymmetric resolution — is there an asymmetric config that
+     matches sym006?** The asymmetric sweep tested (0.12, 0.06) and
+     (0.06, 0.12). A finer sweep (0.08, 0.06), (0.06, 0.08), (0.10,
+     0.06), (0.06, 0.10) might find an asymmetric config that preserves
+     4/4 full — or confirm that only symmetric configs achieve it.

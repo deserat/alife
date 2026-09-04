@@ -204,6 +204,10 @@ select:hover, button:hover { border-color: var(--accent); }
 <p class="desc"><strong>The linear scaling is falsified; the 1/√n (Laplace pressure) scaling is confirmed.</strong> The linear fit predicted g*=0 at n≈230 (composition impossible); the 1/√n predicted g*(230)≈0.05. At n=230, composition is still alive: 3/4 coexist, 3/4 stable at g=0.08. <strong>n=220 g=0.06 and g=0.12 achieve 4/4 full co-occurrence</strong> (H7+coexist+stable+clean) — the first 4/4 full at any density on 160×160! The 1-seed control is 0/4 at n=230 (structural guarantee holds). 8-seed robustness at n=200 g=0.14: 8/8 coexist, 8/8 clean, 4/8 stable, 4/8 full — the headline holds at 8 seeds.</p>
 <div id="plateau-section" class="sweep-grid"></div>
 
+<h2>8-Seed Robustness + Asymmetric g_form/g_persist at n=220 (Session 49)</h2>
+<p class="desc"><strong>The 4/4 full at n=220 g=0.06 holds at 6/8 with 8 seeds</strong> — the headline is robust but not universal (2/8 seeds fragment). The asymmetric sweep reveals that <strong>neither B field alone is load-bearing — the symmetric balance is the optimum</strong>. Form-heavy (0.12, 0.06) degrades to 2/4 full; persist-heavy (0.06, 0.12) degrades to 1/4 full. Both symmetric optima (0.06/0.06 and 0.12/0.12) achieve 4/4 full. The two-wire principle's 14th member: formation and persistence must be <em>balanced</em>, not just separated — each field has a role, but neither can substitute for the other.</p>
+<div id="robustness-n220-section" class="sweep-grid"></div>
+
 <script>
 let resultsData = null;
 let robustData = null;
@@ -239,6 +243,7 @@ async function loadData() {
     'gainScalingSweep': 'output/gain_scaling_sweep.json',
     'robustnessN200Sweep': 'output/robustness_n200_sweep.json',
     'plateauSweep': 'output/plateau_sweep.json',
+    'robustnessN220Sweep': 'output/robustness_n220_sweep.json',
   };
   const sweepPromises = Object.entries(sweepFiles).map(([key, path]) =>
     fetch(path).then(r => r.json()).catch(() => null)
@@ -782,6 +787,30 @@ function populateSweepSections() {
     }
     const el4 = document.getElementById('plateau-section');
     if (el4) el4.innerHTML = html;
+  }
+
+  // Robustness + asymmetric sweep (Session 49)
+  if (window.robustnessN220SweepData) {
+    const d = window.robustnessN220SweepData;
+    let html = '';
+    // Part A: 8-seed robustness at n=220 g=0.06
+    const rb220 = d['n220_g006_8seed'];
+    if (rb220) {
+      html += buildSweepCard('n220_g006_8seed (n=220, 8.59/kc, g=0.06, 8 seeds)',
+                             rb220.hetero_2seed, rb220.hetero_1seed);
+    }
+    // Part B: asymmetric sweep at n=220, 4 seeds
+    const asymLabels = ['sym006', 'form012', 'persist012', 'sym012'];
+    for (const label of asymLabels) {
+      const ent = d[label];
+      if (!ent) continue;
+      const gf = ent.g_form;
+      const gp = ent.g_persist;
+      html += buildSweepCard(`${label} (n=220, 8.59/kc, g_form=${gf}, g_persist=${gp})`,
+                             ent.hetero_2seed, ent.hetero_1seed);
+    }
+    const el5 = document.getElementById('robustness-n220-section');
+    if (el5) el5.innerHTML = html;
   }
 }
 

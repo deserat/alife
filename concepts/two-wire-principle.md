@@ -259,6 +259,8 @@ Each member was demonstrated by a simulation that showed the failure mode, then 
 - Member 10: sim14 PID D-term (Session 39) — endogenous anticipation self-defeating
 - Member 11: sim14 exogenous D-term (Session 40) — spatially uniform signal leaks 1-seed
 - Member 12: sim14 density sweep (Session 41) — 1-seed leaks at 160×600 (same density)
+- Member 13: sim14 density-gain sweep (Session 45) — gain must scale with density
+- Member 14: sim14 asymmetric sweep (Session 49) — formation and persistence must be balanced, not just separated
 
 Determinism verified at every level. 1-seed controls at every level. Full data in
 `simulations/sim14_heterogeneous_agents/output/`.
