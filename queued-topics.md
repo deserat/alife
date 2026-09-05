@@ -1532,14 +1532,59 @@ to compare.
      a small positive value, or does it truly hit zero?
 
 141. **The stochastic composition boundary — what distinguishes the 2/8
-     fragmenting seeds?** At n=220 g=0.06, seeds 100 and 777 produce
-     "fragmented" outcomes while the other 6 produce "coexist." Is it
-     nucleation trajectory (initial deposit scatter) or dynamical
-     (criterion flickering)? Inspect the 2 fragmenting seeds' histories
-     vs the 6 coexisting seeds: where does l2_outcome diverge?
+     fragmenting seeds?** — DONE (Session 50).
+     At n=220 g=0.06, seeds 100 and 777 produce "fragmented" outcomes while
+     the other 6 produce "coexist." Is it nucleation trajectory (initial
+     deposit scatter) or dynamical (criterion flickering)? RESULT: it is
+     neither — it is a **classifier artifact.** The l2_outcome classifier
+     uses the final late-window record's component counts; the stable_l2
+     metric uses the fraction of late-window steps in the coexist state.
+     All 8 seeds have stable_l2=True. The coexist fraction is 60–90% for
+     all seeds (mean 0.79). Seed 777 (fragmented, 80%) has a higher coexist
+     fraction than seed 999 (coexist, 70%). The "stochastic composition
+     boundary" is the classifier's noise floor, not a composition property.
+     The 27th mechanism: the classifier-noise boundary. See
+     `seed_analysis.py`.
 
 142. **Finer asymmetric resolution — is there an asymmetric config that
      matches sym006?** The asymmetric sweep tested (0.12, 0.06) and
      (0.06, 0.12). A finer sweep (0.08, 0.06), (0.06, 0.08), (0.10,
      0.06), (0.06, 0.10) might find an asymmetric config that preserves
      4/4 full — or confirm that only symmetric configs achieve it.
+
+## From Session 50 (2026-09-05)
+
+143. **Replace the l2_outcome final-record classifier with the stable_l2
+     metric as the primary composition quality measure** — The seed
+     analysis showed the final-record classifier has a noise floor that
+     produces false "fragmented" verdicts. The stable_l2 metric (coexist
+     in ≥50% of the late window) gives 8/8. Should the l2_outcome
+     classifier be replaced or supplemented with a late-window coexist
+     fraction threshold? The stable_l2 metric already exists in the code
+     but is not used for the "coexist" vs "fragmented" distinction. The
+     fix: use stable_l2 as the primary composition verdict, with
+     l2_outcome as a secondary diagnostic. Also: sweep the stable_l2
+     threshold (0.50, 0.60, 0.70) to see if any threshold separates
+     genuine composition from non-composition at other (n, g) pairs.
+
+144. **The n=240–250 plateau (continuation of #140, #137)** — Where does
+     g* actually hit zero? The 1/√n predicts g*(240)≈0.04, g*(250)≈0.02.
+     At n=240–250 the structures fill most of the grid. Does g* plateau
+     at a small positive value, or does it truly hit zero? The LSW analogy
+     says g* should hit zero when the structure fills the grid (the droplet
+     dissolves into the continuous phase).
+
+145. **Finer asymmetric resolution (continuation of #142)** — Is there an
+     asymmetric config that matches sym006? A finer sweep (0.08, 0.06),
+     (0.06, 0.08), (0.10, 0.06), (0.06, 0.10) might find an asymmetric
+     config that preserves 4/4 full — or confirm that only symmetric
+     configs achieve it.
+
+146. **The composition optimum shift — why n=220, not n=150? (continuation
+     of #135)** — The composition optimum shifted from n=150 (Sessions
+     43–44) to n=170 (Session 46) to n=220 (Session 48). Is this because
+     the crossing threshold (~6/kc) and the composition optimum are
+     converging at higher density? Or because the gain-scaling fix (13th
+     member) changed the optimum? Test: re-sweep n=150 at g=0.24–0.28
+     (the n=170 optimal) to see if the lower-density optimum moves with
+     the gain.

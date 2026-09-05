@@ -912,3 +912,24 @@ At n=230 (the linear's predicted zero), composition is alive: 3/4 coexist, 3/4 s
 **The 26th mechanism: the formation-persistence balance.** Neither B field alone is load-bearing — the symmetric balance is the optimum. Both asymmetric configs degrade: form-heavy (0.12, 0.06) degrades stability (2/4 stable) and clean (3/4); persist-heavy (0.06, 0.12) degrades stability worse (1/4 stable) while preserving coexist and clean. The total suppression matters (0.24 for symmetric vs 0.18 for asymmetric), but the split matters independently: form-heavy over-splits (too much formation, not enough persistence to hold); persist-heavy over-stabilizes (too much persistence, not enough formation to shape).
 
 **The two-wire principle's 14th member: formation and persistence must be balanced, not just separated.** The dual mode's two B fields each have a role — B_form shapes the surface (prevents merging), B_persist maintains it (prevents fragmentation) — but neither can substitute for the other. Raising one without the other breaks the balance. The LSW theory analogy (Wilkinson 2025): the critical radius depends on BOTH the surface tension (formation) and the supersaturation (persistence) — neither alone determines the coarsening dynamics.
+
+## Session 50 — The fragmentation boundary is a classifier artifact
+
+**Seed analysis at n=220 g=0.06 (8 seeds):** the 6/8 vs 2/8 "fragmentation" split (Session 49) is a final-record classifier artifact. The l2_outcome classifier uses the **final** late-window record's component counts; the stable_l2 metric uses the **fraction** of late-window steps in the coexist state. All 8 seeds have stable_l2=True. The late-window coexist fraction is 60–90% for all seeds (mean 0.79 ± 0.10):
+
+| seed | outcome | coexist_frac | max_consec_frag | stable_l2 |
+|------|---------|-------------|----------------|-----------|
+| 42 | coexist | 0.90 | 1 | YES |
+| 123 | coexist | 0.80 | 2 | YES |
+| 256 | coexist | 0.90 | 1 | YES |
+| 999 | coexist | 0.70 | 6 | YES |
+| 7 | coexist | 0.90 | 2 | YES |
+| 100 | **fragmented** | 0.60 | 4 | **YES** |
+| 555 | coexist | 0.75 | 3 | YES |
+| 777 | **fragmented** | 0.80 | 2 | **YES** |
+
+Seed 777 (fragmented, 80%) has a higher coexist fraction than seed 999 (coexist, 70%) and seed 555 (coexist, 75%). The "fragmented" classification is purely a final-record artifact — the last sample happens to have 4+ components.
+
+**The 27th mechanism: the classifier-noise boundary.** The l2_outcome classifier's final-record criterion has a noise floor — the last sample's component count can be 4+ for any seed. The COEXIST_MAX_COMP=3 threshold sits within that noise. The stable_l2 metric (≥50% of late-window in coexist) averages over the noise and gives a clean 8/8. This is the metric-ceiling pattern (#61) recurring: a threshold set within the noise floor of the quantity it gates on.
+
+**Revision of the LSW finite-N interpretation (Session 49):** the fluctuations are in the classifier, not in the composition. The composition quality is uniform (60–90% coexist fraction) across all seeds — there is no "stochastic composition boundary." The 6/8 full from Session 49 becomes 8/8 stable with the correct metric.
