@@ -2,8 +2,8 @@
 title: "Hypotheses"
 topic: "testable hypotheses for the multi-scale ALife composition project"
 status: active
-date: "2026-09-05"
-session: 50
+date: "2026-09-06"
+session: 51
 count: 11
 active: [H1, H2, H3, H4, H5, H6, H7, H8, H9, H10, H11]
 logs: ["logs/H1/", "logs/H2/", "logs/H3/", "logs/H4/", "logs/H5/", "logs/H6/", "logs/H7/", "logs/H8/", "logs/H9/", "logs/H10/", "logs/H11/"]
@@ -70,7 +70,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **For an emergent structure to persist as a new actor at a higher scale, it must be autopoietic — it must maintain the network that constitutes it.** Self-maintenance is the persistence condition. Without it, emergent structures are transient patterns, not new actors.
 
-**Status:** Refined (Session 50). The 6/8 "fragmentation" split from Session 49 is a final-record classifier artifact — all 8 seeds at n=220 g=0.06 have stable_l2=True and coexist fractions of 60–90% (mean 0.79). The true composition quality is uniform across seeds; the "stochastic boundary" is the l2_outcome classifier's noise floor. The two-wire principle's 14th member (formation-persistence balance) stands.
+**Status:** Refined (Session 51). n=240 g=0.01 is the best config ever (4/4 coexist + 4/4 stable + 4/4 H7 + 3/4 full). Stability degrades at n=250 (2/4 vs 3–4/4 at n=240) — the 28th mechanism: the stability-density trade-off. The coexist_frac metric is adopted as primary composition quality measure (#143).
 
 **Log:** [logs/H5/](logs/H5/)
 
@@ -92,7 +92,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **Current mechanism claim:** the crossing needs a non-saturating channel that *recruits* deposition as well as *limiting* it, not mere negative feedback through the cue field (see H11). The curvature channel (Facchini et al. 2020) is the strongest candidate: growth at convex tips recruits, biharmonic smoothing limits, and there is no saturating pheromone field in the model at all.
 
-**Status:** Refined ×39. 8-seed robustness at n=220 g=0.06: H7=8/8 (crossing fully robust). The 2/8 "fragmenting" seeds are a classifier artifact (final-record noise), not an H7 failure. The crossing is fully robust and independent of the composition quality measurement issue. The stable_l2 metric gives 8/8 stable — the composition quality is uniform (coexist fraction 60–90%, mean 0.79).
+**Status:** Refined ×40. n=240–250 plateau: g* does not hit zero — the 1/√n (Laplace pressure) scaling is confirmed, the linear is definitively falsified. n=240 g=0.01 is the best config ever (4/4 coexist + 4/4 stable + 4/4 H7 + 3/4 full). H7=4/4 at all n=240–250 combos — the crossing is fully robust. Stability degrades at n=250 (2/4 vs 3–4/4 at n=240). The coexist_frac metric is adopted as primary (#143). 28 mechanisms tested.
 
 **Evidence:**
 - sim06: near miss — stability 0.849–0.893 vs a 0.90 threshold; self-maintenance fragments instead of consolidating (H11's first data point). Detector-bug corrected 2026-07-27. Session 22: the saturating cue (as-built) crosses 16/16 stable without SM; the non-saturating cue crosses 0/16 stable without SM — cue-family reversal.
@@ -160,7 +160,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **Three paths, same failure:** Echo (CAS theory), chemical organizations (origin-of-life chemistry), and AlChemy (computational theory) all fail at multi-scale composition, from three different starting points — evidence the composition problem is fundamental, though sim05's leg of this argument is weaker post-correction.
 
-**Status:** Refined (Session 50). The "stochastic composition boundary" from Session 49 is a classifier artifact — the final-record l2_outcome classifier has a noise floor that the COEXIST_MAX_COMP=3 threshold sits within. The stable_l2 metric gives 8/8. All seeds have coexist fraction 60–90% (mean 0.79). The 27th mechanism: the classifier-noise boundary. 27 mechanisms tested.
+**Status:** Refined (Session 51). The 28th mechanism: the stability-density trade-off. g* does not hit zero at n=240–250 — the 1/√n (Laplace pressure) scaling holds. Stability degrades at n=250 (2/4 vs 3–4/4 at n=240) — the structures are too big. n=240 g=0.01 is the best config ever (4/4 coexist + 4/4 stable + 4/4 H7 + 3/4 full). The coexist_frac metric is adopted as primary (#143). 28 mechanisms tested.
 
 **Test:** Build a simulation with explicit composition mechanisms (stigmergic bridges between organizations, autopoietic boundaries, selection for composability) and compare to AlChemy without these mechanisms. Measure: does the version with composition mechanisms produce L2 where the plain version fails?
 
@@ -216,10 +216,10 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 | H2: ANT Translation | Unchanged | Theoretical, untested | [H2](logs/H2/) |
 | H3: Quasi-Object | Strengthened | Stigmergy literature support; Echo partial support | [H3](logs/H3/) |
 | H4: Dynamic Environment | Refined | Fitness landscape criticism supports this | [H4](logs/H4/) |
-| H5: Autopoiesis | Refined (S50) | 8/8 stable at 8 seeds (n=220 g=0.06); "fragmentation" split is a classifier artifact — all seeds coexist 60–90%; 14th two-wire member | [H5](logs/H5/) |
+| H5: Autopoiesis | Refined (S51) | n=240 g=0.01 best config ever (4/4 coexist+stable+H7+3/4 full); stability degrades at n=250; coexist_frac adopted as primary; 28th mechanism: stability-density trade-off | [H5](logs/H5/) |
 | H6: Multi-Scale Autopoiesis | Refined (S43) | 12th member confirmed at 8 seeds; composition and crossing governed by different density regimes | [H6](logs/H6/) |
-| H7: Trace→Actor Crossing | Refined ×39; 8-seed H7=8/8 at n=220; 2/8 "fragmenting" seeds are a classifier artifact (final-record noise); stable_l2 gives 8/8; crossing fully robust | Session 50 classifier-artifact; Session 49 robustness+asymmetric; Session 48 plateau; Session 47 robustness+n=200; Session 46 gain-scaling; Session 45 density-gain; Session 44 per-criteria; Session 43 threshold; Session 42 finer density; Session 34 movement; Session 33 dual; Session 22: 2×2 complete | [H7](logs/H7/) |
+| H7: Trace→Actor Crossing | Refined ×40; n=240–250 g*≠0 (1/√n confirmed); n=240 g=0.01 best ever (4/4 full); H7=4/4 at all n=240–250; stability degrades at n=250; coexist_frac primary (#143); 28th mechanism: stability-density trade-off | Session 51 plateau 240–250; Session 50 classifier-artifact; Session 49 robustness+asymmetric; Session 48 plateau; Session 47 robustness+n=200; Session 46 gain-scaling; Session 45 density-gain; Session 44 per-criteria; Session 43 threshold; Session 42 finer density; Session 34 movement; Session 33 dual; Session 22: 2×2 complete | [H7](logs/H7/) |
 | H8: Complexity Enables OEE | NEW | Kaznatcheev (2019), Wiser et al. (2013) | [H8](logs/H8/) |
 | H9: Evolving Network | Untested (2026-07-27 correction) | Vasas et al. (2012) literature support; sim04's finite-space exhaustion survives but doesn't test the claim; sim03/sim05 withdrawn | [H9](logs/H9/) |
-| H10: Unbounded Space Insufficiency | Refined (S50) | 8/8 stable at 8 seeds (stable_l2); "stochastic boundary" is a classifier artifact; 27th mechanism: classifier-noise boundary; 27 mechanisms tested | [H10](logs/H10/) |
+| H10: Unbounded Space Insufficiency | Refined (S51) | 28th mechanism: stability-density trade-off; g*≠0 at n=240–250 (1/√n confirmed); n=240 g=0.01 best ever; coexist_frac primary; 28 mechanisms tested | [H10](logs/H10/) |
 | H11: Saturating Channel | Directionally confirmed (4/4); causal with control arm; 2×2-complete; φ_sat predictor family-specific; two-wire principle confirmed (S33) | Session 33: two-wire principle confirmed — separate B fields break persistence-formation trade-off for stability; Session 23: φ_sat probe 50% accurate — deposit-probability saturation self-defeating only in cue channels | [H11](logs/H11/) |

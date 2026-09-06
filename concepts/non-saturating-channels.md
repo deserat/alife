@@ -933,3 +933,15 @@ Seed 777 (fragmented, 80%) has a higher coexist fraction than seed 999 (coexist,
 **The 27th mechanism: the classifier-noise boundary.** The l2_outcome classifier's final-record criterion has a noise floor — the last sample's component count can be 4+ for any seed. The COEXIST_MAX_COMP=3 threshold sits within that noise. The stable_l2 metric (≥50% of late-window in coexist) averages over the noise and gives a clean 8/8. This is the metric-ceiling pattern (#61) recurring: a threshold set within the noise floor of the quantity it gates on.
 
 **Revision of the LSW finite-N interpretation (Session 49):** the fluctuations are in the classifier, not in the composition. The composition quality is uniform (60–90% coexist fraction) across all seeds — there is no "stochastic composition boundary." The 6/8 full from Session 49 becomes 8/8 stable with the correct metric.
+
+## Session 51 — The 28th mechanism: the stability-density trade-off; g* does not hit zero
+
+The n=240–250 plateau sweep (queued-topic #144) tested whether g* hits zero — the LSW prediction that the droplet dissolves into the continuous phase when the structure fills the grid.
+
+**g* does NOT hit zero at n=240–250.** Both n=240 and n=250 produce coexist at every gain tested (0.01–0.06). H7=4/4 at all combos. The 1/√n (Laplace pressure) scaling is confirmed — g* approaches zero asymptotically but has not reached it at n=250 (19% grid fill). The linear scaling is definitively falsified.
+
+**The 28th mechanism: the stability-density trade-off.** Stability degrades at n=250 (2/4 at most gains) vs n=240 (3–4/4). The structures are too big (~4700–4900 cells on 160×160), creating more surface area for the boundary to split. This is a new expression of the strength-vs-growth trade-off (Session 30): higher density produces more material (good for the crossing) but bigger structures (bad for stability). The composition quality degrades not because g* hits zero, but because the stability margin shrinks.
+
+**n=240 g=0.01 is the best config ever: 4/4 coexist + 4/4 stable + 4/4 H7 + 3/4 full.** The 1-seed control is 0/4 l2_crossed (structural guarantee holds). The coexist_frac metric (#143) is adopted as the primary composition quality measure — the stable_l2 metric (coexist in ≥50% of the late window) averages over the final-record classifier's noise floor (Session 50's classifier-noise boundary).
+
+**The 1-seed l2_crossed leaks at n=250** (1/4 at all gains) — the structure-to-grid ratio problem (12th member) persists at the highest density. The bigger single structure (~4800 cells) crosses the midline even with focal bias.

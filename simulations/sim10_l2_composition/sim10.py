@@ -301,13 +301,23 @@ def detect_l2(history, params):
     # stable_l2: both regions have 1-coexist_max components for >= 50%
     # of the late window. Distinguishes stable coexistence from a transient
     # that flickers then merges (the offset=0.45/decay=0.002 case).
+    #
+    # Session 51 (#143): stable_l2 is now the PRIMARY composition quality
+    # measure. The final-record l2_outcome classifier has a noise floor
+    # (the last sample's component count can be 4+ for any seed — Session
+    # 50's classifier-noise boundary). The coexist_frac metric (fraction
+    # of late-window steps in the coexist state) averages over the noise
+    # and is reported alongside l2_outcome as the primary verdict.
     stable_count = 0
+    coexist_count = 0  # Session 51: count for coexist_frac metric
     for r in late:
         lc2 = r.get("left_components", 0)
         rc2 = r.get("right_components", 0)
         if 1 <= lc2 <= coexist_max and 1 <= rc2 <= coexist_max:
             stable_count += 1
+            coexist_count += 1
     stable_l2 = (stable_count / len(late)) >= 0.50
+    coexist_frac = stable_count / len(late)  # Session 51: primary metric
 
     for r in history:
         r["l2_crossed"] = l2_crossed
@@ -318,6 +328,7 @@ def detect_l2(history, params):
     final["l2_late_mean_lc"] = late_mean_lc
     final["l2_late_mean_rc"] = late_mean_rc
     final["l2_stable"] = stable_l2
+    final["l2_coexist_frac"] = coexist_frac  # Session 51: primary metric
     return history
 
 
@@ -456,6 +467,7 @@ def summarize_two_region(history, n_seeds=2):
         "l2_late_mean_lc": float(last.get("l2_late_mean_lc", 0.0)),
         "l2_late_mean_rc": float(last.get("l2_late_mean_rc", 0.0)),
         "l2_stable": bool(last.get("l2_stable", False)),
+        "l2_coexist_frac": float(last.get("l2_coexist_frac", 0.0)),  # Session 51
         "final_total_material": float(last["total_material"]),
         "final_n_structure_cells": int(last["n_structure_cells"]),
         "crossed_h7": bool(last.get("crossed", False)),

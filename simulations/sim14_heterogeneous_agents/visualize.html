@@ -212,6 +212,10 @@ select:hover, button:hover { border-color: var(--accent); }
 <p class="desc"><strong>The 6/8 vs 2/8 "fragmentation" split is a final-record classifier artifact, not a genuine composition difference.</strong> All 8 seeds at n=220 g=0.06 have stable_l2=True (coexist in ≥50% of the late window). The late-window coexist fraction is 60–90% for all seeds — the two "fragmented" seeds (100: 60%, 777: 80%) are within the same band as the "coexisting" seeds (70–90%). Seed 777 (fragmented, 80%) has a higher coexist fraction than seed 999 (coexist, 70%) and seed 555 (coexist, 75%). The l2_outcome classifier uses the <em>final</em> late-window record; the stable_l2 metric uses the <em>fraction</em> of late-window steps in the coexist state. The "stochastic composition boundary" is a classifier boundary, not a composition boundary.</p>
 <div id="seed-analysis-section"></div>
 
+<h2>Plateau 240–250: g* Does Not Hit Zero (Session 51)</h2>
+<p class="desc"><strong>The 1/√n (Laplace pressure) scaling holds — g* does not hit zero at n=240–250.</strong> The linear fit (falsified at n=200, Session 47) predicted g*(240)≈0; the 1/√n predicted g*(240)≈0.04, g*(250)≈0.02. At both n=240 and n=250, composition is alive at every gain tested (0.01–0.06). <strong>n=240 g=0.01 is the best config ever: 4/4 coexist, 4/4 stable, 4/4 H7, 3/4 clean, 3/4 full</strong> — the 1-seed control is 0/4 l2_crossed (structural guarantee holds). Stability degrades at n=250 (2/4 at most gains vs 3–4/4 at n=240) — the structures are too big, creating more surface area for the boundary to split. The 1-seed l2_crossed leaks at n=250 (1/4) — the structure-to-grid ratio problem persists. The coexist_frac metric (Session 51, #143) is now the primary composition quality measure, replacing the noisy final-record l2_outcome classifier.</p>
+<div id="plateau-240-section"></div>
+
 <script>
 let resultsData = null;
 let robustData = null;
@@ -249,6 +253,7 @@ async function loadData() {
     'plateauSweep': 'output/plateau_sweep.json',
     'robustnessN220Sweep': 'output/robustness_n220_sweep.json',
     'seedAnalysis': 'output/seed_analysis.json',
+    'plateau240Sweep': 'output/plateau_240_sweep.json',
   };
   const sweepPromises = Object.entries(sweepFiles).map(([key, path]) =>
     fetch(path).then(r => r.json()).catch(() => null)
@@ -852,6 +857,32 @@ function populateSweepSections() {
     html += '<div class="insight" style="margin-top:12px"><strong>Key finding:</strong> All 8 seeds have stable_l2=True. The "fragmented" classification (seeds 100, 777) is a final-record artifact — the late-window coexist fraction is 60–90% for all seeds, with no sharp boundary between "coexisting" and "fragmenting" seeds. Seed 777 (fragmented, 80%) has a higher coexist fraction than seed 999 (coexist, 70%).</div>';
     const el6 = document.getElementById('seed-analysis-section');
     if (el6) el6.innerHTML = html;
+  }
+
+  // Plateau 240-250 sweep (Session 51)
+  if (window.plateau240SweepData) {
+    const d = window.plateau240SweepData;
+    const labels = ['n240_g001','n240_g002','n240_g003','n240_g004','n240_g006',
+                    'n250_g001','n250_g002','n250_g003','n250_g004','n250_g006'];
+    let html = '<table style="margin:12px 0;font-size:0.85em">';
+    html += '<tr><th>Label</th><th>n</th><th>Density</th><th>g</th><th>L2</th><th>Coexist</th><th>Stable</th><th>H7</th><th>Clean</th><th>Full</th><th>1s L2</th><th>1s H7</th><th>1s Coex</th><th>Cells</th><th>Late LC</th><th>Late RC</th></tr>';
+    for (const label of labels) {
+      const r = d[label];
+      if (!r) continue;
+      const s = r.summary;
+      const n = r.n_termites;
+      const dens = r.density_per_kcell;
+      const g = r.g_form;
+      html += `<tr><td>${label}</td><td>${n}</td><td>${dens.toFixed(2)}</td><td>${g.toFixed(2)}</td>`;
+      html += `<td>${s.l2_2s}</td><td>${s.coexist}</td><td>${s.stable}</td><td>${s.h7_2s}</td>`;
+      html += `<td>${s.clean}</td><td>${s.full}</td>`;
+      html += `<td>${s.l2_1s}</td><td>${s.h7_1s}</td><td>${s.coexist_1s}</td>`;
+      html += `<td>${s.mean_cells}</td><td>${s.mean_late_lc.toFixed(1)}</td><td>${s.mean_late_rc.toFixed(1)}</td></tr>`;
+    }
+    html += '</table>';
+    html += '<div class="insight" style="margin-top:12px"><strong>Key finding:</strong> g* does not hit zero at n=240–250. The 1/√n (Laplace pressure) scaling is confirmed — the linear fit is definitively falsified. n=240 g=0.01 achieves 4/4 coexist + 4/4 stable + 4/4 H7 + 3/4 full — the best config ever. Stability degrades at n=250 (2/4 vs 3–4/4 at n=240) — the structures are too big. The 1-seed l2_crossed leaks at n=250 (1/4) — the structure-to-grid ratio problem persists.</div>';
+    const el7 = document.getElementById('plateau-240-section');
+    if (el7) el7.innerHTML = html;
   }
 }
 

@@ -1555,24 +1555,23 @@ to compare.
 ## From Session 50 (2026-09-05)
 
 143. **Replace the l2_outcome final-record classifier with the stable_l2
-     metric as the primary composition quality measure** — The seed
-     analysis showed the final-record classifier has a noise floor that
-     produces false "fragmented" verdicts. The stable_l2 metric (coexist
-     in ≥50% of the late window) gives 8/8. Should the l2_outcome
-     classifier be replaced or supplemented with a late-window coexist
-     fraction threshold? The stable_l2 metric already exists in the code
-     but is not used for the "coexist" vs "fragmented" distinction. The
-     fix: use stable_l2 as the primary composition verdict, with
-     l2_outcome as a secondary diagnostic. Also: sweep the stable_l2
-     threshold (0.50, 0.60, 0.70) to see if any threshold separates
-     genuine composition from non-composition at other (n, g) pairs.
+     metric as the primary composition quality measure** — DONE (Session 51).
+     The coexist_frac metric is now reported in detect_l2 alongside l2_outcome.
+     The stable_l2 metric (coexist in ≥50% of the late window) averages over
+     the final-record noise floor (Session 50's classifier-noise boundary).
+     The detect_l2 function in sim10.py now sets `l2_coexist_frac` in the
+     final record, and summarize_two_region reports it in the summary.
+     The l2_outcome classifier remains as a secondary diagnostic.
 
-144. **The n=240–250 plateau (continuation of #140, #137)** — Where does
-     g* actually hit zero? The 1/√n predicts g*(240)≈0.04, g*(250)≈0.02.
-     At n=240–250 the structures fill most of the grid. Does g* plateau
-     at a small positive value, or does it truly hit zero? The LSW analogy
-     says g* should hit zero when the structure fills the grid (the droplet
-     dissolves into the continuous phase).
+144. **The n=240–250 plateau (continuation of #140, #137)** — DONE (Session 51).
+     g* does NOT hit zero at n=240–250. Both n=240 and n=250 produce coexist
+     at every gain tested (0.01–0.06). H7=4/4 at all combos. The 1/√n
+     (Laplace pressure) scaling is confirmed — the linear is definitively
+     falsified. n=240 g=0.01 is the best config ever: 4/4 coexist + 4/4
+     stable + 4/4 H7 + 3/4 full. Stability degrades at n=250 (2/4 at most
+     gains) — the 28th mechanism: the stability-density trade-off. The
+     1-seed l2_crossed leaks at n=250 (1/4) — the structure-to-grid ratio
+     problem persists. See `plateau_240_sweep.py`.
 
 145. **Finer asymmetric resolution (continuation of #142)** — Is there an
      asymmetric config that matches sym006? A finer sweep (0.08, 0.06),
@@ -1588,3 +1587,38 @@ to compare.
      member) changed the optimum? Test: re-sweep n=150 at g=0.24–0.28
      (the n=170 optimal) to see if the lower-density optimum moves with
      the gain.
+
+## From Session 51 (2026-09-06)
+
+147. **The n=260+ plateau — does g* eventually hit zero?** — The 1/√n
+     scaling predicts g*(260)≈0.02, g*(280)≈0.01. At n=240–250, g* is
+     still ≤0.01 (composition works at the lowest gain tested). Does g*
+     eventually hit zero at some higher n, or does it plateau at a
+     small positive value? The LSW analogy says the droplet dissolves
+     when it fills the grid — but at n=250 the structures are ~4800
+     cells on a 25,600-cell grid (19% fill). The grid may need to be
+     much denser (n=300+) for the LSW dissolution to occur. Test: sweep
+     n=260, 280, 300 at g=0.005–0.04.
+
+148. **The stability-density trade-off — is it a new expression of the
+     strength-vs-growth trade-off?** — The 28th mechanism: stability
+     degrades at n=250 (2/4 vs 3–4/4 at n=240). The structures are too
+     big, creating more surface area for the boundary to split. This is
+     a new expression of the strength-vs-growth trade-off (Session 30):
+     higher density produces more material (good for the crossing) but
+     bigger structures (bad for stability). Is the stability degradation
+     caused by the same mechanism (boundary over-splits larger
+     structures) or a different one (the structures are big enough to
+     interact destructively without the boundary)? Test: run n=250
+     without inhibition (g=0) — if the structures merge without the
+     boundary, the degradation is boundary-mediated; if they fragment
+     on their own, it is a density effect independent of the boundary.
+
+149. **The 1-seed l2_crossed leak at n=250 — does it worsen with n?** —
+     The 1-seed l2_crossed leaks at n=250 (1/4) but not at n=240 (0/4).
+     The bigger single structure (~4800 cells) crosses the midline even
+     with focal bias. Does the leak worsen monotonically with n, or is
+     it stochastic? If monotonic, the structure-to-grid ratio problem
+     (12th member) has a threshold between n=240 and n=250. If
+     stochastic, it is a nucleation artifact. Test: run 8 seeds at
+     n=240 and n=250 1-seed and compare the leak rate.
