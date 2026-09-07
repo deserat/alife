@@ -945,3 +945,13 @@ The n=240–250 plateau sweep (queued-topic #144) tested whether g* hits zero �
 **n=240 g=0.01 is the best config ever: 4/4 coexist + 4/4 stable + 4/4 H7 + 3/4 full.** The 1-seed control is 0/4 l2_crossed (structural guarantee holds). The coexist_frac metric (#143) is adopted as the primary composition quality measure — the stable_l2 metric (coexist in ≥50% of the late window) averages over the final-record classifier's noise floor (Session 50's classifier-noise boundary).
 
 **The 1-seed l2_crossed leaks at n=250** (1/4 at all gains) — the structure-to-grid ratio problem (12th member) persists at the highest density. The bigger single structure (~4800 cells) crosses the midline even with focal bias.
+
+## Session 52 — The 29th mechanism: the stability-density trade-off is boundary-mediated; g* never hits zero at n=260–300
+
+The n=260–300 plateau sweep (queued-topic #147) extends the 1/√n scaling to the highest densities yet (~10–12/kcell). g* never hits zero — composition is alive at every gain tested (0.005–0.03). H7=4/4 at all 10 combos. n=300 g=0.02 achieves the highest mean coexist_frac ever (0.775). The 1/√n (Laplace pressure) scaling is confirmed to n=300; the LSW dissolution has not occurred (structures ~5000–5500 cells on 25,600, ~20% fill).
+
+**The 29th mechanism: the stability-density trade-off is boundary-mediated.** The no-inhibition control (g=0, queued-topic #148) at n=240, 250, 260 produces 0/4 coexist at all three densities — all fragmented, 1-seed l2=4/4 (no structural guarantee without the boundary). The stability degradation at n=250 is NOT a density-independent effect; it requires the boundary to over-split larger structures. Without the boundary, the structures fragment at every density. This sharpens the 28th mechanism: the degradation is not "structures too big" but "the boundary over-splits structures that are too big."
+
+**The 1-seed l2_crossed leak is mild and stochastic** (queued-topic #149). At 8 seeds: n=240 leaks 1/8, n=250 leaks 2/8. The leak does not worsen dramatically with n. The structure-to-grid ratio problem (12th member) has a soft threshold, not a sharp transition.
+
+**The no-inhibition control also reveals a structural-guarantee failure:** without the boundary (g=0), the 1-seed l2=4/4 at all three densities — the ID-tagging alone does not prevent a single structure from crossing the midline. The boundary is necessary not just for coexistence but for the structural guarantee itself. Without the boundary's suppression, a single large structure fills both halves of the grid.

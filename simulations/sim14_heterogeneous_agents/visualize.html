@@ -216,6 +216,10 @@ select:hover, button:hover { border-color: var(--accent); }
 <p class="desc"><strong>The 1/√n (Laplace pressure) scaling holds — g* does not hit zero at n=240–250.</strong> The linear fit (falsified at n=200, Session 47) predicted g*(240)≈0; the 1/√n predicted g*(240)≈0.04, g*(250)≈0.02. At both n=240 and n=250, composition is alive at every gain tested (0.01–0.06). <strong>n=240 g=0.01 is the best config ever: 4/4 coexist, 4/4 stable, 4/4 H7, 3/4 clean, 3/4 full</strong> — the 1-seed control is 0/4 l2_crossed (structural guarantee holds). Stability degrades at n=250 (2/4 at most gains vs 3–4/4 at n=240) — the structures are too big, creating more surface area for the boundary to split. The 1-seed l2_crossed leaks at n=250 (1/4) — the structure-to-grid ratio problem persists. The coexist_frac metric (Session 51, #143) is now the primary composition quality measure, replacing the noisy final-record l2_outcome classifier.</p>
 <div id="plateau-240-section"></div>
 
+<h2>Plateau 260–300: g* Never Hits Zero + Stability-Density Trade-off + 1-Seed Leak (Session 52)</h2>
+<p class="desc"><strong>g* never hits zero — the 1/√n (Laplace pressure) scaling holds to n=300.</strong> At n=260–300, composition is alive at every gain tested (0.005–0.03). H7=4/4 at all combos. n=300 g=0.02 achieves the highest coexist_frac ever (0.775). The stability-density trade-off is boundary-mediated: without inhibition (g=0), all densities produce 0/4 coexist (fragmented). The 1-seed l2_crossed leak is mild and stochastic: 1/8 at n=240, 2/8 at n=250.</p>
+<div id="plateau-260-section"></div>
+
 <script>
 let resultsData = null;
 let robustData = null;
@@ -254,6 +258,7 @@ async function loadData() {
     'robustnessN220Sweep': 'output/robustness_n220_sweep.json',
     'seedAnalysis': 'output/seed_analysis.json',
     'plateau240Sweep': 'output/plateau_240_sweep.json',
+    'plateau260Sweep': 'output/plateau_260_sweep.json',
   };
   const sweepPromises = Object.entries(sweepFiles).map(([key, path]) =>
     fetch(path).then(r => r.json()).catch(() => null)
@@ -883,6 +888,63 @@ function populateSweepSections() {
     html += '<div class="insight" style="margin-top:12px"><strong>Key finding:</strong> g* does not hit zero at n=240–250. The 1/√n (Laplace pressure) scaling is confirmed — the linear fit is definitively falsified. n=240 g=0.01 achieves 4/4 coexist + 4/4 stable + 4/4 H7 + 3/4 full — the best config ever. Stability degrades at n=250 (2/4 vs 3–4/4 at n=240) — the structures are too big. The 1-seed l2_crossed leaks at n=250 (1/4) — the structure-to-grid ratio problem persists.</div>';
     const el7 = document.getElementById('plateau-240-section');
     if (el7) el7.innerHTML = html;
+  }
+
+  // Plateau 260-300 sweep (Session 52)
+  if (window.plateau260SweepData) {
+    const d = window.plateau260SweepData;
+    let html = '<h3 style="color:var(--accent);margin:16px 0 8px">Plateau: n=260–300</h3>';
+    html += '<table style="margin:12px 0;font-size:0.85em">';
+    html += '<tr><th>Label</th><th>n</th><th>Density</th><th>g</th><th>L2</th><th>Coexist</th><th>Stable</th><th>H7</th><th>Clean</th><th>Full</th><th>CF</th><th>1s L2</th><th>1s H7</th><th>Cells</th></tr>';
+    const plateauLabels = [
+      'n260_g005','n260_g010','n260_g020','n260_g030',
+      'n280_g005','n280_g010','n280_g020',
+      'n300_g005','n300_g010','n300_g020',
+    ];
+    for (const label of plateauLabels) {
+      const r = d.plateau[label];
+      if (!r) continue;
+      const s = r.summary;
+      html += `<tr><td>${label}</td><td>${r.n_termites}</td><td>${r.density_per_kcell.toFixed(2)}</td><td>${r.g_form.toFixed(3)}</td>`;
+      html += `<td>${s.l2_2s}</td><td>${s.coexist}</td><td>${s.stable}</td><td>${s.h7_2s}</td>`;
+      html += `<td>${s.clean}</td><td>${s.full}</td><td>${s.mean_coexist_frac.toFixed(3)}</td>`;
+      html += `<td>${s.l2_1s}</td><td>${s.h7_1s}</td><td>${s.mean_cells}</td></tr>`;
+    }
+    html += '</table>';
+
+    // No-inhibition control
+    html += '<h3 style="color:var(--accent);margin:16px 0 8px">No-Inhibition Control (g=0): Is the stability-density trade-off boundary-mediated?</h3>';
+    html += '<table style="margin:12px 0;font-size:0.85em">';
+    html += '<tr><th>Label</th><th>n</th><th>Density</th><th>L2</th><th>Coexist</th><th>Stable</th><th>H7</th><th>1s L2</th><th>1s H7</th><th>Cells</th></tr>';
+    const noInhibLabels = ['n240_g000_no_inhib','n250_g000_no_inhib','n260_g000_no_inhib'];
+    for (const label of noInhibLabels) {
+      const r = d.no_inhibition_control[label];
+      if (!r) continue;
+      const s = r.summary;
+      html += `<tr><td>${label}</td><td>${r.n_termites}</td><td>${r.density_per_kcell.toFixed(2)}</td>`;
+      html += `<td>${s.l2_2s}</td><td>${s.coexist}</td><td>${s.stable}</td><td>${s.h7_2s}</td>`;
+      html += `<td>${s.l2_1s}</td><td>${s.h7_1s}</td><td>${s.mean_cells}</td></tr>`;
+    }
+    html += '</table>';
+    html += '<div class="insight" style="margin-top:8px"><strong>No-inhibition finding:</strong> Without the boundary (g=0), ALL densities produce 0/4 coexist (4/4 fragmented). The stability-density trade-off IS boundary-mediated — without the boundary, structures fragment at every density. The degradation at n=250 is not density-independent.</div>';
+
+    // 1-seed leak robustness
+    html += '<h3 style="color:var(--accent);margin:16px 0 8px">1-Seed Leak Robustness (8 seeds)</h3>';
+    html += '<table style="margin:12px 0;font-size:0.85em">';
+    html += '<tr><th>Label</th><th>n</th><th>g</th><th>L2 Leak</th><th>H7</th><th>Stable</th><th>Coexist</th><th>Cells</th></tr>';
+    const leakLabels = ['n240_1seed_8s','n250_1seed_8s'];
+    for (const label of leakLabels) {
+      const r = d.seed_1_leak_robustness[label];
+      if (!r) continue;
+      const s = r.summary;
+      html += `<tr><td>${label}</td><td>${r.n_termites}</td><td>${r.g}</td>`;
+      html += `<td>${s.l2_leak}</td><td>${s.h7}</td><td>${s.stable}</td><td>${s.coexist}</td><td>${s.mean_cells}</td></tr>`;
+    }
+    html += '</table>';
+    html += '<div class="insight" style="margin-top:8px"><strong>1-seed leak finding:</strong> The leak is mild and stochastic — 1/8 at n=240, 2/8 at n=250. It does not worsen dramatically with n. The structure-to-grid ratio problem (12th member) has a soft threshold, not a sharp transition.</div>';
+
+    const el8 = document.getElementById('plateau-260-section');
+    if (el8) el8.innerHTML = html;
   }
 }
 

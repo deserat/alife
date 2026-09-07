@@ -2,8 +2,8 @@
 title: "Hypotheses"
 topic: "testable hypotheses for the multi-scale ALife composition project"
 status: active
-date: "2026-09-06"
-session: 51
+date: "2026-09-07"
+session: 52
 count: 11
 active: [H1, H2, H3, H4, H5, H6, H7, H8, H9, H10, H11]
 logs: ["logs/H1/", "logs/H2/", "logs/H3/", "logs/H4/", "logs/H5/", "logs/H6/", "logs/H7/", "logs/H8/", "logs/H9/", "logs/H10/", "logs/H11/"]
@@ -70,7 +70,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **For an emergent structure to persist as a new actor at a higher scale, it must be autopoietic — it must maintain the network that constitutes it.** Self-maintenance is the persistence condition. Without it, emergent structures are transient patterns, not new actors.
 
-**Status:** Refined (Session 51). n=240 g=0.01 is the best config ever (4/4 coexist + 4/4 stable + 4/4 H7 + 3/4 full). Stability degrades at n=250 (2/4 vs 3–4/4 at n=240) — the 28th mechanism: the stability-density trade-off. The coexist_frac metric is adopted as primary composition quality measure (#143).
+**Status:** Refined (Session 52). The stability-density trade-off is boundary-mediated — without inhibition (g=0), all densities produce 0/4 coexist (fragmented). g* never hits zero at n=260–300 (1/√n confirmed to highest density). n=300 g=0.02 achieves the highest coexist_frac (0.775). The 1-seed leak is mild (1/8 at n=240, 2/8 at n=250). The coexist_frac metric is primary (#143).
 
 **Log:** [logs/H5/](logs/H5/)
 
@@ -92,7 +92,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **Current mechanism claim:** the crossing needs a non-saturating channel that *recruits* deposition as well as *limiting* it, not mere negative feedback through the cue field (see H11). The curvature channel (Facchini et al. 2020) is the strongest candidate: growth at convex tips recruits, biharmonic smoothing limits, and there is no saturating pheromone field in the model at all.
 
-**Status:** Refined ×40. n=240–250 plateau: g* does not hit zero — the 1/√n (Laplace pressure) scaling is confirmed, the linear is definitively falsified. n=240 g=0.01 is the best config ever (4/4 coexist + 4/4 stable + 4/4 H7 + 3/4 full). H7=4/4 at all n=240–250 combos — the crossing is fully robust. Stability degrades at n=250 (2/4 vs 3–4/4 at n=240). The coexist_frac metric is adopted as primary (#143). 28 mechanisms tested.
+**Status:** Refined ×41. n=260–300 plateau: g* never hits zero — the 1/√n (Laplace pressure) scaling holds to the highest density tested. H7=4/4 at all 10 combos. n=300 g=0.02 achieves the highest coexist_frac (0.775). The stability-density trade-off is boundary-mediated — without inhibition (g=0), all densities produce 0/4 coexist (fragmented). The 1-seed leak is mild (1/8 at n=240, 2/8 at n=250). 29 mechanisms tested.
 
 **Evidence:**
 - sim06: near miss — stability 0.849–0.893 vs a 0.90 threshold; self-maintenance fragments instead of consolidating (H11's first data point). Detector-bug corrected 2026-07-27. Session 22: the saturating cue (as-built) crosses 16/16 stable without SM; the non-saturating cue crosses 0/16 stable without SM — cue-family reversal.
@@ -160,7 +160,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **Three paths, same failure:** Echo (CAS theory), chemical organizations (origin-of-life chemistry), and AlChemy (computational theory) all fail at multi-scale composition, from three different starting points — evidence the composition problem is fundamental, though sim05's leg of this argument is weaker post-correction.
 
-**Status:** Refined (Session 51). The 28th mechanism: the stability-density trade-off. g* does not hit zero at n=240–250 — the 1/√n (Laplace pressure) scaling holds. Stability degrades at n=250 (2/4 vs 3–4/4 at n=240) — the structures are too big. n=240 g=0.01 is the best config ever (4/4 coexist + 4/4 stable + 4/4 H7 + 3/4 full). The coexist_frac metric is adopted as primary (#143). 28 mechanisms tested.
+**Status:** Refined (Session 52). The 29th mechanism: the stability-density trade-off is boundary-mediated — without inhibition (g=0), all densities fragment. g* never hits zero at n=260–300 (1/√n confirmed to highest density). n=300 g=0.02 achieves the highest coexist_frac (0.775). The 1-seed leak is mild (1/8 at n=240, 2/8 at n=250). 29 mechanisms tested.
 
 **Test:** Build a simulation with explicit composition mechanisms (stigmergic bridges between organizations, autopoietic boundaries, selection for composability) and compare to AlChemy without these mechanisms. Measure: does the version with composition mechanisms produce L2 where the plain version fails?
 

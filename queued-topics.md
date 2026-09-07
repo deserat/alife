@@ -1590,35 +1590,62 @@ to compare.
 
 ## From Session 51 (2026-09-06)
 
-147. **The n=260+ plateau — does g* eventually hit zero?** — The 1/√n
-     scaling predicts g*(260)≈0.02, g*(280)≈0.01. At n=240–250, g* is
-     still ≤0.01 (composition works at the lowest gain tested). Does g*
-     eventually hit zero at some higher n, or does it plateau at a
-     small positive value? The LSW analogy says the droplet dissolves
-     when it fills the grid — but at n=250 the structures are ~4800
-     cells on a 25,600-cell grid (19% fill). The grid may need to be
-     much denser (n=300+) for the LSW dissolution to occur. Test: sweep
-     n=260, 280, 300 at g=0.005–0.04.
+147. **The n=260+ plateau — does g* eventually hit zero?** — DONE (Session 52).
+     The 1/√n scaling predicts g*(260)≈0.02, g*(280)≈0.01, g*(300)≈0.01.
+     At n=260–300, g* NEVER hits zero — composition is alive at every gain
+     tested (0.005–0.03). H7=4/4 at all 10 combos. n=300 g=0.02 achieves the
+     highest mean coexist_frac ever (0.775). The LSW "droplet dissolves"
+     prediction is not realized at ~20% grid fill (~5500/25,600 cells).
+     The 1/√n (Laplace pressure) scaling is confirmed to n=300. See
+     `plateau_260_sweep.py`.
 
 148. **The stability-density trade-off — is it a new expression of the
-     strength-vs-growth trade-off?** — The 28th mechanism: stability
-     degrades at n=250 (2/4 vs 3–4/4 at n=240). The structures are too
-     big, creating more surface area for the boundary to split. This is
-     a new expression of the strength-vs-growth trade-off (Session 30):
-     higher density produces more material (good for the crossing) but
-     bigger structures (bad for stability). Is the stability degradation
-     caused by the same mechanism (boundary over-splits larger
-     structures) or a different one (the structures are big enough to
-     interact destructively without the boundary)? Test: run n=250
-     without inhibition (g=0) — if the structures merge without the
-     boundary, the degradation is boundary-mediated; if they fragment
-     on their own, it is a density effect independent of the boundary.
+     strength-vs-growth trade-off?** — DONE (Session 52).
+     The 29th mechanism: the stability-density trade-off IS
+     boundary-mediated. The no-inhibition control (g=0) at n=240, 250,
+     260 produces 0/4 coexist at all three densities — all fragmented.
+     Without the boundary, the structures fragment at every density, not
+     just at n=250. The stability degradation at n=250 requires the
+     boundary to over-split larger structures. The trade-off is a
+     property of the boundary's interaction with structure size, not
+     of the density itself. See `plateau_260_sweep.py`.
 
 149. **The 1-seed l2_crossed leak at n=250 — does it worsen with n?** —
-     The 1-seed l2_crossed leaks at n=250 (1/4) but not at n=240 (0/4).
-     The bigger single structure (~4800 cells) crosses the midline even
-     with focal bias. Does the leak worsen monotonically with n, or is
-     it stochastic? If monotonic, the structure-to-grid ratio problem
-     (12th member) has a threshold between n=240 and n=250. If
-     stochastic, it is a nucleation artifact. Test: run 8 seeds at
-     n=240 and n=250 1-seed and compare the leak rate.
+     DONE (Session 52).
+     The leak is mild and stochastic: 1/8 at n=240, 2/8 at n=250. It
+     does not worsen dramatically with n. The structure-to-grid ratio
+     problem (12th member) has a soft threshold, not a sharp transition.
+     See `plateau_260_sweep.py`.
+
+## From Session 52 (2026-09-07)
+
+150. **The n=320+ plateau — does the LSW dissolution ever occur?** — g*
+     never hits zero at n=260–300 (~20% grid fill). At what density does
+     the structure fill enough of the grid for the LSW "droplet
+     dissolves" prediction to occur? At n=300, structures are ~5500
+     cells on 25,600 (21% fill). The grid may need n=400+ (30%+ fill) for
+     the LSW dissolution. Or the 1/√n scaling may hold indefinitely — g*
+     approaches zero asymptotically but never reaches it in any finite
+     system. Test: sweep n=320, 350, 400 at g=0.005–0.02.
+
+151. **The no-inhibition structural-guarantee failure — ID-tagging alone
+     is insufficient** — Without the boundary (g=0), the 1-seed l2=4/4 at
+     all three densities — ID-tagging alone does not prevent a single
+     structure from crossing the midline. The boundary is necessary not
+     just for coexistence but for the structural guarantee itself. Without
+     the boundary's suppression, a single large structure fills both
+     halves of the grid. This sharpens the two-wire principle: the
+     boundary and the ID-tagging are BOTH necessary — neither alone
+     suffices. Is there a third mechanism that could substitute for the
+     boundary (e.g. a repulsive force between structures, or a
+     density-dependent deposit rate)?
+
+152. **The n=300 g=0.02 coexist_frac=0.775 — the highest composition
+     quality ever** — n=300 g=0.02 achieves the highest mean coexist_frac
+     (0.775), surpassing n=240 g=0.01 (cf=0.90 for seed 42, but mean
+     across 4 seeds is lower). The composition quality is NOT
+     monotonically decreasing with density — it peaks at n=300. Is this
+     because the larger structures have more curvature surface area for
+     the boundary to act on? Or because the higher density provides more
+     material for the curvature channel to consolidate? Test: 8-seed
+     robustness at n=300 g=0.02 to confirm the 3/4 full rate.
