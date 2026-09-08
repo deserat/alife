@@ -1619,14 +1619,16 @@ to compare.
 
 ## From Session 52 (2026-09-07)
 
-150. **The n=320+ plateau — does the LSW dissolution ever occur?** — g*
-     never hits zero at n=260–300 (~20% grid fill). At what density does
-     the structure fill enough of the grid for the LSW "droplet
-     dissolves" prediction to occur? At n=300, structures are ~5500
-     cells on 25,600 (21% fill). The grid may need n=400+ (30%+ fill) for
-     the LSW dissolution. Or the 1/√n scaling may hold indefinitely — g*
-     approaches zero asymptotically but never reaches it in any finite
-     system. Test: sweep n=320, 350, 400 at g=0.005–0.02.
+150. **The n=320+ plateau — does the LSW dissolution ever occur?** — DONE (Session 53).
+     g* never hits zero at n=320–400. At n=320, 350, 400 (~22–26% grid fill),
+     composition is alive at every gain tested (0.005–0.02). H7=4/4 at all 9 combos.
+     The 1/√n (Laplace pressure) scaling is confirmed to ~26% grid fill. n=350 g=0.01
+     achieves the best composition quality (3/4 full, cf=0.725). The LSW "droplet
+     dissolves" prediction is not realized even at n=400 (~6700/25,600 cells). The
+     30th mechanism: a high-fill stability-density trade-off at n=400 (~26% fill) —
+     the boundary over-splits larger structures. The no-inhibition control confirms
+     the boundary remains necessary at high density (0/4 at n=320, 1/4 at n=400).
+     See `high_density_plateau_sweep.py`.
 
 151. **The no-inhibition structural-guarantee failure — ID-tagging alone
      is insufficient** — Without the boundary (g=0), the 1-seed l2=4/4 at
@@ -1641,11 +1643,50 @@ to compare.
      density-dependent deposit rate)?
 
 152. **The n=300 g=0.02 coexist_frac=0.775 — the highest composition
-     quality ever** — n=300 g=0.02 achieves the highest mean coexist_frac
-     (0.775), surpassing n=240 g=0.01 (cf=0.90 for seed 42, but mean
-     across 4 seeds is lower). The composition quality is NOT
-     monotonically decreasing with density — it peaks at n=300. Is this
-     because the larger structures have more curvature surface area for
-     the boundary to act on? Or because the higher density provides more
-     material for the curvature channel to consolidate? Test: 8-seed
-     robustness at n=300 g=0.02 to confirm the 3/4 full rate.
+     quality ever** — DONE (Session 53).
+     8-seed robustness at n=300 g=0.02: coexist is robust (7/8), H7 is
+     robust (8/8), but the full co-occurrence (H7+coexist+stable+clean)
+     is stochastic (4/8). Stable is 5/8. The 1-seed leak drops to 1/8.
+     The 4-seed 3/4 full was partly a small-sample effect — coexist is
+     the robust property; full co-occurrence requires luck. n=350 g=0.01
+     (Session 53) achieves a better 4-seed result (3/4 full, cf=0.725).
+     See `high_density_plateau_sweep.py`.
+
+## From Session 53 (2026-09-08)
+
+153. **The n=450+ plateau — does the LSW dissolution ever occur?** — g*
+     never hits zero at n=320–400 (~22–26% grid fill). At n=400,
+     structures are ~6700 cells on 25,600 (26% fill). Does g* eventually
+     hit zero at n=450–500 (~30%+ fill)? Or does the 1/√n scaling hold
+     indefinitely? Test: sweep n=450, 500 at g=0.005–0.02. At n=500 the
+     structures would be ~8000 cells (31% fill) — approaching the
+     percolation threshold for the grid.
+
+154. **The n=350 g=0.01 optimum — 8-seed robustness** — n=350 g=0.01
+     achieves the best 4-seed composition (3/4 full, cf=0.725). Does
+     this hold at 8 seeds, or is it a small-sample effect like n=300
+     g=0.02 (which dropped from 3/4 to 4/8)? If 8-seed n=350 g=0.01
+     achieves ≥5/8 full, it is the most robust composition config. If
+     it drops to ≤3/8, the 4-seed result was noise. Cheap: re-run
+     at 8 seeds.
+
+155. **The stability-density trade-off at n=400 — is it fixable?** —
+     The 30th mechanism: stability drops at n=400 (~26% fill) because
+     the boundary over-splits larger structures. This is the same
+     boundary-mediated trade-off as Session 52's n=250. Can a
+     density-dependent gain (g*(n) from the 1/√n fit) fix it? At n=400,
+     the 1/√n predicts g*≈0.003. Test: n=400 at g=0.003–0.005 (lower
+     than tested) — does lower gain rescue stability?
+
+156. **The coexist-vs-full distinction as a design principle** — 8-seed
+     robustness at n=300 g=0.02 found coexist is robust (7/8) but full
+     co-occurrence is stochastic (4/8). This suggests the composition
+     problem has two levels: (1) coexistence (two structures don't
+     merge) — robust, density-dependent, boundary-mediated; (2) full
+     co-occurrence (coexist + stable + H7 + clean simultaneously) —
+     stochastic, seed-dependent, requiring all four properties to
+     align. Is this a fundamental property of multi-scale composition,
+     or an artifact of the metric thresholds? The coexist_frac metric
+     (Session 50) suggests it is a real property: coexist_frac varies
+     0.20–1.00 across seeds, while l2_crossed is 8/8. The "almost but
+     not quite" is the real story.

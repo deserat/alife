@@ -955,3 +955,17 @@ The n=260–300 plateau sweep (queued-topic #147) extends the 1/√n scaling to 
 **The 1-seed l2_crossed leak is mild and stochastic** (queued-topic #149). At 8 seeds: n=240 leaks 1/8, n=250 leaks 2/8. The leak does not worsen dramatically with n. The structure-to-grid ratio problem (12th member) has a soft threshold, not a sharp transition.
 
 **The no-inhibition control also reveals a structural-guarantee failure:** without the boundary (g=0), the 1-seed l2=4/4 at all three densities — the ID-tagging alone does not prevent a single structure from crossing the midline. The boundary is necessary not just for coexistence but for the structural guarantee itself. Without the boundary's suppression, a single large structure fills both halves of the grid.
+
+## Session 53 — The 30th mechanism: a high-fill stability-density trade-off; g* never hits zero at n=320–400; 8-seed robustness
+
+The high-density plateau sweep (queued-topics #150, #152) extends the 1/√n (Laplace pressure) scaling to n=320, 350, 400 (~22–26% grid fill) and tests 8-seed robustness at n=300 g=0.02.
+
+**g* never hits zero at n=320–400.** Composition is alive at every gain tested (0.005–0.02) at all three densities. H7=4/4 at all 9 plateau combos. L2=4/4 at all 9. The 1/√n scaling is confirmed to ~26% grid fill — the LSW "droplet dissolves" prediction is not realized even at n=400 (~6700/25,600 cells).
+
+**n=350 g=0.01 is the best composition config ever.** 4/4 coexist, 4/4 clean, 3/4 stable, 4/4 H7 — 3/4 full (cf=0.725). This surpasses n=300 g=0.02 (3/4 full at 4 seeds, but 4/8 full at 8 seeds).
+
+**The 30th mechanism: a high-fill stability-density trade-off.** At n=400 (~26% fill), stability drops to 1/4 at g=0.01 and 2/4 at g=0.005/0.02. The structures are so large (~6700 cells) that the boundary over-splits each region — the same boundary-mediated over-fragmentation as Session 52's n=250, but at higher fill. The no-inhibition control confirms: without boundary at n=320, 0/4 coexist; at n=400, 1/4 coexist. The boundary remains necessary at high density.
+
+**8-seed robustness at n=300 g=0.02: coexist is robust (7/8), full is not (4/8).** The 4-seed 3/4 full from Session 52 drops to 4/8 — coexist holds at 7/8, H7 holds at 8/8, but the full co-occurrence (H7+coexist+stable+clean) is stochastic (4/8). Stable is 5/8. The 1-seed leak drops to 1/8 (was 0/4 at 4 seeds). The 4-seed 3/4 full was partly a small-sample effect — coexist is the robust property; full co-occurrence requires luck.
+
+**The 1-seed leak is stable at 1/4 across n=320–400.** Mild, density-independent in this range. The structure-to-grid ratio problem persists as a soft threshold.
