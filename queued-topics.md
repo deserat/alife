@@ -1654,21 +1654,20 @@ to compare.
 
 ## From Session 53 (2026-09-08)
 
-153. **The n=450+ plateau — does the LSW dissolution ever occur?** — g*
-     never hits zero at n=320–400 (~22–26% grid fill). At n=400,
-     structures are ~6700 cells on 25,600 (26% fill). Does g* eventually
-     hit zero at n=450–500 (~30%+ fill)? Or does the 1/√n scaling hold
-     indefinitely? Test: sweep n=450, 500 at g=0.005–0.02. At n=500 the
-     structures would be ~8000 cells (31% fill) — approaching the
-     percolation threshold for the grid.
+153. **The n=450+ plateau — does the LSW dissolution ever occur?** — DONE (Session 54).
+     g* never hits zero at n=450–500 (~27–29% grid fill). The 1/√n (Laplace
+     pressure) scaling holds to the highest density tested. H7=4/4, L2=4/4 at
+     all 6 combos. n=500 g=0.02 achieves 4/4 full with 1-seed l2=0/4 (structural
+     guarantee perfect — the first time at any density). The LSW "droplet
+     dissolves" prediction is not realized even at ~29% fill. See
+     `ultra_high_density_sweep.py`.
 
-154. **The n=350 g=0.01 optimum — 8-seed robustness** — n=350 g=0.01
-     achieves the best 4-seed composition (3/4 full, cf=0.725). Does
-     this hold at 8 seeds, or is it a small-sample effect like n=300
-     g=0.02 (which dropped from 3/4 to 4/8)? If 8-seed n=350 g=0.01
-     achieves ≥5/8 full, it is the most robust composition config. If
-     it drops to ≤3/8, the 4-seed result was noise. Cheap: re-run
-     at 8 seeds.
+154. **The n=350 g=0.01 optimum — 8-seed robustness** — DONE (Session 54).
+     n=350 g=0.01 at 8 seeds: 8/8 coexist, 7/8 stable, 8/8 H7, 7/8 full (cf=0.706).
+     The 4-seed 3/4 full strengthens to 7/8 — the most robust composition config
+     ever. Unlike n=300 g=0.02 (which dropped from 3/4 to 4/8), n=350 g=0.01
+     is the robust optimum. The 1-seed leak is 1/8. See
+     `ultra_high_density_sweep.py`.
 
 155. **The stability-density trade-off at n=400 — is it fixable?** —
      The 30th mechanism: stability drops at n=400 (~26% fill) because
@@ -1690,3 +1689,36 @@ to compare.
      (Session 50) suggests it is a real property: coexist_frac varies
      0.20–1.00 across seeds, while l2_crossed is 8/8. The "almost but
      not quite" is the real story.
+
+## From Session 54 (2026-09-09)
+
+157. **The n=550+ plateau — does the LSW dissolution ever occur?** — g*
+     never hits zero at n=450–500 (~27–29% grid fill). The 1/√n scaling
+     predicts g*(550)≈0.005, g*(600)≈0.003. At n=600 (~33% fill), the
+     structures would be ~8500 cells. Does g* eventually hit zero, or
+     does the 1/√n scaling hold indefinitely? The percolation threshold
+     for a 2D grid is ~59% fill (site percolation on square lattice) —
+     we are far from it. Test: sweep n=550, 600 at g=0.003–0.01.
+
+158. **The coexist-vs-full distinction is density-dependent — n=350
+     g=0.01 has robust full (7/8) where n=300 g=0.02 does not (4/8)** —
+     Session 53's coexist-vs-full distinction predicted full co-occurrence
+     is stochastic. Session 54 found n=350 g=0.01 has 7/8 full (robust),
+     violating this prediction. The distinction is density-dependent:
+     at the right density, the four quality criteria align robustly.
+     Is there a "quality plateau" — a density range where full is
+     robust? Or is n=350 g=0.01 a unique sweet spot? Test: 8-seed
+     robustness at n=400 g=0.005 and n=450 g=0.005 (the other 3/4 full
+     configs).
+
+159. **The 1-seed structural guarantee strengthens with density —
+     why?** — At n=500, the 1-seed l2=0/4 (perfect) for the first time.
+     At n=320–400, it is 1/4. At n=240–250, it is 1/8. The bigger
+     single structure is MORE strongly confined, not less — contradicting
+     the naive expectation that bigger structures leak more. Is this
+     because the curvature channel + focal bias concentrate material
+     more effectively with more agents (more material = more curvature
+     = more routing)? Or because the boundary is more effective with
+     more material (higher co-presence = stronger B)? Inspect the
+     1-seed runs at n=500 vs n=350: compare B_max, structure extent,
+     and mean curvature. Cheap: analysis of committed JSON.

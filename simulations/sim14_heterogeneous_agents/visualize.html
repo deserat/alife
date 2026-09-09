@@ -224,6 +224,9 @@ select:hover, button:hover { border-color: var(--accent); }
 <p class="desc"><strong>g* never hits zero at n=320–400 (~22–26% grid fill).</strong> The 1/√n (Laplace pressure) scaling holds to the highest density tested. H7=4/4 at all 9 combos. n=350 g=0.01 achieves the best composition quality (cf=0.725, 3/4 full). Stability degrades at n=400 (~26% fill) — a high-fill stability-density trade-off. The no-inhibition control confirms the boundary remains necessary at high density. 8-seed robustness at n=300 g=0.02: coexist is robust (7/8), but the full co-occurrence is stochastic (4/8).</p>
 <div id="high-density-section"></div>
 
+<h2>Ultra-High-Density Plateau: n=450–500 (Session 54)</h2>
+<div id="ultra-high-density-section"></div>
+
 <script>
 let resultsData = null;
 let robustData = null;
@@ -264,6 +267,7 @@ async function loadData() {
     'plateau240Sweep': 'output/plateau_240_sweep.json',
     'plateau260Sweep': 'output/plateau_260_sweep.json',
     'highDensitySweep': 'output/high_density_plateau_sweep.json',
+    'ultraHighDensitySweep': 'output/ultra_high_density_sweep.json',
   };
   const sweepPromises = Object.entries(sweepFiles).map(([key, path]) =>
     fetch(path).then(r => r.json()).catch(() => null)
@@ -1004,6 +1008,59 @@ function populateSweepSections() {
 
     const el9 = document.getElementById('high-density-section');
     if (el9) el9.innerHTML = html;
+  }
+
+  // Ultra-high-density plateau sweep (Session 54)
+  if (window.ultraHighDensitySweepData) {
+    const d = window.ultraHighDensitySweepData;
+    let html = '<h3 style="color:var(--accent);margin:16px 0 8px">Ultra-High-Density Plateau: n=450–500</h3>';
+    html += '<table style="margin:12px 0;font-size:0.85em">';
+    html += '<tr><th>Label</th><th>n</th><th>Density</th><th>g</th><th>L2</th><th>Coexist</th><th>Stable</th><th>H7</th><th>Clean</th><th>Full</th><th>CF</th><th>Fill%</th><th>1s L2</th><th>1s H7</th><th>Cells</th></tr>';
+    const uhdLabels = [
+      'n450_g005','n450_g010','n450_g020',
+      'n500_g005','n500_g010','n500_g020',
+    ];
+    for (const label of uhdLabels) {
+      const r = d.plateau[label];
+      if (!r) continue;
+      const s = r.summary;
+      const fill = (s.mean_cells / (160*160) * 100).toFixed(1);
+      html += `<tr><td>${label}</td><td>${r.n_termites}</td><td>${r.density_per_kcell.toFixed(2)}</td><td>${r.g_form.toFixed(3)}</td>`;
+      html += `<td>${s.l2_2s}</td><td>${s.coexist}</td><td>${s.stable}</td><td>${s.h7_2s}</td>`;
+      html += `<td>${s.clean}</td><td>${s.full}</td><td>${s.mean_coexist_frac.toFixed(3)}</td>`;
+      html += `<td>${fill}%</td><td>${s.l2_1s}</td><td>${s.h7_1s}</td><td>${s.mean_cells}</td></tr>`;
+    }
+    html += '</table>';
+    html += '<div class="insight" style="margin-top:8px"><strong>Key finding:</strong> g* never hits zero at n=450–500 (~27–29% grid fill). The 1/√n (Laplace pressure) scaling holds to ~29% fill. H7=4/4, L2=4/4 at all 6 combos. n=500 g=0.02 achieves 4/4 full co-occurrence — the first at n=500, with 1-seed l2=0/4 (structural guarantee perfect). n=450 g=0.005 achieves 3/4 full (cf=0.662). The LSW "droplet dissolves" prediction is not realized even at ~29% fill.</div>';
+
+    // No-inhibition control
+    html += '<h3 style="color:var(--accent);margin:16px 0 8px">No-Inhibition Control (g=0) at Ultra-High Density</h3>';
+    html += '<table style="margin:12px 0;font-size:0.85em">';
+    html += '<tr><th>Label</th><th>n</th><th>Density</th><th>L2</th><th>Coexist</th><th>Stable</th><th>H7</th><th>1s L2</th><th>1s H7</th><th>Cells</th></tr>';
+    const noInhibLabelsUHD = ['n450_g000_no_inhib','n500_g000_no_inhib'];
+    for (const label of noInhibLabelsUHD) {
+      const r = d.no_inhibition_control[label];
+      if (!r) continue;
+      const s = r.summary;
+      html += `<tr><td>${label}</td><td>${r.n_termites}</td><td>${r.density_per_kcell.toFixed(2)}</td>`;
+      html += `<td>${s.l2_2s}</td><td>${s.coexist}</td><td>${s.stable}</td><td>${s.h7_2s}</td>`;
+      html += `<td>${s.l2_1s}</td><td>${s.h7_1s}</td><td>${s.mean_cells}</td></tr>`;
+    }
+    html += '</table>';
+    html += '<div class="insight" style="margin-top:8px"><strong>No-inhibition finding:</strong> Without the boundary, n=450 gives 1/4 coexist (0/4 stable), n=500 gives 2/4 coexist (0/4 stable). The boundary remains necessary — without it, structures fragment at all densities. The 1-seed l2=4/4 without boundary confirms the structure-to-grid ratio problem persists.</div>';
+
+    // 8-seed robustness at n=350 g=0.01
+    html += '<h3 style="color:var(--accent);margin:16px 0 8px">8-Seed Robustness: n=350 g=0.01</h3>';
+    const r8 = d.n350_8seed_robustness.n350_g010_8seed;
+    const s8 = r8.summary;
+    html += `<table style="margin:12px 0;font-size:0.85em"><tr><th>L2</th><th>Coexist</th><th>Stable</th><th>H7</th><th>Clean</th><th>Full</th><th>CF</th><th>1s L2</th><th>1s H7</th></tr>`;
+    html += `<tr><td>${s8.l2_2s}</td><td>${s8.coexist}</td><td>${s8.stable}</td><td>${s8.h7_2s}</td>`;
+    html += `<td>${s8.clean}</td><td>${s8.full}</td><td>${s8.mean_coexist_frac.toFixed(3)}</td>`;
+    html += `<td>${s8.l2_1s}</td><td>${s8.h7_1s}</td></tr></table>`;
+    html += '<div class="insight" style="margin-top:8px"><strong>8-seed finding:</strong> n=350 g=0.01 is the most robust composition config ever: 8/8 coexist, 7/8 stable, 8/8 H7, 7/8 full (cf=0.706). The 4-seed 3/4 full strengthens to 7/8 at 8 seeds — unlike n=300 g=0.02 which dropped from 3/4 to 4/8. The 1-seed leak is 1/8. n=350 g=0.01 is the robust optimum.</div>';
+
+    const el10 = document.getElementById('ultra-high-density-section');
+    if (el10) el10.innerHTML = html;
   }
 }
 

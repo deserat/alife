@@ -969,3 +969,17 @@ The high-density plateau sweep (queued-topics #150, #152) extends the 1/√n (La
 **8-seed robustness at n=300 g=0.02: coexist is robust (7/8), full is not (4/8).** The 4-seed 3/4 full from Session 52 drops to 4/8 — coexist holds at 7/8, H7 holds at 8/8, but the full co-occurrence (H7+coexist+stable+clean) is stochastic (4/8). Stable is 5/8. The 1-seed leak drops to 1/8 (was 0/4 at 4 seeds). The 4-seed 3/4 full was partly a small-sample effect — coexist is the robust property; full co-occurrence requires luck.
 
 **The 1-seed leak is stable at 1/4 across n=320–400.** Mild, density-independent in this range. The structure-to-grid ratio problem persists as a soft threshold.
+
+### Session 54 (2026-09-09) — Ultra-high-density plateau n=450–500
+
+The ultra-high-density plateau sweep (queued-topics #153, #154) extends the 1/√n (Laplace pressure) scaling to n=450, 500 (~27–29% grid fill) and tests 8-seed robustness at n=350 g=0.01 (the best 4-seed config from Session 53).
+
+**g* never hits zero at n=450–500.** Composition is alive at every gain tested (0.005–0.02) at both densities. H7=4/4, L2=4/4 at all 6 combos. The 1/√n scaling is confirmed to ~29% grid fill — the LSW "droplet dissolves" prediction is not realized even at n=500 (~7400/25,600 cells).
+
+**n=500 g=0.02 achieves 4/4 full co-occurrence** — the first at n=500, with 1-seed l2=0/4 (structural guarantee perfect). This is the first time the 1-seed leak drops to 0/4 at any density. n=450 g=0.005 achieves 3/4 full (cf=0.662).
+
+**n=350 g=0.01 is the most robust composition config ever.** 8-seed: 8/8 coexist, 7/8 stable, 8/8 H7, 7/8 full (cf=0.706). The 4-seed 3/4 full strengthens to 7/8 at 8 seeds — unlike n=300 g=0.02 (which dropped from 3/4 to 4/8). n=350 g=0.01 is the robust optimum.
+
+**The 1-seed structural guarantee strengthens at ultra-high density.** At n=500, the 1-seed l2=0/4 at all three gains — the bigger single structure is more strongly confined by the curvature channel + focal bias. At n=450, the 1-seed l2=1/4 (mild leak). The structure-to-grid ratio problem (12th member) has a soft threshold that strengthens with density.
+
+**No-inhibition control:** n=450 gives 1/4 coexist (0/4 stable), n=500 gives 2/4 coexist (0/4 stable). The boundary remains necessary at ultra-high density — without it, structures fragment.
