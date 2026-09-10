@@ -227,6 +227,9 @@ select:hover, button:hover { border-color: var(--accent); }
 <h2>Ultra-High-Density Plateau: n=450–500 (Session 54)</h2>
 <div id="ultra-high-density-section"></div>
 
+<h2>Perturbation Robustness: Is the Crossing a Stability Condition? (Session 55)</h2>
+<div id="perturbation-section"></div>
+
 <script>
 let resultsData = null;
 let robustData = null;
@@ -268,6 +271,7 @@ async function loadData() {
     'plateau260Sweep': 'output/plateau_260_sweep.json',
     'highDensitySweep': 'output/high_density_plateau_sweep.json',
     'ultraHighDensitySweep': 'output/ultra_high_density_sweep.json',
+    'perturbationSweep': 'output/perturbation_sweep.json',
   };
   const sweepPromises = Object.entries(sweepFiles).map(([key, path]) =>
     fetch(path).then(r => r.json()).catch(() => null)
@@ -1061,6 +1065,45 @@ function populateSweepSections() {
 
     const el10 = document.getElementById('ultra-high-density-section');
     if (el10) el10.innerHTML = html;
+  }
+
+  // Perturbation sweep (Session 55)
+  if (window.perturbationSweepData) {
+    const d = window.perturbationSweepData;
+    const cfg = d.config;
+    let html = '<div class="insight"><strong>Design:</strong> 3 density regimes × {perturbed, unperturbed} × 8 seeds. Perturbation: '
+      + (cfg.perturb_frac * 100) + '% of right region material removed at step ' + cfg.perturb_at + '/' + cfg.steps
+      + '. Tests whether the H7 crossing predicts perturbation survival (queued-topic #127).</div>';
+
+    const regimes = ['n150_g030', 'n350_g010', 'n500_g020'];
+    const regimeLabels = { 'n150_g030': 'n=150 g=0.30 (H7 low)', 'n350_g010': 'n=350 g=0.01 (H7 high, robust optimum)', 'n500_g020': 'n=500 g=0.02 (H7 high, ultra-high density)' };
+
+    html += '<table style="margin:12px 0;font-size:0.85em">';
+    html += '<tr><th>Regime</th><th>n</th><th>Density</th><th>g</th><th>Condition</th>'
+      + '<th>L2</th><th>Coexist</th><th>Stable</th><th>H7</th><th>Full</th><th>CF</th>'
+      + '<th>Recovery</th><th>Pre-L2</th><th>Post-L2</th><th>Cells</th></tr>';
+
+    for (const label of regimes) {
+      const r = d[label];
+      if (!r) continue;
+      const su = r.unperturbed.summary;
+      const sp = r.perturbed.summary;
+      html += `<tr><td rowspan="2">${label}</td><td rowspan="2">${r.n_termites}</td>`
+        + `<td rowspan="2">${r.density_per_kcell.toFixed(2)}</td><td rowspan="2">${r.g_form.toFixed(3)}</td>`;
+      html += `<td>Unperturbed</td><td>${su.l2}</td><td>${su.coexist}</td><td>${su.stable}</td><td>${su.h7}</td><td>${su.full}</td><td>${su.mean_cf.toFixed(3)}</td><td>—</td><td>${su.mean_pre_l2.toFixed(3)}</td><td>${su.mean_post_l2.toFixed(3)}</td><td>${su.mean_cells}</td></tr>`;
+      html += `<tr><td><strong>Perturbed</strong></td><td>${sp.l2}</td><td>${sp.coexist}</td><td>${sp.stable}</td><td>${sp.h7}</td><td>${sp.full}</td><td>${sp.mean_cf.toFixed(3)}</td><td><strong>${sp.mean_recovery.toFixed(3)}</strong></td><td>${sp.mean_pre_l2.toFixed(3)}</td><td>${sp.mean_post_l2.toFixed(3)}</td><td>${sp.mean_cells}</td></tr>`;
+    }
+    html += '</table>';
+
+    html += '<div class="insight" style="margin-top:12px"><strong>Key finding:</strong> The crossing predicts perturbation robustness. '
+      + 'At n=150 (H7=2/8 unperturbed), perturbation degrades composition (4/8→2/8 coexist, recovery=0.56). '
+      + 'At n=350 (H7=8/8), perturbation barely affects composition (8/8→6/8 coexist, recovery=1.06 — <em>over-recovery</em>). '
+      + 'At n=500 (H7=8/8), perturbation <em>improves</em> composition (stable 7/8→8/8, full 7/8→8/8, recovery=1.16). '
+      + 'The crossing is a stability condition: where H7 fires, the structure heals and over-recovers; where it does not, the structure degrades. '
+      + 'The over-recovery mechanism: damage creates new curvature at the scar boundary, which the curvature channel routes deposits toward — targeted scar repair, the opposite of Session 24\'s sim09 null.</div>';
+
+    const elPert = document.getElementById('perturbation-section');
+    if (elPert) elPert.innerHTML = html;
   }
 }
 

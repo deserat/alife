@@ -983,3 +983,13 @@ The ultra-high-density plateau sweep (queued-topics #153, #154) extends the 1/�
 **The 1-seed structural guarantee strengthens at ultra-high density.** At n=500, the 1-seed l2=0/4 at all three gains — the bigger single structure is more strongly confined by the curvature channel + focal bias. At n=450, the 1-seed l2=1/4 (mild leak). The structure-to-grid ratio problem (12th member) has a soft threshold that strengthens with density.
 
 **No-inhibition control:** n=450 gives 1/4 coexist (0/4 stable), n=500 gives 2/4 coexist (0/4 stable). The boundary remains necessary at ultra-high density — without it, structures fragment.
+
+### Session 55 (2026-09-10) — Perturbation over-recovery: the crossing as a stability condition
+
+The perturbation sweep (queued-topic #127) tested whether the H7 crossing is what *creates* composition or what *stabilizes* it. Three density regimes × {perturbed, unperturbed} × 8 seeds. Perturbation: 50% of right region material removed at step 1200/2000.
+
+**The crossing predicts perturbation robustness.** At n=150 (H7=2/8 unperturbed), perturbation degrades composition (4/8→2/8 coexist, recovery=0.56). At n=350 (H7=8/8), perturbation barely affects it (8/8→6/8, recovery=1.06 — over-recovery). At n=500 (H7=8/8), perturbation *improves* it (stable 7/8→8/8, full 7/8→8/8, recovery=1.16).
+
+**The 32nd mechanism: perturbation over-recovery.** The crossing converts damage into a recruitment signal. Damage creates new curvature at the scar boundary; the curvature channel routes deposits to the scar — targeted scar repair. This is the opposite of Session 24's sim09 null (no targeted repair at low density in a single-structure regime). The difference: the mature structure at n=350/500 has the boundary + ID-tagging + curvature channel together, creating the system-level self-repair that the curvature channel alone could not.
+
+**Cross-domain: homeostasis as the trace→actor crossing.** The curvature signal IS the damage detector; the deposit routing IS the repair response. The crossing fires when the structure has enough material density for the curvature channel to create a coherent repair response — below that density, the damage overwhelms the channel; above it, the channel heals the scar (recovery > 1.0). This is the biological meaning of the trace→actor crossing: the structure acts as an actor by *healing itself*, not merely by persisting.

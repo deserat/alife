@@ -1396,17 +1396,25 @@ to compare.
      `density_gain_sweep.py`.
 
 127. **The crossing as a stability condition, not a composition
-     mechanism** — If composition at n=150 (4/4 coexist, 4/4 clean)
-     does not require the crossing (2/4 H7), the crossing may be a
-     stability condition (stable=1/4 at n=150, 8/8 stable at n=800
-     where H7=8/8) rather than the mechanism that produces
-     coexistence. This would reframe H7: the crossing is not what
+     mechanism** — DONE (Session 55).
+     If composition at n=150 (4/4 coexist) does not require the crossing
+     (2/4 H7), the crossing may be a stability condition (stable=1/4 at
+     n=150, 8/8 stable at n=800 where H7=8/8) rather than the mechanism that
+     produces coexistence. This would reframe H7: the crossing is not what
      creates multi-scale composition — the boundary + ID-tagging is.
      The crossing is what makes composition *stable* (persistent
      across perturbation). Test: does perturbation survival
      correlate with H7 at n=150? If the 2/4 H7 seeds survive
      perturbation less than the 2/4 non-H7 seeds, the crossing is
-     a stability condition. Cheap: re-run n=150 with perturbation.
+     a stability condition. RESULT: The crossing IS a stability
+     condition. Perturbation sweep (3 regimes × {perturbed,
+     unperturbed} × 8 seeds): n=150 (H7=2/8) recovery=0.562 (degrades);
+     n=350 (H7=8/8) recovery=1.063 (over-recovers); n=500 (H7=8/8)
+     recovery=1.159 (over-recovers + improves composition). The
+     crossing converts damage into a recruitment signal — targeted
+     scar repair, the opposite of Session 24's sim09 null. The
+     32nd mechanism: perturbation over-recovery. See
+     `perturbation_sweep.py` and H5/H7/H10 Session-55 refinements.
 
 128. **The COEXIST_MAX_COMP threshold as a parameter** — The
      fragmented/coexist distinction uses COEXIST_MAX_COMP=3 (1-3
@@ -1722,3 +1730,50 @@ to compare.
      more material (higher co-presence = stronger B)? Inspect the
      1-seed runs at n=500 vs n=350: compare B_max, structure extent,
      and mean curvature. Cheap: analysis of committed JSON.
+
+## From Session 55 (2026-09-10)
+
+160. **The perturbation-over-recovery mechanism — how general is it?** —
+     DONE (Session 55).
+     The crossing converts damage into a recruitment signal, producing
+     over-recovery (recovery >1.0) at n=350/500 where H7 fires. But is
+     this specific to the curvature channel, or is it a general property
+     of any non-saturating channel? A saturating-cue control (sim06's
+     pheromone channel) perturbed at the same density would test whether
+     over-recovery is unique to the non-saturating action-based channel.
+     If the saturating cue also over-recovers, the self-repair is a
+     property of the density, not the channel; if it does not, the
+     self-repair is a property of the non-saturating channel's routing
+     (curvature at the scar edge).
+
+161. **The n=550+ plateau (continuation of #157)** — g* never hits zero
+     at n=450–500 (~29% fill). The 1/√n scaling predicts g*(550)≈0.005,
+     g*(600)≈0.003. Does g* eventually hit zero, or does the 1/√n scaling
+     hold indefinitely? Test: sweep n=550, 600 at g=0.003–0.01.
+
+162. **The perturbation timing sweep — does over-recovery depend on
+     when the damage hits?** — Session 55 perturbed at 60% of steps
+     (step 1200/2000). Queued-topic #76 (from Session 24) noted that a
+     later perturbation (80–90% of steps, after mass equilibration)
+     may give a different result. Does over-recovery require the
+     structure to still be growing (pre-plateau), or does it also
+     occur at equilibrium? Test: perturb at 80%, 90% of steps at
+     n=350 g=0.01. If late perturbation still over-recovers, the
+     self-repair is a property of the mature structure; if it degrades,
+     over-recovery requires active growth.
+
+163. **The damage-gradient as a signal — formalizing the self-repair
+     mechanism** — The over-recovery mechanism is: damage creates a
+     curvature gradient at the scar boundary, which the curvature
+     channel routes deposits toward. This is a specific instance of
+     the two-wire principle: the damage signal (curvature at the scar)
+     and the growth signal (curvature at the structure edge) are on
+     the same wire (the curvature field), but they have different
+     signatures (sharp local curvature vs. smooth distributed
+     curvature). A formal model would separate the two: a "damage
+     detector" (local curvature above a threshold) vs. a "growth
+     router" (global curvature routing). Could the damage signal
+     be saturated? If the scar is too large, the curvature signal
+     may flatten (too much damage = no signal), creating a
+     perturbation-size threshold for self-repair. Test: sweep
+     perturb_frac at n=350 g=0.01.
