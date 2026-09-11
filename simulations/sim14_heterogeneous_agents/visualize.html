@@ -230,6 +230,9 @@ select:hover, button:hover { border-color: var(--accent); }
 <h2>Perturbation Robustness: Is the Crossing a Stability Condition? (Session 55)</h2>
 <div id="perturbation-section"></div>
 
+<h2>Timing & Size Sweep: Over-Recovery Was a Growth Artifact (Session 56)</h2>
+<div id="timing-size-section"></div>
+
 <script>
 let resultsData = null;
 let robustData = null;
@@ -272,6 +275,8 @@ async function loadData() {
     'highDensitySweep': 'output/high_density_plateau_sweep.json',
     'ultraHighDensitySweep': 'output/ultra_high_density_sweep.json',
     'perturbationSweep': 'output/perturbation_sweep.json',
+    'timingSweep': 'output/timing_sweep.json',
+    'sizeSweep': 'output/size_sweep.json',
   };
   const sweepPromises = Object.entries(sweepFiles).map(([key, path]) =>
     fetch(path).then(r => r.json()).catch(() => null)
@@ -1104,6 +1109,74 @@ function populateSweepSections() {
 
     const elPert = document.getElementById('perturbation-section');
     if (elPert) elPert.innerHTML = html;
+  }
+
+  // Timing & Size sweep (Session 56)
+  if (window.timingSweepData || window.sizeSweepData) {
+    let html = '';
+
+    // Timing sweep
+    if (window.timingSweepData) {
+      const d = window.timingSweepData;
+      const cfg = d.config;
+      html += '<div class="insight"><strong>Timing sweep:</strong> 3 perturbation timings × 8 seeds × {perturbed, unperturbed} × {2, 1}. '
+        + 'n=350 g=0.01 (robust optimum), perturb_frac=0.50. Tests whether over-recovery is genuine self-repair or a growth artifact (#162).</div>';
+
+      const timings = ['pa1200', 'pa1600', 'pa1800'];
+      const tLabels = { 'pa1200': '60% (step 1200)', 'pa1600': '80% (step 1600)', 'pa1800': '90% (step 1800)' };
+
+      html += '<table style="margin:12px 0;font-size:0.85em">';
+      html += '<tr><th>Timing</th><th>%</th><th>Condition</th><th>H7</th><th>Coexist</th><th>Stable</th><th>Full</th><th>CF</th><th>Recovery</th><th>Cells</th></tr>';
+
+      for (const label of timings) {
+        const r = d[label];
+        if (!r) continue;
+        const su = r.unperturbed.summary;
+        const sp = r.perturbed.summary;
+        const pctStr = r.pct_of_steps;
+        html += `<tr><td rowspan="2">${label}</td><td rowspan="2">${pctStr}%</td>`;
+        html += `<td>Unperturbed</td><td>${su.h7}</td><td>${su.coexist}</td><td>${su.stable}</td><td>${su.full}</td><td>${su.mean_cf.toFixed(3)}</td><td>—</td><td>${su.mean_cells}</td></tr>`;
+        html += `<tr><td><strong>Perturbed</strong></td><td>${sp.h7}</td><td>${sp.coexist}</td><td>${sp.stable}</td><td>${sp.full}</td><td>${sp.mean_cf.toFixed(3)}</td><td><strong>${sp.mean_recovery.toFixed(3)}</strong></td><td>${sp.mean_cells}</td></tr>`;
+      }
+      html += '</table>';
+
+      html += '<div class="insight" style="margin-top:8px"><strong>Key finding:</strong> Over-recovery was a growth artifact — recovery drops monotonically with later perturbation '
+        + '(1.063 → 0.879 → 0.756). But H7=8/8 at all timings and coexist=8/8 at 80%/90% — the crossing\'s stability function persists without over-recovery. '
+        + 'The crossing is boundary maintenance, not volume regrowth.</div>';
+    }
+
+    // Size sweep
+    if (window.sizeSweepData) {
+      const d = window.sizeSweepData;
+      const cfg = d.config;
+      html += '<div class="insight" style="margin-top:16px"><strong>Size sweep:</strong> 4 perturbation sizes × 8 seeds × {perturbed, unperturbed} × {2, 1}. '
+        + 'n=350 g=0.01, perturb_at=1200 (60%). Tests whether the damage signal saturates (#163).</div>';
+
+      const sizes = ['pf25', 'pf50', 'pf75', 'pf90'];
+      const sLabels = { 'pf25': '25%', 'pf50': '50%', 'pf75': '75%', 'pf90': '90%' };
+
+      html += '<table style="margin:12px 0;font-size:0.85em">';
+      html += '<tr><th>Size</th><th>frac</th><th>Condition</th><th>H7</th><th>Coexist</th><th>Stable</th><th>Full</th><th>CF</th><th>Recovery</th><th>Cells</th></tr>';
+
+      for (const label of sizes) {
+        const r = d[label];
+        if (!r) continue;
+        const su = r.unperturbed.summary;
+        const sp = r.perturbed.summary;
+        const fracStr = sLabels[label];
+        html += `<tr><td rowspan="2">${label}</td><td rowspan="2">${fracStr}</td>`;
+        html += `<td>Unperturbed</td><td>${su.h7}</td><td>${su.coexist}</td><td>${su.stable}</td><td>${su.full}</td><td>${su.mean_cf.toFixed(3)}</td><td>—</td><td>${su.mean_cells}</td></tr>`;
+        html += `<tr><td><strong>Perturbed</strong></td><td>${sp.h7}</td><td>${sp.coexist}</td><td>${sp.stable}</td><td>${sp.full}</td><td>${sp.mean_cf.toFixed(3)}</td><td><strong>${sp.mean_recovery.toFixed(3)}</strong></td><td>${sp.mean_cells}</td></tr>`;
+      }
+      html += '</table>';
+
+      html += '<div class="insight" style="margin-top:8px"><strong>Key finding:</strong> The damage signal amplifies, not saturates — larger damage produces <em>better</em> composition '
+        + '(75%/90% → 8/8 full vs 6/8 at 50%, 4/8 at 25%). More damage creates more curvature contrast, sharpening the boundary. '
+        + 'The 33rd mechanism: damage-amplified composition. Recovery and composition are decoupled — 75% damage has recovery=0.894 but composition=8/8 full.</div>';
+    }
+
+    const elTS = document.getElementById('timing-size-section');
+    if (elTS) elTS.innerHTML = html;
   }
 }
 

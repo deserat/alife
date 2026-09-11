@@ -1752,28 +1752,66 @@ to compare.
      hold indefinitely? Test: sweep n=550, 600 at g=0.003–0.01.
 
 162. **The perturbation timing sweep — does over-recovery depend on
-     when the damage hits?** — Session 55 perturbed at 60% of steps
-     (step 1200/2000). Queued-topic #76 (from Session 24) noted that a
-     later perturbation (80–90% of steps, after mass equilibration)
-     may give a different result. Does over-recovery require the
-     structure to still be growing (pre-plateau), or does it also
-     occur at equilibrium? Test: perturb at 80%, 90% of steps at
-     n=350 g=0.01. If late perturbation still over-recovers, the
-     self-repair is a property of the mature structure; if it degrades,
-     over-recovery requires active growth.
+     when the damage hits?** — DONE (Session 56).
+     Session 55 perturbed at 60% of steps (step 1200/2000). The timing
+     sweep (3 timings × 8 seeds × {perturbed, unperturbed} × {2, 1}):
+     recovery drops monotonically with later perturbation — 1.063 (60%)
+     → 0.879 (80%) → 0.756 (90%). **Over-recovery was a growth
+     artifact.** At 80%/90%, the structure under-recovers (recovery
+     <1.0). But H7=8/8 at all timings and coexist=8/8 at 80%/90% —
+     the crossing's stability function persists without over-recovery.
+     The crossing is boundary maintenance, not volume regrowth. See
+     `timing_size_sweep.py`.
 
 163. **The damage-gradient as a signal — formalizing the self-repair
-     mechanism** — The over-recovery mechanism is: damage creates a
-     curvature gradient at the scar boundary, which the curvature
-     channel routes deposits toward. This is a specific instance of
-     the two-wire principle: the damage signal (curvature at the scar)
-     and the growth signal (curvature at the structure edge) are on
-     the same wire (the curvature field), but they have different
-     signatures (sharp local curvature vs. smooth distributed
-     curvature). A formal model would separate the two: a "damage
-     detector" (local curvature above a threshold) vs. a "growth
-     router" (global curvature routing). Could the damage signal
-     be saturated? If the scar is too large, the curvature signal
-     may flatten (too much damage = no signal), creating a
-     perturbation-size threshold for self-repair. Test: sweep
-     perturb_frac at n=350 g=0.01.
+     mechanism** — DONE (Session 56).
+     The size sweep (4 perturbation sizes × 8 seeds at n=350 g=0.01):
+     the damage signal does NOT saturate — larger damage produces
+     BETTER composition (25%→4/8 full, 50%→6/8, 75%→8/8, 90%→8/8).
+     More damage creates more curvature contrast at the scar,
+     sharpening the boundary. The 33rd mechanism: damage-amplified
+     composition. Recovery and composition are decoupled — 75% damage
+     has recovery=0.894 but composition=8/8 full. See
+     `timing_size_sweep.py`.
+
+## From Session 56 (2026-09-11)
+
+164. **The saturating-cue perturbation control — does the saturating-cue
+     channel also benefit from damage?** — Session 55's over-recovery
+     was found to be a growth artifact, but the damage-amplified
+     composition (33rd mechanism) is genuine — larger damage improves
+     composition at n=350 g=0.01. Is this unique to the non-saturating
+     action-based curvature channel, or does the saturating-cue channel
+     (sim06's pheromone) also benefit from damage? A perturbation sweep
+     at n=350 with the baseline-pheromone channel would test this. If
+     the saturating cue also shows damage-amplified composition, the
+     33rd mechanism is a property of the density + boundary, not the
+     channel; if it does not, the non-saturating channel's geometric
+     signal (curvature scales with damage) is load-bearing. Cheap: re-run
+     the size sweep with channel="baseline_pheromone".
+
+165. **The composition-vs-recovery decoupling as a design principle**
+     — Recovery (volume regrowth) and composition (coexistence quality)
+     are independent: 75% damage has recovery=0.894 but composition=8/8
+     full. This decoupling means the crossing's stability function is
+     not about regrowing damaged material but about maintaining the
+     boundary that separates two structures. This is a design principle:
+     in a stigmergic system, the "repair" function is organizational
+     (boundary maintenance), not material (volume restoration). Does
+     this hold at other densities (n=150, n=500)? Is the decoupling
+     density-dependent?
+
+166. **The stigmergic advantage in damage signaling — geometry vs.
+     chemistry** — The damage signal amplifies (not saturates) because
+     the signal is geometric (curvature), and geometric contrast scales
+     with damage size — the bigger the scar, the sharper the curvature
+     at its edge. A chemotactic signal (morphogen concentration) can
+     saturate — concentrations are intensive, not extensive. This is a
+     stigmergic advantage over chemotactic repair: stigmergic signals
+     are extensive (they scale with the spatial extent of damage),
+     while chemotactic signals are intensive (they saturate at a
+     maximum concentration). Could formalize as: geometric signals
+     have unbounded contrast (curvature ∝ 1/r → ∞ as r → 0), while
+     chemical signals have bounded contrast (concentration ≤ max).
+     This connects H11 (non-saturating channels) to the damage-amplified
+     composition mechanism.
