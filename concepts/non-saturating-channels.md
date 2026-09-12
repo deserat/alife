@@ -1007,3 +1007,15 @@ Session 56 tested whether over-recovery is genuine self-repair or a growth artif
 **The composition-vs-recovery decoupling.** Recovery (volume regrowth) and composition (coexistence quality) are independent: 75% damage has recovery=0.894 (under-recovery) but composition=8/8 full (perfect). The crossing's stability function is boundary maintenance under damage, not volume regrowth. The 32nd mechanism is corrected: not "targeted scar repair" but "boundary maintenance under damage."
 
 **Cross-domain: homeostasis vs. regeneration.** Session 55 connected over-recovery to wound healing (regeneration). Session 56 corrects this: the crossing is homeostasis (maintaining a setpoint — the boundary), not regeneration (regrowing lost tissue). Samarasinghe & Minh-Thai (2023, PNAS Nexus) distinguish morphological (form) and bioelectric (function) homeostasis — our crossing maintains the morphological boundary (form) without restoring the material volume (function). The crossing is the computational analog of boundary homeostasis, not tissue regeneration.
+
+### Session 57 (2026-09-12) — The saturating-cue control: the 33rd mechanism is channel-specific
+
+Session 57 ran the saturating-cue perturbation control (queued-topic #164): the same size sweep at n=350 g=0.01 for the baseline_pheromone channel (the saturating cue `p = base + gain·φ/(1+φ)`). The 33rd mechanism (damage-amplified composition) does NOT appear in the saturating cue — it shows the OPPOSITE pattern:
+
+- **H7=0/8 at ALL perturbation sizes** — the saturating cue never fires the crossing.
+- **Composition degrades with damage** (cf drops 0.331 → 0.462 → 0.087 → 0.013 as damage increases 25%→90%).
+- **Recovery is high (2.374×) but unbounded** — 11000+ cells vs curvature's ~5800. Massive material growth without the crossing — the same pattern as sim09's baseline 47× "recovery" (Session 24).
+
+The 33rd mechanism is a property of the non-saturating channel's geometric (extensive) signal — curvature scales with damage size (bigger scar → sharper curvature at the edge → more deposit routing). The saturating cue's chemical (intensive) signal is self-dampening — larger damage reduces the pheromone gradient further, suppressing deposition further. This is the stigmergic advantage: geometric signals are extensive (scale with damage), while chemical signals are intensive (saturate at a maximum).
+
+**Independent literature confirmation: Barman et al. (2026, ACS Nano, Johns Hopkins)** found that "geometry itself may serve as an instructive signal" for wound healing — epithelial cells sense tissue curvature (convex vs concave) and the sign of curvature organizes collective migration more than its magnitude. This is independent confirmation that geometric (curvature-based) signals are a distinct class from chemical (morphogen-based) signals in damage response.

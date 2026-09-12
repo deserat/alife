@@ -1777,18 +1777,23 @@ to compare.
 ## From Session 56 (2026-09-11)
 
 164. **The saturating-cue perturbation control — does the saturating-cue
-     channel also benefit from damage?** — Session 55's over-recovery
-     was found to be a growth artifact, but the damage-amplified
-     composition (33rd mechanism) is genuine — larger damage improves
-     composition at n=350 g=0.01. Is this unique to the non-saturating
-     action-based curvature channel, or does the saturating-cue channel
-     (sim06's pheromone) also benefit from damage? A perturbation sweep
-     at n=350 with the baseline-pheromone channel would test this. If
-     the saturating cue also shows damage-amplified composition, the
-     33rd mechanism is a property of the density + boundary, not the
-     channel; if it does not, the non-saturating channel's geometric
-     signal (curvature scales with damage) is load-bearing. Cheap: re-run
-     the size sweep with channel="baseline_pheromone".
+    channel also benefit from damage?** — DONE (Session 57).
+    Session 55's over-recovery was found to be a growth artifact, but the
+    damage-amplified composition (33rd mechanism) is genuine — larger
+    damage improves composition at n=350 g=0.01. Is this unique to the
+    non-saturating action-based curvature channel, or does the saturating-cue channel
+    (sim06's pheromone) also benefit from damage? A perturbation sweep
+    at n=350 with the baseline-pheromone channel was run. RESULT: the
+    33rd mechanism is UNIQUE to the non-saturating curvature channel.
+    The saturating cue shows the OPPOSITE: H7=0/8 at all sizes,
+    composition degrades with damage (cf drops 0.331→0.013), recovery is
+    massive but unbounded (2.374×, 11000+ cells). The saturating cue's
+    chemical (intensive) signal is self-dampening — larger damage reduces
+    the pheromone gradient, suppressing deposition. The curvature
+    channel's geometric (extensive) signal is self-amplifying —
+    curvature scales with damage size. Barman et al. (2026, ACS Nano)
+    independently confirms geometry as an instructive damage signal.
+    See `saturating_cue_perturbation.py`.
 
 165. **The composition-vs-recovery decoupling as a design principle**
      — Recovery (volume regrowth) and composition (coexistence quality)
@@ -1815,3 +1820,37 @@ to compare.
      chemical signals have bounded contrast (concentration ≤ max).
      This connects H11 (non-saturating channels) to the damage-amplified
      composition mechanism.
+
+## From Session 57 (2026-09-12)
+
+167. **Bilateral perturbation — does damaging both regions change the
+     result?** — All perturbation tests have damaged only the right
+     region. Does damaging BOTH regions simultaneously (same fraction)
+     change the result? If the damage-amplified composition is about the
+     boundary BETWEEN the two structures, bilateral damage (which
+     damages both sides of the boundary) might weaken or strengthen
+     the effect differently. Test: perturb_frac × {right-only, both} ×
+     8 seeds at n=350 g=0.01.
+
+168. **The saturating cue's unbounded growth — why does the pheromone
+     channel produce 2× the material?** — The baseline_pheromone
+     channel produces ~11000 cells vs the curvature channel's ~5800.
+     The saturating cue's deposit rule (p = base + gain·φ/(1+φ))
+     never plateaus — it keeps depositing because pheromone accumulates
+     without erosion. The curvature channel's deposit/excavate split
+     balances growth. Is the saturating cue's massive growth the
+     reason H7 fails (the structure floods the grid before the crossing
+     can fire)? Or is it the saturation itself? A growth-limited
+     pheromone channel (with material decay) would separate these.
+
+169. **The extensive/intensive signal distinction as a formal concept**
+     — Session 57's saturating-cue control reveals that the
+     extensive/intensive distinction in physics applies to stigmergic
+     signals: geometric signals (curvature) are extensive (scale with
+     damage size), while chemical signals (concentration) are
+     intensive (saturate at a maximum). This is a new cross-domain
+     connection between thermodynamics (extensive vs intensive
+     variables) and stigmergy. Could formalize: stigmergic signals are
+     extensive when the signal quantity depends on the spatial extent
+     of the phenomenon; they are intensive when it depends on the local
+     density. This deserves a standalone concept file.

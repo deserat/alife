@@ -2,8 +2,8 @@
 title: "Hypotheses"
 topic: "testable hypotheses for the multi-scale ALife composition project"
 status: active
-date: "2026-09-11"
-session: 56
+date: "2026-09-12"
+session: 57
 count: 11
 active: [H1, H2, H3, H4, H5, H6, H7, H8, H9, H10, H11]
 logs: ["logs/H1/", "logs/H2/", "logs/H3/", "logs/H4/", "logs/H5/", "logs/H6/", "logs/H7/", "logs/H8/", "logs/H9/", "logs/H10/", "logs/H11/"]
@@ -70,7 +70,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **For an emergent structure to persist as a new actor at a higher scale, it must be autopoietic — it must maintain the network that constitutes it.** Self-maintenance is the persistence condition. Without it, emergent structures are transient patterns, not new actors.
 
-**Status:** Refined (Session 56). Over-recovery was a growth artifact (recovery drops 1.06→0.88→0.76 with later perturbation timing), but the crossing's stability function persists (H7=8/8, coexist=8/8 at all timings). Autopoiesis is boundary maintenance under damage, not volume regrowth. The 33rd mechanism: damage-amplified composition (75%/90% damage → 8/8 full — larger damage sharpens the boundary). The persistence condition is organizational identity maintenance, not material restoration. g* never hits zero at n=450–500 (~29% fill) — the 1/√n scaling holds. n=350 g=0.01 is the most robust config ever (7/8 full at 8 seeds).
+**Status:** Refined (Session 57). The 33rd mechanism is channel-specific — damage-amplified composition requires the non-saturating curvature channel's geometric signal. The saturating cue shows the opposite (H7=0/8, composition degrades with damage). Autopoiesis as boundary maintenance depends on the non-saturating channel (H11), not just the density+boundary. Over-recovery was a growth artifact (recovery drops 1.06→0.88→0.76 with later timing), but the crossing's stability function persists (H7=8/8, coexist=8/8 at all timings). The 34th mechanism: saturating-cue self-dampening (the intensive signal's failure mode). The persistence condition is organizational identity maintenance, not material restoration.
 
 **Log:** [logs/H5/](logs/H5/)
 
@@ -92,7 +92,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **Current mechanism claim:** the crossing needs a non-saturating channel that *recruits* deposition as well as *limiting* it, not mere negative feedback through the cue field (see H11). The curvature channel (Facchini et al. 2020) is the strongest candidate: growth at convex tips recruits, biharmonic smoothing limits, and there is no saturating pheromone field in the model at all.
 
-**Status:** Refined ×46. Over-recovery was a growth artifact (recovery drops 1.06→0.88→0.76 with later perturbation timing), but the crossing's stability function persists (H7=8/8 at all timings). The damage signal amplifies rather than saturates: 75%/90% damage produces 8/8 full composition (vs 6/8 at 50%) — larger damage sharpens the boundary. The 33rd mechanism: damage-amplified composition. The crossing is a stability condition because it preserves the boundary under damage, not because it regrows the structure. g* never hits zero at n=450–500 (~29% fill) — the 1/√n scaling holds. n=350 g=0.01 is the most robust config ever (7/8 full at 8 seeds, cf=0.706).
+**Status:** Refined ×47. The saturating-cue control (Session 57) confirms damage-amplified composition is unique to the non-saturating curvature channel (H7=8/8, composition improves with damage) — the saturating cue shows the opposite (H7=0/8, composition degrades with damage, cf drops 0.331→0.013). The 33rd mechanism requires the geometric (extensive) signal; the saturating cue's chemical (intensive) signal is self-dampening. Barman et al. (2026, ACS Nano) independently confirms geometry as an instructive damage signal. Over-recovery was a growth artifact (recovery drops 1.06→0.88→0.76 with later perturbation timing), but the crossing's stability function persists (H7=8/8, coexist=8/8 at all timings). The damage signal amplifies rather than saturates (75%/90% damage → 8/8 full). The crossing is boundary maintenance under damage, not volume regrowth. g* never hits zero at n=450–500 (~29% fill) — the 1/√n scaling holds. n=350 g=0.01 is the most robust config ever (7/8 full at 8 seeds).
 
 **Evidence:**
 - sim06: near miss — stability 0.849–0.893 vs a 0.90 threshold; self-maintenance fragments instead of consolidating (H11's first data point). Detector-bug corrected 2026-07-27. Session 22: the saturating cue (as-built) crosses 16/16 stable without SM; the non-saturating cue crosses 0/16 stable without SM — cue-family reversal.
@@ -160,7 +160,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **Three paths, same failure:** Echo (CAS theory), chemical organizations (origin-of-life chemistry), and AlChemy (computational theory) all fail at multi-scale composition, from three different starting points — evidence the composition problem is fundamental, though sim05's leg of this argument is weaker post-correction.
 
-**Status:** Refined (Session 56). 33rd mechanism: damage-amplified composition — larger damage sharpens the boundary (75%/90% → 8/8 full vs 6/8 at 50%). The 32nd mechanism corrected: boundary maintenance, not volume regrowth (over-recovery was a growth artifact). g*≠0 at n=450–500 (~29% fill); n=350 g=0.01 7/8 full. 33 mechanisms tested.
+**Status:** Refined (Session 57). 34th mechanism: saturating-cue self-dampening — the intensive signal's failure mode (composition degrades with damage under the saturating cue, opposite to the curvature channel's amplification). 33rd mechanism: damage-amplified composition (75%/90% → 8/8 full) — requires the non-saturating channel's geometric (extensive) signal. 32nd corrected: boundary maintenance, not volume regrowth. g*≠0 at n=450–500 (~29% fill); n=350 g=0.01 7/8 full. 34 mechanisms tested. Barman et al. (2026, ACS Nano) independently confirms geometry as an instructive damage signal.
 
 **Test:** Build a simulation with explicit composition mechanisms (stigmergic bridges between organizations, autopoietic boundaries, selection for composability) and compare to AlChemy without these mechanisms. Measure: does the version with composition mechanisms produce L2 where the plain version fails?
 
@@ -216,10 +216,10 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 | H2: ANT Translation | Unchanged | Theoretical, untested | [H2](logs/H2/) |
 | H3: Quasi-Object | Strengthened | Stigmergy literature support; Echo partial support | [H3](logs/H3/) |
 | H4: Dynamic Environment | Refined | Fitness landscape criticism supports this | [H4](logs/H4/) |
-|| H5: Autopoiesis | Refined (S56) | Over-recovery was a growth artifact (rec drops 1.06→0.76 with later timing); stability persists (H7=8/8 at all timings); 33rd mechanism: damage-amplified composition; autopoiesis = boundary maintenance, not volume regrowth | [H5](logs/H5/) |
+|| H5: Autopoiesis | Refined (S57) | 33rd mechanism is channel-specific — damage-amplified composition requires non-saturating channel; saturating cue shows opposite (H7=0/8); 34th mechanism: saturating-cue self-dampening | [H5](logs/H5/) |
 | H6: Multi-Scale Autopoiesis | Refined (S43) | 12th member confirmed at 8 seeds; composition and crossing governed by different density regimes | [H6](logs/H6/) |
-| H7: Trace→Actor Crossing | Refined ×46; over-recovery was a growth artifact (rec 1.06→0.76 with later timing) but stability persists (H7=8/8); 33rd mechanism: damage-amplified composition (75%/90% damage → 8/8 full); crossing = boundary maintenance, not volume regrowth | Session 56 timing+size; Session 55 perturbation; Session 54 ultra-high-density; Session 53 high-density; Session 52 plateau 260–300; Session 51 plateau 240–250; Session 50 classifier-artifact; Session 49 robustness+asymmetric; Session 48 plateau; Session 47 robustness+n=200; Session 46 gain-scaling; Session 45 density-gain; Session 44 per-criteria; Session 43 threshold; Session 42 finer density; Session 34 movement; Session 33 dual; Session 22: 2×2 complete | [H7](logs/H7/) |
+| H7: Trace→Actor Crossing | Refined ×47; saturating-cue control confirms 33rd mechanism is unique to non-saturating channel (H7=8/8 vs 0/8); damage amplifies (75%/90% → 8/8 full); crossing = boundary maintenance; Barman et al. (2026) confirms geometry as damage signal | Session 57 saturating-cue control; Session 56 timing+size; Session 55 perturbation; Session 54 ultra-high-density; Session 53 high-density; Session 52 plateau 260–300; Session 51 plateau 240–250; Session 50 classifier-artifact; Session 49 robustness+asymmetric; Session 48 plateau; Session 47 robustness+n=200; Session 46 gain-scaling; Session 45 density-gain; Session 44 per-criteria; Session 43 threshold; Session 42 finer density; Session 34 movement; Session 33 dual; Session 22: 2×2 complete | [H7](logs/H7/) |
 | H8: Complexity Enables OEE | NEW | Kaznatcheev (2019), Wiser et al. (2013) | [H8](logs/H8/) |
 | H9: Evolving Network | Untested (2026-07-27 correction) | Vasas et al. (2012) literature support; sim04's finite-space exhaustion survives but doesn't test the claim; sim03/sim05 withdrawn | [H9](logs/H9/) |
-| H10: Unbounded Space Insufficiency | Refined (S56) | 33rd mechanism: damage-amplified composition (75%/90% → 8/8 full); 32nd corrected: boundary maintenance not regrowth; g*≠0 at n=450–500; n=350 g=0.01 7/8 full; 33 mechanisms tested | [H10](logs/H10/) |
+| H10: Unbounded Space Insufficiency | Refined (S57) | 34th mechanism: saturating-cue self-dampening; 33rd: damage-amplified composition (requires non-saturating channel); 32nd corrected: boundary maintenance; g*≠0 at n=450–500; n=350 g=0.01 7/8 full; 34 mechanisms; Barman et al. (2026) confirms | [H10](logs/H10/) |
 | H11: Saturating Channel | Directionally confirmed (4/4); causal with control arm; 2×2-complete; φ_sat predictor family-specific; two-wire principle confirmed (S33) | Session 33: two-wire principle confirmed — separate B fields break persistence-formation trade-off for stability; Session 23: φ_sat probe 50% accurate — deposit-probability saturation self-defeating only in cue channels | [H11](logs/H11/) |

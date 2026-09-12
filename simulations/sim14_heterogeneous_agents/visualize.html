@@ -233,6 +233,9 @@ select:hover, button:hover { border-color: var(--accent); }
 <h2>Timing & Size Sweep: Over-Recovery Was a Growth Artifact (Session 56)</h2>
 <div id="timing-size-section"></div>
 
+<h2>Saturating-Cue Control: Damage Amplification Is Unique to the Curvature Channel (Session 57)</h2>
+<div id="saturating-cue-section"></div>
+
 <script>
 let resultsData = null;
 let robustData = null;
@@ -277,6 +280,7 @@ async function loadData() {
     'perturbationSweep': 'output/perturbation_sweep.json',
     'timingSweep': 'output/timing_sweep.json',
     'sizeSweep': 'output/size_sweep.json',
+    'saturatingCueSweep': 'output/saturating_cue_sweep.json',
   };
   const sweepPromises = Object.entries(sweepFiles).map(([key, path]) =>
     fetch(path).then(r => r.json()).catch(() => null)
@@ -1177,6 +1181,45 @@ function populateSweepSections() {
 
     const elTS = document.getElementById('timing-size-section');
     if (elTS) elTS.innerHTML = html;
+  }
+
+  // Saturating-cue control sweep (Session 57)
+  if (window.saturatingCueSweepData) {
+    let html = '';
+    const d = window.saturatingCueSweepData;
+    html += '<div class="insight"><strong>Saturating-cue control:</strong> 4 perturbation sizes × 8 seeds × {perturbed, unperturbed} × {2, 1} for BOTH channels (curvature = treatment, baseline_pheromone = control). '
+      + 'n=350 g=0.01, perturb_at=1200 (60%). Tests whether damage-amplified composition is unique to the non-saturating curvature channel or general to any channel (#164).</div>';
+
+    const channels = ['curvature', 'baseline_pheromone'];
+    const chLabels = { 'curvature': 'Curvature (non-saturating)', 'baseline_pheromone': 'Baseline Pheromone (saturating cue)' };
+    const sizes = ['pf25', 'pf50', 'pf75', 'pf90'];
+    const sLabels = { 'pf25': '25%', 'pf50': '50%', 'pf75': '75%', 'pf90': '90%' };
+
+    html += '<table style="margin:12px 0;font-size:0.85em">';
+    html += '<tr><th>Channel</th><th>Size</th><th>H7</th><th>Coexist</th><th>Stable</th><th>Full</th><th>CF</th><th>Recovery</th><th>Cells</th></tr>';
+
+    for (const ch of channels) {
+      const chData = d[ch];
+      if (!chData) continue;
+      for (const label of sizes) {
+        const r = chData[label];
+        if (!r) continue;
+        const sp = r.perturbed.summary;
+        html += `<tr><td>${chLabels[ch]}</td><td>${sLabels[label]}</td>`
+          + `<td>${sp.h7}</td><td>${sp.coexist}</td><td>${sp.stable}</td><td>${sp.full}</td>`
+          + `<td>${sp.mean_cf.toFixed(3)}</td><td><strong>${sp.mean_recovery.toFixed(3)}</strong></td><td>${sp.mean_cells}</td></tr>`;
+      }
+    }
+    html += '</table>';
+
+    html += '<div class="insight" style="margin-top:12px"><strong>Key finding:</strong> Damage-amplified composition is <em>unique</em> to the non-saturating curvature channel. '
+      + 'The curvature channel: H7=8/8 at all sizes, composition improves with damage (4/8 → 6/8 → 8/8 → 8/8 full). '
+      + 'The saturating-cue channel: H7=0/8 at all sizes (crossing never fires), composition <em>degrades</em> with damage (cf drops 0.331 → 0.013). '
+      + 'The saturating cue produces massive material growth (recovery ~2.4 at 25%) but without the crossing — unbounded accumulation, not boundary maintenance. '
+      + 'The 33rd mechanism is a property of the non-saturating channel\'s geometric signal (curvature scales with damage), not the density+boundary.</div>';
+
+    const elSC = document.getElementById('saturating-cue-section');
+    if (elSC) elSC.innerHTML = html;
   }
 }
 
