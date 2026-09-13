@@ -236,6 +236,9 @@ select:hover, button:hover { border-color: var(--accent); }
 <h2>Saturating-Cue Control: Damage Amplification Is Unique to the Curvature Channel (Session 57)</h2>
 <div id="saturating-cue-section"></div>
 
+<h2>Bilateral Perturbation: Damaging Both Sides Amplifies the Boundary Signal (Session 58)</h2>
+<div id="bilateral-section"></div>
+
 <script>
 let resultsData = null;
 let robustData = null;
@@ -281,6 +284,7 @@ async function loadData() {
     'timingSweep': 'output/timing_sweep.json',
     'sizeSweep': 'output/size_sweep.json',
     'saturatingCueSweep': 'output/saturating_cue_sweep.json',
+    'bilateralSweep': 'output/bilateral_sweep.json',
   };
   const sweepPromises = Object.entries(sweepFiles).map(([key, path]) =>
     fetch(path).then(r => r.json()).catch(() => null)
@@ -1220,6 +1224,39 @@ function populateSweepSections() {
 
     const elSC = document.getElementById('saturating-cue-section');
     if (elSC) elSC.innerHTML = html;
+  }
+
+  // ─── Bilateral perturbation sweep (Session 58) ──────────────
+  if (window.bilateralSweepData) {
+    const d = window.bilateralSweepData;
+    let html = '<table><thead><tr><th>Side</th><th>Size</th><th>H7</th><th>Coexist</th>'
+      + '<th>Stable</th><th>Full</th><th>CF</th><th>Recovery</th><th>Total Rec</th><th>Cells</th>'
+      + '<th>1s L2</th><th>1s H7</th></tr></thead><tbody>';
+    const sides = ['right', 'both', 'left'];
+    const sizes = ['pf50', 'pf90'];
+    for (const side of sides) {
+      for (const pf of sizes) {
+        if (!d[side] || !d[side][pf]) continue;
+        const s = d[side][pf].perturbed.summary;
+        html += `<tr><td>${side}</td><td>${pf}</td>`
+          + `<td>${s.h7}</td><td>${s.coexist}</td><td>${s.stable}</td><td>${s.full}</td>`
+          + `<td>${s.mean_cf.toFixed(3)}</td><td>${s.mean_recovery.toFixed(3)}</td>`
+          + `<td>${s.mean_total_recovery.toFixed(3)}</td><td>${s.mean_cells}</td>`
+          + `<td>${s.l2_1s}</td><td>${s.h7_1s}</td></tr>`;
+      }
+    }
+    html += '</tbody></table>';
+    html += '<div class="insight" style="margin-top:12px"><strong>Key finding:</strong> '
+      + 'Bilateral damage at 50% produces the <em>highest composition quality ever</em> '
+      + '(cf=0.825, 4/4 full) — damaging both sides of the boundary amplifies the '
+      + 'curvature signal from both sides simultaneously. '
+      + 'Right-only at 90%: 4/4 full (damage-amplified). '
+      + 'Bilateral at 50%: 4/4 full, cf=0.825 (seed 256 achieves cf=1.000 — the first perfect coexist). '
+      + 'Bilateral at 90%: 3/4 full (both sides under-recover). '
+      + 'H7=4/4 at all conditions — the crossing survives bilateral damage. '
+      + 'The 35th mechanism: bilateral damage amplifies the boundary from both sides.</div>';
+    const elBi = document.getElementById('bilateral-section');
+    if (elBi) elBi.innerHTML = html;
   }
 }
 

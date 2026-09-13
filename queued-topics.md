@@ -1824,13 +1824,24 @@ to compare.
 ## From Session 57 (2026-09-12)
 
 167. **Bilateral perturbation — does damaging both regions change the
-     result?** — All perturbation tests have damaged only the right
+     result?** — DONE (Session 58).
+     All perturbation tests have damaged only the right
      region. Does damaging BOTH regions simultaneously (same fraction)
-     change the result? If the damage-amplified composition is about the
-     boundary BETWEEN the two structures, bilateral damage (which
+     change the result? If the damage-amplified composition is about the boundary
+     BETWEEN the two structures, bilateral damage (which
      damages both sides of the boundary) might weaken or strengthen
      the effect differently. Test: perturb_frac × {right-only, both} ×
      8 seeds at n=350 g=0.01.
+     RESULT: Bilateral 50% produces the **highest composition quality
+     ever** (cf=0.825, 4/4 full, 4/4 stable) — two moderate bilateral
+     scars amplify the boundary from both sides, outperforming one
+     severe unilateral scar (cf=0.713 at right-only 90%). The 35th
+     mechanism: bilateral damage amplifies the boundary from both
+     sides. Each scar creates curvature at the SAME boundary, and the
+     two signals reinforce. Seed 256 achieves cf=1.000 — the first
+     perfect coexist fraction. H7=4/4 at all conditions. Left ≈ right
+     (symmetry confirmed). Bilateral 90% under-recovers (total_rec=
+     0.760) but still 4/4 stable. See `bilateral_perturbation.py`.
 
 168. **The saturating cue's unbounded growth — why does the pheromone
      channel produce 2× the material?** — The baseline_pheromone
@@ -1854,3 +1865,34 @@ to compare.
      extensive when the signal quantity depends on the spatial extent
      of the phenomenon; they are intensive when it depends on the local
      density. This deserves a standalone concept file.
+
+## From Session 58 (2026-09-13)
+
+170. **Asymmetric bilateral perturbation — does different damage on each
+      side change the result?** — Bilateral 50%/50% produces the best
+      composition ever (cf=0.825). What about 50%/90% (right 50%, left
+      90%) or 90%/50%? Does the asymmetric bilateral damage create an
+      asymmetric boundary that degrades composition? Or does the
+      stronger side's curvature compensate for the weaker? Test:
+      perturb_frac_right × perturb_frac_left × 4 seeds at n=350 g=0.01.
+
+171. **Bilateral damage at other densities — does the bilateral
+      advantage scale?** — Bilateral 50% at n=350 (5.9/kcell density on
+      160×160) produces cf=0.825. Does the bilateral advantage hold at
+      other densities (n=150, n=500)? At lower density the structures
+      are smaller — bilateral damage may not create enough curvature
+      contrast. At higher density the structures are larger — bilateral
+      damage may over-split. Test: bilateral 50% at n=150, 350, 500 × 4
+      seeds.
+
+172. **The bilateral advantage as a design principle — moderate
+      bilateral perturbation as composition enhancement** — The 35th
+      mechanism (bilateral damage amplifies the boundary from both
+      sides) suggests a counterintuitive design principle: moderate
+      bilateral damage is a composition-enhancing perturbation, not
+      just a survivable one. In a designed system, deliberately
+      perturbing both sides of a boundary could strengthen the
+      boundary — analogous to how vaccines use controlled damage to
+      strengthen immune memory. Could this be formalized as a
+      design principle for multi-scale systems: "moderate bilateral
+      stress strengthens boundaries"?

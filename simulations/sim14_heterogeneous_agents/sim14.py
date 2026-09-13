@@ -496,13 +496,18 @@ def field_step_hetero(field, material_by_id, params):
 # Two-region run with heterogeneous agents
 # --------------------------------------------------------------------------#
 def run_two_region_hetero(params, seed, n_seeds=2, mode="hetero",
-                            perturb_at=None, perturb_frac=0.5):
+                            perturb_at=None, perturb_frac=0.5,
+                            perturb_side="right"):
     """Run one simulation with ID-tagged agents.
 
     mode = "hetero"  → ID-tagged autopoietic boundary (the new test)
     mode = "shadow"  → sim12's diffused-shadow (no ID tagging, for comparison)
     mode = "passive" → sim11's passive inhibitor (no ID tagging)
     mode = "none"    → no inhibition (sim10 baseline)
+
+    perturb_side = "right"  → damage only the right region (default, Session 55+)
+    perturb_side = "both"   → damage both regions simultaneously (queued-topic #167)
+    perturb_side = "left"   → damage only the left region (symmetry control)
     """
     size = params.get("grid_size", S.GRID_SIZE)
     left_mask, right_mask = T.region_masks(size)
@@ -597,9 +602,14 @@ def run_two_region_hetero(params, seed, n_seeds=2, mode="hetero",
     for step in range(steps):
         # --- perturbation ---
         if perturb_at is not None and step == perturb_at:
-            right_material = field.material[right_mask]
-            field.material[right_mask] = right_material * (1.0 - perturb_frac)
-            material_by_id[1][right_mask] *= (1.0 - perturb_frac)
+            if perturb_side in ("right", "both"):
+                right_material = field.material[right_mask]
+                field.material[right_mask] = right_material * (1.0 - perturb_frac)
+                material_by_id[1][right_mask] *= (1.0 - perturb_frac)
+            if perturb_side in ("left", "both"):
+                left_material = field.material[left_mask]
+                field.material[left_mask] = left_material * (1.0 - perturb_frac)
+                material_by_id[0][left_mask] *= (1.0 - perturb_frac)
 
         if channel == "curvature":
             curvature = S.compute_curvature(field, params)

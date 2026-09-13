@@ -1019,3 +1019,20 @@ Session 57 ran the saturating-cue perturbation control (queued-topic #164): the 
 The 33rd mechanism is a property of the non-saturating channel's geometric (extensive) signal — curvature scales with damage size (bigger scar → sharper curvature at the edge → more deposit routing). The saturating cue's chemical (intensive) signal is self-dampening — larger damage reduces the pheromone gradient further, suppressing deposition further. This is the stigmergic advantage: geometric signals are extensive (scale with damage), while chemical signals are intensive (saturate at a maximum).
 
 **Independent literature confirmation: Barman et al. (2026, ACS Nano, Johns Hopkins)** found that "geometry itself may serve as an instructive signal" for wound healing — epithelial cells sense tissue curvature (convex vs concave) and the sign of curvature organizes collective migration more than its magnitude. This is independent confirmation that geometric (curvature-based) signals are a distinct class from chemical (morphogen-based) signals in damage response.
+
+### Session 58: bilateral perturbation — the 35th mechanism
+
+Session 58 tested bilateral perturbation (queued-topic #167): damaging both regions simultaneously. At n=350 g=0.01, bilateral 50% damage produces the highest composition quality ever (cf=0.825, 4/4 full, 4/4 stable) — two moderate bilateral scars outperform one severe unilateral scar (cf=0.713 at right-only 90%). The 35th mechanism: bilateral damage amplifies the boundary from both sides. Each scar creates curvature contrast at the SAME boundary, and the two curvature signals reinforce rather than compete.
+
+| Side | Size | H7 | Coexist | Stable | Full | CF | Recovery |
+|---|---|---|---|---|---|---|---|
+| right | 50% | 4/4 | 3/4 | 3/4 | 3/4 | 0.588 | 1.083 |
+| right | 90% | 4/4 | 4/4 | 4/4 | 4/4 | 0.713 | 0.792 |
+| **both** | **50%** | **4/4** | **4/4** | **4/4** | **4/4** | **0.825** | 1.051 |
+| both | 90% | 4/4 | 3/4 | 4/4 | 3/4 | 0.750 | 0.760 |
+| left | 50% | 4/4 | 4/4 | 3/4 | 3/4 | 0.575 | 1.006 |
+| left | 90% | 4/4 | 4/4 | 2/4 | 2/4 | 0.525 | 0.726 |
+
+This extends the 33rd mechanism (damage-amplified composition) from unilateral to bilateral: the damage signal is not just self-amplifying (extensive — scales with damage size) but also spatially reinforcing (bilateral — two signals at the same boundary reinforce). The bilateral effect is the spatial analog of the two-wire principle: each side's curvature is a separate wire, both carrying the same boundary-reinforcement signal. Two moderate bilateral signals create a stronger, more balanced boundary than one extreme unilateral signal.
+
+Seed 256 achieves cf=1.000 — the first perfect coexist fraction — under bilateral 50% damage. Bilateral 50% also fixes seed 999's fragmentation (cf=0.200 at right-only 50% → cf=0.600 at bilateral 50%). The symmetric damage regularizes the boundary.
