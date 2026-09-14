@@ -497,7 +497,9 @@ def field_step_hetero(field, material_by_id, params):
 # --------------------------------------------------------------------------#
 def run_two_region_hetero(params, seed, n_seeds=2, mode="hetero",
                             perturb_at=None, perturb_frac=0.5,
-                            perturb_side="right"):
+                            perturb_side="right",
+                            perturb_frac_left=None,
+                            perturb_frac_right=None):
     """Run one simulation with ID-tagged agents.
 
     mode = "hetero"  → ID-tagged autopoietic boundary (the new test)
@@ -508,6 +510,11 @@ def run_two_region_hetero(params, seed, n_seeds=2, mode="hetero",
     perturb_side = "right"  → damage only the right region (default, Session 55+)
     perturb_side = "both"   → damage both regions simultaneously (queued-topic #167)
     perturb_side = "left"   → damage only the left region (symmetry control)
+
+    perturb_frac_left  → fraction for left-side damage (default = perturb_frac)
+    perturb_frac_right → fraction for right-side damage (default = perturb_frac)
+    When both are specified, asymmetric bilateral damage is applied
+    (queued-topic #170).
     """
     size = params.get("grid_size", S.GRID_SIZE)
     left_mask, right_mask = T.region_masks(size)
@@ -600,16 +607,18 @@ def run_two_region_hetero(params, seed, n_seeds=2, mode="hetero",
     cp_prev = None  # for triple mode (PID D-term)
 
     for step in range(steps):
-        # --- perturbation ---
+        # --- perturbation --- #
+        pf_left = perturb_frac_left if perturb_frac_left is not None else perturb_frac
+        pf_right = perturb_frac_right if perturb_frac_right is not None else perturb_frac
         if perturb_at is not None and step == perturb_at:
-            if perturb_side in ("right", "both"):
+            if perturb_side in ("right", "both") and pf_right > 0:
                 right_material = field.material[right_mask]
-                field.material[right_mask] = right_material * (1.0 - perturb_frac)
-                material_by_id[1][right_mask] *= (1.0 - perturb_frac)
-            if perturb_side in ("left", "both"):
+                field.material[right_mask] = right_material * (1.0 - pf_right)
+                material_by_id[1][right_mask] *= (1.0 - pf_right)
+            if perturb_side in ("left", "both") and pf_left > 0:
                 left_material = field.material[left_mask]
-                field.material[left_mask] = left_material * (1.0 - perturb_frac)
-                material_by_id[0][left_mask] *= (1.0 - perturb_frac)
+                field.material[left_mask] = left_material * (1.0 - pf_left)
+                material_by_id[0][left_mask] *= (1.0 - pf_left)
 
         if channel == "curvature":
             curvature = S.compute_curvature(field, params)

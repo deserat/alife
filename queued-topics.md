@@ -1868,13 +1868,16 @@ to compare.
 
 ## From Session 58 (2026-09-13)
 
-170. **Asymmetric bilateral perturbation — does different damage on each
-      side change the result?** — Bilateral 50%/50% produces the best
-      composition ever (cf=0.825). What about 50%/90% (right 50%, left
-      90%) or 90%/50%? Does the asymmetric bilateral damage create an
-      asymmetric boundary that degrades composition? Or does the
-      stronger side's curvature compensate for the weaker? Test:
-      perturb_frac_right × perturb_frac_left × 4 seeds at n=350 g=0.01.
+170. **Asymmetric bilateral perturbation — does different damage on each**
+      side change the result?** — DONE (Session 59).
+      5 configs × 4 seeds at n=350 g=0.01. Symmetric 50/50 remains the
+      best (cf=0.825, 4/4 full). Asymmetric bilateral degrades: 50/90 →
+      3/4 full (cf=0.787), 90/50 → 3/4 full (cf=0.700). The 36th
+      mechanism: the bilateral advantage requires symmetry. 50/90 vs
+      90/50 is NOT a mirror — the side receiving more damage matters
+      (seed 42: 50/90 coexists, 90/50 fragments). 90/90 under-recovers
+      (0.760) but is 4/4 stable. 25/50 over-recovers (1.135) but is
+      3/4 full. H7=4/4 at all configs. See `asymmetric_bilateral.py`.
 
 171. **Bilateral damage at other densities — does the bilateral
       advantage scale?** — Bilateral 50% at n=350 (5.9/kcell density on
@@ -1896,3 +1899,45 @@ to compare.
       strengthen immune memory. Could this be formalized as a
       design principle for multi-scale systems: "moderate bilateral
       stress strengthens boundaries"?
+
+## From Session 59 (2026-09-14)
+
+173. **8-seed robustness of the symmetric bilateral 50/50 — does 4/4 full
+     hold at 8 seeds?** — Session 58's bilateral 50% at 4 seeds achieves
+     4/4 full (cf=0.825). Session 59 replicates 50/50 at 4 seeds (4/4
+     full, cf=0.825 — identical). Does this hold at 8 seeds? The 1-seed
+     control leaks at 1/4 — does it strengthen or worsen at 8 seeds?
+     Test: bilateral 50% at 8 seeds × {2, 1} seeds.
+
+174. **The L/R stochastic asymmetry — is it reproducible across seeds?**
+     — 50/90 (cf=0.787) > 90/50 (cf=0.700) at 4 seeds. Is the L/R
+     asymmetry (the side receiving more damage matters) a systematic
+     effect or 4-seed noise? The asymmetry is NOT structural (home
+     centers are equidistant from the midline) — it is stochastic
+     (agents processed in order, id=0 first). Test: 50/90 and 90/50 at
+     8 seeds. If the asymmetry persists, it is a systematic processing-
+     order effect; if it vanishes, it is 4-seed noise.
+
+175. **Bilateral damage at other densities (continuation of #171) —
+     does the bilateral advantage hold at n=150 and n=500?** — Bilateral
+     50% at n=350 produces cf=0.825. Does the bilateral advantage
+     hold at lower density (n=150, smaller structures) and higher
+     density (n=500, larger structures)? At n=150, the structures may
+     be too small for bilateral damage to create enough curvature
+     contrast. At n=500, the structures may be too large — bilateral
+     damage may over-split. Test: bilateral 50% at n=150, 350, 500 ×
+     4 seeds.
+
+176. **The symmetry requirement as a general principle — symmetric
+     signals reinforce boundaries, asymmetric signals break them**
+     — The 36th mechanism (bilateral advantage requires symmetry)
+     connects to a broader principle: symmetric signals reinforce
+     boundaries, asymmetric signals break them. This is the
+     computational analog of Turing's symmetry breaking (1952):
+     symmetric signals maintain the boundary, asymmetric signals
+     drive patterning. Could be formalized: the boundary's suppression
+     must be balanced (symmetric) to maintain composition; imbalance
+     (asymmetry) degrades the boundary. This is a new expression of
+     the strength-vs-growth trade-off (Session 30): the boundary's
+     suppression must be balanced across both sides, not just present
+     on both. Deserves a standalone concept file.

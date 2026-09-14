@@ -239,6 +239,9 @@ select:hover, button:hover { border-color: var(--accent); }
 <h2>Bilateral Perturbation: Damaging Both Sides Amplifies the Boundary Signal (Session 58)</h2>
 <div id="bilateral-section"></div>
 
+<h2>Asymmetric Bilateral Perturbation: Symmetric Damage Wins (Session 59)</h2>
+<div id="asymmetric-bilateral-section"></div>
+
 <script>
 let resultsData = null;
 let robustData = null;
@@ -285,6 +288,7 @@ async function loadData() {
     'sizeSweep': 'output/size_sweep.json',
     'saturatingCueSweep': 'output/saturating_cue_sweep.json',
     'bilateralSweep': 'output/bilateral_sweep.json',
+    'asymBilateralSweep': 'output/asymmetric_bilateral_sweep.json',
   };
   const sweepPromises = Object.entries(sweepFiles).map(([key, path]) =>
     fetch(path).then(r => r.json()).catch(() => null)
@@ -1257,6 +1261,40 @@ function populateSweepSections() {
       + 'The 35th mechanism: bilateral damage amplifies the boundary from both sides.</div>';
     const elBi = document.getElementById('bilateral-section');
     if (elBi) elBi.innerHTML = html;
+  }
+
+  // ─── Asymmetric bilateral perturbation sweep (Session 59) ──────────────
+  if (window.asymBilateralSweepData) {
+    const d = window.asymBilateralSweepData;
+    const configs = ['50_50', '50_90', '90_50', '90_90', '25_50'];
+    let html = '<table><thead><tr><th>Config</th><th>L%</th><th>R%</th>'
+      + '<th>H7</th><th>Coexist</th><th>Stable</th><th>Full</th>'
+      + '<th>CF</th><th>Total Rec</th><th>L Rec</th><th>R Rec</th>'
+      + '<th>1s L2</th></tr></thead><tbody>';
+    for (const lbl of configs) {
+      if (!d[lbl]) continue;
+      const s = d[lbl].perturbed.summary;
+      const pfl = d[lbl].pf_left, pfr = d[lbl].pf_right;
+      html += `<tr><td>${lbl}</td><td>${(pfl*100).toFixed(0)}%</td><td>${(pfr*100).toFixed(0)}%</td>`
+        + `<td>${s.h7}</td><td>${s.coexist}</td><td>${s.stable}</td><td>${s.full}</td>`
+        + `<td>${s.mean_cf.toFixed(3)}</td><td>${s.mean_total_rec.toFixed(3)}</td>`
+        + `<td>${s.mean_left_rec.toFixed(3)}</td><td>${s.mean_right_rec.toFixed(3)}</td>`
+        + `<td>${s.l2_1s}</td></tr>`;
+    }
+    html += '</tbody></table>';
+    html += '<div class="insight" style="margin-top:12px"><strong>Key finding:</strong> '
+      + 'Symmetric bilateral 50/50 remains the best (cf=0.825, 4/4 full). '
+      + 'Asymmetric configs degrade: 50/90 → 3/4 full (cf=0.787), '
+      + '90/50 → 3/4 full (cf=0.700). '
+      + 'The 50/90 vs 90/50 asymmetry is NOT a mirror — the side that receives '
+      + 'more damage matters (seed 42: 50/90 coexists, 90/50 fragments). '
+      + 'The bilateral advantage scales with symmetry, not just with having '
+      + 'curvature on both sides. '
+      + 'H7=4/4 at all configs — the crossing survives asymmetric damage. '
+      + '90/90 under-recovers (0.760) but is still 4/4 stable. '
+      + '25/50 over-recovers (1.135) — the less-damaged left keeps growing.</div>';
+    const elAsym = document.getElementById('asymmetric-bilateral-section');
+    if (elAsym) elAsym.innerHTML = html;
   }
 }
 

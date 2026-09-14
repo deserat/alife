@@ -1036,3 +1036,21 @@ Session 58 tested bilateral perturbation (queued-topic #167): damaging both regi
 This extends the 33rd mechanism (damage-amplified composition) from unilateral to bilateral: the damage signal is not just self-amplifying (extensive — scales with damage size) but also spatially reinforcing (bilateral — two signals at the same boundary reinforce). The bilateral effect is the spatial analog of the two-wire principle: each side's curvature is a separate wire, both carrying the same boundary-reinforcement signal. Two moderate bilateral signals create a stronger, more balanced boundary than one extreme unilateral signal.
 
 Seed 256 achieves cf=1.000 — the first perfect coexist fraction — under bilateral 50% damage. Bilateral 50% also fixes seed 999's fragmentation (cf=0.200 at right-only 50% → cf=0.600 at bilateral 50%). The symmetric damage regularizes the boundary.
+
+### Session 59: asymmetric bilateral perturbation — the 36th mechanism
+
+Session 59 tested asymmetric bilateral perturbation (queued-topic #170): does different damage on each side (50%/90%) change the result? 5 configs × 4 seeds at n=350 g=0.01.
+
+| Config | L% | R% | H7 | Coexist | Stable | Full | CF | Total Rec | L Rec | R Rec |
+|---|---|---|---|---|---|---|---|---|---|---|
+| 50_50 | 50 | 50 | 4/4 | 4/4 | 4/4 | **4/4** | **0.825** | 1.051 | 1.014 | 1.091 |
+| 50_90 | 50 | 90 | 4/4 | 4/4 | 3/4 | 3/4 | 0.787 | 0.909 | 1.011 | 0.800 |
+| 90_50 | 90 | 50 | 4/4 | 3/4 | 3/4 | 3/4 | 0.700 | 0.899 | 0.728 | 1.084 |
+| 90_90 | 90 | 90 | 4/4 | 3/4 | 4/4 | 3/4 | 0.750 | 0.760 | 0.727 | 0.798 |
+| 25_50 | 25 | 50 | 4/4 | 4/4 | 4/4 | 3/4 | 0.738 | 1.135 | 1.177 | 1.091 |
+
+**The 36th mechanism: the bilateral advantage requires symmetry.** Symmetric 50/50 remains the best (cf=0.825, 4/4 full). Asymmetric bilateral damage (50/90, 90/50) degrades composition — the more-damaged side's curvature overwhelms the less-damaged side's, creating an asymmetric boundary that fragments one region. The bilateral advantage is not just about having curvature on both sides — it requires the curvature signals to be balanced.
+
+**The L/R asymmetry (50/90 vs 90/50).** Despite identical damage magnitudes, 50/90 (cf=0.787) outperforms 90/50 (cf=0.700). The asymmetry is NOT a mirror — the side receiving more damage matters (seed 42: 50/90 coexists with cf=1.00, 90/50 fragments with cf=0.25). The L/R asymmetry is a stochastic effect (agents are processed in order, id=0 first) rather than a structural one (home centers are equidistant from the midline).
+
+**90/90 under-recovers (0.760) but is 4/4 stable** — the crossing's stability function persists without over-recovery. 25/50 over-recovers (1.135) but is only 3/4 full — the less-damaged left side's continued growth degrades the boundary.
