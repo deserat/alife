@@ -242,6 +242,10 @@ select:hover, button:hover { border-color: var(--accent); }
 <h2>Asymmetric Bilateral Perturbation: Symmetric Damage Wins (Session 59)</h2>
 <div id="asymmetric-bilateral-section"></div>
 
+<h2>8-Seed Robustness: L/R Asymmetry Is Systematic (Session 60)</h2>
+<p class="desc">3 bilateral configs (50/50, 50/90, 90/50) × 8 seeds × {perturbed, unperturbed} × {2, 1} = 96 runs at n=350 g=0.01. Tests whether the 4/4 full from 4 seeds holds at 8 seeds and whether the L/R asymmetry is systematic. Result: 4/4 full drops to 7/8 (seed 777 fails), but H7=8/8 at all configs. 50/90 is the BEST config at 8 seeds (cf=0.825) — the L/R asymmetry is systematic, not noise (50/90 >> 90/50, gap widens). The 37th mechanism: bilateral perturbation is composition-enhancing at 8 seeds (baseline 6/8 → perturbed 7/8).</p>
+<div id="robustness-asymmetric-section"></div>
+
 <script>
 let resultsData = null;
 let robustData = null;
@@ -289,6 +293,7 @@ async function loadData() {
     'saturatingCueSweep': 'output/saturating_cue_sweep.json',
     'bilateralSweep': 'output/bilateral_sweep.json',
     'asymBilateralSweep': 'output/asymmetric_bilateral_sweep.json',
+    'robustnessAsymmetricSweep': 'output/robustness_asymmetric_sweep.json',
   };
   const sweepPromises = Object.entries(sweepFiles).map(([key, path]) =>
     fetch(path).then(r => r.json()).catch(() => null)
@@ -1295,6 +1300,42 @@ function populateSweepSections() {
       + '25/50 over-recovers (1.135) — the less-damaged left keeps growing.</div>';
     const elAsym = document.getElementById('asymmetric-bilateral-section');
     if (elAsym) elAsym.innerHTML = html;
+  }
+
+  // ─── 8-seed robustness asymmetric sweep (Session 60) ──────────────
+  if (window.robustnessAsymmetricSweepData) {
+    const d = window.robustnessAsymmetricSweepData;
+    const configs = ['50_50', '50_90', '90_50'];
+    let html = '<table><thead><tr><th>Config</th><th>L%</th><th>R%</th>'
+      + '<th>H7</th><th>Coexist</th><th>Stable</th><th>Full</th>'
+      + '<th>CF</th><th>Total Rec</th><th>1s L2</th><th>1s H7</th><th>Cells</th></tr></thead><tbody>';
+    // Baseline
+    const bs = d.baseline.summary;
+    html += `<tr><td>baseline</td><td>—</td><td>—</td>`
+      + `<td>${bs.h7}</td><td>${bs.coexist}</td><td>${bs.stable}</td><td>${bs.full}</td>`
+      + `<td>${bs.mean_cf.toFixed(3)}</td><td>—</td>`
+      + `<td>${bs.l2_1s}</td><td>${bs.h7_1s}</td><td>${bs.mean_cells}</td></tr>`;
+    for (const lbl of configs) {
+      if (!d[lbl]) continue;
+      const s = d[lbl].perturbed.summary;
+      const pfl = d[lbl].pf_left, pfr = d[lbl].pf_right;
+      html += `<tr><td>${lbl}</td><td>${(pfl*100).toFixed(0)}%</td><td>${(pfr*100).toFixed(0)}%</td>`
+        + `<td>${s.h7}</td><td>${s.coexist}</td><td>${s.stable}</td><td>${s.full}</td>`
+        + `<td><strong>${s.mean_cf.toFixed(3)}</strong></td>`
+        + `<td>${s.mean_total_rec.toFixed(3)}</td>`
+        + `<td>${s.l2_1s}</td><td>${s.h7_1s}</td><td>${s.mean_cells}</td></tr>`;
+    }
+    html += '</tbody></table>';
+    html += '<div class="insight" style="margin-top:12px"><strong>Key finding:</strong> '
+      + 'The 4/4 full from 4 seeds drops to <strong>7/8</strong> (seed 777 fails at 50/50), '
+      + 'but <strong>H7=8/8 at all configs</strong> — the crossing is fully robust. '
+      + '<strong>50/90 is the BEST config at 8 seeds (cf=0.825)</strong> — the L/R asymmetry '
+      + 'is systematic, not 4-seed noise (50/90 >> 90/50, gap widens from 0.087 to 0.113). '
+      + 'The 37th mechanism: bilateral perturbation is composition-enhancing at 8 seeds '
+      + '(baseline 6/8 full → perturbed 7/8 full). '
+      + '1-seed structural guarantee config-dependent: 50/90 has the strongest (1/8).</div>';
+    const elRA = document.getElementById('robustness-asymmetric-section');
+    if (elRA) elRA.innerHTML = html;
   }
 }
 

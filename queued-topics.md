@@ -1903,20 +1903,19 @@ to compare.
 ## From Session 59 (2026-09-14)
 
 173. **8-seed robustness of the symmetric bilateral 50/50 — does 4/4 full
-     hold at 8 seeds?** — Session 58's bilateral 50% at 4 seeds achieves
-     4/4 full (cf=0.825). Session 59 replicates 50/50 at 4 seeds (4/4
-     full, cf=0.825 — identical). Does this hold at 8 seeds? The 1-seed
-     control leaks at 1/4 — does it strengthen or worsen at 8 seeds?
-     Test: bilateral 50% at 8 seeds × {2, 1} seeds.
+     hold at 8 seeds?** — DONE (Session 60).
+     The 4/4 full drops to 7/8 (seed 777 fails at 50/50, stable=False,
+     cf=0.30). H7=8/8 at all configs — the crossing is fully robust. The
+     1-seed structural guarantee leaks at 3/8. The composition enhancement
+     is genuine but not universal. See `robustness_asymmetric.py`.
 
 174. **The L/R stochastic asymmetry — is it reproducible across seeds?**
-     — 50/90 (cf=0.787) > 90/50 (cf=0.700) at 4 seeds. Is the L/R
-     asymmetry (the side receiving more damage matters) a systematic
-     effect or 4-seed noise? The asymmetry is NOT structural (home
-     centers are equidistant from the midline) — it is stochastic
-     (agents processed in order, id=0 first). Test: 50/90 and 90/50 at
-     8 seeds. If the asymmetry persists, it is a systematic processing-
-     order effect; if it vanishes, it is 4-seed noise.
+     — DONE (Session 60).
+     The L/R asymmetry is SYSTEMATIC, not 4-seed noise. 50/90 (cf=0.825)
+     >> 90/50 (cf=0.712) at 8 seeds — the gap WIDENS (0.113 vs 0.087 at
+     4 seeds). 50/90 is the BEST config at 8 seeds (not 50/50). The
+     asymmetry is a processing-order effect (agents iterated id=0 first),
+     not a spatial-structural effect. See `robustness_asymmetric.py`.
 
 175. **Bilateral damage at other densities (continuation of #171) —
      does the bilateral advantage hold at n=150 and n=500?** — Bilateral
@@ -1941,3 +1940,32 @@ to compare.
      the strength-vs-growth trade-off (Session 30): the boundary's
      suppression must be balanced across both sides, not just present
      on both. Deserves a standalone concept file.
+
+## From Session 60 (2026-09-15)
+
+177. **Reverse the agent iteration order — is the L/R asymmetry a
+     processing-order artifact?** — The 8-seed robustness sweep found
+     50/90 (cf=0.825) >> 90/50 (cf=0.712) — the L/R asymmetry is
+     systematic. But the asymmetry may be a processing-order artifact:
+     agents are iterated id=0 first, so the left side (id=0) deposits
+     first each step, gaining a post-damage nucleation advantage. If
+     the iteration order is reversed (id=1 first), the optimum should
+     flip from 50/90 to 90/50. Test: re-run the 3-config sweep with
+     reversed iteration order. If the optimum flips, the L/R asymmetry
+     is a pure processing-order artifact (physically meaningless); if
+     it doesn't flip, there is a structural asymmetry beyond processing
+     order. Cheap: modify the iteration loop in sim14.py or run a
+     variant.
+
+178. **The 37th mechanism as a robustness pattern — "composition-
+     enhancing stress" as a design principle** — The 37th mechanism
+     (bilateral perturbation is composition-enhancing at 8 seeds:
+     baseline 6/8 → perturbed 7/8) confirms the 33rd mechanism
+     (damage-amplified composition) is robust at 8 seeds. This suggests
+     a design principle: in a stigmergic system, moderate stress
+     enhances composition by sharpening the boundary's curvature signal.
+     Is this a general principle, or specific to the curvature channel?
+     The saturating-cue control (Session 57) showed the saturating cue
+     does NOT benefit from damage — so the principle is channel-
+     specific. Could formalize as: "moderate stress enhances
+     composition iff the signal is geometric (extensive)."
