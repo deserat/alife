@@ -1074,3 +1074,18 @@ Session 60 tested the 8-seed robustness of the bilateral perturbation (queued-to
 **H7=8/8 at all configs** — the crossing survives all bilateral perturbation. The baseline (unperturbed) achieves 6/8 full (cf=0.669) — perturbation improves composition (7/8 full at all configs vs 6/8 baseline). The 37th mechanism: moderate bilateral perturbation is a composition-enhancing stress — the boundary's curvature signal is amplified by damage, and the 8-seed result confirms this is not a 4-seed artifact.
 
 **The 1-seed structural guarantee leaks at 3/8 (50/50), 1/8 (50/90), 2/8 (90/50).** The leak is config-dependent: 50/90 (the best 2-seed config) has the strongest 1-seed guarantee (1/8). The more asymmetric damage creates a more asymmetric single structure that is less likely to cross the midline.
+
+### Session 61 — the L/R asymmetry is a pure processing-order artifact
+
+The reverse-iteration sweep (queued-topic #177) reversed the agent processing order (id=1 first instead of id=0 first) to test whether the L/R asymmetry is a physical or computational effect. Result: **the asymmetry FLIPPED.** Forward: 50/90 (cf=0.825) >> 90/50 (cf=0.712), gap=+0.113. Reverse: 50/90 (cf=0.619) << 90/50 (cf=0.644), gap=-0.025.
+
+| Direction | Config | H7 | Coexist | Stable | Full | CF | 1s L2 | Cells |
+|---|---|---|---|---|---|---|---|---|
+| forward | 50_50 | 8/8 | 8/8 | 7/8 | 7/8 | 0.769 | 3/8 | 5697 |
+| forward | 50_90 | 8/8 | 8/8 | 7/8 | 7/8 | **0.825** | 1/8 | 5484 |
+| forward | 90_50 | 8/8 | 7/8 | 7/8 | 7/8 | 0.712 | 2/8 | 5506 |
+| reverse | 50_50 | 8/8 | 7/8 | 7/8 | 7/8 | 0.700 | 0/8 | 5747 |
+| reverse | 50_90 | 8/8 | 7/8 | 7/8 | 7/8 | 0.619 | 0/8 | 5507 |
+| reverse | 90_50 | 8/8 | 7/8 | 7/8 | 6/8 | **0.644** | 1/8 | 5531 |
+
+The L/R asymmetry is a pure processing-order artifact. The first-processed ID gets a post-damage nucleation advantage because its agents deposit first each step. The 38th mechanism: processing order as a hidden symmetry-breaking variable in agent-based models. Session 60's ciliary-flow cross-domain analogy is retracted — the asymmetry is a computational artifact, not a physical symmetry-breaking mechanism. H7=8/8 at all configs in both directions — the crossing is fully robust to iteration order. The 1-seed structural guarantee *improves* under reverse (0/8 vs 3/8). Determinism verified.

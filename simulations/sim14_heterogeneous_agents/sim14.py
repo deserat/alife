@@ -217,6 +217,16 @@ def termite_step_hetero(termites, field, rng, params, curvature,
             I13._dilate_no_x_wrap(material_by_id[1], DIRECT_RADIUS),
         ]
 
+    # Iteration order (queued-topic #177): by default agents are processed
+    # 0..n-1 (id=0 first, id=1 second). When reverse_iteration is True,
+    # process n-1..0 (id=1 first, id=0 second) to test whether the L/R
+    # asymmetry (50/90 > 90/50) is a processing-order artifact.
+    reverse_iteration = params.get("reverse_iteration", False)
+    if reverse_iteration:
+        idx_order = range(n - 1, -1, -1)
+    else:
+        idx_order = range(n)
+
     curv = curvature
     ons = on_surface
     mat = field.material
@@ -249,7 +259,7 @@ def termite_step_hetero(termites, field, rng, params, curvature,
             return base + gain * c / (1.0 + abs(c))
         return base + gain * c
 
-    for i in range(n):
+    for i in idx_order:
         y = int(termites.y[i])
         x = int(termites.x[i])
         aid = int(termites.id[i])

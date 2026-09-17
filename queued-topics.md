@@ -1944,18 +1944,20 @@ to compare.
 ## From Session 60 (2026-09-15)
 
 177. **Reverse the agent iteration order — is the L/R asymmetry a
-     processing-order artifact?** — The 8-seed robustness sweep found
-     50/90 (cf=0.825) >> 90/50 (cf=0.712) — the L/R asymmetry is
-     systematic. But the asymmetry may be a processing-order artifact:
-     agents are iterated id=0 first, so the left side (id=0) deposits
-     first each step, gaining a post-damage nucleation advantage. If
-     the iteration order is reversed (id=1 first), the optimum should
-     flip from 50/90 to 90/50. Test: re-run the 3-config sweep with
-     reversed iteration order. If the optimum flips, the L/R asymmetry
-     is a pure processing-order artifact (physically meaningless); if
-     it doesn't flip, there is a structural asymmetry beyond processing
-     order. Cheap: modify the iteration loop in sim14.py or run a
-     variant.
+     processing-order artifact?** — DONE (Session 61).
+     Reversed the agent iteration order (id=1 first instead of id=0
+     first) and re-ran the 3-config sweep at 8 seeds. RESULT: **the
+     asymmetry FLIPPED.** Forward: 50/90 (cf=0.825) >> 90/50 (cf=0.712),
+     gap=+0.113. Reverse: 50/90 (cf=0.619) << 90/50 (cf=0.644),
+     gap=-0.025. The L/R asymmetry is a pure processing-order artifact
+     — the first-processed ID gets a post-damage nucleation advantage.
+     H7=8/8 at all configs in both directions — the crossing is fully
+     robust to iteration order. The 1-seed structural guarantee
+     *improves* under reverse (0/8 vs 3/8 at 50/50). The 38th mechanism:
+     processing order as a hidden symmetry-breaking variable. Session
+     60's ciliary-flow cross-domain analogy is RETRACTED — the asymmetry
+     is a computational artifact, not a physical symmetry-breaking
+     mechanism. See `reverse_iteration_sweep.py`.
 
 178. **The 37th mechanism as a robustness pattern — "composition-
      enhancing stress" as a design principle** — The 37th mechanism
@@ -1969,3 +1971,28 @@ to compare.
      does NOT benefit from damage — so the principle is channel-
      specific. Could formalize as: "moderate stress enhances
      composition iff the signal is geometric (extensive)."
+
+## From Session 61 (2026-09-17)
+
+179. **Randomize the iteration order — does shuffling eliminate the
+     processing-order asymmetry?** — The reverse-iteration sweep
+     confirmed the L/R asymmetry is a processing-order artifact.
+     Reversing flips the optimum; randomizing the order each step
+     should eliminate the asymmetry entirely. If randomizing produces
+     the symmetric 50/50 as the best config (as Session 59's 4-seed
+     result predicted before the 8-seed robustness revealed the
+     processing-order effect), the processing-order control is
+     confirmed as the fix. Test: add an iter_shuffle parameter that
+     shuffles the agent order each step, re-run the 3-config sweep.
+
+180. **The processing-order control as a standing methodology rule**
+     — The 38th mechanism (processing order as a hidden symmetry-
+     breaking variable) deserves to join the standing methodology
+     rules alongside the metric-ceiling (#61), stable_crossed (#65),
+     control-arm (#75), and one-seed control (#80) rules. The rule:
+     any agent-based simulation that processes agents sequentially
+     should control for processing-order effects by randomizing or
+     reversing the iteration order. The L/R asymmetry was invisible
+     until the reverse-iteration test was run — systematic asymmetries
+     in agent-based models can be artifacts of the for-loop order.
+     Could be added to CLAUDE.md step 6.
