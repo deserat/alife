@@ -250,6 +250,10 @@ select:hover, button:hover { border-color: var(--accent); }
 <p class="desc">3 bilateral configs (50/50, 50/90, 90/50) × 2 iteration orders (forward, reverse) × 8 seeds × {2, 1} = 96 perturbed + 64 unperturbed runs at n=350 g=0.01. Reversing the agent iteration order (id=1 first instead of id=0 first) tests whether the L/R asymmetry is physical or computational. Result: the asymmetry FLIPPED — forward 50/90 (cf=0.825) >> 90/50 (cf=0.712); reverse 50/90 (cf=0.619) << 90/50 (cf=0.644). The L/R asymmetry is a pure processing-order artifact. H7=8/8 at all configs in both directions — the crossing is robust to iteration order. The 38th mechanism: processing order as a hidden symmetry-breaking variable.</p>
 <div id="reverse-iteration-section"></div>
 
+<h2>Shuffle Iteration: Does Randomization Eliminate the L/R Asymmetry? (Session 62)</h2>
+<p class="desc">3 bilateral configs (50/50, 50/90, 90/50) × 2 iteration orders (shuffled, forward) × 8 seeds × {2, 1} = 96 perturbed + 64 unperturbed runs at n=350 g=0.01. Shuffling the agent order each step (rng.permutation(n)) should eliminate the systematic processing-order bias. Result: the L/R gap shrinks dramatically (+0.113 forward → -0.019 shuffled) but does NOT fully vanish — 90/50 remains slightly best (cf=0.881 vs 0.862). 50/50 is NOT the best config under shuffle (cf=0.719, the worst). H7=8/8 at all configs — the crossing is fully robust. The residual -0.019 gap may be a statistical artifact (8 seeds, ±0.03 noise) or a structural asymmetry beyond processing order.</p>
+<div id="shuffle-iteration-section"></div>
+
 <script>
 let resultsData = null;
 let robustData = null;
@@ -299,6 +303,7 @@ async function loadData() {
     'asymBilateralSweep': 'output/asymmetric_bilateral_sweep.json',
     'robustnessAsymmetricSweep': 'output/robustness_asymmetric_sweep.json',
     'reverseIterationSweep': 'output/reverse_iteration_sweep.json',
+    'shuffleIterationSweep': 'output/shuffle_iteration_sweep.json',
   };
   const sweepPromises = Object.entries(sweepFiles).map(([key, path]) =>
     fetch(path).then(r => r.json()).catch(() => null)
@@ -1384,6 +1389,48 @@ function populateSweepSections() {
       + 'The 1-seed structural guarantee <strong>improves</strong> under reverse (0/8 vs 3/8 at 50/50).</div>';
     const elRI = document.getElementById('reverse-iteration-section');
     if (elRI) elRI.innerHTML = html;
+  }
+
+  // ─── shuffle iteration sweep (Session 62) ──────────────────────
+  if (window.shuffleIterationSweepData) {
+    const d = window.shuffleIterationSweepData;
+    const configs = ['50_50', '50_90', '90_50'];
+    const dirs = ['shuffled', 'forward'];
+    let html = '<table><thead><tr><th>Direction</th><th>Config</th><th>L%</th><th>R%</th>'
+      + '<th>H7</th><th>Coexist</th><th>Stable</th><th>Full</th>'
+      + '<th>CF</th><th>Total Rec</th><th>1s L2</th><th>Cells</th></tr></thead><tbody>';
+    for (const dir of dirs) {
+      if (!d[dir]) continue;
+      const bs = d[dir].baseline.summary;
+      html += `<tr><td>${dir}</td><td>baseline</td><td>—</td><td>—</td>`
+        + `<td>${bs.h7}</td><td>${bs.coexist}</td><td>${bs.stable}</td><td>${bs.full}</td>`
+        + `<td>${bs.mean_cf.toFixed(3)}</td><td>—</td>`
+        + `<td>${bs.l2_1s}</td><td>${bs.mean_cells}</td></tr>`;
+      for (const lbl of configs) {
+        if (!d[dir][lbl]) continue;
+        const s = d[dir][lbl].perturbed.summary;
+        const pfl = d[dir][lbl].pf_left, pfr = d[dir][lbl].pf_right;
+        html += `<tr><td>${dir}</td><td>${lbl}</td>`
+          + `<td>${(pfl*100).toFixed(0)}%</td><td>${(pfr*100).toFixed(0)}%</td>`
+          + `<td>${s.h7}</td><td>${s.coexist}</td><td>${s.stable}</td><td>${s.full}</td>`
+          + `<td><strong>${s.mean_cf.toFixed(3)}</strong></td>`
+          + `<td>${s.mean_total_rec.toFixed(3)}</td>`
+          + `<td>${s.l2_1s}</td><td>${s.mean_cells}</td></tr>`;
+      }
+    }
+    html += '</tbody></table>';
+    html += '<div class="insight" style="margin-top:12px"><strong>Key finding:</strong> '
+      + 'The L/R gap <strong>shrinks dramatically</strong> under shuffle: '
+      + 'forward 50/90 (cf=0.825) >> 90/50 (cf=0.712), gap=+0.113; '
+      + 'shuffled 50/90 (cf=0.862) ≈ 90/50 (cf=0.881), gap=-0.019. '
+      + 'The processing-order component is eliminated, but a residual -0.019 gap persists — '
+      + 'possibly statistical (8 seeds) or a structural asymmetry. '
+      + '<strong>50/50 is NOT the best under shuffle</strong> (cf=0.719, the worst) — '
+      + 'Session 59\'s 4-seed prediction was a small-sample effect. '
+      + '<strong>H7=8/8 at all configs in both directions</strong> — the crossing is fully robust. '
+      + 'Shuffled 90/50 achieves 8/8 full (the best ever at this config).</div>';
+    const elSI = document.getElementById('shuffle-iteration-section');
+    if (elSI) elSI.innerHTML = html;
   }
 }
 

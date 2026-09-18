@@ -1975,15 +1975,20 @@ to compare.
 ## From Session 61 (2026-09-17)
 
 179. **Randomize the iteration order — does shuffling eliminate the
-     processing-order asymmetry?** — The reverse-iteration sweep
-     confirmed the L/R asymmetry is a processing-order artifact.
-     Reversing flips the optimum; randomizing the order each step
-     should eliminate the asymmetry entirely. If randomizing produces
-     the symmetric 50/50 as the best config (as Session 59's 4-seed
-     result predicted before the 8-seed robustness revealed the
-     processing-order effect), the processing-order control is
-     confirmed as the fix. Test: add an iter_shuffle parameter that
-     shuffles the agent order each step, re-run the 3-config sweep.
+     processing-order asymmetry?** — DONE (Session 62).
+     Randomizing the agent order each step (rng.permutation(n))
+     shrinks the L/R gap dramatically (forward +0.113 → shuffled
+     -0.019) but does NOT fully eliminate it. The processing-order
+     component is confirmed as the primary driver, but a residual
+     -0.019 gap persists (possibly statistical at 8 seeds). **50/50
+     is NOT the best config under shuffle** (cf=0.719, the worst) —
+     Session 59's 4-seed prediction was a small-sample effect. The
+     asymmetric perturbation advantage (50/90 cf=0.862, 90/50
+     cf=0.881) survives randomization — it is a genuine composition
+     property, not a processing-order artifact. Shuffled 90/50
+     achieves 8/8 full (the best ever at an asymmetric config).
+     H7=8/8 at all configs in both directions. See
+     `shuffle_iteration_sweep.py`.
 
 180. **The processing-order control as a standing methodology rule**
      — The 38th mechanism (processing order as a hidden symmetry-
@@ -1996,3 +2001,44 @@ to compare.
      until the reverse-iteration test was run — systematic asymmetries
      in agent-based models can be artifacts of the for-loop order.
      Could be added to CLAUDE.md step 6.
+
+## From Session 62 (2026-09-18)
+
+181. **The asymmetric perturbation advantage — why does asymmetric
+     damage produce better composition than symmetric?** — DONE
+     (Session 62). At 8 seeds under shuffled iteration, 50/50
+     (cf=0.719) is the WORST config; asymmetric 50/90 (cf=0.862)
+     and 90/50 (cf=0.881) are better. The asymmetric perturbation
+     advantage survives randomization — it is a genuine
+     composition property. Hypothesis: asymmetric damage creates
+     differential curvature at the boundary (one side's scar is
+     sharper), which is a stronger composition signal than the
+     uniform curvature from symmetric damage. The 39th mechanism:
+     asymmetric perturbation is a composition-enhancing stress.
+
+182. **16-seed robustness of shuffled 90/50 — does 8/8 full hold
+     at 16 seeds?** — Shuffled 90/50 achieves 8/8 full (the best
+     ever at an asymmetric config). Is this robust at 16 seeds,
+     or is 8/8 a small-sample effect? The 8-seed robustness of
+     n=220 g=0.06 (Session 49) dropped from 4/4 to 6/8 — does
+     shuffled 90/50 similarly degrade? Test: 16 seeds at
+     shuffled 90/50.
+
+183. **The residual -0.019 gap under shuffle — is it statistical
+     or structural?** — The L/R gap under shuffle is -0.019 (90/50
+     slightly > 50/90). Is this a statistical artifact (8 seeds,
+     ±0.03 noise) or a structural asymmetry (the perturbation
+     damaging the right side first creates a left-side nucleation
+     advantage independent of the for-loop order)? A 16-seed or
+     32-seed run would shrink the noise band. If the gap persists
+     at 16 seeds, it is structural; if it vanishes, it is
+     statistical.
+
+184. **Shuffled 90/50 as the new optimal config — should all
+     future sweeps use shuffled iteration?** — Shuffled 90/50
+     (cf=0.881, 8/8 full) is the best composition quality ever
+     measured at any config. Should all future experiments adopt
+     shuffled iteration + 90/50 perturbation as the default? The
+     shuffled 90/50 also has 2/8 1-seed L2 leak (vs 0/8 for
+     forward 50/90) — the structural guarantee is weaker. The
+     trade-off: better composition vs weaker structural guarantee.

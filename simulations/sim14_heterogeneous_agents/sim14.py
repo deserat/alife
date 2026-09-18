@@ -217,12 +217,17 @@ def termite_step_hetero(termites, field, rng, params, curvature,
             I13._dilate_no_x_wrap(material_by_id[1], DIRECT_RADIUS),
         ]
 
-    # Iteration order (queued-topic #177): by default agents are processed
-    # 0..n-1 (id=0 first, id=1 second). When reverse_iteration is True,
-    # process n-1..0 (id=1 first, id=0 second) to test whether the L/R
-    # asymmetry (50/90 > 90/50) is a processing-order artifact.
+    # Iteration order (queued-topic #177, #179): by default agents are
+    # processed 0..n-1 (id=0 first, id=1 second). When reverse_iteration is
+    # True, process n-1..0 (id=1 first, id=0 second) to test whether the L/R
+    # asymmetry (50/90 > 90/50) is a processing-order artifact. When
+    # iter_shuffle is True, the order is randomly shuffled each step — this
+    # eliminates the systematic bias entirely (queued-topic #179).
     reverse_iteration = params.get("reverse_iteration", False)
-    if reverse_iteration:
+    iter_shuffle = params.get("iter_shuffle", False)
+    if iter_shuffle:
+        idx_order = rng.permutation(n)
+    elif reverse_iteration:
         idx_order = range(n - 1, -1, -1)
     else:
         idx_order = range(n)

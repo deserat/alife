@@ -1089,3 +1089,18 @@ The reverse-iteration sweep (queued-topic #177) reversed the agent processing or
 | reverse | 90_50 | 8/8 | 7/8 | 7/8 | 6/8 | **0.644** | 1/8 | 5531 |
 
 The L/R asymmetry is a pure processing-order artifact. The first-processed ID gets a post-damage nucleation advantage because its agents deposit first each step. The 38th mechanism: processing order as a hidden symmetry-breaking variable in agent-based models. Session 60's ciliary-flow cross-domain analogy is retracted — the asymmetry is a computational artifact, not a physical symmetry-breaking mechanism. H7=8/8 at all configs in both directions — the crossing is fully robust to iteration order. The 1-seed structural guarantee *improves* under reverse (0/8 vs 3/8). Determinism verified.
+
+### Session 62 — shuffling shrinks the L/R gap but does not eliminate it
+
+The shuffle-iteration sweep (queued-topic #179) randomized the agent processing order each step (rng.permutation(n)) to eliminate the systematic processing-order bias. Result: **the L/R gap shrinks dramatically** (forward +0.113 → shuffled -0.019) but does NOT fully vanish.
+
+| Direction | Config | H7 | Coexist | Stable | Full | CF | 1s L2 | Cells |
+|---|---|---|---|---|---|---|---|---|
+| shuffled | 50_50 | 8/8 | 7/8 | 7/8 | 7/8 | 0.719 | 2/8 | 5656 |
+| shuffled | 50_90 | 8/8 | 7/8 | 7/8 | 7/8 | 0.862 | 0/8 | 5584 |
+| shuffled | 90_50 | 8/8 | 8/8 | 8/8 | 8/8 | **0.881** | 2/8 | 5537 |
+| forward | 50_50 | 8/8 | 8/8 | 7/8 | 7/8 | 0.769 | 3/8 | 5697 |
+| forward | 50_90 | 8/8 | 8/8 | 7/8 | 7/8 | **0.825** | 1/8 | 5484 |
+| forward | 90_50 | 8/8 | 7/8 | 7/8 | 7/8 | 0.712 | 2/8 | 5506 |
+
+The processing-order component is confirmed as the primary driver (the gap shrank 6× and flipped sign), but a residual -0.019 gap persists. **50/50 is NOT the best config under shuffle** (cf=0.719, the worst) — Session 59's 4-seed prediction was a small-sample effect. The asymmetric perturbation advantage (50/90, 90/50 > 50/50) survives randomization — it is a genuine composition property, not a processing-order artifact. Shuffled 90/50 achieves 8/8 full (the best ever at an asymmetric config). H7=8/8 at all configs in both directions — the crossing is fully robust to iteration order. Determinism verified.
