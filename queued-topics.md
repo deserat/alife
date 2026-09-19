@@ -2017,28 +2017,42 @@ to compare.
      asymmetric perturbation is a composition-enhancing stress.
 
 182. **16-seed robustness of shuffled 90/50 — does 8/8 full hold
-     at 16 seeds?** — Shuffled 90/50 achieves 8/8 full (the best
-     ever at an asymmetric config). Is this robust at 16 seeds,
-     or is 8/8 a small-sample effect? The 8-seed robustness of
-     n=220 g=0.06 (Session 49) dropped from 4/4 to 6/8 — does
-     shuffled 90/50 similarly degrade? Test: 16 seeds at
-     shuffled 90/50.
+     at 16 seeds?** — DONE (Session 63).
+     8/8 does NOT hold at 16 seeds — drops to 14/16 (cf 0.881→0.766).
+     Small-sample effect confirmed, consistent with Session 49's
+     4/4→6/8. All three configs degrade to 14/16 (2/16 fail each).
+     The composition enhancement from bilateral perturbation is
+     genuine but not universal. H7=16/16 at all configs — the
+     crossing is fully robust to sample size. See
+     `seed16_robustness_sweep.py`.
 
 183. **The residual -0.019 gap under shuffle — is it statistical
-     or structural?** — The L/R gap under shuffle is -0.019 (90/50
-     slightly > 50/90). Is this a statistical artifact (8 seeds,
-     ±0.03 noise) or a structural asymmetry (the perturbation
-     damaging the right side first creates a left-side nucleation
-     advantage independent of the for-loop order)? A 16-seed or
-     32-seed run would shrink the noise band. If the gap persists
-     at 16 seeds, it is structural; if it vanishes, it is
-     statistical.
+     or structural?** — DONE (Session 63).
+     The -0.019 gap at 8 seeds was STATISTICAL. At 16 seeds, a
+     DIFFERENT structural asymmetry emerges — the sign flips and
+     the gap grows: 50/90 (cf=0.828) >> 90/50 (cf=0.766),
+     gap=+0.062. The 8-seed residual was noise from the specific
+     seed set; the 16-seed gap is structural. 50/90 is genuinely
+     better than 90/50 under shuffle at 16 seeds. The 40th
+     mechanism: sample-size-dependent asymmetry flip. The L/R
+     asymmetry's sign depends on which seeds are sampled. See
+     `seed16_robustness_sweep.py`.
 
-184. **Shuffled 90/50 as the new optimal config — should all
-     future sweeps use shuffled iteration?** — Shuffled 90/50
-     (cf=0.881, 8/8 full) is the best composition quality ever
-     measured at any config. Should all future experiments adopt
-     shuffled iteration + 90/50 perturbation as the default? The
-     shuffled 90/50 also has 2/8 1-seed L2 leak (vs 0/8 for
-     forward 50/90) — the structural guarantee is weaker. The
-     trade-off: better composition vs weaker structural guarantee.
+## From Session 63 (2026-09-19)
+
+185. **32-seed robustness — does 14/16 degrade further?** — The
+     8/8 degraded to 14/16 at 16 seeds. Does 14/16 degrade to
+     ~24/32 at 32 seeds, or is 14/16 the stable failure rate
+     (~12% per seed)? Also: does the +0.062 gap (50/90 > 90/50)
+     stabilize or flip again at 32 seeds? The 16-seed result is
+     more reliable than the 8-seed, but 32 seeds would tighten
+     the confidence interval further.
+
+ 184. **Shuffled 50/90 as the new optimal config — should all
+ future sweeps use 50/50?** — At 16 seeds, 50/90 (cf=0.828,
+ 14/16 full, 0/16 1-seed leak) is the best config — the
+ strongest structural guarantee AND the highest coexist
+ fraction. Session 62's 90/50 (8/8 full) was a small-sample
+ effect. Should all future experiments adopt shuffled 50/90
+ as the default? The trade-off: 50/90 has 0/16 1-seed leak
+ (strongest) but 14/16 full (not 16/16).

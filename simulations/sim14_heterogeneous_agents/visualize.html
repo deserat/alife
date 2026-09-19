@@ -254,6 +254,10 @@ select:hover, button:hover { border-color: var(--accent); }
 <p class="desc">3 bilateral configs (50/50, 50/90, 90/50) × 2 iteration orders (shuffled, forward) × 8 seeds × {2, 1} = 96 perturbed + 64 unperturbed runs at n=350 g=0.01. Shuffling the agent order each step (rng.permutation(n)) should eliminate the systematic processing-order bias. Result: the L/R gap shrinks dramatically (+0.113 forward → -0.019 shuffled) but does NOT fully vanish — 90/50 remains slightly best (cf=0.881 vs 0.862). 50/50 is NOT the best config under shuffle (cf=0.719, the worst). H7=8/8 at all configs — the crossing is fully robust. The residual -0.019 gap may be a statistical artifact (8 seeds, ±0.03 noise) or a structural asymmetry beyond processing order.</p>
 <div id="shuffle-iteration-section"></div>
 
+<h2>16-Seed Robustness: Small-Sample Effect Confirmed + Structural Asymmetry (Session 63)</h2>
+<p class="desc">3 bilateral configs (50/50, 50/90, 90/50) × 16 seeds × {2, 1} = 128 runs at n=350 g=0.01, shuffled iteration. Tests whether the 8/8 full at shuffled 90/50 (Session 62) holds at 16 seeds (#182), and whether the residual -0.019 L/R gap is statistical or structural (#183). Result: 8/8 does NOT hold — drops to 14/16 (cf 0.881→0.766), a small-sample effect. The -0.019 gap at 8 seeds was statistical noise, but at 16 seeds a <em>different</em> structural asymmetry emerges: 50/90 (cf=0.828) >> 90/50 (cf=0.766), gap=+0.062. The sign flips. H7=16/16 at all configs — the crossing is fully robust.</p>
+<div id="seed16-robustness-section"></div>
+
 <script>
 let resultsData = null;
 let robustData = null;
@@ -304,6 +308,7 @@ async function loadData() {
     'robustnessAsymmetricSweep': 'output/robustness_asymmetric_sweep.json',
     'reverseIterationSweep': 'output/reverse_iteration_sweep.json',
     'shuffleIterationSweep': 'output/shuffle_iteration_sweep.json',
+    'seed16RobustnessSweep': 'output/seed16_robustness_sweep.json',
   };
   const sweepPromises = Object.entries(sweepFiles).map(([key, path]) =>
     fetch(path).then(r => r.json()).catch(() => null)
@@ -1431,6 +1436,41 @@ function populateSweepSections() {
       + 'Shuffled 90/50 achieves 8/8 full (the best ever at this config).</div>';
     const elSI = document.getElementById('shuffle-iteration-section');
     if (elSI) elSI.innerHTML = html;
+  }
+  // ─── 16-seed robustness sweep (Session 63) ──────────────────────
+  if (window.seed16RobustnessSweepData) {
+    const d = window.seed16RobustnessSweepData;
+    const configs = ['50_50', '50_90', '90_50'];
+    let html = '<table><thead><tr><th>Config</th><th>Seeds</th>'
+      + '<th>H7</th><th>Coexist</th><th>Stable</th><th>Full</th>'
+      + '<th>CF</th><th>Total Rec</th><th>1s L2</th><th>Cells</th></tr></thead><tbody>';
+    for (const lbl of configs) {
+      if (!d[lbl]) continue;
+      const sp16 = d[lbl].perturbed['16seed'].summary;
+      const sp8 = d[lbl].perturbed['8orig'].summary;
+      html += `<tr><td>${lbl}</td><td>16</td>`
+        + `<td>${sp16.h7}</td><td>${sp16.coexist}</td><td>${sp16.stable}</td><td>${sp16.full}</td>`
+        + `<td><strong>${sp16.mean_cf.toFixed(3)}</strong></td>`
+        + `<td>${sp16.mean_total_rec.toFixed(3)}</td>`
+        + `<td>${sp16.l2_1s}</td><td>${sp16.mean_cells}</td></tr>`;
+      html += `<tr><td>${lbl}</td><td>8</td>`
+        + `<td>${sp8.h7}</td><td>${sp8.coexist}</td><td>${sp8.stable}</td><td>${sp8.full}</td>`
+        + `<td>${sp8.mean_cf.toFixed(3)}</td><td>—</td><td>—</td><td>—</td></tr>`;
+    }
+    html += '</tbody></table>';
+    html += '<div class="insight" style="margin-top:12px"><strong>Key finding (#182):</strong> '
+      + 'The 8/8 full at shuffled 90/50 does <strong>NOT</strong> hold at 16 seeds — '
+      + 'it drops to 14/16 (cf 0.881→0.766). A small-sample effect, consistent with '
+      + 'Session 49\'s n=220 g=0.06 (4/4→6/8). '
+      + '<strong>Key finding (#183):</strong> The -0.019 gap at 8 seeds was statistical, '
+      + 'but a <em>different</em> structural asymmetry emerges at 16 seeds: the gap '
+      + '<strong>flips sign and grows</strong> to +0.062 (50/90 cf=0.828 >> 90/50 cf=0.766). '
+      + 'The 8-seed residual was noise; the 16-seed gap is structural — 50/90 is genuinely '
+      + 'better than 90/50 under shuffle at 16 seeds. '
+      + 'Best config at 16 seeds: 50/90 (cf=0.828, 14/16 full). '
+      + 'H7=16/16 at all configs — the crossing is fully robust.</div>';
+    const elS16 = document.getElementById('seed16-robustness-section');
+    if (elS16) elS16.innerHTML = html;
   }
 }
 
