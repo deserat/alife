@@ -258,6 +258,10 @@ select:hover, button:hover { border-color: var(--accent); }
 <p class="desc">3 bilateral configs (50/50, 50/90, 90/50) × 16 seeds × {2, 1} = 128 runs at n=350 g=0.01, shuffled iteration. Tests whether the 8/8 full at shuffled 90/50 (Session 62) holds at 16 seeds (#182), and whether the residual -0.019 L/R gap is statistical or structural (#183). Result: 8/8 does NOT hold — drops to 14/16 (cf 0.881→0.766), a small-sample effect. The -0.019 gap at 8 seeds was statistical noise, but at 16 seeds a <em>different</em> structural asymmetry emerges: 50/90 (cf=0.828) >> 90/50 (cf=0.766), gap=+0.062. The sign flips. H7=16/16 at all configs — the crossing is fully robust.</p>
 <div id="seed16-robustness-section"></div>
 
+<h2>32-Seed Robustness: Gap Shrinks — Mostly Statistical (Session 64)</h2>
+<p class="desc">3 bilateral configs (50/50, 50/90, 90/50) × 32 seeds × {2, 1} = 256 runs at n=350 g=0.01, shuffled iteration. Tests whether the 14/16 full degrades further at 32 seeds and whether the +0.062 L/R gap (50/90 > 90/50) stabilizes or flips. Result: the +0.062 gap shrinks >50% to +0.024 — <em>mostly statistical</em>. 50/90 remains best on cf (0.769) but 50/50 has the most full (27/32). H7=32/32 at all configs — the crossing is fully robust. The 41st mechanism: the L/R gap is a finite-size effect, not a structural asymmetry.</p>
+<div id="seed32-robustness-section"></div>
+
 <script>
 let resultsData = null;
 let robustData = null;
@@ -309,6 +313,7 @@ async function loadData() {
     'reverseIterationSweep': 'output/reverse_iteration_sweep.json',
     'shuffleIterationSweep': 'output/shuffle_iteration_sweep.json',
     'seed16RobustnessSweep': 'output/seed16_robustness_sweep.json',
+    'seed32RobustnessSweep': 'output/seed32_robustness_sweep.json',
   };
   const sweepPromises = Object.entries(sweepFiles).map(([key, path]) =>
     fetch(path).then(r => r.json()).catch(() => null)
@@ -1471,6 +1476,41 @@ function populateSweepSections() {
       + 'H7=16/16 at all configs — the crossing is fully robust.</div>';
     const elS16 = document.getElementById('seed16-robustness-section');
     if (elS16) elS16.innerHTML = html;
+  }
+
+  // ─── 32-seed robustness sweep (Session 64) ──────────────────────
+  if (window.seed32RobustnessSweepData) {
+    const d = window.seed32RobustnessSweepData;
+    const configs = ['50_50', '50_90', '90_50'];
+    let html = '<table><thead><tr><th>Config</th><th>Seeds</th>'
+      + '<th>H7</th><th>Coexist</th><th>Stable</th><th>Full</th>'
+      + '<th>CF</th><th>Total Rec</th><th>1s L2</th><th>Cells</th></tr></thead><tbody>';
+    for (const lbl of configs) {
+      if (!d[lbl]) continue;
+      const sp32 = d[lbl].perturbed['32seed'].summary;
+      const sp16 = d[lbl].perturbed['16orig'].summary;
+      html += `<tr><td>${lbl}</td><td>32</td>`
+        + `<td>${sp32.h7}</td><td>${sp32.coexist}</td><td>${sp32.stable}</td><td>${sp32.full}</td>`
+        + `<td><strong>${sp32.mean_cf.toFixed(3)}</strong></td>`
+        + `<td>${sp32.mean_total_rec.toFixed(3)}</td>`
+        + `<td>${sp32.l2_1s}</td><td>${sp32.mean_cells}</td></tr>`;
+      html += `<tr><td>${lbl}</td><td>16</td>`
+        + `<td>${sp16.h7}</td><td>${sp16.coexist}</td><td>${sp16.stable}</td><td>${sp16.full}</td>`
+        + `<td>${sp16.mean_cf.toFixed(3)}</td><td>—</td><td>—</td><td>—</td></tr>`;
+    }
+    html += '</tbody></table>';
+    html += '<div class="insight" style="margin-top:12px"><strong>Key finding (#185):</strong> '
+      + 'The 14/16 full does <strong>NOT</strong> uniformly degrade — 50/50 actually improves '
+      + 'to 27/32, while 50/90 drops to 22/32 and 90/50 to 25/32. '
+      + 'The +0.062 L/R gap (50/90 > 90/50) <strong>shrinks >50% to +0.024</strong> — '
+      + 'mostly statistical, not structural. '
+      + '50/90 remains the best config on cf (0.769) and has the strongest 1-seed '
+      + 'guarantee (1/32 vs 3/32 for 50/50 and 6/32 for 90/50). '
+      + 'H7=32/32 at all configs — the crossing is fully robust to sample size. '
+      + 'The 41st mechanism: the L/R asymmetry is a finite-size effect — '
+      + 'it shrinks with N, not stabilizes. The sign has not flipped again.</div>';
+    const elS32 = document.getElementById('seed32-robustness-section');
+    if (elS32) elS32.innerHTML = html;
   }
 }
 

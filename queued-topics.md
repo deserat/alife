@@ -2040,13 +2040,15 @@ to compare.
 
 ## From Session 63 (2026-09-19)
 
-185. **32-seed robustness — does 14/16 degrade further?** — The
-     8/8 degraded to 14/16 at 16 seeds. Does 14/16 degrade to
-     ~24/32 at 32 seeds, or is 14/16 the stable failure rate
-     (~12% per seed)? Also: does the +0.062 gap (50/90 > 90/50)
-     stabilize or flip again at 32 seeds? The 16-seed result is
-     more reliable than the 8-seed, but 32 seeds would tighten
-     the confidence interval further.
+185. **32-seed robustness — does 14/16 degrade further?** — DONE (Session 64).
+     At 32 seeds, the 14/16 full does NOT uniformly degrade. 50/50 improves
+     to 27/32 full (15.6% failure rate); 50/90 drops to 22/32 (31%); 90/50
+     drops to 25/32 (22%). The +0.062 L/R gap (50/90 > 90/50, Session 63)
+     shrinks >50% to +0.024 — mostly statistical (41st mechanism: finite-size
+     effect). H7=32/32 at all configs — the crossing is fully robust. 50/50
+     has the most full (27/32) — the 39th mechanism (asymmetric perturbation
+     advantage) weakens at 32 seeds. 50/90 has the strongest 1-seed guarantee
+     (1/32) and the highest cf (0.769). See `seed32_robustness_sweep.py`.
 
  184. **Shuffled 50/90 as the new optimal config — should all
  future sweeps use 50/50?** — At 16 seeds, 50/90 (cf=0.828,

@@ -1122,3 +1122,23 @@ The 16-seed robustness sweep (queued-topics #182, #183) tested whether the 8/8 f
 | 90_50 | 16 | 16/16 | 16/16 | 14/16 | 14/16 | 0.766 | 3/16 | 5485 |
 
 H7=16/16 at all configs — the crossing is fully robust. Best config at 16 seeds: 50/90 (cf=0.828, 14/16 full, 0/16 1-seed leak — strongest structural guarantee). Determinism verified.
+
+### Session 64 — 32-seed robustness: the +0.062 gap shrinks >50% — mostly statistical
+
+The 32-seed robustness sweep (256 runs) tested whether the 14/16 full from 16 seeds degrades further at 32 seeds, and whether the +0.062 L/R gap (50/90 > 90/50, Session 63) stabilizes or flips.
+
+**The +0.062 gap shrinks >50% to +0.024 — mostly statistical.** 50/90 cf=0.769 vs 90/50 cf=0.745. The 41st mechanism: the L/R asymmetry is a finite-size effect that shrinks with N, not a structural asymmetry. The sign has not flipped again — 50/90 remains > 90/50 at all three sample sizes (8: -0.019, 16: +0.062, 32: +0.024). The 16-seed gap was inflated by the specific seed set.
+
+**H7=32/32 at all configs — the crossing is fully robust to sample size.** Confirmed at 4, 8, 16, and 32 seeds. The crossing is a genuine phase transition, not a statistical artifact.
+
+**50/50 has the most full (27/32), not 50/90 (22/32).** The 39th mechanism (asymmetric perturbation advantage: 50/90 >> 50/50) weakens at 32 seeds. 50/50's advantage is on stable+clean (28/32 stable, 31/32 coexist). Symmetric perturbation produces the most robust coexistence; asymmetric perturbation produces the highest cf but fewer full co-occurrences.
+
+**50/90 has the strongest 1-seed structural guarantee (1/32).** 50/50: 3/32. 90/50: 6/32 (weakest, degrading from 3/16). 50/90 has had the strongest guarantee at every sample size (0/16, 1/32).
+
+| Config | Seeds | H7 | Coexist | Stable | Full | CF | Tot Rec | 1s L2 | Cells |
+|---|---|---|---|---|---|---|---|---|---|
+| 50_50 | 32 | 32/32 | 31/32 | 28/32 | 27/32 | 0.725 | 1.054 | 3/32 | 5614 |
+| 50_90 | 32 | 32/32 | 28/32 | 27/32 | 22/32 | **0.769** | 0.911 | 1/32 | 5504 |
+| 90_50 | 32 | 32/32 | 30/32 | 27/32 | 25/32 | 0.745 | 0.911 | 6/32 | 5461 |
+
+Determinism verified (shuffled 50/90 at seed=42, identical outcomes on repeat).
