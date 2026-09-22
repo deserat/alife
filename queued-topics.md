@@ -1918,14 +1918,23 @@ to compare.
      not a spatial-structural effect. See `robustness_asymmetric.py`.
 
 175. **Bilateral damage at other densities (continuation of #171) —
-     does the bilateral advantage hold at n=150 and n=500?** — Bilateral
-     50% at n=350 produces cf=0.825. Does the bilateral advantage
-     hold at lower density (n=150, smaller structures) and higher
-     density (n=500, larger structures)? At n=150, the structures may
-     be too small for bilateral damage to create enough curvature
-     contrast. At n=500, the structures may be too large — bilateral
-     damage may over-split. Test: bilateral 50% at n=150, 350, 500 ×
-     4 seeds.
+      does the bilateral advantage hold at n=150 and n=500?** — DONE (Session 65).
+      Bilateral 50% at n=350 produces cf=0.825. Does the bilateral advantage
+      hold at lower density (n=150, smaller structures) and higher
+      density (n=500, larger structures)? At n=150, the structures may
+      be too small for bilateral damage to create enough curvature
+      contrast. At n=500, the structures may be too large — bilateral
+      damage may over-split. Test: bilateral 50% at n=150, 350, 500 ×
+      4 seeds. RESULT: the advantage is **density-dependent** — weak at
+      n=150 (+0.025 cf), confirmed at n=350 (+0.075), and **strongest
+      at n=500 (+0.187 cf, 2/4→4/4 full)**. Bilateral damage rescues
+      high-density composition: the n=500 baseline fragments (2/4 full)
+      but bilateral 50% perturbation converts ALL 4 seeds to full
+      co-occurrence (4/4 full, 4/4 stable). H7=4/4 at n=350 and n=500
+      (3/4 at n=150). The 42nd mechanism: bilateral damage rescues
+      high-density composition by sharpening the boundary from both
+      sides. The advantage scales with structure size. See
+      `bilateral_density_sweep.py`.
 
 176. **The symmetry requirement as a general principle — symmetric
      signals reinforce boundaries, asymmetric signals break them**

@@ -1142,3 +1142,11 @@ The 32-seed robustness sweep (256 runs) tested whether the 14/16 full from 16 se
 | 90_50 | 32 | 32/32 | 30/32 | 27/32 | 25/32 | 0.745 | 0.911 | 6/32 | 5461 |
 
 Determinism verified (shuffled 50/90 at seed=42, identical outcomes on repeat).
+
+## Session 65 — Bilateral Damage at Other Densities
+
+The bilateral density sweep tested whether the bilateral composition advantage (Session 58: cf=0.825 at n=350) scales across densities (n=150 g=0.30, n=350 g=0.01, n=500 g=0.02). Result: **the advantage is density-dependent** — weak at n=150 (+0.025 cf), confirmed at n=350 (+0.075), and **strongest at n=500 (+0.187 cf, 2/4→4/4 full)**. Bilateral damage rescues high-density composition: the n=500 baseline fragments (2/4 full, cf=0.450) but bilateral 50% perturbation converts ALL 4 seeds to full co-occurrence (4/4 full, 4/4 stable). H7=4/4 at n=350 and n=500 (3/4 at n=150).
+
+**The 42nd mechanism: bilateral damage rescues high-density composition.** At n=500 (~30% grid fill), the larger structures have more surface area for the boundary to over-split (the 30th mechanism, Session 53). Bilateral 50% damage creates curvature contrast at both sides of the boundary simultaneously, sharpening it — the 33rd mechanism (damage-amplified composition) scales with structure size. At n=150, the structures are too small for bilateral damage to create sufficient curvature contrast; the advantage vanishes.
+
+This is the 33rd mechanism (extensive/geometric damage signal) applied across densities. The saturating-cue control (Session 57) confirmed the mechanism is unique to the non-saturating curvature channel — the saturating cue shows the opposite (composition degrades with damage). Geometric (extensive) signals scale with damage size; chemical (intensive) signals saturate.

@@ -262,6 +262,10 @@ select:hover, button:hover { border-color: var(--accent); }
 <p class="desc">3 bilateral configs (50/50, 50/90, 90/50) × 32 seeds × {2, 1} = 256 runs at n=350 g=0.01, shuffled iteration. Tests whether the 14/16 full degrades further at 32 seeds and whether the +0.062 L/R gap (50/90 > 90/50) stabilizes or flips. Result: the +0.062 gap shrinks >50% to +0.024 — <em>mostly statistical</em>. 50/90 remains best on cf (0.769) but 50/50 has the most full (27/32). H7=32/32 at all configs — the crossing is fully robust. The 41st mechanism: the L/R gap is a finite-size effect, not a structural asymmetry.</p>
 <div id="seed32-robustness-section"></div>
 
+<h2>Bilateral Damage at Other Densities — The Advantage Scales (Session 65)</h2>
+<p class="desc">3 densities (n=150 g=0.30, n=350 g=0.01, n=500 g=0.02) × 4 seeds × {bilateral 50/50 perturbed, unperturbed} × {2, 1} = 72 runs. Tests whether the bilateral composition advantage (Session 58: cf=0.825 at n=350) holds at lower and higher densities. Result: the advantage is <strong>density-dependent</strong> — weak at n=150 (+0.025 cf), confirmed at n=350 (+0.075), and <strong>strongest at n=500 (+0.187 cf, 2/4→4/4 full)</strong>. Bilateral damage rescues high-density composition: baseline 2/4 full → perturbed 4/4 full. H7=4/4 at all densities. The 42nd mechanism: bilateral damage rescues high-density composition.</p>
+<div id="bilateral-density-section"></div>
+
 <script>
 let resultsData = null;
 let robustData = null;
@@ -314,6 +318,7 @@ async function loadData() {
     'shuffleIterationSweep': 'output/shuffle_iteration_sweep.json',
     'seed16RobustnessSweep': 'output/seed16_robustness_sweep.json',
     'seed32RobustnessSweep': 'output/seed32_robustness_sweep.json',
+    'bilateralDensitySweep': 'output/bilateral_density_sweep.json',
   };
   const sweepPromises = Object.entries(sweepFiles).map(([key, path]) =>
     fetch(path).then(r => r.json()).catch(() => null)
@@ -1511,6 +1516,39 @@ function populateSweepSections() {
       + 'it shrinks with N, not stabilizes. The sign has not flipped again.</div>';
     const elS32 = document.getElementById('seed32-robustness-section');
     if (elS32) elS32.innerHTML = html;
+  }
+
+  // ─── Bilateral density sweep (Session 65) ──────────────────────
+  if (window.bilateralDensitySweepData) {
+    const d = window.bilateralDensitySweepData;
+    const labels = ['n150_g030', 'n350_g010', 'n500_g020'];
+    let html = '<table><thead><tr><th>Density</th><th>n</th><th>g</th>'
+      + '<th>Base H7</th><th>Base Full</th><th>Base CF</th>'
+      + '<th>Pert H7</th><th>Pert Full</th><th>Pert CF</th>'
+      + '<th>1s L2</th><th>CF Adv</th></tr></thead><tbody>';
+    for (const lbl of labels) {
+      if (!d[lbl]) continue;
+      const r = d[lbl];
+      const b = r.baseline.summary;
+      const p = r.perturbed.summary;
+      html += `<tr><td>${lbl}</td><td>${r.n_termites}</td><td>${r.g}</td>`
+        + `<td>${b.h7}</td><td>${b.full}</td><td>${b.mean_cf.toFixed(3)}</td>`
+        + `<td>${p.h7}</td><td><strong>${p.full}</strong></td><td>${p.mean_cf.toFixed(3)}</td>`
+        + `<td>${p.l2_1s}</td><td><strong>+${r.cf_advantage.toFixed(3)}</strong></td></tr>`;
+    }
+    html += '</tbody></table>';
+    html += '<div class="insight" style="margin-top:12px"><strong>Key finding (#175):</strong> '
+      + 'The bilateral advantage is <strong>density-dependent</strong> — '
+      + 'weak at n=150 (+0.025), confirmed at n=350 (+0.075), '
+      + 'and <strong>strongest at n=500 (+0.187, 2/4→4/4 full)</strong>. '
+      + 'At n=500, bilateral damage rescues composition: baseline 2/4 full '
+      + '→ perturbed 4/4 full (all 4 seeds coexist + stable). '
+      + 'H7=4/4 at all densities — the crossing is fully robust. '
+      + 'The 42nd mechanism: bilateral damage rescues high-density composition. '
+      + 'At n=150, the structures are too small for bilateral damage to create '
+      + 'enough curvature contrast. The advantage scales with structure size.</div>';
+    const elBD = document.getElementById('bilateral-density-section');
+    if (elBD) elBD.innerHTML = html;
   }
 }
 

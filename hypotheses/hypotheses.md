@@ -2,8 +2,8 @@
 title: "Hypotheses"
 topic: "testable hypotheses for the multi-scale ALife composition project"
 status: active
-date: "2026-09-20"
-session: 64
+date: "2026-09-22"
+session: 65
 count: 11
 active: [H1, H2, H3, H4, H5, H6, H7, H8, H9, H10, H11]
 logs: ["logs/H1/", "logs/H2/", "logs/H3/", "logs/H4/", "logs/H5/", "logs/H6/", "logs/H7/", "logs/H8/", "logs/H9/", "logs/H10/", "logs/H11/"]
@@ -70,7 +70,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **For an emergent structure to persist as a new actor at a higher scale, it must be autopoietic — it must maintain the network that constitutes it.** Self-maintenance is the persistence condition. Without it, emergent structures are transient patterns, not new actors.
 
-**Status:** Refined (Session 64). At 32 seeds, the persistence condition holds robustly (27–28/32 stable, H7=32/32). The +0.062 L/R gap from 16 seeds shrinks >50% to +0.024 — mostly statistical. The 41st mechanism: the L/R asymmetry is a finite-size effect that shrinks with N. 50/90 has the strongest 1-seed guarantee (1/32). The 39th mechanism (asymmetric perturbation advantage) weakens — 50/50 has more full (27/32) than 50/90 (22/32).
+**Status:** Refined (Session 65). At 32 seeds, the persistence condition holds robustly (27–28/32 stable, H7=32/32). Bilateral damage rescues high-density stability (n=500: stable 2/4→4/4). At n=150 the persistence condition fails regardless (0/4 stable in both). The 42nd mechanism: bilateral damage rescues high-density composition and stability.
 
 **Log:** [logs/H5/](logs/H5/)
 
@@ -92,7 +92,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **Current mechanism claim:** the crossing needs a non-saturating channel that *recruits* deposition as well as *limiting* it, not mere negative feedback through the cue field (see H11). The curvature channel (Facchini et al. 2020) is the strongest candidate: growth at convex tips recruits, biharmonic smoothing limits, and there is no saturating pheromone field in the model at all.
 
-**Status:** Refined ×54. The 32-seed robustness sweep (256 runs) found H7=32/32 at all configs — the crossing is fully robust to sample size (confirmed at 4, 8, 16, and 32 seeds). The +0.062 L/R gap from 16 seeds shrinks >50% to +0.024 — mostly statistical. The 41st mechanism: the L/R asymmetry is a finite-size effect that shrinks with N. 50/90 has the strongest 1-seed structural guarantee (1/32 vs 3/32 for 50/50 and 6/32 for 90/50). 50/50 has the most full (27/32) — the 39th mechanism (asymmetric perturbation advantage) weakens at 32 seeds. The 40th: sample-size-dependent asymmetry flip. The 38th: processing order as hidden symmetry-breaking. The 37th: bilateral perturbation composition-enhancing. The saturating-cue control (Session 57) confirms damage-amplified composition is unique to the non-saturating curvature channel. The crossing = boundary maintenance, not volume regrowth. Barman et al. (2026) confirms.
+**Status:** Refined ×55. The 32-seed robustness sweep (256 runs) found H7=32/32 at all configs — the crossing is fully robust to sample size (confirmed at 4, 8, 16, and 32 seeds). The bilateral density sweep (Session 65, 72 runs) found the bilateral advantage is density-dependent: weak at n=150 (+0.025), confirmed at n=350 (+0.075), strongest at n=500 (+0.187, 2/4→4/4 full). The 42nd mechanism: bilateral damage rescues high-density composition by sharpening the boundary from both sides. H7=4/4 at n=350 and n=500. The advantage scales with structure size. The saturating-cue control (Session 57) confirms damage-amplified composition is unique to the non-saturating curvature channel. The crossing = boundary maintenance, not volume regrowth. Barman et al. (2026) confirms.
 
 **Evidence:**
 - sim06: near miss — stability 0.849–0.893 vs a 0.90 threshold; self-maintenance fragments instead of consolidating (H11's first data point). Detector-bug corrected 2026-07-27. Session 22: the saturating cue (as-built) crosses 16/16 stable without SM; the non-saturating cue crosses 0/16 stable without SM — cue-family reversal.
@@ -160,7 +160,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **Three paths, same failure:** Echo (CAS theory), chemical organizations (origin-of-life chemistry), and AlChemy (computational theory) all fail at multi-scale composition, from three different starting points — evidence the composition problem is fundamental, though sim05's leg of this argument is weaker post-correction.
 
-**Status:** Refined (Session 64). 41 mechanisms tested. The 32-seed sweep found the +0.062 L/R gap shrinks >50% to +0.024 — mostly statistical (41st mechanism: finite-size effect). H7=32/32 at all configs. 50/50 has the most full (27/32) — the 39th mechanism (asymmetric perturbation advantage) weakens at 32 seeds. 50/90 has the strongest 1-seed guarantee (1/32) and the highest cf (0.769).
+**Status:** Refined (Session 65). 42 mechanisms tested. The bilateral density sweep found the composition advantage is density-dependent: n=150 +0.025 (weak), n=350 +0.075 (confirmed), n=500 +0.187 (strongest, 2/4→4/4 full). The 42nd mechanism: bilateral damage rescues high-density composition. The advantage scales with structure size — it requires a minimum structure size to create sufficient curvature contrast. H7=32/32 at all configs (32-seed). H7=4/4 at n=350 and n=500.
 
 **Test:** Build a simulation with explicit composition mechanisms (stigmergic bridges between organizations, autopoietic boundaries, selection for composability) and compare to AlChemy without these mechanisms. Measure: does the version with composition mechanisms produce L2 where the plain version fails?
 
@@ -216,10 +216,10 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 | H2: ANT Translation | Unchanged | Theoretical, untested | [H2](logs/H2/) |
 | H3: Quasi-Object | Strengthened | Stigmergy literature support; Echo partial support | [H3](logs/H3/) |
 | H4: Dynamic Environment | Refined | Fitness landscape criticism supports this | [H4](logs/H4/) |
-|| H5: Autopoiesis | Refined (S64) | 32-seed: 27–28/32 stable, H7=32/32; +0.062 gap shrinks >50% to +0.024 (41st: finite-size effect); 50/90 strongest 1-seed guarantee (1/32); 50/50 has most full (27/32) | [H5](logs/H5/) |
+|| H5: Autopoiesis | Refined (S65) | 32-seed: 27–28/32 stable, H7=32/32; bilateral damage rescues high-density stability (n=500: 2/4→4/4 stable); 42nd: bilateral rescues high-density composition+stability | [H5](logs/H5/) |
 | H6: Multi-Scale Autopoiesis | Refined (S43) | 12th member confirmed at 8 seeds; composition and crossing governed by different density regimes | [H6](logs/H6/) |
-| H7: Trace→Actor Crossing | Refined ×54; 32-seed: H7=32/32 all configs (fully robust at 4/8/16/32); +0.062 gap shrinks >50% to +0.024 (41st: finite-size effect); 50/50 has most full (27/32); 50/90 strongest 1-seed guarantee (1/32); crossing = boundary maintenance; Barman et al. (2026) confirms | Session 64 32-seed; Session 63 16-seed; Session 62 shuffle-iteration; Session 61 reverse-iteration; Session 60 8-seed robustness; Session 59 asymmetric bilateral; Session 58 bilateral; Session 57 saturating-cue control; Session 56 timing+size; Session 55 perturbation; Session 54 ultra-high-density; Session 53 high-density; Session 52 plateau 260–300; Session 51 plateau 240–250; Session 50 classifier-artifact; Session 49 robustness+asymmetric; Session 48 plateau; Session 47 robustness+n=200; Session 46 gain-scaling; Session 45 density-gain; Session 44 per-criteria; Session 43 threshold; Session 42 finer density; Session 34 movement; Session 33 dual; Session 22: 2×2 complete | [H7](logs/H7/) |
+| H7: Trace→Actor Crossing | Refined ×55; 32-seed: H7=32/32 all configs (fully robust); bilateral density: advantage density-dependent (n=150 +0.025, n=350 +0.075, n=500 +0.187 2/4→4/4 full); 42nd: bilateral rescues high-density composition; crossing = boundary maintenance; Barman et al. (2026) confirms | Session 65 bilateral density; Session 64 32-seed; Session 63 16-seed; Session 62 shuffle-iteration; Session 61 reverse-iteration; Session 60 8-seed robustness; Session 59 asymmetric bilateral; Session 58 bilateral; Session 57 saturating-cue control; Session 56 timing+size; Session 55 perturbation; Session 54 ultra-high-density; Session 53 high-density; Session 52 plateau 260–300; Session 51 plateau 240–250; Session 50 classifier-artifact; Session 49 robustness+asymmetric; Session 48 plateau; Session 47 robustness+n=200; Session 46 gain-scaling; Session 45 density-gain; Session 44 per-criteria; Session 43 threshold; Session 42 finer density; Session 34 movement; Session 33 dual; Session 22: 2×2 complete | [H7](logs/H7/) |
 | H8: Complexity Enables OEE | NEW | Kaznatcheev (2019), Wiser et al. (2013) | [H8](logs/H8/) |
 | H9: Evolving Network | Untested (2026-07-27 correction) | Vasas et al. (2012) literature support; sim04's finite-space exhaustion survives but doesn't test the claim; sim03/sim05 withdrawn | [H9](logs/H9/) |
-| H10: Unbounded Space Insufficiency | Refined (S64) | 32-seed: H7=32/32 all configs; +0.062 gap shrinks >50% to +0.024 (41st: finite-size effect); 50/50 has most full (27/32); 50/90 strongest 1-seed guarantee (1/32) and highest cf (0.769); 41 mechanisms; Barman et al. (2026) confirms | [H10](logs/H10/) |
+| H10: Unbounded Space Insufficiency | Refined (S65) | 32-seed: H7=32/32 all configs; bilateral density: advantage density-dependent (n=500 +0.187, 2/4→4/4 full); 42nd: bilateral rescues high-density composition; 42 mechanisms; Barman et al. (2026) confirms | [H10](logs/H10/) |
 | H11: Saturating Channel | Directionally confirmed (4/4); causal with control arm; 2×2-complete; φ_sat predictor family-specific; two-wire principle confirmed (S33) | Session 33: two-wire principle confirmed — separate B fields break persistence-formation trade-off for stability; Session 23: φ_sat probe 50% accurate — deposit-probability saturation self-defeating only in cue channels | [H11](logs/H11/) |
