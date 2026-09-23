@@ -1700,13 +1700,18 @@ to compare.
 
 ## From Session 54 (2026-09-09)
 
-157. **The n=550+ plateau — does the LSW dissolution ever occur?** — g*
-     never hits zero at n=450–500 (~27–29% grid fill). The 1/√n scaling
-     predicts g*(550)≈0.005, g*(600)≈0.003. At n=600 (~33% fill), the
-     structures would be ~8500 cells. Does g* eventually hit zero, or
-     does the 1/√n scaling hold indefinitely? The percolation threshold
-     for a 2D grid is ~59% fill (site percolation on square lattice) —
-     we are far from it. Test: sweep n=550, 600 at g=0.003–0.01.
+157. **The n=550+ plateau — does the LSW dissolution ever occur?** — DONE
+     (Session 66). g* does NOT hit zero at n=550–600 (~31% grid fill).
+     The 1/√n (Laplace pressure) scaling holds — composition is alive at
+     every gain tested (0.003–0.01). H7=4/4 at all 6 combos. n=550 g=0.01
+     achieves 4/4 full (cf=0.712) — the best at this density. The LSW
+     "droplet dissolves" prediction is not realized even at ~31% fill —
+     far below the 2D percolation threshold (~59%). The 43rd mechanism:
+     the 1/√n scaling is conservative (actual optimal > predicted). The
+     1-seed structural guarantee leaks 2/4 (stochastic, not monotonic).
+     The 30th mechanism (stability-density trade-off) continues at n=600.
+     See `n550_plateau_sweep.py`. NEXT: n=700–800 (~40–50% fill) to
+     approach the percolation threshold.
 
 158. **The coexist-vs-full distinction is density-dependent — n=350
      g=0.01 has robust full (7/8) where n=300 g=0.02 does not (4/8)** —
@@ -1746,10 +1751,9 @@ to compare.
      self-repair is a property of the non-saturating channel's routing
      (curvature at the scar edge).
 
-161. **The n=550+ plateau (continuation of #157)** — g* never hits zero
-     at n=450–500 (~29% fill). The 1/√n scaling predicts g*(550)≈0.005,
-     g*(600)≈0.003. Does g* eventually hit zero, or does the 1/√n scaling
-     hold indefinitely? Test: sweep n=550, 600 at g=0.003–0.01.
+161. **The n=550+ plateau (continuation of #157)** — DONE (Session 66).
+     See #157 above. g* ≠ 0 at n=550–600 (~31% fill). The 1/√n scaling
+     holds. NEXT: n=700–800 to approach the percolation threshold.
 
 162. **The perturbation timing sweep — does over-recovery depend on
      when the damage hits?** — DONE (Session 56).

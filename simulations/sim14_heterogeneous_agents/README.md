@@ -112,3 +112,20 @@ Queued-topic #119: does scaling n_termites with grid area rescue the 160×160 gr
 | 160 | 600 | 23.44 | 20.0 | 4/4 | 2/4 | 0/4 | 4/4 | 4/4 | 6748 |
 
 **H7 fully rescued by density** (4/4 at all jitter). **Composition partially rescued** (4/4 at jit=0, 3/4 stable at jit=10, 2/4 at jit=20). **1-seed structural guarantee leaks** at 160×600 (absolute-size effect — bigger structure overwhelms midline). See `density_sweep.py`.
+
+## N550 Plateau (Session 66)
+
+Queued-topic #157/#161: does g* ever hit zero at n=550–600 (~31% grid fill)?
+
+| Label | n | density | g | l2(2s) | coexist | stable | h7(2s) | clean | full | cf | l2(1s) | h7(1s) | cells | fill% |
+|-------|-----|---------|-------|--------|---------|--------|--------|-------|------|------|--------|--------|-------|-------|
+| n550_g003 | 550 | 21.48 | 0.003 | 4/4 | 4/4 | 3/4 | 4/4 | 4/4 | 3/4 | 0.600 | 2/4 | 4/4 | 7848 | 30.7% |
+| n550_g005 | 550 | 21.48 | 0.005 | 4/4 | 4/4 | 3/4 | 4/4 | 4/4 | 3/4 | 0.637 | 2/4 | 4/4 | 7795 | 30.4% |
+| n550_g010 | 550 | 21.48 | 0.010 | 4/4 | 4/4 | **4/4** | 4/4 | 4/4 | **4/4** | 0.712 | 2/4 | 4/4 | 7775 | 30.4% |
+| n600_g003 | 600 | 23.44 | 0.003 | 4/4 | 3/4 | 2/4 | 4/4 | 3/4 | 2/4 | 0.537 | 2/4 | 4/4 | 8047 | 31.4% |
+| n600_g005 | 600 | 23.44 | 0.005 | 4/4 | 4/4 | 1/4 | 4/4 | 4/4 | 1/4 | 0.450 | 2/4 | 4/4 | 7977 | 31.2% |
+| n600_g010 | 600 | 23.44 | 0.010 | 4/4 | 4/4 | 3/4 | 4/4 | 4/4 | 3/4 | 0.538 | 2/4 | 4/4 | 7960 | 31.1% |
+
+**g* does NOT hit zero.** The 1/√n scaling holds at ~31% fill. H7=4/4 at all combos. n=550 g=0.01 achieves 4/4 full (cf=0.712). The LSW "droplet dissolves" prediction is not realized — ~31% fill is far below the 2D percolation threshold (~59%). The 43rd mechanism: the 1/√n scaling is conservative (actual optimal > predicted). The 30th mechanism (stability-density trade-off) continues at n=600. See `n550_plateau_sweep.py`.
+
+No-inhibition control: n=550 g=0 → 3/4 coexist, 1/4 stable, cells=15691 (61% fill). n=600 g=0 → 0/4 coexist, cells=17020 (66% fill). The boundary remains necessary at every density.

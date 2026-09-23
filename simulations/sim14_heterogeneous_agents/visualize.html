@@ -266,6 +266,10 @@ select:hover, button:hover { border-color: var(--accent); }
 <p class="desc">3 densities (n=150 g=0.30, n=350 g=0.01, n=500 g=0.02) × 4 seeds × {bilateral 50/50 perturbed, unperturbed} × {2, 1} = 72 runs. Tests whether the bilateral composition advantage (Session 58: cf=0.825 at n=350) holds at lower and higher densities. Result: the advantage is <strong>density-dependent</strong> — weak at n=150 (+0.025 cf), confirmed at n=350 (+0.075), and <strong>strongest at n=500 (+0.187 cf, 2/4→4/4 full)</strong>. Bilateral damage rescues high-density composition: baseline 2/4 full → perturbed 4/4 full. H7=4/4 at all densities. The 42nd mechanism: bilateral damage rescues high-density composition.</p>
 <div id="bilateral-density-section"></div>
 
+<h2>N550 Plateau — The 1/√n Scaling Holds at ~31% Fill (Session 66)</h2>
+<p class="desc">n=550, 600 at g=0.003–0.01 × 4 seeds × {2, 1} = 72 runs (160×160, dual, focal 0.3, jit=10). The 1/√n (Laplace pressure) scaling has been confirmed from n=170 to n=500. Does g* ever hit zero (the LSW "droplet dissolves" prediction), or does the scaling hold? Result: g* does NOT hit zero at n=550–600 (~31% grid fill). H7=4/4 at all 6 combos. n=550 g=0.01 achieves 4/4 full (cf=0.712) — the best ever at this density. The 1-seed structural guarantee leaks at 2/4 (stable, not worsening). The LSW prediction is not realized even at ~31% fill — far below the 2D percolation threshold (~59%).</p>
+<div id="n550-plateau-section"></div>
+
 <script>
 let resultsData = null;
 let robustData = null;
@@ -319,6 +323,7 @@ async function loadData() {
     'seed16RobustnessSweep': 'output/seed16_robustness_sweep.json',
     'seed32RobustnessSweep': 'output/seed32_robustness_sweep.json',
     'bilateralDensitySweep': 'output/bilateral_density_sweep.json',
+    'n550PlateauSweep': 'output/n550_plateau_sweep.json',
   };
   const sweepPromises = Object.entries(sweepFiles).map(([key, path]) =>
     fetch(path).then(r => r.json()).catch(() => null)
@@ -1549,6 +1554,49 @@ function populateSweepSections() {
       + 'enough curvature contrast. The advantage scales with structure size.</div>';
     const elBD = document.getElementById('bilateral-density-section');
     if (elBD) elBD.innerHTML = html;
+  }
+
+  // ─── N550 plateau sweep (Session 66) ───────────────────────────
+  if (window.n550PlateauSweepData) {
+    const d = window.n550PlateauSweepData;
+    let html = '<h3 style="color:var(--accent);margin:16px 0 8px">N550 Plateau: n=550–600</h3>';
+    html += '<table style="margin:12px 0;font-size:0.85em">';
+    html += '<tr><th>Label</th><th>n</th><th>Density</th><th>g</th><th>L2</th><th>Coexist</th><th>Stable</th><th>H7</th><th>Clean</th><th>Full</th><th>CF</th><th>Fill%</th><th>1s L2</th><th>1s H7</th><th>Cells</th></tr>';
+    const n550Labels = [
+      'n550_g003','n550_g005','n550_g010',
+      'n600_g003','n600_g005','n600_g010',
+    ];
+    for (const label of n550Labels) {
+      const r = d.plateau[label];
+      if (!r) continue;
+      const s = r.summary;
+      const fill = (s.mean_cells / (160*160) * 100).toFixed(1);
+      html += `<tr><td>${label}</td><td>${r.n_termites}</td><td>${r.density_per_kcell.toFixed(2)}</td><td>${r.g_form.toFixed(3)}</td>`;
+      html += `<td>${s.l2_2s}</td><td>${s.coexist}</td><td>${s.stable}</td><td>${s.h7_2s}</td>`;
+      html += `<td>${s.clean}</td><td>${s.full}</td><td>${s.mean_coexist_frac.toFixed(3)}</td>`;
+      html += `<td>${fill}%</td><td>${s.l2_1s}</td><td>${s.h7_1s}</td><td>${s.mean_cells}</td></tr>`;
+    }
+    html += '</table>';
+    html += '<div class="insight" style="margin-top:8px"><strong>Key finding (#157/#161):</strong> g* does NOT hit zero at n=550–600 (~31% grid fill). The 1/√n (Laplace pressure) scaling holds — composition is alive at every gain tested (0.003–0.01). H7=4/4 at all 6 combos. <strong>n=550 g=0.01 achieves 4/4 full</strong> (cf=0.712, the best at this density). The 1-seed structural guarantee leaks at 2/4 (stable, not worsening with density). The LSW "droplet dissolves" prediction is not realized even at ~31% fill — far below the 2D percolation threshold (~59%). The 30th mechanism (stability-density trade-off) continues at n=600: stable drops to 1–3/4.</div>';
+
+    // No-inhibition control
+    html += '<h3 style="color:var(--accent);margin:16px 0 8px">No-Inhibition Control (g=0) at N550+</h3>';
+    html += '<table style="margin:12px 0;font-size:0.85em">';
+    html += '<tr><th>Label</th><th>n</th><th>Density</th><th>L2</th><th>Coexist</th><th>Stable</th><th>H7</th><th>1s L2</th><th>1s H7</th><th>Cells</th></tr>';
+    const noInhibN550 = ['n550_g000_no_inhib','n600_g000_no_inhib'];
+    for (const label of noInhibN550) {
+      const r = d.no_inhibition_control[label];
+      if (!r) continue;
+      const s = r.summary;
+      html += `<tr><td>${label}</td><td>${r.n_termites}</td><td>${r.density_per_kcell.toFixed(2)}</td>`;
+      html += `<td>${s.l2_2s}</td><td>${s.coexist}</td><td>${s.stable}</td><td>${s.h7_2s}</td>`;
+      html += `<td>${s.l2_1s}</td><td>${s.h7_1s}</td><td>${s.mean_cells}</td></tr>`;
+    }
+    html += '</table>';
+    html += '<div class="insight" style="margin-top:8px"><strong>No-inhibition finding:</strong> Without the boundary, n=600 gives 0/4 coexist (all merged/fragmented, ~66% fill). n=550 gives 3/4 coexist but 1/4 stable — the boundary is still needed for stable composition at n=550, but at n=600 the structures fill the grid (66%) without it. The boundary remains necessary at every density tested.</div>';
+
+    const elN550 = document.getElementById('n550-plateau-section');
+    if (elN550) elN550.innerHTML = html;
   }
 }
 
