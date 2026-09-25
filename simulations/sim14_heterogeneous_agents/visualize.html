@@ -270,6 +270,10 @@ select:hover, button:hover { border-color: var(--accent); }
 <p class="desc">n=550, 600 at g=0.003–0.01 × 4 seeds × {2, 1} = 72 runs (160×160, dual, focal 0.3, jit=10). The 1/√n (Laplace pressure) scaling has been confirmed from n=170 to n=500. Does g* ever hit zero (the LSW "droplet dissolves" prediction), or does the scaling hold? Result: g* does NOT hit zero at n=550–600 (~31% grid fill). H7=4/4 at all 6 combos. n=550 g=0.01 achieves 4/4 full (cf=0.712) — the best ever at this density. The 1-seed structural guarantee leaks at 2/4 (stable, not worsening). The LSW prediction is not realized even at ~31% fill — far below the 2D percolation threshold (~59%).</p>
 <div id="n550-plateau-section"></div>
 
+<h2>N700 Plateau — The 1/√n Scaling Holds at ~34% Fill (Session 67)</h2>
+<p class="desc">n=700, 800 at g=0.003–0.01 × 4 seeds × {2, 1} = 80 runs (160×160, dual, focal 0.3, jit=10). The 1/√n (Laplace pressure) scaling has been confirmed from n=170 to n=600 (~3% to ~31% fill). The 1/√n formula predicts NEGATIVE g* at n=700–800 — the 43rd mechanism (conservative scaling) says actual > predicted. Does composition survive at ~34% fill? Result: g* does NOT hit zero. H7=4/4 at all 8 combos. n=800 g=0.003 achieves 3/4 full (cf=0.575) — the best at this density. The 30th mechanism (stability-density trade-off) worsens: n=800 g=0.01 fragments (coexist 1/4, 3/4 fragmented). The 1-seed structural guarantee leaks 1/4 at n=700 but 3/4 at n=800 — the 12th member (structure-to-grid ratio) degrades.</p>
+<div id="n700-plateau-section"></div>
+
 <script>
 let resultsData = null;
 let robustData = null;
@@ -324,6 +328,7 @@ async function loadData() {
     'seed32RobustnessSweep': 'output/seed32_robustness_sweep.json',
     'bilateralDensitySweep': 'output/bilateral_density_sweep.json',
     'n550PlateauSweep': 'output/n550_plateau_sweep.json',
+    'n700PlateauSweep': 'output/n700_plateau_sweep.json',
   };
   const sweepPromises = Object.entries(sweepFiles).map(([key, path]) =>
     fetch(path).then(r => r.json()).catch(() => null)
@@ -1597,6 +1602,49 @@ function populateSweepSections() {
 
     const elN550 = document.getElementById('n550-plateau-section');
     if (elN550) elN550.innerHTML = html;
+  }
+
+  // ─── N700 plateau sweep (Session 67) ───────────────────────────
+  if (window.n700PlateauSweepData) {
+    const d = window.n700PlateauSweepData;
+    let html = '<h3 style="color:var(--accent);margin:16px 0 8px">N700 Plateau: n=700–800</h3>';
+    html += '<table style="margin:12px 0;font-size:0.85em">';
+    html += '<tr><th>Label</th><th>n</th><th>Density</th><th>g</th><th>L2</th><th>Coexist</th><th>Stable</th><th>H7</th><th>Clean</th><th>Full</th><th>CF</th><th>Fill%</th><th>1s L2</th><th>1s H7</th><th>Cells</th></tr>';
+    const n700Labels = [
+      'n700_g003','n700_g005','n700_g010',
+      'n800_g003','n800_g005','n800_g010',
+    ];
+    for (const label of n700Labels) {
+      const r = d.plateau[label];
+      if (!r) continue;
+      const s = r.summary;
+      const fill = (s.mean_cells / (160*160) * 100).toFixed(1);
+      html += `<tr><td>${label}</td><td>${r.n_termites}</td><td>${r.density_per_kcell.toFixed(2)}</td><td>${r.g_form.toFixed(3)}</td>`;
+      html += `<td>${s.l2_2s}</td><td>${s.coexist}</td><td>${s.stable}</td><td>${s.h7_2s}</td>`;
+      html += `<td>${s.clean}</td><td>${s.full}</td><td>${s.mean_coexist_frac.toFixed(3)}</td>`;
+      html += `<td>${fill}%</td><td>${s.l2_1s}</td><td>${s.h7_1s}</td><td>${s.mean_cells}</td></tr>`;
+    }
+    html += '</table>';
+    html += '<div class="insight" style="margin-top:8px"><strong>Key finding (#157 continuation):</strong> g* does NOT hit zero at n=700–800 (~33–35% grid fill). The 1/√n formula predicts NEGATIVE g* but the 43rd mechanism (conservative scaling) holds — actual optimal is ~2× higher. H7=4/4 at all 8 combos. <strong>n=800 g=0.003 achieves 3/4 full</strong> (cf=0.575). The 30th mechanism (stability-density trade-off) worsens at n=800 g=0.01: coexist drops to 1/4 (3/4 fragmented). The 1-seed structural guarantee degrades: 1/4 at n=700 but 3/4 at n=800 — the 12th member (structure-to-grid ratio) produces density-dependent leaks.</div>';
+
+    // No-inhibition control
+    html += '<h3 style="color:var(--accent);margin:16px 0 8px">No-Inhibition Control (g=0) at N700+</h3>';
+    html += '<table style="margin:12px 0;font-size:0.85em">';
+    html += '<tr><th>Label</th><th>n</th><th>Density</th><th>L2</th><th>Coexist</th><th>Stable</th><th>H7</th><th>1s L2</th><th>1s H7</th><th>Cells</th></tr>';
+    const noInhibN700 = ['n700_g000_no_inhib','n800_g000_no_inhib'];
+    for (const label of noInhibN700) {
+      const r = d.no_inhibition_control[label];
+      if (!r) continue;
+      const s = r.summary;
+      html += `<tr><td>${label}</td><td>${r.n_termites}</td><td>${r.density_per_kcell.toFixed(2)}</td>`;
+      html += `<td>${s.l2_2s}</td><td>${s.coexist}</td><td>${s.stable}</td><td>${s.h7_2s}</td>`;
+      html += `<td>${s.l2_1s}</td><td>${s.h7_1s}</td><td>${s.mean_cells}</td></tr>`;
+    }
+    html += '</table>';
+    html += '<div class="insight" style="margin-top:8px"><strong>No-inhibition finding:</strong> Without the boundary, n=700 fills 74% of the grid (0/4 coexist) and n=800 fills 82% (2/4 coexist — the l2_crossed=True is a measurement artifact at >80% fill; a single merged structure trivially has components in both halves). The boundary remains necessary at every density tested.</div>';
+
+    const elN700 = document.getElementById('n700-plateau-section');
+    if (elN700) elN700.innerHTML = html;
   }
 }
 

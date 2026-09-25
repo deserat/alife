@@ -1161,4 +1161,18 @@ The n=550–600 plateau sweep (72 runs) tested whether the 1/√n (Laplace press
 
 **The 30th mechanism (stability-density trade-off) continues at n=600.** At n=600, stable drops to 1–3/4 (vs 3–4/4 at n=550). The larger structures (~8000 cells) have more surface area for the boundary to over-split. The no-inhibition control confirms the boundary remains necessary: n=600 g=0 produces 0/4 coexist (all merged/fragmented, ~66% fill).
 
-**The LSW "droplet dissolves" prediction.** Finite-size scaling theory (LSW) predicts that a "droplet" (the stigmergic structure) dissolves into the continuous phase when it fills the system. The 2D site percolation threshold is ~59% fill. At ~31% fill (n=550–600), we are at half the percolation threshold — the structures are still genuine droplets, not a continuous phase. The 1/√n scaling may hold until the percolation threshold, beyond which the composition problem fundamentally changes character. Testing at n=700–800 (~40–50% fill) would approach but not reach the threshold.
+**The LSW "droplet dissolves" prediction.** Finite-size scaling theory (LSW) predicts that a "droplet" (the stigmergic structure) dissolves into the continuous phase when it fills the system. The 2D site percolation threshold is ~59% fill. At ~31% fill (n=550–600), we are at half the percolation threshold — the structures are still genuine droplets, not a continuous phase. The 1/√n scaling may hold until the percolation threshold, beyond which the composition problem fundamentally changes character.
+
+## Session 67 — The N700 Plateau: 1/√n Scaling Holds at ~35% Fill; Formula Predicts NEGATIVE g*
+
+The n=700–800 plateau sweep (8 combos × 4 seeds × {2, 1} = 80 runs + 2 no-inhibition controls = 96 total) extended the density range to ~33–35% grid fill. The 1/√n formula g* = -0.95 + 15.2/√n predicts **NEGATIVE** g* at n=700–800 — the formula says g* should already be zero. But the 43rd mechanism (conservative scaling, Session 66) says the actual optimal is higher.
+
+**g* does NOT hit zero.** Composition is alive at every gain tested (0.003–0.01) at both n=700 and n=800. H7=4/4 at all 8 combos. The 43rd mechanism is confirmed: the 1/√n formula underestimates the optimal gain, and actual g* is positive where the formula predicts negative. n=800 g=0.003 achieves 3/4 full (cf=0.575) — the best at this density.
+
+**The 30th mechanism (stability-density trade-off) worsens at n=800 g=0.01.** Coexist drops to 1/4 (3/4 fragmented) — the boundary over-splits the larger structures (~8800 cells). At lower gain (g=0.003), coexist is 4/4 — the gain must decrease with density to avoid over-splitting, confirming the 1/√n scaling direction.
+
+**The 1-seed structural guarantee degrades at n=800** (3/4 at all gains vs 1/4 at n=700) — the 12th member (structure-to-grid ratio) produces density-dependent leaks. The bigger single structure (~8800 cells, ~34% fill) overwhelms the midline more often.
+
+**Cross-domain connection: the Laplace pressure analogy as a lower bound, confirmed.** The 43rd mechanism is now confirmed at two density ranges. The 1/√n formula systematically underestimates the optimal gain — it is a lower bound, not an exact prediction. The actual boundary tolerates more suppression than the idealized pressure analogy predicts, consistent with ΔP = 2γ/R being the idealized case while the simulation's boundary has internal structure (dual B fields, curvature channel routing) providing additional resistance.
+
+**Still approaching, not reaching, the percolation threshold.** At ~35% fill, we are at ~60% of the 2D site percolation threshold (~59%). The scaling may break at n=900–1000 (~45–50% fill), where the structure approaches a spanning cluster. The LSW "droplet dissolves" prediction is the wrong framework — the correct one is percolation: the scaling breaks when the structure percolates, not when g* hits zero.

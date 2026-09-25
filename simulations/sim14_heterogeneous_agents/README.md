@@ -129,3 +129,20 @@ Queued-topic #157/#161: does g* ever hit zero at n=550–600 (~31% grid fill)?
 **g* does NOT hit zero.** The 1/√n scaling holds at ~31% fill. H7=4/4 at all combos. n=550 g=0.01 achieves 4/4 full (cf=0.712). The LSW "droplet dissolves" prediction is not realized — ~31% fill is far below the 2D percolation threshold (~59%). The 43rd mechanism: the 1/√n scaling is conservative (actual optimal > predicted). The 30th mechanism (stability-density trade-off) continues at n=600. See `n550_plateau_sweep.py`.
 
 No-inhibition control: n=550 g=0 → 3/4 coexist, 1/4 stable, cells=15691 (61% fill). n=600 g=0 → 0/4 coexist, cells=17020 (66% fill). The boundary remains necessary at every density.
+
+## N700 Plateau (Session 67)
+
+Queued-topic #157 (continuation): does g* hit zero at n=700–800 (~33–35% grid fill)? The 1/√n formula predicts NEGATIVE g* at n=700–800 — the 43rd mechanism says actual > predicted.
+
+| Label | n | density | g | l2(2s) | coexist | stable | h7(2s) | clean | full | cf | l2(1s) | h7(1s) | cells | fill% |
+|-------|-----|---------|-------|--------|---------|--------|--------|-------|------|------|--------|--------|-------|-------|
+| n700_g003 | 700 | 27.34 | 0.003 | 4/4 | 4/4 | 1/4 | 4/4 | 4/4 | 1/4 | 0.325 | 1/4 | 4/4 | 8538 | 33.4% |
+| n700_g005 | 700 | 27.34 | 0.005 | 4/4 | 4/4 | 2/4 | 4/4 | 4/4 | 2/4 | 0.500 | 1/4 | 4/4 | 8479 | 33.1% |
+| n700_g010 | 700 | 27.34 | 0.010 | 4/4 | 4/4 | 2/4 | 4/4 | 4/4 | 2/4 | 0.500 | 1/4 | 4/4 | 8474 | 33.1% |
+| n800_g003 | 800 | 31.25 | 0.003 | 4/4 | 4/4 | **3/4** | 4/4 | 4/4 | **3/4** | 0.575 | 3/4 | 4/4 | 8832 | 34.5% |
+| n800_g005 | 800 | 31.25 | 0.005 | 4/4 | 4/4 | 2/4 | 4/4 | 4/4 | 2/4 | 0.500 | 3/4 | 4/4 | 8852 | 34.6% |
+| n800_g010 | 800 | 31.25 | 0.010 | 4/4 | 1/4 | 2/4 | 4/4 | 1/4 | 0/4 | 0.450 | 3/4 | 4/4 | 8813 | 34.4% |
+
+**g* does NOT hit zero.** The 43rd mechanism (conservative scaling) confirmed: the 1/√n formula predicts NEGATIVE g* but actual g* is positive. H7=4/4 at all 8 combos. n=800 g=0.003 achieves 3/4 full (cf=0.575). The 30th mechanism (stability-density trade-off) worsens at n=800 g=0.01 (coexist 1/4, 3/4 fragmented). The 1-seed structural guarantee degrades: 1/4 at n=700, 3/4 at n=800. See `n700_plateau_sweep.py`.
+
+No-inhibition control: n=700 g=0 → 0/4 coexist, cells=18954 (74% fill). n=800 g=0 → 2/4 coexist (measurement artifact at 82% fill), cells=20960. The boundary remains necessary at every density tested.

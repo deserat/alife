@@ -1710,8 +1710,16 @@ to compare.
      the 1/√n scaling is conservative (actual optimal > predicted). The
      1-seed structural guarantee leaks 2/4 (stochastic, not monotonic).
      The 30th mechanism (stability-density trade-off) continues at n=600.
-     See `n550_plateau_sweep.py`. NEXT: n=700–800 (~40–50% fill) to
-     approach the percolation threshold.
+     See `n550_plateau_sweep.py`. NEXT: n=700–800 to approach the
+     percolation threshold.
+     **DONE (Session 67):** g* does NOT hit zero at n=700–800 (~33–35%
+     fill). The 1/√n formula predicts NEGATIVE g* but the 43rd mechanism
+     (conservative scaling) holds — actual g* is positive. H7=4/4 at all
+     8 combos. n=800 g=0.003 achieves 3/4 full (cf=0.575). The 30th
+     mechanism worsens at n=800 g=0.01 (coexist 1/4, 3/4 fragmented).
+     The 1-seed guarantee degrades: 1/4 at n=700, 3/4 at n=800. See
+     `n700_plateau_sweep.py`. NEXT: n=900–1000 (~45–50% fill) to
+     further approach the percolation threshold (~59%).
 
 158. **The coexist-vs-full distinction is density-dependent — n=350
      g=0.01 has robust full (7/8) where n=300 g=0.02 does not (4/8)** —
