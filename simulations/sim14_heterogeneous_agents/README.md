@@ -146,3 +146,20 @@ Queued-topic #157 (continuation): does g* hit zero at n=700–800 (~33–35% gri
 **g* does NOT hit zero.** The 43rd mechanism (conservative scaling) confirmed: the 1/√n formula predicts NEGATIVE g* but actual g* is positive. H7=4/4 at all 8 combos. n=800 g=0.003 achieves 3/4 full (cf=0.575). The 30th mechanism (stability-density trade-off) worsens at n=800 g=0.01 (coexist 1/4, 3/4 fragmented). The 1-seed structural guarantee degrades: 1/4 at n=700, 3/4 at n=800. See `n700_plateau_sweep.py`.
 
 No-inhibition control: n=700 g=0 → 0/4 coexist, cells=18954 (74% fill). n=800 g=0 → 2/4 coexist (measurement artifact at 82% fill), cells=20960. The boundary remains necessary at every density tested.
+
+## N900 Plateau (Session 68)
+
+Queued-topic #157 (continuation): does g* hit zero at n=900–1000 (~36% grid fill)? The 1/√n formula predicts deeply NEGATIVE g* (g*≈-0.44 to -0.47) — the 43rd mechanism says actual > predicted.
+
+| Label | n | density | g | l2(2s) | coexist | stable | h7(2s) | clean | full | cf | l2(1s) | h7(1s) | cells | fill% |
+|-------|-----|---------|-------|--------|---------|--------|--------|-------|------|------|--------|--------|-------|-------|
+| n900_g003 | 900 | 35.16 | 0.003 | 4/4 | 4/4 | 0/4 | 4/4 | 4/4 | 0/4 | 0.300 | 1/4 | 4/4 | 9164 | 35.8% |
+| n900_g005 | 900 | 35.16 | 0.005 | 4/4 | 3/4 | 2/4 | 4/4 | 3/4 | 2/4 | 0.450 | 1/4 | 4/4 | 9017 | 35.2% |
+| n900_g010 | 900 | 35.16 | 0.010 | 4/4 | 4/4 | 2/4 | 4/4 | 4/4 | **2/4** | 0.525 | 1/4 | 4/4 | 9077 | 35.5% |
+| n1000_g003 | 1000 | 39.06 | 0.003 | 4/4 | 4/4 | 2/4 | 4/4 | 3/4 | 1/4 | 0.475 | 4/4 | 4/4 | 9357 | 36.6% |
+| n1000_g005 | 1000 | 39.06 | 0.005 | 4/4 | 4/4 | 2/4 | 4/4 | 3/4 | 1/4 | 0.450 | 4/4 | 4/4 | 9337 | 36.5% |
+| n1000_g010 | 1000 | 39.06 | 0.010 | 4/4 | 4/4 | 2/4 | 4/4 | 3/4 | **2/4** | 0.400 | 4/4 | 4/4 | 9356 | 36.5% |
+
+**g* does NOT hit zero.** The 43rd mechanism (conservative scaling) confirmed at a third density range: the 1/√n formula predicts deeply NEGATIVE g* but actual g* is positive. H7=4/4 at all 8 combos. n=900 g=0.01 achieves 2/4 full (cf=0.525). The 30th mechanism (stability-density trade-off) persists: stable 0–2/4. The 1-seed structural guarantee is stochastic, not monotonic: 1/4 at n=900, 4/4 at n=1000 — the 12th member does not degrade monotonically. See `n900_plateau_sweep.py`.
+
+No-inhibition control: n=900 g=0 → 0/4 coexist, cells=22240 (87% fill). n=1000 g=0 → 0/4 coexist (1/4 l2_crossed artifact at 92% fill), cells=23519. The boundary remains necessary — it prevents percolation.

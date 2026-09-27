@@ -1720,6 +1720,16 @@ to compare.
      The 1-seed guarantee degrades: 1/4 at n=700, 3/4 at n=800. See
      `n700_plateau_sweep.py`. NEXT: n=900–1000 (~45–50% fill) to
      further approach the percolation threshold (~59%).
+     **DONE (Session 68):** g* does NOT hit zero at n=900–1000 (~36%
+     fill). The 1/√n formula predicts deeply NEGATIVE g* (g*≈-0.44
+     to -0.47) but the 43rd mechanism holds — actual g* is positive.
+     H7=4/4 at all 8 combos. n=900 g=0.01 achieves 2/4 full (cf=0.525).
+     The 30th mechanism persists: stable 0–2/4. The 1-seed guarantee
+     is **stochastic, not monotonic**: 1/4 at n=900, 4/4 at n=1000 —
+     correcting Session 67's monotonic-degradation claim. The boundary
+     prevents percolation (no-inhibition fills 87–92%). See
+     `n900_plateau_sweep.py`. NEXT: n=1200–1500 to approach the
+     percolation threshold (~59% fill).
 
 158. **The coexist-vs-full distinction is density-dependent — n=350
      g=0.01 has robust full (7/8) where n=300 g=0.02 does not (4/8)** —
