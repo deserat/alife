@@ -2089,3 +2089,34 @@ to compare.
  effect. Should all future experiments adopt shuffled 50/90
  as the default? The trade-off: 50/90 has 0/16 1-seed leak
  (strongest) but 14/16 full (not 16/16).
+
+## From Session 69 (2026-09-28)
+
+186. **The n=1800–2000 plateau — pushing toward the percolation threshold**
+    — The 1/√n scaling holds to n=1500 (~39% fill, ~66% of the 2D
+    percolation threshold). At n=1800–2000 (~45–50% fill), the structures
+    approach the threshold more closely. Does the scaling break? The 44th
+    mechanism (boundary caps fill) may prevent the fill from reaching
+    the percolation threshold entirely — the boundary's fill cap (~39%)
+    may be the effective limit, not the percolation threshold (~59%).
+    Test: n=1800, 2000 at g=0.001–0.005.
+
+187. **The 44th mechanism — the boundary as a fill-capping mechanism**
+    — The boundary caps fill at ~39% (not the ~45% expected from naive
+    density scaling). The no-inhibition control fills 96–100%. The
+    boundary constrains each structure to ~5000 cells even with 1500
+    termites — the fill plateaus rather than increasing proportionally
+    with n. This is the stigmergic analog of contact inhibition in
+    biological tissues. Deserves a standalone concept file and a
+    formal write-up connecting to the percolation framework: the
+    boundary solves the composition problem by capping fill below
+    the percolation threshold.
+
+188. **The 30th mechanism's gain-dependence — finer gain sweep at
+    n=1500** — At n=1500, stable is 3/4 at g=0.003 but 0/4 at g=0.005
+    — a sharp transition. A finer sweep (g=0.003, 0.004, 0.005, 0.006)
+    would map the transition precisely. Is it a phase transition or
+    a smooth crossover? The 30th mechanism is gain-dependent, not
+    density-dependent — this refines the 30th mechanism from
+    Session 67's "worsens with density" to "worsens with gain at
+    high density."

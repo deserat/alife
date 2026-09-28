@@ -163,3 +163,20 @@ Queued-topic #157 (continuation): does g* hit zero at n=900–1000 (~36% grid fi
 **g* does NOT hit zero.** The 43rd mechanism (conservative scaling) confirmed at a third density range: the 1/√n formula predicts deeply NEGATIVE g* but actual g* is positive. H7=4/4 at all 8 combos. n=900 g=0.01 achieves 2/4 full (cf=0.525). The 30th mechanism (stability-density trade-off) persists: stable 0–2/4. The 1-seed structural guarantee is stochastic, not monotonic: 1/4 at n=900, 4/4 at n=1000 — the 12th member does not degrade monotonically. See `n900_plateau_sweep.py`.
 
 No-inhibition control: n=900 g=0 → 0/4 coexist, cells=22240 (87% fill). n=1000 g=0 → 0/4 coexist (1/4 l2_crossed artifact at 92% fill), cells=23519. The boundary remains necessary — it prevents percolation.
+
+## N1200 Plateau (Session 69)
+
+Queued-topic #157 (continuation): does g* hit zero at n=1200–1500 (~38–39% grid fill)? The 1/√n formula predicts deeply NEGATIVE g* (g*≈-0.51 to -0.56) — the 43rd mechanism says actual > predicted.
+
+| Label | n | density | g | l2(2s) | coexist | stable | h7(2s) | clean | full | cf | l2(1s) | h7(1s) | cells | fill% |
+|-------|-----|---------|-------|--------|---------|--------|--------|-------|------|------|--------|--------|-------|-------|
+| n1200_g003 | 1200 | 46.88 | 0.003 | 4/4 | 4/4 | 2/4 | 4/4 | 4/4 | 2/4 | 0.512 | 3/4 | 4/4 | 9762 | 38.1% |
+| n1200_g005 | 1200 | 46.88 | 0.005 | 4/4 | 4/4 | 1/4 | 4/4 | 4/4 | 1/4 | 0.438 | 3/4 | 4/4 | 9755 | 38.1% |
+| n1200_g010 | 1200 | 46.88 | 0.010 | 4/4 | 4/4 | 1/4 | 4/4 | 4/4 | 1/4 | 0.400 | 3/4 | 4/4 | 9847 | 38.5% |
+| n1500_g003 | 1500 | 58.59 | 0.003 | 4/4 | 4/4 | **3/4** | 4/4 | 4/4 | **3/4** | 0.600 | 1/4 | 4/4 | 10075 | 39.4% |
+| n1500_g005 | 1500 | 58.59 | 0.005 | 4/4 | 4/4 | 0/4 | 4/4 | 4/4 | 0/4 | 0.275 | 1/4 | 4/4 | 10142 | 39.6% |
+| n1500_g010 | 1500 | 58.59 | 0.010 | 4/4 | 4/4 | 2/4 | 4/4 | 4/4 | 2/4 | 0.475 | 1/4 | 4/4 | 10037 | 39.2% |
+
+**g* does NOT hit zero.** The 43rd mechanism (conservative scaling) confirmed at a fourth density range: the 1/√n formula predicts deeply NEGATIVE g* but actual g* is positive. H7=4/4 at all 8 combos. n=1500 g=0.003 achieves 3/4 full (cf=0.600) — the best overall since n=800. **The 44th mechanism:** the boundary caps fill at ~39% (not 45% expected) — the no-inhibition control fills 96–100%. The 30th mechanism is non-monotonic: 3/4 stable at g=0.003 but 0/4 at g=0.005 — a sharp gain-dependent transition. The 1-seed guarantee is stochastic: 3/4 at n=1200, 1/4 at n=1500. See `n1200_plateau_sweep.py`.
+
+No-inhibition control: n=1200 g=0 → 0/4 coexist, cells=24669 (96% fill). n=1500 g=0 → 0/4 coexist, cells=25537 (100% fill). The boundary prevents percolation — it keeps the system in the droplet regime below the 2D percolation threshold (~59%).
