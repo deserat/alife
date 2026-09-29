@@ -1202,3 +1202,17 @@ The n=1200–1500 plateau sweep (8 combos × 4 seeds × {2, 1} = 80 runs + 2 no-
 **The 1-seed structural guarantee is stochastic, not monotonic (continued).** The full sequence: n=700→1/4, n=800→3/4, n=900→1/4, n=1000→4/4, n=1200→3/4, n=1500→1/4. The 12th member fluctuates — the bigger structure does not necessarily leak more. The boundary remains necessary: without it, n=1200 fills 96% (0/4 coexist) and n=1500 fills 100% (0/4 coexist) — the boundary prevents percolation.
 
 **Cross-domain connection: the boundary as a fill-capping mechanism.** The 44th mechanism connects to the percolation framework: the boundary not only separates two structures but also caps the total fill below the percolation threshold. Without the boundary, the system fills 96–100% (percolates). With the boundary, the fill plateaus at ~39% — the boundary keeps the system in the droplet regime, below the percolation transition. The composition problem and the fill-capping problem are two sides of the same boundary.
+
+## Session 70 — The N1800 Plateau: 1/√n Scaling Holds at ~41% Fill; 44th Mechanism Confirmed at 5th Range
+
+The n=1800–2000 plateau sweep (6 plateau combos × 4 seeds × {2, 1} = 48 runs + 2 no-inhibition controls × 4 seeds × {2, 1} = 16 runs = 80 total) extended the density range to ~40–41% grid fill. The 1/√n formula predicts **deeply NEGATIVE** g* (g*≈-0.59 to -0.61) — the formula says g* should have been zero since n=700.
+
+**g* does NOT hit zero.** Composition is alive at every gain tested (0.001–0.005). H7=4/4 at all 6 plateau combos. The 43rd mechanism (conservative scaling) is confirmed at a **fifth** density range. n=2000 g=0.001 achieves stable=3/4, full=2/4 (cf=0.512) — the best at this density.
+
+**The 44th mechanism (boundary caps fill) confirmed at a 5th density range.** At n=1800, fill plateaus at ~40.3–40.6% (10310–10393 cells); at n=2000, ~41.1–41.3% (10516–10573 cells). The fill cap is ~41% — not the ~45–50% expected from naive density scaling. The no-inhibition control fills 100% (25599–25600 cells). The boundary constrains each structure to ~5200 cells even with 2000 termites — the fill cap is independent of n above ~1200 termites. This is the stigmergic analog of contact inhibition in biological tissues.
+
+**The 30th mechanism is a gain-density interaction.** At n=2000, stable drops 3/4→1/4 as g rises 0.001→0.005. At n=1800, stable is 2/4 at all gains (less sensitive). Higher density amplifies the gain sensitivity — the 30th mechanism is not a density property alone but a gain-density interaction. This refines the 30th mechanism from Session 69's "gain-dependent" to Session 70's "gain-density interaction."
+
+**The 1-seed structural guarantee is stochastic (continued).** The full sequence: n=700→1/4, n=800→3/4, n=900→1/4, n=1000→4/4, n=1200→3/4, n=1500→1/4, n=1800→1/4, n=2000→2/4. The 12th member fluctuates non-monotonically.
+
+**Cross-domain connection: the fill cap as a universal property.** The 44th mechanism is confirmed at five density ranges (n=550–600, 700–800, 900–1000, 1200–1500, 1800–2000). The fill cap (~39–41%) is independent of n above ~1200 termites — the boundary constrains each structure to a maximum size regardless of how many agents build it. This is the stigmergic analog of contact inhibition in biological tissues: cells stop growing when they reach confluence. The boundary prevents the structure from percolating by capping its growth. At ~41% fill, the structures are at ~69% of the 2D percolation threshold (~59%) — the boundary keeps the system well below the percolation transition.

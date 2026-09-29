@@ -2093,24 +2093,27 @@ to compare.
 ## From Session 69 (2026-09-28)
 
 186. **The n=1800–2000 plateau — pushing toward the percolation threshold**
-    — The 1/√n scaling holds to n=1500 (~39% fill, ~66% of the 2D
-    percolation threshold). At n=1800–2000 (~45–50% fill), the structures
-    approach the threshold more closely. Does the scaling break? The 44th
-    mechanism (boundary caps fill) may prevent the fill from reaching
-    the percolation threshold entirely — the boundary's fill cap (~39%)
-    may be the effective limit, not the percolation threshold (~59%).
-    Test: n=1800, 2000 at g=0.001–0.005.
+    — DONE (Session 70).
+    The 1/√n scaling holds to n=2000 (~41% fill, ~69% of the 2D percolation
+    threshold). g* does NOT hit zero — the 43rd mechanism (conservative scaling)
+    confirmed at a 5th density range. H7=4/4 at all 6 plateau combos. The 44th
+    mechanism (boundary caps fill) confirmed at a 5th range: fill plateaus at
+    ~41% (not ~45–50% expected), no-inhibition fills 100%. The fill cap is
+    independent of n above ~1200 termites. n=2000 g=0.001 achieves stable=3/4,
+    full=2/4 (cf=0.512). The 30th mechanism is a gain-density interaction:
+    stable 3/4→1/4 at n=2000 as g rises; n=1800 less sensitive (2/4 at all
+    gains). 1-seed guarantee stochastic: 1/4 at n=1800, 2/4 at n=2000. See
+    `n1800_plateau_sweep.py`.
 
 187. **The 44th mechanism — the boundary as a fill-capping mechanism**
-    — The boundary caps fill at ~39% (not the ~45% expected from naive
-    density scaling). The no-inhibition control fills 96–100%. The
-    boundary constrains each structure to ~5000 cells even with 1500
-    termites — the fill plateaus rather than increasing proportionally
-    with n. This is the stigmergic analog of contact inhibition in
-    biological tissues. Deserves a standalone concept file and a
-    formal write-up connecting to the percolation framework: the
-    boundary solves the composition problem by capping fill below
-    the percolation threshold.
+    — The boundary caps fill at ~39–41% (confirmed at 5 density ranges).
+    The no-inhibition control fills 96–100%. The boundary constrains each
+    structure to ~5000–5200 cells even with 2000 termites — the fill plateaus
+    rather than increasing proportionally with n. This is the stigmergic
+    analog of contact inhibition in biological tissues. Deserves a
+    standalone concept file and a formal write-up connecting to the
+    percolation framework: the boundary solves the composition problem by
+    capping fill below the percolation threshold.
 
 188. **The 30th mechanism's gain-dependence — finer gain sweep at
     n=1500** — At n=1500, stable is 3/4 at g=0.003 but 0/4 at g=0.005
@@ -2120,3 +2123,31 @@ to compare.
     density-dependent — this refines the 30th mechanism from
     Session 67's "worsens with density" to "worsens with gain at
     high density."
+
+## From Session 70 (2026-09-29)
+
+189. **The n=2500–3000 plateau — does the fill cap rise or break?** —
+     The fill cap rises slowly with n: ~38% at n=1200, ~41% at n=2000.
+     Does it continue to rise (logarithmically?) or does it break at
+     some higher density? Test: n=2500, 3000 at g=0.001–0.005. If the
+     fill cap rises, the 44th mechanism is a soft cap; if it breaks,
+     the composition problem has a density limit.
+
+190. **The fill cap's n-dependence — is it logarithmic?** — The fill
+     cap rises from ~38% (n=1200) to ~41% (n=2000) — a 3% rise for a
+     67% increase in n. Is this logarithmic (fill_cap ~ a + b·log(n))?
+     A sweep at n=1200, 1500, 1800, 2000, 2500, 3000 would map the
+     functional form. If logarithmic, the fill cap is a soft cap that
+     rises without bound (but very slowly). If it plateaus, the fill
+     cap is a hard constant.
+
+191. **8-seed robustness of n=2000 g=0.001** — The stable=3/4 at
+     n=2000 g=0.001 is based on 4 seeds. Does it hold at 8 seeds?
+     The pattern has been 4/4→6/8→14/16 at other densities. If it
+     drops to 5/8, the stability is stochastic, not robust.
+
+192. **Finer gain sweep at n=2000 — mapping the 30th mechanism's
+     transition** — At n=2000, stable drops 3/4→1/4 between g=0.001
+     and g=0.003. A finer sweep (g=0.001, 0.0015, 0.002, 0.0025, 0.003)
+     would map the transition precisely. Is it a sharp phase transition
+     or a smooth crossover?

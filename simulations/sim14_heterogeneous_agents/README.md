@@ -180,3 +180,20 @@ Queued-topic #157 (continuation): does g* hit zero at n=1200–1500 (~38–39% g
 **g* does NOT hit zero.** The 43rd mechanism (conservative scaling) confirmed at a fourth density range: the 1/√n formula predicts deeply NEGATIVE g* but actual g* is positive. H7=4/4 at all 8 combos. n=1500 g=0.003 achieves 3/4 full (cf=0.600) — the best overall since n=800. **The 44th mechanism:** the boundary caps fill at ~39% (not 45% expected) — the no-inhibition control fills 96–100%. The 30th mechanism is non-monotonic: 3/4 stable at g=0.003 but 0/4 at g=0.005 — a sharp gain-dependent transition. The 1-seed guarantee is stochastic: 3/4 at n=1200, 1/4 at n=1500. See `n1200_plateau_sweep.py`.
 
 No-inhibition control: n=1200 g=0 → 0/4 coexist, cells=24669 (96% fill). n=1500 g=0 → 0/4 coexist, cells=25537 (100% fill). The boundary prevents percolation — it keeps the system in the droplet regime below the 2D percolation threshold (~59%).
+
+## N1800 Plateau (Session 70)
+
+Queued-topic #186 (continuation of #157): does g* hit zero at n=1800–2000 (~40–41% grid fill)? The 1/√n formula predicts deeply NEGATIVE g* (g*≈-0.59 to -0.61) — the 43rd mechanism says actual > predicted.
+
+| Label | n | density | g | l2(2s) | coexist | stable | h7(2s) | clean | full | cf | l2(1s) | h7(1s) | coex(1s) | cells | fill% |
+|-------|-----|---------|-------|--------|---------|--------|--------|-------|------|------|--------|--------|----------|-------|-------|
+| n1800_g001 | 1800 | 70.31 | 0.001 | 4/4 | 4/4 | 2/4 | 4/4 | 3/4 | 2/4 | 0.450 | 1/4 | 4/4 | 1/4 | 10393 | 40.6% |
+| n1800_g003 | 1800 | 70.31 | 0.003 | 4/4 | 4/4 | 2/4 | 4/4 | 3/4 | 2/4 | 0.512 | 1/4 | 4/4 | 1/4 | 10380 | 40.5% |
+| n1800_g005 | 1800 | 70.31 | 0.005 | 4/4 | 4/4 | 2/4 | 4/4 | 3/4 | 1/4 | 0.475 | 1/4 | 4/4 | 1/4 | 10310 | 40.3% |
+| n2000_g001 | 2000 | 78.12 | 0.001 | 4/4 | 4/4 | **3/4** | 4/4 | 3/4 | **2/4** | 0.512 | 2/4 | 4/4 | 1/4 | 10542 | 41.2% |
+| n2000_g003 | 2000 | 78.12 | 0.003 | 4/4 | 4/4 | 1/4 | 4/4 | 3/4 | 1/4 | 0.388 | 2/4 | 4/4 | 1/4 | 10516 | 41.1% |
+| n2000_g005 | 2000 | 78.12 | 0.005 | 4/4 | 4/4 | 1/4 | 4/4 | 3/4 | 1/4 | 0.438 | 2/4 | 4/4 | 1/4 | 10573 | 41.3% |
+
+**g* does NOT hit zero.** The 43rd mechanism (conservative scaling) confirmed at a fifth density range: the 1/√n formula predicts deeply NEGATIVE g* but actual g* is positive. H7=4/4 at all 6 plateau combos. **The 44th mechanism (boundary caps fill) confirmed at a 5th density range:** fill plateaus at ~41% (not ~45–50% expected) — the no-inhibition control fills 100%. The 30th mechanism is a gain-density interaction: at n=2000, stable drops 3/4→1/4 as g rises 0.001→0.005; at n=1800, stable is 2/4 at all gains (less sensitive). The 1-seed guarantee is stochastic: 1/4 at n=1800, 2/4 at n=2000. See `n1800_plateau_sweep.py`.
+
+No-inhibition control: n=1800 g=0 → 0/4 coexist, cells=25599 (100% fill). n=2000 g=0 → 0/4 coexist, cells=25600 (100% fill). The boundary prevents percolation — it caps fill at ~41% even with 2000 termites.

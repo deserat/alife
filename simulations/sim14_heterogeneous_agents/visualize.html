@@ -282,6 +282,10 @@ select:hover, button:hover { border-color: var(--accent); }
 <p class="desc">n=1200, 1500 at g=0.003–0.01 × 4 seeds × {2, 1} = 80 runs (160×160, dual, focal 0.3, jit=10). The 1/√n formula predicts deeply NEGATIVE g* (g*≈-0.51 to -0.56). Result: g* does NOT hit zero. H7=4/4 at all 8 combos. n=1500 g=0.003 achieves 3/4 full (cf=0.600) — the best since n=800. The 44th mechanism: the boundary caps fill at ~39% (not the 45% expected) — the no-inhibition control fills 96–100%. The 30th mechanism is non-monotonic: 3/4 stable at g=0.003 but 0/4 at g=0.005 — a sharp gain-dependent transition. The 1-seed guarantee is stochastic: 3/4 at n=1200, 1/4 at n=1500.</p>
 <div id="n1200-plateau-section"></div>
 
+<h2>N1800 Plateau — The 1/√n Scaling Holds at ~41% Fill; 44th Mechanism Confirmed at 5th Range (Session 70)</h2>
+<p class="desc">n=1800, 2000 at g=0.001–0.005 × 4 seeds × {2, 1} = 80 runs (160×160, dual, focal 0.3, jit=10). The 1/√n formula predicts deeply NEGATIVE g* (g*≈-0.59 to -0.61). Result: g* does NOT hit zero. H7=4/4 at all 6 plateau combos. The 44th mechanism (boundary caps fill) confirmed at a 5th density range — fill plateaus at ~40–41% (not ~45–50% expected). The no-inhibition control fills 100%. n=2000 g=0.001 achieves stable=3/4, full=2/4 (cf=0.512) — the best at this density. The 30th mechanism (stability-density trade-off) is gain-dependent: stable 3/4→1/4 as g rises 0.001→0.005. The 1-seed guarantee is stochastic: 1/4 at n=1800, 2/4 at n=2000.</p>
+<div id="n1800-plateau-section"></div>
+
 <script>
 let resultsData = null;
 let robustData = null;
@@ -339,6 +343,7 @@ async function loadData() {
     'n700PlateauSweep': 'output/n700_plateau_sweep.json',
     'n900PlateauSweep': 'output/n900_plateau_sweep.json',
     'n1200PlateauSweep': 'output/n1200_plateau_sweep.json',
+    'n1800PlateauSweep': 'output/n1800_plateau_sweep.json',
   };
   const sweepPromises = Object.entries(sweepFiles).map(([key, path]) =>
     fetch(path).then(r => r.json()).catch(() => null)
@@ -1741,6 +1746,50 @@ function populateSweepSections() {
 
     const elN1200 = document.getElementById('n1200-plateau-section');
     if (elN1200) elN1200.innerHTML = html;
+  }
+
+  // ─── N1800 plateau sweep (Session 70) ───────────────────────────
+  if (window.n1800PlateauSweepData) {
+    const d = window.n1800PlateauSweepData;
+    let html = '<h3 style="color:var(--accent);margin:16px 0 8px">N1800 Plateau: n=1800–2000</h3>';
+    html += '<table style="margin:12px 0;font-size:0.85em">';
+    html += '<tr><th>Label</th><th>n</th><th>Density</th><th>g</th><th>L2</th><th>Coexist</th><th>Stable</th><th>H7</th><th>Clean</th><th>Full</th><th>CF</th><th>Fill%</th><th>1s L2</th><th>1s H7</th><th>1s Coex</th><th>Cells</th></tr>';
+    const n1800Labels = [
+      'n1800_g001','n1800_g003','n1800_g005',
+      'n2000_g001','n2000_g003','n2000_g005',
+    ];
+    for (const label of n1800Labels) {
+      const r = d.plateau[label];
+      if (!r) continue;
+      const s = r.summary;
+      const fill = (s.mean_cells / (160*160) * 100).toFixed(1);
+      html += `<tr><td>${label}</td><td>${r.n_termites}</td><td>${r.density_per_kcell.toFixed(2)}</td><td>${r.g_form.toFixed(3)}</td>`;
+      html += `<td>${s.l2_2s}</td><td>${s.coexist}</td><td>${s.stable}</td><td>${s.h7_2s}</td>`;
+      html += `<td>${s.clean}</td><td>${s.full}</td><td>${s.mean_coexist_frac.toFixed(3)}</td>`;
+      html += `<td>${fill}%</td><td>${s.l2_1s}</td><td>${s.h7_1s}</td><td>${s.coexist_1s}</td><td>${s.mean_cells}</td></tr>`;
+    }
+    html += '</table>';
+    html += '<div class="insight" style="margin-top:8px"><strong>Key finding (#186):</strong> g* does NOT hit zero at n=1800–2000 (~40–41% grid fill). The 1/√n formula predicts deeply NEGATIVE g* (g*≈-0.59 to -0.61) but the 43rd mechanism (conservative scaling) holds — composition survives at every gain. H7=4/4 at all 6 plateau combos. <strong>The 44th mechanism confirmed at a 5th density range:</strong> the boundary caps fill at ~40–41% (not the ~45–50% expected) — the no-inhibition control fills 100%. The 30th mechanism is gain-dependent: stable 3/4 at g=0.001 but 1/4 at g=0.005. <strong>n=2000 g=0.001 achieves stable=3/4, full=2/4</strong> (cf=0.512) — the best at this density. The 1-seed guarantee is stochastic: 1/4 at n=1800, 2/4 at n=2000.</div>';
+
+    // No-inhibition control
+    html += '<h3 style="color:var(--accent);margin:16px 0 8px">No-Inhibition Control (g=0) at N1800+</h3>';
+    html += '<table style="margin:12px 0;font-size:0.85em">';
+    html += '<tr><th>Label</th><th>n</th><th>Density</th><th>L2</th><th>Coexist</th><th>Stable</th><th>H7</th><th>1s L2</th><th>1s H7</th><th>Cells</th><th>Fill%</th></tr>';
+    const noInhibN1800 = ['n1800_g000_no_inhib','n2000_g000_no_inhib'];
+    for (const label of noInhibN1800) {
+      const r = d.no_inhibition_control[label];
+      if (!r) continue;
+      const s = r.summary;
+      const fill = (s.mean_cells / (160*160) * 100).toFixed(1);
+      html += `<tr><td>${label}</td><td>${r.n_termites}</td><td>${r.density_per_kcell.toFixed(2)}</td>`;
+      html += `<td>${s.l2_2s}</td><td>${s.coexist}</td><td>${s.stable}</td><td>${s.h7_2s}</td>`;
+      html += `<td>${s.l2_1s}</td><td>${s.h7_1s}</td><td>${s.mean_cells}</td><td>${fill}%</td></tr>`;
+    }
+    html += '</table>';
+    html += '<div class="insight" style="margin-top:8px"><strong>No-inhibition finding:</strong> Without the boundary, both n=1800 and n=2000 fill 100% of the grid (0/4 coexist). The boundary prevents percolation — it caps fill at ~41% even with 2000 termites. The 44th mechanism (boundary as fill cap) is confirmed at a 5th density range. At ~41% fill, the structures are at ~69% of the 2D percolation threshold (~59%).</div>';
+
+    const elN1800 = document.getElementById('n1800-plateau-section');
+    if (elN1800) elN1800.innerHTML = html;
   }
 }
 
