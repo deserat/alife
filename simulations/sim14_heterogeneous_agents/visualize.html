@@ -286,6 +286,10 @@ select:hover, button:hover { border-color: var(--accent); }
 <p class="desc">n=1800, 2000 at g=0.001–0.005 × 4 seeds × {2, 1} = 80 runs (160×160, dual, focal 0.3, jit=10). The 1/√n formula predicts deeply NEGATIVE g* (g*≈-0.59 to -0.61). Result: g* does NOT hit zero. H7=4/4 at all 6 plateau combos. The 44th mechanism (boundary caps fill) confirmed at a 5th density range — fill plateaus at ~40–41% (not ~45–50% expected). The no-inhibition control fills 100%. n=2000 g=0.001 achieves stable=3/4, full=2/4 (cf=0.512) — the best at this density. The 30th mechanism (stability-density trade-off) is gain-dependent: stable 3/4→1/4 as g rises 0.001→0.005. The 1-seed guarantee is stochastic: 1/4 at n=1800, 2/4 at n=2000.</p>
 <div id="n1800-plateau-section"></div>
 
+<h2>N2500 Plateau — The Fill Cap Rises Logarithmically; 44th Mechanism Confirmed at 6th Range (Session 71)</h2>
+<p class="desc">n=2500, 3000 at g=0.001–0.005 × 4 seeds × {2, 1} = 80 runs (160×160, dual, focal 0.3, jit=10). The 1/√n formula predicts deeply NEGATIVE g* (g*≈-0.64 to -0.65). Result: g* does NOT hit zero. H7=4/4 at all 6 plateau combos. The 44th mechanism confirmed at a 6th density range — fill rises to ~42–44% (logarithmic: fill% ≈ 13.1·log₁₀(n) − 2.14, R²=0.991). The no-inhibition control fills 100%. The 30th mechanism worsens: stable drops to 0/4 at n=3000 (was 3/4 at n=2000 g=0.001). The 1-seed structural guarantee is fully lost: l2(1s)=4/4, coex(1s)=1/4 — the single structure fills both halves. At ~44% fill, the structures are at ~74% of the 2D percolation threshold (~59%).</p>
+<div id="n2500-plateau-section"></div>
+
 <script>
 let resultsData = null;
 let robustData = null;
@@ -344,6 +348,7 @@ async function loadData() {
     'n900PlateauSweep': 'output/n900_plateau_sweep.json',
     'n1200PlateauSweep': 'output/n1200_plateau_sweep.json',
     'n1800PlateauSweep': 'output/n1800_plateau_sweep.json',
+    'n2500PlateauSweep': 'output/n2500_plateau_sweep.json',
   };
   const sweepPromises = Object.entries(sweepFiles).map(([key, path]) =>
     fetch(path).then(r => r.json()).catch(() => null)
@@ -1790,6 +1795,64 @@ function populateSweepSections() {
 
     const elN1800 = document.getElementById('n1800-plateau-section');
     if (elN1800) elN1800.innerHTML = html;
+  }
+
+  // ─── N2500 plateau sweep (Session 71) ───────────────────────────
+  if (window.n2500PlateauSweepData) {
+    const d = window.n2500PlateauSweepData;
+    let html = '<h3 style="color:var(--accent);margin:16px 0 8px">N2500 Plateau: n=2500–3000</h3>';
+    html += '<table style="margin:12px 0;font-size:0.85em">';
+    html += '<tr><th>Label</th><th>n</th><th>Density</th><th>g</th><th>L2</th><th>Coexist</th><th>Stable</th><th>H7</th><th>Clean</th><th>Full</th><th>CF</th><th>Fill%</th><th>1s L2</th><th>1s H7</th><th>1s Coex</th><th>Cells</th></tr>';
+    const n2500Labels = [
+      'n2500_g001','n2500_g003','n2500_g005',
+      'n3000_g001','n3000_g003','n3000_g005',
+    ];
+    for (const label of n2500Labels) {
+      const r = d.plateau[label];
+      if (!r) continue;
+      const s = r.summary;
+      const fill = (s.mean_cells / (160*160) * 100).toFixed(1);
+      const g = r.g_form.toFixed(3);
+      html += `<tr><td>${label}</td><td>${r.n_termites}</td><td>${r.density_per_kcell.toFixed(2)}</td><td>${g}</td>`;
+      html += `<td>${s.l2_2s}</td><td>${s.coexist}</td><td>${s.stable}</td><td>${s.h7_2s}</td>`;
+      html += `<td>${s.clean}</td><td>${s.full}</td><td>${s.mean_coexist_frac.toFixed(2)}</td><td>${fill}%</td>`;
+      html += `<td>${s.l2_1s}</td><td>${s.h7_1s}</td><td>${s.coexist_1s}</td><td>${s.mean_cells}</td></tr>`;
+    }
+    html += '</table>';
+
+    // No-inhibition control
+    html += '<h3 style="color:var(--accent);margin:16px 0 8px">No-Inhibition Control (g=0) at N2500+</h3>';
+    html += '<table style="margin:12px 0;font-size:0.85em">';
+    html += '<tr><th>Label</th><th>n</th><th>Density</th><th>L2</th><th>Coexist</th><th>Stable</th><th>H7</th><th>1s L2</th><th>1s H7</th><th>Cells</th><th>Fill%</th></tr>';
+    const noInhibN2500 = ['n2500_g000_no_inhib','n3000_g000_no_inhib'];
+    for (const label of noInhibN2500) {
+      const r = d.no_inhibition_control[label];
+      if (!r) continue;
+      const s = r.summary;
+      const fill = (s.mean_cells / (160*160) * 100).toFixed(1);
+      html += `<tr><td>${label}</td><td>${r.n_termites}</td><td>${r.density_per_kcell.toFixed(2)}</td>`;
+      html += `<td>${s.l2_2s}</td><td>${s.coexist}</td><td>${s.stable}</td><td>${s.h7_2s}</td>`;
+      html += `<td>${s.l2_1s}</td><td>${s.h7_1s}</td><td>${s.mean_cells}</td><td>${fill}%</td></tr>`;
+    }
+    html += '</table>';
+    html += '<div class="insight" style="margin-top:8px"><strong>No-inhibition finding:</strong> Without the boundary, both n=2500 and n=3000 fill 100% of the grid (0/4 coexist). The boundary prevents percolation — it caps fill at ~42–44% even with 3000 termites. The 44th mechanism confirmed at a 6th density range. The fill cap rises logarithmically: fill% ≈ 13.1·log₁₀(n) − 2.14 (R²=0.991). At ~44% fill, the structures are at ~74% of the 2D percolation threshold (~59%).</div>';
+
+    // Fill cap trajectory table
+    html += '<h3 style="color:var(--accent);margin:16px 0 8px">Fill Cap Trajectory (logarithmic)</h3>';
+    html += '<table style="margin:12px 0;font-size:0.85em">';
+    html += '<tr><th>n</th><th>Fill%</th><th>% of percolation threshold</th></tr>';
+    const fillTraj = [
+      [1200, 38.3], [1500, 39.4], [1800, 40.4], [2000, 41.2],
+      [2500, 42.1], [3000, 43.6],
+    ];
+    for (const [n, fill] of fillTraj) {
+      html += `<tr><td>${n}</td><td>${fill.toFixed(1)}%</td><td>${(fill/59*100).toFixed(0)}%</td></tr>`;
+    }
+    html += '</table>';
+    html += '<div class="insight" style="margin-top:8px"><strong>Logarithmic fill cap:</strong> The fill cap rises logarithmically with n: fill% ≈ 13.1·log₁₀(n) − 2.14 (R²=0.991). At n=5000 the model predicts ~46% fill; at n=10000, ~50%. The boundary is a soft cap, not a hard constant. The LSW "droplet dissolves" prediction is not realized even at 74% of the percolation threshold.</div>';
+
+    const elN2500 = document.getElementById('n2500-plateau-section');
+    if (elN2500) elN2500.innerHTML = html;
   }
 }
 

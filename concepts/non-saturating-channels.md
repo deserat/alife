@@ -1216,3 +1216,18 @@ The n=1800–2000 plateau sweep (6 plateau combos × 4 seeds × {2, 1} = 48 runs
 **The 1-seed structural guarantee is stochastic (continued).** The full sequence: n=700→1/4, n=800→3/4, n=900→1/4, n=1000→4/4, n=1200→3/4, n=1500→1/4, n=1800→1/4, n=2000→2/4. The 12th member fluctuates non-monotonically.
 
 **Cross-domain connection: the fill cap as a universal property.** The 44th mechanism is confirmed at five density ranges (n=550–600, 700–800, 900–1000, 1200–1500, 1800–2000). The fill cap (~39–41%) is independent of n above ~1200 termites — the boundary constrains each structure to a maximum size regardless of how many agents build it. This is the stigmergic analog of contact inhibition in biological tissues: cells stop growing when they reach confluence. The boundary prevents the structure from percolating by capping its growth. At ~41% fill, the structures are at ~69% of the 2D percolation threshold (~59%) — the boundary keeps the system well below the percolation transition.
+
+
+## Session 71 — The N2500 Plateau: Fill Cap Rises Logarithmically; 44th Mechanism Confirmed at 6th Range
+
+The n=2500–3000 plateau sweep (6 plateau combos × 4 seeds × {2, 1} = 48 runs + 2 no-inhibition controls × 4 seeds × {2, 1} = 16 runs = 80 total) extended the density range to ~42–44% grid fill. The 1/√n formula predicts **deeply NEGATIVE** g* (g*≈-0.64 to -0.65) — the formula says g* should have been zero since n=700.
+
+**g* does NOT hit zero.** Composition is alive at every gain tested (0.001–0.005). H7=4/4 at all 6 plateau combos. The 43rd mechanism (conservative scaling) is confirmed at a **sixth** density range. n=2500 g=0.001 achieves coexist=4/4, stable=2/4, h7=4/4, clean=3/4, full=1/4 (cf=0.400) — the best at this density.
+
+**The 44th mechanism (boundary caps fill) confirmed at a 6th range — and the fill cap is LOGARITHMIC.** At n=2500, fill rises to ~42.1% (10773 cells); at n=3000, ~43.6% (11169 cells). The fill cap trajectory: n=1200→38.3%, n=1500→39.4%, n=1800→40.4%, n=2000→41.2%, n=2500→42.1%, n=3000→43.6%. The logarithmic fit is excellent: **fill% ≈ 13.1·log₁₀(n) − 2.14 (R²=0.991)**. The 44th mechanism is a **soft cap that rises logarithmically**, not a hard constant. The LSW "droplet dissolves" prediction is not realized even at ~74% of the 2D percolation threshold. The no-inhibition control fills 100% (25600 cells).
+
+**The 30th mechanism worsens.** At n=3000, stable is 0/4 at ALL gains — the persistence condition collapses entirely. At n=2500, stable is 2/4 at g=0.001 (down from n=2000's 3/4), 0/4 at g=0.003–0.005. The gain-density interaction amplifies until the persistence condition fails.
+
+**The 1-seed structural guarantee is fully lost.** l2(1s)=4/4 at both n=2500 and n=3000 — the single structure crosses the midline in all seeds. The bigger single structure (~5800–6100 cells per half) overwhelms the midline even with focal bias. The 12th member has reached its limit.
+
+**Cross-domain connection: the logarithmic fill cap.** The fill cap rising as 13.1·log₁₀(n) − 2.14 is the stigmergic analog of contact inhibition with a log-density dependence. In biological tissues, contact inhibition density scales logarithmically with cell count in some regimes (e.g., Gompertz growth). The boundary's fill-capping function follows the same functional form: the structure grows sublinearly with agent count because the boundary's suppression scales with the structure's surface area (which scales as √n for a 2D compact structure), while the structure's volume scales as n. The ratio volume/surface ∝ √n matches the 1/√n scaling of g*, and the log fill cap is the integral of this geometric constraint.

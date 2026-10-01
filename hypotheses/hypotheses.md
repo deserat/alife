@@ -70,7 +70,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **For an emergent structure to persist as a new actor at a higher scale, it must be autopoietic — it must maintain the network that constitutes it.** Self-maintenance is the persistence condition. Without it, emergent structures are transient patterns, not new actors.
 
-**Status:** Refined (Session 70). The persistence condition is a gain-density interaction: at n=2000, stable 3/4 at g=0.001 but 1/4 at g=0.003–0.005; at n=1800, stable 2/4 at all gains (less sensitive). The 30th mechanism (stability-density trade-off) is a gain-density interaction — higher density amplifies gain sensitivity. n=2000 g=0.001 achieves 3/4 stable.
+**Status:** Refined (Session 71). The persistence condition collapses at n=3000 (~44% fill): stable 0/4 at ALL gains. At n=2500, stable 2/4 at g=0.001 (down from n=2000's 3/4). The 30th mechanism (gain-density interaction) worsens — higher density amplifies gain sensitivity until the persistence condition fails entirely.
 
 **Log:** [logs/H5/](logs/H5/)
 
@@ -80,7 +80,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **Complexification occurs when autopoietic systems interact stigmergically — through environmental modifications that persist and constrain.** The interaction network itself (mediated by stigmergic traces) becomes a candidate for higher-level autopoiesis.
 
-**Status:** Refined (Session 70). The 12th member (structure-to-grid ratio) is stochastic, not monotonic: 1-seed guarantee 1/4 at n=1800, 2/4 at n=2000. The full sequence (n=700→1/4, 800→3/4, 900→1/4, 1000→4/4, 1200→3/4, 1500→1/4, 1800→1/4, 2000→2/4) fluctuates non-monotonically. The boundary remains necessary at every density tested — without it, the system fills 100%.
+**Status:** Refined (Session 71). The 12th member (structure-to-grid ratio) is fully lost at n=2500–3000 (~42–44% fill): 1-seed guarantee leaks 4/4 — the single structure crosses the midline in all seeds. The full sequence (n=700→1/4, 800→3/4, 900→1/4, 1000→4/4, 1200→3/4, 1500→1/4, 1800→1/4, 2000→2/4, 2500→4/4, 3000→4/4) shows the guarantee degrades at the highest densities. The boundary remains necessary — without it, the system fills 100%.
 
 **Log:** [logs/H6/](logs/H6/)
 
@@ -92,7 +92,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **Current mechanism claim:** the crossing needs a non-saturating channel that *recruits* deposition as well as *limiting* it, not mere negative feedback through the cue field (see H11). The curvature channel (Facchini et al. 2020) is the strongest candidate: growth at convex tips recruits, biharmonic smoothing limits, and there is no saturating pheromone field in the model at all.
 
-**Status:** Refined ×60. The n=1800–2000 plateau sweep (80 runs) found g* does NOT hit zero at ~40–41% grid fill — the 43rd mechanism (conservative scaling) confirmed at a fifth density range. The 1/√n formula predicts deeply NEGATIVE g* (g*≈-0.59 to -0.61) but actual g* is positive. H7=4/4 at all 6 plateau combos. n=2000 g=0.001 achieves stable=3/4, full=2/4 (cf=0.512). The 44th mechanism (boundary caps fill) confirmed at a 5th density range: fill plateaus at ~41% (not ~45–50% expected) — the no-inhibition control fills 100%. The 30th mechanism is gain-dependent: stable 3/4→1/4 as g rises 0.001→0.005 at n=2000. The 1-seed structural guarantee is stochastic: 1/4 at n=1800, 2/4 at n=2000. The 1/√n scaling holds from n=170 to n=2000 (~3% to ~41% fill). At ~41% fill, the structures are at ~69% of the 2D percolation threshold (~59%). H7=32/32 at all configs (32-seed). The crossing = boundary maintenance, not volume regrowth. Barman et al. (2026) confirms.
+**Status:** Refined ×61. The n=2500–3000 plateau sweep (80 runs) found g* does NOT hit zero at ~42–44% grid fill — the 43rd mechanism (conservative scaling) confirmed at a sixth density range. The 1/√n formula predicts deeply NEGATIVE g* (g*≈-0.64 to -0.65) but actual g* is positive. H7=4/4 at all 6 plateau combos. The 44th mechanism (boundary caps fill) confirmed at a 6th range — the fill cap rises LOGARITHMICALLY: fill% ≈ 13.1·log₁₀(n) − 2.14 (R²=0.991). The no-inhibition control fills 100%. The 30th mechanism worsens: stable collapses to 0/4 at n=3000 (all gains). The 1-seed structural guarantee is fully lost: l2(1s)=4/4, coex(1s)=1/4. The 1/√n scaling holds from n=170 to n=3000 (~3% to ~44% fill). At ~44% fill, the structures are at ~74% of the 2D percolation threshold (~59%). H7=32/32 at all configs (32-seed). The crossing = boundary maintenance, not volume regrowth. Barman et al. (2026) confirms.
 
 **Evidence:**
 - sim06: near miss — stability 0.849–0.893 vs a 0.90 threshold; self-maintenance fragments instead of consolidating (H11's first data point). Detector-bug corrected 2026-07-27. Session 22: the saturating cue (as-built) crosses 16/16 stable without SM; the non-saturating cue crosses 0/16 stable without SM — cue-family reversal.
@@ -160,7 +160,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **Three paths, same failure:** Echo (CAS theory), chemical organizations (origin-of-life chemistry), and AlChemy (computational theory) all fail at multi-scale composition, from three different starting points — evidence the composition problem is fundamental, though sim05's leg of this argument is weaker post-correction.
 
-**Status:** Refined (Session 70). 44 mechanisms. g* does NOT hit zero at n=1800–2000 (~40–41% fill) — the 43rd mechanism confirmed at a fifth density range. The 44th mechanism: the boundary caps fill at ~41% (not ~45–50% expected) — confirmed at a 5th density range. The 30th mechanism is a gain-density interaction (stable 3/4→1/4 at n=2000 as g rises). The 1-seed guarantee is stochastic (1/4 at n=1800, 2/4 at n=2000). H7=4/4 at all 6 plateau combos. At ~41% fill, the structures are at ~69% of the 2D percolation threshold (~59%).
+**Status:** Refined (Session 71). 44 mechanisms. g* does NOT hit zero at n=2500–3000 (~42–44% fill) — the 43rd mechanism confirmed at a sixth density range. The 44th mechanism: the fill cap rises LOGARITHMICALLY (fill% ≈ 13.1·log₁₀(n) − 2.14, R²=0.991) — confirmed at a 6th density range. The 30th mechanism worsens: stable 0/4 at n=3000 (all gains). The 1-seed structural guarantee is fully lost (4/4 at n=2500–3000). H7=4/4 at all 6 plateau combos. At ~44% fill, the structures are at ~74% of the 2D percolation threshold (~59%).
 
 **Test:** Build a simulation with explicit composition mechanisms (stigmergic bridges between organizations, autopoietic boundaries, selection for composability) and compare to AlChemy without these mechanisms. Measure: does the version with composition mechanisms produce L2 where the plain version fails?
 

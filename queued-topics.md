@@ -2127,19 +2127,67 @@ to compare.
 ## From Session 70 (2026-09-29)
 
 189. **The n=2500–3000 plateau — does the fill cap rise or break?** —
-     The fill cap rises slowly with n: ~38% at n=1200, ~41% at n=2000.
-     Does it continue to rise (logarithmically?) or does it break at
-     some higher density? Test: n=2500, 3000 at g=0.001–0.005. If the
-     fill cap rises, the 44th mechanism is a soft cap; if it breaks,
-     the composition problem has a density limit.
+     DONE (Session 71).
+     The fill cap rises LOGARITHMICALLY: fill% ≈ 13.1·log₁₀(n) − 2.14
+     (R²=0.991). The 44th mechanism is a soft cap, not a hard constant.
+     g* does NOT hit zero at n=2500–3000 (~42–44% fill). H7=4/4 at all
+     6 plateau combos. The 43rd mechanism confirmed at a 6th density
+     range. The 30th mechanism worsens: stable collapses to 0/4 at
+     n=3000 (all gains). The 1-seed structural guarantee is fully lost
+     (4/4 l2, 1/4 coex). The no-inhibition control fills 100%. At
+     ~44% fill, the structures are at ~74% of the 2D percolation
+     threshold (~59%). See `n2500_plateau_sweep.py`. NEXT: n=4000–5000
+     to test whether the log fill cap holds at ~46–50% fill.
 
-190. **The fill cap's n-dependence — is it logarithmic?** — The fill
-     cap rises from ~38% (n=1200) to ~41% (n=2000) — a 3% rise for a
-     67% increase in n. Is this logarithmic (fill_cap ~ a + b·log(n))?
-     A sweep at n=1200, 1500, 1800, 2000, 2500, 3000 would map the
-     functional form. If logarithmic, the fill cap is a soft cap that
-     rises without bound (but very slowly). If it plateaus, the fill
-     cap is a hard constant.
+190. **The fill cap's n-dependence — is it logarithmic?** — DONE
+     (Session 71). Yes — the logarithmic fit fill% ≈ 13.1·log₁₀(n) −
+     2.14 has R²=0.991 across 6 data points (n=1200, 1500, 1800, 2000,
+     2500, 3000). The fill cap is a soft cap that rises logarithmically,
+     not a hard constant. The log dependence connects to the
+     surface-to-volume constraint: the boundary's suppression scales
+     with the structure's surface area (∝ √n), while the volume scales
+     as n. The Gompertz growth analogy: the fill cap is the spatial
+     analog of contact-inhibited tissue growth.
+
+## From Session 71 (2026-10-01)
+
+193. **The n=4000–5000 plateau — does the log fill cap hold?** —
+     The logarithmic fit predicts ~46% fill at n=5000 and ~50% at
+     n=10000. Does the fill cap continue to rise logarithmically, or
+     does it break as we approach ~50% fill? At ~50% fill, the
+     structures are at ~85% of the 2D percolation threshold (~59%).
+     Does composition survive at ~50% fill? Does the 30th mechanism
+     (persistence condition) recover or stay collapsed? Test: n=4000,
+     5000 at g=0.001–0.005.
+
+194. **The 30th mechanism's recovery — is there a density where
+     stable composition recovers?** — At n=3000, stable is 0/4 at
+     all gains. The 30th mechanism (gain-density interaction) collapses
+     the persistence condition. But does it recover at higher density
+     (where the structures are even larger but the boundary is stronger)?
+     Or does the collapse persist? Test: n=4000–5000 at very low gains
+     (g=0.0005–0.001).
+
+195. **The 44th mechanism as a formal concept — the logarithmic fill
+     cap as a design principle** — The fill cap rising as
+     13.1·log₁₀(n) − 2.14 (R²=0.991) is the stigmergic analog of
+     Gompertz growth. The boundary acts as a self-limiting growth law:
+     the more the structure grows, the more surface area the boundary
+     has to suppress further growth, producing the logarithmic
+     deceleration. This deserves a standalone concept file connecting
+     to the percolation framework and to Gompertz dynamics in
+     biological tissues.
+
+196. **The surface-to-volume constraint — is the log fill cap
+     derived from geometry?** — The fill cap's log dependence may be
+     derived from the surface-to-volume ratio of the 2D compact
+     structure: the boundary's suppression scales with the surface
+     area (∝ √n), the volume scales as n, and the fill cap is the
+     integral of the volume/surface ratio. This would make the 44th
+     mechanism a geometric consequence of the boundary's spatial
+     structure, not a dynamical property. Test: compare the fill cap
+     at different grid sizes (80×80, 320×320) to see if the log
+     dependence is on n or on n/grid².
 
 191. **8-seed robustness of n=2000 g=0.001** — The stable=3/4 at
      n=2000 g=0.001 is based on 4 seeds. Does it hold at 8 seeds?
