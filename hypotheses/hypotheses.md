@@ -2,8 +2,8 @@
 title: "Hypotheses"
 topic: "testable hypotheses for the multi-scale ALife composition project"
 status: active
-date: "2026-09-29"
-session: 70
+date: "2026-10-02"
+session: 72
 count: 11
 active: [H1, H2, H3, H4, H5, H6, H7, H8, H9, H10, H11]
 logs: ["logs/H1/", "logs/H2/", "logs/H3/", "logs/H4/", "logs/H5/", "logs/H6/", "logs/H7/", "logs/H8/", "logs/H9/", "logs/H10/", "logs/H11/"]
@@ -70,7 +70,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **For an emergent structure to persist as a new actor at a higher scale, it must be autopoietic — it must maintain the network that constitutes it.** Self-maintenance is the persistence condition. Without it, emergent structures are transient patterns, not new actors.
 
-**Status:** Refined (Session 71). The persistence condition collapses at n=3000 (~44% fill): stable 0/4 at ALL gains. At n=2500, stable 2/4 at g=0.001 (down from n=2000's 3/4). The 30th mechanism (gain-density interaction) worsens — higher density amplifies gain sensitivity until the persistence condition fails entirely.
+**Status:** Refined (Session 72). The persistence condition is collapsed at n=4000–5000 (~46–48% fill): stable 0/4 at ALL 6 combos (g=0.0005–0.003). The 30th mechanism (stability-density trade-off) does NOT recover at very low gain (0.0005) — the persistence condition has failed entirely at this density range. The structures (~11500–12400 cells, ~46–48% fill) have too much surface area for the boundary to maintain without over-splitting, regardless of gain.
 
 **Log:** [logs/H5/](logs/H5/)
 
@@ -80,7 +80,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **Complexification occurs when autopoietic systems interact stigmergically — through environmental modifications that persist and constrain.** The interaction network itself (mediated by stigmergic traces) becomes a candidate for higher-level autopoiesis.
 
-**Status:** Refined (Session 71). The 12th member (structure-to-grid ratio) is fully lost at n=2500–3000 (~42–44% fill): 1-seed guarantee leaks 4/4 — the single structure crosses the midline in all seeds. The full sequence (n=700→1/4, 800→3/4, 900→1/4, 1000→4/4, 1200→3/4, 1500→1/4, 1800→1/4, 2000→2/4, 2500→4/4, 3000→4/4) shows the guarantee degrades at the highest densities. The boundary remains necessary — without it, the system fills 100%.
+**Status:** Refined (Session 72). The 12th member (structure-to-grid ratio) is fully lost at n=4000–5000 (~46–48% fill): 1-seed guarantee 4/4 at all 6 combos — the single structure crosses the midline in all seeds. coex(1s) drops to 0/4 at n=5000 (from 2/4 at n=4000). The full sequence (n=700→1/4, 800→3/4, 900→1/4, 1000→4/4, 1200→3/4, 1500→1/4, 1800→1/4, 2000→2/4, 2500→4/4, 3000→4/4, 4000→4/4, 5000→4/4) shows the guarantee has been at its limit since n=2500. The boundary remains necessary — without it, the system fills 100%.
 
 **Log:** [logs/H6/](logs/H6/)
 
@@ -92,7 +92,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **Current mechanism claim:** the crossing needs a non-saturating channel that *recruits* deposition as well as *limiting* it, not mere negative feedback through the cue field (see H11). The curvature channel (Facchini et al. 2020) is the strongest candidate: growth at convex tips recruits, biharmonic smoothing limits, and there is no saturating pheromone field in the model at all.
 
-**Status:** Refined ×61. The n=2500–3000 plateau sweep (80 runs) found g* does NOT hit zero at ~42–44% grid fill — the 43rd mechanism (conservative scaling) confirmed at a sixth density range. The 1/√n formula predicts deeply NEGATIVE g* (g*≈-0.64 to -0.65) but actual g* is positive. H7=4/4 at all 6 plateau combos. The 44th mechanism (boundary caps fill) confirmed at a 6th range — the fill cap rises LOGARITHMICALLY: fill% ≈ 13.1·log₁₀(n) − 2.14 (R²=0.991). The no-inhibition control fills 100%. The 30th mechanism worsens: stable collapses to 0/4 at n=3000 (all gains). The 1-seed structural guarantee is fully lost: l2(1s)=4/4, coex(1s)=1/4. The 1/√n scaling holds from n=170 to n=3000 (~3% to ~44% fill). At ~44% fill, the structures are at ~74% of the 2D percolation threshold (~59%). H7=32/32 at all configs (32-seed). The crossing = boundary maintenance, not volume regrowth. Barman et al. (2026) confirms.
+**Status:** Refined ×62. The n=4000–5000 plateau sweep (80 runs) found g* does NOT hit zero at ~46–48% grid fill — the 43rd mechanism (conservative scaling) confirmed at a seventh density range. H7=4/4 at all 6 plateau combos. The 44th mechanism BREAKS the logarithmic fit: the fill cap is accelerating (n=4000→45.8%, n=5000→48.0%) — the 6-point log fit (R²=0.991) underestimates by +0.7% and +1.7% respectively. The 8-point refit (R²=0.984) confirms the acceleration. The 30th mechanism persists: stable 0/4 at ALL 6 combos (does NOT recover at g=0.0005). Composition collapses at n=5000 (coexist 0/4 all gains). The 1-seed structural guarantee is fully lost (l2(1s)=4/4 all combos, coex(1s)=0/4 at n=5000). At ~48% fill, ~81% of the 2D percolation threshold (~59%). The no-inhibition control fills 100%. Determinism verified.
 
 **Evidence:**
 - sim06: near miss — stability 0.849–0.893 vs a 0.90 threshold; self-maintenance fragments instead of consolidating (H11's first data point). Detector-bug corrected 2026-07-27. Session 22: the saturating cue (as-built) crosses 16/16 stable without SM; the non-saturating cue crosses 0/16 stable without SM — cue-family reversal.
@@ -160,7 +160,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **Three paths, same failure:** Echo (CAS theory), chemical organizations (origin-of-life chemistry), and AlChemy (computational theory) all fail at multi-scale composition, from three different starting points — evidence the composition problem is fundamental, though sim05's leg of this argument is weaker post-correction.
 
-**Status:** Refined (Session 71). 44 mechanisms. g* does NOT hit zero at n=2500–3000 (~42–44% fill) — the 43rd mechanism confirmed at a sixth density range. The 44th mechanism: the fill cap rises LOGARITHMICALLY (fill% ≈ 13.1·log₁₀(n) − 2.14, R²=0.991) — confirmed at a 6th density range. The 30th mechanism worsens: stable 0/4 at n=3000 (all gains). The 1-seed structural guarantee is fully lost (4/4 at n=2500–3000). H7=4/4 at all 6 plateau combos. At ~44% fill, the structures are at ~74% of the 2D percolation threshold (~59%).
+**Status:** Refined (Session 72). 45 mechanisms. g* does NOT hit zero at n=4000–5000 (~46–48% fill) — the 43rd mechanism confirmed at a seventh density range. The 44th mechanism BREAKS the log fit: the fill cap is accelerating (n=4000→45.8%, n=5000→48.0%), not logarithmic — the 6-point log fit (R²=0.991) underestimates by +0.7% and +1.7%. The 30th mechanism persists: stable 0/4 at all 6 combos (does NOT recover at g=0.0005). Composition collapses at n=5000 (coexist 0/4 all gains). The 1-seed structural guarantee is fully lost (4/4 at all combos). H7=4/4 at all 6 plateau combos. At ~48% fill, ~81% of the 2D percolation threshold (~59%).
 
 **Test:** Build a simulation with explicit composition mechanisms (stigmergic bridges between organizations, autopoietic boundaries, selection for composability) and compare to AlChemy without these mechanisms. Measure: does the version with composition mechanisms produce L2 where the plain version fails?
 
@@ -216,8 +216,8 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 | H2: ANT Translation | Unchanged | Theoretical, untested | [H2](logs/H2/) |
 | H3: Quasi-Object | Strengthened | Stigmergy literature support; Echo partial support | [H3](logs/H3/) |
 | H4: Dynamic Environment | Refined | Fitness landscape criticism supports this | [H4](logs/H4/) |
-|| H5: Autopoiesis | Refined (S70) | n=2000: stable 3/4 at g=0.001 but 1/4 at g=0.003–0.005 — gain-density interaction; 30th mechanism is gain-density, not just density | [H5](logs/H5/) |
-| H6: Multi-Scale Autopoiesis | Refined (S70) | 12th member stochastic: 1-seed guarantee 1/4 (n=1800), 2/4 (n=2000); full sequence fluctuates non-monotonically; boundary necessary at every density | [H6](logs/H6/) |
+| H5: Autopoiesis | Refined (S72) | n=4000-5000: stable 0/4 at ALL 6 combos (g=0.0005-0.003) — 30th mechanism does NOT recover at very low gain; persistence condition collapsed | [H5](logs/H5/) |
+| H6: Multi-Scale Autopoiesis | Refined (S72) | 12th member fully lost at n=4000-5000: 1-seed guarantee 4/4 at all 6 combos; coex(1s)=0/4 at n=5000; boundary necessary at every density | [H6](logs/H6/) |
 | H7: Trace→Actor Crossing | Refined ×60; n=1800–2000 plateau: g* ≠ 0 at ~41% fill (43rd: conservative scaling confirmed at 5th range — formula predicts deeply NEGATIVE g*≈-0.59 to -0.61, actual positive); H7=4/4 all 6 combos; n=2000 g=0.001 = stable=3/4, full=2/4 (cf=0.512); 44th: boundary caps fill (~41% not 45–50%) confirmed at 5th range; 30th: gain-dependent (3/4→1/4 as g rises); 1-seed guarantee stochastic (1/4→2/4); 1/√n holds n=170–2000 (~3%–41% fill); at ~69% of 2D percolation threshold; H7=32/32 (32-seed); crossing = boundary maintenance; Barman et al. (2026) confirms | Session 70 n1800 plateau; Session 69 n1200 plateau; Session 68 n900 plateau; Session 67 n700 plateau; Session 66 n550 plateau; Session 65 bilateral density; Session 64 32-seed; Session 63 16-seed; Session 62 shuffle; Session 61 reverse-iteration; Session 60 8-seed; Session 59 asymmetric bilateral; Session 58 bilateral; Session 57 saturating-cue; Session 56 timing+size; Session 55 perturbation; Session 54 ultra-high-density; Session 53 high-density; Session 52 plateau 260–300; Session 51 plateau 240–250; Session 50 classifier; Session 49 robustness+asymmetric; Session 48 plateau; Session 47 n=200; Session 46 gain-scaling; Session 45 density-gain; Session 44 per-criteria; Session 43 threshold; Session 42 finer density; Session 34 movement; Session 33 dual; Session 22: 2×2 complete | [H7](logs/H7/) |
 | H8: Complexity Enables OEE | NEW | Kaznatcheev (2019), Wiser et al. (2013) | [H8](logs/H8/) |
 | H9: Evolving Network | Untested (2026-07-27 correction) | Vasas et al. (2012) literature support; sim04's finite-space exhaustion survives but doesn't test the claim; sim03/sim05 withdrawn | [H9](logs/H9/) |

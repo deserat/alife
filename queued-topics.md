@@ -2152,21 +2152,29 @@ to compare.
 ## From Session 71 (2026-10-01)
 
 193. **The n=4000–5000 plateau — does the log fill cap hold?** —
-     The logarithmic fit predicts ~46% fill at n=5000 and ~50% at
-     n=10000. Does the fill cap continue to rise logarithmically, or
-     does it break as we approach ~50% fill? At ~50% fill, the
-     structures are at ~85% of the 2D percolation threshold (~59%).
-     Does composition survive at ~50% fill? Does the 30th mechanism
-     (persistence condition) recover or stay collapsed? Test: n=4000,
-     5000 at g=0.001–0.005.
+     DONE (Session 72).
+     The 1/√n scaling holds — g* does NOT hit zero at n=4000–5000
+     (~46–48% fill). H7=4/4 at all 6 plateau combos. The 43rd mechanism
+     confirmed at a 7th density range. **The 44th mechanism BREAKS the
+     logarithmic fit — the fill cap is accelerating.** Fill rises to
+     ~45.8% (n=4000) and ~48.0% (n=5000) — the 6-point log fit
+     (R²=0.991) underestimates by +0.7% and +1.7%. The 8-point refit
+     (R²=0.984) has lower R². The 30th mechanism persists: stable 0/4
+     at ALL 6 combos (does NOT recover at g=0.0005). Composition
+     collapses at n=5000 (coexist 0/4 all gains). The 1-seed guarantee
+     is fully lost (4/4 all combos, coex(1s)=0/4 at n=5000). At ~48%
+     fill, ~81% of the 2D percolation threshold (~59%). See
+     `n4000_plateau_sweep.py`. NEXT: n=6000–8000 to test whether the
+     fill cap continues to accelerate.
 
 194. **The 30th mechanism's recovery — is there a density where
-     stable composition recovers?** — At n=3000, stable is 0/4 at
-     all gains. The 30th mechanism (gain-density interaction) collapses
-     the persistence condition. But does it recover at higher density
-     (where the structures are even larger but the boundary is stronger)?
-     Or does the collapse persist? Test: n=4000–5000 at very low gains
-     (g=0.0005–0.001).
+     stable composition recovers?** — DONE (Session 72).
+     At n=4000–5000, testing g=0.0005 (half the previous minimum),
+     stable is 0/4 at ALL 6 combos. The persistence condition does NOT
+     recover at very low gain — the 30th mechanism is not fixable by
+     lowering gain alone. The structures (~11500–12400 cells) have too
+     much surface area for the boundary to maintain without over-
+     splitting, regardless of gain.
 
 195. **The 44th mechanism as a formal concept — the logarithmic fill
      cap as a design principle** — The fill cap rising as
@@ -2199,3 +2207,50 @@ to compare.
      and g=0.003. A finer sweep (g=0.001, 0.0015, 0.002, 0.0025, 0.003)
      would map the transition precisely. Is it a sharp phase transition
      or a smooth crossover?
+
+## From Session 72 (2026-10-02)
+
+197. **The n=6000–8000 plateau — does the fill cap continue to
+     accelerate?** — The 8-point log fit predicts ~50.5% at n=8000.
+     Does the fill cap continue to accelerate, or does it plateau?
+     At n=5000 the fill is ~48% (~81% of the percolation threshold).
+     At n=8000 the 8-point fit predicts ~50.5% (~85% of the
+     threshold). Does composition survive at ~50% fill? Does the 30th
+     mechanism persist? Test: n=6000, 8000 at g=0.0005–0.003.
+
+198. **The percolation threshold approach — at what n does the fill
+     cap reach ~59%?** — The 8-point log fit predicts ~56.6% at
+     n=20000 — approaching the 2D percolation threshold (~59%). Does
+     the fill cap eventually reach ~59% and the droplet percolate?
+     Or does the boundary's capping power hold indefinitely? The
+     surface-to-volume constraint (fill ∝ √n) predicts the fill cap
+     should eventually reach the percolation threshold — the boundary's
+     capping power is finite. Test: n=10000, 15000, 20000 at very low
+     gains. This is the ultimate test of the 44th mechanism: is the
+     fill cap a finite-density cap or an infinite one?
+
+199. **The super-logarithmic fill cap — what is the 44th mechanism's
+     functional form?** — The 6-point log fit (R²=0.991) breaks at
+     n=4000; the 8-point refit (R²=0.984) is less accurate. The fill
+     cap is accelerating — not logarithmic. What is the true
+     functional form? Candidates: (a) power law in log space
+     (fill% ∝ log^α(n) with α > 1), (b) stretched exponential
+     (fill% ∝ exp(n^β)), (c) a power law (fill% ∝ n^γ). Fit the 8
+     data points to each and compare R². The surface-to-volume
+     constraint (fill ∝ √n for volume ∝ n, surface ∝ √n) predicts a
+     power law, not a log. Cheap: re-fit the existing data.
+
+200. **The composition collapse at n=5000 — is it the percolation
+     threshold or the boundary's over-splitting?** — At n=5000,
+     coexist is 0/4 at all gains. Is this because the structures
+     percolate (fill > 59%) or because the boundary over-splits
+     (late_mean_lc 5–7, late_mean_rc 5–7)? The fill is ~48% (below
+     the 59% threshold) — the structures do NOT percolate. The
+     collapse is from over-splitting, not percolation. But does
+     composition recover at a density between n=4000 (3/4 coexist)
+     and n=5000 (0/4)? Test: n=4500 at g=0.003.
+
+201. **8-seed robustness of n=4000 g=0.003** — The 3/4 coexist at
+     n=4000 g=0.003 is based on 4 seeds. Does it hold at 8 seeds?
+     The pattern has been 4/4→6/8→14/16 at other densities. If it
+     drops to 4/8, the coexist is stochastic, not robust.

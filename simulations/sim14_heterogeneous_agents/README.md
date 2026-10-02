@@ -214,3 +214,20 @@ Queued-topic #189, #190 (continuation of #157): does g* hit zero at n=2500–300
 **g* does NOT hit zero.** The 43rd mechanism confirmed at a sixth density range. H7=4/4 at all 6 plateau combos. **The 44th mechanism: the fill cap rises LOGARITHMICALLY** — fill% ≈ 13.1·log₁₀(n) − 2.14 (R²=0.991). The fill cap trajectory: n=1200→38.3%, n=1500→39.4%, n=1800→40.4%, n=2000→41.2%, n=2500→42.1%, n=3000→43.6%. The 44th mechanism is a **soft cap**, not a hard constant. The 30th mechanism worsens: stable collapses to 0/4 at n=3000 (all gains). The 1-seed structural guarantee is fully lost: l2(1s)=4/4. See `n2500_plateau_sweep.py`.
 
 No-inhibition control: n=2500 g=0 → 0/4 coexist, cells=25600 (100% fill). n=3000 g=0 → 0/4 coexist, cells=25600 (100% fill). The boundary prevents percolation — it caps fill at ~42–44% even with 3000 termites. At ~44% fill, the structures are at ~74% of the 2D percolation threshold (~59%).
+
+## N4000 Plateau (Session 72)
+
+Queued-topics #193, #194 (continuation of #157): does g* hit zero at n=4000–5000 (~46–48% grid fill)? The 1/√n formula predicts deeply NEGATIVE g* (g*≈-0.71 to -0.74) — the 43rd mechanism says actual > predicted. The 6-point log fill cap (13.1·log₁₀(n) − 2.14, R²=0.991) predicts ~45.1% at n=4000 and ~46.3% at n=5000.
+
+| Label | n | density | g | l2(2s) | coexist | stable | h7(2s) | clean | full | cf | l2(1s) | h7(1s) | coex(1s) | cells | fill% |
+|-------|-----|---------|-------|--------|---------|--------|--------|-------|------|------|--------|--------|----------|-------|-------|
+| n4000_g0005 | 4000 | 156.25 | 0.0005 | 4/4 | 0/4 | 0/4 | 4/4 | 0/4 | 0/4 | 0.062 | 4/4 | 4/4 | 2/4 | 11735 | 45.8% |
+| n4000_g001 | 4000 | 156.25 | 0.001 | 4/4 | 0/4 | 0/4 | 4/4 | 0/4 | 0/4 | 0.025 | 4/4 | 4/4 | 2/4 | 11808 | 46.1% |
+| n4000_g003 | 4000 | 156.25 | 0.003 | 4/4 | 3/4 | 0/4 | 4/4 | 1/4 | 0/4 | 0.087 | 4/4 | 4/4 | 2/4 | 11529 | 45.0% |
+| n5000_g0005 | 5000 | 195.31 | 0.0005 | 4/4 | 0/4 | 0/4 | 4/4 | 0/4 | 0/4 | 0.013 | 4/4 | 4/4 | 0/4 | 12348 | 48.2% |
+| n5000_g001 | 5000 | 195.31 | 0.001 | 4/4 | 0/4 | 0/4 | 4/4 | 0/4 | 0/4 | 0.087 | 4/4 | 4/4 | 0/4 | 12228 | 47.8% |
+| n5000_g003 | 5000 | 195.31 | 0.003 | 4/4 | 0/4 | 0/4 | 4/4 | 0/4 | 0/4 | 0.138 | 4/4 | 4/4 | 0/4 | 12282 | 48.0% |
+
+**g* does NOT hit zero.** The 43rd mechanism confirmed at a seventh density range. H7=4/4 at all 6 plateau combos. **The 44th mechanism BREAKS the logarithmic fit — the fill cap is accelerating.** Fill rises to ~45.8% (n=4000) and ~48.0% (n=5000) — the 6-point log fit underestimates by +0.7% and +1.7%. The 8-point refit (15.39·log₁₀(n) − 9.58) has R²=0.984 (lower than the 6-point R²=0.991). **The 30th mechanism persists: stable 0/4 at ALL 6 combos** (does NOT recover at g=0.0005). **Composition collapses at n=5000** (coexist 0/4 all gains). The 1-seed guarantee is fully lost (4/4 all combos, coex(1s)=0/4 at n=5000). At ~48% fill, ~81% of the 2D percolation threshold (~59%). See `n4000_plateau_sweep.py`.
+
+No-inhibition control: n=4000 g=0 → 0/4 coexist, cells=25600 (100% fill). n=5000 g=0 → 0/4 coexist, cells=25600 (100% fill). The boundary prevents percolation — it caps fill at ~46–48% even with 5000 termites.

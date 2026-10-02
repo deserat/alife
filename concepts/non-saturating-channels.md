@@ -1231,3 +1231,19 @@ The n=2500–3000 plateau sweep (6 plateau combos × 4 seeds × {2, 1} = 48 runs
 **The 1-seed structural guarantee is fully lost.** l2(1s)=4/4 at both n=2500 and n=3000 — the single structure crosses the midline in all seeds. The bigger single structure (~5800–6100 cells per half) overwhelms the midline even with focal bias. The 12th member has reached its limit.
 
 **Cross-domain connection: the logarithmic fill cap.** The fill cap rising as 13.1·log₁₀(n) − 2.14 is the stigmergic analog of contact inhibition with a log-density dependence. In biological tissues, contact inhibition density scales logarithmically with cell count in some regimes (e.g., Gompertz growth). The boundary's fill-capping function follows the same functional form: the structure grows sublinearly with agent count because the boundary's suppression scales with the structure's surface area (which scales as √n for a 2D compact structure), while the structure's volume scales as n. The ratio volume/surface ∝ √n matches the 1/√n scaling of g*, and the log fill cap is the integral of this geometric constraint.
+
+## Session 72 — The N4000 Plateau: Fill Cap Breaks the Logarithmic Fit; Fill Cap is Accelerating
+
+The n=4000–5000 plateau sweep (6 plateau combos × 4 seeds × {2, 1} = 48 runs + 2 no-inhibition controls × 4 seeds × {2, 1} = 16 runs = 80 total) extended the density range to ~46–48% grid fill — the closest approach to the 2D percolation threshold (~59%) tested. The 1/√n formula predicts **deeply NEGATIVE** g* (g*≈-0.71 to -0.74).
+
+**g* does NOT hit zero.** Composition is alive at every gain tested (0.0005–0.003). H7=4/4 at all 6 plateau combos. The 43rd mechanism (conservative scaling) is confirmed at a **seventh** density range.
+
+**The 44th mechanism BREAKS the logarithmic fit — the fill cap is accelerating.** At n=4000, fill rises to ~45.8% (11735 cells); at n=5000, ~48.0% (12348 cells). The previous 6-point log fit (13.1·log₁₀(n) − 2.14, R²=0.991) predicted ~45.1% at n=4000 and ~46.3% at n=5000 — underestimating by +0.7% and +1.7%. The new 8-point fit (15.39·log₁₀(n) − 9.58, R²=0.984) has lower R² — the fill cap is rising faster than logarithmic at n≥4000. The 44th mechanism is not a simple log; it is accelerating.
+
+**The 30th mechanism persists: stable 0/4 at ALL 6 combos.** The persistence condition has collapsed and does NOT recover at very low gain (0.0005). The structures (~11500–12400 cells, ~46–48% fill) have too much surface area for the boundary to maintain without over-splitting, regardless of gain.
+
+**Composition collapses at n=5000.** Coexist is 0/4 at all 3 gains — the boundary over-splits the ~12400-cell structures into fragments (late_mean_lc 5.1–6.8, late_mean_rc 5.3–7.4). At n=4000, coexist recovers slightly (3/4 at g=0.003).
+
+**The 1-seed structural guarantee is fully lost (continued).** l2(1s)=4/4 at all 6 combos. coex(1s) drops to 0/4 at n=5000 (from 2/4 at n=4000). The 12th member has been at its limit since n=2500.
+
+**Cross-domain connection: the fill cap is accelerating toward the percolation threshold.** The 8-point log fit predicts ~52% at n=10000 and ~56.6% at n=20000 — approaching but not yet reaching the 2D percolation threshold (~59%). The acceleration suggests the fill cap may break down at some n where it reaches ~59% and the droplet percolates — the 44th mechanism would then be a density-dependent cap that holds only below the percolation threshold. The Gompertz analogy requires revision: the fill cap is not purely logarithmic but accelerates, suggesting a super-logarithmic growth law. The surface-to-volume constraint (fill ∝ √n) predicts the fill cap should eventually reach the percolation threshold — the boundary's capping power is finite, and at some density the structure's volume overwhelms its surface-area-mediated suppression.
