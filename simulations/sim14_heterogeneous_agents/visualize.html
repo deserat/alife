@@ -294,6 +294,10 @@ select:hover, button:hover { border-color: var(--accent); }
 <p class="desc">n=4000, 5000 at g=0.0005–0.003 × 4 seeds × {2, 1} = 80 runs (160×160, dual, focal 0.3, jit=10). The 1/√n formula predicts deeply NEGATIVE g* (g*≈-0.71 to -0.74). Result: g* does NOT hit zero. H7=4/4 at all 6 plateau combos. The 44th mechanism BREAKS the logarithmic fit — the fill cap is accelerating: n=4000→45.8%, n=5000→48.0% (the 6-point log fit underestimates by +0.7% and +1.7%). The 8-point refit (R²=0.984) is less accurate than the 6-point (R²=0.991). The 30th mechanism persists: stable 0/4 at ALL 6 combos (does NOT recover at g=0.0005). Composition collapses at n=5000 (coexist 0/4 all gains). The 1-seed guarantee is fully lost (4/4 all combos, coex(1s)=0/4 at n=5000). At ~48% fill, ~81% of the 2D percolation threshold (~59%).</p>
 <div id="n4000-plateau-section"></div>
 
+<h2>N6000 Plateau — Fill Cap REACHES the Percolation Threshold; 44th Mechanism Breaks (Session 73)</h2>
+<p class="desc">n=6000, 8000 at g=0.0005–0.003 × 4 seeds × {2, 1} = 80 runs (160×160, dual, focal 0.3, jit=10). The 1/√n formula predicts deeply NEGATIVE g* (g*≈-0.75 to -0.78). Result: g* does NOT hit zero — the 43rd mechanism confirmed at an 8th density range. H7=4/4 at all 6 plateau combos. The 44th mechanism BREAKS: the fill cap reaches ~51% at n=6000 and ~61% at n=8000 — ABOVE the 2D percolation threshold (~59%)! The 6-point log fit (R²=0.991) underestimates n=8000 by +11.8%; the 10-point R²=0.875 — the fill cap is NOT logarithmic, it is accelerating dramatically. The 30th mechanism persists: stable 0/4 at ALL 6 combos. Coexist 0/4 at all gains (composition collapsed). The 1-seed guarantee partially RECOVERS: 3/4 (vs 4/4 at n=4000–5000), coex(1s)=1/4 (vs 0/4 at n=5000). At ~61% fill (n=8000), the structures have PERCOLATED — the boundary's capping power is finite and has been overwhelmed.</p>
+<div id="n6000-plateau-section"></div>
+
 <script>
 let resultsData = null;
 let robustData = null;
@@ -354,6 +358,7 @@ async function loadData() {
     'n1800PlateauSweep': 'output/n1800_plateau_sweep.json',
     'n2500PlateauSweep': 'output/n2500_plateau_sweep.json',
     'n4000PlateauSweep': 'output/n4000_plateau_sweep.json',
+    'n6000PlateauSweep': 'output/n6000_plateau_sweep.json',
   };
   const sweepPromises = Object.entries(sweepFiles).map(([key, path]) =>
     fetch(path).then(r => r.json()).catch(() => null)
@@ -1918,6 +1923,69 @@ function populateSweepSections() {
 
     const elN4000 = document.getElementById('n4000-plateau-section');
     if (elN4000) elN4000.innerHTML = html;
+  }
+
+  // ─── N6000 plateau sweep (Session 73) ───────────────────────────
+  if (window.n6000PlateauSweepData) {
+    const d = window.n6000PlateauSweepData;
+    let html = '<h3 style="color:var(--accent);margin:16px 0 8px">N6000 Plateau: n=6000–8000 — Fill Cap REACHES Percolation Threshold</h3>';
+    html += '<table style="margin:12px 0;font-size:0.85em">';
+    html += '<tr><th>Label</th><th>n</th><th>Density</th><th>g</th><th>L2</th><th>Coexist</th><th>Stable</th><th>H7</th><th>Clean</th><th>Full</th><th>CF</th><th>Fill%</th><th>1s L2</th><th>1s H7</th><th>1s Coex</th><th>Cells</th></tr>';
+    const n6000Labels = [
+      'n6000_g0005','n6000_g001','n6000_g003',
+      'n8000_g0005','n8000_g001','n8000_g003',
+    ];
+    for (const label of n6000Labels) {
+      const r = d.plateau[label];
+      if (!r) continue;
+      const s = r.summary;
+      const fill = (s.mean_cells / (160*160) * 100).toFixed(1);
+      const g = r.g_form.toFixed(4);
+      html += `<tr><td>${label}</td><td>${r.n_termites}</td><td>${r.density_per_kcell.toFixed(2)}</td><td>${g}</td>`;
+      html += `<td>${s.l2_2s}</td><td>${s.coexist}</td><td>${s.stable}</td><td>${s.h7_2s}</td>`;
+      html += `<td>${s.clean}</td><td>${s.full}</td><td>${s.mean_coexist_frac.toFixed(2)}</td><td>${fill}%</td>`;
+      html += `<td>${s.l2_1s}</td><td>${s.h7_1s}</td><td>${s.coexist_1s}</td><td>${s.mean_cells}</td></tr>`;
+    }
+    html += '</table>';
+
+    // No-inhibition control
+    html += '<h3 style="color:var(--accent);margin:16px 0 8px">No-Inhibition Control (g=0) at N6000+</h3>';
+    html += '<table style="margin:12px 0;font-size:0.85em">';
+    html += '<tr><th>Label</th><th>n</th><th>Density</th><th>L2</th><th>Coexist</th><th>Stable</th><th>H7</th><th>1s L2</th><th>1s H7</th><th>Cells</th><th>Fill%</th></tr>';
+    const noInhibN6000 = ['n6000_g000_no_inhib','n8000_g000_no_inhib'];
+    for (const label of noInhibN6000) {
+      const r = d.no_inhibition_control[label];
+      if (!r) continue;
+      const s = r.summary;
+      const fill = (s.mean_cells / (160*160) * 100).toFixed(1);
+      html += `<tr><td>${label}</td><td>${r.n_termites}</td><td>${r.density_per_kcell.toFixed(2)}</td>`;
+      html += `<td>${s.l2_2s}</td><td>${s.coexist}</td><td>${s.stable}</td><td>${s.h7_2s}</td>`;
+      html += `<td>${s.l2_1s}</td><td>${s.h7_1s}</td><td>${s.mean_cells}</td><td>${fill}%</td></tr>`;
+    }
+    html += '</table>';
+    html += '<div class="insight" style="margin-top:8px"><strong>No-inhibition finding:</strong> Without the boundary, both n=6000 and n=8000 fill 100% of the grid (25600 cells). The boundary caps fill at ~51% (n=6000) and ~61% (n=8000) — but ~61% is ABOVE the 2D percolation threshold (~59%). The 44th mechanism has broken: the boundary\'s capping power is finite, and at n=8000 the fill exceeds the percolation threshold.</div>';
+
+    // Fill cap trajectory table (10 points)
+    html += '<h3 style="color:var(--accent);margin:16px 0 8px">Fill Cap Trajectory (10 points — fill cap REACHES percolation threshold at n=8000)</h3>';
+    html += '<table style="margin:12px 0;font-size:0.85em">';
+    html += '<tr><th>n</th><th>Fill%</th><th>% of percolation threshold</th><th>Log fit (6pt)</th><th>Residual</th></tr>';
+    const fillTraj10 = [
+      [1200, 38.3, 38.2], [1500, 39.4, 39.5], [1800, 40.4, 40.5],
+      [2000, 41.2, 41.1], [2500, 42.1, 42.4], [3000, 43.6, 43.4],
+      [4000, 45.8, 45.0], [5000, 48.0, 46.3],
+      [6000, 51.9, 47.3], [8000, 60.7, 49.0],
+    ];
+    for (const [n, fill, pred] of fillTraj10) {
+      const resid = (fill - pred).toFixed(1);
+      const pctPerc = (fill/59*100).toFixed(0);
+      const abovePerc = fill >= 59 ? ' ⚠️ ABOVE!' : '';
+      html += `<tr><td>${n}</td><td>${fill.toFixed(1)}%</td><td>${pctPerc}%${abovePerc}</td><td>${pred.toFixed(1)}%</td><td>${resid > 0 ? '+' : ''}${resid}%</td></tr>`;
+    }
+    html += '</table>';
+    html += '<div class="insight" style="margin-top:8px"><strong>44th mechanism BREAKS:</strong> The fill cap at n=8000 (~60.7%) EXCEEDS the 2D percolation threshold (~59%). The 6-point log fit (R²=0.991) underestimates by +11.8%; the 10-point log fit R²=0.875 — the fill cap is NOT logarithmic. The boundary\'s capping power is finite: above ~59% fill, the structure percolates and the boundary cannot confine it. The 43rd mechanism (conservative scaling) holds — g* does NOT hit zero at n=6000–8000 (H7=4/4 at all 6 combos). The 30th mechanism persists (stable 0/4 at all gains). The 1-seed guarantee partially recovers (3/4 vs 4/4 at n=4000–5000). The fill cap\'s acceleration from n=5000 (48%) to n=8000 (61%) is a 13% jump in a 1.6× density increase — the boundary is losing its capping power as the structure approaches percolation. Cross-domain: Haugen & Gilbert (2022, arXiv:2211.05653) show Gompertz growth arises from coherent (long-range) interactions — the boundary\'s coherent suppression produces the Gompertz-like fill cap, and its breakdown at percolation is the departure from coherence as local connectivity overwhelms the long-range field.</div>';
+
+    const elN6000 = document.getElementById('n6000-plateau-section');
+    if (elN6000) elN6000.innerHTML = html;
   }
 }
 

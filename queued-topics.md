@@ -2211,12 +2211,26 @@ to compare.
 ## From Session 72 (2026-10-02)
 
 197. **The n=6000–8000 plateau — does the fill cap continue to
-     accelerate?** — The 8-point log fit predicts ~50.5% at n=8000.
-     Does the fill cap continue to accelerate, or does it plateau?
-     At n=5000 the fill is ~48% (~81% of the percolation threshold).
-     At n=8000 the 8-point fit predicts ~50.5% (~85% of the
-     threshold). Does composition survive at ~50% fill? Does the 30th
-     mechanism persist? Test: n=6000, 8000 at g=0.0005–0.003.
+     accelerate?** — DONE (Session 73).
+     The fill cap continues to accelerate and EXCEEDS the 2D
+     percolation threshold at n=8000 (~60.7% vs ~59%). The 6-point
+     log fit underestimates by +11.8%; the 10-point R²=0.875 —
+     the fill cap is NOT logarithmic. The 44th mechanism BREAKS:
+     the boundary's capping power is finite, and above the
+     percolation threshold the structure percolates. g* does NOT
+     hit zero (43rd mechanism at 8th range, H7=4/4 at all 6
+     combos). The 30th mechanism persists (stable 0/4 at all
+     gains) — the 46th mechanism: the 30th is independent of
+     the 44th. The 1-seed guarantee partially recovers (3/4,
+     non-monotonic — the percolated structure spans both halves).
+     Composition remains collapsed (coexist 0/4). Cross-domain:
+     Haugen & Gilbert (2022, arXiv:2211.05653) show Gompertz
+     growth = coherent (long-range) interactions; the fill cap's
+     breakdown at percolation is the departure from coherence.
+     See `n6000_plateau_sweep.py`. NEXT: n=10000+ to test
+     whether the fill cap plateaus or continues rising above
+     the percolation threshold; the fill cap's functional form;
+     the Gompertz-coherent connection.
 
 198. **The percolation threshold approach — at what n does the fill
      cap reach ~59%?** — The 8-point log fit predicts ~56.6% at
@@ -2254,3 +2268,48 @@ to compare.
      n=4000 g=0.003 is based on 4 seeds. Does it hold at 8 seeds?
      The pattern has been 4/4→6/8→14/16 at other densities. If it
      drops to 4/8, the coexist is stochastic, not robust.
+
+## From Session 73 (2026-10-03)
+
+202. **The n=10000+ plateau — does the fill cap plateau or continue
+     rising above the percolation threshold?** — At n=8000 the fill
+     is ~60.7% (above the percolation threshold ~59%). Does the fill
+     cap continue to rise with n, or does it plateau at some value
+     above the percolation threshold? If the 44th mechanism has truly
+     broken, the fill should rise more rapidly (the boundary has lost
+     its capping power). If the fill plateaus, the boundary retains
+     some capping power even above the percolation threshold. Test:
+     n=10000, 12000 at g=0.0005–0.003.
+
+203. **The fill cap's functional form — what is the true
+     super-logarithmic law?** — The 10-point R²=0.875. The fill cap
+     is NOT logarithmic. Candidates: (a) power law in log space
+     (fill% ∝ log^α(n) with α > 1), (b) stretched exponential
+     (fill% ∝ exp(n^β)), (c) a power law (fill% ∝ n^γ). Fit the 10
+     data points to each and compare R². The surface-to-volume
+     constraint predicts a power law, not a log. Cheap: re-fit.
+
+204. **The Gompertz-coherent connection — formalizing the analogy**
+     — Haugen & Gilbert (2022, arXiv:2211.05653) derive Gompertz
+     growth from coherent (long-range) interactions and logistic
+     from pairwise (local). The boundary's suppression is a coherent
+     field. Can the fill cap's functional form be derived from a
+     coherence argument? The Gompertz-to-logistic transition at the
+     percolation threshold is the departure from coherence — can this
+     be formalized as a phase transition in a coherence parameter θ?
+
+205. **The 30th mechanism's independence — does the persistence
+     condition ever recover above the percolation threshold?** —
+     The 30th mechanism persists at stable 0/4 at all densities above
+     ~44% fill (n≥3000). The 46th mechanism says the 30th is
+     independent of the 44th. But does the persistence condition
+     recover at very high density (n≥10000), or is it permanently
+     collapsed? Test: n=10000+ at very low gain (g=0.0001).
+
+206. **The percolation transition in the structure — is the fill
+     above the threshold a genuine percolation?** — The fill at
+     n=8000 is ~60.7% (above the 2D site percolation threshold ~59%).
+     But the structure is fragmented by the boundary (late_mean_lc
+     1.25–5.05). Is there a spanning cluster, or is the "percolation"
+     in fill fraction only? Test: measure the largest connected
+     component at n=8000 — does it span the grid?

@@ -231,3 +231,20 @@ Queued-topics #193, #194 (continuation of #157): does g* hit zero at n=4000–50
 **g* does NOT hit zero.** The 43rd mechanism confirmed at a seventh density range. H7=4/4 at all 6 plateau combos. **The 44th mechanism BREAKS the logarithmic fit — the fill cap is accelerating.** Fill rises to ~45.8% (n=4000) and ~48.0% (n=5000) — the 6-point log fit underestimates by +0.7% and +1.7%. The 8-point refit (15.39·log₁₀(n) − 9.58) has R²=0.984 (lower than the 6-point R²=0.991). **The 30th mechanism persists: stable 0/4 at ALL 6 combos** (does NOT recover at g=0.0005). **Composition collapses at n=5000** (coexist 0/4 all gains). The 1-seed guarantee is fully lost (4/4 all combos, coex(1s)=0/4 at n=5000). At ~48% fill, ~81% of the 2D percolation threshold (~59%). See `n4000_plateau_sweep.py`.
 
 No-inhibition control: n=4000 g=0 → 0/4 coexist, cells=25600 (100% fill). n=5000 g=0 → 0/4 coexist, cells=25600 (100% fill). The boundary prevents percolation — it caps fill at ~46–48% even with 5000 termites.
+
+## N6000 Plateau (Session 73)
+
+Queued-topics #197, #199, #200 (continuation of #193): does g* hit zero at n=6000–8000 (~51–61% grid fill)? The 1/√n formula predicts deeply NEGATIVE g* (g*≈-0.75 to -0.78). The 8-point log fill cap predicts ~49.7% at n=6000 and ~50.5% at n=8000.
+
+| Label | n | density | g | l2(2s) | coexist | stable | h7(2s) | clean | full | cf | l2(1s) | h7(1s) | coex(1s) | cells | fill% |
+|-------|-----|---------|-------|--------|---------|--------|--------|-------|------|------|--------|--------|----------|-------|-------|
+| n6000_g0005 | 6000 | 234.38 | 0.0005 | 4/4 | 0/4 | 0/4 | 4/4 | 0/4 | 0/4 | 0.10 | 3/4 | 4/4 | 1/4 | 13274 | 51.9% |
+| n6000_g001 | 6000 | 234.38 | 0.001 | 4/4 | 0/4 | 0/4 | 4/4 | 0/4 | 0/4 | 0.12 | 3/4 | 4/4 | 1/4 | 13155 | 51.4% |
+| n6000_g003 | 6000 | 234.38 | 0.003 | 4/4 | 0/4 | 0/4 | 4/4 | 0/4 | 0/4 | 0.10 | 3/4 | 4/4 | 1/4 | 13064 | 51.0% |
+| n8000_g0005 | 8000 | 312.50 | 0.0005 | 4/4 | 0/4 | 0/4 | 4/4 | 0/4 | 0/4 | 0.04 | 3/4 | 4/4 | 1/4 | 15542 | 60.7% |
+| n8000_g001 | 8000 | 312.50 | 0.001 | 4/4 | 0/4 | 0/4 | 4/4 | 0/4 | 0/4 | 0.06 | 3/4 | 4/4 | 1/4 | 15526 | 60.6% |
+| n8000_g003 | 8000 | 312.50 | 0.003 | 4/4 | 0/4 | 0/4 | 4/4 | 0/4 | 0/4 | 0.10 | 3/4 | 4/4 | 1/4 | 15642 | 61.1% |
+
+**g* does NOT hit zero.** The 43rd mechanism confirmed at an eighth density range. H7=4/4 at all 6 plateau combos. **The 44th mechanism BREAKS — the fill cap EXCEEDS the percolation threshold.** Fill rises to ~51.9% (n=6000) and ~60.7% (n=8000) — ABOVE the 2D percolation threshold (~59%). The 6-point log fit underestimates by +4.5% (n=6000) and +11.8% (n=8000); the 10-point R²=0.875. **The 30th mechanism persists: stable 0/4 at ALL 6 combos.** The 46th mechanism: the 30th is independent of the 44th. The 1-seed guarantee partially recovers (3/4, vs 4/4 at n=4000–5000). Composition remains collapsed (coexist 0/4). See `n6000_plateau_sweep.py`.
+
+No-inhibition control: n=6000 g=0 → 0/4 coexist, cells=25600 (100% fill). n=8000 g=0 → 0/4 coexist, cells=25600 (100% fill). The boundary remains necessary at every density.
