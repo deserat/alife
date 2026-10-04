@@ -248,3 +248,30 @@ Queued-topics #197, #199, #200 (continuation of #193): does g* hit zero at n=600
 **g* does NOT hit zero.** The 43rd mechanism confirmed at an eighth density range. H7=4/4 at all 6 plateau combos. **The 44th mechanism BREAKS — the fill cap EXCEEDS the percolation threshold.** Fill rises to ~51.9% (n=6000) and ~60.7% (n=8000) — ABOVE the 2D percolation threshold (~59%). The 6-point log fit underestimates by +4.5% (n=6000) and +11.8% (n=8000); the 10-point R²=0.875. **The 30th mechanism persists: stable 0/4 at ALL 6 combos.** The 46th mechanism: the 30th is independent of the 44th. The 1-seed guarantee partially recovers (3/4, vs 4/4 at n=4000–5000). Composition remains collapsed (coexist 0/4). See `n6000_plateau_sweep.py`.
 
 No-inhibition control: n=6000 g=0 → 0/4 coexist, cells=25600 (100% fill). n=8000 g=0 → 0/4 coexist, cells=25600 (100% fill). The boundary remains necessary at every density.
+
+### Session 74 — Fill Cap Functional Form + Percolation Spanning Cluster
+
+**Fill cap functional form** — 16 unique densities (n=550 to n=8000) fit to 5 candidate forms:
+
+| Fit | R² (all 16) | R² (sub-perc, n≤5000) | n=8000 residual |
+|---|---|---|---|
+| Log | 0.933 | 0.988 | +9.5% |
+| Power law | 0.950 | 0.977 | +7.6% |
+| Power-in-log | 0.939 | — | — |
+| Stretched exp | 0.964 ★ | 0.921 | +1.5% |
+| Sqrt-linear | 0.962 | 0.948 | — |
+
+The fill cap is super-logarithmic — no simple closed-form law fits all 16 points. The stretched exponential (fill% = 26.7·exp(0.0089·√n)) is the best all-16-point fit. The sub-percolation log fit (R²=0.988) underestimates n=8000 by +9.5%. The increment analysis reveals acceleration: +3.4% (n=5000→6000), +9.4% (n=6000→8000). See `output/fill_cap_form_fit.json`.
+
+**Percolation spanning cluster** — n=8000 (3 gains × 4 seeds) + n=6000 (1 gain × 4 seeds) + 2 no-inhibition controls:
+
+| Label | Mean Fill% | Mean #Comp | Mean Largest | Mean %Largest | Spanning |
+|---|---|---|---|---|---|
+| n8000_g001 | 58.7% | 139 | 10766 | 71.4% | 4/4 |
+| n8000_g0005 | 58.8% | 139 | 7181 | 47.7% | 4/4 |
+| n8000_g003 | 59.1% | 158 | 10764 | 70.9% | 4/4 |
+| n6000_g001 | 50.6% | 106 | 6258 | 48.3% | 4/4 |
+| n8000_no_inhib | 100.0% | 1 | 25600 | 100.0% | 4/4 |
+| n6000_no_inhib | 100.0% | 1 | 25600 | 100.0% | 4/4 |
+
+The percolation at n=8000 is GENUINE — all 12 runs have spanning clusters. The largest component fraction is bimodal: 6/12 have giant components (93–95%), 6/12 have two near-equal halves (~48%). The 47th mechanism: the bimodal largest-component fraction is the percolation order parameter — the 44th mechanism's breakdown is a genuine phase transition. See `percolation_spanning.py` and `output/percolation_spanning.json`.

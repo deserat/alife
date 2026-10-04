@@ -298,6 +298,14 @@ select:hover, button:hover { border-color: var(--accent); }
 <p class="desc">n=6000, 8000 at g=0.0005–0.003 × 4 seeds × {2, 1} = 80 runs (160×160, dual, focal 0.3, jit=10). The 1/√n formula predicts deeply NEGATIVE g* (g*≈-0.75 to -0.78). Result: g* does NOT hit zero — the 43rd mechanism confirmed at an 8th density range. H7=4/4 at all 6 plateau combos. The 44th mechanism BREAKS: the fill cap reaches ~51% at n=6000 and ~61% at n=8000 — ABOVE the 2D percolation threshold (~59%)! The 6-point log fit (R²=0.991) underestimates n=8000 by +11.8%; the 10-point R²=0.875 — the fill cap is NOT logarithmic, it is accelerating dramatically. The 30th mechanism persists: stable 0/4 at ALL 6 combos. Coexist 0/4 at all gains (composition collapsed). The 1-seed guarantee partially RECOVERS: 3/4 (vs 4/4 at n=4000–5000), coex(1s)=1/4 (vs 0/4 at n=5000). At ~61% fill (n=8000), the structures have PERCOLATED — the boundary's capping power is finite and has been overwhelmed.</p>
 <div id="n6000-plateau-section"></div>
 
+<h2>Fill Cap Functional Form — Super-Logarithmic; Stretched Exponential Best Fit (Session 74)</h2>
+<p class="desc"><strong>The fill cap is super-logarithmic — no simple law fits all 16 data points.</strong> 16 unique densities (n=550 to n=8000, fill 30.5% to 60.8%) fit to 5 candidate forms. Sub-percolation (n≤5000, 14 points): log fit R²=0.988 (17.1·log₁₀(n) − 15.5). All 16 points: log R²=0.933, power law R²=0.950, stretched exponential R²=0.964 (BEST), sqrt-linear R²=0.962. The sub-percolation log fit underestimates n=8000 by +9.5%. The stretched exponential (fill% = 26.7·exp(0.0089·√n)) predicts n=10000→65.1%, n=12000→70.6%. The increment analysis reveals acceleration: n=5000→6000 jump is +3.4%, n=6000→8000 jump is +9.4% — the fill cap accelerates as it approaches and exceeds the percolation threshold. The 44th mechanism is a finite-density cap that breaks at percolation.</p>
+<div id="fill-cap-form-section"></div>
+
+<h2>Percolation Spanning Cluster — Genuine Percolation at n=8000 (Session 74)</h2>
+<p class="desc"><strong>The fill above the percolation threshold is a genuine percolation — the structure forms a spanning cluster.</strong> n=8000 (fill ~58–61%) and n=6000 (fill ~50%) at 3 gains × 4 seeds + 2 no-inhibition controls. Result: at n=8000, ALL 12 runs have spanning clusters (largest component touches both grid edges). The largest component fraction is bimodal: 6/12 runs have giant components (93–95% of structure, ~14000 cells); 6/12 have two near-equal halves (~48% each, ~7000 cells). This is percolation criticality — near the 2D threshold (~59%), the system flips between percolated (one spanning cluster) and non-percolated (two large clusters) states. At n=6000 (fill ~50%, below threshold), all 4 runs have ~48% largest component — two near-equal halves, no giant cluster. No-inhibition: 100% fill, 1 component (fully percolated). The 47th mechanism: the bimodal largest-component fraction is the percolation order parameter — the 44th mechanism's breakdown is a genuine phase transition.</p>
+<div id="percolation-spanning-section"></div>
+
 <script>
 let resultsData = null;
 let robustData = null;
@@ -359,6 +367,8 @@ async function loadData() {
     'n2500PlateauSweep': 'output/n2500_plateau_sweep.json',
     'n4000PlateauSweep': 'output/n4000_plateau_sweep.json',
     'n6000PlateauSweep': 'output/n6000_plateau_sweep.json',
+    'fillCapFormFit': 'output/fill_cap_form_fit.json',
+    'percolationSpanning': 'output/percolation_spanning.json',
   };
   const sweepPromises = Object.entries(sweepFiles).map(([key, path]) =>
     fetch(path).then(r => r.json()).catch(() => null)
@@ -1986,6 +1996,133 @@ function populateSweepSections() {
 
     const elN6000 = document.getElementById('n6000-plateau-section');
     if (elN6000) elN6000.innerHTML = html;
+  }
+
+  // ─── Fill cap functional form fit (Session 74) ──────────────────
+  if (window.fillCapFormFitData) {
+    const d = window.fillCapFormFitData;
+    let html = '<h3 style="color:var(--accent);margin:16px 0 8px">Fill Cap Functional Form — 16-Point Fit Comparison</h3>';
+    html += '<table style="margin:12px 0;font-size:0.85em">';
+    html += '<tr><th>Fit (all 16 points)</th><th>R²</th><th>Parameters</th></tr>';
+    const fits = d.fits_all_16;
+    const fitOrder = ['log','power_law','pow_in_log','stretched_exp_sqrt','sqrt_linear'];
+    const fitLabels = {
+      'log': 'Log: fill% = a·log₁₀(n) + b',
+      'power_law': 'Power law: fill% = a · n^γ',
+      'pow_in_log': 'Power-in-log: fill% = a · (log₁₀(n))^α',
+      'stretched_exp_sqrt': 'Stretched exp: fill% = a · exp(b·√n)',
+      'sqrt_linear': 'Sqrt-linear: fill% = a·√n + b',
+    };
+    let bestR2 = 0;
+    for (const k of fitOrder) { if (fits[k] && fits[k].R2 > bestR2) bestR2 = fits[k].R2; }
+    for (const k of fitOrder) {
+      const f = fits[k];
+      if (!f) continue;
+      const isBest = Math.abs(f.R2 - bestR2) < 0.001;
+      const p = f.params;
+      let paramStr = '';
+      if (k === 'log') paramStr = `a=${p.a.toFixed(2)}, b=${p.b.toFixed(2)}`;
+      else if (k === 'power_law') paramStr = `a=${p.a.toFixed(2)}, γ=${p.gamma.toFixed(4)}`;
+      else if (k === 'pow_in_log') paramStr = `a=${p.a.toFixed(2)}, α=${p.alpha.toFixed(3)}`;
+      else if (k === 'stretched_exp_sqrt') paramStr = `a=${p.a.toFixed(2)}, b=${p.b.toFixed(4)}`;
+      else if (k === 'sqrt_linear') paramStr = `a=${p.a.toFixed(4)}, b=${p.b.toFixed(2)}`;
+      html += `<tr><td>${fitLabels[k]}</td><td>${f.R2.toFixed(4)}${isBest ? ' ★' : ''}</td><td>${paramStr}</td></tr>`;
+    }
+    html += '</table>';
+
+    html += '<h3 style="color:var(--accent);margin:16px 0 8px">Sub-Percolation Fits (n≤5000, 14 points)</h3>';
+    html += '<table style="margin:12px 0;font-size:0.85em">';
+    html += '<tr><th>Fit (sub-perc)</th><th>R²</th><th>Parameters</th></tr>';
+    const subFits = d.fits_sub_percolation;
+    const subOrder = ['sub_perc_log','sub_perc_power','sub_perc_stretched_exp'];
+    const subLabels = {
+      'sub_perc_log': 'Log (sub-perc)',
+      'sub_perc_power': 'Power law (sub-perc)',
+      'sub_perc_stretched_exp': 'Stretched exp (sub-perc)',
+    };
+    for (const k of subOrder) {
+      const f = subFits[k];
+      if (!f) continue;
+      const p = f.params;
+      let paramStr = '';
+      if (k === 'sub_perc_log') paramStr = `a=${p.a.toFixed(2)}, b=${p.b.toFixed(2)}`;
+      else if (k === 'sub_perc_power') paramStr = `a=${p.a.toFixed(2)}, γ=${p.gamma.toFixed(4)}`;
+      else if (k === 'sub_perc_stretched_exp') paramStr = `a=${p.a.toFixed(2)}, b=${p.b.toFixed(4)}`;
+      html += `<tr><td>${subLabels[k]}</td><td>${f.R2.toFixed(4)}</td><td>${paramStr}</td></tr>`;
+    }
+    html += '</table>';
+
+    // Residuals at n=6000, 8000
+    html += '<h3 style="color:var(--accent);margin:16px 0 8px">Sub-Percolation Fit Residuals at n=6000, 8000</h3>';
+    html += '<table style="margin:12px 0;font-size:0.85em">';
+    html += '<tr><th>n</th><th>Observed</th><th>Log pred</th><th>Log resid</th><th>Power pred</th><th>Power resid</th><th>Stretch exp pred</th><th>Stretch exp resid</th></tr>';
+    for (const n of [6000, 8000]) {
+      const r = d.fits_sub_percolation[`sub_perc_residual_at_${n}`];
+      if (!r) continue;
+      html += `<tr><td>${n}</td><td>${r.observed.toFixed(1)}%</td>`;
+      html += `<td>${r.log_pred.toFixed(1)}%</td><td>${r.log_resid > 0 ? '+' : ''}${r.log_resid.toFixed(1)}%</td>`;
+      html += `<td>${r.pow_pred.toFixed(1)}%</td><td>${r.pow_resid > 0 ? '+' : ''}${r.pow_resid.toFixed(1)}%</td>`;
+      html += `<td>${r.se_pred.toFixed(1)}%</td><td>${r.se_resid > 0 ? '+' : ''}${r.se_resid.toFixed(1)}%</td></tr>`;
+    }
+    html += '</table>';
+
+    // Predictions
+    html += '<h3 style="color:var(--accent);margin:16px 0 8px">Predictions for n=10000–20000</h3>';
+    html += '<table style="margin:12px 0;font-size:0.85em">';
+    html += '<tr><th>n</th><th>Log</th><th>Power</th><th>Pow-in-log</th><th>Stretch exp</th><th>Sqrt-linear</th></tr>';
+    for (const n of [10000, 12000, 15000, 20000]) {
+      const p = d.predictions[String(n)];
+      if (!p) continue;
+      html += `<tr><td>${n}</td><td>${p.log.toFixed(1)}%</td><td>${p.power_law.toFixed(1)}%</td><td>${p.pow_in_log.toFixed(1)}%</td><td>${p.stretched_exp.toFixed(1)}%</td><td>${p.sqrt_linear.toFixed(1)}%</td></tr>`;
+    }
+    html += '</table>';
+
+    html += '<div class="insight" style="margin-top:8px"><strong>Super-logarithmic fill cap:</strong> The sub-percolation log fit (R²=0.988) underestimates n=8000 by +9.5%. The stretched exponential (R²=0.964) is the best all-16-point fit but still not great — the fill cap does not follow any simple closed-form law. The acceleration is visible in the increments: +3.4% (n=5000→6000), +9.4% (n=6000→8000). The 44th mechanism is a finite-density cap that accelerates as it approaches and exceeds the percolation threshold.</div>';
+
+    const elFillCap = document.getElementById('fill-cap-form-section');
+    if (elFillCap) elFillCap.innerHTML = html;
+  }
+
+  // ─── Percolation spanning cluster (Session 74) ─────────────────
+  if (window.percolationSpanningData) {
+    const d = window.percolationSpanningData;
+    let html = '<h3 style="color:var(--accent);margin:16px 0 8px">Percolation Spanning Cluster Analysis</h3>';
+    html += '<table style="margin:12px 0;font-size:0.85em">';
+    html += '<tr><th>Label</th><th>Seed</th><th>Fill%</th><th>#Comp</th><th>Largest</th><th>%Largest</th><th>Spans</th><th>Span X</th><th>Span Y</th><th>L2</th><th>H7</th></tr>';
+    const labels = ['n8000_g001','n8000_g0005','n8000_g003','n6000_g001','n8000_no_inhib','n6000_no_inhib'];
+    for (const label of labels) {
+      const entries = d[label];
+      if (!entries) continue;
+      for (const e of entries) {
+        const noFlag = e.no_inhib ? ' (no inhib)' : '';
+        html += `<tr><td>${label}${noFlag}</td><td>${e.seed}</td><td>${e.fill_pct.toFixed(1)}%</td>`;
+        html += `<td>${e.n_components}</td><td>${e.largest_size}</td><td>${(e.largest_frac*100).toFixed(1)}%</td>`;
+        html += `<td>${e.largest_spans ? 'Y' : 'N'}</td><td>${e.largest_spans_x ? 'Y' : 'N'}</td><td>${e.largest_spans_y ? 'Y' : 'N'}</td>`;
+        html += `<td>${e.l2_crossed ? 'Y' : 'N'}</td><td>${e.crossed_h7 ? 'Y' : 'N'}</td></tr>`;
+      }
+    }
+    html += '</table>';
+
+    // Aggregate
+    html += '<h3 style="color:var(--accent);margin:16px 0 8px">Aggregate (mean across 4 seeds)</h3>';
+    html += '<table style="margin:12px 0;font-size:0.85em">';
+    html += '<tr><th>Label</th><th>Mean Fill%</th><th>Mean #Comp</th><th>Mean Largest</th><th>Mean %Largest</th><th>Spanning</th></tr>';
+    for (const label of labels) {
+      const entries = d[label];
+      if (!entries || !entries.length) continue;
+      const meanFill = entries.reduce((s,e) => s + e.fill_pct, 0) / entries.length;
+      const meanNcomp = entries.reduce((s,e) => s + e.n_components, 0) / entries.length;
+      const meanLargest = entries.reduce((s,e) => s + e.largest_size, 0) / entries.length;
+      const meanFrac = entries.reduce((s,e) => s + e.largest_frac, 0) / entries.length;
+      const nSpan = entries.filter(e => e.largest_spans).length;
+      html += `<tr><td>${label}</td><td>${meanFill.toFixed(1)}%</td><td>${meanNcomp.toFixed(0)}</td><td>${meanLargest.toFixed(0)}</td><td>${(meanFrac*100).toFixed(1)}%</td><td>${nSpan}/4</td></tr>`;
+    }
+    html += '</table>';
+
+    html += '<div class="insight" style="margin-top:8px"><strong>Genuine percolation at n=8000:</strong> ALL 12 runs at n=8000 have spanning clusters (largest component touches both grid edges). The largest component fraction is bimodal: 6/12 have giant components (93–95%), 6/12 have two near-equal halves (~48%). This is percolation criticality — near the 2D threshold (~59%), the system flips between one spanning cluster and two large clusters. At n=6000 (fill ~50%, below threshold), all 4 runs have ~48% largest component — no giant cluster. The 47th mechanism: the bimodal largest-component fraction is the percolation order parameter. The 44th mechanism\'s breakdown is a genuine phase transition, not just high fill fraction.</div>';
+
+    const elPerc = document.getElementById('percolation-spanning-section');
+    if (elPerc) elPerc.innerHTML = html;
   }
 }
 

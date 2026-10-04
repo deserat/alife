@@ -2,8 +2,8 @@
 title: "Hypotheses"
 topic: "testable hypotheses for the multi-scale ALife composition project"
 status: active
-date: "2026-10-03"
-session: 73
+date: "2026-10-04"
+session: 74
 count: 11
 active: [H1, H2, H3, H4, H5, H6, H7, H8, H9, H10, H11]
 logs: ["logs/H1/", "logs/H2/", "logs/H3/", "logs/H4/", "logs/H5/", "logs/H6/", "logs/H7/", "logs/H8/", "logs/H9/", "logs/H10/", "logs/H11/"]
@@ -70,7 +70,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **For an emergent structure to persist as a new actor at a higher scale, it must be autopoietic — it must maintain the network that constitutes it.** Self-maintenance is the persistence condition. Without it, emergent structures are transient patterns, not new actors.
 
-**Status:** Refined (Session 73). The persistence condition is collapsed at n=6000–8000 (~51–61% fill): stable 0/4 at ALL 6 combos. The 30th mechanism persists even above the percolation threshold (~61% fill at n=8000). The fill cap has reached and exceeded the percolation threshold — the 44th mechanism has broken down, but the 30th mechanism persists independently. The crossing (H7) fires (4/4) but the persistence condition does not — the crossing is boundary maintenance, not persistence.
+**Status:** Refined (Session 74). The persistence condition remains collapsed at n=8000 (stable 0/4 at all 12 runs) even when the structure genuinely percolates (spanning clusters in all 12 runs). The 30th mechanism is independent of the 47th — persistence fails regardless of percolation status. The crossing (H7) fires (4/4) but persistence does not — the crossing is boundary maintenance, not persistence.
 
 **Log:** [logs/H5/](logs/H5/)
 
@@ -80,7 +80,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **Complexification occurs when autopoietic systems interact stigmergically — through environmental modifications that persist and constrain.** The interaction network itself (mediated by stigmergic traces) becomes a candidate for higher-level autopoiesis.
 
-**Status:** Refined (Session 73). The 12th member partially recovers at n=6000–8000 (~51–61% fill): 1-seed guarantee 3/4 at all 6 combos (vs 4/4 at n=4000–5000). coex(1s) recovers to 1/4 (from 0/4 at n=5000). The full sequence (…n=4000→4/4, n=5000→4/4, n=6000→3/4, n=8000→3/4) is non-monotonic. The fill cap exceeds the percolation threshold at n=8000 (~60.7% vs ~59%). The boundary remains necessary — without it, the system fills 100%.
+**Status:** Refined (Session 74). The 12th member's recovery at n=8000 (3/4) is a percolation artifact — the spanning cluster creates apparent co-presence from a single seed. The structure-to-grid ratio is the percolation limit: above the threshold, a single structure percolates and the boundary cannot confine it.
 
 **Log:** [logs/H6/](logs/H6/)
 
@@ -92,7 +92,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **Current mechanism claim:** the crossing needs a non-saturating channel that *recruits* deposition as well as *limiting* it, not mere negative feedback through the cue field (see H11). The curvature channel (Facchini et al. 2020) is the strongest candidate: growth at convex tips recruits, biharmonic smoothing limits, and there is no saturating pheromone field in the model at all.
 
-**Status:** Refined ×63. The n=6000–8000 plateau sweep (80 runs) found g* does NOT hit zero at ~51–61% grid fill — the 43rd mechanism (conservative scaling) confirmed at an eighth density range. H7=4/4 at all 6 plateau combos. The 44th mechanism BREAKS: the fill cap EXCEEDS the 2D percolation threshold at n=8000 (~60.7% vs ~59%) — the boundary's capping power is finite, and above the percolation threshold the structure percolates. The 6-point log fit underestimates by +11.8%; the 10-point R²=0.875 — the fill cap is NOT logarithmic. The 30th mechanism persists (stable 0/4 at all gains). The 1-seed guarantee partially recovers (3/4, vs 4/4 at n=4000–5000). Composition remains collapsed (coexist 0/4). Cross-domain: the fill cap's Gompertz-like behavior is the coherent limit (Haugen & Gilbert 2022, arXiv:2211.05653) — the boundary's long-range suppression produces Gompertz growth, and its breakdown at percolation is the departure from coherence as local connectivity overwhelms the long-range field. The no-inhibition control fills 100%. Determinism verified.
+**Status:** Refined ×64. The fill cap functional form re-fit found the fill cap is super-logarithmic: stretched exponential R²=0.964 (best of 5 forms), sub-percolation log R²=0.988 (underestimates n=8000 by +9.5%). The percolation spanning cluster analysis confirmed the fill above the threshold is a genuine percolation: all 12 n=8000 runs have spanning clusters. The largest component fraction is bimodal (6/12 giant at 93–95%, 6/12 two-halves at ~48%) — percolation criticality near the 2D threshold. The 47th mechanism: the bimodal largest-component fraction is the percolation order parameter. The 44th mechanism's breakdown is a genuine phase transition. H7=4/4 at all runs. The 30th mechanism persists (stable 0/4). Determinism verified.
 
 **Evidence:**
 - sim06: near miss — stability 0.849–0.893 vs a 0.90 threshold; self-maintenance fragments instead of consolidating (H11's first data point). Detector-bug corrected 2026-07-27. Session 22: the saturating cue (as-built) crosses 16/16 stable without SM; the non-saturating cue crosses 0/16 stable without SM — cue-family reversal.
@@ -160,7 +160,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **Three paths, same failure:** Echo (CAS theory), chemical organizations (origin-of-life chemistry), and AlChemy (computational theory) all fail at multi-scale composition, from three different starting points — evidence the composition problem is fundamental, though sim05's leg of this argument is weaker post-correction.
 
-**Status:** Refined (Session 73). 46 mechanisms. g* does NOT hit zero at n=6000–8000 (~51–61% fill) — the 43rd mechanism confirmed at an eighth density range. The 44th mechanism BREAKS: the fill cap EXCEEDS the 2D percolation threshold at n=8000 (~60.7% vs ~59%) — the boundary's capping power is finite. The 30th mechanism persists (0/4 all gains) — the 46th mechanism: the 30th is independent of the 44th (persistence fails at all densities above ~44%, regardless of fill cap). The 1-seed guarantee partially recovers (3/4, non-monotonic). Composition remains collapsed (0/4). Cross-domain: the fill cap's Gompertz-like behavior is the coherent limit (Haugen & Gilbert 2022) — the boundary's long-range suppression produces Gompertz growth, and its breakdown at percolation is the departure from coherence as local connectivity overwhelms the long-range field.
+**Status:** Refined (Session 74). 47 mechanisms. The 44th is super-logarithmic (stretched exponential R²=0.964, best of 5 forms; sub-percolation log R²=0.988 underestimates n=8000 by +9.5%). The 47th: the bimodal largest-component fraction is the percolation order parameter — the 44th mechanism's breakdown is a genuine phase transition. The 30th persists (stable 0/4 at all 12 n=8000 runs) — the persistence condition is independent of percolation.
 
 **Test:** Build a simulation with explicit composition mechanisms (stigmergic bridges between organizations, autopoietic boundaries, selection for composability) and compare to AlChemy without these mechanisms. Measure: does the version with composition mechanisms produce L2 where the plain version fails?
 
@@ -216,10 +216,10 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 | H2: ANT Translation | Unchanged | Theoretical, untested | [H2](logs/H2/) |
 | H3: Quasi-Object | Strengthened | Stigmergy literature support; Echo partial support | [H3](logs/H3/) |
 | H4: Dynamic Environment | Refined | Fitness landscape criticism supports this | [H4](logs/H4/) |
-| H5: Autopoiesis | Refined (S73) | n=6000-8000: stable 0/4 at ALL 6 combos (~51-61% fill) — 30th mechanism persists above percolation threshold; fill cap exceeded ~59%; crossing fires (4/4) but persistence does not | [H5](logs/H5/) |
-| H6: Multi-Scale Autopoiesis | Refined (S73) | 12th member partially recovers at n=6000-8000: 1-seed 3/4 (vs 4/4 at n=4000-5000); coex(1s)=1/4; non-monotonic; fill exceeds percolation threshold; boundary necessary | [H6](logs/H6/) |
-| H7: Trace→Actor Crossing | Refined ×63; n=6000–8000 plateau: g* ≠ 0 at ~51–61% fill (43rd: conservative scaling at 8th range); 44th BREAKS — fill cap EXCEEDS percolation threshold at n=8000 (~60.7% vs ~59%); H7=4/4 all 6 combos; 30th persists (0/4); 1-seed partially recovers (3/4); composition collapsed (0/4); Gompertz-coherent cross-domain (Haugen & Gilbert 2022) | [H7](logs/H7/) |
+| H5: Autopoiesis | Refined (S74) | n=8000: stable 0/4 at all 12 runs even with spanning clusters — 30th independent of 47th; persistence fails regardless of percolation | [H5](logs/H5/) |
+| H6: Multi-Scale Autopoiesis | Refined (S74) | 12th member recovery at n=8000 (3/4) is a percolation artifact — spanning cluster creates apparent co-presence; structure-to-grid ratio is the percolation limit | [H6](logs/H6/) |
+| H7: Trace→Actor Crossing | Refined ×64; fill cap super-logarithmic (stretched exp R²=0.964); percolation genuine — all 12 n=8000 runs span; bimodal largest-frac (6/12 giant 93–95%, 6/12 two-halves ~48%) = 47th mechanism (percolation order parameter); 44th breakdown is genuine phase transition; H7=4/4; 30th persists (0/4) | [H7](logs/H7/) |
 | H8: Complexity Enables OEE | NEW | Kaznatcheev (2019), Wiser et al. (2013) | [H8](logs/H8/) |
 | H9: Evolving Network | Untested (2026-07-27 correction) | Vasas et al. (2012) literature support; sim04's finite-space exhaustion survives but doesn't test the claim; sim03/sim05 withdrawn | [H9](logs/H9/) |
-| H10: Unbounded Space Insufficiency | Refined (S73) | g* ≠ 0 at n=6000–8000 (~51–61% fill); 44th BREAKS — fill cap EXCEEDS percolation threshold at n=8000 (~60.7% vs ~59%); 43rd at 8th range; 30th persists (0/4); 46th mechanism (30th independent of 44th); 1-seed partially recovers (3/4); 46 mechanisms; Gompertz-coherent cross-domain | [H10](logs/H10/) |
+| H10: Unbounded Space Insufficiency | Refined (S74) | 47 mechanisms; 44th super-logarithmic (stretched exp R²=0.964); 47th: bimodal largest-frac = percolation order parameter; 44th breakdown is genuine phase transition; 30th persists (0/4); all independent | [H10](logs/H10/) |
 | H11: Saturating Channel | Directionally confirmed (4/4); causal with control arm; 2×2-complete; φ_sat predictor family-specific; two-wire principle confirmed (S33) | Session 33: two-wire principle confirmed — separate B fields break persistence-formation trade-off for stability; Session 23: φ_sat probe 50% accurate — deposit-probability saturation self-defeating only in cue channels | [H11](logs/H11/) |

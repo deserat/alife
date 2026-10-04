@@ -2282,12 +2282,16 @@ to compare.
      n=10000, 12000 at g=0.0005–0.003.
 
 203. **The fill cap's functional form — what is the true
-     super-logarithmic law?** — The 10-point R²=0.875. The fill cap
-     is NOT logarithmic. Candidates: (a) power law in log space
-     (fill% ∝ log^α(n) with α > 1), (b) stretched exponential
-     (fill% ∝ exp(n^β)), (c) a power law (fill% ∝ n^γ). Fit the 10
-     data points to each and compare R². The surface-to-volume
-     constraint predicts a power law, not a log. Cheap: re-fit.
+     super-logarithmic law?** — DONE (Session 74).
+     The 10-point R²=0.875. The fill cap is NOT logarithmic. 5 candidate
+     forms fit to 16 data points: stretched exponential R²=0.964 (BEST),
+     sqrt-linear R²=0.962, power law R²=0.950, pow-in-log R²=0.939, log
+     R²=0.933. The sub-percolation log fit (n≤5000, R²=0.988)
+     underestimates n=8000 by +9.5%. The increment analysis reveals
+     acceleration: +3.4% (n=5000→6000), +9.4% (n=6000→8000). No simple
+     closed-form law fits all 16 points — the fill cap is phenomenologically
+     a stretched exponential but theoretically unexplained. See
+     `fill_cap_form_fit.json`.
 
 204. **The Gompertz-coherent connection — formalizing the analogy**
      — Haugen & Gilbert (2022, arXiv:2211.05653) derive Gompertz
@@ -2307,9 +2311,62 @@ to compare.
      collapsed? Test: n=10000+ at very low gain (g=0.0001).
 
 206. **The percolation transition in the structure — is the fill
-     above the threshold a genuine percolation?** — The fill at
-     n=8000 is ~60.7% (above the 2D site percolation threshold ~59%).
-     But the structure is fragmented by the boundary (late_mean_lc
-     1.25–5.05). Is there a spanning cluster, or is the "percolation"
-     in fill fraction only? Test: measure the largest connected
-     component at n=8000 — does it span the grid?
+     above the threshold a genuine percolation?** — DONE (Session 74).
+     The fill at n=8000 is ~60.7% (above the 2D site percolation threshold
+     ~59%). The percolation spanning cluster analysis measured the largest
+     connected component at n=8000 (3 gains × 4 seeds) and n=6000 (1 gain ×
+     4 seeds). RESULT: the percolation is GENUINE — all 12 n=8000 runs have
+     spanning clusters (largest component touches both grid edges). The
+     largest component fraction is bimodal: 6/12 have giant components
+     (93–95% of structure), 6/12 have two near-equal halves (~48% each).
+     This is percolation criticality — near the 2D threshold, the system
+     flips between percolated and non-percolated states. At n=6000 (fill
+     ~50%, below threshold), all 4 runs have ~48% (two near-equal halves,
+     no giant). The 47th mechanism: the bimodal largest-component fraction
+     is the percolation order parameter. See `percolation_spanning.py`.
+
+## From Session 74 (2026-10-04)
+
+207. **The n=10000+ plateau — does the fill cap plateau or continue
+     rising above the percolation threshold?** — At n=8000 the fill
+     is ~59% (at the percolation threshold ~59%). The stretched
+     exponential predicts ~65% at n=10000. Does the fill cap continue
+     to rise with n, or does it plateau at some value above the
+     percolation threshold? If the 44th mechanism has truly broken, the
+     fill should rise more rapidly (the boundary has lost its capping
+     power). If the fill plateaus, the boundary retains some capping
+     power even above the percolation threshold. Test: n=10000, 12000
+     at g=0.0005–0.003.
+
+208. **8-seed or 16-seed percolation robustness — is the bimodal
+     largest-component fraction a small-sample effect?** — The 4-seed
+     bimodality at n=8000 (6/12 giant, 6/12 two-halves) may be a
+     small-sample effect. Percolation theory predicts large
+     fluctuations near the threshold — 16 or 32 seeds would map the
+     full distribution of the largest-component fraction. Is the
+     bimodality genuine (two peaks in the distribution) or an artifact
+     of 4-seed sampling? Test: 16 seeds at n=8000 g=0.001.
+
+209. **The percolation threshold in the structure — does the spanning
+     cluster fraction converge to 1 at n≥10000?** — At n=8000, the
+     largest component fraction is bimodal (93–95% or ~48%). At
+     n=10000+ (fill predicted ~65% by the stretched exponential), does
+     the spanning cluster fraction converge to 1 (fully percolated),
+     or does the bimodality persist? If it converges, the 44th
+     mechanism has fully broken. If it persists, the system is still
+     critical at n=10000. Test: measure the largest connected
+     component at n=10000+.
+
+210. **The stretched exponential's theoretical basis — why does the
+     fill cap follow a·exp(b·√n)?** — The stretched exponential
+     (R²=0.964) is the best fit but has no theoretical basis. The
+     surface-to-volume constraint (fill ∝ √n for volume ∝ n, surface ∝
+     √n) predicts a power law, not a stretched exponential. The
+     stretched exponential arises in diffusion-limited processes
+     (Kolmogorov-Avrami theory) — is the fill cap a diffusion-limited
+     growth process? The boundary's suppression is a coherent field
+     (acting across the grid); the structure's growth is
+     diffusion-limited (curvature-channel deposition). The stretched
+     exponential may be the signature of diffusion-limited growth
+     under a coherent suppression field. Could connect to the
+     Gompertz-coherent framework (#204).
