@@ -306,6 +306,10 @@ select:hover, button:hover { border-color: var(--accent); }
 <p class="desc"><strong>The fill above the percolation threshold is a genuine percolation — the structure forms a spanning cluster.</strong> n=8000 (fill ~58–61%) and n=6000 (fill ~50%) at 3 gains × 4 seeds + 2 no-inhibition controls. Result: at n=8000, ALL 12 runs have spanning clusters (largest component touches both grid edges). The largest component fraction is bimodal: 6/12 runs have giant components (93–95% of structure, ~14000 cells); 6/12 have two near-equal halves (~48% each, ~7000 cells). This is percolation criticality — near the 2D threshold (~59%), the system flips between percolated (one spanning cluster) and non-percolated (two large clusters) states. At n=6000 (fill ~50%, below threshold), all 4 runs have ~48% largest component — two near-equal halves, no giant cluster. No-inhibition: 100% fill, 1 component (fully percolated). The 47th mechanism: the bimodal largest-component fraction is the percolation order parameter — the 44th mechanism's breakdown is a genuine phase transition.</p>
 <div id="percolation-spanning-section"></div>
 
+<h2>N10000 Plateau — Spanning Cluster Converges; 47th Mechanism Resolves (Session 75)</h2>
+<p class="desc">n=10000 at g=0.001–0.003 × 4 seeds × {2, 1} = 24 runs + 8 no-inhibition control runs (160×160, dual, focal 0.3, jit=10). The stretched exponential (R²=0.964) predicted ~65.1% fill at n=10000. Result: fill is ~75.2% (g=0.001) and ~73.0% (g=0.003) — FAR above the prediction and far above n=8000 (~60.7%). The fill cap acceleration INCREASED: +14.5% increment (n=8000→10000) vs +9.4% (n=6000→8000). The 44th mechanism fully breaks — the boundary cannot cap fill above the percolation threshold. ALL 8 runs have spanning clusters with largest_frac ~97.4–97.6% — the bimodality at n=8000 (48%/95%) is GONE. The 47th mechanism (bimodal order parameter) RESOLVES above the critical regime: the system is unimodally percolated. H7=4/4 at both gains (crossing fully robust). The 30th mechanism persists: stable=0/4 at both gains. Composition collapsed: l2=0/4 (g=0.001) and l2=1/4 (g=0.003), coexist=1/4 at both. No-inhibition: 100% fill, 1 component. The Haugen & Gilbert (2022) coherence framework: the boundary's coherent (Gompertz) suppression breaks down to logistic (pairwise) above the percolation threshold — the Gompertz-to-logistic transition.</p>
+<div id="n10000-plateau-section"></div>
+
 <script>
 let resultsData = null;
 let robustData = null;
@@ -369,6 +373,7 @@ async function loadData() {
     'n6000PlateauSweep': 'output/n6000_plateau_sweep.json',
     'fillCapFormFit': 'output/fill_cap_form_fit.json',
     'percolationSpanning': 'output/percolation_spanning.json',
+    'n10000PlateauSweep': 'output/n10000_plateau_sweep.json',
   };
   const sweepPromises = Object.entries(sweepFiles).map(([key, path]) =>
     fetch(path).then(r => r.json()).catch(() => null)
@@ -2123,6 +2128,60 @@ function populateSweepSections() {
 
     const elPerc = document.getElementById('percolation-spanning-section');
     if (elPerc) elPerc.innerHTML = html;
+  }
+
+  // ─── N10000 plateau (Session 75) ──────────────────────────────
+  if (window.n10000PlateauSweepData) {
+    const d = window.n10000PlateauSweepData;
+    let html = '<h3 style="color:var(--accent);margin:16px 0 8px">N10000 Plateau + Percolation Spanning</h3>';
+    html += '<table style="margin:12px 0;font-size:0.85em">';
+    html += '<tr><th>Label</th><th>Seed</th><th>L2</th><th>Outcome</th><th>Stable</th><th>H7</th><th>Coexist Frac</th><th>Fill%</th><th>#Comp</th><th>Largest</th><th>%Largest</th><th>Spans</th><th>Span Y</th></tr>';
+    const plateau = d.plateau || {};
+    const labels = ['n10000_g001', 'n10000_g003'];
+    for (const label of labels) {
+      const entry = plateau[label];
+      if (!entry || !entry.hetero_2seed) continue;
+      for (const e of entry.hetero_2seed) {
+        const perc = e.perc || {};
+        html += `<tr><td>${label}</td><td>${e.seed}</td><td>${e.l2_crossed ? 'Y' : 'N'}</td><td>${e.l2_outcome}</td>`;
+        html += `<td>${e.l2_stable ? 'Y' : 'N'}</td><td>${e.crossed_h7 ? 'Y' : 'N'}</td><td>${e.l2_coexist_frac.toFixed(2)}</td>`;
+        html += `<td>${perc.fill_pct ? perc.fill_pct.toFixed(1) + '%' : '—'}</td><td>${perc.n_components || '—'}</td><td>${perc.largest_size || '—'}</td><td>${perc.largest_frac ? (perc.largest_frac*100).toFixed(1) + '%' : '—'}</td>`;
+        html += `<td>${perc.largest_spans ? 'Y' : 'N'}</td><td>${perc.largest_spans_y ? 'Y' : 'N'}</td></tr>`;
+      }
+    }
+    html += '</table>';
+
+    // No-inhibition control
+    const noInhib = d.no_inhibition_control || {};
+    html += '<h3 style="color:var(--accent);margin:16px 0 8px">No-Inhibition Control (n=10000, g=0)</h3>';
+    html += '<table style="margin:12px 0;font-size:0.85em">';
+    html += '<tr><th>Seed</th><th>L2</th><th>Outcome</th><th>H7</th><th>Fill%</th><th>#Comp</th><th>Largest</th><th>%Largest</th><th>Spans</th></tr>';
+    const noInhibEntry = noInhib['n10000_g000_no_inhib'];
+    if (noInhibEntry && noInhibEntry.hetero_2seed) {
+      for (const e of noInhibEntry.hetero_2seed) {
+        const perc = e.perc || {};
+        html += `<tr><td>${e.seed}</td><td>${e.l2_crossed ? 'Y' : 'N'}</td><td>${e.l2_outcome}</td><td>${e.crossed_h7 ? 'Y' : 'N'}</td>`;
+        html += `<td>${perc.fill_pct ? perc.fill_pct.toFixed(1) + '%' : '—'}</td><td>${perc.n_components || '—'}</td><td>${perc.largest_size || '—'}</td><td>${perc.largest_frac ? (perc.largest_frac*100).toFixed(1) + '%' : '—'}</td><td>${perc.largest_spans ? 'Y' : 'N'}</td></tr>`;
+      }
+    }
+    html += '</table>';
+
+    // Summary
+    html += '<h3 style="color:var(--accent);margin:16px 0 8px">Summary (mean across 4 seeds)</h3>';
+    html += '<table style="margin:12px 0;font-size:0.85em">';
+    html += '<tr><th>Label</th><th>Fill%</th><th>Mean #Comp</th><th>Mean Largest</th><th>Mean %Largest</th><th>Spans</th><th>H7</th><th>Stable</th><th>Coexist</th><th>CF</th></tr>';
+    for (const label of labels) {
+      const entry = plateau[label];
+      if (!entry || !entry.summary) continue;
+      const s = entry.summary;
+      html += `<tr><td>${label}</td><td>${s.mean_fill_pct}%</td><td>${s.mean_ncomp}</td><td>${s.mean_largest}</td><td>${(s.mean_largest_frac*100).toFixed(1)}%</td><td>${s.n_spanning}</td><td>${s.h7_2s}</td><td>${s.stable}</td><td>${s.coexist}</td><td>${s.mean_coexist_frac}</td></tr>`;
+    }
+    html += '</table>';
+
+    html += '<div class="insight" style="margin-top:8px"><strong>Key finding (#207/#208/#209):</strong> The fill at n=10000 is ~75.2% (g=0.001) and ~73.0% (g=0.003) — FAR above the stretched exponential prediction (~65.1%) and far above n=8000 (~60.7%). The fill cap acceleration INCREASED: +14.5% increment (n=8000→10000) vs +9.4% (n=6000→8000). The 44th mechanism fully breaks — the boundary cannot cap fill above the percolation threshold. <strong>ALL 8 runs have spanning clusters with largest_frac ~97.4–97.6%</strong> — the bimodality at n=8000 (48%/95%) is GONE. The 47th mechanism (bimodal order parameter) RESOLVES above the critical regime: the system is unimodally percolated. H7=4/4 at both gains (crossing fully robust). The 30th mechanism persists: stable=0/4 at both gains. No-inhibition: 100% fill, 1 component. The 48th mechanism: the spanning cluster fraction converges to ~97.5% above the critical regime — the boundary retains ~25% of the grid as inter-structure void even when fully percolated.</div>';
+
+    const elN10000 = document.getElementById('n10000-plateau-section');
+    if (elN10000) elN10000.innerHTML = html;
   }
 }
 
