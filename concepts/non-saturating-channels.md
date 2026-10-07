@@ -1283,3 +1283,19 @@ The n=6000–8000 plateau sweep (6 plateau combos × 4 seeds × {2, 1} = 48 runs
 **The Gompertz-to-logistic transition is confirmed.** Haugen & Gilbert (2022) show Gompertz growth arises from coherent (long-range) interactions — an external field stimulating a response across all entities simultaneously. The boundary's suppression is a coherent field. Below the percolation threshold, the coherent field produces the Gompertz-like fill cap (logarithmic at low density, accelerating at high density). Above the threshold, local connectivity (short-range bonds) overwhelms the coherent field — the Gompertz-to-logistic transition. At n=10000 (~75% fill), the fill accelerates toward 100% (no-inhibition), confirming the departure from coherence.
 
 **The 30th mechanism persists: stable 0/4 at both gains.** The 43rd mechanism confirmed at a 9th density range (g* ≠ 0). Composition collapsed: l2=0/4 (g=0.001), l2=1/4 (g=0.003); coexist=1/4 at both. Determinism verified.
+
+## Session 76 — The Fill Cap Saturates at 100%; the 48th Mechanism Breaks; the Gompertz-to-Logistic Transition is Complete
+
+The n=12000–15000 plateau sweep extended the density range to ~92–100% grid fill — the saturation point of the fill cap.
+
+**The fill cap SATURATES at ~100% at n=15000.** Fill jumps from ~75% (n=10000) to ~91.6% (n=12000) to ~99.8% (n=15000). At n=15000, all 4 2-seed runs have ncomp=1 and largest_frac=100% — the structure is a single spanning blob filling the entire grid (25552/25600 cells). The fill cap acceleration peaked at +17.5% (n=10000→12000), then dropped to +8.2% (n=12000→15000) — the fill is saturating at 100%, the acceleration decelerating as it approaches the ceiling.
+
+**The 48th mechanism BREAKS at n=15000.** Session 75 found the spanning cluster fraction converges to ~97.5% (the boundary retains ~25% as void). At n=15000, the fraction is 100% (ncomp=1) — the void is GONE. The 48th mechanism was a transient property of the transition regime (n=10000), not a stable property of the percolated regime. The boundary's "residual footprint" was its last gasp, not a permanent feature.
+
+**The Gompertz-to-logistic transition is COMPLETE.** The fill cap trajectory (13 points): ~41% (n=1200, coherent regime) → ~75% (n=10000, transition, 25% void) → ~100% (n=15000, logistic regime, no void). The Haugen & Gilbert (2022) framework is confirmed end-to-end: the boundary's coherent suppression produces Gompertz-like growth below the percolation threshold, breaks down at the threshold (the bimodal criticality at n=8000), and is fully irrelevant above it (n=15000). The system is in the logistic (pairwise) regime where local connectivity dominates entirely.
+
+**H7=4/4 at both densities** (crossing fully robust). The 30th mechanism persists (stable 0/4). The 43rd confirmed at a 10th density range (g* ≠ 0 at n=12000). At n=15000, g* is undefined — the boundary has no effect (g=0.001 ≡ g=0, both fill ~100%). The no-inhibition control at n=12000 (g=0) fills 100% (25600 cells, 1 component) — identical to the g=0.001 condition at n=15000.
+
+**The fill cap's complete trajectory (13 points):** n=1200→38.3%, n=1500→39.4%, n=1800→40.4%, n=2000→41.2%, n=2500→42.1%, n=3000→43.6%, n=4000→45.8%, n=5000→48.0%, n=6000→50.6%, n=8000→60.7%, n=10000→74.1%, n=12000→91.6%, n=15000→99.8%.
+
+**The fill cap increments:** +1.1% (1.2k→1.5k), +1.0% (1.5k→1.8k), +0.8% (1.8k→2k), +0.9% (2k→2.5k), +1.5% (2.5k→3k), +2.2% (3k→4k), +2.2% (4k→5k), +2.6% (5k→6k), +10.1% (6k→8k), +13.4% (8k→10k), **+17.5% (10k→12k)**, +8.2% (12k→15k). The acceleration peaked at the n=10000→12000 transition, then decelerated as the fill approached 100%.

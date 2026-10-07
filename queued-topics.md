@@ -2380,24 +2380,27 @@ to compare.
 ## From Session 75 (2026-10-05)
 
 211. **The n=12000–15000 plateau — does the fill continue toward 100%
-     or plateau at ~75%?** — The fill at n=10000 is ~75% (far above
-     the prediction ~65.1%). The 48th mechanism says the spanning
-     cluster fraction converges to ~97.5%, but the fill itself may
-     continue rising toward 100%. Test: n=12000, 15000 at g=0.001.
-     If fill plateaus at ~75%, the boundary retains a residual capping
-     power even above the percolation threshold. If fill continues
-     toward 100%, the 44th mechanism has fully broken and the
-     boundary's residual is just its spatial footprint.
+     or plateau at ~75%?** — DONE (Session 76).
+     The fill SATURATES at ~100% at n=15000 (ncomp=1, largest_frac=100%).
+     Fill jumped from ~75% (n=10000) to ~92% (n=12000) to ~100% (n=15000).
+     The fill cap acceleration peaked at +17.5% (n=10000→12000) then
+     decelerated to +8.2% (n=12000→15000) as the fill approached 100%.
+     The 48th mechanism BREAKS: the ~25% void from Session 75 is GONE
+     (ncomp=1, 100% largest). The boundary has zero capping power at
+     n=15000 — the g=0.001 condition is identical to the no-inhibition
+     control (g=0). The Gompertz-to-logistic transition is COMPLETE.
+     H7=4/4 at both densities; 30th persists (stable 0/4). See
+     `n12000_plateau_sweep.py`.
 
 212. **The residual ~25% void — boundary footprint or structure
-     porosity?** — The fill at n=10000 is ~75%, not 100%. Is the
-     ~25% void the boundary B field's spatial footprint (the
-     boundary's growth/decay dynamics leave a residual), or is it
-     the structure's own porosity (the curvature channel doesn't
-     fill every cell)? A no-boundary, no-focal-bias run at n=10000
-     would distinguish: if the no-boundary fill is also ~75%, the
-     void is structural porosity; if it is 100%, the void is the
-     boundary's footprint.
+     porosity?** — DONE (Session 76). The void was a TRANSIENT, not a
+     property. At n=10000 (Session 75), the spanning cluster fraction
+     was ~97.5% (25% void). At n=15000, the fraction is 100% (ncomp=1) —
+     the void is GONE. The no-inhibition control at n=12000 (g=0) fills
+     100% (25600 cells, 1 component), identical to the g=0.001 condition
+     at n=15000. The ~25% void was the boundary's last gasp in the
+     transition regime (n=10000), not a stable property of the
+     percolated regime. The 48th mechanism breaks.
 
 213. **The Moore threshold correction — re-interpreting Sessions
      73–74** — The 2D site percolation threshold for Moore (8-neighbor)
@@ -2425,3 +2428,52 @@ to compare.
      that corresponds to the Moore threshold ~0.407? This would
      formalize the analogy between the boundary's coherent
      suppression and Haugen & Gilbert's coherence framework.
+
+## From Session 76 (2026-10-06)
+
+215. **The fill cap's saturation functional form** — The 13-point
+      fill cap trajectory saturates at ~100% at n=15000. What is the
+      functional form of the saturation? Candidates: (a) logistic
+      (fill% = 100/(1+exp(-k(n-n0)))), (b) Gompertz
+      (fill% = 100·exp(-exp(-k(n-n0)))), (c) stretched exponential
+      approaching 100 (fill% = 100·(1-exp(-k·n^β))). The stretched
+      exponential (R²=0.964) was the best sub-saturation fit; does
+      it hold at saturation? Fit the 13 points to each and compare
+      R². The saturation form would reveal whether the boundary's
+      capping power degrades as a logistic, Gompertz, or power law
+      in n. Cheap: re-fit the existing data.
+
+216. **The 43rd mechanism's limit — where does g* hit zero?** —
+      At n=12000, g* does NOT hit zero (composition is alive, though
+      collapsed: l2=0/4, h7=4/4). At n=15000, g* is undefined (the
+      boundary has no effect: g=0.001 ≡ g=0, both fill ~100%). Where
+      exactly does g* hit zero? A sweep at n=11000–14000 at very low
+      gains (0.0005, 0.001) would locate the density where the
+      boundary's effect vanishes. This is the 43rd mechanism's
+      saturation point — the density above which the boundary is
+      irrelevant. Cross-domain: this is the coherence parameter's
+      critical value in the Haugen & Gilbert (2022) framework.
+
+217. **The 30th mechanism's permanence at very low gain** —
+      The persistence condition is permanently collapsed above ~44%
+      fill (confirmed at 10 density ranges). Does it ever recover at
+      very low gain (g=0.0001)? At n=15000, the boundary is irrelevant
+      (g=0.001 ≡ g=0), so gain cannot rescue it. But at n=12000
+      (~92% fill), does g=0.0001 rescue stability? If not, the 30th
+      mechanism is truly permanent — the boundary cannot maintain
+      stable composition at any density above ~44%, regardless of
+      gain. This would be the 46th mechanism's strongest form.
+
+218. **The fill cap's saturation as a design principle** — The fill
+      cap saturates at ~100% at n=15000 — the boundary's coherent
+      suppression has a finite density range, above which the system
+      percolates and composition is impossible. This is a design
+      principle for stigmergic systems: the boundary's coherent
+      suppression has a finite density range. Above that range, the
+      system percolates and the boundary is irrelevant — composition
+      requires the density to be within the coherent regime (below
+      ~44% fill for stable composition, below ~75% for any
+      composition). This connects to the Gompertz-to-logistic
+      transition: the design principle is to keep the system in the
+      Gompertz (coherent) regime, not the logistic (pairwise) regime.
+      Could be a standalone concept file.

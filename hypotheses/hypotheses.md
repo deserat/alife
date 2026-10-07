@@ -2,8 +2,8 @@
 title: "Hypotheses"
 topic: "testable hypotheses for the multi-scale ALife composition project"
 status: active
-date: "2026-10-05"
-session: 75
+date: "2026-10-06"
+session: 76
 count: 11
 active: [H1, H2, H3, H4, H5, H6, H7, H8, H9, H10, H11]
 logs: ["logs/H1/", "logs/H2/", "logs/H3/", "logs/H4/", "logs/H5/", "logs/H6/", "logs/H7/", "logs/H8/", "logs/H9/", "logs/H10/", "logs/H11/"]
@@ -70,7 +70,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **For an emergent structure to persist as a new actor at a higher scale, it must be autopoietic — it must maintain the network that constitutes it.** Self-maintenance is the persistence condition. Without it, emergent structures are transient patterns, not new actors.
 
-**Status:** Refined (Session 75). The persistence condition is permanently collapsed above ~44% fill: stable 0/4 at n=10000 (~73–75% fill) at both gains. The 30th mechanism persists at the 9th density range — the boundary cannot maintain stable composition at any density above ~44%. The 47th mechanism's resolution (bimodality gone, all 8 runs percolated) does not rescue the persistence condition — the crossing (H7) fires but persistence does not.
+**Status:** Refined (Session 76). The persistence condition is permanently collapsed above ~44% fill — confirmed at 10 density ranges (n=3000–15000). Stable 0/4 at n=12000 (~92% fill) and n=15000 (~100% fill) at both gains. The fill cap's saturation at ~100% (n=15000) does not rescue persistence — the boundary cannot maintain stable composition at any density above ~44%, regardless of fill level.
 
 **Log:** [logs/H5/](logs/H5/)
 
@@ -80,7 +80,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **Complexification occurs when autopoietic systems interact stigmergically — through environmental modifications that persist and constrain.** The interaction network itself (mediated by stigmergic traces) becomes a candidate for higher-level autopoiesis.
 
-**Status:** Refined (Session 75). The 12th member's recovery at n=8000 (3/4) was a percolation artifact — at n=10000 (~75% fill), the 1-seed l2(1s)=0/4 at both gains. The fully percolated structure (97.5% largest component) no longer creates the apparent co-presence that the bimodal structure at n=8000 did. The structure-to-grid ratio is the percolation limit: above the threshold, the boundary cannot confine the single percolated structure.
+**Status:** Refined (Session 76). The 12th member is fully lost at n=12000–15000 (~92–100% fill): 1-seed l2(1s)=0/4 at both densities. The single structure fills the entire grid (ncomp=1 at n=15000, 25552/25600 cells) — the boundary cannot confine it. The structure-to-grid ratio is the percolation limit, confirmed at the saturation point.
 
 **Log:** [logs/H6/](logs/H6/)
 
@@ -92,7 +92,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **Current mechanism claim:** the crossing needs a non-saturating channel that *recruits* deposition as well as *limiting* it, not mere negative feedback through the cue field (see H11). The curvature channel (Facchini et al. 2020) is the strongest candidate: growth at convex tips recruits, biharmonic smoothing limits, and there is no saturating pheromone field in the model at all.
 
-**Status:** Refined ×65. The fill cap FULLY breaks at n=10000 — fill ~75.2% (g=0.001), ~73.0% (g=0.003), far above the stretched exponential prediction (~65.1%) and the n=8000 fill (~60.7%). The 44th mechanism's acceleration INCREASED (+14.5% vs +9.4%). The 47th mechanism RESOLVES: all 8 runs have spanning clusters at ~97.5% — the bimodality is GONE, the system is unimodally percolated. The 48th mechanism: the spanning cluster fraction converges to ~97.5% — the boundary retains ~25% of the grid as inter-structure void. H7=4/4 at both gains. The 30th persists (stable 0/4). The 43rd at 9th range (g* ≠ 0). The Moore 8-neighbor percolation threshold (~0.407) is the correct one for our connectivity. The Gompertz-to-logistic transition (Haugen & Gilbert 2022) is confirmed: the boundary's coherent suppression breaks down above the percolation threshold. Determinism verified.
+**Status:** Refined ×66. The fill cap SATURATES at ~100% at n=15000 (ncomp=1, largest_frac=100%) — the boundary has zero capping power. The 48th mechanism BREAKS: the spanning cluster fraction is 100% (1 component), the ~25% void from Session 75 is GONE. The fill cap trajectory: n=10000→74.1%, n=12000→91.6%, n=15000→99.8% — acceleration peaked at +17.5% (n=10000→12000) then saturated. The Gompertz-to-logistic transition is COMPLETE — the system is fully in the logistic (pairwise) regime. H7=4/4 at both densities. The 30th persists (stable 0/4). The 43rd at a 10th range (g* ≠ 0 at n=12000; at n=15000 g* is undefined — boundary has no effect). Determinism verified.
 
 **Evidence:**
 - sim06: near miss — stability 0.849–0.893 vs a 0.90 threshold; self-maintenance fragments instead of consolidating (H11's first data point). Detector-bug corrected 2026-07-27. Session 22: the saturating cue (as-built) crosses 16/16 stable without SM; the non-saturating cue crosses 0/16 stable without SM — cue-family reversal.
@@ -160,7 +160,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **Three paths, same failure:** Echo (CAS theory), chemical organizations (origin-of-life chemistry), and AlChemy (computational theory) all fail at multi-scale composition, from three different starting points — evidence the composition problem is fundamental, though sim05's leg of this argument is weaker post-correction.
 
-**Status:** Refined (Session 75). 48 mechanisms. The 44th is super-logarithmic (stretched exponential R²=0.964, best of 5 forms) and FULLY breaks at n=10000 (~75% fill, far above prediction ~65.1%). The 47th: the bimodal largest-component fraction is the percolation order parameter — RESOLVES above the critical regime (all 8 runs spanning at ~97.5%, bimodality GONE). The 48th: the spanning cluster fraction converges to ~97.5%. The 30th persists (stable 0/4 at both gains). The Gompertz-to-logistic transition (Haugen & Gilbert 2022) is confirmed. The Moore 8-neighbor percolation threshold (~0.407) is the correct one for our connectivity.
+**Status:** Refined (Session 76). 49 mechanisms. The fill cap SATURATES at ~100% at n=15000 — the boundary's capping power is zero, not just finite. The 48th mechanism BREAKS: the spanning cluster fraction is 100% (1 component), the ~25% void from Session 75 is GONE. The fill cap trajectory (13 points) shows the complete Gompertz-to-logistic transition: ~41% (coherent) → ~75% (transition, 25% void) → ~100% (logistic, no void). The acceleration peaked at +17.5% (n=10000→12000) then saturated. The Gompertz-to-logistic transition is COMPLETE — the system is fully in the logistic regime at n=15000.
 
 **Test:** Build a simulation with explicit composition mechanisms (stigmergic bridges between organizations, autopoietic boundaries, selection for composability) and compare to AlChemy without these mechanisms. Measure: does the version with composition mechanisms produce L2 where the plain version fails?
 
@@ -216,10 +216,10 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 | H2: ANT Translation | Unchanged | Theoretical, untested | [H2](logs/H2/) |
 | H3: Quasi-Object | Strengthened | Stigmergy literature support; Echo partial support | [H3](logs/H3/) |
 | H4: Dynamic Environment | Refined | Fitness landscape criticism supports this | [H4](logs/H4/) |
-| H5: Autopoiesis | Refined (S75) | n=10000: stable 0/4 at both gains (~73–75% fill) — 30th persists at 9th range; 47th resolves but persistence does not recover | [H5](logs/H5/) |
-| H6: Multi-Scale Autopoiesis | Refined (S75) | 12th member at n=10000: l2(1s)=0/4 at both gains — recovery at n=8000 was percolation artifact; structure-to-grid ratio is the percolation limit | [H6](logs/H6/) |
-| H7: Trace→Actor Crossing | Refined ×65; fill cap FULLY breaks at n=10000 (~75% fill, far above prediction); 47th RESOLVES — bimodality GONE, all 8 runs spanning at ~97.5%; 48th: spanning cluster fraction converges; 30th persists (0/4); Gompertz-to-logistic transition confirmed; Moore 8-neighbor threshold ~0.407 | [H7](logs/H7/) |
+| H5: Autopoiesis | Refined (S76) | n=12000–15000: stable 0/4 at ~92–100% fill — persistence permanently collapsed above ~44%, confirmed at 10 ranges | [H5](logs/H5/) |
+| H6: Multi-Scale Autopoiesis | Refined (S76) | 12th member fully lost at n=12000–15000: 1s l2=0/4; single structure fills grid (ncomp=1 at n=15000) | [H6](logs/H6/) |
+| H7: Trace→Actor Crossing | Refined ×66; fill cap SATURATES at ~100% (n=15000, ncomp=1); 48th BREAKS — void GONE; Gompertz-to-logistic transition COMPLETE; H7=4/4; 30th persists; 43rd at 10th range | [H7](logs/H7/) |
 | H8: Complexity Enables OEE | NEW | Kaznatcheev (2019), Wiser et al. (2013) | [H8](logs/H8/) |
 | H9: Evolving Network | Untested (2026-07-27 correction) | Vasas et al. (2012) literature support; sim04's finite-space exhaustion survives but doesn't test the claim; sim03/sim05 withdrawn | [H9](logs/H9/) |
-| H10: Unbounded Space Insufficiency | Refined (S75) | 48 mechanisms; 44th FULLY breaks at n=10000 (~75% fill); 47th RESOLVES — bimodality GONE, all 8 spanning at ~97.5%; 48th: spanning cluster fraction converges; 30th persists (0/4); Gompertz-to-logistic transition confirmed; Moore 8-neighbor threshold ~0.407 | [H10](logs/H10/) |
+| H10: Unbounded Space Insufficiency | Refined (S76) | 49 mechanisms; fill cap SATURATES at ~100% (n=15000); 48th BREAKS — void GONE; Gompertz-to-logistic transition COMPLETE; 30th persists; 43rd at 10th range | [H10](logs/H10/) |
 | H11: Saturating Channel | Directionally confirmed (4/4); causal with control arm; 2×2-complete; φ_sat predictor family-specific; two-wire principle confirmed (S33) | Session 33: two-wire principle confirmed — separate B fields break persistence-formation trade-off for stability; Session 23: φ_sat probe 50% accurate — deposit-probability saturation self-defeating only in cue channels | [H11](logs/H11/) |
