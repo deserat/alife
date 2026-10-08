@@ -314,6 +314,14 @@ select:hover, button:hover { border-color: var(--accent); }
 <p class="desc">n=12000, 15000 at g=0.001 × 4 seeds × {2, 1} = 16 runs + 4 no-inhibition control runs (160×160, dual, focal 0.3, jit=10). The stretched exponential (R²=0.964) predicted ~67.5% at n=12000 and ~69.5% at n=15000. Result: fill is <strong>~91.6% at n=12000</strong> and <strong>~99.8% at n=15000</strong> — FAR above the prediction. The fill cap's acceleration peaked at +17.5% (n=10000→12000), then the fill SATURATED at ~100% (n=15000: ncomp=1, largest_frac=100%). The 48th mechanism (spanning cluster ~97.5%) BREAKS at n=15000 — the structure is a single spanning blob filling the entire grid (1 component, 25552/25600 cells). The boundary's residual ~25% void from Session 75 is gone — at n=15000 the boundary has zero capping power. H7=4/4 at both densities (crossing fully robust). The 30th mechanism persists (stable 0/4). No-inhibition n=12000: 100% fill, 1 component, 25600 cells — identical to the g=0.001 condition at n=15000. The boundary's coherent suppression has fully collapsed: the Gompertz-to-logistic transition is complete, the system is in the logistic (pairwise) regime where local connectivity dominates entirely.</p>
 <div id="n12000-plateau-section"></div>
 
+<h2>Fill Cap Saturation Functional Form (Session 77)</h2>
+<p class="desc">The 19-point fill cap trajectory (n=550–15000) fitted to six candidate forms: logistic, Gompertz, stretched exponential saturation, sub-saturation stretched exponential, power law, and log. The sub-saturation stretched exponential (a·exp(b·√n), R²=0.964) remains the best fit overall — but it is unbounded (predicts >100% at n=20000). Among bounded forms, the logistic (R²=0.941, k=0.000205, n₀=4221) is best, with n₉₉≈26600. The Gompertz (R²=0.922) gives n₉₉≈31800. The saturation at n=15000 (99.93%) is a hard ceiling (grid full), not a soft saturation — the bounded forms underestimate the steep rise from n=10000→15000.</p>
+<div id="fill-cap-saturation-section"></div>
+
+<h2>G* Limit Sweep — Where Does the Boundary's Effect Vanish? (Session 77)</h2>
+<p class="desc">At n=12000, g* does NOT hit zero (l2=0/4 but H7=4/4 — composition is collapsed but the crossing fires). At n=15000, g* is undefined (g=0.001 ≡ g=0, both fill ~100%). This sweep at n=11000–14000 at g=0.0005, 0.001 × 4 seeds × {2,1} + no-inhibition controls locates the density where the boundary's effect vanishes. The key test: does the boundary condition (g=0.001) differ from no-boundary (g=0, 100% fill) at n=11000–14000?</p>
+<div id="g-star-limit-section"></div>
+
 <script>
 let resultsData = null;
 let robustData = null;
@@ -379,6 +387,8 @@ async function loadData() {
     'percolationSpanning': 'output/percolation_spanning.json',
     'n10000PlateauSweep': 'output/n10000_plateau_sweep.json',
     'n12000PlateauSweep': 'output/n12000_plateau_sweep.json',
+    'fillCapSaturationFit': 'output/fill_cap_saturation_fit.json',
+    'gStarLimitSweep': 'output/g_star_limit_sweep.json',
   };
   const sweepPromises = Object.entries(sweepFiles).map(([key, path]) =>
     fetch(path).then(r => r.json()).catch(() => null)
@@ -2257,6 +2267,72 @@ function populateSweepSections() {
 
     const elN12000 = document.getElementById('n12000-plateau-section');
     if (elN12000) elN12000.innerHTML = html;
+  }
+  // ─── Fill cap saturation fit (Session 77) ────────────────────
+  if (window.fillCapSaturationFitData) {
+    const d = window.fillCapSaturationFitData;
+    let html = '<h3 style="color:var(--accent);margin:16px 0 8px">Fill Cap Saturation Fit — 19 Points (n=550–15000)</h3>';
+    html += '<table style="margin:12px 0;font-size:0.85em">';
+    html += '<tr><th>Form</th><th>R²</th><th>Params</th></tr>';
+    const fits = d.fits_all || {};
+    const order = ['logistic', 'gompertz', 'stretched_exp_sat', 'sub_sat_stretched_exp', 'power_law', 'log'];
+    for (const name of order) {
+      const f = fits[name];
+      if (!f || f.R2 == null) continue;
+      const pstr = Object.entries(f.params).map(([k,v]) => `${k}=${v.toPrecision(4)}`).join(', ');
+      const best = (name === d.best_fit_all) ? ' <strong style="color:var(--green)">★</strong>' : '';
+      html += `<tr><td>${name}${best}</td><td>${f.R2.toFixed(5)}</td><td>${pstr}</td></tr>`;
+    }
+    html += '</table>';
+    // Data points
+    html += '<h3 style="color:var(--accent);margin:16px 0 8px">Data Points (19, g=0.001)</h3>';
+    html += '<table style="margin:12px 0;font-size:0.85em">';
+    html += '<tr><th>n</th><th>Fill%</th></tr>';
+    const data = d.data || {};
+    for (const n of Object.keys(data).map(Number).sort((a,b)=>a-b)) {
+      html += `<tr><td>${n}</td><td>${data[n].toFixed(2)}%</td></tr>`;
+    }
+    html += '</table>';
+    // Saturation analysis
+    if (d.best_fit_all) {
+      html += `<div class="insight" style="margin-top:8px"><strong>Key finding (#215):</strong> Best fit: ${d.best_fit_all} (R²=${d.best_R2_all.toFixed(5)}). The sub-saturation stretched exponential remains best but is unbounded (predicts >100% at n≥16000). Among bounded forms, logistic (R²=0.941, n₉₉≈26600) and Gompertz (R²=0.922, n₉₉≈31800) fit well but underestimate the steep rise n=10000→15000. The saturation at n=15000 is a HARD ceiling (grid full), not a soft saturation — the fill hits 100% because there are no more cells to fill, not because the boundary's capping power degrades smoothly.</div>`;
+    }
+    const el = document.getElementById('fill-cap-saturation-section');
+    if (el) el.innerHTML = html;
+  }
+
+  // ─── G* limit sweep (Session 77) ─────────────────────────────
+  if (window.gStarLimitSweepData) {
+    const d = window.gStarLimitSweepData;
+    let html = '<h3 style="color:var(--accent);margin:16px 0 8px">G* Limit Sweep — n=11000–14000</h3>';
+    html += '<table style="margin:12px 0;font-size:0.85em">';
+    html += '<tr><th>Label</th><th>nT</th><th>g</th><th>L2</th><th>Coexist</th><th>Stable</th><th>H7</th><th>CF</th><th>Fill%</th><th>#Comp</th><th>Largest</th><th>%Largest</th><th>B_max</th><th>L2(1s)</th><th>H7(1s)</th></tr>';
+    const labels = ['n11000_g001','n11000_g0005','n12000_g001','n12000_g0005','n13000_g001','n13000_g0005','n14000_g001','n14000_g0005'];
+    for (const label of labels) {
+      const entry = d[label];
+      if (!entry || !entry.summary) continue;
+      const s = entry.summary;
+      html += `<tr><td>${label}</td><td>${entry.n_termites}</td><td>${entry.g_form}</td>`;
+      html += `<td>${s.l2_2s}</td><td>${s.coexist}</td><td>${s.stable}</td><td>${s.h7_2s}</td><td>${s.mean_coexist_frac.toFixed(2)}</td>`;
+      html += `<td>${s.mean_fill_pct}%</td><td>${s.mean_ncomp}</td><td>${s.mean_largest}</td><td>${(s.mean_largest_frac*100).toFixed(1)}%</td><td>${s.mean_b_max}</td>`;
+      html += `<td>${s.l2_1s}</td><td>${s.h7_1s}</td></tr>`;
+    }
+    html += '</table>';
+    // No-inhibition controls
+    html += '<h3 style="color:var(--accent);margin:16px 0 8px">No-Inhibition Controls (g=0, 2-seed)</h3>';
+    html += '<table style="margin:12px 0;font-size:0.85em">';
+    html += '<tr><th>Label</th><th>nT</th><th>Fill%</th><th>#Comp</th><th>Largest</th><th>%Largest</th></tr>';
+    const noInhib = d.no_inhibition_control || {};
+    for (const label of ['n11000_g000_no_inhib','n12000_g000_no_inhib','n13000_g000_no_inhib','n14000_g000_no_inhib']) {
+      const entry = noInhib[label];
+      if (!entry || !entry.summary) continue;
+      const s = entry.summary;
+      html += `<tr><td>${label}</td><td>${entry.n_termites}</td><td>${s.mean_fill_pct}%</td><td>${s.mean_ncomp}</td><td>${s.mean_largest}</td><td>${(s.mean_largest_frac*100).toFixed(1)}%</td></tr>`;
+    }
+    html += '</table>';
+    html += `<div class="insight" style="margin-top:8px"><strong>Key finding (#216):</strong> The g* sweep locates the density where the boundary's effect vanishes. If fill at g=0.001 ≈ fill at g=0 (100%) at some n, the boundary has no effect — g*=0. The gap between the g=0.001 fill and the no-inhibition fill (100%) is the boundary's remaining capping power.</div>`;
+    const el = document.getElementById('g-star-limit-section');
+    if (el) el.innerHTML = html;
   }
 }
 

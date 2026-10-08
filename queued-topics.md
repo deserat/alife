@@ -2431,28 +2431,23 @@ to compare.
 
 ## From Session 76 (2026-10-06)
 
-215. **The fill cap's saturation functional form** — The 13-point
-      fill cap trajectory saturates at ~100% at n=15000. What is the
-      functional form of the saturation? Candidates: (a) logistic
-      (fill% = 100/(1+exp(-k(n-n0)))), (b) Gompertz
-      (fill% = 100·exp(-exp(-k(n-n0)))), (c) stretched exponential
-      approaching 100 (fill% = 100·(1-exp(-k·n^β))). The stretched
-      exponential (R²=0.964) was the best sub-saturation fit; does
-      it hold at saturation? Fit the 13 points to each and compare
-      R². The saturation form would reveal whether the boundary's
-      capping power degrades as a logistic, Gompertz, or power law
-      in n. Cheap: re-fit the existing data.
+215. **The fill cap's saturation functional form** — DONE (Session 77).
+      The 19-point fill cap trajectory (n=550–15000) was fitted to six
+      forms. The sub-saturation stretched exponential (a·exp(b·√n),
+      R²=0.964) remains best but unbounded (predicts >100%). Among
+      bounded forms, logistic (R²=0.941, n₉₉≈26600) and Gompertz
+      (R²=0.922, n₉₉≈31800) underestimate the steep n=10000→15000
+      rise. The saturation is a HARD ceiling (grid full), not a soft
+      saturation. See `fill_cap_saturation_fit.py`.
 
 216. **The 43rd mechanism's limit — where does g* hit zero?** —
-      At n=12000, g* does NOT hit zero (composition is alive, though
-      collapsed: l2=0/4, h7=4/4). At n=15000, g* is undefined (the
-      boundary has no effect: g=0.001 ≡ g=0, both fill ~100%). Where
-      exactly does g* hit zero? A sweep at n=11000–14000 at very low
-      gains (0.0005, 0.001) would locate the density where the
-      boundary's effect vanishes. This is the 43rd mechanism's
-      saturation point — the density above which the boundary is
-      irrelevant. Cross-domain: this is the coherence parameter's
-      critical value in the Haugen & Gilbert (2022) framework.
+      DONE (Session 77). The g* limit sweep (n=11000–14000 at g=0.001
+      + no-inhibition controls) found the boundary's capping power
+      (gap to no-inhib) decays exponentially: 16.2% → 8.3% → 4.3%
+      → 1.2% → ~0 (n=15000). g* hits zero at n≈14000-15000 — the
+      boundary becomes irrelevant when fill ≈ 99%. H7=4/4 at all
+      densities. L2=0/4 at all densities. The 43rd's saturation
+      point is n≈14000. See `g_star_limit_lean.py`.
 
 217. **The 30th mechanism's permanence at very low gain** —
       The persistence condition is permanently collapsed above ~44%

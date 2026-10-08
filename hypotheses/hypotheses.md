@@ -2,8 +2,8 @@
 title: "Hypotheses"
 topic: "testable hypotheses for the multi-scale ALife composition project"
 status: active
-date: "2026-10-06"
-session: 76
+date: "2026-10-08"
+session: 77
 count: 11
 active: [H1, H2, H3, H4, H5, H6, H7, H8, H9, H10, H11]
 logs: ["logs/H1/", "logs/H2/", "logs/H3/", "logs/H4/", "logs/H5/", "logs/H6/", "logs/H7/", "logs/H8/", "logs/H9/", "logs/H10/", "logs/H11/"]
@@ -216,10 +216,10 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 | H2: ANT Translation | Unchanged | Theoretical, untested | [H2](logs/H2/) |
 | H3: Quasi-Object | Strengthened | Stigmergy literature support; Echo partial support | [H3](logs/H3/) |
 | H4: Dynamic Environment | Refined | Fitness landscape criticism supports this | [H4](logs/H4/) |
-| H5: Autopoiesis | Refined (S76) | n=12000–15000: stable 0/4 at ~92–100% fill — persistence permanently collapsed above ~44%, confirmed at 10 ranges | [H5](logs/H5/) |
-| H6: Multi-Scale Autopoiesis | Refined (S76) | 12th member fully lost at n=12000–15000: 1s l2=0/4; single structure fills grid (ncomp=1 at n=15000) | [H6](logs/H6/) |
-| H7: Trace→Actor Crossing | Refined ×66; fill cap SATURATES at ~100% (n=15000, ncomp=1); 48th BREAKS — void GONE; Gompertz-to-logistic transition COMPLETE; H7=4/4; 30th persists; 43rd at 10th range | [H7](logs/H7/) |
+| H5: Autopoiesis | Refined (S77) | Persistence permanently collapsed above ~44% fill — confirmed at 14 density ranges; g* limit sweep (n=11000–14000) confirms stable 0/4; 30th mechanism independent of 44th | [H5](logs/H5/) |
+| H6: Multi-Scale Autopoiesis | Refined (S77) | 12th member fully lost at n=11000–14000 (~84–99% fill): 1s l2=0/4; progressive loss, not sharp threshold | [H6](logs/H6/) |
+| H7: Trace→Actor Crossing | Refined ×67; fill cap saturation is a HARD ceiling (grid full); g* limit n≈14000-15000 — boundary capping power decays exponentially (gap halves per 1000-n); H7=4/4 at all densities; L2=0/4; 30th persists; 43rd saturation at n≈14000 | [H7](logs/H7/) |
 | H8: Complexity Enables OEE | NEW | Kaznatcheev (2019), Wiser et al. (2013) | [H8](logs/H8/) |
 | H9: Evolving Network | Untested (2026-07-27 correction) | Vasas et al. (2012) literature support; sim04's finite-space exhaustion survives but doesn't test the claim; sim03/sim05 withdrawn | [H9](logs/H9/) |
-| H10: Unbounded Space Insufficiency | Refined (S76) | 49 mechanisms; fill cap SATURATES at ~100% (n=15000); 48th BREAKS — void GONE; Gompertz-to-logistic transition COMPLETE; 30th persists; 43rd at 10th range | [H10](logs/H10/) |
+| H10: Unbounded Space Insufficiency | Refined (S77) | 50 mechanisms; fill cap saturation is a HARD ceiling (grid full); g* limit n≈14000-15000 — boundary capping power decays exponentially; 30th persists; 43rd saturation at n≈14000 | [H10](logs/H10/) |
 | H11: Saturating Channel | Directionally confirmed (4/4); causal with control arm; 2×2-complete; φ_sat predictor family-specific; two-wire principle confirmed (S33) | Session 33: two-wire principle confirmed — separate B fields break persistence-formation trade-off for stability; Session 23: φ_sat probe 50% accurate — deposit-probability saturation self-defeating only in cue channels | [H11](logs/H11/) |

@@ -1299,3 +1299,27 @@ The n=12000–15000 plateau sweep extended the density range to ~92–100% grid 
 **The fill cap's complete trajectory (13 points):** n=1200→38.3%, n=1500→39.4%, n=1800→40.4%, n=2000→41.2%, n=2500→42.1%, n=3000→43.6%, n=4000→45.8%, n=5000→48.0%, n=6000→50.6%, n=8000→60.7%, n=10000→74.1%, n=12000→91.6%, n=15000→99.8%.
 
 **The fill cap increments:** +1.1% (1.2k→1.5k), +1.0% (1.5k→1.8k), +0.8% (1.8k→2k), +0.9% (2k→2.5k), +1.5% (2.5k→3k), +2.2% (3k→4k), +2.2% (4k→5k), +2.6% (5k→6k), +10.1% (6k→8k), +13.4% (8k→10k), **+17.5% (10k→12k)**, +8.2% (12k→15k). The acceleration peaked at the n=10000→12000 transition, then decelerated as the fill approached 100%.
+
+## Session 77 — Fill Cap Saturation Functional Form; G* Limit Located
+
+### Fill cap saturation functional form (#215)
+
+The 19-point fill cap trajectory (n=550–15000) was fitted to six candidate forms: logistic, Gompertz, stretched exponential saturation, sub-saturation stretched exponential, power law, and log. **The sub-saturation stretched exponential (a·exp(b·√n), R²=0.964) remains the best fit overall** — but it is unbounded (predicts >100% at n≥16000). Among bounded forms, the **logistic (R²=0.941, k=0.000205, n₀=4221)** is best, with n₉₉≈26600; the **Gompertz (R²=0.922)** gives n₉₉≈31800. The stretched exponential saturation (R²=0.810) and power law (R²=0.758) are worse.
+
+The saturation at n=15000 (99.93%) is a **hard ceiling** (grid full), not a soft saturation — the fill hits 100% because there are no more cells to fill, not because the boundary's capping power degrades smoothly. The bounded forms (logistic, Gompertz) underestimate the steep rise from n=10000 (75.25%) to n=15000 (99.93%) — the real trajectory is steeper than any bounded form predicts.
+
+### G* limit — where does the boundary's effect vanish? (#216)
+
+The g* limit sweep (n=11000, 12000, 13000, 14000 at g=0.001 + no-inhibition controls at each n) found the boundary's effect **vanishes smoothly between n=14000 and n=15000**:
+
+| n | fill (g=0.001) | fill (g=0, no-inhib) | gap | interpretation |
+|---|---|---|---|---|
+| 11000 | 83.8% | 100.0% | 16.2% | boundary has effect |
+| 12000 | 91.7% | 100.0% | 8.3% | boundary has effect |
+| 13000 | 95.7% | 100.0% | 4.3% | boundary weakening |
+| 14000 | 98.8% | 100.0% | 1.2% | boundary weakening |
+| 15000 | 99.9% | 100.0% | ~0.1% | boundary irrelevant |
+
+The gap shrinks monotonically: 16.2% → 8.3% → 4.3% → 1.2% → ~0. The boundary's capping power degrades smoothly, not as a sharp phase transition. g* hits zero at approximately n≈14000-15000 — the boundary becomes irrelevant when the fill at g=0.001 approaches the no-inhibition fill (100%). H7=4/4 at all densities (n=11000 4 seeds, n=12000-14000 2 seeds). L2=0/4 at all densities. The 30th mechanism persists (stable 0/4). The 43rd mechanism (g* ≠ 0) holds at n=11000-13000 but the gap shrinks to near-zero at n=14000.
+
+The gap trajectory (16.2, 8.3, 4.3, 1.2, ~0) is itself approximately halving at each step — suggesting an exponential decay of the boundary's capping power with n. This is the spatial analog of the Gompertz-to-logistic transition: the coherent field's effect decays as local connectivity overwhelms it.
