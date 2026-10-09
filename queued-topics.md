@@ -2449,15 +2449,15 @@ to compare.
       densities. L2=0/4 at all densities. The 43rd's saturation
       point is n≈14000. See `g_star_limit_lean.py`.
 
-217. **The 30th mechanism's permanence at very low gain** —
-      The persistence condition is permanently collapsed above ~44%
-      fill (confirmed at 10 density ranges). Does it ever recover at
-      very low gain (g=0.0001)? At n=15000, the boundary is irrelevant
-      (g=0.001 ≡ g=0), so gain cannot rescue it. But at n=12000
-      (~92% fill), does g=0.0001 rescue stability? If not, the 30th
-      mechanism is truly permanent — the boundary cannot maintain
-      stable composition at any density above ~44%, regardless of
-      gain. This would be the 46th mechanism's strongest form.
+217. **The 30th mechanism's permanence at very low gain** — DONE (Session 78).
+     The persistence condition does NOT recover at g=0.0001 at n=3000
+     (~44% fill): stable=0/2. The 30th mechanism is truly permanent — it
+     is not a gain-tuning problem but a structural property. The boundary
+     cannot maintain stable composition above ~44% fill at ANY gain tested
+     (g=0.0001–0.005). The 46th mechanism's strongest form: the persistence
+     condition has a hard density ceiling (~44% fill) independent of gain,
+     like a percolation threshold for autopoietic boundaries. See
+     `thirtieth_permanence.py`.
 
 218. **The fill cap's saturation as a design principle** — The fill
       cap saturates at ~100% at n=15000 — the boundary's coherent

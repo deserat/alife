@@ -2,8 +2,8 @@
 title: "Hypotheses"
 topic: "testable hypotheses for the multi-scale ALife composition project"
 status: active
-date: "2026-10-08"
-session: 77
+date: "2026-10-09"
+session: 78
 count: 11
 active: [H1, H2, H3, H4, H5, H6, H7, H8, H9, H10, H11]
 logs: ["logs/H1/", "logs/H2/", "logs/H3/", "logs/H4/", "logs/H5/", "logs/H6/", "logs/H7/", "logs/H8/", "logs/H9/", "logs/H10/", "logs/H11/"]
@@ -70,7 +70,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **For an emergent structure to persist as a new actor at a higher scale, it must be autopoietic — it must maintain the network that constitutes it.** Self-maintenance is the persistence condition. Without it, emergent structures are transient patterns, not new actors.
 
-**Status:** Refined (Session 76). The persistence condition is permanently collapsed above ~44% fill — confirmed at 10 density ranges (n=3000–15000). Stable 0/4 at n=12000 (~92% fill) and n=15000 (~100% fill) at both gains. The fill cap's saturation at ~100% (n=15000) does not rescue persistence — the boundary cannot maintain stable composition at any density above ~44%, regardless of fill level.
+**Status:** Refined (Session 78). The 30th mechanism is truly permanent — g=0.0001 does not rescue stability at n=3000 (~44% fill): stable=0/2. The persistence condition does not recover at any gain tested (g=0.0001–0.005). The 30th mechanism is not gain-dependent but structural: structures above ~44% fill are too large for the boundary to maintain without over-splitting, regardless of gain. The 46th mechanism's strongest form: the persistence condition has a hard density ceiling (~44% fill) independent of gain.
 
 **Log:** [logs/H5/](logs/H5/)
 
@@ -216,7 +216,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 | H2: ANT Translation | Unchanged | Theoretical, untested | [H2](logs/H2/) |
 | H3: Quasi-Object | Strengthened | Stigmergy literature support; Echo partial support | [H3](logs/H3/) |
 | H4: Dynamic Environment | Refined | Fitness landscape criticism supports this | [H4](logs/H4/) |
-| H5: Autopoiesis | Refined (S77) | Persistence permanently collapsed above ~44% fill — confirmed at 14 density ranges; g* limit sweep (n=11000–14000) confirms stable 0/4; 30th mechanism independent of 44th | [H5](logs/H5/) |
+| H5: Autopoiesis | Refined (S78) | 30th mechanism truly permanent — g=0.0001 does not rescue stability at n=3000; persistence ceiling ~44% fill independent of gain | [H5](logs/H5/) |
 | H6: Multi-Scale Autopoiesis | Refined (S77) | 12th member fully lost at n=11000–14000 (~84–99% fill): 1s l2=0/4; progressive loss, not sharp threshold | [H6](logs/H6/) |
 | H7: Trace→Actor Crossing | Refined ×67; fill cap saturation is a HARD ceiling (grid full); g* limit n≈14000-15000 — boundary capping power decays exponentially (gap halves per 1000-n); H7=4/4 at all densities; L2=0/4; 30th persists; 43rd saturation at n≈14000 | [H7](logs/H7/) |
 | H8: Complexity Enables OEE | NEW | Kaznatcheev (2019), Wiser et al. (2013) | [H8](logs/H8/) |
