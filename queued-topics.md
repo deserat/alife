@@ -2294,13 +2294,22 @@ to compare.
      `fill_cap_form_fit.json`.
 
 204. **The Gompertz-coherent connection — formalizing the analogy**
-     — Haugen & Gilbert (2022, arXiv:2211.05653) derive Gompertz
-     growth from coherent (long-range) interactions and logistic
-     from pairwise (local). The boundary's suppression is a coherent
-     field. Can the fill cap's functional form be derived from a
-     coherence argument? The Gompertz-to-logistic transition at the
-     percolation threshold is the departure from coherence — can this
-     be formalized as a phase transition in a coherence parameter θ?
+     — DONE (Session 79). Haugen & Gilbert (2022, arXiv:2211.05653)
+     derive Gompertz growth from coherent (long-range) interactions
+     and logistic from pairwise (local). The boundary's suppression
+     is a coherent field. Can the fill cap's functional form be
+     derived from a coherence argument? The Gompertz-to-logistic
+     transition at the percolation threshold is the departure from
+     coherence — can this be formalized as a phase transition in a
+     coherence parameter θ? Yes — formalized in
+     `concepts/gompertz-logistic-transition.md`: θ maps to the fill
+     fraction, the boundary's coherent suppression is the θ→0 field,
+     and percolation (Moore ~0.407) is the symmetry-breaking
+     transition. The fill cap's functional form encodes θ: the
+     sub-percolation log fit (R²=0.991) is the Gompertz (θ→0) regime;
+     the super-percolation acceleration is the logistic (θ→1) regime.
+     The three thresholds (30th, 44th, 43rd) are the phase diagram.
+     Open: can θ be measured directly? (#220)
 
 205. **The 30th mechanism's independence — does the persistence
      condition ever recover above the percolation threshold?** —
@@ -2418,8 +2427,8 @@ to compare.
      suppression delays the percolation transition to higher fill
      than the random-site threshold (~0.407).
 
-214. **The Gompertz-to-logistic transition's formalization** — Can
-     the coherence parameter θ from Haugen & Gilbert (2022) be
+214. **The Gompertz-to-logistic transition's formalization** — DONE (Session 79).
+     Can the coherence parameter θ from Haugen & Gilbert (2022) be
      mapped to the boundary's gain g? The Gompertz limit (θ→0)
      corresponds to the coherent regime (low density, logarithmic
      fill cap); the logistic limit (θ=1) corresponds to the
@@ -2428,6 +2437,13 @@ to compare.
      that corresponds to the Moore threshold ~0.407? This would
      formalize the analogy between the boundary's coherent
      suppression and Haugen & Gilbert's coherence framework.
+     Formalized in `concepts/gompertz-logistic-transition.md`: θ
+     maps to the fill fraction, the boundary's coherent suppression
+     is the θ→0 field, and percolation (Moore ~0.407) is the
+     symmetry-breaking transition. The three thresholds (30th, 44th,
+     43rd) are expressions of the single coherence-to-pairwise
+     phase transition. Open question: can θ be measured in our
+     system? (#220)
 
 ## From Session 76 (2026-10-06)
 
@@ -2459,16 +2475,48 @@ to compare.
      like a percolation threshold for autopoietic boundaries. See
      `thirtieth_permanence.py`.
 
-218. **The fill cap's saturation as a design principle** — The fill
-      cap saturates at ~100% at n=15000 — the boundary's coherent
-      suppression has a finite density range, above which the system
-      percolates and composition is impossible. This is a design
-      principle for stigmergic systems: the boundary's coherent
-      suppression has a finite density range. Above that range, the
-      system percolates and the boundary is irrelevant — composition
-      requires the density to be within the coherent regime (below
-      ~44% fill for stable composition, below ~75% for any
-      composition). This connects to the Gompertz-to-logistic
-      transition: the design principle is to keep the system in the
-      Gompertz (coherent) regime, not the logistic (pairwise) regime.
-      Could be a standalone concept file.
+218. **The fill cap's saturation as a design principle** — DONE (Session 79).
+     The fill cap saturates at ~100% at n=15000 — the boundary's coherent
+     suppression has a finite density range, above which the system
+     percolates and composition is impossible. This is a design
+     principle for stigmergic systems: the boundary's coherent
+     suppression has a finite density range. Above that range, the
+     system percolates and the boundary is irrelevant — composition
+     requires the density to be within the coherent regime (below
+     ~44% fill for stable composition, below ~75% for any
+     composition). This connects to the Gompertz-to-logistic
+     transition: the design principle is to keep the system in the
+     Gompertz (coherent) regime, not the logistic (pairwise) regime.
+     Formalized as standalone concept file `concepts/gompertz-logistic-transition.md`.
+
+219. **The Gompertz-to-logistic transition's formalization** — DONE (Session 79).
+     Can the coherence parameter θ from Haugen & Gilbert (2022) be
+     mapped to the boundary's gain g? The Gompertz limit (θ→0)
+     corresponds to the coherent regime (low density, logarithmic
+     fill cap); the logistic limit (θ=1) corresponds to the
+     percolated regime (high density, fill → 100%). The mapping is
+     formalized in `concepts/gompertz-logistic-transition.md`: θ maps
+     to the fill fraction, the boundary's coherent suppression is the
+     θ→0 field, and percolation (Moore ~0.407) is the symmetry-
+     breaking transition. The three thresholds (30th ~44%, 44th ~75%,
+     43rd ~100%) are expressions of the single coherence-to-pairwise
+     phase transition. Open question: can θ be measured in our system?
+
+220. **Can the coherence parameter θ be measured in our system?** —
+     Haugen & Gilbert define θ as the coupling between nodes on a
+     network. Our grid has Moore 8-neighbor connectivity — the
+     coupling is the deposit/excavate rule's sensitivity to local
+     curvature. Can θ be extracted from the fill cap's functional
+     form? If the sub-percolation log fit (R²=0.991) corresponds to
+     θ→0 and the super-percolation regime corresponds to θ→1, then
+     the fill cap's functional form encodes θ. Test: measure the
+     fill cap at different curvature sensitivities (deposit_prob_gain)
+     — does higher gain shift the effective θ?
+
+221. **Grid-size scaling of the fill cap** — The 1/√n scaling of g*
+     was tested only on 160×160. Does the log fill cap's coefficient
+     (13.1) scale with grid size, or is it a universal constant? The
+     surface-to-volume constraint (fill ∝ √n) predicts the fill cap
+     should depend on n/grid², not n. Test: compare the fill cap at
+     different grid sizes (80×80, 320×320) — does the same n produce
+     the same fill% across grid sizes?

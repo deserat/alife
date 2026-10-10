@@ -2015,3 +2015,28 @@ The 30th mechanism (stability-density trade-off) was tested at its weakest point
 This is the spatial analog of a percolation threshold for autopoietic boundaries. In percolation theory, above the critical occupation probability p_c, a spanning cluster forms regardless of bond strength — the topology of connectivity dominates over the strength of individual bonds. Here, above the critical fill fraction (~44%), the structures' surface area exceeds what the boundary can suppress — the topology of spatial extent dominates over the boundary's gain. The boundary's gain is like bond strength; the fill fraction is like occupation probability. Below p_c, the boundary maintains stable composition (like a non-percolating cluster); above p_c, the structures over-fragment (like a percolating cluster). The 30th mechanism is the observation that this threshold is independent of bond strength (gain) — it is purely topological.
 
 The 46th mechanism's strongest form: the persistence condition has a hard density ceiling (~44% fill) independent of gain. This connects the 30th mechanism to the 44th (fill-capping) and 43rd (g* saturation) mechanisms: the fill cap determines whether the system is below or above the persistence ceiling; the g* limit determines whether the boundary has any capping power at all. The 30th is independent of both — it is the third axis of the phase diagram (fill fraction, boundary gain, persistence), and the persistence axis has a hard ceiling that the other two cannot move.
+
+## 2026-10-10 — Session 79
+
+### The Gompertz-to-logistic transition as a formal concept ↔ Haugen & Gilbert (2022)
+
+The fill cap trajectory (19 data points, n=550–15000) now has a formal concept file: `concepts/gompertz-logistic-transition.md`. The concept formalizes the cross-domain connection between Haugen & Gilbert's (2022, arXiv:2211.05653) coherence parameter θ and our stigmergic boundary's three-threshold phase diagram.
+
+**The mapping:** Haugen & Gilbert show Gompertz growth (θ→0) is the coherent limit — long-range interactions dominate, aggregate dynamics depend only on the collective mean (invariant to microscopic variance). Logistic growth (θ=1) is the pairwise limit — local interactions dominate, and the macroscopic drift acquires a dependence on microscopic variance. Our boundary's coherent suppression (the B field acting across the entire grid) is the θ→0 field; percolation (Moore 8-neighbor threshold ~0.407) is the symmetry-breaking transition where local bonds overwhelm the coherent field.
+
+**The three thresholds as a single phase transition:**
+1. **Persistence ceiling (~44% fill)** — the 30th mechanism: the Gompertz regime's limit. The coherent field can maintain stable composition only below this fill. Gain-independent (topological).
+2. **Fill cap acceleration (~75% fill)** — the 44th mechanism breaks: the coherent field's capping power begins to collapse. Percolation criticality (bimodal largest-component fraction, 47th mechanism) appears at ~61% fill.
+3. **Saturation (~100% fill)** — the 43rd mechanism: the boundary is irrelevant, g*→0 at n≈14000. The logistic regime where local connectivity dominates entirely.
+
+**The design principle:** keep the stigmergic system in the Gompertz (coherent) regime, below ~44% fill for stable composition. The 1/√n (Laplace pressure) scaling of g* is the signature of the coherent regime — the boundary's gain scales with the surface-to-volume ratio (∝ 1/√n), the geometric expression of the coherent field's long-range nature.
+
+**The coherence parameter and microscopic variance:** At θ=0 (Gompertz), the aggregate dynamics depend only on the collective mean — the fill cap depends on total fill, not on how it's distributed between the two structures. At θ>0 (logistic), the fill depends on the local connectivity structure — the topology matters, not just the total. The percolation transition is where microscopic variance begins to matter.
+
+**The two-wire principle's macroscopic expression:** The Gompertz-to-logistic transition is the macroscopic form of the two-wire principle's Heisenberg trade-off (Members 10-11). The coherent field (exogenous, long-range) cannot maintain spatial specificity (local structure) once local connectivity dominates — the same way the signal cannot be simultaneously exogenous and spatially specific.
+
+**The 30th mechanism's ceiling (~44%) vs the Moore threshold (~0.407):** The two numbers are close but not identical. The 30th is gain-independent (topological); percolation is connectivity-dependent. The 30th may be a pre-threshold effect — the boundary over-splits structures approaching the threshold, not at it. This is an open question (formalized in the concept file's criticisms).
+
+### What this means for the research program
+
+The Gompertz-to-logistic transition connects our 49-mechanism composition story to a formal growth-theory framework with a published microscopic derivation. It elevates the three thresholds (30th, 44th, 43rd mechanisms) from empirical observations to expressions of a single phase transition — the coherence-to-pairwise transition mediated by percolation. The concept file provides the formal write-up that queued-topics #218, #214, and #204 called for.

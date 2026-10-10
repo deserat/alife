@@ -2,12 +2,12 @@
 title: "Hypotheses"
 topic: "testable hypotheses for the multi-scale ALife composition project"
 status: active
-date: "2026-10-09"
-session: 78
+date: "2026-10-10"
+session: 79
 count: 11
 active: [H1, H2, H3, H4, H5, H6, H7, H8, H9, H10, H11]
 logs: ["logs/H1/", "logs/H2/", "logs/H3/", "logs/H4/", "logs/H5/", "logs/H6/", "logs/H7/", "logs/H8/", "logs/H9/", "logs/H10/", "logs/H11/"]
-summary: "Current state of all 11 hypotheses (H1-H11): statement, status, evidence, and next test only. Full refinement history for each lives in hypotheses/logs/HN/ and is appended there, not here."
+summary: "Current state of all 11 hypotheses (H1-H11): statement, status, evidence, and next test only. Full refinement history for each lives in logs/HN/ and is appended there, not here."
 ---
 
 # Hypotheses
@@ -70,7 +70,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **For an emergent structure to persist as a new actor at a higher scale, it must be autopoietic — it must maintain the network that constitutes it.** Self-maintenance is the persistence condition. Without it, emergent structures are transient patterns, not new actors.
 
-**Status:** Refined (Session 78). The 30th mechanism is truly permanent — g=0.0001 does not rescue stability at n=3000 (~44% fill): stable=0/2. The persistence condition does not recover at any gain tested (g=0.0001–0.005). The 30th mechanism is not gain-dependent but structural: structures above ~44% fill are too large for the boundary to maintain without over-splitting, regardless of gain. The 46th mechanism's strongest form: the persistence condition has a hard density ceiling (~44% fill) independent of gain.
+**Status:** Refined (Session 79). The 30th mechanism is truly permanent — g=0.0001 does not rescue stability at n=3000 (~44% fill): stable=0/2. The persistence ceiling (~44% fill) is the first threshold of the Gompertz-to-logistic transition (Haugen & Gilbert 2022): the boundary's coherent suppression (θ→0 field) can maintain stable composition only below this fill. Gain-independent because the topological transition (percolation) dominates over the dynamical parameter (gain). The 46th mechanism's strongest form: the persistence condition has a hard density ceiling (~44% fill) independent of gain.
 
 **Log:** [logs/H5/](logs/H5/)
 
@@ -160,7 +160,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **Three paths, same failure:** Echo (CAS theory), chemical organizations (origin-of-life chemistry), and AlChemy (computational theory) all fail at multi-scale composition, from three different starting points — evidence the composition problem is fundamental, though sim05's leg of this argument is weaker post-correction.
 
-**Status:** Refined (Session 76). 49 mechanisms. The fill cap SATURATES at ~100% at n=15000 — the boundary's capping power is zero, not just finite. The 48th mechanism BREAKS: the spanning cluster fraction is 100% (1 component), the ~25% void from Session 75 is GONE. The fill cap trajectory (13 points) shows the complete Gompertz-to-logistic transition: ~41% (coherent) → ~75% (transition, 25% void) → ~100% (logistic, no void). The acceleration peaked at +17.5% (n=10000→12000) then saturated. The Gompertz-to-logistic transition is COMPLETE — the system is fully in the logistic regime at n=15000.
+**Status:** Refined (Session 79). 51 mechanisms. The Gompertz-to-logistic transition is now a formal concept file (`concepts/gompertz-logistic-transition.md`). The fill cap SATURATES at ~100% at n=15000 — the boundary's capping power is zero. The three thresholds (30th: persistence ceiling ~44%, 44th: fill cap acceleration ~75%, 43rd: saturation ~100%) are expressions of a single phase transition — the coherence-to-pairwise transition mediated by percolation (Moore 8-neighbor threshold ~0.407). The design principle: keep the system in the Gompertz (coherent) regime, below ~44% fill for stable composition. The 1/√n scaling of g* is the signature of the coherent regime. The coherence parameter θ maps to the fill fraction; the percolation transition is the symmetry breaking where microscopic variance begins to matter.
 
 **Test:** Build a simulation with explicit composition mechanisms (stigmergic bridges between organizations, autopoietic boundaries, selection for composability) and compare to AlChemy without these mechanisms. Measure: does the version with composition mechanisms produce L2 where the plain version fails?
 
@@ -216,10 +216,10 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 | H2: ANT Translation | Unchanged | Theoretical, untested | [H2](logs/H2/) |
 | H3: Quasi-Object | Strengthened | Stigmergy literature support; Echo partial support | [H3](logs/H3/) |
 | H4: Dynamic Environment | Refined | Fitness landscape criticism supports this | [H4](logs/H4/) |
-| H5: Autopoiesis | Refined (S78) | 30th mechanism truly permanent — g=0.0001 does not rescue stability at n=3000; persistence ceiling ~44% fill independent of gain | [H5](logs/H5/) |
+| H5: Autopoiesis | Refined (S79) | 30th mechanism permanent (g=0.0001 stable=0/2); persistence ceiling ~44% fill = first threshold of Gompertz-to-logistic transition; gain-independent (topological) | [H5](logs/H5/) |
 | H6: Multi-Scale Autopoiesis | Refined (S77) | 12th member fully lost at n=11000–14000 (~84–99% fill): 1s l2=0/4; progressive loss, not sharp threshold | [H6](logs/H6/) |
 | H7: Trace→Actor Crossing | Refined ×67; fill cap saturation is a HARD ceiling (grid full); g* limit n≈14000-15000 — boundary capping power decays exponentially (gap halves per 1000-n); H7=4/4 at all densities; L2=0/4; 30th persists; 43rd saturation at n≈14000 | [H7](logs/H7/) |
 | H8: Complexity Enables OEE | NEW | Kaznatcheev (2019), Wiser et al. (2013) | [H8](logs/H8/) |
 | H9: Evolving Network | Untested (2026-07-27 correction) | Vasas et al. (2012) literature support; sim04's finite-space exhaustion survives but doesn't test the claim; sim03/sim05 withdrawn | [H9](logs/H9/) |
-| H10: Unbounded Space Insufficiency | Refined (S77) | 50 mechanisms; fill cap saturation is a HARD ceiling (grid full); g* limit n≈14000-15000 — boundary capping power decays exponentially; 30th persists; 43rd saturation at n≈14000 | [H10](logs/H10/) |
+| H10: Unbounded Space Insufficiency | Refined (S79) | 51 mechanisms; Gompertz-to-logistic transition formal concept file; three thresholds (30th ~44%, 44th ~75%, 43rd ~100%) = single coherence-to-pairwise phase transition mediated by percolation (Moore ~0.407); design principle: keep in Gompertz (coherent) regime | [H10](logs/H10/) |
 | H11: Saturating Channel | Directionally confirmed (4/4); causal with control arm; 2×2-complete; φ_sat predictor family-specific; two-wire principle confirmed (S33) | Session 33: two-wire principle confirmed — separate B fields break persistence-formation trade-off for stability; Session 23: φ_sat probe 50% accurate — deposit-probability saturation self-defeating only in cue channels | [H11](logs/H11/) |
