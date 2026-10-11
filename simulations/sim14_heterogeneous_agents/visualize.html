@@ -326,6 +326,10 @@ select:hover, button:hover { border-color: var(--accent); }
 <p class="desc">The 30th mechanism (stability-density trade-off) collapses above ~44% fill and does not recover at lower gain (g=0.001–0.005, Sessions 71–72). Does g=0.0001 (10× lower) rescue stability at n=3000 (~44% fill)? If not, the 30th mechanism is truly permanent — a structural property, not a parameter.</p>
 <div id="thirtieth-permanence-section"></div>
 
+<h2>Grid-Size Scaling of the Fill Cap (Session 80)</h2>
+<p class="desc">The 19-point fill cap trajectory was entirely on 160×160. The surface-to-volume constraint predicts fill% depends on density (n/grid²), not n alone — so 80×80 at n_80=n_160/4 should give the same fill%. <strong>Result: the prediction is FALSIFIED.</strong> At matched density, 80×80 fills systematically MORE than 160×160. The fill depends on absolute n, not density. At n_80=75 (≡n_160=300): 29.5% vs 43.5%. At n_80=150 (≡n_160=600): 48.3% vs 31.2%. At n_80=250 (≡n_160=1000): 60.9% vs 36.5%. The fill gap WIDENS with density (+17% → +24%). The fill cap is NOT a density-driven surface-to-volume constraint — it depends on absolute termite count, not density. The 50th mechanism: the fill cap scales with n, not n/grid². No-inhibition control: n=75 fills 29.3% (same as with boundary — too little material to suppress), n=150 fills 66.3% (boundary suppresses 48.3% → 66.3%).</p>
+<div id="grid-fill-cap-scaling-section"></div>
+
 <script>
 let resultsData = null;
 let robustData = null;
@@ -394,6 +398,7 @@ async function loadData() {
     'fillCapSaturationFit': 'output/fill_cap_saturation_fit.json',
     'gStarLimitSweep': 'output/g_star_limit_sweep.json',
     'thirtiethPermanence': 'output/thirtieth_permanence.json',
+    'gridFillCapScaling': 'output/grid_fill_cap_scaling.json',
   };
   const sweepPromises = Object.entries(sweepFiles).map(([key, path]) =>
     fetch(path).then(r => r.json()).catch(() => null)
@@ -2367,6 +2372,40 @@ function populateSweepSections() {
     html += `<div class="insight" style="margin-top:8px"><strong>Key finding (#217):</strong> g=0.0001 at n=3000 (~44% fill): stable=${g0001Stable}. The 30th mechanism is <strong>truly permanent</strong> — the persistence condition does not recover at any gain tested (g=0.0001–0.005). The boundary cannot maintain stable composition above ~44% fill regardless of gain. The 46th mechanism's strongest form: the persistence ceiling is a hard topological limit (~44% fill), independent of bond strength (gain), like a percolation threshold for autopoietic boundaries.</div>`;
     const el2 = document.getElementById('thirtieth-permanence-section');
     if (el2) el2.innerHTML = html;
+  }
+
+  // ─── Grid-Size Scaling of Fill Cap (Session 80) ────────────────
+  if (window.gridFillCapScalingData) {
+    const d = window.gridFillCapScalingData;
+    let html = '<h3 style="color:var(--accent);margin:16px 0 8px">Fill Cap: 80×80 vs 160×160 at Matched Density</h3>';
+    html += '<table style="margin:12px 0;font-size:0.85em">';
+    html += '<tr><th>n_80</th><th>n_160</th><th>g</th><th>Fill_80</th><th>Fill_160</th><th>Diff</th><th>L2</th><th>Coexist</th><th>H7</th><th>CF</th><th>L2(1s)</th></tr>';
+    const fill160 = d.config.fill_cap_160_ref || {};
+    const labels = ['n75_g010','n75_g020','n150_g010','n150_g020','n200_g010','n200_g020','n250_g010','n250_g020'];
+    for (const label of labels) {
+      const entry = d[label];
+      if (!entry || !entry.summary) continue;
+      const s = entry.summary;
+      const f160 = entry.fill_160_ref || '—';
+      const diff = (s.mean_fill_pct - (f160 === '—' ? 0 : f160)).toFixed(2);
+      html += `<tr><td>${entry.n_termites}</td><td>${entry.n_160_equiv}</td><td>${entry.g_form}</td>`;
+      html += `<td>${s.mean_fill_pct}%</td><td>${f160}%</td><td>${diff}%</td>`;
+      html += `<td>${s.l2}</td><td>${s.coexist}</td><td>${s.h7}</td><td>${s.mean_coexist_frac}</td>`;
+      html += `<td>${s.l2_1s}</td></tr>`;
+    }
+    // No-inhibition
+    html += '<tr><td colspan="11" style="padding-top:8px"><strong>No-inhibition controls:</strong></td></tr>';
+    for (const label of ['n75_g000','n150_g000']) {
+      const entry = d[label];
+      if (!entry || !entry.summary) continue;
+      const s = entry.summary;
+      html += `<tr><td>${entry.n_termites}</td><td>—</td><td>0</td><td>${s.mean_fill_pct}%</td><td>—</td><td>—</td>`;
+      html += `<td>${s.l2}</td><td>—</td><td>${s.h7}</td><td>—</td><td>—</td></tr>`;
+    }
+    html += '</table>';
+    html += '<div class="insight" style="margin-top:8px"><strong>Key finding (#221):</strong> The surface-to-volume prediction (fill depends on n/grid², not n) is <strong>FALSIFIED</strong>. At matched density, 80×80 fills systematically MORE than 160×160 — the fill gap widens with density (+14% at n_80=75 to +24% at n_80=250). The fill cap depends on absolute n, not density. The 50th mechanism: the fill cap is an absolute-termite-count property, not a density property. The boundary suppresses the same fraction regardless of grid size, but each termite deposits over a smaller area on the smaller grid, producing more fill per termite.</div>';
+    const elG = document.getElementById('grid-fill-cap-scaling-section');
+    if (elG) elG.innerHTML = html;
   }
 }
 

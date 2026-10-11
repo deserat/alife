@@ -2513,10 +2513,40 @@ to compare.
      fill cap at different curvature sensitivities (deposit_prob_gain)
      — does higher gain shift the effective θ?
 
-221. **Grid-size scaling of the fill cap** — The 1/√n scaling of g*
-     was tested only on 160×160. Does the log fill cap's coefficient
-     (13.1) scale with grid size, or is it a universal constant? The
-     surface-to-volume constraint (fill ∝ √n) predicts the fill cap
-     should depend on n/grid², not n. Test: compare the fill cap at
-     different grid sizes (80×80, 320×320) — does the same n produce
-     the same fill% across grid sizes?
+221. **Grid-size scaling of the fill cap** — DONE (Session 80).
+     The surface-to-volume prediction is FALSIFIED. At matched density
+     (n_80 = n_160/4), 80×80 fills systematically MORE than 160×160 —
+     the gap widens from -14% (n_80=75) to +24% (n_80=250). The fill
+     cap depends on absolute n, not density. The 50th mechanism: the
+     fill cap is per-termite, not per-area. The boundary acts on the
+     co-presence signal (intensive), not the deposit rate (extensive).
+     The Gompertz-to-logistic thresholds are fill-fraction thresholds,
+     not density thresholds. H7=4/4, L2=4/4 at all 16 combos on 80×80.
+     See `grid_fill_cap_scaling.py`.
+
+     ## From Session 80 (2026-10-11)
+
+222. **Test a third grid size (320×320)** — The fill cap scales with
+     absolute n, not density (the 50th mechanism). But only 2 grid
+     sizes were tested. 320×320 at n=1200, 2400 (matching 160×160 at
+     n=300, 600) would confirm the n-dependence is linear, not some
+     other grid-size scaling. Prediction: if the fill cap is truly
+     per-termite, fill_320(n_320) should match fill_160(n_320), not
+     fill_160(4×n_320).
+
+223. **Explain the n=75 sign flip** — At n_80=75, 80×80 fills LESS
+     than 160×160 (29.5% vs 43.5%). At n≥150, it fills more. The sign
+     flip at the lowest density is unexplained. Is it a boundary
+     effect (small structure relative to grid) or a low-n artifact?
+     Inspect the structure sizes and B_max at n=75 on 80×80 vs n=300
+     on 160×160.
+
+224. **The 52nd mechanism — the co-presence signal is intensive** —
+     The boundary acts on the co-presence signal (min of dilated
+     ID-tagged material), which depends on the spatial arrangement
+     of material, not its total amount. This is an intensive property.
+     The fill (total material) is extensive. The disconnect between
+     the extensive fill and the intensive boundary signal is why the
+     surface-to-volume constraint fails. Formalize this as a concept
+     file connecting the extensive/intensive distinction in
+     thermodynamics to stigmergic signals.

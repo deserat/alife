@@ -2,8 +2,8 @@
 title: "Hypotheses"
 topic: "testable hypotheses for the multi-scale ALife composition project"
 status: active
-date: "2026-10-10"
-session: 79
+date: "2026-10-11"
+session: 80
 count: 11
 active: [H1, H2, H3, H4, H5, H6, H7, H8, H9, H10, H11]
 logs: ["logs/H1/", "logs/H2/", "logs/H3/", "logs/H4/", "logs/H5/", "logs/H6/", "logs/H7/", "logs/H8/", "logs/H9/", "logs/H10/", "logs/H11/"]
@@ -70,7 +70,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **For an emergent structure to persist as a new actor at a higher scale, it must be autopoietic — it must maintain the network that constitutes it.** Self-maintenance is the persistence condition. Without it, emergent structures are transient patterns, not new actors.
 
-**Status:** Refined (Session 79). The 30th mechanism is truly permanent — g=0.0001 does not rescue stability at n=3000 (~44% fill): stable=0/2. The persistence ceiling (~44% fill) is the first threshold of the Gompertz-to-logistic transition (Haugen & Gilbert 2022): the boundary's coherent suppression (θ→0 field) can maintain stable composition only below this fill. Gain-independent because the topological transition (percolation) dominates over the dynamical parameter (gain). The 46th mechanism's strongest form: the persistence condition has a hard density ceiling (~44% fill) independent of gain.
+**Status:** Refined (Session 80). The fill cap scales with absolute n, not density — the surface-to-volume prediction is falsified (the 50th mechanism). The 30th mechanism's persistence ceiling (~44% fill) is a fill-fraction threshold whose n-dependence is grid-size-specific, not universal. The Gompertz-to-logistic transition's three thresholds are fill-fraction thresholds, not density thresholds. H7=4/4 and L2=4/4 at all 16 combos on 80×80 — the crossing and composition are fully robust.
 
 **Log:** [logs/H5/](logs/H5/)
 
@@ -160,7 +160,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **Three paths, same failure:** Echo (CAS theory), chemical organizations (origin-of-life chemistry), and AlChemy (computational theory) all fail at multi-scale composition, from three different starting points — evidence the composition problem is fundamental, though sim05's leg of this argument is weaker post-correction.
 
-**Status:** Refined (Session 79). 51 mechanisms. The Gompertz-to-logistic transition is now a formal concept file (`concepts/gompertz-logistic-transition.md`). The fill cap SATURATES at ~100% at n=15000 — the boundary's capping power is zero. The three thresholds (30th: persistence ceiling ~44%, 44th: fill cap acceleration ~75%, 43rd: saturation ~100%) are expressions of a single phase transition — the coherence-to-pairwise transition mediated by percolation (Moore 8-neighbor threshold ~0.407). The design principle: keep the system in the Gompertz (coherent) regime, below ~44% fill for stable composition. The 1/√n scaling of g* is the signature of the coherent regime. The coherence parameter θ maps to the fill fraction; the percolation transition is the symmetry breaking where microscopic variance begins to matter.
+**Status:** Refined (Session 80). 52 mechanisms. The fill cap is an absolute-n property, not a density property — the surface-to-volume prediction is falsified (the 50th mechanism). The 52nd mechanism: the fill cap is per-termite because the boundary acts on the co-presence signal, not the deposit rate. The three Gompertz-to-logistic thresholds (30th: ~44%, 44th: ~75%, 43rd: ~100%) are fill-fraction thresholds, not density thresholds — the n at which each is reached is grid-size-specific. The 1/√n scaling of g* is the 160×160-specific expression, not a universal law. H7=4/4 and L2=4/4 at all 16 combos on 80×80 — the crossing and composition are fully robust.
 
 **Test:** Build a simulation with explicit composition mechanisms (stigmergic bridges between organizations, autopoietic boundaries, selection for composability) and compare to AlChemy without these mechanisms. Measure: does the version with composition mechanisms produce L2 where the plain version fails?
 
