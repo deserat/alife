@@ -2,8 +2,8 @@
 title: "Hypotheses"
 topic: "testable hypotheses for the multi-scale ALife composition project"
 status: active
-date: "2026-10-11"
-session: 80
+date: "2026-10-12"
+session: 81
 count: 11
 active: [H1, H2, H3, H4, H5, H6, H7, H8, H9, H10, H11]
 logs: ["logs/H1/", "logs/H2/", "logs/H3/", "logs/H4/", "logs/H5/", "logs/H6/", "logs/H7/", "logs/H8/", "logs/H9/", "logs/H10/", "logs/H11/"]
@@ -70,7 +70,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **For an emergent structure to persist as a new actor at a higher scale, it must be autopoietic — it must maintain the network that constitutes it.** Self-maintenance is the persistence condition. Without it, emergent structures are transient patterns, not new actors.
 
-**Status:** Refined (Session 80). The fill cap scales with absolute n, not density — the surface-to-volume prediction is falsified (the 50th mechanism). The 30th mechanism's persistence ceiling (~44% fill) is a fill-fraction threshold whose n-dependence is grid-size-specific, not universal. The Gompertz-to-logistic transition's three thresholds are fill-fraction thresholds, not density thresholds. H7=4/4 and L2=4/4 at all 16 combos on 80×80 — the crossing and composition are fully robust.
+**Status:** Refined (Session 81). The 50th mechanism is confirmed at a third grid size (320×320): fill decreases with grid size at matched density (23.4/kc: 48.26% > 31.23% > 24.72%). The 53rd mechanism: the boundary converts density-dependence into n-dependence — without the boundary, the fill IS density-dependent (29.26% ≈ 29.47% at 11.7/kc); with the boundary, the fill is n-dependent. The absolute cells are NOT the same across grids (the boundary is weaker on larger grids). Composition is 0/4 on 320×320 (all fragmented), H7=4/4 (crossing robust).
 
 **Log:** [logs/H5/](logs/H5/)
 
@@ -160,7 +160,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **Three paths, same failure:** Echo (CAS theory), chemical organizations (origin-of-life chemistry), and AlChemy (computational theory) all fail at multi-scale composition, from three different starting points — evidence the composition problem is fundamental, though sim05's leg of this argument is weaker post-correction.
 
-**Status:** Refined (Session 80). 52 mechanisms. The fill cap is an absolute-n property, not a density property — the surface-to-volume prediction is falsified (the 50th mechanism). The 52nd mechanism: the fill cap is per-termite because the boundary acts on the co-presence signal, not the deposit rate. The three Gompertz-to-logistic thresholds (30th: ~44%, 44th: ~75%, 43rd: ~100%) are fill-fraction thresholds, not density thresholds — the n at which each is reached is grid-size-specific. The 1/√n scaling of g* is the 160×160-specific expression, not a universal law. H7=4/4 and L2=4/4 at all 16 combos on 80×80 — the crossing and composition are fully robust.
+**Status:** Refined (Session 81). 53 mechanisms. The 50th mechanism is confirmed at a third grid size (320×320): fill decreases with grid size at matched density (23.4/kc: 48.26% > 31.23% > 24.72%). The 53rd mechanism: the boundary converts density-dependence into n-dependence — without the boundary, the fill IS density-dependent (29.26% ≈ 29.47% at 11.7/kc); with the boundary, the fill is n-dependent. The absolute cells are NOT the same across grids (the boundary is weaker on larger grids). Composition is 0/4 on 320×320 (all fragmented), H7=4/4 (crossing robust).
 
 **Test:** Build a simulation with explicit composition mechanisms (stigmergic bridges between organizations, autopoietic boundaries, selection for composability) and compare to AlChemy without these mechanisms. Measure: does the version with composition mechanisms produce L2 where the plain version fails?
 

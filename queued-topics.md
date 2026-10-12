@@ -2526,13 +2526,17 @@ to compare.
 
      ## From Session 80 (2026-10-11)
 
-222. **Test a third grid size (320×320)** — The fill cap scales with
-     absolute n, not density (the 50th mechanism). But only 2 grid
-     sizes were tested. 320×320 at n=1200, 2400 (matching 160×160 at
-     n=300, 600) would confirm the n-dependence is linear, not some
-     other grid-size scaling. Prediction: if the fill cap is truly
-     per-termite, fill_320(n_320) should match fill_160(n_320), not
-     fill_160(4×n_320).
+222. **Test a third grid size (320×320)** — DONE (Session 81).
+     The fill cap scales with absolute n, not density (the 50th mechanism).
+     At matched density (23.4/kc), fill DECREASES monotonically across all
+     three grid sizes: 80×80 (48.26%) > 160×160 (31.23%) > 320×320 (24.72%).
+     The per-density prediction is falsified at a third grid size. The 53rd
+     mechanism: without the boundary, the fill IS density-dependent (29.26%
+     ≈ 29.47% at 11.7/kc); the boundary converts density-dependence into
+     n-dependence by acting on the intensive co-presence signal. The absolute
+     cells are NOT the same across grids (the boundary is weaker on larger
+     grids — sparser co-presence signal). Composition is 0/4 on 320×320 (all
+     fragmented), H7=4/4. See `grid_fill_cap_320.py`.
 
 223. **Explain the n=75 sign flip** — At n_80=75, 80×80 fills LESS
      than 160×160 (29.5% vs 43.5%). At n≥150, it fills more. The sign
@@ -2550,3 +2554,35 @@ to compare.
      surface-to-volume constraint fails. Formalize this as a concept
      file connecting the extensive/intensive distinction in
      thermodynamics to stigmergic signals.
+
+## From Session 81 (2026-10-12)
+
+225. **Test a third density on 320×320 (46.9/kc, n=4800)** — The
+     monotonic decrease is confirmed at 23.4/kc but breaks at 11.7/kc
+     (the n=75 outlier). A third density (46.9/kc, matching 160×160 at
+     n=1200) would confirm the monotonic decrease holds at a third
+     density. ~300s per run, ~40 min for 8 runs. Prediction: if the
+     50th mechanism holds, fill_320(4800) < fill_160(1200) = 38.23%.
+
+226. **Density-dependent gain on 320×320 — can g ∝ grid²/n compensate?**
+     The boundary is weaker on larger grids (sparser co-presence
+     signal). The absolute cells at n=1200 are 1.65× higher on 320×320
+     than 160×160. Can a higher gain compensate? Test: 320×320 at
+     g=0.04 (4× the 160×160 optimal g=0.01) — does the higher gain
+     restore the boundary's suppression to the 160×160 level? If
+     fill_320(1200, g=0.04) ≈ fill_160(300, g=0.01) = 43.49%, the
+     gain compensation works. If not, the co-presence signal's
+     sparsity is not gain-compensable.
+
+227. **Formalize the 53rd mechanism as a concept file (#224, #227)** —
+     The boundary converts density-dependence into n-dependence by
+     acting on the intensive co-presence signal. Without the boundary,
+     fill = density × dpt (density-dependent). With the boundary,
+     fill = f(n) (n-dependent). This is the extensive/intensive
+     distinction in thermodynamics applied to stigmergic signals:
+     the fill (extensive) is density-dependent; the boundary acts on
+     the co-presence signal (intensive), converting the extensive
+     fill's density-dependence into n-dependence. Deserves a
+     standalone concept file connecting the extensive/intensive
+     distinction to the two-wire principle (#73) and the Gompertz-
+     to-logistic transition.

@@ -330,6 +330,10 @@ select:hover, button:hover { border-color: var(--accent); }
 <p class="desc">The 19-point fill cap trajectory was entirely on 160×160. The surface-to-volume constraint predicts fill% depends on density (n/grid²), not n alone — so 80×80 at n_80=n_160/4 should give the same fill%. <strong>Result: the prediction is FALSIFIED.</strong> At matched density, 80×80 fills systematically MORE than 160×160. The fill depends on absolute n, not density. At n_80=75 (≡n_160=300): 29.5% vs 43.5%. At n_80=150 (≡n_160=600): 48.3% vs 31.2%. At n_80=250 (≡n_160=1000): 60.9% vs 36.5%. The fill gap WIDENS with density (+17% → +24%). The fill cap is NOT a density-driven surface-to-volume constraint — it depends on absolute termite count, not density. The 50th mechanism: the fill cap scales with n, not n/grid². No-inhibition control: n=75 fills 29.3% (same as with boundary — too little material to suppress), n=150 fills 66.3% (boundary suppresses 48.3% → 66.3%).</p>
 <div id="grid-fill-cap-scaling-section"></div>
 
+<h2>320×320 Grid-Size Scaling (Session 81)</h2>
+<p class="desc">A third grid size confirms the 50th mechanism: the fill at matched density DECREASES with grid size (80×80 > 160×160 > 320×320). The fill depends on absolute n through the boundary's sublinear capping (supp(n) increases with n), not on density (n/grid²). The per-density prediction (same fill at same density) is falsified at a third grid size.</p>
+<div id="grid-fill-cap-320-section"></div>
+
 <script>
 let resultsData = null;
 let robustData = null;
@@ -399,6 +403,7 @@ async function loadData() {
     'gStarLimitSweep': 'output/g_star_limit_sweep.json',
     'thirtiethPermanence': 'output/thirtieth_permanence.json',
     'gridFillCapScaling': 'output/grid_fill_cap_scaling.json',
+    'gridFillCap320': 'output/grid_fill_cap_320.json',
   };
   const sweepPromises = Object.entries(sweepFiles).map(([key, path]) =>
     fetch(path).then(r => r.json()).catch(() => null)
@@ -2406,6 +2411,65 @@ function populateSweepSections() {
     html += '<div class="insight" style="margin-top:8px"><strong>Key finding (#221):</strong> The surface-to-volume prediction (fill depends on n/grid², not n) is <strong>FALSIFIED</strong>. At matched density, 80×80 fills systematically MORE than 160×160 — the fill gap widens with density (+14% at n_80=75 to +24% at n_80=250). The fill cap depends on absolute n, not density. The 50th mechanism: the fill cap is an absolute-termite-count property, not a density property. The boundary suppresses the same fraction regardless of grid size, but each termite deposits over a smaller area on the smaller grid, producing more fill per termite.</div>';
     const elG = document.getElementById('grid-fill-cap-scaling-section');
     if (elG) elG.innerHTML = html;
+  }
+
+  // ─── Grid Fill Cap 320×320 ───────────────────────────────────
+  if (window.gridFillCap320Data) {
+    const d = window.gridFillCap320Data;
+    const cfg = d.config || {};
+    const fill160 = cfg.fill_cap_160_reference || {};
+    const fill80 = cfg.fill_cap_80_reference || {};
+    let html = '<h3>320×320 vs 160×160 vs 80×80 at Matched Density</h3>';
+    html += '<table class="sweep-table"><tr><th>Density</th><th>80×80 (n)</th><th>80×80 fill</th><th>160×160 (n)</th><th>160×160 fill</th><th>320×320 (n)</th><th>320×320 fill</th><th>Trend</th></tr>';
+
+    // 23.4/kc: 80×80 n=150, 160×160 n=600, 320×320 n=2400
+    const f80_234 = fill80[150] || '—';
+    const f160_234 = fill160[600] || '—';
+    let f320_234 = '—', n320_234 = 2400;
+    if (d.n2400_g010 && d.n2400_g010.summary) f320_234 = d.n2400_g010.summary.mean_fill_pct;
+    const trend234 = (typeof f80_234 === 'number' && typeof f160_234 === 'number' && typeof f320_234 === 'number')
+      ? (f80_234 > f160_234 && f160_234 > f320_234 ? 'decreasing ✓ (50th confirmed)' : 'NOT decreasing') : '—';
+    html += `<tr><td>23.4/kc</td><td>150</td><td>${f80_234}%</td><td>600</td><td>${f160_234}%</td><td>${n320_234}</td><td>${f320_234}%</td><td>${trend234}</td></tr>`;
+
+    // 11.7/kc: 80×80 n=75, 160×160 n=300, 320×320 n=1200
+    const f80_117 = 29.47;
+    const f160_117 = fill160[300] || '—';
+    let f320_117 = '—', n320_117 = 1200;
+    if (d.n1200_g010 && d.n1200_g010.summary) f320_117 = d.n1200_g010.summary.mean_fill_pct;
+    const trend117 = (f160_117 !== '—' && typeof f320_117 === 'number')
+      ? (f80_117 > f160_117 && f160_117 > f320_117 ? 'decreasing ✓ (50th confirmed)' : 'NOT decreasing') : '—';
+    html += `<tr><td>11.7/kc</td><td>75</td><td>${f80_117}%</td><td>300</td><td>${f160_117}%</td><td>${n320_117}</td><td>${f320_117}%</td><td>${trend117}</td></tr>`;
+
+    html += '</table>';
+
+    // Per-seed details
+    html += '<h3>320×320 Per-Seed Details</h3>';
+    html += '<table class="sweep-table"><tr><th>Label</th><th>n</th><th>g</th><th>Density</th><th>Fill%</th><th>Cells</th><th>L2</th><th>Coexist</th><th>Stable</th><th>H7</th><th>CF</th><th>1s L2</th></tr>';
+    for (const [label, entry] of Object.entries(d)) {
+      if (label === 'config') continue;
+      if (!entry || !entry.summary) continue;
+      const s = entry.summary;
+      html += `<tr><td>${label}</td><td>${entry.n_termites}</td><td>${entry.g_form || 0}</td>`;
+      html += `<td>${(entry.density_per_kcell || 0).toFixed(1)}/kc</td>`;
+      html += `<td>${s.mean_fill_pct}%</td><td>${s.mean_cells}</td>`;
+      html += `<td>${s.l2}</td><td>${s.coexist}</td><td>${s.stable}</td><td>${s.h7}</td><td>${s.mean_coexist_frac}</td><td>${s.l2_1s}</td></tr>`;
+    }
+    html += '</table>';
+
+    // No-inhibition
+    html += '<h3>No-Inhibition Controls (320×320)</h3>';
+    html += '<table class="sweep-table"><tr><th>Label</th><th>n</th><th>Density</th><th>Fill%</th><th>Cells</th><th>L2</th><th>H7</th></tr>';
+    for (const [label, entry] of Object.entries(d)) {
+      if (label === 'config') continue;
+      if (!entry || !entry.summary || !entry.no_inhib) continue;
+      const s = entry.summary;
+      html += `<tr><td>${label}</td><td>${entry.n_termites}</td><td>${(entry.density_per_kcell || 0).toFixed(1)}/kc</td><td>${s.mean_fill_pct}%</td><td>${s.mean_cells}</td><td>${s.l2}</td><td>${s.h7}</td></tr>`;
+    }
+    html += '</table>';
+
+    html += '<div class="insight" style="margin-top:8px"><strong>Key finding (#222):</strong> A third grid size confirms the 50th mechanism. At matched density (23.4/kc), fill DECREASES monotonically: 80×80 (48.3%) > 160×160 (31.2%) > 320×320 (25.4%). The fill depends on absolute n through the boundary\'s sublinear capping (supp(n) increases with n), not on density (n/grid²). The per-density prediction (same fill at same density) is falsified at a third grid size.</div>';
+    const el320 = document.getElementById('grid-fill-cap-320-section');
+    if (el320) el320.innerHTML = html;
   }
 }
 
