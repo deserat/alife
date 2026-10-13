@@ -2575,14 +2575,42 @@ to compare.
      sparsity is not gain-compensable.
 
 227. **Formalize the 53rd mechanism as a concept file (#224, #227)** —
-     The boundary converts density-dependence into n-dependence by
-     acting on the intensive co-presence signal. Without the boundary,
-     fill = density × dpt (density-dependent). With the boundary,
-     fill = f(n) (n-dependent). This is the extensive/intensive
-     distinction in thermodynamics applied to stigmergic signals:
-     the fill (extensive) is density-dependent; the boundary acts on
-     the co-presence signal (intensive), converting the extensive
-     fill's density-dependence into n-dependence. Deserves a
-     standalone concept file connecting the extensive/intensive
-     distinction to the two-wire principle (#73) and the Gompertz-
-     to-logistic transition.
+     DONE (Session 82). Created
+     `concepts/extensive-intensive-signals.md` formalizing the
+     extensive/intensive signal distinction: the fill (extensive) is
+     density-dependent; the co-presence signal (intensive) is
+     arrangement-dependent. The boundary acts on the intensive signal,
+     converting the extensive fill's density-dependence into n-
+     dependence. Added as the 15th member of the two-wire principle.
+     Updated `concepts/two-wire-principle.md` (15 members) and
+     `synthesis.md`.
+
+## From Session 82 (2026-10-13)
+
+228. **The gain compensation test — is the co-presence signal's sparsity
+     gain-compensable?** — DONE (Session 82).
+     The 53rd mechanism predicts the boundary's weakness on larger grids
+     is a structural property of the co-presence signal's spatial
+     arrangement (intensive), not a gain-tuning problem (extensive).
+     Test: 320×320 at n=1200 × g=[0.01–0.12] × 4 seeds + 160×160 at
+     n=300 × g=[0.01, 0.04] × 4 seeds (direct comparison at matched
+     density). Prediction: NOT gain-compensable — gain amplifies
+     magnitude (extensive), it cannot fix spatial coverage (intensive).
+     See `gain_compensation_320.py`.
+
+229. **The n=75 sign flip — why does 80×80 fill LESS than 160×160 at the
+     lowest density?** — At n_80=75 (11.7/kc), 80×80 fills 29.5% vs
+     160×160's 43.5%. At n≥150, 80×80 fills more. The sign flip at the
+     lowest density is unexplained. Is it a boundary effect (small
+     structure relative to grid) or a low-n artifact? Inspect the
+     structure sizes and B_max at n=75 on 80×80 vs n=300 on 160×160.
+
+230. **The co-presence signal's spatial density as a measurable
+     quantity** — The 53rd mechanism says the co-presence signal is
+     intensive (arrangement-dependent). Can the signal's spatial density
+     be measured directly (e.g., as the mean co-presence per cell, or
+     the fraction of cells with co-presence > threshold)? This would
+     make the extensive/intensive distinction quantitative rather than
+     phenomenological. A sweep measuring co-presence density at
+     different (n, grid) combos would map the intensive signal's
+     scaling directly.

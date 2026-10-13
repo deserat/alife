@@ -3,7 +3,7 @@ status: active
 formed: "Session 42"
 connected_to: "non-saturating-channels, stigmergic-consolidation, stigmergy, autopoiesis, H5, H6, H7, H10, H11"
 topic: "the two-wire principle — a general design law for self-organizing systems: when two functional properties are carried on the same wire, saturating one destroys the other"
-key_findings: "Twelve members across Sessions 23–41 form a progression: (1-3) channel separation, (4-5) field separation, (6-7) signal quality, (8) exogeneity, (9) noise structure, (10) endogeneity, (11) spatial specificity, (12) structure-to-grid ratio. Each level is a stronger form of the same principle: the signal must not be reachable by the dynamics it controls, must be specific to where it acts, and the structure must be small enough for the boundary to separate it. The principle applies to stigmergic channels (pheromone saturation), boundary design (feedback-loop amplification), control signals (exogeneity vs spatial specificity), and finite-size geometry (structure-to-grid ratio). The deepest form (the Heisenberg trade-off, Sessions 40-41): the signal cannot be simultaneously exogenous (unreachable by dynamics) and spatially specific (shaped by spatial structure) — because spatial specificity IS system state. The focal mode's fixed home center is the unique signal that is both exogenous (per-ID) and spatially specific (per-ID) — an external spatial reference."
+key_findings: "Fifteen members across Sessions 23–82 form a progression: (1-3) channel separation, (4-5) field separation, (6-7) signal quality, (8) exogeneity, (9) noise structure, (10) endogeneity, (11) spatial specificity, (12) structure-to-grid ratio, (13) density-dependent gain, (14) formation-persistence balance, (15) extensive/intensive signal scaling. Each level is a stronger form of the same principle: the signal must not be reachable by the dynamics it controls, must be specific to where it acts, the structure must be small enough for the boundary to separate it, the boundary strength must scale with density, formation and persistence must be balanced, and the boundary must act on the intensive co-presence signal (arrangement-dependent) not the extensive fill (amount-dependent). The deepest form (the Heisenberg trade-off, Sessions 40-41): the signal cannot be simultaneously exogenous (unreachable by dynamics) and spatially specific (shaped by spatial structure) — because spatial specificity IS system state. The focal mode's fixed home center is the unique signal that is both exogenous (per-ID) and spatially specific (per-ID) — an external spatial reference. The 53rd mechanism (Session 82): the boundary converts density-dependence into n-dependence by acting on the intensive co-presence signal — the thermodynamic expression of the two-wire principle."
 ---
 
 # The Two-Wire Principle
@@ -142,6 +142,24 @@ vs ~1700) overwhelms the midline even with focal bias. *The structural guarantee
 structure-to-grid ratio, not just signal properties. The structure must be small enough for the
 boundary to separate two copies.*
 
+### Level 9: Extensive/Intensive Signal Scaling (Session 82)
+
+**Member 15 — The extensive/intensive signal distinction (Session 82, queued-topic #227).**
+The fill (total deposited material) is an **extensive** property — it scales
+with the deposit rate × n (density-dependent). The co-presence signal (spatial
+overlap of two structures' material) is an **intensive** property — it depends
+on the spatial *arrangement*, not the total *amount*. The boundary acts on the
+intensive co-presence signal, converting the extensive fill's density-dependence
+into n-dependence (the 53rd mechanism). At matched density across grid sizes,
+fill decreases monotonically (80×80 > 160×160 > 320×320) — the boundary is
+weaker on larger grids because the intensive co-presence signal is sparser at
+the same density. *The feedback signal (suppression, intensive) and the
+controlled quantity (fill, extensive) have different scaling — the boundary
+mediates through the intensive signal, not the extensive deposit rate. This
+is the thermodynamic expression of the two-wire principle.*
+
+See `concepts/extensive-intensive-signals.md` for the full formalization.
+
 ## The Taxonomy
 
 | Level | Member | Session | Property | Core claim |
@@ -158,6 +176,9 @@ boundary to separate two copies.*
 | 10 | Endogeneity | S39 | Dynamics | An endogenous anticipatory signal is self-defeating |
 | 11 | Spatial specificity | S40 | Dynamics | The exogenous signal must also be spatially specific |
 | 12 | Structure-to-grid ratio | S41 | Geometry | The structural guarantee depends on geometric, not signal, properties |
+| 13 | Density-dependent gain | S45 | Scaling | The boundary strength must scale with density (1/√n) |
+| 14 | Formation-persistence balance | S49 | Scaling | Formation and persistence must be balanced, not just separated |
+| 15 | Extensive/intensive | S82 | Scaling | The boundary acts on the intensive co-presence signal, not the extensive fill |
 
 ## The Progression
 
@@ -175,10 +196,15 @@ The twelve members form a deepening progression:
    state is self-defeating; even an exogenous anticipatory signal must be spatially specific.
 6. **Geometric limits** (Member 12): the structure must be small enough for the boundary to
    separate it — a finite-size effect beyond signal properties.
+7. **Scaling laws** (Members 13-15): the boundary strength must scale with density (1/√n),
+   formation and persistence must be balanced, and the boundary must act on the intensive
+   co-presence signal (arrangement-dependent), not the extensive fill (amount-dependent) —
+   the thermodynamic expression of the two-wire principle.
 
 Each level is a **stronger form** of the same principle: the signal must not be reachable by
-the dynamics it controls, must be specific to where it acts, and the structure must be small
-enough for the boundary to separate it.
+the dynamics it controls, must be specific to where it acts, the structure must be small
+enough for the boundary to separate it, and the boundary's scaling must match the signal's
+thermodynamic character (intensive, not extensive).
 
 ## The Heisenberg Trade-off
 
@@ -261,6 +287,7 @@ Each member was demonstrated by a simulation that showed the failure mode, then 
 - Member 12: sim14 density sweep (Session 41) — 1-seed leaks at 160×600 (same density)
 - Member 13: sim14 density-gain sweep (Session 45) — gain must scale with density
 - Member 14: sim14 asymmetric sweep (Session 49) — formation and persistence must be balanced, not just separated
+- Member 15: sim14 grid-size scaling (Session 82) — fill decreases with grid size at matched density (intensive co-presence signal is sparser on larger grids)
 
 Determinism verified at every level. 1-seed controls at every level. Full data in
 `simulations/sim14_heterogeneous_agents/output/`.

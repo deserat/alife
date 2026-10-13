@@ -334,6 +334,10 @@ select:hover, button:hover { border-color: var(--accent); }
 <p class="desc">A third grid size confirms the 50th mechanism: the fill at matched density DECREASES with grid size (80×80 > 160×160 > 320×320). The fill depends on absolute n through the boundary's sublinear capping (supp(n) increases with n), not on density (n/grid²). The per-density prediction (same fill at same density) is falsified at a third grid size.</p>
 <div id="grid-fill-cap-320-section"></div>
 
+<h2>Gain Compensation on 320×320 (Session 82)</h2>
+<p class="desc">The 53rd mechanism predicts the boundary's weakness on larger grids is a structural property of the co-presence signal's spatial arrangement (intensive), not a gain-tuning problem (extensive). Can 4× gain (g=0.04) restore the 320×320 fill to the 160×160 level? Result: NOT gain-compensable — fill monotonically DECREASES with gain (15.82% → 15.39% → 15.05% → 14.74% → 14.14%). The 160×160 at g=0.01 gives fill=21.29% (not the extrapolated 43.49%). The 320×320 at 4× gain (15.05%) fills LESS than 160×160 at 1× gain (21.29%).</p>
+<div id="gain-compensation-320-section"></div>
+
 <script>
 let resultsData = null;
 let robustData = null;
@@ -404,6 +408,7 @@ async function loadData() {
     'thirtiethPermanence': 'output/thirtieth_permanence.json',
     'gridFillCapScaling': 'output/grid_fill_cap_scaling.json',
     'gridFillCap320': 'output/grid_fill_cap_320.json',
+    'gainCompensation320': 'output/gain_compensation_320.json',
   };
   const sweepPromises = Object.entries(sweepFiles).map(([key, path]) =>
     fetch(path).then(r => r.json()).catch(() => null)
@@ -2470,6 +2475,28 @@ function populateSweepSections() {
     html += '<div class="insight" style="margin-top:8px"><strong>Key finding (#222):</strong> A third grid size confirms the 50th mechanism. At matched density (23.4/kc), fill DECREASES monotonically: 80×80 (48.3%) > 160×160 (31.2%) > 320×320 (25.4%). The fill depends on absolute n through the boundary\'s sublinear capping (supp(n) increases with n), not on density (n/grid²). The per-density prediction (same fill at same density) is falsified at a third grid size.</div>';
     const el320 = document.getElementById('grid-fill-cap-320-section');
     if (el320) el320.innerHTML = html;
+  }
+
+  // ─── Gain Compensation 320×320 ───────────────────────────────
+  if (window.gainCompensation320Data) {
+    const d = window.gainCompensation320Data;
+    let html = '<h3>Gain Compensation: 320×320 at n=1200 × g=[0.01–0.12] vs 160×160 at n=300</h3>';
+    html += '<table class="sweep-table"><tr><th>Grid</th><th>n</th><th>g</th><th>Density</th><th>Fill%</th><th>Cells</th><th>L2</th><th>Coexist</th><th>H7</th><th>CF</th></tr>';
+    for (const [label, entry] of Object.entries(d)) {
+      if (label === 'config') continue;
+      if (!entry || !entry.summary) continue;
+      const s = entry.summary;
+      const grid = entry.grid || '—';
+      html += `<tr><td>${grid}</td><td>${entry.n_termites}</td><td>${entry.g_form || 0}</td>`;
+      html += `<td>${(entry.density_per_kcell || 0).toFixed(1)}/kc</td>`;
+      html += `<td>${s.mean_fill_pct}%</td><td>${s.mean_cells}</td>`;
+      html += `<td>${s.l2}</td><td>${s.coexist}</td><td>${s.h7}</td><td>${s.mean_coexist_frac}</td></tr>`;
+    }
+    html += '</table>';
+    html += '<div class="insight" style="margin-top:8px"><strong>Verdict:</strong> NOT gain-compensable. The fill on 320×320 monotonically DECREASES with gain (15.82% → 14.14%). The 320×320 at 4× gain (15.05%) fills LESS than 160×160 at 1× gain (21.29%). The co-presence signal\'s sparsity is an intensive (spatial-arrangement) property — gain amplifies magnitude (extensive) but cannot fix spatial coverage. The 53rd mechanism is confirmed: the boundary\'s weakness on larger grids is structural, not gain-tunable.</div>';
+    html += '<div class="insight" style="margin-top:4px"><strong>Correction:</strong> The 160×160 reference value of 43.49% (from fill_cap_form_fit.json extrapolation) was wrong — the actual direct measurement at n=300 g=0.01 gives fill=21.29%. The 50th mechanism\'s "sign flip" at 11.7/kc (Session 81) was an artifact of this extrapolation error. With the correct value, the monotonic decrease holds at 11.7/kc too: 80×80 (29.47%) > 160×160 (21.29%) > 320×320 (15.82%).</div>';
+    const elGain = document.getElementById('gain-compensation-320-section');
+    if (elGain) elGain.innerHTML = html;
   }
 }
 
