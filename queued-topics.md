@@ -2557,12 +2557,12 @@ to compare.
 
 ## From Session 81 (2026-10-12)
 
-225. **Test a third density on 320×320 (46.9/kc, n=4800)** — The
-     monotonic decrease is confirmed at 23.4/kc but breaks at 11.7/kc
-     (the n=75 outlier). A third density (46.9/kc, matching 160×160 at
-     n=1200) would confirm the monotonic decrease holds at a third
-     density. ~300s per run, ~40 min for 8 runs. Prediction: if the
-     50th mechanism holds, fill_320(4800) < fill_160(1200) = 38.23%.
+225. **Test a third density on 320×320 (46.9/kc, n=4800)** — DONE (Session 83).
+     The 50th mechanism is confirmed at a third density: fill decreases
+     monotonically 80×80 (64.84%) > 160×160 (38.47%) > 320×320 (36.21%).
+     The no-inhibition fill at 46.9/kc is ~99.5–99.6% on both 160×160 and
+     320×320. The monotonic decrease holds at all three densities tested
+     (11.7/kc, 23.4/kc, 46.9/kc). See `copresence_density_sweep.py`.
 
 226. **Density-dependent gain on 320×320 — can g ∝ grid²/n compensate?**
      The boundary is weaker on larger grids (sparser co-presence
@@ -2599,18 +2599,54 @@ to compare.
      See `gain_compensation_320.py`.
 
 229. **The n=75 sign flip — why does 80×80 fill LESS than 160×160 at the
-     lowest density?** — At n_80=75 (11.7/kc), 80×80 fills 29.5% vs
-     160×160's 43.5%. At n≥150, 80×80 fills more. The sign flip at the
-     lowest density is unexplained. Is it a boundary effect (small
-     structure relative to grid) or a low-n artifact? Inspect the
-     structure sizes and B_max at n=75 on 80×80 vs n=300 on 160×160.
+     lowest density?** — RESOLVED (Session 82). The sign flip was an
+     extrapolation artifact. The 43.49% reference (fill_cap_form_fit.json
+     n=3000) was misattributed to n=300. The actual 160×160 fill at n=300
+     is 21.29% (directly measured). With the correct value, the monotonic
+     decrease holds: 80×80 (29.47%) > 160×160 (21.29%) > 320×320 (15.82%).
 
 230. **The co-presence signal's spatial density as a measurable
-     quantity** — The 53rd mechanism says the co-presence signal is
-     intensive (arrangement-dependent). Can the signal's spatial density
-     be measured directly (e.g., as the mean co-presence per cell, or
-     the fraction of cells with co-presence > threshold)? This would
-     make the extensive/intensive distinction quantitative rather than
-     phenomenological. A sweep measuring co-presence density at
-     different (n, grid) combos would map the intensive signal's
+     quantity** — DONE (Session 83). Measured directly at two densities
+     (23.4/kc, 46.9/kc) across three grid sizes. The co-presence COVERAGE
+     saturates at ~98–100% (not discriminating). The co-presence MEAN is
+     non-monotonic and endogenous — the 53rd mechanism's "intensive"
+     framing is refined: the co-presence at steady state is extensive
+     (scales with absolute material/n), not intensive. The n-dependence
+     comes from the normalization (extensive B / intensive b_scale).
+     Methodology lesson: a signal inside a feedback loop cannot test the
+     loop's causality. See `copresence_density_sweep.py`.
      scaling directly.
+
+## From Session 83 (2026-10-14)
+
+231. **The co-presence at steady state is endogenous — measure it in
+     no-inhibition runs** — The co-presence signal at steady state is
+     shaped by the boundary's feedback loop (both cause and consequence).
+     To cleanly test the intensive/extensive distinction, measure the
+     co-presence in no-inhibition runs (where the boundary doesn't shape
+     the fill). Without the boundary, the fill is density-dependent, so
+     the co-presence should also be density-dependent (if intensive) or
+     n-dependent (if extensive). The no-inhibition runs need to use
+     mode="hetero" (with ID tagging) but g=0, not mode="none" (which
+     doesn't track material_by_id). Test: re-run with hetero mode, g=0,
+     measure co-presence from _final_material_by_id.
+
+232. **The b_scale as a measurable intensive quantity** — The 53rd
+     mechanism refined: the n-dependence comes from B_norm = B / b_scale,
+     where B (steady-state) is extensive and b_scale (initial) is intensive.
+     Can b_scale be measured directly? It is the 95th percentile of the
+     INITIAL co-presence (from seed regions). Is it the same at matched
+     density across grid sizes? If yes, the normalization is confirmed
+     as the source of n-dependence. Test: compute the initial co-presence
+     at different (n, grid) combos and measure b_scale.
+
+233. **The co-presence mean's non-monotonicity — why does it decrease
+     from 80×80 to 160×160 but increase to 320×320?** — At both densities,
+     cp_mean goes 0.343→0.279→0.447 (23.4/kc) and 0.425→0.234→0.450
+     (46.9/kc). The 160×160 has the LOWEST cp_mean but intermediate fill.
+     The 320×320 has the HIGHEST cp_mean but lowest fill. The non-
+     monotonicity may be because the 160×160 boundary is most effective
+     (highest B_norm at intermediate n), suppressing both the fill and
+     the co-presence. The 320×320 has more absolute material (higher
+     cp_mean) but the boundary can't suppress it all (lower fill fraction
+     but higher absolute fill). Inspect the B_norm trajectory.

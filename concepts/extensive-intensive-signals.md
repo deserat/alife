@@ -79,11 +79,14 @@ Without the boundary (no-inhibition), the fill IS density-dependent:
 
 With the boundary (g=0.01), the fill becomes n-dependent:
 - 320×320 (n=1200, 11.7/kc): 15.82%
-- 160×160 (n=300, 11.7/kc): 43.49%
+- 160×160 (n=300, 11.7/kc): 21.29% (directly measured, Session 82; the
+  earlier 43.49% was an extrapolation from the n≥550 plateau data)
 - 80×80 (n=75, 11.7/kc): 29.47%
 
 The boundary's suppression is n-dependent (weaker on larger grids) because the
-co-presence signal is sparser at the same density on a larger grid.
+co-presence signal is sparser at the same density on a larger grid. The
+monotonic decrease (fill_80 > fill_160 > fill_320) holds at all densities tested
+(11.7/kc, 23.4/kc).
 
 ### The 52nd mechanism: the co-presence signal is intensive
 
@@ -94,6 +97,29 @@ boundary's suppression (proportional to B_norm, which is proportional to co-pres
 is therefore weaker. The signal's intensity (spatial density of the overlap) decreases
 with grid size at matched density, while the fill (extensive) remains density-dependent
 without the boundary.
+
+**Session 83 refinement: the co-presence at steady state is NOT purely intensive.**
+Direct measurement (copresence_density_sweep.py) at two densities (23.4/kc, 46.9/kc)
+across three grid sizes found:
+- The co-presence COVERAGE (fraction of cells with cp > 0) saturates at ~98–100%
+  regardless of grid size — not a discriminating metric.
+- The co-presence MEAN is non-monotonic (decreases from 80×80 to 160×160, then
+  increases to 320×320) and endogenous — it is both cause and consequence of the
+  boundary's feedback loop.
+- The 320×320 has the HIGHEST cp_mean (0.447 at 23.4/kc, 0.450 at 46.9/kc) but the
+  LOWEST fill (25.0%, 36.2%) — the co-presence is NOT "sparser on larger grids."
+
+The n-dependence comes from the NORMALIZATION, not the signal. The steady-state B
+(extensive — scales with absolute material/n) is normalized by the initial b_scale
+(intensive — same at matched density, from seed regions at the same relative positions).
+The ratio B_norm = B/b_scale is n-dependent (extensive / intensive), making the
+suppression n-dependent, making the fill n-dependent.
+
+**Methodology lesson: a signal measured inside a feedback loop is both cause and
+consequence — it cannot test the loop's causality.** The co-presence at steady state
+is shaped by the boundary's suppression, which is shaped by the co-presence. To test
+the intensive/extensive distinction, measure OUTSIDE the loop (no-inhibition) or
+BEFORE the loop has had an effect (initial state).
 
 ## The Thermodynamic Analogy
 
@@ -150,27 +176,17 @@ The design principle "keep the system in the Gompertz regime" is equivalent to "
 the intensive signal strong enough to control the extensive fill" — the co-presence
 signal must be dense enough (spatially) for the boundary's suppression to matter.
 
-## The Gain Compensation Question
+## The Gain Compensation Result (Session 82)
 
-The 53rd mechanism predicts the boundary's weakness on larger grids is a structural
-property of the co-presence signal's spatial arrangement — not a gain-tuning problem.
-If the co-presence signal is 4× sparser on 320×320 at matched density, can 4× gain
-(g=0.04 vs g=0.01) compensate?
-
-- **Gain-compensable:** fill_320(1200, 0.04) ≈ 43.49% (the 160×160 level). The signal's
-  sparsity is linearly gain-compensable — the boundary's weakness is a gain-tuning
-  problem, not a structural one.
-- **Not gain-compensable:** fill_320(1200, 0.04) << 43.49%. The signal's spatial
-  arrangement (not just its magnitude) determines the boundary's suppression. Higher
-  gain amplifies a sparse signal, but a sparse signal has poor spatial coverage —
-  the boundary suppresses the wrong cells (wherever the sparse co-presence happens
-  to be, not where the structures actually meet).
-
-The prediction from the 53rd mechanism: NOT gain-compensable. The co-presence signal's
-sparsity is a spatial-arrangement property (intensive), not a magnitude property
-(extensive). Gain amplifies magnitude; it cannot fix spatial coverage. This is the
-thermodynamic analog of trying to compensate for low pressure (intensive) by increasing
-the volume (extensive) — the two are independent axes.
+Session 82 tested the gain compensation: 320×320 at n=1200 × g=[0.01–0.12] × 4
+seeds. **Result: NOT gain-compensable.** The fill on 320×320 monotonically
+DECREASES with gain (15.82% → 14.14%). Higher gain suppresses MORE, not less —
+gain amplifies the sparse co-presence signal's magnitude, making the boundary
+suppress harder in the wrong places. The co-presence signal's sparsity is a
+spatial-arrangement property (intensive) — gain amplifies magnitude (extensive),
+it cannot fix spatial coverage. This is the thermodynamic analog of trying to
+compensate for low pressure (intensive) by increasing the volume (extensive) —
+the two are independent axes.
 
 ## Criticisms / Limitations
 
@@ -186,15 +202,17 @@ the volume (extensive) — the two are independent axes.
   very high n, it saturates (full overlap everywhere). The intensive behavior holds
   in the intermediate regime where the structures are compact but not percolated.
 - **The 50th mechanism has only been tested at three grid sizes.** The monotonic
-  decrease (fill_80 > fill_160 > fill_320 at matched density) is confirmed at 23.4/kc
-  but breaks at 11.7/kc (the n=75 outlier on 80×80). A third density would strengthen
-  the conclusion, but the 53rd mechanism's mechanism (intensive signal sparsity) is
-  confirmed by the no-inhibition control.
-- **The gain compensation test is pending (Session 82).** The prediction (not
-  gain-compensable) follows from the extensive/intensive distinction but has not
-  yet been tested. If gain IS compensable, the distinction is less sharp than
-  claimed — the co-presence signal is "semi-intensive" (arrangement-dependent but
-  gain-tunable).
+  decrease (fill_80 > fill_160 > fill_320 at matched density) is confirmed at
+  23.4/kc and 11.7/kc (the 11.7/kc sign flip was an extrapolation artifact —
+  corrected in Session 82). A third density (46.9/kc) would strengthen the
+  conclusion; the 53rd mechanism's mechanism (intensive signal sparsity) is
+  confirmed by the no-inhibition control and the gain compensation test.
+- **The co-presence signal's spatial density is not yet measured directly.** The
+  extensive/intensive distinction is currently phenomenological — the fill
+  decreases with grid size at matched density (qualitative), and gain cannot
+  compensate (qualitative). A direct measurement of the co-presence signal's
+  spatial density (fraction of cells with co-presence > 0) at matched density
+  across grid sizes would make the distinction quantitative (Session 83).
 
 ## Cross-Domain Connections
 

@@ -856,6 +856,7 @@ def run_two_region_hetero(params, seed, n_seeds=2, mode="hetero",
         "snapshots": snapshots,
         "boundary_trace": boundary_trace,
         "_final_material": field.material.copy(),
+        "_final_material_by_id": [material_by_id[0].copy(), material_by_id[1].copy()],
     }
 
 

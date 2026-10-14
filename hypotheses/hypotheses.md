@@ -70,7 +70,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **For an emergent structure to persist as a new actor at a higher scale, it must be autopoietic — it must maintain the network that constitutes it.** Self-maintenance is the persistence condition. Without it, emergent structures are transient patterns, not new actors.
 
-**Status:** Refined (Session 81). The 50th mechanism is confirmed at a third grid size (320×320): fill decreases with grid size at matched density (23.4/kc: 48.26% > 31.23% > 24.72%). The 53rd mechanism: the boundary converts density-dependence into n-dependence — without the boundary, the fill IS density-dependent (29.26% ≈ 29.47% at 11.7/kc); with the boundary, the fill is n-dependent. The absolute cells are NOT the same across grids (the boundary is weaker on larger grids). Composition is 0/4 on 320×320 (all fragmented), H7=4/4 (crossing robust).
+**Status:** Refined (Session 83). The co-presence signal's spatial density was measured directly: coverage saturates at ~98–100% (not discriminating); mean is non-monotonic and endogenous. The 53rd mechanism's "intensive" framing refined: the co-presence at steady state is extensive (scales with absolute material/n); the n-dependence comes from the normalization (extensive B / intensive b_scale). The 50th mechanism confirmed at a third density (46.9/kc): 64.84% > 38.47% > 36.21%. Methodology lesson: a signal inside a feedback loop cannot test the loop's causality.
 
 **Log:** [logs/H5/](logs/H5/)
 

@@ -338,6 +338,10 @@ select:hover, button:hover { border-color: var(--accent); }
 <p class="desc">The 53rd mechanism predicts the boundary's weakness on larger grids is a structural property of the co-presence signal's spatial arrangement (intensive), not a gain-tuning problem (extensive). Can 4× gain (g=0.04) restore the 320×320 fill to the 160×160 level? Result: NOT gain-compensable — fill monotonically DECREASES with gain (15.82% → 15.39% → 15.05% → 14.74% → 14.14%). The 160×160 at g=0.01 gives fill=21.29% (not the extrapolated 43.49%). The 320×320 at 4× gain (15.05%) fills LESS than 160×160 at 1× gain (21.29%).</p>
 <div id="gain-compensation-320-section"></div>
 
+<h2>Co-Presence Spatial Density (Session 83)</h2>
+<p class="desc">The co-presence signal's spatial density was measured directly at two densities (23.4/kc, 46.9/kc) across three grid sizes. The coverage (cp_cov) saturates at ~98–100% — not discriminating. The mean (cp_mean) is non-monotonic and endogenous. The 53rd mechanism's "intensive" framing is refined: the co-presence at steady state is extensive (scales with absolute material/n), not intensive. The n-dependence comes from the normalization (extensive B / intensive b_scale). Methodology lesson: a signal inside a feedback loop cannot test the loop's causality.</p>
+<div id="copresence-density-section"></div>
+
 <script>
 let resultsData = null;
 let robustData = null;
@@ -409,6 +413,7 @@ async function loadData() {
     'gridFillCapScaling': 'output/grid_fill_cap_scaling.json',
     'gridFillCap320': 'output/grid_fill_cap_320.json',
     'gainCompensation320': 'output/gain_compensation_320.json',
+    'copresenceDensity': 'output/copresence_density_sweep.json',
   };
   const sweepPromises = Object.entries(sweepFiles).map(([key, path]) =>
     fetch(path).then(r => r.json()).catch(() => null)
@@ -2497,6 +2502,50 @@ function populateSweepSections() {
     html += '<div class="insight" style="margin-top:4px"><strong>Correction:</strong> The 160×160 reference value of 43.49% (from fill_cap_form_fit.json extrapolation) was wrong — the actual direct measurement at n=300 g=0.01 gives fill=21.29%. The 50th mechanism\'s "sign flip" at 11.7/kc (Session 81) was an artifact of this extrapolation error. With the correct value, the monotonic decrease holds at 11.7/kc too: 80×80 (29.47%) > 160×160 (21.29%) > 320×320 (15.82%).</div>';
     const elGain = document.getElementById('gain-compensation-320-section');
     if (elGain) elGain.innerHTML = html;
+  }
+
+  // ─── Co-presence density sweep (Session 83) ──────────────
+  if (data.copresenceDensity) {
+    const cp = data.copresenceDensity;
+    let html = '<h3>Co-Presence Signal Spatial Density at Matched Density</h3>';
+    html += '<table class="sweep-table"><tr><th>Density</th><th>Grid</th><th>n</th><th>Fill%</th><th>cp_cov</th><th>cp_mean</th><th>cp_max</th><th>H7</th><th>L2</th><th>CF</th></tr>';
+    const combos = [
+      ['80_23.4kc', '23.4/kc'], ['160_23.4kc', '23.4/kc'], ['320_23.4kc', '23.4/kc'],
+      ['80_46.9kc', '46.9/kc'], ['160_46.9kc', '46.9/kc'], ['320_46.9kc', '46.9/kc'],
+    ];
+    for (const [key, dens] of combos) {
+      const r = cp[key];
+      if (!r) continue;
+      const s = r.summary;
+      const cps = r.copresence_summary || {};
+      html += `<tr><td>${dens}</td><td>${r.grid}×${r.grid}</td><td>${r.n_termites}</td>` +
+        `<td>${s.mean_fill_pct.toFixed(2)}%</td>` +
+        `<td>${(cps.cp_frac_nonzero || 0).toFixed(4)}</td>` +
+        `<td>${(cps.cp_mean || 0).toFixed(6)}</td>` +
+        `<td>${(cps.cp_max || 0).toFixed(3)}</td>` +
+        `<td>${s.h7}</td><td>${s.l2}</td><td>${s.mean_coexist_frac}</td></tr>`;
+    }
+    html += '</table>';
+    // No-inhibition
+    html += '<h3 style="margin-top:12px">No-Inhibition Fill References (46.9/kc)</h3>';
+    html += '<table class="sweep-table"><tr><th>Grid</th><th>n</th><th>Fill%</th><th>Cells</th></tr>';
+    for (const key of ['160_46.9kc_noinhib', '320_46.9kc_noinhib']) {
+      const r = cp[key];
+      if (!r) continue;
+      html += `<tr><td>${r.grid}×${r.grid}</td><td>${r.n_termites}</td>` +
+        `<td>${r.mean_fill_pct.toFixed(2)}%</td><td>${r.mean_cells}</td></tr>`;
+    }
+    html += '</table>';
+    html += '<div class="insight" style="margin-top:8px"><strong>Findings:</strong> ' +
+      'Coverage (cp_cov) saturates at ~98–100% — not discriminating. ' +
+      'Mean (cp_mean) is non-monotonic (decreases 80→160, increases 160→320) and endogenous. ' +
+      'The 320×320 has the HIGHEST cp_mean but the LOWEST fill — the co-presence is NOT "sparser on larger grids." ' +
+      'The 53rd mechanism refined: the n-dependence comes from the normalization (extensive B / intensive b_scale), not the signal being "intensive."</div>';
+    html += '<div class="insight" style="margin-top:4px"><strong>Methodology lesson:</strong> ' +
+      'A signal measured inside a feedback loop is both cause and consequence — it cannot test the loop\'s causality. ' +
+      'The co-presence at steady state is shaped by the boundary\'s suppression, which is shaped by the co-presence.</div>';
+    const elCP = document.getElementById('copresence-density-section');
+    if (elCP) elCP.innerHTML = html;
   }
 }
 
