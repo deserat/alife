@@ -342,6 +342,10 @@ select:hover, button:hover { border-color: var(--accent); }
 <p class="desc">The co-presence signal's spatial density was measured directly at two densities (23.4/kc, 46.9/kc) across three grid sizes. The coverage (cp_cov) saturates at ~98–100% — not discriminating. The mean (cp_mean) is non-monotonic and endogenous. The 53rd mechanism's "intensive" framing is refined: the co-presence at steady state is extensive (scales with absolute material/n), not intensive. The n-dependence comes from the normalization (extensive B / intensive b_scale). Methodology lesson: a signal inside a feedback loop cannot test the loop's causality.</p>
 <div id="copresence-density-section"></div>
 
+<h2>No-Inhibition Co-Presence: The 53rd Mechanism Falsified (Session 84)</h2>
+<p class="desc">The co-presence was measured OUTSIDE the boundary's feedback loop (mode="hetero" g=0 — focal bias, ID-tagged, no boundary). The fill is n-dependent EVEN WITHOUT the boundary (48.33% → 31.58% → 24.95% at 23.4/kc) — the focal bias (1-cell steps toward home) is an absolute spatial scale. The boundary adds <0.5% at g=0.01. The co-presence is extensive without the boundary too (0.330 → 0.293 → 0.452, same non-monotonic pattern). The 53rd mechanism is FALSIFIED: the n-dependence is from the focal bias, not the boundary. The 53rd mechanism's original control (mode="none") was confounded — it changed two variables (focal bias + boundary) simultaneously. Methodology lesson: the control must isolate one variable at a time.</p>
+<div id="no-inhib-copresence-section"></div>
+
 <script>
 let resultsData = null;
 let robustData = null;
@@ -414,6 +418,7 @@ async function loadData() {
     'gridFillCap320': 'output/grid_fill_cap_320.json',
     'gainCompensation320': 'output/gain_compensation_320.json',
     'copresenceDensity': 'output/copresence_density_sweep.json',
+    'noInhibCopresence': 'output/no_inhib_copresence_sweep.json',
   };
   const sweepPromises = Object.entries(sweepFiles).map(([key, path]) =>
     fetch(path).then(r => r.json()).catch(() => null)
@@ -2546,6 +2551,50 @@ function populateSweepSections() {
       'The co-presence at steady state is shaped by the boundary\'s suppression, which is shaped by the co-presence.</div>';
     const elCP = document.getElementById('copresence-density-section');
     if (elCP) elCP.innerHTML = html;
+  }
+
+  // ─── No-inhibition co-presence sweep (Session 84) ──────
+  if (data.noInhibCopresence) {
+    const ni = data.noInhibCopresence;
+    let html = '<h3>No-Inhibition Co-Presence: With vs Without Boundary at Matched Density</h3>';
+    html += '<table class="sweep-table"><tr><th>Density</th><th>Grid</th><th>n</th><th>g</th><th>Fill%</th><th>cp_cov</th><th>cp_mean</th><th>cp_max</th><th>H7</th><th>L2</th></tr>';
+    const combos = [
+      ['80_23.4kc_g0.0', '23.4/kc'], ['80_23.4kc_g0.01', '23.4/kc'],
+      ['160_23.4kc_g0.0', '23.4/kc'], ['160_23.4kc_g0.01', '23.4/kc'],
+      ['320_23.4kc_g0.0', '23.4/kc'], ['320_23.4kc_g0.01', '23.4/kc'],
+      ['80_46.9kc_g0.0', '46.9/kc'], ['80_46.9kc_g0.01', '46.9/kc'],
+      ['160_46.9kc_g0.0', '46.9/kc'], ['160_46.9kc_g0.01', '46.9/kc'],
+    ];
+    for (const [key, dens] of combos) {
+      const r = ni[key];
+      if (!r) continue;
+      const s = r.summary;
+      const cps = r.copresence_summary || {};
+      const gStr = r.inh_gain === 0 ? '0 (no inhib)' : r.inh_gain.toFixed(2);
+      html += `<tr><td>${dens}</td><td>${r.grid}×${r.grid}</td><td>${r.n_termites}</td>` +
+        `<td>${gStr}</td>` +
+        `<td>${s.mean_fill_pct.toFixed(2)}%</td>` +
+        `<td>${(cps.cp_frac_nonzero || 0).toFixed(4)}</td>` +
+        `<td>${(cps.cp_mean || 0).toFixed(6)}</td>` +
+        `<td>${(cps.cp_max || 0).toFixed(3)}</td>` +
+        `<td>${s.h7}</td><td>${s.l2}</td></tr>`;
+    }
+    html += '</table>';
+    html += '<div class="insight" style="margin-top:8px"><strong>Key findings:</strong> ' +
+      'The fill is n-dependent EVEN WITHOUT the boundary (48.33% → 31.58% → 24.95% at 23.4/kc g=0). ' +
+      'The focal bias (1-cell steps toward home) is an absolute spatial scale — less effective on larger grids. ' +
+      'The boundary adds <0.5% at g=0.01 (fill deltas: -0.07%, -0.48%, +0.05%). ' +
+      'The co-presence is extensive without the boundary too (cp_mean: 0.330 → 0.293 → 0.452, same non-monotonic pattern).</div>';
+    html += '<div class="insight" style="margin-top:4px"><strong>The 53rd mechanism is FALSIFIED:</strong> ' +
+      'The n-dependence is from the focal bias, not the boundary. ' +
+      'The 53rd mechanism\\'s original control (mode="none" — no focal bias, no boundary) was confounded: ' +
+      'it changed two variables (focal bias + boundary) simultaneously. ' +
+      'The correct control (mode="hetero" g=0) holds the focal bias constant.</div>';
+    html += '<div class="insight" style="margin-top:4px"><strong>Methodology lesson:</strong> ' +
+      'The control must isolate one variable at a time. ' +
+      'A control that confounds two variables cannot attribute the effect to either.</div>';
+    const elNI = document.getElementById('no-inhib-copresence-section');
+    if (elNI) elNI.innerHTML = html;
   }
 }
 

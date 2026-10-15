@@ -2620,16 +2620,25 @@ to compare.
 ## From Session 83 (2026-10-14)
 
 231. **The co-presence at steady state is endogenous — measure it in
-     no-inhibition runs** — The co-presence signal at steady state is
-     shaped by the boundary's feedback loop (both cause and consequence).
-     To cleanly test the intensive/extensive distinction, measure the
-     co-presence in no-inhibition runs (where the boundary doesn't shape
-     the fill). Without the boundary, the fill is density-dependent, so
-     the co-presence should also be density-dependent (if intensive) or
-     n-dependent (if extensive). The no-inhibition runs need to use
-     mode="hetero" (with ID tagging) but g=0, not mode="none" (which
-     doesn't track material_by_id). Test: re-run with hetero mode, g=0,
-     measure co-presence from _final_material_by_id.
+    no-inhibition runs** — DONE (Session 84).
+    The co-presence signal at steady state is shaped by the boundary's
+    feedback loop (both cause and consequence). To cleanly test the
+    intensive/extensive distinction, measure the co-presence in
+    no-inhibition runs (where the boundary doesn't shape the fill).
+    Without the boundary, the fill is density-dependent, so the
+    co-presence should also be density-dependent (if intensive) or
+    n-dependent (if extensive). The no-inhibition runs use mode="hetero"
+    with g=0 (ID tagging, focal bias, no boundary suppression).
+    RESULT: The 53rd mechanism is FALSIFIED. The fill is n-dependent
+    EVEN WITHOUT the boundary (48.33% → 31.58% → 24.95% at 23.4/kc g=0).
+    The n-dependence is from the focal bias (1-cell steps — an absolute
+    spatial scale), not the boundary. The boundary adds <0.5% at g=0.01.
+    The co-presence is extensive (confirmed without the boundary: cp_mean
+    0.330 → 0.293 → 0.452, same non-monotonic pattern). The 53rd
+    mechanism's original control (mode="none") was confounded — it changed
+    two variables (focal bias + boundary) simultaneously. Methodology
+    lesson: the control must isolate one variable at a time. See
+    `no_inhib_copresence_sweep.py`.
 
 232. **The b_scale as a measurable intensive quantity** — The 53rd
      mechanism refined: the n-dependence comes from B_norm = B / b_scale,
@@ -2650,3 +2659,45 @@ to compare.
      the co-presence. The 320×320 has more absolute material (higher
      cp_mean) but the boundary can't suppress it all (lower fill fraction
      but higher absolute fill). Inspect the B_norm trajectory.
+
+## From Session 84 (2026-10-15)
+
+234. **The absolute-spatial-scale principle — any mechanism that acts
+     through an absolute spatial scale converts density-dependence into
+     n-dependence** — The 53rd mechanism's falsification reveals a
+     deeper principle: the focal bias (1-cell step), the dilation
+     radius (8-cell), and the boundary (acting on co-presence) are ALL
+     absolute spatial scales. On a larger grid, each covers a smaller
+     fraction of the grid, making it less effective. This converts
+     density-dependence (same effect at same density) into n-dependence
+     (weaker effect at same density on larger grid). The 53rd mechanism
+     attributed this to the boundary; the 50th mechanism attributed it
+     to absolute n. The deeper principle: ANY absolute-spatial-scale
+     mechanism produces n-dependence. Could formalize as: a mechanism
+     with spatial scale σ produces fill(n) = f(n/σ²), not f(n/grid²).
+     The focal bias has σ=1 (step size); the dilation has σ=8; the
+     boundary acts through the co-presence which has σ=dilation radius.
+
+235. **Test the boundary's n-dependence at higher gains (g=0.3+)** —
+     At g=0.01 the boundary adds <0.5% to the fill. But at higher gains
+     (g=0.3+), the boundary may contribute significantly to n-dependence.
+     Test: mode="hetero" at g=0.3 with vs without the focal bias
+     (movement_bias=0.3 vs 0.0) at matched density across grid sizes.
+     If the boundary's n-dependence is gain-dependent, the 50th
+     mechanism's n-dependence at low gain is from the focal bias, but
+     at high gain it's from the boundary. This would partially rescue
+     the 53rd mechanism — the boundary DOES convert density-dependence
+     into n-dependence, but only at high gains where its suppression
+     is strong enough to matter.
+
+236. **Measure co-presence with NO focal bias and NO boundary** — The
+     current no-inhibition control (mode="hetero" g=0) includes the focal
+     bias, which is itself an absolute-spatial-scale mechanism producing
+     n-dependence. A control with NO focal bias and NO boundary would
+     show whether the fill is truly density-dependent without any
+     absolute-spatial-scale mechanism. But mode="none" doesn't track
+     material_by_id. Need to add ID tracking to mode="none" (or create
+     a new mode with ID tracking but no focal bias). If the fill IS
+     density-dependent without any absolute-spatial-scale mechanism,
+     the absolute-spatial-scale principle (#234) is confirmed as the
+     root cause of n-dependence.

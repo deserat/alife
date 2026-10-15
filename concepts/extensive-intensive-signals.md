@@ -188,7 +188,28 @@ it cannot fix spatial coverage. This is the thermodynamic analog of trying to
 compensate for low pressure (intensive) by increasing the volume (extensive) —
 the two are independent axes.
 
-## Criticisms / Limitations
+**Session 84: the 53rd mechanism is FALSIFIED — the n-dependence is from the focal bias, not the boundary.**
+
+The no-inhibition co-presence sweep (mode="hetero" g=0 — focal bias, ID-tagged, no boundary)
+measured the co-presence OUTSIDE the boundary's feedback loop. The fill is n-dependent
+EVEN WITHOUT the boundary: at 23.4/kc, fill = 48.33% (80×80) → 31.58% (160×160) →
+24.95% (320×320). The focal bias (1-cell steps toward home) is an absolute spatial scale
+that is less effective on larger grids. The boundary adds <0.5% at g=0.01 (fill deltas:
+-0.07%, -0.48%, +0.05%). The co-presence is extensive without the boundary too (cp_mean:
+0.330 → 0.293 → 0.452, same non-monotonic pattern).
+
+The 53rd mechanism's original control (mode="none" — no focal bias, no boundary) was
+confounded: it changed two variables (focal bias + boundary) simultaneously. The correct
+control (mode="hetero" g=0) holds the focal bias constant and varies only the boundary.
+The n-dependence is from the focal bias, not the boundary. The 50th mechanism's empirical
+finding (fill depends on absolute n) holds but its mechanism is the focal bias, not the
+boundary — at the gains where it was tested (g=0.01-0.02), the boundary is negligible.
+
+**Methodology lesson: the control must isolate one variable at a time.** This is the
+control-arm pattern (#75) recurring: a control that confounds two variables cannot
+attribute the effect to either.
+
+## Criticisms / Limitations (updated Session 84)
 
 - **The thermodynamic analogy is phenomenological, not derived.** The extensive/intensive
   distinction in thermodynamics is precisely defined (Euler homogeneity). Our co-presence

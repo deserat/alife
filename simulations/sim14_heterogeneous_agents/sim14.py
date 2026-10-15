@@ -719,6 +719,13 @@ def run_two_region_hetero(params, seed, n_seeds=2, mode="hetero",
                     ev = termite_step_hetero(termites, field, rng, params,
                                              curvature, on_surface, B, b_scale,
                                              material_by_id)
+            elif mode == "hetero":
+                # No-inhibition hetero: ID-tagged deposits but no B suppression
+                # (queued-topic #231).  B stays zero; termite_step_hetero
+                # skips the boundary gate when inh_gain == 0.0.
+                ev = termite_step_hetero(termites, field, rng, params,
+                                         curvature, on_surface, B, b_scale,
+                                         material_by_id)
             elif mode == "shadow" and inh_gain > 0.0:
                 cp = I12.compute_copresence(field, params)
                 B = I12.boundary_step(B, cp, params)
