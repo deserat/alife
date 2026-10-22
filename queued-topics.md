@@ -2664,7 +2664,8 @@ to compare.
 
 234. **The absolute-spatial-scale principle — any mechanism that acts
      through an absolute spatial scale converts density-dependence into
-     n-dependence** — The 53rd mechanism's falsification reveals a
+     n-dependence** — DONE (Session 85, concept file Session 86).
+     The 53rd mechanism's falsification reveals a
      deeper principle: the focal bias (1-cell step), the dilation
      radius (8-cell), and the boundary (acting on co-presence) are ALL
      absolute spatial scales. On a larger grid, each covers a smaller
@@ -2677,8 +2678,18 @@ to compare.
      with spatial scale σ produces fill(n) = f(n/σ²), not f(n/grid²).
      The focal bias has σ=1 (step size); the dilation has σ=8; the
      boundary acts through the co-presence which has σ=dilation radius.
+     **Session 85:** confirmed — the fill is density-dependent without
+     the focal bias (spread 2.23%) and n-dependent with it (spread 23.38%).
+     LOCAL absolute scales (1-cell stencils) are scale-invariant; GLOBAL
+     absolute scales (fixed home center) are not. **Session 86:** concept
+     file `concepts/absolute-spatial-scale-principle.md` created. The 53rd
+     mechanism is partially rescued at high gain (g=0.3): the boundary
+     produces a small n-dependent effect (spread 3.31%, 14% of the focal
+     bias's 23.38%). The boundary is a hybrid: local co-presence computation
+     (scale-invariant) + global n-dependent magnitude (extensive).
 
 235. **Test the boundary's n-dependence at higher gains (g=0.3+)** —
+     DONE (Session 86).
      At g=0.01 the boundary adds <0.5% to the fill. But at higher gains
      (g=0.3+), the boundary may contribute significantly to n-dependence.
      Test: mode="hetero" at g=0.3 with vs without the focal bias
@@ -2689,6 +2700,18 @@ to compare.
      the 53rd mechanism — the boundary DOES convert density-dependence
      into n-dependence, but only at high gains where its suppression
      is strong enough to matter.
+     **RESULT:** The 53rd mechanism IS partially rescued at high gain.
+     At g=0.3 with no focal bias (bias=0), the fill decreases
+     monotonically: 54.92% → 54.14% → 51.61% (spread 3.31%), n-dependent.
+     The boundary DOES convert density-dependence into n-dependence —
+     but weakly (3.31% vs focal bias's 23.38% = 14%). The 50th mechanism
+     is primarily from the focal bias (86%) with a small boundary
+     contribution (14%). The co-presence at steady state is extensive
+     (scales with n), so more termites on larger grids produce more
+     co-presence, stronger B, more suppression. The effect is small
+     because the boundary's response curve saturates. See
+     `high_gain_boundary_sweep.py`. NEXT: finer gain sweep (g=0.05–0.2)
+     to map the transition from negligible to visible.
 
 236. **Measure co-presence with NO focal bias and NO boundary** — DONE
      (Session 85).
@@ -2706,19 +2729,54 @@ to compare.
      See `no_focal_no_boundary_sweep.py`.
 
 237. **Formalize the absolute-spatial-scale principle as a concept file**
-    — The LOCAL vs GLOBAL distinction (local field theories vs global
+    — DONE (Session 86).
+    The LOCAL vs GLOBAL distinction (local field theories vs global
     reference frames) deserves a standalone concept file. The
     principle: any mechanism acting through a global absolute spatial
     scale converts density-dependence into n-dependence; local absolute
     scales are scale-invariant at matched density. Maps onto gauge
     theory (local interactions are renormalizable; global references
     are not). Cheap: pure synthesis from Session 85's data.
+    **Session 86:** concept file `concepts/absolute-spatial-scale-principle.md`
+    created. Includes the high-gain nuance: the boundary is a hybrid (local
+    co-presence computation + global n-dependent magnitude). The LOCAL/GLOBAL
+    distinction is not binary.
 
 238. **Test the boundary's n-dependence at higher gains (continuation of
-    #235)** — At g=0.01 the boundary adds <0.5% to the fill. At higher
+    #235)** — DONE (Session 86).
+    At g=0.01 the boundary adds <0.5% to the fill. At higher
     gains (g≥0.3) the boundary may contribute to n-dependence. Test:
     mode="hetero" g=0.3 with vs without the focal bias (movement_bias=0
     vs 0.3) at matched density across grid sizes. If the boundary
     contributes at high gain, the 50th mechanism has two components
     (focal bias at low gain, boundary at high gain); if not, the 50th
     mechanism is entirely from the focal bias.
+    **RESULT:** The boundary DOES contribute at high gain — partially
+    rescuing the 53rd mechanism. The fill at g=0.3, bias=0 is weakly
+    n-dependent (spread 3.31%, 14% of the focal bias's 23.38%). The 50th
+    mechanism has two components: focal bias (86%) + boundary (14%) at
+    high gain. See `high_gain_boundary_sweep.py`.
+
+## From Session 86 (2026-10-22)
+
+239. **Finer gain sweep — map the transition from negligible to visible
+     boundary n-dependence** — The 53rd mechanism's partial rescue at
+     g=0.3 (spread 3.31%) vs falsification at g=0.01 (<0.5%) suggests a
+     transition somewhere in between. A finer sweep (g=0.05, 0.1, 0.15,
+     0.2, 0.25, 0.3 at bias=0, 3 grid sizes) would map the transition.
+     Is it sharp (a phase transition in g*) or gradual?
+
+240. **The 46.9/kc density at high gain — does the boundary's
+     n-dependence strengthen?** — The high-gain sweep was at 23.4/kc.
+     At 46.9/kc (n=4800 on 320×320), the co-presence is even more
+     extensive (more material). Does the boundary's n-dependent effect
+     strengthen at higher density? Or does the boundary's saturation
+     limit the effect regardless of density?
+
+241. **The non-additive interaction between focal bias and boundary** —
+     The combined condition (g=0.3, bias=0.3) has spread 21.66% — LESS
+     than the focal-only spread (23.38%). The focal bias weakens the
+     boundary by concentrating material (less co-presence). This
+     non-additive interaction deserves formalization: the focal bias and
+     the boundary are not independent n-dependence sources — they
+     interact through the co-presence signal's spatial distribution.

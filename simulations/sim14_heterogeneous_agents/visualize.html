@@ -350,6 +350,10 @@ select:hover, button:hover { border-color: var(--accent); }
 <p class="desc">Without ANY absolute-spatial-scale mechanism (no focal bias, no boundary — mode="hetero" g=0, movement_bias=0), the fill is density-dependent: 66.25% ≈ 66.49% ≈ 64.26% (spread 2.23%) across 80×80, 160×160, 320×320 at 23.4/kc. With the focal bias (bias=0.3), the fill is n-dependent: 48.33% → 31.58% → 24.95% (spread 23.38%). The focal bias (1-cell steps toward a fixed home center) was the sole source of n-dependence. The absolute-spatial-scale principle (#234) is CONFIRMED: any mechanism acting through an absolute spatial scale converts density-dependence into n-dependence. The curvature channel's local operations (1-cell stencils) are scale-invariant at matched density.</p>
 <div id="no-focal-no-boundary-section"></div>
 
+<h2>High-Gain Boundary N-Dependence: The 53rd Mechanism Partially Rescued (Session 86)</h2>
+<p class="desc">At g=0.3 with no focal bias (boundary only), the fill decreases monotonically: 54.92% → 54.14% → 51.61% (spread 3.31%) — a small n-dependent effect. The boundary DOES convert density-dependence into n-dependence at high gain, but weakly (3.31% vs focal bias's 23.38% = 14%). The 50th mechanism is primarily from the focal bias (86%) with a small boundary contribution (14%) at high gain. The co-presence at steady state is extensive (scales with n), producing more suppression on larger grids. Determinism verified.</p>
+<div id="high-gain-boundary-section"></div>
+
 <script>
 let resultsData = null;
 let robustData = null;
@@ -424,6 +428,7 @@ async function loadData() {
     'copresenceDensity': 'output/copresence_density_sweep.json',
     'noInhibCopresence': 'output/no_inhib_copresence_sweep.json',
     'noFocalNoBoundary': 'output/no_focal_no_boundary_sweep.json',
+    'highGainBoundary': 'output/high_gain_boundary_sweep.json',
   };
   const sweepPromises = Object.entries(sweepFiles).map(([key, path]) =>
     fetch(path).then(r => r.json()).catch(() => null)
@@ -2635,6 +2640,48 @@ function populateSweepSections() {
       'Only the focal bias introduces a global reference (fixed home center) whose effectiveness scales with grid size.</div>';
     const elNF = document.getElementById('no-focal-no-boundary-section');
     if (elNF) elNF.innerHTML = html;
+  }
+
+  // ─── High-gain boundary n-dependence sweep (Session 86) ──────────
+  if (data.highGainBoundary) {
+    const hg = data.highGainBoundary;
+    let html = '<h3>High-Gain Boundary N-Dependence: Does the Boundary Convert at g=0.3?</h3>';
+    html += '<table class="sweep-table\"><tr><th>Grid</th><th>n</th><th>g</th><th>Bias</th><th>Fill%</th><th>L2</th><th>H7</th><th>cf</th></tr>';
+    const conds = [
+      ['80_n150_g0_bias0', '80', '150', '0', '0.0'],
+      ['80_n150_g0_bias03', '80', '150', '0', '0.3'],
+      ['80_n150_g03_bias0', '80', '150', '0.3', '0.0'],
+      ['80_n150_g03_bias03', '80', '150', '0.3', '0.3'],
+      ['160_n600_g0_bias0', '160', '600', '0', '0.0'],
+      ['160_n600_g0_bias03', '160', '600', '0', '0.3'],
+      ['160_n600_g03_bias0', '160', '600', '0.3', '0.0'],
+      ['160_n600_g03_bias03', '160', '600', '0.3', '0.3'],
+      ['320_n2400_g0_bias0', '320', '2400', '0', '0.0'],
+      ['320_n2400_g0_bias03', '320', '2400', '0', '0.3'],
+      ['320_n2400_g03_bias0', '320', '2400', '0.3', '0.0'],
+      ['320_n2400_g03_bias03', '320', '2400', '0.3', '0.3'],
+    ];
+    for (const [key, grid, n, g, bias] of conds) {
+      const r = hg[key];
+      if (!r) continue;
+      const s = r.summary;
+      const biasStr = r.movement_bias === 0 ? '0.0' : '0.3';
+      html += `<tr><td>${grid}×${grid}</td><td>${n}</td><td>${g}</td><td>${biasStr}</td>` +
+        `<td>${s.mean_fill_pct.toFixed(2)}%</td><td>${s.l2}</td><td>${s.h7}</td><td>${s.mean_coexist_frac.toFixed(3)}</td></tr>`;
+    }
+    html += '</table>';
+    html += '<div class="insight" style="margin-top:8px"><strong>Key finding (#235):</strong> ' +
+      'At g=0.3 with no focal bias (boundary only), the fill is <strong>weakly n-dependent</strong>: ' +
+      '54.92% → 54.14% → 51.61% (spread 3.31%, monotonic decrease). ' +
+      'The boundary DOES convert density-dependence into n-dependence at high gain, but weakly — ' +
+      '3.31% vs the focal bias\\'s 23.38% (14%). The 53rd mechanism is <strong>partially rescued</strong>. ' +
+      'The 50th mechanism is primarily from the focal bias (86%) with a small boundary contribution (14%).</div>';
+    html += '<div class="insight" style="margin-top:4px"><strong>Mechanism:</strong> ' +
+      'The co-presence at steady state is extensive (scales with n), so more termites on a larger grid ' +
+      'produce more co-presence, stronger B, more suppression. The boundary\\'s reduction increases with n: ' +
+      '-11.33% (80), -12.35% (160), -12.65% (320). The effect is small because the response curve saturates.</div>';
+    const elHG = document.getElementById('high-gain-boundary-section');
+    if (elHG) elHG.innerHTML = html;
   }
 }
 
