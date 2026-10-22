@@ -346,6 +346,10 @@ select:hover, button:hover { border-color: var(--accent); }
 <p class="desc">The co-presence was measured OUTSIDE the boundary's feedback loop (mode="hetero" g=0 — focal bias, ID-tagged, no boundary). The fill is n-dependent EVEN WITHOUT the boundary (48.33% → 31.58% → 24.95% at 23.4/kc) — the focal bias (1-cell steps toward home) is an absolute spatial scale. The boundary adds <0.5% at g=0.01. The co-presence is extensive without the boundary too (0.330 → 0.293 → 0.452, same non-monotonic pattern). The 53rd mechanism is FALSIFIED: the n-dependence is from the focal bias, not the boundary. The 53rd mechanism's original control (mode="none") was confounded — it changed two variables (focal bias + boundary) simultaneously. Methodology lesson: the control must isolate one variable at a time.</p>
 <div id="no-inhib-copresence-section"></div>
 
+<h2>No-Focal No-Boundary: The Absolute-Spatial-Scale Principle Confirmed (Session 85)</h2>
+<p class="desc">Without ANY absolute-spatial-scale mechanism (no focal bias, no boundary — mode="hetero" g=0, movement_bias=0), the fill is density-dependent: 66.25% ≈ 66.49% ≈ 64.26% (spread 2.23%) across 80×80, 160×160, 320×320 at 23.4/kc. With the focal bias (bias=0.3), the fill is n-dependent: 48.33% → 31.58% → 24.95% (spread 23.38%). The focal bias (1-cell steps toward a fixed home center) was the sole source of n-dependence. The absolute-spatial-scale principle (#234) is CONFIRMED: any mechanism acting through an absolute spatial scale converts density-dependence into n-dependence. The curvature channel's local operations (1-cell stencils) are scale-invariant at matched density.</p>
+<div id="no-focal-no-boundary-section"></div>
+
 <script>
 let resultsData = null;
 let robustData = null;
@@ -419,6 +423,7 @@ async function loadData() {
     'gainCompensation320': 'output/gain_compensation_320.json',
     'copresenceDensity': 'output/copresence_density_sweep.json',
     'noInhibCopresence': 'output/no_inhib_copresence_sweep.json',
+    'noFocalNoBoundary': 'output/no_focal_no_boundary_sweep.json',
   };
   const sweepPromises = Object.entries(sweepFiles).map(([key, path]) =>
     fetch(path).then(r => r.json()).catch(() => null)
@@ -2595,6 +2600,41 @@ function populateSweepSections() {
       'A control that confounds two variables cannot attribute the effect to either.</div>';
     const elNI = document.getElementById('no-inhib-copresence-section');
     if (elNI) elNI.innerHTML = html;
+  }
+
+  // ─── No-focal no-boundary sweep (Session 85) ──────────
+  if (data.noFocalNoBoundary) {
+    const nf = data.noFocalNoBoundary;
+    let html = '<h3>No-Focal No-Boundary: Is the Fill Density-Dependent Without Any Absolute-Spatial-Scale Mechanism?</h3>';
+    html += '<table class="sweep-table"><tr><th>Grid</th><th>n</th><th>Bias</th><th>Fill%</th><th>L2</th><th>H7</th><th>cf</th></tr>';
+    const combos = [
+      ['80_n150_bias0.0', '80', '150'], ['80_n150_bias0.3', '80', '150'],
+      ['160_n600_bias0.0', '160', '600'], ['160_n600_bias0.3', '160', '600'],
+      ['320_n2400_bias0.0', '320', '2400'], ['320_n2400_bias0.3', '320', '2400'],
+    ];
+    for (const [key, grid, n] of combos) {
+      const r = nf[key];
+      if (!r) continue;
+      const s = r.summary;
+      const biasStr = r.movement_bias === 0 ? '0.0 (no focal)' : '0.3 (focal)';
+      html += `<tr><td>${grid}×${grid}</td><td>${n}</td><td>${biasStr}</td>` +
+        `<td>${s.mean_fill_pct.toFixed(2)}%</td><td>${s.l2}</td><td>${s.h7}</td><td>${s.mean_coexist_frac.toFixed(3)}</td></tr>`;
+    }
+    html += '</table>';
+    html += '<div class="insight" style="margin-top:8px"><strong>Key finding (#236):</strong> ' +
+      'Without the focal bias (bias=0, no boundary), the fill is <strong>density-dependent</strong>: ' +
+      '66.25% ≈ 66.49% ≈ 64.26% (spread 2.23%) across 80×80, 160×160, 320×320 at 23.4/kc. ' +
+      'With the focal bias (bias=0.3), the fill is <strong>n-dependent</strong>: ' +
+      '48.33% → 31.58% → 24.95% (spread 23.38%). ' +
+      'The focal bias (1-cell steps toward a fixed home center) was the <strong>sole source</strong> of n-dependence. ' +
+      'The absolute-spatial-scale principle (#234) is <strong>CONFIRMED</strong>: any mechanism acting through an absolute ' +
+      'spatial scale (step size, dilation radius) converts density-dependence into n-dependence.</div>';
+    html += '<div class="insight" style="margin-top:4px"><strong>Cross-domain:</strong> ' +
+      'The curvature channel\\'s local operations (1-cell Laplacian, 1-cell Moore dilation, 0.2-cell diffusion) ' +
+      'are scale-invariant at matched density — they depend on local shape, not grid size. ' +
+      'Only the focal bias introduces a global reference (fixed home center) whose effectiveness scales with grid size.</div>';
+    const elNF = document.getElementById('no-focal-no-boundary-section');
+    if (elNF) elNF.innerHTML = html;
   }
 }
 

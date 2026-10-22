@@ -209,6 +209,20 @@ boundary — at the gains where it was tested (g=0.01-0.02), the boundary is neg
 control-arm pattern (#75) recurring: a control that confounds two variables cannot
 attribute the effect to either.
 
+**Session 85: the absolute-spatial-scale principle is CONFIRMED — the fill is density-dependent without the focal bias.**
+
+The no-focal no-boundary sweep (movement_bias=0, g=0) tested the fill with NO focal bias
+and NO boundary at matched density across three grid sizes. The fill IS density-dependent:
+66.25% (80×80) ≈ 66.49% (160×160) ≈ 64.26% (320×320), spread 2.23%. With the focal bias
+(bias=0.3), the fill is n-dependent: 48.33% → 31.58% → 24.95%, spread 23.38%. The focal
+bias (1-cell steps toward a fixed home center) was the SOLE source of n-dependence. The
+curvature channel's local operations (1-cell Laplacian, 1-cell Moore dilation, 0.2-cell
+diffusion) are scale-invariant at matched density — they depend on local shape, not grid
+size. The absolute-spatial-scale principle (#234): any mechanism acting through an absolute
+spatial scale (step size, dilation radius, fixed home center) converts density-dependence
+into n-dependence. LOCAL absolute scales (1-cell stencils acting on local shape) are
+scale-invariant; GLOBAL absolute scales (fixed home center) are not.
+
 ## Criticisms / Limitations (updated Session 84)
 
 - **The thermodynamic analogy is phenomenological, not derived.** The extensive/intensive

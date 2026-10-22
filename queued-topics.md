@@ -2690,14 +2690,35 @@ to compare.
      into n-dependence, but only at high gains where its suppression
      is strong enough to matter.
 
-236. **Measure co-presence with NO focal bias and NO boundary** — The
-     current no-inhibition control (mode="hetero" g=0) includes the focal
-     bias, which is itself an absolute-spatial-scale mechanism producing
-     n-dependence. A control with NO focal bias and NO boundary would
-     show whether the fill is truly density-dependent without any
-     absolute-spatial-scale mechanism. But mode="none" doesn't track
-     material_by_id. Need to add ID tracking to mode="none" (or create
-     a new mode with ID tracking but no focal bias). If the fill IS
-     density-dependent without any absolute-spatial-scale mechanism,
-     the absolute-spatial-scale principle (#234) is confirmed as the
-     root cause of n-dependence.
+236. **Measure co-presence with NO focal bias and NO boundary** — DONE
+     (Session 85).
+     Ran mode="hetero" g=0 with movement_bias=0 (no focal bias, no
+     boundary, ID-tagged deposits) at 23.4/kc across 80×80, 160×160,
+     320×320. RESULT: the fill IS density-dependent without the focal
+     bias (66.25% ≈ 66.49% ≈ 64.26%, spread 2.23%). With the focal bias
+     (bias=0.3), the fill is n-dependent (48.33% → 31.58% → 24.95%,
+     spread 23.38%). The absolute-spatial-scale principle (#234) is
+     CONFIRMED: the focal bias was the sole source of n-dependence.
+     The curvature channel's local operations (1-cell stencils) are
+     scale-invariant at matched density — they depend on local shape,
+     not grid size. LOCAL absolute scales are scale-invariant; GLOBAL
+     absolute scales (fixed home center) are not. Determinism verified.
+     See `no_focal_no_boundary_sweep.py`.
+
+237. **Formalize the absolute-spatial-scale principle as a concept file**
+    — The LOCAL vs GLOBAL distinction (local field theories vs global
+    reference frames) deserves a standalone concept file. The
+    principle: any mechanism acting through a global absolute spatial
+    scale converts density-dependence into n-dependence; local absolute
+    scales are scale-invariant at matched density. Maps onto gauge
+    theory (local interactions are renormalizable; global references
+    are not). Cheap: pure synthesis from Session 85's data.
+
+238. **Test the boundary's n-dependence at higher gains (continuation of
+    #235)** — At g=0.01 the boundary adds <0.5% to the fill. At higher
+    gains (g≥0.3) the boundary may contribute to n-dependence. Test:
+    mode="hetero" g=0.3 with vs without the focal bias (movement_bias=0
+    vs 0.3) at matched density across grid sizes. If the boundary
+    contributes at high gain, the 50th mechanism has two components
+    (focal bias at low gain, boundary at high gain); if not, the 50th
+    mechanism is entirely from the focal bias.
