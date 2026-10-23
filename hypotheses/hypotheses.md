@@ -70,7 +70,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **For an emergent structure to persist as a new actor at a higher scale, it must be autopoietic — it must maintain the network that constitutes it.** Self-maintenance is the persistence condition. Without it, emergent structures are transient patterns, not new actors.
 
-**Status:** Refined (Session 86). The 53rd mechanism is PARTIALLY RESCUED at high gain: the boundary at g=0.3 with no focal bias produces a small n-dependent effect (fill 54.92% → 54.14% → 51.61%, spread 3.31%, 14% of the focal bias's 23.38%). The 50th mechanism's n-dependence is primarily from the focal bias (86%) with a small boundary contribution (14%) at high gain. The boundary's co-presence at steady state is extensive (scales with n), producing a small n-dependent suppression — but the effect is small because the boundary's response curve saturates. The absolute-spatial-scale principle holds with a nuance: the GLOBAL absolute scale (focal bias) dominates; the boundary's extensive co-presence contributes a secondary n-dependence at high gain. Determinism verified.
+**Status:** Refined (Session 87). The 53rd mechanism's partial rescue is smooth in gain, not thresholded — the transition from negligible to visible n-dependence is gradual (spread 0.72% → 2.21% between g=0.05 and g=0.1), not a phase transition. The spread is non-monotonic in gain (peaks at g=0.2, drops at g=0.3) because the boundary saturates at very high gain. The 2-grid measurement underestimates the 3-grid n-dependence (1.30% vs Session 86's 3.31%). The 50th mechanism's n-dependence is primarily from the focal bias (86%) with a small boundary contribution (14%) at high gain. Determinism verified.
 
 **Log:** [logs/H5/](logs/H5/)
 

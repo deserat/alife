@@ -2760,11 +2760,24 @@ to compare.
 ## From Session 86 (2026-10-22)
 
 239. **Finer gain sweep — map the transition from negligible to visible
-     boundary n-dependence** — The 53rd mechanism's partial rescue at
-     g=0.3 (spread 3.31%) vs falsification at g=0.01 (<0.5%) suggests a
-     transition somewhere in between. A finer sweep (g=0.05, 0.1, 0.15,
-     0.2, 0.25, 0.3 at bias=0, 3 grid sizes) would map the transition.
-     Is it sharp (a phase transition in g*) or gradual?
+     boundary n-dependence** — DONE (Session 87).
+     The 53rd mechanism's partial rescue at g=0.3 (spread 3.31%) vs
+     falsification at g=0.01 (<0.5%) suggests a transition somewhere in
+     between. A finer sweep (g=0.0, 0.05, 0.1, 0.15, 0.2, 0.3 at bias=0,
+     80×80 n=150 4 seeds + 160×160 n=600 2 seeds) mapped the transition.
+     RESULT: **the transition is GRADUAL, not a phase transition.** Spread
+     goes 0.54% (g=0) → 0.72% (g=0.05) → 2.21% (g=0.1) → 2.21% (g=0.15)
+     → 2.72% (g=0.2) → 1.30% (g=0.3). First crossing of 2% at g=0.1.
+     The spread is **non-monotonic**: it peaks at g=0.2 then drops at g=0.3
+     because the boundary's response curve saturates at very high gain,
+     reducing the differential between grids. The 53rd mechanism is a
+     **saturating amplifier** with a narrow bandwidth (g≈0.1–0.2), not a
+     threshold. Cross-domain: maps onto gain margin in control theory —
+     below crossover the controller is too weak; in bandwidth it
+     differentiates; above it saturates. The 2-grid spread underestimates
+     the 3-grid n-dependence (1.30% vs Session 86's 3.31%). See
+     `finer_gain_sweep.py`. NEXT: 46.9/kc density at high gain (#240),
+     non-additive interaction (#241).
 
 240. **The 46.9/kc density at high gain — does the boundary's
      n-dependence strengthen?** — The high-gain sweep was at 23.4/kc.

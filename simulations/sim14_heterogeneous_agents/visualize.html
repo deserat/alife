@@ -354,6 +354,10 @@ select:hover, button:hover { border-color: var(--accent); }
 <p class="desc">At g=0.3 with no focal bias (boundary only), the fill decreases monotonically: 54.92% → 54.14% → 51.61% (spread 3.31%) — a small n-dependent effect. The boundary DOES convert density-dependence into n-dependence at high gain, but weakly (3.31% vs focal bias's 23.38% = 14%). The 50th mechanism is primarily from the focal bias (86%) with a small boundary contribution (14%) at high gain. The co-presence at steady state is extensive (scales with n), producing more suppression on larger grids. Determinism verified.</p>
 <div id="high-gain-boundary-section"></div>
 
+<h2>Finer Gain Sweep: The Transition Is Gradual, Not Thresholded (Session 87)</h2>
+<p class="desc">The boundary's n-dependence (spread between 80×80 and 160×160 fill at bias=0) transitions gradually from negligible (g≤0.05: spread 0.5–0.7%) to visible (g=0.1: spread 2.2%) — not a sharp phase transition. The spread is non-monotonic: it peaks at g=0.2 (2.72%) then drops at g=0.3 (1.30%) because the boundary saturates at very high gain. The 53rd mechanism is gain-dependent and smooth, not thresholded. Determinism verified.</p>
+<div id="finer-gain-sweep-section"></div>
+
 <script>
 let resultsData = null;
 let robustData = null;
@@ -429,6 +433,7 @@ async function loadData() {
     'noInhibCopresence': 'output/no_inhib_copresence_sweep.json',
     'noFocalNoBoundary': 'output/no_focal_no_boundary_sweep.json',
     'highGainBoundary': 'output/high_gain_boundary_sweep.json',
+    'finerGainSweep': 'output/finer_gain_sweep.json',
   };
   const sweepPromises = Object.entries(sweepFiles).map(([key, path]) =>
     fetch(path).then(r => r.json()).catch(() => null)
@@ -2682,6 +2687,32 @@ function populateSweepSections() {
       '-11.33% (80), -12.35% (160), -12.65% (320). The effect is small because the response curve saturates.</div>';
     const elHG = document.getElementById('high-gain-boundary-section');
     if (elHG) elHG.innerHTML = html;
+  }
+
+  // ─── Finer gain sweep (Session 87) ───────────────────────────────
+  if (data.finerGainSweep) {
+    const fg = data.finerGainSweep;
+    let html = '<h3>Finer Gain Sweep: Where Does the Boundary\'s N-Dependence Transition?</h3>';
+    html += '<table class="sweep-table"><tr><th>g</th><th>80×80 fill%</th><th>160×160 fill%</th><th>spread</th><th>verdict</th></tr>';
+    const spreadData = fg.spread_analysis || [];
+    for (const sd of spreadData) {
+      const verdict = sd.spread < 2.0 ? 'density-dep' : 'n-dependent';
+      const vClass = sd.spread < 2.0 ? 'tag-no' : 'tag-yes';
+      html += `<tr><td>${sd.g.toFixed(2)}</td><td>${sd.fills[0].toFixed(2)}%</td><td>${sd.fills[1].toFixed(2)}%</td>` +
+        `<td>${sd.spread.toFixed(2)}%</td><td><span class="tag ${vClass}">${verdict}</span></td></tr>`;
+    }
+    html += '</table>';
+    html += '<div class="insight" style="margin-top:8px"><strong>Key finding (#239):</strong> ' +
+      'The transition from negligible to visible n-dependence is <strong>gradual</strong>, not a phase transition. ' +
+      'Spread goes 0.54% (g=0) → 0.72% (g=0.05) → 2.21% (g=0.1) → 2.21% (g=0.15) → 2.72% (g=0.2) → 1.30% (g=0.3). ' +
+      'First crossing of 2% at g=0.1. The spread is <strong>non-monotonic</strong>: it peaks at g=0.2 then drops at g=0.3 ' +
+      '(the boundary saturates at very high gain, reducing the differential between grids).</div>';
+    html += '<div class="insight" style="margin-top:4px"><strong>Implication:</strong> ' +
+      'The 53rd mechanism\'s partial rescue (Session 86) is smooth in gain, not thresholded. The boundary\'s n-dependence ' +
+      'emerges gradually around g≈0.1 and is non-monotonic — the boundary saturates at high gain. The 2-grid measurement ' +
+      'underestimates the 3-grid n-dependence (Session 86\'s 3.31% vs this 1.30% at g=0.3) because the 320×320 grid drops the most.</div>';
+    const elFG = document.getElementById('finer-gain-sweep-section');
+    if (elFG) elFG.innerHTML = html;
   }
 }
 
