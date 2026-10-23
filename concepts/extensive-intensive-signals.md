@@ -223,6 +223,15 @@ spatial scale (step size, dilation radius, fixed home center) converts density-d
 into n-dependence. LOCAL absolute scales (1-cell stencils acting on local shape) are
 scale-invariant; GLOBAL absolute scales (fixed home center) are not.
 
+**Session 88: the 53rd mechanism's n-dependence strengthens with density.** At 46.9/kc
+(2× the density), the spread between 80×80 and 160×160 fill is 2–5× stronger at every
+gain: 3.24% → 6.00% (g=0.0→0.3) vs 23.4/kc's 0.54% → 1.30%. At g=0 the spread is 3.24%
+(n-dependent!) vs 0.54% — but this is a ceiling effect: the 80×80 saturates at 99.30%
+while 160×160 fills to 96.06%. The higher density creates intrinsic n-dependence from
+the 100% fill ceiling compressing the 80×80 grid. Methodology lesson: the fill ceiling
+(100%) compresses the spread metric at high density, underestimating the true
+n-dependence — the metric-ceiling rule (#61) recurring.
+
 ## Criticisms / Limitations (updated Session 84)
 
 - **The thermodynamic analogy is phenomenological, not derived.** The extensive/intensive

@@ -358,6 +358,10 @@ select:hover, button:hover { border-color: var(--accent); }
 <p class="desc">The boundary's n-dependence (spread between 80×80 and 160×160 fill at bias=0) transitions gradually from negligible (g≤0.05: spread 0.5–0.7%) to visible (g=0.1: spread 2.2%) — not a sharp phase transition. The spread is non-monotonic: it peaks at g=0.2 (2.72%) then drops at g=0.3 (1.30%) because the boundary saturates at very high gain. The 53rd mechanism is gain-dependent and smooth, not thresholded. Determinism verified.</p>
 <div id="finer-gain-sweep-section"></div>
 
+<h2>Higher-Density Gain Sweep: The Boundary's N-Dependence Strengthens with Density (Session 88)</h2>
+<p class="desc">At 46.9/kc (2× the Session 87 density), the spread between 80×80 and 160×160 fill is STRONGER at every gain: 3.24% (g=0) → 3.64% (g=0.05) → 5.04% (g=0.1) → 5.44% (g=0.15) → 3.93% (g=0.2) → 6.00% (g=0.3). The spread is n-dependent even at g=0 (3.24% vs 23.4/kc's 0.54%) — a ceiling effect (80×80 saturates at ~99%). The spread is non-monotonic (peaks at g=0.15, drops at g=0.2, rises to g=0.3). The 53rd mechanism's n-dependence strengthens with density. H7=4/4, L2=0/4 at all gains (no composition without focal bias at this density). Determinism verified.</p>
+<div id="higher-density-gain-sweep-section"></div>
+
 <script>
 let resultsData = null;
 let robustData = null;
@@ -434,6 +438,7 @@ async function loadData() {
     'noFocalNoBoundary': 'output/no_focal_no_boundary_sweep.json',
     'highGainBoundary': 'output/high_gain_boundary_sweep.json',
     'finerGainSweep': 'output/finer_gain_sweep.json',
+    'higherDensityGainSweep': 'output/higher_density_gain_sweep.json',
   };
   const sweepPromises = Object.entries(sweepFiles).map(([key, path]) =>
     fetch(path).then(r => r.json()).catch(() => null)
@@ -2713,6 +2718,41 @@ function populateSweepSections() {
       'underestimates the 3-grid n-dependence (Session 86\'s 3.31% vs this 1.30% at g=0.3) because the 320×320 grid drops the most.</div>';
     const elFG = document.getElementById('finer-gain-sweep-section');
     if (elFG) elFG.innerHTML = html;
+  }
+
+  // ─── Higher-density gain sweep (Session 88) ────────────────────
+  if (data.higherDensityGainSweep) {
+    const hd = data.higherDensityGainSweep;
+    let html = '<h3>Higher-Density (46.9/kc) Gain Sweep: Does N-Dependence Strengthen?</h3>';
+    html += '<table class="sweep-table"><tr><th>g</th><th>80×80 fill%</th><th>160×160 fill%</th><th>spread</th><th>23.4/kc spread</th><th>delta</th></tr>';
+    const spreadData = hd.spread_analysis || [];
+    const compData = hd.comparison || [];
+    const compMap = {};
+    for (const c of compData) { compMap[c.g] = c; }
+    for (const sd of spreadData) {
+      const verdict = sd.spread < 2.0 ? 'density-dep' : 'n-dependent';
+      const vClass = sd.spread < 2.0 ? 'tag-no' : 'tag-yes';
+      const c = compMap[sd.g];
+      const s23 = c ? c.spread_23.toFixed(2) + '%' : '—';
+      const delta = c ? (c.delta > 0 ? '+' : '') + c.delta.toFixed(2) + '%' : '—';
+      const deltaClass = c && c.delta > 0 ? 'tag-yes' : 'tag-no';
+      html += `<tr><td>${sd.g.toFixed(2)}</td><td>${sd.fills[0].toFixed(2)}%</td><td>${sd.fills[1].toFixed(2)}%</td>` +
+        `<td><span class="tag ${vClass}">${sd.spread.toFixed(2)}%</span></td>` +
+        `<td>${s23}</td><td><span class="tag ${deltaClass}">${delta}</span></td></tr>`;
+    }
+    html += '</table>';
+    html += '<div class="insight" style="margin-top:8px"><strong>Key finding (#240):</strong> ' +
+      'The spread is <strong>STRONGER at 46.9/kc at every gain</strong> (delta +1.21 to +4.70%). ' +
+      'At g=0 the spread is 3.24% (n-dependent!) vs 23.4/kc\'s 0.54% (density-dep) — a ceiling effect ' +
+      '(80×80 saturates at ~99%, 160×160 at ~96%). The spread is non-monotonic (peaks g=0.15, drops g=0.2, ' +
+      'rises g=0.3). H7=4/4, L2=0/4 at all gains — no composition without focal bias at this density.</div>';
+    html += '<div class="insight" style="margin-top:4px"><strong>Methodology lesson:</strong> ' +
+      'At high density the fill approaches the 100% ceiling, compressing the spread metric. ' +
+      'The 80×80 grid saturates at ~99% and cannot express further suppression, so the spread ' +
+      'underestimates the true n-dependence. The metric\'s ceiling (100% fill) limits the test\'s ' +
+      'sensitivity at high density — the same metric-ceiling lesson (#61) recurring.</div>';
+    const elHD = document.getElementById('higher-density-gain-sweep-section');
+    if (elHD) elHD.innerHTML = html;
   }
 }
 

@@ -2780,11 +2780,20 @@ to compare.
      non-additive interaction (#241).
 
 240. **The 46.9/kc density at high gain — does the boundary's
-     n-dependence strengthen?** — The high-gain sweep was at 23.4/kc.
-     At 46.9/kc (n=4800 on 320×320), the co-presence is even more
-     extensive (more material). Does the boundary's n-dependent effect
-     strengthen at higher density? Or does the boundary's saturation
-     limit the effect regardless of density?
+     n-dependence strengthen?** — DONE (Session 88).
+     At 46.9/kc (2× the 23.4/kc density), the spread is 2–5× stronger
+     at every gain: 3.24% (g=0) → 3.64% (g=0.05) → 5.04% (g=0.1) →
+     5.44% (g=0.15) → 3.93% (g=0.2) → 6.00% (g=0.3). The boundary's
+     n-dependence DOES strengthen with density. But at g=0 the fill
+     is already n-dependent (3.24% vs 23.4/kc's 0.54%) — a ceiling
+     effect: the 80×80 grid saturates at 99.30% and can't express
+     further suppression. The 100% fill ceiling compresses the
+     spread metric at high density, underestimating the true
+     n-dependence. Methodology lesson: the metric-ceiling rule (#61)
+     recurring — a bounded metric (max 100%) cannot test effects
+     near its ceiling. L2 is 0/4 at all gains (no composition without
+     focal bias at this density). H7=4/4 at all gains. See
+     `higher_density_gain_sweep.py`.
 
 241. **The non-additive interaction between focal bias and boundary** —
      The combined condition (g=0.3, bias=0.3) has spread 21.66% — LESS
@@ -2793,3 +2802,21 @@ to compare.
      non-additive interaction deserves formalization: the focal bias and
      the boundary are not independent n-dependence sources — they
      interact through the co-presence signal's spatial distribution.
+
+## From Session 88 (2026-10-23)
+
+242. **The ceiling effect as a metric pathology — a bounded metric
+     cannot test effects near its ceiling** — Session 88 found the
+     spread metric (fill_80 - fill_160) is compressed by the 100%
+     fill ceiling at high density: the 80×80 grid saturates at 99.30%
+     and cannot express further suppression, so the spread
+     underestimates the true n-dependence. This is the metric-ceiling
+     rule (#61) recurring at the measurement level: "Compute your
+     metric's ceiling. If its maximum can fall below your threshold,
+     it is not a test." Here the metric's ceiling is 100% fill, and
+     the 80×80 is at 99.30% — the spread is compressed. The fix: use
+     an unbounded metric (e.g., total material count, not fill
+     fraction) or test at a density where the fill is well below
+     ceiling. Could be added to CLAUDE.md §4 step 6 alongside the
+     metric-ceiling (#61), stable_crossed (#65), control-arm (#75),
+     and one-seed control (#80) rules.

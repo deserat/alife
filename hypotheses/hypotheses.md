@@ -2,8 +2,8 @@
 title: "Hypotheses"
 topic: "testable hypotheses for the multi-scale ALife composition project"
 status: active
-date: "2026-10-22"
-session: 86
+date: "2026-10-23"
+session: 88
 count: 11
 active: [H1, H2, H3, H4, H5, H6, H7, H8, H9, H10, H11]
 logs: ["logs/H1/", "logs/H2/", "logs/H3/", "logs/H4/", "logs/H5/", "logs/H6/", "logs/H7/", "logs/H8/", "logs/H9/", "logs/H10/", "logs/H11/"]
@@ -70,7 +70,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **For an emergent structure to persist as a new actor at a higher scale, it must be autopoietic — it must maintain the network that constitutes it.** Self-maintenance is the persistence condition. Without it, emergent structures are transient patterns, not new actors.
 
-**Status:** Refined (Session 87). The 53rd mechanism's partial rescue is smooth in gain, not thresholded — the transition from negligible to visible n-dependence is gradual (spread 0.72% → 2.21% between g=0.05 and g=0.1), not a phase transition. The spread is non-monotonic in gain (peaks at g=0.2, drops at g=0.3) because the boundary saturates at very high gain. The 2-grid measurement underestimates the 3-grid n-dependence (1.30% vs Session 86's 3.31%). The 50th mechanism's n-dependence is primarily from the focal bias (86%) with a small boundary contribution (14%) at high gain. Determinism verified.
+**Status:** Refined (Session 88). The 53rd mechanism's n-dependence strengthens with density — at 46.9/kc (2× Session 87's density) the spread is 2–5× larger at every gain (3.24% → 6.00% vs 23.4/kc's 0.54% → 1.30%). At g=0 the fill is already n-dependent (3.24% vs 0.54%) — a ceiling effect (80×80 saturates at ~99%). The spread is non-monotonic (peaks g=0.15, drops g=0.2, rises g=0.3). L2 is 0/4 at all gains (no composition without focal bias at this density). H7=4/4 at all gains. Methodology lesson: the 100% fill ceiling compresses the spread metric at high density. Determinism verified.
 
 **Log:** [logs/H5/](logs/H5/)
 
@@ -216,7 +216,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 | H2: ANT Translation | Unchanged | Theoretical, untested | [H2](logs/H2/) |
 | H3: Quasi-Object | Strengthened | Stigmergy literature support; Echo partial support | [H3](logs/H3/) |
 | H4: Dynamic Environment | Refined | Fitness landscape criticism supports this | [H4](logs/H4/) |
-| H5: Autopoiesis | Refined (S86) | 53rd mechanism partially rescued at high gain (g=0.3): boundary produces small n-dependent effect (spread 3.31%, 14% of focal bias's 23.38%); 50th mechanism primarily focal bias (86%) + small boundary (14%) | [H5](logs/H5/) |
+| H5: Autopoiesis | Refined (S88) | 53rd mechanism's n-dependence strengthens with density: spread 2–5× larger at 46.9/kc vs 23.4/kc at every gain; g=0 spread n-dependent at 46.9/kc (ceiling effect); non-monotonic; L2=0/4 without focal bias; H7=4/4 | [H5](logs/H5/) |
 | H6: Multi-Scale Autopoiesis | Refined (S77) | 12th member fully lost at n=11000–14000 (~84–99% fill): 1s l2=0/4; progressive loss, not sharp threshold | [H6](logs/H6/) |
 | H7: Trace→Actor Crossing | Refined ×67; fill cap saturation is a HARD ceiling (grid full); g* limit n≈14000-15000 — boundary capping power decays exponentially (gap halves per 1000-n); H7=4/4 at all densities; L2=0/4; 30th persists; 43rd saturation at n≈14000 | [H7](logs/H7/) |
 | H8: Complexity Enables OEE | NEW | Kaznatcheev (2019), Wiser et al. (2013) | [H8](logs/H8/) |
