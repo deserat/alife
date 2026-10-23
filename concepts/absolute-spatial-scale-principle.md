@@ -257,6 +257,76 @@ computed from.
   mechanics scale with the correlation length relative to the system size.
   The stigmergic analog: the focal bias's effectiveness scales with the step
   size relative to the grid size (1/80 vs 1/320).
+
+## Session 90: The Relative-Scale Test — Intensive vs Extensive n-Dependence
+
+### The prediction
+
+The absolute-spatial-scale principle predicts: if ALL spatial scales are made
+relative (step ∝ size, radius ∝ size), the system becomes scale-invariant —
+the fill at matched density should be the same across grid sizes.
+
+### The test
+
+2 conditions × 2 grid sizes × 4 seeds at 23.4/kc:
+- **absolute:** 80×80 (step=1, radius=8), 160×160 (step=1, radius=8)
+- **relative:** 80×80 (step=1, radius=8), 160×160 (step=2, radius=16)
+
+80×80 is identical for both (control arm). Only the 160×160 differs.
+
+### The result — PARTIALLY CONFIRMED
+
+| Measure | Type | Absolute spread | Relative spread |
+|---------|------|----------------|-----------------|
+| b_scale | intensive (local max) | 0.124 vs 0.004 (31×) | 0.124 vs 0.124 (0×) |
+| fill_pct | extensive (total) | 30.78 vs 22.58 (8.20%) | 30.78 vs 21.33 (9.45%) |
+| cf (coexist_frac) | intensive (fraction) | 0.988 vs 0.700 (0.288) | 0.988 vs 1.000 (0.012) |
+| stable | intensive (fraction) | 4/4 vs 3/4 | 4/4 vs 4/4 |
+
+**b_scale** (#232 answered): density-dependent with relative dilation. The
+dilation radius is the sole cause of b_scale's n-dependence. With a relative
+radius (16 on 160×160), b_scale = 0.124 — identical to 80×80's 0.124.
+
+**Composition quality (cf, stable):** density-dependent with relative scales.
+The cf spread dropped from 0.288 (absolute) to 0.012 (relative) — a 24×
+reduction. The relative 160×160 achieved cf=1.000, stable=4/4 — matching or
+exceeding the 80×80's cf=0.988, stable=4/4.
+
+**Fill (extensive):** n-dependent with BOTH absolute and relative scales.
+The relative spread (9.45%) is slightly LARGER than the absolute spread (8.20%).
+Making the focal step relative (2 cells) made the focal bias STRONGER, reducing
+the fill further (21.33% vs 22.58%) — overcorrecting rather than fixing.
+
+### The refinement: intensive vs extensive n-dependence
+
+The absolute-spatial-scale principle applies to **intensive measures** (b_scale,
+composition quality) but NOT to **extensive measures** (fill). This connects
+directly to the extensive/intensive signal distinction (Session 82):
+
+- **Intensive measures** (local maximum, fraction) are density-dependent with
+  relative scales. The absolute spatial scale is the sole cause of their
+  n-dependence; making it relative restores density-dependence.
+
+- **Extensive measures** (total material) remain n-dependent with relative
+  scales. The focal bias's concentration effect is inherently extensive — it
+  changes the TOTAL amount of material in each region, not just its
+  distribution. Making the step relative changes the concentration strength,
+  not the fundamental extensivity.
+
+The fill's n-dependence has TWO components:
+1. The absolute spatial scale (step=1) — making it relative changes the
+   concentration strength but doesn't eliminate n-dependence.
+2. The focal bias's extensive effect (concentrating material) — inherently
+   n-dependent because the focal bias acts on position (global), not shape
+   (local). More termites on a larger grid have more distance to cover, and
+   the focal bias's concentration effect scales with the distance.
+
+The design principle: **to make a stigmergic system density-dependent, make
+all spatial scales relative AND use intensive quality measures (composition
+fractions), not extensive quantity measures (fill).** The fill is inherently
+n-dependent when a global mechanism (focal bias) is present; the composition
+quality is density-dependent when the global mechanism's spatial scale is
+relative.
 - **Renormalization group → stigmergy:** coarse-graining (increasing the
   grid size at matched density) preserves local physics but changes the
   global reference's effectiveness. The focal bias is a relevant operator

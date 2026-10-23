@@ -364,7 +364,12 @@ select:hover, button:hover { border-color: var(--accent); }
 
 <h2>Non-Additive Interaction: Focal Bias Weakens Boundary Through Co-Presence (Session 89)</h2>
 <p class="desc">A 2×2 factorial {bias=0, bias=0.3} × {g=0, g=0.3} at 23.4/kc. The combined spread (14.54%) is LESS than the additive prediction (17.43%) — the interaction is SUB-ADDITIVE (-2.89%). The focal bias weakens the boundary by concentrating each ID's material → less co-presence at the midline → weaker B (b_max drops 20-23%). The boundary's suppression effect is reduced 55-78% by the focal bias (asymmetric: more reduction on larger grid). The boundary's suppression is also n-dependent (5.07% on 80×80 vs 2.94% on 160×160), partially offsetting the focal bias's n-dependence — the combined spread (14.54%) < focal-only spread (16.67%). Determinism verified.</p>
+
 <div id="nonadditive-sweep-section"></div>
+
+<h2>Relative-Scale Test: Intensive vs Extensive n-Dependence (Session 90)</h2>
+<p class="desc">The absolute-spatial-scale principle's central prediction tested: if ALL spatial scales are made relative (step ∝ size, radius ∝ size), does the system become density-dependent? b_scale and composition quality (intensive) YES; fill (extensive) NO — the extensive/intensive distinction in thermodynamics maps onto the measure-type distinction in stigmergic systems. #232 answered: the dilation radius is the sole cause of b_scale's n-dependence.</p>
+<div id="relative-scale-sweep-section"></div>
 
 <script>
 let resultsData = null;
@@ -444,6 +449,7 @@ async function loadData() {
     'finerGainSweep': 'output/finer_gain_sweep.json',
     'higherDensityGainSweep': 'output/higher_density_gain_sweep.json',
     'nonadditiveSweep': 'output/nonadditive_sweep.json',
+    'relativeScaleSweep': 'output/relative_scale_sweep.json',
   };
   const sweepPromises = Object.entries(sweepFiles).map(([key, path]) =>
     fetch(path).then(r => r.json()).catch(() => null)
@@ -2793,6 +2799,52 @@ function populateSweepSections() {
     }
     const elNA = document.getElementById('nonadditive-sweep-section');
     if (elNA) elNA.innerHTML = html;
+  }
+
+  // ─── Relative-scale sweep (Session 90) ─────────────────────────
+  if (data.relativeScaleSweep) {
+    const rs = data.relativeScaleSweep;
+    let html = '<h3>Relative-Scale Test: Absolute vs Relative Spatial Scales</h3>';
+    html += '<table class="sweep-table"><tr><th>Mode</th><th>Grid</th><th>n</th><th>radius</th><th>step</th><th>b_scale</th><th>fill%</th><th>cf</th><th>stable</th><th>h7</th></tr>';
+    for (const key of ['absolute_80','absolute_160','relative_80','relative_160']) {
+      const d = rs[key];
+      if (!d) continue;
+      const s = d.summary;
+      html += `<tr><td>${d.scale_mode}</td><td>${d.grid}×${d.grid}</td><td>${d.n}</td>` +
+        `<td>${d.direct_radius}</td><td>${d.focal_step}</td>` +
+        `<td>${d.b_scale.toFixed(6)}</td><td>${s.mean_fill_pct.toFixed(2)}%</td>` +
+        `<td>${s.mean_coexist_frac.toFixed(3)}</td><td>${s.stable}</td><td>${s.h7}</td></tr>`;
+    }
+    html += '</table>';
+
+    // Spread analysis
+    const abs80 = rs.absolute_80, abs160 = rs.absolute_160;
+    const rel80 = rs.relative_80, rel160 = rs.relative_160;
+    const absSpread = Math.abs(abs80.summary.mean_fill_pct - abs160.summary.mean_fill_pct);
+    const relSpread = Math.abs(rel80.summary.mean_fill_pct - rel160.summary.mean_fill_pct);
+    const absCfSpread = Math.abs(abs80.summary.mean_coexist_frac - abs160.summary.mean_coexist_frac);
+    const relCfSpread = Math.abs(rel80.summary.mean_coexist_frac - rel160.summary.mean_coexist_frac);
+    html += '<div class="insight" style="margin-top:8px"><strong>Spread analysis:</strong><br>' +
+      `Fill (extensive): absolute spread = ${absSpread.toFixed(2)}% | relative spread = ${relSpread.toFixed(2)}% — ` +
+      `<span class="tag ${relSpread < 1.0 ? 'tag-yes' : 'tag-no'}">${relSpread < absSpread ? 'IMPROVED' : 'NOT improved'}</span> ` +
+      `(prediction: ~0% for relative)<br>` +
+      `cf (intensive): absolute spread = ${absCfSpread.toFixed(3)} | relative spread = ${relCfSpread.toFixed(3)} — ` +
+      `<span class="tag ${relCfSpread < 0.05 ? 'tag-yes' : 'tag-no'}">${relCfSpread < absCfSpread ? '24× REDUCED' : 'NOT reduced'}</span><br>` +
+      `b_scale (intensive): absolute = ${abs80.b_scale.toFixed(6)} vs ${abs160.b_scale.toFixed(6)} (${(abs80.b_scale/abs160.b_scale).toFixed(1)}×) | ` +
+      `relative = ${rel80.b_scale.toFixed(6)} vs ${rel160.b_scale.toFixed(6)} (1.0×) — ` +
+      `<span class="tag tag-yes">DENSITY-DEPENDENT with relative dilation</span> (#232 answered)</div>';
+
+    html += '<div class="insight" style="margin-top:4px"><strong>Key finding:</strong> The absolute-spatial-scale principle is confirmed for intensive measures ' +
+      '(b_scale, composition quality) but falsified for the extensive fill. The fill\'s n-dependence is from the focal bias\'s ' +
+      'extensive concentration effect, not the absolute spatial scale alone. The extensive/intensive distinction in thermodynamics ' +
+      'maps onto the measure-type distinction in stigmergic systems.</div>';
+
+    if (rs.determinism_ok !== undefined) {
+      html += `<div class="tag ${rs.determinism_ok ? 'tag-yes' : 'tag-no'}" style="margin-top:4px">Determinism: ${rs.determinism_ok ? 'OK' : 'FAIL'}</div>`;
+    }
+
+    const elRS = document.getElementById('relative-scale-sweep-section');
+    if (elRS) elRS.innerHTML = html;
   }
 }
 

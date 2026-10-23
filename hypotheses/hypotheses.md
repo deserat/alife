@@ -3,7 +3,7 @@ title: "Hypotheses"
 topic: "testable hypotheses for the multi-scale ALife composition project"
 status: active
 date: "2026-10-23"
-session: 89
+session: 90
 count: 11
 active: [H1, H2, H3, H4, H5, H6, H7, H8, H9, H10, H11]
 logs: ["logs/H1/", "logs/H2/", "logs/H3/", "logs/H4/", "logs/H5/", "logs/H6/", "logs/H7/", "logs/H8/", "logs/H9/", "logs/H10/", "logs/H11/"]
@@ -70,7 +70,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **For an emergent structure to persist as a new actor at a higher scale, it must be autopoietic — it must maintain the network that constitutes it.** Self-maintenance is the persistence condition. Without it, emergent structures are transient patterns, not new actors.
 
-**Status:** Refined (Session 89). The focal bias and boundary interact sub-additively (-2.89%) through their shared co-presence variable. The focal bias weakens the boundary by 20–23% (b_max reduction: 57.66→45.81 on 80×80, 66.19→51.06 on 160×160) by concentrating material → less co-presence → weaker B. The boundary's suppression effect is reduced 55–78% by the focal bias (asymmetric: more reduction on larger grid). The combined spread (14.54%) < focal-only spread (16.67%) — the boundary partially offsets the focal bias's n-dependence. The two-wire principle's 16th member: two mechanisms sharing a state variable are not on separate wires. Determinism verified.
+**Status:** Refined (Session 90). The absolute-spatial-scale principle is confirmed for intensive measures but falsified for the extensive fill. b_scale is density-dependent with relative dilation (#232 answered — the dilation radius is the sole cause; 0.124 vs 0.004 absolute, 0.124 vs 0.124 relative). Composition quality (cf spread 0.288→0.012, stable 3/4→4/4) is density-dependent with relative scales. The fill remains n-dependent (8.20%→9.45%) because the focal bias's concentration effect is inherently extensive. The extensive/intensive distinction in thermodynamics maps onto the measure-type distinction in stigmergic systems. Determinism verified.
 
 **Log:** [logs/H5/](logs/H5/)
 

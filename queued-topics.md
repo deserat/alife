@@ -2640,14 +2640,15 @@ to compare.
     lesson: the control must isolate one variable at a time. See
     `no_inhib_copresence_sweep.py`.
 
-232. **The b_scale as a measurable intensive quantity** — The 53rd
-     mechanism refined: the n-dependence comes from B_norm = B / b_scale,
-     where B (steady-state) is extensive and b_scale (initial) is intensive.
-     Can b_scale be measured directly? It is the 95th percentile of the
-     INITIAL co-presence (from seed regions). Is it the same at matched
-     density across grid sizes? If yes, the normalization is confirmed
-     as the source of n-dependence. Test: compute the initial co-presence
-     at different (n, grid) combos and measure b_scale.
+232. **The b_scale as a measurable intensive quantity** — DONE (Session 90).
+    The b_scale (95th percentile of initial co-presence) was measured
+    directly at 23.4/kc across 80×80 and 160×160 with absolute and
+    relative dilation. RESULT: b_scale is n-dependent with absolute
+    dilation (0.124 vs 0.004, 31× gap) and DENSITY-DEPENDENT with
+    relative dilation (0.124 vs 0.124, identical). The dilation radius
+    is the sole cause of b_scale's n-dependence. The b_scale is intensive
+    (a local maximum from the seed Gaussian, not a total). See
+    `relative_scale_sweep.py`.
 
 233. **The co-presence mean's non-monotonicity — why does it decrease
      from 80×80 to 160×160 but increase to 320×320?** — At both densities,
@@ -2827,3 +2828,47 @@ to compare.
      ceiling. Could be added to CLAUDE.md §4 step 6 alongside the
      metric-ceiling (#61), stable_crossed (#65), control-arm (#75),
      and one-seed control (#80) rules.
+
+## From Session 90 (2026-10-23)
+
+243. **The relative-scale test — does making all spatial scales relative
+     eliminate n-dependence?** — DONE (Session 90).
+     The absolute-spatial-scale principle's central prediction: if ALL
+     spatial scales are made relative (step ∝ size, radius ∝ size), the
+     system becomes density-dependent. 2 conditions × 2 grids × 4 seeds
+     at 23.4/kc: absolute (80×80 step=1 radius=8, 160×160 step=1 radius=8)
+     vs relative (80×80 step=1 radius=8, 160×160 step=2 radius=16).
+     RESULT: PARTIALLY CONFIRMED — the split follows the
+     extensive/intensive distinction:
+     - b_scale (intensive): 0.124 vs 0.004 absolute (31×), 0.124 vs
+       0.124 relative (0×) — density-dependent with relative dilation.
+     - Composition quality cf (intensive): spread 0.288→0.012 (24×
+       reduction), stable 3/4→4/4 — density-dependent with relative
+       scales.
+     - Fill (extensive): spread 8.20%→9.45% — n-dependent with BOTH.
+       Making the focal step relative OVERCORRECTED (stronger
+       concentration → lower fill → larger spread).
+     The extensive/intensive distinction in thermodynamics maps onto the
+     measure-type distinction in stigmergic systems. See
+     `relative_scale_sweep.py`.
+
+244. **The extensive/intensive measure-type distinction as a formal
+     concept** — The relative-scale test revealed that the
+     absolute-spatial-scale principle applies to intensive measures
+     (b_scale, composition quality) but not to extensive measures
+     (fill). This connects the extensive/intensive signal distinction
+     (Session 82, #227) to the absolute-spatial-scale principle
+     (Session 85, #234). The fill is extensive (total material) and
+     inherently n-dependent when a global mechanism (focal bias) is
+     present; the composition quality is intensive (fraction) and
+     density-dependent when the global mechanism's spatial scale is
+     relative. This is the thermodynamic analog: extensive quantities
+     (volume) scale with system size; intensive quantities (pressure)
+     do not. Could be added to the extensive-intensive-signals concept
+     file.
+
+245. **Test at a third grid size (320×320) for the relative-scale
+     sweep** — Would the composition quality remain density-dependent
+     at 320×320 with relative scales? The prediction says yes (cf
+     spread ~0), but the fill would still be n-dependent. Cheap: re-run
+     the relative condition at 320×320 with 4 seeds.

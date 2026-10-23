@@ -212,9 +212,10 @@ def termite_step_hetero(termites, field, rng, params, curvature,
     # is independent of the deposit suppression signal — separate wires.
     zone_dilated = None
     if movement_mode == "zone":
+        _zr = params.get("direct_radius", DIRECT_RADIUS)
         zone_dilated = [
-            I13._dilate_no_x_wrap(material_by_id[0], DIRECT_RADIUS),
-            I13._dilate_no_x_wrap(material_by_id[1], DIRECT_RADIUS),
+            I13._dilate_no_x_wrap(material_by_id[0], _zr),
+            I13._dilate_no_x_wrap(material_by_id[1], _zr),
         ]
 
     # Iteration order (queued-topic #177, #179): by default agents are
@@ -374,7 +375,14 @@ def termite_step_hetero(termites, field, rng, params, curvature,
                 # Shortest toroidal distance in x.
                 dx_h = ((hx - x + size // 2) % size) - size // 2
                 # Step in x toward home (dx = sign(dx_h), dy = 0).
-                dx_step = 1 if dx_h > 0 else (-1 if dx_h < 0 else 0)
+                # focal_step > 1: multi-cell step (for relative-scale tests).
+                _fs = params.get("focal_step", 1)
+                if dx_h > 0:
+                    dx_step = min(dx_h, _fs)
+                elif dx_h < 0:
+                    dx_step = -min(-dx_h, _fs)
+                else:
+                    dx_step = 0
                 dy_step = int(rng.choice([-1, 0, 1]))
                 y = (y + dy_step) % size
                 x = (x + dx_step) % size
