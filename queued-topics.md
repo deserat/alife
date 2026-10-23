@@ -2796,12 +2796,19 @@ to compare.
      `higher_density_gain_sweep.py`.
 
 241. **The non-additive interaction between focal bias and boundary** —
-     The combined condition (g=0.3, bias=0.3) has spread 21.66% — LESS
-     than the focal-only spread (23.38%). The focal bias weakens the
-     boundary by concentrating material (less co-presence). This
-     non-additive interaction deserves formalization: the focal bias and
-     the boundary are not independent n-dependence sources — they
-     interact through the co-presence signal's spatial distribution.
+     DONE (Session 89).
+     A 2×2 factorial {bias=0, bias=0.3} × {g=0, g=0.3} at 23.4/kc found the
+     combined spread (14.54%) < additive prediction (17.43%) — SUB-ADDITIVE
+     (interaction −2.89%). The focal bias weakens the boundary by 20–23%
+     (b_max: 57.66→45.81 on 80×80, 66.19→51.06 on 160×160) by concentrating
+     material → less co-presence → weaker B. The boundary's suppression
+     effect is reduced 55–78% by the focal bias (asymmetric: more reduction
+     on larger grid). The focal bias's suppression is reduced 29–35% by the
+     boundary. The combined spread (14.54%) < focal-only spread (16.67%) —
+     the boundary partially offsets the focal bias's n-dependence. The
+     two-wire principle's 16th member: two mechanisms sharing a state
+     variable are not on separate wires. See `nonadditive_sweep.py` and
+     H5 Session-89 refinement.
 
 ## From Session 88 (2026-10-23)
 

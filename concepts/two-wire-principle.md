@@ -160,6 +160,23 @@ is the thermodynamic expression of the two-wire principle.*
 
 See `concepts/extensive-intensive-signals.md` for the full formalization.
 
+### Level 10: Shared-Variable Coupling (Session 89)
+
+**Member 16 — The shared-variable coupling (Session 89, queued-topic #241).**
+When two mechanisms share a state variable, they are not on separate wires —
+each weakens the other's input. The focal bias and boundary both act through
+the co-presence signal's spatial distribution: the focal bias shapes it
+(concentrating material → less co-presence), the boundary reads it (B grows
+from co-presence → suppresses deposition → less material → less co-presence).
+This bidirectional coupling makes the combined effect sub-additive: the
+combined spread (14.54%) < additive prediction (17.43%), interaction term
+−2.89%. The focal bias weakens the boundary by 20–23% (b_max reduction); the
+boundary's suppression effect is reduced 55–78% by the focal bias (asymmetric:
+more reduction on larger grid). *Two mechanisms coupled through a shared state
+variable are not independent — the output of one is the input of the other,
+and the feedback loop makes them sub-additive. This is the stigmergic analog
+of coupled controllers in control theory.*
+
 ## The Taxonomy
 
 | Level | Member | Session | Property | Core claim |
@@ -179,6 +196,7 @@ See `concepts/extensive-intensive-signals.md` for the full formalization.
 | 13 | Density-dependent gain | S45 | Scaling | The boundary strength must scale with density (1/√n) |
 | 14 | Formation-persistence balance | S49 | Scaling | Formation and persistence must be balanced, not just separated |
 | 15 | Extensive/intensive | S82 | Scaling | The boundary acts on the intensive co-presence signal, not the extensive fill |
+| 16 | Shared-variable coupling | S89 | Coupling | Two mechanisms sharing a state variable are not on separate wires — combined effect is sub-additive |
 
 ## The Progression
 
@@ -200,6 +218,9 @@ The twelve members form a deepening progression:
    formation and persistence must be balanced, and the boundary must act on the intensive
    co-presence signal (arrangement-dependent), not the extensive fill (amount-dependent) —
    the thermodynamic expression of the two-wire principle.
+8. **Shared-variable coupling** (Member 16): when two mechanisms share a state variable,
+   they are not on separate wires — each weakens the other's input, making the combined
+   effect sub-additive. The stigmergic analog of coupled controllers in control theory.
 
 Each level is a **stronger form** of the same principle: the signal must not be reachable by
 the dynamics it controls, must be specific to where it acts, the structure must be small

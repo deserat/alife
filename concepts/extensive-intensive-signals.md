@@ -232,6 +232,17 @@ the 100% fill ceiling compressing the 80×80 grid. Methodology lesson: the fill 
 (100%) compresses the spread metric at high density, underestimating the true
 n-dependence — the metric-ceiling rule (#61) recurring.
 
+**Session 89: the non-additive interaction — the focal bias and boundary share the co-presence variable.** A 2×2 factorial {bias=0, bias=0.3} × {g=0, g=0.3} at 23.4/kc found
+the two n-dependence sources interact sub-additively (interaction term −2.89%). The
+combined spread (14.54%) < additive prediction (17.43%). The focal bias weakens the
+boundary by 20–23% (b_max: 57.66→45.81 on 80×80, 66.19→51.06 on 160×160) — concentrating
+material → less co-presence → weaker B. The boundary's suppression effect is reduced
+55–78% by the focal bias (asymmetric: more reduction on larger grid). The two-wire
+principle's 16th member: two mechanisms sharing a state variable are not on separate
+wires. The extensive/intensive distinction is the 15th member (separate wires); the 16th
+is the limit of that separation — when the two mechanisms act on the SAME variable
+(co-presence), they are coupled, not independent.
+
 ## Criticisms / Limitations (updated Session 84)
 
 - **The thermodynamic analogy is phenomenological, not derived.** The extensive/intensive

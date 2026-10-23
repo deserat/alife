@@ -362,6 +362,10 @@ select:hover, button:hover { border-color: var(--accent); }
 <p class="desc">At 46.9/kc (2× the Session 87 density), the spread between 80×80 and 160×160 fill is STRONGER at every gain: 3.24% (g=0) → 3.64% (g=0.05) → 5.04% (g=0.1) → 5.44% (g=0.15) → 3.93% (g=0.2) → 6.00% (g=0.3). The spread is n-dependent even at g=0 (3.24% vs 23.4/kc's 0.54%) — a ceiling effect (80×80 saturates at ~99%). The spread is non-monotonic (peaks at g=0.15, drops at g=0.2, rises to g=0.3). The 53rd mechanism's n-dependence strengthens with density. H7=4/4, L2=0/4 at all gains (no composition without focal bias at this density). Determinism verified.</p>
 <div id="higher-density-gain-sweep-section"></div>
 
+<h2>Non-Additive Interaction: Focal Bias Weakens Boundary Through Co-Presence (Session 89)</h2>
+<p class="desc">A 2×2 factorial {bias=0, bias=0.3} × {g=0, g=0.3} at 23.4/kc. The combined spread (14.54%) is LESS than the additive prediction (17.43%) — the interaction is SUB-ADDITIVE (-2.89%). The focal bias weakens the boundary by concentrating each ID's material → less co-presence at the midline → weaker B (b_max drops 20-23%). The boundary's suppression effect is reduced 55-78% by the focal bias (asymmetric: more reduction on larger grid). The boundary's suppression is also n-dependent (5.07% on 80×80 vs 2.94% on 160×160), partially offsetting the focal bias's n-dependence — the combined spread (14.54%) < focal-only spread (16.67%). Determinism verified.</p>
+<div id="nonadditive-sweep-section"></div>
+
 <script>
 let resultsData = null;
 let robustData = null;
@@ -439,6 +443,7 @@ async function loadData() {
     'highGainBoundary': 'output/high_gain_boundary_sweep.json',
     'finerGainSweep': 'output/finer_gain_sweep.json',
     'higherDensityGainSweep': 'output/higher_density_gain_sweep.json',
+    'nonadditiveSweep': 'output/nonadditive_sweep.json',
   };
   const sweepPromises = Object.entries(sweepFiles).map(([key, path]) =>
     fetch(path).then(r => r.json()).catch(() => null)
@@ -2753,6 +2758,41 @@ function populateSweepSections() {
       'sensitivity at high density — the same metric-ceiling lesson (#61) recurring.</div>';
     const elHD = document.getElementById('higher-density-gain-sweep-section');
     if (elHD) elHD.innerHTML = html;
+  }
+
+  // ─── Non-additive interaction sweep (Session 89) ───────────────
+  if (data.nonadditiveSweep) {
+    const na = data.nonadditiveSweep;
+    const sd = na.spread_data || [];
+    let html = '<h3>Non-Additive Interaction: 2×2 Factorial</h3>';
+    html += '<table class="sweep-table"><tr><th>Condition</th><th>80×80 fill%</th><th>160×160 fill%</th><th>spread</th><th>80 b_max</th><th>160 b_max</th></tr>';
+    for (const d of sd) {
+      const spreadClass = d.spread < 2.0 ? 'tag-no' : 'tag-yes';
+      html += `<tr><td>${d.condition}</td><td>${d.fill_80.toFixed(2)}%</td><td>${d.fill_160.toFixed(2)}%</td>` +
+        `<td><span class="tag ${spreadClass}">${d.spread.toFixed(2)}%</span></td>` +
+        `<td>${d.b_max_80.toFixed(4)}</td><td>${d.b_max_160.toFixed(4)}</td></tr>`;
+    }
+    html += '</table>';
+    const ia = na.interaction;
+    if (ia) {
+      html += '<div class="insight" style="margin-top:8px"><strong>Interaction analysis:</strong> ' +
+        `Additive prediction: ${ia.additive_prediction.toFixed(2)}% | ` +
+        `Actual combined: ${ia.actual_combined.toFixed(2)}% | ` +
+        `Interaction term: <span class="tag ${ia.interaction_term < -0.5 ? 'tag-yes' : 'tag-no'}">${ia.interaction_term.toFixed(2)}% (${ia.verdict})</span></div>`;
+    }
+    // b_max comparison
+    const bo80 = sd.find(d => d.condition === 'boundary_only');
+    const co80 = sd.find(d => d.condition === 'combined');
+    if (bo80 && co80) {
+      const r80 = (co80.b_max_80 / Math.max(bo80.b_max_80, 1e-9)).toFixed(3);
+      const r160 = (co80.b_max_160 / Math.max(bo80.b_max_160, 1e-9)).toFixed(3);
+      html += '<div class="insight" style="margin-top:4px"><strong>Key finding (#241):</strong> ' +
+        `The focal bias weakens the boundary — b_max ratio (combined/boundary_only): ${r80} (80×80, ${((1-r80)*100).toFixed(1)}% reduction), ` +
+        `${r160} (160×160, ${((1-r160)*100).toFixed(1)}% reduction). The boundary's suppression effect is reduced 55% (80×80) and 78% (160×160) by the focal bias. ` +
+        `The combined spread (14.54%) < focal-only spread (16.67%) — the boundary partially offsets the focal bias's n-dependence.</div>`;
+    }
+    const elNA = document.getElementById('nonadditive-sweep-section');
+    if (elNA) elNA.innerHTML = html;
   }
 }
 
