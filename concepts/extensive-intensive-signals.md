@@ -243,6 +243,8 @@ wires. The extensive/intensive distinction is the 15th member (separate wires); 
 is the limit of that separation — when the two mechanisms act on the SAME variable
 (co-presence), they are coupled, not independent.
 
+**Session 91: the extensive/intensive measure-type distinction confirmed at a third grid size (320×320).** The relative-scale 320×320 sweep tested whether the distinction holds beyond 80×80 and 160×160. 80×80 control (4 seeds) + 320×320 absolute (2 seeds, radius=8, step=1) + 320×320 relative (2 seeds, radius=32, step=4) at 23.4/kc. b_scale: 80×80 = 0.123749, 320×320 absolute = 0.000000, 320×320 relative = 0.123749 (EXACT MATCH). cf: 80×80 = 0.988, 320×320 absolute = 0.000, 320×320 relative = 1.000 (MATCH/EXCEED). fill: 80×80 = 30.78%, 320×320 absolute = 16.58%, 320×320 relative = 13.77% (n-dependent, both). The b_scale match is the purest confirmation — it is a pure initialization quantity (95th percentile of initial co-presence), computed before any dynamics, depending only on grid geometry and dilation radius. See `relative_scale_320_sweep.py` and H5 Session-91 refinement.
+
 ## Criticisms / Limitations (updated Session 84)
 
 - **The thermodynamic analogy is phenomenological, not derived.** The extensive/intensive

@@ -371,6 +371,10 @@ select:hover, button:hover { border-color: var(--accent); }
 <p class="desc">The absolute-spatial-scale principle's central prediction tested: if ALL spatial scales are made relative (step ∝ size, radius ∝ size), does the system become density-dependent? b_scale and composition quality (intensive) YES; fill (extensive) NO — the extensive/intensive distinction in thermodynamics maps onto the measure-type distinction in stigmergic systems. #232 answered: the dilation radius is the sole cause of b_scale's n-dependence.</p>
 <div id="relative-scale-sweep-section"></div>
 
+<h2>Relative-Scale 320×320: Third Grid Size Confirmation (Session 91)</h2>
+<p class="desc">The extensive/intensive measure-type distinction confirmed at a third grid size (320×320). With relative scales (radius=32, step=4), b_scale matches the 80×80 control exactly (0.123749 = 0.123749) and cf=1.000 matches/exceeds the control (0.988). The fill (13.77%) remains n-dependent (lower than 80×80's 30.78%). With absolute scales (radius=8), b_scale=0.000000 and cf=0.000 — both intensive measures collapse. The thermodynamic extensive/intensive distinction is confirmed at all three grid sizes.</p>
+<div id="relative-scale-320-sweep-section"></div>
+
 <script>
 let resultsData = null;
 let robustData = null;
@@ -450,6 +454,7 @@ async function loadData() {
     'higherDensityGainSweep': 'output/higher_density_gain_sweep.json',
     'nonadditiveSweep': 'output/nonadditive_sweep.json',
     'relativeScaleSweep': 'output/relative_scale_sweep.json',
+    'relativeScale320Sweep': 'output/relative_scale_320_sweep.json',
   };
   const sweepPromises = Object.entries(sweepFiles).map(([key, path]) =>
     fetch(path).then(r => r.json()).catch(() => null)
@@ -2845,6 +2850,54 @@ function populateSweepSections() {
 
     const elRS = document.getElementById('relative-scale-sweep-section');
     if (elRS) elRS.innerHTML = html;
+  }
+
+  // ─── Relative-scale 320×320 sweep (Session 91) ─────────────────────────
+  if (data.relativeScale320Sweep) {
+    const rs = data.relativeScale320Sweep;
+    let html = '<h3>Relative-Scale 320×320: Third Grid Size Confirmation</h3>';
+    html += '<table class="sweep-table"><tr><th>Mode</th><th>Grid</th><th>n</th><th>radius</th><th>step</th><th>seeds</th><th>b_scale</th><th>fill%</th><th>cf</th><th>coexist</th><th>stable</th><th>h7</th></tr>';
+    for (const key of ['control_80','absolute_320','relative_320']) {
+      const d = rs[key];
+      if (!d) continue;
+      const s = d.summary;
+      const nSeeds = d.entries ? d.entries.length : (key === 'control_80' ? 4 : 2);
+      html += `<tr><td>${d.scale_mode}</td><td>${d.grid}×${d.grid}</td><td>${d.n}</td>` +
+        `<td>${d.direct_radius}</td><td>${d.focal_step}</td><td>${nSeeds}</td>` +
+        `<td>${d.b_scale.toFixed(6)}</td><td>${s.mean_fill_pct.toFixed(2)}%</td>` +
+        `<td>${s.mean_coexist_frac.toFixed(3)}</td><td>${s.coexist}</td><td>${s.stable}</td><td>${s.h7}</td></tr>`;
+    }
+    html += '</table>';
+
+    // Spread analysis
+    const c80 = rs.control_80, abs320 = rs.absolute_320, rel320 = rs.relative_320;
+    const absFillSpread = Math.abs(c80.summary.mean_fill_pct - abs320.summary.mean_fill_pct);
+    const relFillSpread = Math.abs(c80.summary.mean_fill_pct - rel320.summary.mean_fill_pct);
+    const absCfSpread = Math.abs(c80.summary.mean_coexist_frac - abs320.summary.mean_coexist_frac);
+    const relCfSpread = Math.abs(c80.summary.mean_coexist_frac - rel320.summary.mean_coexist_frac);
+    const absBsSpread = Math.abs(c80.b_scale - abs320.b_scale);
+    const relBsSpread = Math.abs(c80.b_scale - rel320.b_scale);
+
+    html += '<div class="insight" style="margin-top:8px"><strong>Spread analysis (relative to 80×80 control):</strong><br>' +
+      `b_scale (intensive): absolute spread = ${absBsSpread.toFixed(6)} | relative spread = ${relBsSpread.toFixed(6)} — ` +
+      `<span class="tag ${relBsSpread < 0.001 ? 'tag-yes' : 'tag-no'}">${relBsSpread < 0.001 ? 'EXACT MATCH' : 'NOT matched'}</span><br>` +
+      `cf (intensive): absolute spread = ${absCfSpread.toFixed(3)} | relative spread = ${relCfSpread.toFixed(3)} — ` +
+      `<span class="tag ${relCfSpread < 0.05 ? 'tag-yes' : 'tag-no'}">${relCfSpread < absCfSpread ? 'CONFIRMED' : 'NOT confirmed'}</span><br>` +
+      `fill (extensive): absolute spread = ${absFillSpread.toFixed(2)}% | relative spread = ${relFillSpread.toFixed(2)}% — ` +
+      `<span class="tag ${relFillSpread > 5 ? 'tag-yes' : 'tag-no'}">${relFillSpread > 1 ? 'N-DEPENDENT (both)' : 'DENSITY-DEPENDENT'}</span></div>`;
+
+    html += '<div class="insight" style="margin-top:4px"><strong>Key finding (#245):</strong> The extensive/intensive measure-type distinction is confirmed at a third grid size. ' +
+      'b_scale matches exactly (0.123749 = 0.123749) with relative dilation. cf=1.000 matches/exceeds the 80×80 control (0.988). ' +
+      'The fill (13.77%) remains n-dependent — lower than 80×80 (30.78%) — because the focal bias\'s concentration effect is inherently extensive. ' +
+      'With absolute dilation, b_scale=0.000000 and cf=0.000 — both intensive measures collapse on the 320×320 grid. ' +
+      'The thermodynamic extensive/intensive distinction maps onto stigmergic measure types at all three grid sizes (80×80, 160×160, 320×320).</div>';
+
+    if (rs.determinism_ok !== undefined) {
+      html += `<div class="tag ${rs.determinism_ok ? 'tag-yes' : 'tag-no'}" style="margin-top:4px">Determinism: ${rs.determinism_ok ? 'OK' : 'FAIL'}${rs.determinism_note ? ' — ' + rs.determinism_note : ''}</div>`;
+    }
+
+    const elRS320 = document.getElementById('relative-scale-320-sweep-section');
+    if (elRS320) elRS320.innerHTML = html;
   }
 }
 

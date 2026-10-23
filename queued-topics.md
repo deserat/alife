@@ -2868,7 +2868,14 @@ to compare.
      file.
 
 245. **Test at a third grid size (320×320) for the relative-scale
-     sweep** — Would the composition quality remain density-dependent
-     at 320×320 with relative scales? The prediction says yes (cf
-     spread ~0), but the fill would still be n-dependent. Cheap: re-run
-     the relative condition at 320×320 with 4 seeds.
+     sweep** — DONE (Session 91).
+     The extensive/intensive measure-type distinction is confirmed at a
+     third grid size. With relative scales (radius=32, step=4) on 320×320
+     at 23.4/kc: b_scale = 0.123749 (EXACT MATCH with 80×80 control),
+     cf = 1.000 (matches/exceeds 0.988), coexist = 2/2, stable = 2/2.
+     With absolute scales (radius=8): b_scale = 0.000000, cf = 0.000,
+     coexist = 0/2. The fill (13.77%) remains n-dependent with both.
+     The thermodynamic extensive/intensive distinction is confirmed at
+     all three grid sizes (80×80, 160×160, 320×320). See
+     `relative_scale_320_sweep.py`. The 320×320 relative runs took 55 min
+     for 2 seeds (radius=32 Moore dilation is extremely expensive).

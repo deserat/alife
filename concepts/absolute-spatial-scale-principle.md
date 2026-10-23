@@ -332,6 +332,26 @@ relative.
   global reference's effectiveness. The focal bias is a relevant operator
   under this RG transformation; the local stencils are marginal (scale-invariant).
 
+## Session 91: Third Grid Size Confirmation (320×320)
+
+The relative-scale 320×320 sweep confirmed the extensive/intensive measure-type
+distinction at a third grid size. 80×80 control (4 seeds) + 320×320 absolute (2
+seeds, radius=8, step=1) + 320×320 relative (2 seeds, radius=32, step=4) at 23.4/kc:
+
+| Measure | Type | 80×80 | 320×320 absolute | 320×320 relative |
+|---------|------|-------|------------------|-------------------|
+| b_scale | intensive | 0.123749 | 0.000000 | 0.123749 (EXACT) |
+| cf | intensive | 0.988 | 0.000 | 1.000 (MATCH) |
+| fill | extensive | 30.78% | 16.58% | 13.77% (n-dep, both) |
+
+The b_scale exact match (0.123749 = 0.123749) is the purest confirmation: b_scale
+is a pure initialization quantity (95th percentile of initial co-presence), computed
+before any simulation dynamics. With absolute dilation (radius=8), the 320×320 seed
+regions (160 cells apart) are not bridged → b_scale=0. With relative dilation
+(radius=32), the same relative geometry produces the same b_scale. The fill remains
+n-dependent with both (step=4 overcorrects — the focal bias is stronger, not weaker,
+with a larger step). See `relative_scale_320_sweep.py` and H5 Session-91 refinement.
+
 ## Cross-References
 
 - [[concepts/extensive-intensive-signals]] — the complementary distinction:
