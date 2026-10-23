@@ -2651,15 +2651,22 @@ to compare.
     `relative_scale_sweep.py`.
 
 233. **The co-presence mean's non-monotonicity — why does it decrease
-     from 80×80 to 160×160 but increase to 320×320?** — At both densities,
-     cp_mean goes 0.343→0.279→0.447 (23.4/kc) and 0.425→0.234→0.450
-     (46.9/kc). The 160×160 has the LOWEST cp_mean but intermediate fill.
-     The 320×320 has the HIGHEST cp_mean but lowest fill. The non-
-     monotonicity may be because the 160×160 boundary is most effective
-     (highest B_norm at intermediate n), suppressing both the fill and
-     the co-presence. The 320×320 has more absolute material (higher
-     cp_mean) but the boundary can't suppress it all (lower fill fraction
-     but higher absolute fill). Inspect the B_norm trajectory.
+     from 80×80 to 160×160 but increase to 320×320?** — DONE (Session 92).
+     The non-monotonicity is a **composition-quality artifact**. cp_total is
+     extensive (monotonic: 2192 → 7141 → 45766 at 23.4/kc). cp_mean =
+     cp_total/grid² is NOT intensive — it depends on the spatial arrangement
+     (coexist vs fragmented), which changes with grid size. At 320×320 the
+     structures fragment (0/2 coexist, 60-80 components/region), spreading
+     both IDs' material across the grid → co-presence high everywhere
+     (cp_frac_high 0.796 vs 0.694). At 160×160 the structures coexist (4/4),
+     concentrating co-presence at the midline → lowest mean. The pattern
+     holds without the boundary (g=0.0): cp_mean still 0.330 → 0.293 → 0.452,
+     and 320×320 still fragments — the cause is composition quality, not the
+     boundary. b_scale (initial co-presence, before dynamics) remains the
+     cleanest intensive measure. Methodology lesson: a spatial average of a
+     signal with different meanings in different spatial regimes (boundary
+     vs interior) is not a clean measure of either — the control-arm pattern
+     (#75) at a new level. See `cp_mean_nonmonotonic_analysis.py`.
 
 ## From Session 84 (2026-10-15)
 

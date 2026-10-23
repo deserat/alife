@@ -3,7 +3,7 @@ title: "Hypotheses"
 topic: "testable hypotheses for the multi-scale ALife composition project"
 status: active
 date: "2026-10-23"
-session: 91
+session: 92
 count: 11
 active: [H1, H2, H3, H4, H5, H6, H7, H8, H9, H10, H11]
 logs: ["logs/H1/", "logs/H2/", "logs/H3/", "logs/H4/", "logs/H5/", "logs/H6/", "logs/H7/", "logs/H8/", "logs/H9/", "logs/H10/", "logs/H11/"]
@@ -70,7 +70,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **For an emergent structure to persist as a new actor at a higher scale, it must be autopoietic — it must maintain the network that constitutes it.** Self-maintenance is the persistence condition. Without it, emergent structures are transient patterns, not new actors.
 
-**Status:** Refined (Session 91). The extensive/intensive measure-type distinction is confirmed at a third grid size (320×320). b_scale matches exactly (0.123749 = 0.123749) with relative dilation — a pure initialization quantity, the purest intensive measure. cf=1.000 matches/exceeds the 80×80 control (0.988) with relative scales; cf=0.000 collapses with absolute scales. The fill (13.77%) remains n-dependent (lower than 80×80's 30.78%) — the extensive measure is n-dependent with both. The thermodynamic extensive/intensive distinction is confirmed at all three grid sizes (80×80, 160×160, 320×320). Determinism verified (80×80 cross-session match).
+**Status:** Refined (Session 92). The cp_mean non-monotonicity (0.343 → 0.279 → 0.447 at 23.4/kc) is a composition-quality artifact: cp_total is extensive (monotonic) but cp_mean is NOT intensive — it conflates boundary co-presence (at the midline, good) with fragmentation co-presence (everywhere, bad). At 320×320 the structures fragment (0/2 coexist), inflating the co-presence everywhere (cp_frac_high 0.796 vs 0.694). At 160×160 the structures coexist (4/4), concentrating the co-presence at the boundary — the lowest mean. The pattern holds without the boundary (g=0.0) — the non-monotonicity is from composition quality, not the boundary. b_scale (initial co-presence) remains the cleanest intensive measure. The extensive/intensive measure-type distinction is confirmed at all three grid sizes (80×80, 160×160, 320×320) — b_scale exact match (0.123749) with relative dilation; cf matches/exceeds the control.
 
 **Log:** [logs/H5/](logs/H5/)
 
@@ -216,7 +216,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 | H2: ANT Translation | Unchanged | Theoretical, untested | [H2](logs/H2/) |
 | H3: Quasi-Object | Strengthened | Stigmergy literature support; Echo partial support | [H3](logs/H3/) |
 | H4: Dynamic Environment | Refined | Fitness landscape criticism supports this | [H4](logs/H4/) |
-| H5: Autopoiesis | Refined (S91) | Extensive/intensive measure-type distinction confirmed at third grid size (320×320); b_scale exact match (0.123749=0.123749) with relative dilation; cf=1.000 vs 0.988 control; fill 13.77% n-dependent with both; thermodynamic extensive/intensive → stigmergic measure types at all 3 grid sizes | [H5](logs/H5/) |
+| H5: Autopoiesis | Refined (S92) | cp_mean non-monotonicity is a composition-quality artifact — cp_total is extensive (monotonic) but cp_mean is NOT intensive (conflates boundary + fragmentation co-presence); 320×320 fragments (0/2 coexist) → high cp_mean is fragmentation signal, not boundary; pattern holds without boundary; b_scale remains cleanest intensive measure; extensive/intensive confirmed at 3 grid sizes | [H5](logs/H5/) |
 | H6: Multi-Scale Autopoiesis | Refined (S77) | 12th member fully lost at n=11000–14000 (~84–99% fill): 1s l2=0/4; progressive loss, not sharp threshold | [H6](logs/H6/) |
 | H7: Trace→Actor Crossing | Refined ×67; fill cap saturation is a HARD ceiling (grid full); g* limit n≈14000-15000 — boundary capping power decays exponentially (gap halves per 1000-n); H7=4/4 at all densities; L2=0/4; 30th persists; 43rd saturation at n≈14000 | [H7](logs/H7/) |
 | H8: Complexity Enables OEE | NEW | Kaznatcheev (2019), Wiser et al. (2013) | [H8](logs/H8/) |

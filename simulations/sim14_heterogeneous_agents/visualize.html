@@ -375,6 +375,10 @@ select:hover, button:hover { border-color: var(--accent); }
 <p class="desc">The extensive/intensive measure-type distinction confirmed at a third grid size (320×320). With relative scales (radius=32, step=4), b_scale matches the 80×80 control exactly (0.123749 = 0.123749) and cf=1.000 matches/exceeds the control (0.988). The fill (13.77%) remains n-dependent (lower than 80×80's 30.78%). With absolute scales (radius=8), b_scale=0.000000 and cf=0.000 — both intensive measures collapse. The thermodynamic extensive/intensive distinction is confirmed at all three grid sizes.</p>
 <div id="relative-scale-320-sweep-section"></div>
 
+<h2>cp_mean Non-Monotonicity: Composition-Quality Artifact (Session 92)</h2>
+<p class="desc">The co-presence mean is non-monotonic across grid sizes (0.343 → 0.279 → 0.447 at 23.4/kc) — it decreases from 80×80 to 160×160 but increases to 320×320. The resolution: cp_total is extensive (monotonic) but cp_mean is NOT intensive — it conflates boundary co-presence (at the midline, good) with fragmentation co-presence (everywhere, bad). At 320×320 the structures fragment (0/2 coexist), spreading both IDs' material across the grid, inflating the co-presence everywhere (cp_frac_high 0.796 vs 0.694). At 160×160 the structures coexist (4/4), concentrating the co-presence at the boundary — the lowest mean. The pattern holds without the boundary (g=0.0) — the cause is composition quality, not the boundary.</p>
+<div id="cp-mean-nonmonotonic-section"></div>
+
 <script>
 let resultsData = null;
 let robustData = null;
@@ -455,6 +459,7 @@ async function loadData() {
     'nonadditiveSweep': 'output/nonadditive_sweep.json',
     'relativeScaleSweep': 'output/relative_scale_sweep.json',
     'relativeScale320Sweep': 'output/relative_scale_320_sweep.json',
+    'cpMeanNonmonotonic': 'output/cp_mean_nonmonotonic_analysis.json',
   };
   const sweepPromises = Object.entries(sweepFiles).map(([key, path]) =>
     fetch(path).then(r => r.json()).catch(() => null)
@@ -2898,6 +2903,47 @@ function populateSweepSections() {
 
     const elRS320 = document.getElementById('relative-scale-320-sweep-section');
     if (elRS320) elRS320.innerHTML = html;
+  }
+
+  // ─── cp_mean non-monotonicity analysis (Session 92) ──────────────────────
+  if (data.cpMeanNonmonotonic) {
+    const nm = data.cpMeanNonmonotonic;
+    let html = '<h3>cp_mean Non-Monotonicity: Composition-Quality Artifact</h3>';
+
+    // 23.4/kc with boundary table
+    html += '<h4>23.4/kc WITH boundary (g=0.01)</h4>';
+    html += '<table class="sweep-table"><tr><th>Grid</th><th>n</th><th>fill%</th><th>cp_mean</th><th>cp_total</th><th>cp_frac_high</th><th>coexist</th><th>l2</th></tr>';
+    const d23 = nm.data['23.4kc_g0.01'];
+    for (const grid of [80, 160, 320]) {
+      const d = d23[grid];
+      if (d) html += `<tr><td>${grid}×${grid}</td><td>${d.n}</td><td>${typeof d.fill_pct === 'number' ? d.fill_pct.toFixed(2) : d.fill_pct}%</td><td>${d.cp_mean.toFixed(6)}</td><td>${d.cp_total.toFixed(2)}</td><td>${d.cp_frac_high.toFixed(6)}</td><td>${d.coexist}</td><td>${d.l2}</td></tr>`;
+    }
+    html += '</table>';
+
+    // 46.9/kc with boundary table
+    html += '<h4>46.9/kc WITH boundary (g=0.01)</h4>';
+    html += '<table class="sweep-table"><tr><th>Grid</th><th>n</th><th>fill%</th><th>cp_mean</th><th>cp_total</th><th>cp_frac_high</th><th>coexist</th><th>l2</th></tr>';
+    const d46 = nm.data['46.9kc_g0.01'];
+    for (const grid of [80, 160, 320]) {
+      const d = d46[grid];
+      if (d) html += `<tr><td>${grid}×${grid}</td><td>${d.n}</td><td>${typeof d.fill_pct === 'number' ? d.fill_pct.toFixed(2) : d.fill_pct}%</td><td>${d.cp_mean.toFixed(6)}</td><td>${d.cp_total.toFixed(2)}</td><td>${d.cp_frac_high.toFixed(6)}</td><td>${d.coexist}</td><td>${d.l2}</td></tr>`;
+    }
+    html += '</table>';
+
+    // 23.4/kc without boundary table
+    html += '<h4>23.4/kc WITHOUT boundary (g=0.0)</h4>';
+    html += '<table class="sweep-table"><tr><th>Grid</th><th>n</th><th>fill%</th><th>cp_mean</th><th>cp_total</th><th>cp_frac_high</th><th>coexist</th><th>l2</th></tr>';
+    const d23n = nm.data['23.4kc_g0.0'];
+    for (const grid of [80, 160, 320]) {
+      const d = d23n[grid];
+      if (d) html += `<tr><td>${grid}×${grid}</td><td>${d.n}</td><td>${typeof d.fill_pct === 'number' ? d.fill_pct.toFixed(2) : d.fill_pct}%</td><td>${d.cp_mean.toFixed(6)}</td><td>${d.cp_total.toFixed(2)}</td><td>${d.cp_frac_high.toFixed(6)}</td><td>${d.coexist}</td><td>${d.l2}</td></tr>`;
+    }
+    html += '</table>';
+
+    html += '<div class="insight" style="margin-top:8px"><strong>Key finding (#233):</strong> cp_total is extensive (monotonic: 2192 → 7141 → 45766). cp_mean is NOT intensive — it is non-monotonic (0.343 → 0.279 → 0.447) because it conflates boundary co-presence (at the midline, good) with fragmentation co-presence (everywhere, bad). At 320×320 the structures fragment (0/2 coexist), spreading both IDs\' material across the grid → cp_frac_high 0.796 vs 0.694. The high cp_mean is a fragmentation signal, not a boundary signal. At 160×160 the structures coexist (4/4), concentrating co-presence at the midline → lowest mean. The pattern holds without the boundary (g=0.0) — the cause is composition quality, not the boundary. b_scale (initial co-presence) remains the cleanest intensive measure.</div>';
+
+    const elNM = document.getElementById('cp-mean-nonmonotonic-section');
+    if (elNM) elNM.innerHTML = html;
   }
 }
 
