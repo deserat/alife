@@ -2,8 +2,8 @@
 title: "Hypotheses"
 topic: "testable hypotheses for the multi-scale ALife composition project"
 status: active
-date: "2026-10-23"
-session: 92
+date: "2026-10-24"
+session: 93
 count: 11
 active: [H1, H2, H3, H4, H5, H6, H7, H8, H9, H10, H11]
 logs: ["logs/H1/", "logs/H2/", "logs/H3/", "logs/H4/", "logs/H5/", "logs/H6/", "logs/H7/", "logs/H8/", "logs/H9/", "logs/H10/", "logs/H11/"]
@@ -70,7 +70,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **For an emergent structure to persist as a new actor at a higher scale, it must be autopoietic — it must maintain the network that constitutes it.** Self-maintenance is the persistence condition. Without it, emergent structures are transient patterns, not new actors.
 
-**Status:** Refined (Session 92). The cp_mean non-monotonicity (0.343 → 0.279 → 0.447 at 23.4/kc) is a composition-quality artifact: cp_total is extensive (monotonic) but cp_mean is NOT intensive — it conflates boundary co-presence (at the midline, good) with fragmentation co-presence (everywhere, bad). At 320×320 the structures fragment (0/2 coexist), inflating the co-presence everywhere (cp_frac_high 0.796 vs 0.694). At 160×160 the structures coexist (4/4), concentrating the co-presence at the boundary — the lowest mean. The pattern holds without the boundary (g=0.0) — the non-monotonicity is from composition quality, not the boundary. b_scale (initial co-presence) remains the cleanest intensive measure. The extensive/intensive measure-type distinction is confirmed at all three grid sizes (80×80, 160×160, 320×320) — b_scale exact match (0.123749) with relative dilation; cf matches/exceeds the control.
+**Status:** Refined (Session 93). The fill cap's stretched exponential exp(b·√n) (R²=0.964) is the diffusion-limited signature — the √n is the diffusion length (the boundary's suppression range grows as √n). This is NOT the KJMA form (α>1, interface-controlled) but the diffusion-limited form (α=1/2). The √n unifies three scalings: g*∝1/√n (Laplace pressure), fill∝exp(b·√n) (stretched exponential), co-presence∝1/√n (intensive signal density). The Gompertz-to-logistic transition is the breakdown of the diffusion-limited regime at percolation. The cp_mean non-monotonicity (0.343 → 0.279 → 0.447 at 23.4/kc, Session 92) is a composition-quality artifact — cp_total is extensive (monotonic) but cp_mean is NOT intensive (conflates boundary + fragmentation). The extensive/intensive measure-type distinction is confirmed at all three grid sizes — b_scale exact match (0.123749) with relative dilation; cf matches/exceeds the control. b_scale (initial co-presence) remains the cleanest intensive measure.
 
 **Log:** [logs/H5/](logs/H5/)
 

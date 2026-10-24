@@ -3,7 +3,7 @@ status: active
 formed: "Session 79"
 connected_to: "non-saturating-channels, two-wire-principle, H5, H7, H10, H11, multi-scale-composition"
 topic: "the Gompertz-to-logistic transition in stigmergic systems — coherence, percolation, and the three-threshold design principle"
-key_findings: "The fill cap trajectory (19 data points, n=550–15000) traces a complete Gompertz-to-logistic transition mediated by percolation. Haugen & Gilbert (2022, arXiv:2211.05653) show Gompertz growth (θ→0) is the coherent limit (long-range interactions dominate, aggregate dynamics depend only on collective mean); logistic growth (θ=1) is the pairwise limit (local interactions dominate). The boundary's coherent suppression is the θ→0 field; percolation (Moore 8-neighbor threshold ~0.407) is the symmetry-breaking transition where local bonds overwhelm the coherent field. Three thresholds: (1) persistence ceiling ~44% fill — stable composition impossible above this regardless of gain (30th mechanism, 46th mechanism); (2) fill cap acceleration ~75% fill — the coherent field's capping power begins to break (44th mechanism); (3) saturation ~100% fill — the boundary is irrelevant, g*→0 at n≈14000 (43rd mechanism). Design principle: keep the stigmergic system in the Gompertz (coherent) regime, below ~44% fill for stable composition."
+key_findings: "The fill cap trajectory (19 data points, n=550–15000) traces a complete Gompertz-to-logistic transition mediated by percolation. Haugen & Gilbert (2022, arXiv:2211.05653) show Gompertz growth (θ→0) is the coherent limit (long-range interactions dominate, aggregate dynamics depend only on collective mean); logistic growth (θ=1) is the pairwise limit (local interactions dominate). The boundary's coherent suppression is the θ→0 field; percolation (Moore 8-neighbor threshold ~0.407) is the symmetry-breaking transition where local bonds overwhelm the coherent field. Three thresholds: (1) persistence ceiling ~44% fill — stable composition impossible above this regardless of gain (30th mechanism, 46th mechanism); (2) fill cap acceleration ~75% fill — the coherent field's capping power begins to break (44th mechanism); (3) saturation ~100% fill — the boundary is irrelevant, g*→0 at n≈14000 (43rd mechanism). Design principle: keep the stigmergic system in the Gompertz (coherent) regime, below ~44% fill for stable composition. Session 93: the fill cap's stretched exponential a·exp(b·√n) (R²=0.964) is the diffusion-limited signature — the √n is the diffusion length (boundary's suppression range grows as √n). This is NOT the KJMA form (α>1, interface-controlled) but the diffusion-limited form (α=1/2). The √n unifies three scalings: g*∝1/√n (Laplace pressure), fill∝exp(b·√n) (stretched exponential), co-presence∝1/√n (intensive signal density). The Gompertz-to-logistic transition is the breakdown of the diffusion-limited regime at percolation."
 ---
 
 # The Gompertz-to-Logistic Transition in Stigmergic Systems
@@ -270,6 +270,64 @@ specificity (local structure) once local connectivity dominates.
 - **g* limit (Session 77)**: boundary's capping power decays exponentially
   (16.2% → 8.3% → 4.3% → 1.2% → ~0), halving per ~1000 n.
 
+## The Stretched Exponential as the Diffusion-Limited Signature (Session 93)
+
+The fill cap's best-fit functional form is a stretched exponential: fill% ≈
+a·exp(b·√n), R²=0.964 (Session 74, 16 data points). The sub-percolation log fit
+(R²=0.991, 6 points) is a good low-fill approximation but breaks above n=4000.
+
+**The √n in the exponent is the diffusion length.** The boundary's suppression
+range grows diffusively — the co-presence signal is computed by Moore dilation
+with a fixed radius, but the *effective* suppression range depends on the
+structure's linear size R ∝ √n (area ∝ n). The diffusion length after n
+deposition steps is √n (random-walk distance). The stretched exponential
+exp(b·√n) is the signature of a process controlled by a length scale that
+grows as √n — the diffusion length.
+
+**This is NOT the Kolmogorov-Johnson-Mehl-Avrami (KJMA) form.** KJMA theory
+produces compressed exponentials X(t) = 1 − exp(−C·t^α) with α > 1 for
+interface-controlled nucleation and growth (Kolmogorov 1937; Johnson & Mehl
+1939; Avrami 1939). The exponent α = d+1 for site-saturated nucleation in d
+dimensions (α = 3 in 2D). Our exponent is α = 1/2 < 1 — a *stretched*
+(compressed) exponential, the opposite regime. Stretched exponentials with
+exponent 1/2 arise specifically from **diffusion-limited** dynamics: the
+"void" (boundary) grows diffusively (width ∝ √t), and the competition
+between growth and diffusive suppression produces exp(−c·√t) (see
+Bouchaud & Georges 1987; the "hydrodynamic void mechanism" in
+arXiv:2604.27074; anomalous diffusion in heterogeneous media,
+arXiv:0704.1508).
+
+**The unification: the √n appears in three places, all from the same physics.**
+1. **g* ∝ 1/√n** (Laplace pressure, Sessions 46–48): the optimal boundary gain
+   scales as the surface-to-volume ratio ∝ 1/R ∝ 1/√n. The Laplace pressure
+   ΔP = 2γ/R is the diffusion-length scaling.
+2. **fill ∝ exp(b·√n)** (stretched exponential, Session 74): the fill cap is
+   the competition between extensive growth (∝ n) and diffusive suppression
+   (∝ √n). The diffusion length controls the fill cap.
+3. **co-presence ∝ 1/√n** (intensive signal, Sessions 80–82): the co-presence
+   signal's spatial density scales as 1/√n (the diffusion length determines
+   how sparse the signal is on larger grids). The extensive/intensive
+   distinction's n-dependence is the diffusion-length scaling.
+
+The Gompertz-to-logistic transition is the breakdown of the diffusion-limited
+regime: at low fill, the boundary's diffusive suppression range (∝ √n) is
+large enough relative to the structure to cap growth; at high fill (above the
+percolation threshold), local Moore 8-neighbor connectivity overwhelms the
+diffusive suppression, and the fill accelerates to 100%. The three thresholds
+(30th ~44%, 44th ~75%, 43rd ~100%) are the fill fractions at which the
+diffusive suppression loses its capping power — first for stable composition
+(30th), then for the logarithmic fill cap (44th), then for any capping at all
+(43rd).
+
+**Cross-domain connection: diffusion-limited aggregation → stigmergic fill
+cap.** The stretched exponential is the signature of a process whose
+controlling length scale grows diffusively. In our system, that length scale
+is the boundary's suppression range — the diffusion length of the co-presence
+signal. This connects to diffusion-limited aggregation (DLA, Witten & Sander
+1981), where cluster growth is limited by the diffusion of particles to the
+cluster boundary. Our fill cap is the *inverse* DLA: the boundary suppresses
+growth, and its suppression range is the diffusion length.
+
 ## Open Questions
 
 - Can the coherence parameter θ be measured in our system? Haugen & Gilbert
@@ -284,11 +342,6 @@ specificity (local structure) once local connectivity dominates.
 - Does the Gompertz-to-logistic transition hold at other grid sizes? The
   1/√n scaling of g* was tested only on 160×160. Does the log fill cap's
   coefficient (13.1) scale with grid size, or is it a universal constant?
-- Is the fill cap's super-logarithmic form (stretched exponential, R²=0.964)
-  the signature of diffusion-limited growth under a coherent suppression
-  field? The Kolmogorov-Avrami theory produces stretched exponentials for
-  diffusion-limited processes — is our fill cap a diffusion-limited growth
-  process?
 
 ## Cross-References
 

@@ -2372,19 +2372,18 @@ to compare.
      the critical regime's signature; above it (n=10000), the
      system is unimodally percolated. See `n10000_plateau_sweep.py`.
 
-210. **The stretched exponential's theoretical basis — why does the
-     fill cap follow a·exp(b·√n)?** — The stretched exponential
-     (R²=0.964) is the best fit but has no theoretical basis. The
-     surface-to-volume constraint (fill ∝ √n for volume ∝ n, surface ∝
-     √n) predicts a power law, not a stretched exponential. The
-     stretched exponential arises in diffusion-limited processes
-     (Kolmogorov-Avrami theory) — is the fill cap a diffusion-limited
-     growth process? The boundary's suppression is a coherent field
-     (acting across the grid); the structure's growth is
-     diffusion-limited (curvature-channel deposition). The stretched
-     exponential may be the signature of diffusion-limited growth
-     under a coherent suppression field. Could connect to the
-     Gompertz-coherent framework (#204).
+210. **The stretched exponential's theoretical basis — why does the fill cap
+    follow a·exp(b·√n)?** — DONE (Session 93). The √n in the exponent is the
+    diffusion length — the boundary's suppression range grows diffusively as
+    √n (random-walk distance). The stretched exponential with exponent 1/2 is
+    the signature of diffusion-limited dynamics, NOT the KJMA form (which gives
+    compressed exponentials with α > 1 for interface-controlled growth). The √n
+    unifies three scalings: g*∝1/√n (Laplace pressure), fill∝exp(b·√n)
+    (stretched exponential), co-presence∝1/√n (intensive signal density). The
+    fill cap is the inverse DLA: the boundary suppresses growth, and its
+    suppression range is the diffusion length. Formalized in
+    `concepts/gompertz-logistic-transition.md` (Session 93 section) and
+    `synthesis.md`.
 
 ## From Session 75 (2026-10-05)
 
@@ -2821,20 +2820,14 @@ to compare.
 ## From Session 88 (2026-10-23)
 
 242. **The ceiling effect as a metric pathology — a bounded metric
-     cannot test effects near its ceiling** — Session 88 found the
-     spread metric (fill_80 - fill_160) is compressed by the 100%
-     fill ceiling at high density: the 80×80 grid saturates at 99.30%
-     and cannot express further suppression, so the spread
-     underestimates the true n-dependence. This is the metric-ceiling
-     rule (#61) recurring at the measurement level: "Compute your
-     metric's ceiling. If its maximum can fall below your threshold,
-     it is not a test." Here the metric's ceiling is 100% fill, and
-     the 80×80 is at 99.30% — the spread is compressed. The fix: use
-     an unbounded metric (e.g., total material count, not fill
-     fraction) or test at a density where the fill is well below
-     ceiling. Could be added to CLAUDE.md §4 step 6 alongside the
-     metric-ceiling (#61), stable_crossed (#65), control-arm (#75),
-     and one-seed control (#80) rules.
+     cannot test effects near its ceiling** — DONE (Session 93).
+     Session 88 found the spread metric (fill_80 - fill_160) is
+     compressed by the 100% fill ceiling at high density: the 80×80
+     grid saturates at 99.30% and cannot express further suppression,
+     so the spread underestimates the true n-dependence. This is the
+     metric-ceiling rule (#61) recurring at the measurement level.
+     Formalized in `concepts/extensive-intensive-signals.md` (Session
+     93 section).
 
 ## From Session 90 (2026-10-23)
 
@@ -2860,19 +2853,19 @@ to compare.
      `relative_scale_sweep.py`.
 
 244. **The extensive/intensive measure-type distinction as a formal
-     concept** — The relative-scale test revealed that the
+     concept** — DONE (Session 93). The relative-scale test revealed that the
      absolute-spatial-scale principle applies to intensive measures
      (b_scale, composition quality) but not to extensive measures
-     (fill). This connects the extensive/intensive signal distinction
-     (Session 82, #227) to the absolute-spatial-scale principle
-     (Session 85, #234). The fill is extensive (total material) and
-     inherently n-dependent when a global mechanism (focal bias) is
-     present; the composition quality is intensive (fraction) and
-     density-dependent when the global mechanism's spatial scale is
-     relative. This is the thermodynamic analog: extensive quantities
-     (volume) scale with system size; intensive quantities (pressure)
-     do not. Could be added to the extensive-intensive-signals concept
-     file.
+     (fill). Formalized in `concepts/extensive-intensive-signals.md`
+     (Session 93 "Measure-Type Distinction" section). The fill is extensive
+     (total material) and inherently n-dependent when a global mechanism (focal
+     bias) is present; the composition quality is intensive (fraction) and
+     density-dependent when the global mechanism's spatial scale is relative.
+     This is the thermodynamic analog: extensive quantities (volume) scale
+     with system size; intensive quantities (pressure) do not. cp_mean is NOT
+     intensive (Session 92) — it conflates boundary co-presence with
+     fragmentation co-presence. b_scale (initial co-presence) remains the
+     cleanest intensive measure.
 
 245. **Test at a third grid size (320×320) for the relative-scale
      sweep** — DONE (Session 91).

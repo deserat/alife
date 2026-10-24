@@ -273,6 +273,58 @@ is the limit of that separation — when the two mechanisms act on the SAME vari
   spatial density (fraction of cells with co-presence > 0) at matched density
   across grid sizes would make the distinction quantitative (Session 83).
 
+## The Measure-Type Distinction (Session 93, queued-topic #244)
+
+The extensive/intensive signal distinction maps onto a **measure-type**
+distinction that determines which measures become density-dependent with
+relative spatial scales and which remain n-dependent:
+
+- **Extensive measures** (fill, cp_total): scale with system size. The fill
+  is n-dependent with both absolute and relative spatial scales because the
+  focal bias acts on *position* (global), changing the *total* material per
+  region. Making the focal step relative overcorrects (stronger concentration
+  → lower fill → larger spread). cp_total is monotonic in grid size (2192 →
+  7141 → 45766 at 23.4/kc) — purely extensive.
+- **Intensive measures** (b_scale, cf): do not scale with system size.
+  b_scale (initial co-presence, before dynamics) is density-dependent with
+  relative dilation — it matched exactly (0.123749) across 80×80 and 320×320
+  with relative dilation (Session 91). cf (composition quality fraction) is
+  density-dependent with relative scales — spread 0.288→0.012 (24× reduction),
+  stable 3/4→4/4 (Session 90). With absolute scales, both collapse (b_scale→0,
+  cf→0 on 320×320).
+- **cp_mean is NOT intensive** (Session 92): cp_mean = cp_total/grid² conflates
+  boundary co-presence (at the midline, a good signal) with fragmentation
+  co-presence (everywhere, a bad signal). At 320×320 the structures fragment,
+  inflating co-presence everywhere — the high cp_mean is a fragmentation signal,
+  not a boundary signal. A clean intensive measure must be scale-invariant at
+  matched density; cp_mean is not because the spatial arrangement (coexist vs
+  fragmented) changes with grid size.
+
+**The thermodynamic analogy:** extensive quantities (volume, total material)
+scale with system size; intensive quantities (pressure, density, fraction) do
+not. The measure-type distinction in stigmergic systems is the thermodynamic
+extensive/intensive distinction applied to *what you measure*, not just *what
+the signal is*. The fill is extensive regardless of whether the signal that
+produces it is intensive — because the focal bias's concentration effect is
+inherently extensive (it changes total material per region, not just its
+distribution).
+
+## The Ceiling Effect as a Metric Pathology (Session 93, queued-topic #242)
+
+A bounded metric cannot test effects near its ceiling. The fill fraction is
+bounded at 100%. At 46.9/kc (Session 88), the 80×80 grid saturates at 99.30%
+while the 160×160 fills to 96.06% — the spread between them (3.24%) is
+compressed by the 100% ceiling, underestimating the true n-dependence. The
+fix: use an unbounded metric (total material count, not fill fraction) or test
+at a density where the fill is well below ceiling.
+
+This is the metric-ceiling rule (#61) recurring at the measurement level:
+"Compute your metric's ceiling. If its maximum can fall below your threshold,
+it is not a test." Here the metric's ceiling is 100% fill, and 80×80 is at
+99.30% — the spread is compressed. The same rule that caught sim06's
+deposit-rate gate and sim09's mass-saturation gate catches the fill fraction
+at high density.
+
 ## Cross-Domain Connections
 
 - **Thermodynamics → stigmergy:** The extensive/intensive distinction applies to
