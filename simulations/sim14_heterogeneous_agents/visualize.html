@@ -379,6 +379,10 @@ select:hover, button:hover { border-color: var(--accent); }
 <p class="desc">The co-presence mean is non-monotonic across grid sizes (0.343 → 0.279 → 0.447 at 23.4/kc) — it decreases from 80×80 to 160×160 but increases to 320×320. The resolution: cp_total is extensive (monotonic) but cp_mean is NOT intensive — it conflates boundary co-presence (at the midline, good) with fragmentation co-presence (everywhere, bad). At 320×320 the structures fragment (0/2 coexist), spreading both IDs' material across the grid, inflating the co-presence everywhere (cp_frac_high 0.796 vs 0.694). At 160×160 the structures coexist (4/4), concentrating the co-presence at the boundary — the lowest mean. The pattern holds without the boundary (g=0.0) — the cause is composition quality, not the boundary.</p>
 <div id="cp-mean-nonmonotonic-section"></div>
 
+<h2>Percolation Threshold Analysis: Is the 30th Ceiling the Moore Threshold? (Session 94)</h2>
+<p class="desc">The 30th mechanism's persistence ceiling (~43.6% fill) compared to the Moore 8-neighbor site percolation threshold (~40.7%). The stability (best gain at each density) degrades gradually from ~35% fill and collapses sharply at ~43.6% — 2.93 percentage points ABOVE the Moore threshold. The 30th is NOT the Moore threshold; it's a boundary-mechanism threshold (over-splitting) that is percolation-adjacent but distinct. The actual structure percolation happens much later (~59% fill, Session 74). Three thresholds: Moore (~40.7%), 30th (~43.6%), actual percolation (~59%).</p>
+<div id="percolation-threshold-section"></div>
+
 <script>
 let resultsData = null;
 let robustData = null;
@@ -460,6 +464,7 @@ async function loadData() {
     'relativeScaleSweep': 'output/relative_scale_sweep.json',
     'relativeScale320Sweep': 'output/relative_scale_320_sweep.json',
     'cpMeanNonmonotonic': 'output/cp_mean_nonmonotonic_analysis.json',
+    'percolationThresholdViz': 'output/percolation_threshold_viz.json',
   };
   const sweepPromises = Object.entries(sweepFiles).map(([key, path]) =>
     fetch(path).then(r => r.json()).catch(() => null)
@@ -2944,6 +2949,56 @@ function populateSweepSections() {
 
     const elNM = document.getElementById('cp-mean-nonmonotonic-section');
     if (elNM) elNM.innerHTML = html;
+  }
+
+  // ─── Percolation threshold analysis (Session 94) ─────────────────────────
+  if (data.percolationThresholdViz) {
+    const pt = data.percolationThresholdViz;
+    let html = '<h3>Fill% vs Stability: Is the 30th Ceiling the Moore Threshold?</h3>';
+
+    // Summary stats
+    html += '<div class="insight" style="margin-bottom:12px">';
+    html += `<strong>Moore 8-neighbor site percolation threshold:</strong> ${pt.moore_threshold}%<br>`;
+    html += `<strong>30th ceiling (all gains stable=0):</strong> ${pt.collapse_fill.toFixed(2)}% (n=${pt.collapse_n})<br>`;
+    html += `<strong>Last n with any stability:</strong> ${pt.last_stable_fill.toFixed(2)}% (n=${pt.last_stable_n})<br>`;
+    html += `<strong>Gap (collapse − Moore):</strong> ${pt.gap_collapse_moore.toFixed(2)} percentage points<br>`;
+    html += `<strong>Actual structure percolation:</strong> ~${pt.actual_percolation}% (Session 74, n=8000)<br>`;
+    html += `<strong>Verdict:</strong> The 30th ceiling is NOT the Moore threshold — it is ${pt.gap_collapse_moore.toFixed(2)}pp ABOVE it. The stability degrades starting near the Moore threshold and collapses a few percent above it. The 30th is a boundary-mechanism threshold (over-splitting), not a percolation threshold. The actual structure percolation (~${pt.actual_percolation}%) is far above both.`;
+    html += '</div>';
+
+    // Fill vs stability table
+    html += '<h4>Fill% vs Stability (best gain at each density, 160×160)</h4>';
+    html += '<table class="sweep-table"><tr><th>n</th><th>fill%</th><th>stable_frac</th><th>avg cf</th><th>all_zero</th></tr>';
+    for (const c of pt.curve) {
+      const nearMoore = Math.abs(c.fill_pct - pt.moore_threshold) < 2;
+      const rowClass = c.all_zero ? ' style="color:#f85149"' : (nearMoore ? ' style="color:#d29922"' : '');
+      html += `<tr${rowClass}><td>${c.n}</td><td>${c.fill_pct.toFixed(2)}</td><td>${c.stable_frac.toFixed(3)}</td><td>${c.cf.toFixed(3)}</td><td>${c.all_zero ? 'YES' : 'no'}</td></tr>`;
+    }
+    html += '</table>';
+
+    // Threshold markers
+    html += '<div style="margin:12px 0">';
+    html += '<div style="display:flex;gap:12px;flex-wrap:wrap">';
+    html += `<span class="tag tag-warn">Moore ~${pt.moore_threshold}%</span>`;
+    html += `<span class="tag tag-no">30th ceiling ~${pt.collapse_fill.toFixed(1)}%</span>`;
+    html += `<span class="tag tag-yes">Actual percolation ~${pt.actual_percolation}%</span>`;
+    html += '</div>';
+    html += '</div>';
+
+    // Per-gain detail for the degradation zone
+    if (pt.detail && pt.detail.length > 0) {
+      html += '<h4>Per-Gain Detail (fill 33–50%, the degradation zone)</h4>';
+      html += '<table class="sweep-table"><tr><th>n</th><th>g</th><th>fill%</th><th>stable_frac</th><th>cf</th></tr>';
+      for (const d of pt.detail) {
+        html += `<tr><td>${d.n}</td><td>${d.g}</td><td>${d.fill_pct.toFixed(2)}</td><td>${d.stable_frac.toFixed(3)}</td><td>${d.cf.toFixed(3)}</td></tr>`;
+      }
+      html += '</table>';
+    }
+
+    html += '<div class="insight" style="margin-top:12px"><strong>Interpretation:</strong> The 30th mechanism\\'s persistence ceiling (~43.6% fill) is close to but NOT identical to the Moore 8-neighbor site percolation threshold (~40.7%). The gap is 2.93pp — larger than the measurement noise (~0.2%). At the Moore threshold (fill ≈ 40.7%, n=1800-2000), stability is still partially present (2-3/4 at best gain). The stability degrades gradually from ~35% fill and collapses sharply at ~43.6% (n=3000). The 30th is a post-threshold boundary-mechanism effect: the boundary\\'s over-splitting becomes severe when the structures approach the percolation threshold, but the actual percolation (spanning cluster) doesn\\'t occur until ~59% fill (n=8000) because the boundary delays it. Three distinct thresholds: Moore (~40.7%, random site connectivity), 30th (~43.6%, boundary over-splitting), actual percolation (~59%, spanning cluster formation).</div>';
+
+    const elPT = document.getElementById('percolation-threshold-section');
+    if (elPT) elPT.innerHTML = html;
   }
 }
 

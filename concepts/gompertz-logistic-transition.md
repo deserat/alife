@@ -3,7 +3,7 @@ status: active
 formed: "Session 79"
 connected_to: "non-saturating-channels, two-wire-principle, H5, H7, H10, H11, multi-scale-composition"
 topic: "the Gompertz-to-logistic transition in stigmergic systems — coherence, percolation, and the three-threshold design principle"
-key_findings: "The fill cap trajectory (19 data points, n=550–15000) traces a complete Gompertz-to-logistic transition mediated by percolation. Haugen & Gilbert (2022, arXiv:2211.05653) show Gompertz growth (θ→0) is the coherent limit (long-range interactions dominate, aggregate dynamics depend only on collective mean); logistic growth (θ=1) is the pairwise limit (local interactions dominate). The boundary's coherent suppression is the θ→0 field; percolation (Moore 8-neighbor threshold ~0.407) is the symmetry-breaking transition where local bonds overwhelm the coherent field. Three thresholds: (1) persistence ceiling ~44% fill — stable composition impossible above this regardless of gain (30th mechanism, 46th mechanism); (2) fill cap acceleration ~75% fill — the coherent field's capping power begins to break (44th mechanism); (3) saturation ~100% fill — the boundary is irrelevant, g*→0 at n≈14000 (43rd mechanism). Design principle: keep the stigmergic system in the Gompertz (coherent) regime, below ~44% fill for stable composition. Session 93: the fill cap's stretched exponential a·exp(b·√n) (R²=0.964) is the diffusion-limited signature — the √n is the diffusion length (boundary's suppression range grows as √n). This is NOT the KJMA form (α>1, interface-controlled) but the diffusion-limited form (α=1/2). The √n unifies three scalings: g*∝1/√n (Laplace pressure), fill∝exp(b·√n) (stretched exponential), co-presence∝1/√n (intensive signal density). The Gompertz-to-logistic transition is the breakdown of the diffusion-limited regime at percolation."
+key_findings: "The fill cap trajectory (19 data points, n=550–15000) traces a complete Gompertz-to-logistic transition mediated by percolation. Haugen & Gilbert (2022, arXiv:2211.05653) show Gompertz growth (θ→0) is the coherent limit (long-range interactions dominate, aggregate dynamics depend only on collective mean); logistic growth (θ=1) is the pairwise limit (local interactions dominate). The boundary's coherent suppression is the θ→0 field; percolation (Moore 8-neighbor threshold ~0.407) is the symmetry-breaking transition where local bonds overwhelm the coherent field. Three thresholds: (1) persistence ceiling ~43.6% fill — stable composition impossible above this regardless of gain (30th mechanism, 46th mechanism); (2) fill cap acceleration ~75% fill — the coherent field's capping power begins to break (44th mechanism); (3) saturation ~100% fill — the boundary is irrelevant, g*→0 at n≈14000 (43rd mechanism). Session 94: the 30th ceiling (~43.6%) is NOT the Moore threshold (~40.7%) — gap 2.93pp > noise; three distinct thresholds (Moore ~40.7%, 30th ~43.6%, actual percolation ~59%); the 30th is percolation-adjacent boundary over-splitting, not percolation itself. Design principle: keep the stigmergic system in the Gompertz (coherent) regime, below ~44% fill for stable composition. Session 93: the fill cap's stretched exponential a·exp(b·√n) (R²=0.964) is the diffusion-limited signature — the √n is the diffusion length (boundary's suppression range grows as √n). NOT KJMA (α>1) but diffusion-limited (α=1/2). The √n unifies g*∝1/√n, fill∝exp(b·√n), co-presence∝1/√n."
 ---
 
 # The Gompertz-to-Logistic Transition in Stigmergic Systems
@@ -236,12 +236,19 @@ specificity (local structure) once local connectivity dominates.
   pure external field. The analogy holds in the limit where the boundary's
   growth is much faster than the structures' growth (the boundary equilibrates
   instantaneously), but this limit is not exactly satisfied.
-- **The 30th mechanism's ceiling (~44%) does not match the Moore percolation
-  threshold (~0.407).** The persistence ceiling is at ~44% fill; the Moore
-  threshold is ~40.7%. The 30th mechanism may be a pre-threshold effect —
-  the boundary over-splits structures approaching the threshold, not at it.
-  The two numbers are close but not identical, and the 30th mechanism is
-  gain-independent (topological) while percolation is connectivity-dependent.
+- **The 30th mechanism's ceiling (~43.6%) is NOT the Moore percolation
+  threshold (~0.407).** Session 94 resolved this open question: the 30th
+  ceiling is 2.93pp above the Moore threshold — larger than the measurement
+  noise (~0.2%). At the Moore threshold (fill ≈ 40.7%, n=1800), stability
+  is still 2/4 (partially stable). The stability degrades gradually from
+  ~35% fill and collapses sharply at ~43.6% (n=3000). The actual structure
+  percolation (spanning cluster) happens at ~59% (n=8000, Session 74). Three
+  distinct thresholds: Moore (~40.7%, random site connectivity), 30th (~43.6%,
+  boundary over-splitting), actual percolation (~59%, spanning cluster).
+  The 30th is percolation-ADJACENT (the boundary's coherent suppression
+  degrades near the Moore threshold) but not the percolation threshold itself.
+  The 30th is the loss of coherent *stability*; the actual percolation is
+  the loss of coherent *capping*.
 
 ## Empirical Evidence
 
@@ -335,10 +342,12 @@ growth, and its suppression range is the diffusion length.
   8-neighbor connectivity — the coupling is the deposit/excavate rule's
   sensitivity to local curvature. Can θ be extracted from the fill cap's
   functional form?
-- Is the 30th mechanism's ceiling (~44%) the same as the Moore percolation
-  threshold (~0.407)? The two numbers are close but not identical. The 30th
-  is gain-independent; percolation is connectivity-dependent. Is the 30th a
-  pre-threshold effect or a different transition?
+- ~~Is the 30th mechanism's ceiling (~44%) the same as the Moore percolation
+  threshold (~0.407)?~~ **RESOLVED (Session 94):** The 30th ceiling (~43.6%)
+  is NOT the Moore threshold (~40.7%) — the gap is 2.93pp, larger than noise.
+  The 30th is percolation-adjacent (stability degrades starting near the
+  Moore threshold) but distinct (collapses 3pp above it). The actual
+  percolation happens at ~59%. Three thresholds: Moore, 30th, actual.
 - Does the Gompertz-to-logistic transition hold at other grid sizes? The
   1/√n scaling of g* was tested only on 160×160. Does the log fill cap's
   coefficient (13.1) scale with grid size, or is it a universal constant?
