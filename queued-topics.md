@@ -2902,25 +2902,35 @@ to compare.
      *stability*; the actual percolation is the loss of coherent *capping*.
      See `percolation_threshold_analysis.py`, `percolation_threshold_viz.json`.
 
-247. **Does the 30th ceiling shift with grid size?** — If the 30th ceiling
-     is the Moore threshold (a universal constant), it should be the same
-     fill fraction on all grid sizes. If it's boundary-specific, it might
-     shift. The 50th mechanism (fill depends on absolute n, not density)
-     means the fill at a given n is grid-size-dependent — so the n at which
-     the 30th ceiling is reached differs by grid size, but the fill
-     FRACTION might be universal. Test: run plateau sweeps at high density
-     on 80×80 and 320×320, find the fill% at which stability collapses on
-     each grid. This would confirm or deny the universality of the 30th
-     ceiling as a fill-fraction threshold.
+247. **Does the 30th ceiling shift with grid size?** — DONE (Session 95).
+    If the 30th ceiling is the Moore threshold (a universal constant), it should
+    be the same fill fraction on all grid sizes. If it's boundary-specific, it
+    might shift. The 50th mechanism (fill depends on absolute n, not density)
+    means the fill at a given n is grid-size-dependent — so the n at which the
+    30th ceiling is reached differs by grid size, but the fill FRACTION might
+    be universal. Test: run plateau sweeps at high density on 80×80 and 320×320,
+    find the fill% at which stability collapses on each grid. RESULT: the 30th
+    ceiling is NOT universal. On 80×80, stability persists at 64–76% fill
+    (23–35pp above the Moore threshold). The degradation is gradual (4/4 → 3/4
+    → 2/4 → 1/4 over 64–76% fill) with no sharp collapse, and shows
+    UNDER-splitting (late_lc/rc < 1, structures too compact) not over-splitting
+    (late_lc/rc > 3, the 160×160's 30th mode). The 30th is about absolute
+    structure size relative to the boundary's spatial scale (dilation radius
+    8 cells), not fill fraction. The boundary's fill-capping power is negligible
+    on 80×80 (fill with/without boundary nearly identical). The absolute-
+    spatial-scale principle (#234) explains the shift: the boundary's spatial
+    scales (8-cell dilation, 1-cell step) are relatively wider on 80×80 (10%
+    of grid) than on 160×160 (5%). See `grid80_high_density_plateau.py`,
+    `output/grid80_vs_grid30_threshold.json`.
 
-248. **What causes the 2.93pp gap?** — The 30th ceiling is ~3pp above the
-     Moore threshold. Is this because (a) the boundary retains some capping
-     power above the Moore threshold, delaying the stability collapse, or
-     (b) the 30th is a fundamentally different mechanism (over-splitting,
-     not connectivity) that happens to be near the percolation threshold?
-     If (a), lowering the gain should narrow the gap (less capping power →
-     collapse closer to the Moore threshold). If (b), the gap should be
-     gain-independent. The existing data shows the 30th is gain-independent
-     (Session 78: g=0.0001 doesn't rescue) — suggesting (b). But the gain
-     range tested (0.0001–0.005) is narrow. A wider gain sweep near the
-     collapse point would distinguish (a) from (b).
+248. **What causes the 2.93pp gap?** — DONE (Session 95, resolved by #247).
+    The 30th ceiling is ~3pp above the Moore threshold on 160×160. Is this
+    because (a) the boundary retains some capping power above the Moore
+    threshold, or (b) the 30th is a fundamentally different mechanism
+    (over-splitting, not connectivity)? The 80×80 data (#247) resolves this:
+    the 30th is (b) — a boundary-specific mechanism. On 80×80, the 30th
+    ceiling is 30+pp above the Moore threshold — the proximity on 160×160 is
+    coincidental. The 30th is the loss of coherent *stability* (boundary
+    over-splitting at large absolute structure size); the actual percolation
+    (~59%) is the loss of coherent *capping* (spanning cluster formation).
+    These are on different axes with different grid-size dependencies.

@@ -383,6 +383,10 @@ select:hover, button:hover { border-color: var(--accent); }
 <p class="desc">The 30th mechanism's persistence ceiling (~43.6% fill) compared to the Moore 8-neighbor site percolation threshold (~40.7%). The stability (best gain at each density) degrades gradually from ~35% fill and collapses sharply at ~43.6% — 2.93 percentage points ABOVE the Moore threshold. The 30th is NOT the Moore threshold; it's a boundary-mechanism threshold (over-splitting) that is percolation-adjacent but distinct. The actual structure percolation happens much later (~59% fill, Session 74). Three thresholds: Moore (~40.7%), 30th (~43.6%), actual percolation (~59%).</p>
 <div id="percolation-threshold-section"></div>
 
+<h2>Grid-Size Shift: Does the 30th Ceiling Depend on Grid Size? (Session 95)</h2>
+<p class="desc">If the 30th ceiling were the Moore threshold (a universal fill fraction ~40.7%), it should be the same on all grid sizes. On 80×80, stability persists at 64–76% fill — 23–35pp above the Moore threshold and above the 160×160's 30th ceiling (43.6%). The 30th ceiling shifts with grid size: on 160×160 it's a sharp collapse at ~43.6%; on 80×80 it's a gradual degradation starting at ~70% with no sharp collapse. The degradation mode differs: over-splitting on 160×160 (late_lc/rc > 3), under-splitting on 80×80 (late_lc/rc < 1). The 30th is about absolute structure size relative to the boundary's spatial scale, not fill fraction.</p>
+<div id="grid-size-threshold-section"></div>
+
 <script>
 let resultsData = null;
 let robustData = null;
@@ -465,6 +469,7 @@ async function loadData() {
     'relativeScale320Sweep': 'output/relative_scale_320_sweep.json',
     'cpMeanNonmonotonic': 'output/cp_mean_nonmonotonic_analysis.json',
     'percolationThresholdViz': 'output/percolation_threshold_viz.json',
+    'gridSizeThreshold': 'output/grid80_vs_grid30_threshold.json',
   };
   const sweepPromises = Object.entries(sweepFiles).map(([key, path]) =>
     fetch(path).then(r => r.json()).catch(() => null)
@@ -2951,6 +2956,11 @@ function populateSweepSections() {
     if (elNM) elNM.innerHTML = html;
   }
 
+  // ─── Grid-size threshold comparison (Session 95) ─────────────────
+  if (window.gridSizeThresholdData) {
+    renderGridSizeThreshold();
+  }
+
   // ─── Percolation threshold analysis (Session 94) ─────────────────────────
   if (data.percolationThresholdViz) {
     const pt = data.percolationThresholdViz;
@@ -3000,6 +3010,221 @@ function populateSweepSections() {
     const elPT = document.getElementById('percolation-threshold-section');
     if (elPT) elPT.innerHTML = html;
   }
+}
+
+// ─── Grid-Size Threshold Comparison (Session 95) ─────────────────
+function loadGridSizeThreshold() {
+  fetch('output/grid80_vs_grid30_threshold.json')
+    .then(r => r.json())
+    .then(data => {
+      window.gridSizeThresholdData = data;
+      renderGridSizeThreshold();
+    })
+    .catch(err => {
+      console.log('grid80 threshold data not available:', err);
+    });
+}
+
+function renderGridSizeThreshold() {
+  const d = window.gridSizeThresholdData;
+  if (!d) return;
+  let html = '<h3>Fill% vs Stability: 80×80 vs 160×160</h3>';
+
+  // Summary stats
+  html += '<div class="metrics-grid">';
+  html += `<div class="metric"><span class="label">Moore threshold (universal)</span><span class="value">${d.moore_threshold}%</span></div>`;
+  html += `<div class="metric"><span class="label">30th ceiling on 160×160</span><span class="value">${d.ceiling_160.toFixed(1)}%</span></div>`;
+  html += `<div class="metric"><span class="label">Gap (30th − Moore) on 160×160</span><span class="value">${d.gap_160_moore.toFixed(2)}pp</span></div>`;
+  html += `<div class="metric"><span class="label">30th ceiling on 80×80</span><span class="value" style="color:#f0883e">~78%+ (gradual)</span></div>`;
+  html += `</div>`;
+
+  // Canvas plot
+  html += '<div style="margin:16px 0">';
+  html += '<canvas id="grid-size-threshold-canvas" width="700" height="350" style="max-width:100%;background:#0d1117;border:1px solid #30363d;border-radius:6px"></canvas>';
+  html += '</div>';
+
+  // Data tables
+  html += '<h4>80×80 High-Density Plateau (g=0.005)</h4>';
+  html += '<table class="sweep-table"><tr><th>n</th><th>fill%</th><th>stable</th><th>coexist_frac</th><th>late_lc</th><th>late_rc</th><th>no-inhib fill%</th><th>no-inhib stable</th></tr>';
+  for (const r of d.grid80_plateau) {
+    html += `<tr><td>${r.n}</td><td>${r.fill_pct.toFixed(1)}</td><td>${(r.stable_frac*4).toFixed(0)}/4</td><td>${r.coexist_frac.toFixed(3)}</td><td>${r.late_lc.toFixed(2)}</td><td>${r.late_rc.toFixed(2)}</td><td>${r.no_inhib_fill !== null ? r.no_inhib_fill.toFixed(1) : '—'}</td><td>${r.no_inhib_stable !== null ? (r.no_inhib_stable*4).toFixed(0)+'/4' : '—'}</td></tr>`;
+  }
+  html += '</table>';
+
+  html += '<h4>160×160 Plateau (best gain at each n)</h4>';
+  html += '<table class="sweep-table"><tr><th>n</th><th>fill%</th><th>stable_frac</th><th>all_zero</th></tr>';
+  for (const r of d.grid160_plateau) {
+    const allZeroClass = r.all_zero ? 'style="color:#f85149"' : '';
+    html += `<tr><td>${r.n}</td><td>${r.fill_pct.toFixed(1)}</td><td>${r.stable_frac.toFixed(2)}</td><td ${allZeroClass}>${r.all_zero}</td></tr>`;
+  }
+  html += '</table>';
+
+  html += `<div class="insight" style="margin-top:12px"><strong>Key finding:</strong> ${d.key_finding}</div>`;
+
+  const el = document.getElementById('grid-size-threshold-section');
+  if (el) {
+    el.innerHTML = html;
+    drawGridSizeThresholdCanvas(d);
+  }
+}
+
+function drawGridSizeThresholdCanvas(d) {
+  const canvas = document.getElementById('grid-size-threshold-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  const ml = 50, mr = 20, mt = 20, mb = 40;
+  const pw = W - ml - mr, ph = H - mt - mb;
+
+  // Background
+  ctx.fillStyle = '#0d1117';
+  ctx.fillRect(0, 0, W, H);
+
+  // Axes
+  ctx.strokeStyle = '#30363d';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(ml, mt);
+  ctx.lineTo(ml, mt + ph);
+  ctx.lineTo(ml + pw, mt + ph);
+  ctx.stroke();
+
+  // X axis: fill% 0-100
+  const xMin = 0, xMax = 100;
+  const xScale = (v) => ml + (v - xMin) / (xMax - xMin) * pw;
+  // Y axis: stable_frac 0-1
+  const yMin = 0, yMax = 1.0;
+  const yScale = (v) => mt + ph - (v - yMin) / (yMax - yMin) * ph;
+
+  // Grid lines
+  ctx.strokeStyle = '#21262d';
+  ctx.lineWidth = 0.5;
+  for (let xv = 20; xv <= 80; xv += 20) {
+    ctx.beginPath();
+    ctx.moveTo(xScale(xv), mt);
+    ctx.lineTo(xScale(xv), mt + ph);
+    ctx.stroke();
+  }
+  for (let yv = 0.25; yv <= 1.0; yv += 0.25) {
+    ctx.beginPath();
+    ctx.moveTo(ml, yScale(yv));
+    ctx.lineTo(ml + pw, yScale(yv));
+    ctx.stroke();
+  }
+
+  // Moore threshold line
+  ctx.strokeStyle = '#f0883e';
+  ctx.lineWidth = 1.5;
+  ctx.setLineDash([5, 3]);
+  ctx.beginPath();
+  ctx.moveTo(xScale(d.moore_threshold), mt);
+  ctx.lineTo(xScale(d.moore_threshold), mt + ph);
+  ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle = '#f0883e';
+  ctx.font = '10px monospace';
+  ctx.fillText(`Moore ${d.moore_threshold}%`, xScale(d.moore_threshold) + 3, mt + 12);
+
+  // 30th ceiling on 160x160
+  ctx.strokeStyle = '#f85149';
+  ctx.lineWidth = 1.5;
+  ctx.setLineDash([5, 3]);
+  ctx.beginPath();
+  ctx.moveTo(xScale(d.ceiling_160), mt);
+  ctx.lineTo(xScale(d.ceiling_160), mt + ph);
+  ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle = '#f85149';
+  ctx.fillText(`30th (160) ${d.ceiling_160.toFixed(1)}%`, xScale(d.ceiling_160) + 3, mt + 26);
+
+  // 160x160 data (red)
+  ctx.strokeStyle = '#f85149';
+  ctx.fillStyle = '#f85149';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  const d160 = d.grid160_plateau;
+  for (let i = 0; i < d160.length; i++) {
+    const x = xScale(d160[i].fill_pct);
+    const y = yScale(d160[i].stable_frac);
+    if (i === 0) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
+  }
+  ctx.stroke();
+  for (const r of d160) {
+    ctx.beginPath();
+    ctx.arc(xScale(r.fill_pct), yScale(r.stable_frac), 4, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  // 80x80 data (g=0.005, blue)
+  ctx.strokeStyle = '#58a6ff';
+  ctx.fillStyle = '#58a6ff';
+  ctx.beginPath();
+  const d80 = d.grid80_plateau;
+  for (let i = 0; i < d80.length; i++) {
+    const x = xScale(d80[i].fill_pct);
+    const y = yScale(d80[i].stable_frac);
+    if (i === 0) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
+  }
+  ctx.stroke();
+  for (const r of d80) {
+    ctx.beginPath();
+    ctx.arc(xScale(r.fill_pct), yScale(r.stable_frac), 4, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  // 80x80 no-inhibition (gray, dashed)
+  ctx.strokeStyle = '#8b949e';
+  ctx.fillStyle = '#8b949e';
+  ctx.lineWidth = 1.5;
+  ctx.setLineDash([4, 2]);
+  ctx.beginPath();
+  let started = false;
+  for (const r of d80) {
+    if (r.no_inhib_fill === null) continue;
+    const x = xScale(r.no_inhib_fill);
+    const y = yScale(r.no_inhib_stable);
+    if (!started) { ctx.moveTo(x, y); started = true; }
+    else ctx.lineTo(x, y);
+  }
+  ctx.stroke();
+  ctx.setLineDash([]);
+  for (const r of d80) {
+    if (r.no_inhib_fill === null) continue;
+    ctx.beginPath();
+    ctx.arc(xScale(r.no_inhib_fill), yScale(r.no_inhib_stable), 3, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  // Axis labels
+  ctx.fillStyle = '#8b949e';
+  ctx.font = '11px monospace';
+  ctx.textAlign = 'center';
+  ctx.fillText('Fill %', ml + pw / 2, H - 8);
+  ctx.save();
+  ctx.translate(15, mt + ph / 2);
+  ctx.rotate(-Math.PI / 2);
+  ctx.fillText('Stable fraction', 0, 0);
+  ctx.restore();
+
+  // Tick labels
+  ctx.font = '9px monospace';
+  ctx.textAlign = 'right';
+  for (let yv = 0; yv <= 1.0; yv += 0.25) {
+    ctx.fillText(yv.toFixed(2), ml - 4, yScale(yv) + 3);
+  }
+  ctx.textAlign = 'center';
+  for (let xv = 0; xv <= 100; xv += 20) {
+    ctx.fillText(xv + '%', xScale(xv), mt + ph + 12);
+  }
+
+  // Legend
+  ctx.font = '10px monospace';
+  ctx.textAlign = 'left';
+  ctx.fillStyle = '#f85149'; ctx.fillText('● 160×160 (with boundary)', ml + 10, mt + 14);
+  ctx.fillStyle = '#58a6ff'; ctx.fillText('● 80×80 (g=0.005, with boundary)', ml + 10, mt + 28);
+  ctx.fillStyle = '#8b949e'; ctx.fillText('● 80×80 (no inhibition)', ml + 10, mt + 42);
 }
 
 // ─── Snapshot visualization ─────────────────────────────────

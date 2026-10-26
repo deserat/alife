@@ -3,7 +3,7 @@ status: active
 formed: "Session 85"
 connected_to: "extensive-intensive-signals, two-wire-principle, gompertz-logistic-transition, H5, H7, H10"
 topic: "the absolute-spatial-scale principle — any mechanism acting through an absolute spatial scale converts density-dependence into n-dependence; local scales are scale-invariant, global scales are not"
-key_findings: "The fill is density-dependent without any absolute-spatial-scale mechanism (66.25% ≈ 66.49% ≈ 64.26%, spread 2.23% at 23.4/kc across 80×80/160×160/320×320) and n-dependent with the focal bias (48.33% → 31.58% → 24.95%, spread 23.38%). The focal bias (1-cell steps toward a fixed home center — a GLOBAL absolute spatial scale) was the sole source of n-dependence. The curvature channel's local operations (1-cell Laplacian, 1-cell Moore dilation, 0.2-cell diffusion — LOCAL absolute scales) are scale-invariant at matched density. LOCAL absolute scales (acting on local shape) are scale-invariant; GLOBAL absolute scales (distance-dependent, acting on position) are not. This maps onto gauge theory: local interactions are renormalizable; global references are not. The 50th mechanism (fill depends on absolute n) and the 53rd mechanism (boundary converts density-dependence into n-dependence) are both consequences of the absolute-spatial-scale principle — the 53rd was falsified (Session 84) because at low gain the boundary is negligible; the 50th holds because the focal bias is a global absolute spatial scale."
+key_findings: "The fill is density-dependent without any absolute-spatial-scale mechanism (66.25% ≈ 66.49% ≈ 64.26%, spread 2.23% at 23.4/kc across 80×80/160×160/320×320) and n-dependent with the focal bias (48.33% → 31.58% → 24.95%, spread 23.38%). The focal bias (1-cell steps toward a fixed home center — a GLOBAL absolute spatial scale) was the sole source of n-dependence. The curvature channel's local operations (1-cell Laplacian, 1-cell Moore dilation, 0.2-cell diffusion — LOCAL absolute scales) are scale-invariant at matched density. LOCAL absolute scales (acting on local shape) are scale-invariant; GLOBAL absolute scales (distance-dependent, acting on position) are not. This maps onto gauge theory: local interactions are renormalizable; global references are not. The 50th mechanism (fill depends on absolute n) and the 53rd mechanism (boundary converts density-dependence into n-dependence) are both consequences of the absolute-spatial-scale principle — the 53rd was falsified (Session 84) because at low gain the boundary is negligible; the 50th holds because the focal bias is a global absolute spatial scale. Session 95: the 30th ceiling shifts with grid size — on 80×80 stability persists at 64–76% fill (23–35pp above Moore), confirming the 30th is about absolute structure size vs the boundary's spatial scale (dilation radius 8 cells), not fill fraction. The 2.93pp gap on 160×160 is coincidental."
 ---
 
 # The Absolute-Spatial-Scale Principle
@@ -351,6 +351,42 @@ regions (160 cells apart) are not bridged → b_scale=0. With relative dilation
 (radius=32), the same relative geometry produces the same b_scale. The fill remains
 n-dependent with both (step=4 overcorrects — the focal bias is stronger, not weaker,
 with a larger step). See `relative_scale_320_sweep.py` and H5 Session-91 refinement.
+
+## Session 95: The 30th Ceiling Shifts With Grid Size
+
+The 30th mechanism's persistence ceiling (~43.6% fill on 160×160) was tested for
+universality by running a high-density plateau sweep on 80×80 (n=300–600 at
+g=0.005–0.01, 4 seeds). If the 30th ceiling is the Moore threshold (universal
+~40.7%), it should be the same fill fraction on all grids.
+
+**It is NOT universal — it shifts with grid size.** On 80×80, stability persists
+at 64–76% fill — 23–35pp above the Moore threshold and above the 160×160's 30th
+ceiling. The stability degrades gradually (4/4 at 64% → 1/4 at 76%) with no sharp
+collapse, and shows UNDER-splitting (late_lc/rc < 1, structures too compact) not
+over-splitting (late_lc/rc > 3, the 160×160's 30th mode).
+
+**The absolute-spatial-scale principle explains the shift.** The boundary's
+dilation radius (8 cells) is an absolute spatial scale. On 80×80, 8 cells = 10%
+of the grid width; on 160×160, 8 cells = 5%. The boundary is relatively wider on
+80×80, so it can maintain stable composition at higher fill fractions. The focal
+bias (1-cell step) is also relatively stronger on 80×80 (1.25% vs 0.625%). The
+30th ceiling is about the ratio of the structure's absolute size to the
+boundary's absolute spatial scale — on 80×80, this ratio is more favorable at
+any given fill fraction.
+
+**The boundary's fill-capping power is negligible on 80×80** — the fill with and
+without the boundary are nearly identical (64.3% vs 65.0% at n=300). The curvature
+channel alone caps the fill at ~76%. The boundary adds stability but not
+fill-capping on 80×80, while on 160×160 it IS the primary fill-capping mechanism.
+
+**The 2.93pp gap on 160×160 is coincidental.** The 30th is a boundary-specific
+mechanism (over-splitting at large absolute structure size), not a connectivity
+threshold. Its proximity to the Moore threshold on 160×160 is because the
+boundary's 8-cell dilation radius happens to produce over-splitting near the
+Moore fill on that grid size. On 80×80, the 30th is 30+pp above the Moore
+threshold.
+
+See `grid80_high_density_plateau.py` and H5 Session-95 refinement.
 
 ## Cross-References
 
