@@ -2934,3 +2934,34 @@ to compare.
     over-splitting at large absolute structure size); the actual percolation
     (~59%) is the loss of coherent *capping* (spanning cluster formation).
     These are on different axes with different grid-size dependencies.
+
+## From Session 95 (2026-10-26)
+
+249. **Does the 30th ceiling shift on 320×320?** — On 320×320, the boundary's
+     dilation radius (8 cells) is only 2.5% of the grid width. The 30th ceiling
+     should be at a LOWER fill fraction than on 160×160 (~43.6%). This would
+     confirm the absolute-spatial-scale explanation: the 30th ceiling decreases
+     as the boundary's spatial scale becomes a smaller fraction of the grid.
+     Test: run a plateau sweep at high density on 320×320, find the fill% at
+     which stability collapses. Prediction: the 30th ceiling is below ~43.6%
+     on 320×320 (possibly ~35-40%).
+
+250. **Is the 30th ceiling about absolute structure size or the
+     structure-to-boundary ratio?** — The 30th collapses when the structure's
+     linear size exceeds some multiple of the dilation radius. On 160×160, the
+     structure at the 30th ceiling has linear size ~√(11200) ≈ 106 cells, and
+     the dilation radius is 8 (ratio 13:1). On 80×80, the structure at n=600 has
+     linear size ~√(2432) ≈ 49 cells (ratio 6:1) — stability is still 1-2/4.
+     Testing different dilation radii (4, 8, 16) at fixed grid size would
+     isolate whether the threshold is about absolute structure size or the
+     ratio of structure size to dilation radius.
+
+251. **The boundary's fill-capping role is grid-size-dependent** — On 80×80,
+     the boundary's fill-capping power is negligible (fill with/without boundary
+     nearly identical). On 160×160, the boundary IS the primary fill-capping
+     mechanism (87–100% without → ~44% with). The curvature channel alone caps
+     fill at ~76% on 80×80 but ~100% on 160×160 (without boundary). Why does the
+     curvature channel's own fill cap depend on grid size? Is it the absolute
+     spatial scale of the curvature computation (1-cell Laplacian) relative to
+     the structure size? The 50th mechanism (fill depends on absolute n) might
+     be the curvature channel's own absolute-spatial-scale effect.
