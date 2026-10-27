@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>30th Ceiling: Structure-to-Boundary Ratio</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #0d1117; color: #c9d1d9; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, sans-serif; padding: 20px; }
+  h1 { font-size: 1.4rem; margin-bottom: 4px; color: #f0f6fc; }
+  h2 { font-size: 1.1rem; margin-bottom: 12px; color: #8b949e; font-weight: normal; }
+  .subtitle { color: #8b949e; font-size: 0.9rem; margin-bottom: 20px; }
+  .chart-container { background: #161b22; border-radius: 8px; padding: 20px; margin-bottom: 20px; border: 1px solid #30363d; }
+  canvas { display: block; max-width: 100%; }
+  .legend { display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 12px; font-size: 0.85rem; }
+  .legend-item { display: flex; align-items: center; gap: 6px; }
+  .legend-dot { width: 12px; height: 12px; border-radius: 50%; }
+  .finding { background: #1c2128; border-left: 3px solid #f0883e; padding: 12px 16px; border-radius: 0 6px 6px 0; margin-bottom: 16px; font-size: 0.9rem; line-height: 1.5; }
+  .finding strong { color: #f0883e; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+  th { text-align: left; padding: 8px; color: #8b949e; border-bottom: 1px solid #30363d; }
+  th:not(:first-child) { text-align: center; }
+  td { padding: 6px 8px; border-bottom: 1px solid #21262d; }
+  td:not(:first-child) { text-align: center; }
+  td.label { color: #c9d1d9; }
+  .stable-0 { color: #f85149; }
+  .stable-partial { color: #d29922; }
+  .stable-full { color: #3fb950; }
+  .moore-line { stroke: #f0883e; stroke-dasharray: 5,3; stroke-width: 1; }
+  .moore-label { fill: #f0883e; font-size: 10px; }
+  .grid160 { background: #161b22; border-radius: 6px; padding: 12px; margin-bottom: 12px; }
+  .grid160 h3 { font-size: 0.95rem; margin-bottom: 8px; color: #f0f6fc; }
+  .mode-tag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: bold; }
+  .mode-over { background: #f8514922; color: #f85149; }
+  .mode-under { background: #3fb95022; color: #3fb950; }
+  .mode-stable { background: #388bfd22; color: #388bfd; }
+</style>
+</head>
+<body>
+<h1>30th Ceiling: Structure-to-Boundary Ratio</h1>
+<p class="subtitle">The 30th stability ceiling scales with dilation radius / grid size — not absolute structure size. Session 96, queued-topic #250.</p>
+
+<div class="finding">
+<strong>Finding:</strong> The 30th ceiling is where the boundary's spatial granularity matches the structure's.
+A narrow boundary (2.5% of grid) <span class="mode-tag mode-over">over-splits</span> the structure at ~40% fill.
+A wide boundary (10% of grid) <span class="mode-tag mode-under">under-splits</span> it at ~64–76% fill.
+The crossover is the spatial analog of the KJMA diffusion-limited ↔ interface-controlled transition.
+</div>
+
+<div class="chart-container">
+  <h2>Stability vs Fill% — by boundary relative width</h2>
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:#f85149"></div>r=4, 160×160 (2.5% of grid)</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#388bfd"></div>r=8, 160×160 (5% of grid)</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#3fb950"></div>r=8, 80×80 (10% of grid)</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#f0883e; border-radius:0; width:20px; height:2px;"></div>Moore threshold (~40.7%)</div>
+  </div>
+  <canvas id="chart" width="720" height="360"></canvas>
+</div>
+
+<div class="chart-container">
+  <h2>Degradation mode vs boundary relative width</h2>
+  <canvas id="modeChart" width="720" height="200"></canvas>
+</div>
+
+<div class="chart-container">
+  <h2>Data table</h2>
+  <div id="tableContainer"></div>
+</div>
+
+<script>
+const vizData = {
+  conditions: [
+    {label: "r=4, 160×160 (2.5%)", color: "#f85149", data: [
+      {n:1500, fill:39.5, stable:2, coexist:4, h7:4, lc:3.06, rc:3.49, mode:"over-splitting"},
+      {n:2000, fill:41.3, stable:0, coexist:3, h7:4, lc:3.81, rc:5.55, mode:"over-splitting"},
+    ]},
+    {label: "r=8, 160×160 (5%)", color: "#388bfd", data: [
+      {n:1500, fill:39.4, stable:3, coexist:4, h7:4, lc:null, rc:null, mode:"stable"},
+      {n:2000, fill:41.2, stable:3, coexist:4, h7:4, lc:null, rc:null, mode:"stable"},
+      {n:2500, fill:42.1, stable:2, coexist:4, h7:4, lc:4.1, rc:4.5, mode:"over-splitting"},
+      {n:3000, fill:43.6, stable:0, coexist:3, h7:4, lc:5.5, rc:6.8, mode:"over-splitting"},
+    ]},
+    {label: "r=8, 80×80 (10%)", color: "#3fb950", data: [
+      {n:300, fill:64.3, stable:4, coexist:4, h7:4, lc:1.01, rc:0.96, mode:"under-splitting"},
+      {n:400, fill:69.5, stable:3, coexist:4, h7:4, lc:0.72, rc:0.96, mode:"under-splitting"},
+      {n:500, fill:73.5, stable:2, coexist:4, h7:4, lc:0.59, rc:0.74, mode:"under-splitting"},
+      {n:600, fill:76.3, stable:2, coexist:1, h7:4, lc:0.42, rc:0.57, mode:"under-splitting"},
+    ]},
+  ],
+  moore: 40.7,
+};
+
+// Chart 1: Stability vs Fill
+(function() {
+  const cv = document.getElementById('chart');
+  const ctx = cv.getContext('2d');
+  const W = cv.width, H = cv.height;
+  const padL = 50, padR = 20, padT = 20, padB = 40;
+  const cw = W - padL - padR, ch = H - padT - padB;
+  const xMin = 35, xMax = 80;
+  const yMin = -0.5, yMax = 4.5;
+
+  function sx(v) { return padL + (v - xMin) / (xMax - xMin) * cw; }
+  function sy(v) { return padT + (1 - (v - yMin) / (yMax - yMin)) * ch; }
+
+  // Grid lines
+  ctx.strokeStyle = '#21262d'; ctx.lineWidth = 1;
+  for (let y = 0; y <= 4; y++) {
+    ctx.beginPath(); ctx.moveTo(padL, sy(y)); ctx.lineTo(W - padR, sy(y)); ctx.stroke();
+    ctx.fillStyle = '#8b949e'; ctx.font = '10px sans-serif'; ctx.textAlign = 'right';
+    ctx.fillText(y + '/4', padL - 6, sy(y) + 3);
+  }
+  for (let x = 40; x <= 80; x += 10) {
+    ctx.beginPath(); ctx.moveTo(sx(x), padT); ctx.lineTo(sx(x), H - padB); ctx.stroke();
+    ctx.fillStyle = '#8b949e'; ctx.font = '10px sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText(x + '%', sx(x), H - padB + 16);
+  }
+  // Axis labels
+  ctx.fillStyle = '#8b949e'; ctx.font = '11px sans-serif'; ctx.textAlign = 'center';
+  ctx.fillText('Fill %', W/2, H - 4);
+  ctx.save(); ctx.translate(14, H/2); ctx.rotate(-Math.PI/2); ctx.fillText('Stable (out of 4)', 0, 0); ctx.restore();
+
+  // Moore threshold line
+  ctx.strokeStyle = '#f0883e'; ctx.setLineDash([5,3]); ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(sx(40.7), padT); ctx.lineTo(sx(40.7), H - padB); ctx.stroke();
+  ctx.setLineDash([]); ctx.fillStyle = '#f0883e'; ctx.font = '10px sans-serif'; ctx.textAlign = 'left';
+  ctx.fillText('Moore ~40.7%', sx(40.7) + 4, padT + 12);
+
+  // Plot each condition
+  vizData.conditions.forEach(c => {
+    ctx.strokeStyle = c.color; ctx.lineWidth = 2;
+    ctx.beginPath();
+    c.data.forEach((d, i) => {
+      const x = sx(d.fill), y = sy(d.stable);
+      if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+    });
+    ctx.stroke();
+    // Points
+    c.data.forEach(d => {
+      ctx.fillStyle = c.color; ctx.beginPath();
+      ctx.arc(sx(d.fill), sy(d.stable), 5, 0, 2*Math.PI); ctx.fill();
+      ctx.strokeStyle = '#0d1117'; ctx.lineWidth = 2; ctx.stroke();
+    });
+    // Label at last point
+    const last = c.data[c.data.length - 1];
+    ctx.fillStyle = c.color; ctx.font = '10px sans-serif'; ctx.textAlign = 'right';
+    ctx.fillText(c.label, sx(last.fill) - 8, sy(last.stable) - 8);
+  });
+})();
+
+// Chart 2: Degradation mode
+(function() {
+  const cv = document.getElementById('modeChart');
+  const ctx = cv.getContext('2d');
+  const W = cv.width, H = cv.height;
+  const padL = 60, padR = 20, padT = 15, padB = 35;
+  const cw = W - padL - padR, ch = H - padT - padB;
+
+  // Draw a horizontal bar showing the three regimes
+  const regimes = [
+    {label: 'Over-splitting\n(diffusion-limited)', x: 0, w: 0.45, color: '#f8514933'},
+    {label: 'Stable\n(matched)', x: 0.45, w: 0.15, color: '#388bfd33'},
+    {label: 'Under-splitting\n(interface-controlled)', x: 0.60, w: 0.40, color: '#3fb95033'},
+  ];
+  regimes.forEach(r => {
+    ctx.fillStyle = r.color;
+    ctx.fillRect(padL + r.x * cw, padT, r.w * cw, ch);
+    ctx.fillStyle = '#c9d1d9'; ctx.font = '11px sans-serif'; ctx.textAlign = 'center';
+    const lines = r.label.split('\n');
+    lines.forEach((line, i) => {
+      ctx.fillText(line, padL + (r.x + r.w/2) * cw, padT + ch/2 - 8 + i * 14);
+    });
+  });
+  // Axis
+  ctx.fillStyle = '#8b949e'; ctx.font = '10px sans-serif'; ctx.textAlign = 'center';
+  [2.5, 5, 10].forEach((pct, i) => {
+    const positions = [0.15, 0.5, 0.8];
+    ctx.fillStyle = ['#f85149', '#388bfd', '#3fb950'][i];
+    ctx.fillText(pct + '%', padL + positions[i] * cw, H - padB + 16);
+  });
+  ctx.fillStyle = '#8b949e'; ctx.textAlign = 'center';
+  ctx.fillText('Boundary width as fraction of grid', W/2, H - 4);
+})();
+
+// Table
+(function() {
+  let html = '<table><tr><th>Condition</th><th>n</th><th>Fill%</th><th>Stable</th><th>Coexist</th><th>H7</th><th>lc</th><th>rc</th><th>Mode</th></tr>';
+  vizData.conditions.forEach(c => {
+    c.data.forEach(d => {
+      const sc = d.stable === 0 ? 'stable-0' : d.stable < 4 ? 'stable-partial' : 'stable-full';
+      const modeTag = d.mode === 'over-splitting' ? '<span class="mode-tag mode-over">over</span>'
+                    : d.mode === 'under-splitting' ? '<span class="mode-tag mode-under">under</span>'
+                    : '<span class="mode-tag mode-stable">stable</span>';
+      html += `<tr><td class="label">${c.label}</td><td>${d.n}</td><td>${d.fill}%</td>`
+           + `<td class="${sc}">${d.stable}/4</td><td>${d.coexist}/4</td><td>${d.h7}/4</td>`
+           + `<td>${d.lc !== null ? d.lc : '—'}</td><td>${d.rc !== null ? d.rc : '—'}</td>`
+           + `<td>${modeTag}</td></tr>`;
+    });
+  });
+  html += '</table>';
+  document.getElementById('tableContainer').innerHTML = html;
+})();
+</script>
+</body>
+</html>

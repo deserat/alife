@@ -2947,14 +2947,22 @@ to compare.
      on 320×320 (possibly ~35-40%).
 
 250. **Is the 30th ceiling about absolute structure size or the
-     structure-to-boundary ratio?** — The 30th collapses when the structure's
-     linear size exceeds some multiple of the dilation radius. On 160×160, the
-     structure at the 30th ceiling has linear size ~√(11200) ≈ 106 cells, and
-     the dilation radius is 8 (ratio 13:1). On 80×80, the structure at n=600 has
-     linear size ~√(2432) ≈ 49 cells (ratio 6:1) — stability is still 1-2/4.
-     Testing different dilation radii (4, 8, 16) at fixed grid size would
-     isolate whether the threshold is about absolute structure size or the
-     ratio of structure size to dilation radius.
+     structure-to-boundary ratio?** — DONE (Session 96).
+     The 30th ceiling is about the structure-to-boundary RATIO, not absolute
+     structure size. Varying the dilation radius on 160×160 at fixed n shifts
+     the ceiling: r=4 (2.5% of grid) → ~40% fill (over-splitting, lc/rc > 3);
+     r=8 (5%) → ~43.6% (over-splitting, lc/rc > 5); 80×80 r=8 (10%) → ~64-76%
+     (under-splitting, lc/rc < 1). At the same fill (~41%), r=4 gives stable=0/4
+     while r=8 gives stable=3/4 — the ceiling shifted ~3pp with a 2× narrower
+     boundary. The degradation mode shifts from over-splitting (narrow,
+     diffusion-limited) to under-splitting (wide, interface-controlled) — the
+     spatial analog of the KJMA crossover (Session 93). The 30th ceiling is
+     where the boundary's spatial granularity matches the structure's: too fine
+     and it fragments, too coarse and it over-compacts. The r=16 test on 160×160
+     (10% of grid) was not completed — 16 Moore dilation passes per step makes
+     160×160 runs intractably slow. The 80×80 r=8 data (10% of grid) serves as
+     the equivalent. Determinism verified. See `dilation_radius_focused.py`,
+     `output/dilation_radius_30th_focused.json`, `dilation_radius_30th_viz.html`.
 
 251. **The boundary's fill-capping role is grid-size-dependent** — On 80×80,
      the boundary's fill-capping power is negligible (fill with/without boundary
@@ -2965,3 +2973,25 @@ to compare.
      spatial scale of the curvature computation (1-cell Laplacian) relative to
      the structure size? The 50th mechanism (fill depends on absolute n) might
      be the curvature channel's own absolute-spatial-scale effect.
+
+## From Session 96 (2026-10-27)
+
+252. **Map the over-splitting → under-splitting crossover** — The 30th ceiling's
+     degradation mode shifts from over-splitting (narrow boundary, lc/rc > 3)
+     to under-splitting (wide boundary, lc/rc < 1) somewhere between 5% and 10%
+     of the grid width. Test radius=10, 12 on 160×160 (6.25%, 7.5% of grid)
+     at n=2500-3000 to locate the crossover. Is it sharp (a phase transition
+     in the degradation mode) or gradual? The KJMA analogy predicts a crossover,
+     not a sharp transition — the diffusion-limited and interface-controlled
+     regimes blend.
+
+253. **Is the 30th ceiling the matched-granularity point?** — The 30th ceiling
+     is where the boundary's spatial granularity (dilation radius) matches the
+     structure's linear size. On 160×160 r=8, the structure at the ceiling has
+     linear size ~106 cells and the boundary has radius 8 (ratio 13:1). On 80×80
+     r=8, the structure at n=600 has linear size ~49 cells (ratio 6:1) and
+     stability is still 1-2/4. On 160×160 r=4, the structure at n=2000 has linear
+     size ~103 cells and the boundary has radius 4 (ratio 26:1) — stability is
+     0/4. The ratio at the ceiling increases with the boundary's relative width:
+     13:1 (r=8) vs 26:1 (r=4). Is the matched-granularity point a fixed ratio,
+     or does it scale with the boundary's relative width?

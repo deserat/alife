@@ -2,8 +2,8 @@
 title: "Hypotheses"
 topic: "testable hypotheses for the multi-scale ALife composition project"
 status: active
-date: "2026-10-26"
-session: 95
+date: "2026-10-27"
+session: 96
 count: 11
 active: [H1, H2, H3, H4, H5, H6, H7, H8, H9, H10, H11]
 logs: ["logs/H1/", "logs/H2/", "logs/H3/", "logs/H4/", "logs/H5/", "logs/H6/", "logs/H7/", "logs/H8/", "logs/H9/", "logs/H10/", "logs/H11/"]
@@ -70,7 +70,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **For an emergent structure to persist as a new actor at a higher scale, it must be autopoietic — it must maintain the network that constitutes it.** Self-maintenance is the persistence condition. Without it, emergent structures are transient patterns, not new actors.
 
-**Status:** Refined (Session 95). The 30th ceiling is NOT the Moore threshold — it shifts with grid size. On 80×80, stability persists at 64–76% fill (23–35pp above the Moore threshold). The degradation is gradual (no sharp collapse) with under-splitting (late_lc/rc < 1), not over-splitting (late_lc/rc > 3). The 30th is about absolute structure size relative to the boundary's spatial scale (dilation radius 8 cells), not fill fraction. The 2.93pp gap on 160×160 is coincidental — on 80×80, the 30th is 30+pp above the Moore threshold. The boundary's fill-capping power is negligible on 80×80 (fill with/without boundary nearly identical); the curvature channel alone caps fill at ~76%. The absolute-spatial-scale principle (#234) explains the shift: the boundary's spatial scales are relatively wider on smaller grids. Previous: the 30th ceiling (~43.6%) is NOT the Moore threshold (~40.7%) — gap 2.93pp > noise; three distinct thresholds (Moore, 30th, actual percolation ~59%); stretched exponential = diffusion-limited signature; cp_mean non-monotonicity is composition-quality artifact; b_scale cleanest intensive measure.
+**Status:** Refined (Session 96). The 30th ceiling is about the structure-to-boundary RATIO, not absolute structure size. Varying the dilation radius on 160×160 shifts the ceiling: r=4 (2.5% of grid) → ~40% fill (over-splitting, lc/rc > 3); r=8 (5%) → ~43.6% (over-splitting, lc/rc > 5); 80×80 r=8 (10%) → ~64–76% (under-splitting, lc/rc < 1). The degradation mode shifts from over-splitting (narrow boundary, diffusion-limited) to under-splitting (wide boundary, interface-controlled) — the spatial analog of the KJMA crossover. The 30th ceiling is where the boundary's spatial granularity matches the structure's. Previous: the 30th ceiling is NOT the Moore threshold — it shifts with grid size; on 80×80, stability persists at 64–76% fill (23–35pp above Moore); degradation is gradual with under-splitting; 30th = absolute structure size vs boundary spatial scale; 2.93pp gap on 160×160 is coincidental; stretched exponential = diffusion-limited signature; √n = diffusion length; Gompertz-to-logistic = breakdown of diffusion-limited regime at percolation; fill cap = inverse DLA; cp_mean non-monotonicity is composition-quality artifact; b_scale cleanest intensive measure.
 
 **Log:** [logs/H5/](logs/H5/)
 
@@ -216,7 +216,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 | H2: ANT Translation | Unchanged | Theoretical, untested | [H2](logs/H2/) |
 | H3: Quasi-Object | Strengthened | Stigmergy literature support; Echo partial support | [H3](logs/H3/) |
 | H4: Dynamic Environment | Refined | Fitness landscape criticism supports this | [H4](logs/H4/) |
-| H5: Autopoiesis | Refined (S95) | 30th ceiling shifts with grid size — NOT universal; on 80×80 stability persists at 64–76% fill (23–35pp above Moore); degradation is gradual with under-splitting, not over-splitting; 30th = absolute structure size vs boundary spatial scale; 2.93pp gap on 160×160 is coincidental; boundary fill-capping negligible on 80×80 | [H5](logs/H5/) |
+| H5: Autopoiesis | Refined (S96) | 30th ceiling = structure-to-boundary RATIO, not absolute size — r=4 (2.5% grid) → ~40%, r=8 (5%) → ~43.6%, 80×80 r=8 (10%) → ~64–76%; degradation shifts over-splitting→under-splitting = KJMA crossover analog | [H5](logs/H5/) |
 | H6: Multi-Scale Autopoiesis | Refined (S77) | 12th member fully lost at n=11000–14000 (~84–99% fill): 1s l2=0/4; progressive loss, not sharp threshold | [H6](logs/H6/) |
 | H7: Trace→Actor Crossing | Refined ×67; fill cap saturation is a HARD ceiling (grid full); g* limit n≈14000-15000 — boundary capping power decays exponentially (gap halves per 1000-n); H7=4/4 at all densities; L2=0/4; 30th persists; 43rd saturation at n≈14000 | [H7](logs/H7/) |
 | H8: Complexity Enables OEE | NEW | Kaznatcheev (2019), Wiser et al. (2013) | [H8](logs/H8/) |
