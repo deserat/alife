@@ -2976,22 +2976,46 @@ to compare.
 
 ## From Session 96 (2026-10-27)
 
-252. **Map the over-splitting → under-splitting crossover** — The 30th ceiling's
-     degradation mode shifts from over-splitting (narrow boundary, lc/rc > 3)
-     to under-splitting (wide boundary, lc/rc < 1) somewhere between 5% and 10%
-     of the grid width. Test radius=10, 12 on 160×160 (6.25%, 7.5% of grid)
-     at n=2500-3000 to locate the crossover. Is it sharp (a phase transition
-     in the degradation mode) or gradual? The KJMA analogy predicts a crossover,
-     not a sharp transition — the diffusion-limited and interface-controlled
-     regimes blend.
+252. **Map the over-splitting → under-splitting crossover** — DONE (Session 97).
+     The crossover does NOT happen at r=10 (6.25%) or r=12 (7.5%) on 160×160 —
+     both are still over-splitting (lc/rc = 5–7). The 30th ceiling saturates at
+     ~43% for r ≥ 8 on 160×160: r=10 and r=12 give the same ceiling as r=8.
+     The crossover requires r/grid ≥ 10% (the 80×80 r=8 regime), which on 160×160
+     means r ≥ 16 (intractably slow with the current O(r²) dilation, but the
+     separable max-filter optimization makes it feasible — verified identical
+     to original). H7=8/8 at all configs. Determinism verified. See
+     `crossover_sweep.py`, `output/crossover_sweep.json`, `crossover_viz.html`.
 
-253. **Is the 30th ceiling the matched-granularity point?** — The 30th ceiling
-     is where the boundary's spatial granularity (dilation radius) matches the
-     structure's linear size. On 160×160 r=8, the structure at the ceiling has
-     linear size ~106 cells and the boundary has radius 8 (ratio 13:1). On 80×80
-     r=8, the structure at n=600 has linear size ~49 cells (ratio 6:1) and
-     stability is still 1-2/4. On 160×160 r=4, the structure at n=2000 has linear
-     size ~103 cells and the boundary has radius 4 (ratio 26:1) — stability is
-     0/4. The ratio at the ceiling increases with the boundary's relative width:
-     13:1 (r=8) vs 26:1 (r=4). Is the matched-granularity point a fixed ratio,
-     or does it scale with the boundary's relative width?
+253. **Is the 30th ceiling the matched-granularity point?** — DONE (Session 97).
+     NO. At the ceiling, L/r = 18.2 (r=4), 9.3 (r=8), 7.4 (r=10), 6.2 (r=12) —
+     all >> 1. The matched-granularity point (L=r) would be at fill ≈ 0.1–2%,
+     far below the ceiling (~43%). The ceiling is DYNAMICAL (suppression vs
+     growth rate), not GEOMETRIC (L=r). The KJMA crossover analogy (Session 96)
+     conflated the dynamical ceiling with the geometric matched point.
+
+## From Session 97 (2026-10-28)
+
+254. **Test r=16 on 160×160 (10% of grid) with the separable max-filter** —
+     The separable max-filter optimization (O(2r) instead of O(r²)) makes r=16
+     on 160×160 tractable. This is the direct test of whether the over-splitting
+     → under-splitting crossover happens at r/grid = 10% on the SAME grid (not
+     confounded by the 80×80 grid-size effect). If r=16 on 160×160 shows
+     under-splitting, the crossover is a boundary-width effect; if it shows
+     over-splitting, the 80×80 under-splitting is a grid-size effect.
+
+255. **Is the 30th ceiling a dynamical phase transition?** — The ceiling at
+     ~43% fill is where the boundary's suppression rate is overwhelmed by the
+     structure's growth rate. Can the ceiling be derived from a dynamical
+     model? The growth rate scales as the deposit rate × n_termites (extensive,
+     ∝ n), while the suppression rate scales as the boundary's co-presence signal
+     × gain × radius (intensive, ∝ √n from the diffusion length). The ceiling
+     is where growth_rate ≈ suppression_rate. This would make the ceiling
+     derivable from the system's parameters, not just empirically observed.
+
+256. **The separable max-filter as a methodology lesson** — The dilation
+     function was O(r²) per call, making r > 12 intractable on 160×160. The
+     separable decomposition (max over y, then max over x) is O(2r) — a
+     50× speedup for r=16 (32 shifts vs 1088). This is the algorithmic analog
+     of the methodology rules: compute the ceiling of your cost function before
+     deciding what's tractable. The optimization was verified identical to the
+     original (allclose at r=4,8,10,12).

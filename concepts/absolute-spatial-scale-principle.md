@@ -3,7 +3,7 @@ status: active
 formed: "Session 85"
 connected_to: "extensive-intensive-signals, two-wire-principle, gompertz-logistic-transition, H5, H7, H10"
 topic: "the absolute-spatial-scale principle — any mechanism acting through an absolute spatial scale converts density-dependence into n-dependence; local scales are scale-invariant, global scales are not"
-key_findings: "The fill is density-dependent without any absolute-spatial-scale mechanism (66.25% ≈ 66.49% ≈ 64.26%, spread 2.23% at 23.4/kc across 80×80/160×160/320×320) and n-dependent with the focal bias (48.33% → 31.58% → 24.95%, spread 23.38%). The focal bias (1-cell steps toward a fixed home center — a GLOBAL absolute spatial scale) was the sole source of n-dependence. The curvature channel's local operations (1-cell Laplacian, 1-cell Moore dilation, 0.2-cell diffusion — LOCAL absolute scales) are scale-invariant at matched density. LOCAL absolute scales (acting on local shape) are scale-invariant; GLOBAL absolute scales (distance-dependent, acting on position) are not. This maps onto gauge theory: local interactions are renormalizable; global references are not. The 50th mechanism (fill depends on absolute n) and the 53rd mechanism (boundary converts density-dependence into n-dependence) are both consequences of the absolute-spatial-scale principle — the 53rd was falsified (Session 84) because at low gain the boundary is negligible; the 50th holds because the focal bias is a global absolute spatial scale. Session 95: the 30th ceiling shifts with grid size — on 80×80 stability persists at 64–76% fill (23–35pp above Moore), confirming the 30th is about absolute structure size vs the boundary's spatial scale (dilation radius 8 cells), not fill fraction. The 2.93pp gap on 160×160 is coincidental. Session 96: the 30th ceiling is the structure-to-boundary RATIO — varying the dilation radius on 160×160 shifts the ceiling (r=4 → ~40%, r=8 → ~43.6%, 80×80 r=8 → ~64–76%); the degradation mode shifts over-splitting → under-splitting = spatial KJMA crossover."
+key_findings: "The fill is density-dependent without any absolute-spatial-scale mechanism (66.25% ≈ 66.49% ≈ 64.26%, spread 2.23% at 23.4/kc across 80×80/160×160/320×320) and n-dependent with the focal bias (48.33% → 31.58% → 24.95%, spread 23.38%). The focal bias (1-cell steps toward a fixed home center — a GLOBAL absolute spatial scale) was the sole source of n-dependence. The curvature channel's local operations (1-cell Laplacian, 1-cell Moore dilation, 0.2-cell diffusion — LOCAL absolute scales) are scale-invariant at matched density. LOCAL absolute scales (acting on local shape) are scale-invariant; GLOBAL absolute scales (distance-dependent, acting on position) are not. This maps onto gauge theory: local interactions are renormalizable; global references are not. The 50th mechanism (fill depends on absolute n) and the 53rd mechanism (boundary converts density-dependence into n-dependence) are both consequences of the absolute-spatial-scale principle — the 53rd was falsified (Session 84) because at low gain the boundary is negligible; the 50th holds because the focal bias is a global absolute spatial scale. Session 95: the 30th ceiling shifts with grid size — on 80×80 stability persists at 64–76% fill (23–35pp above Moore), confirming the 30th is about absolute structure size vs the boundary's spatial scale (dilation radius 8 cells), not fill fraction. The 2.93pp gap on 160×160 is coincidental. Session 96: the 30th ceiling is the structure-to-boundary RATIO — varying the dilation radius on 160×160 shifts the ceiling (r=4 → ~40%, r=8 → ~43.6%, 80×80 r=8 → ~64–76%); the degradation mode shifts over-splitting → under-splitting = spatial KJMA crossover. Session 97: the 30th ceiling SATURATES at ~43% for r ≥ 8 on 160×160 — r=10 (6.25%) and r=12 (7.5%) give the same ceiling as r=8 (5%); the over-splitting → under-splitting crossover requires r/grid ≥ 10% (not 5–10%); the 80×80 r=8 under-splitting is confounded by the 50th mechanism (grid-size effect); the 30th ceiling is NOT the matched-granularity point (L/r = 7–18 at the ceiling, far from 1) — it is dynamical (suppression vs growth rate), not geometric (L=r)."
 ---
 
 # The Absolute-Spatial-Scale Principle
@@ -387,6 +387,36 @@ Moore fill on that grid size. On 80×80, the 30th is 30+pp above the Moore
 threshold.
 
 See `grid80_high_density_plateau.py` and H5 Session-95 refinement.
+
+## Session 97: The 30th Ceiling Saturates — Crossover Requires r/grid ≥ 10%
+
+### The crossover sweep
+
+r=10 (6.25% of grid) and r=12 (7.5% of grid) were tested on 160×160 at n=3000 and n=5000 (2 seeds, separable max-filter optimization verified identical to the original O(r²) dilation).
+
+| Radius | r/grid | n | Fill% | Stable | lc | rc | Mode |
+|--------|--------|---|-------|--------|----|----|------|
+| 4 | 2.5% | 2000 | 41.3% | 0/4 | 3.81 | 5.55 | over-splitting |
+| 8 | 5.0% | 3000 | 43.6% | 0/4 | 5.50 | 6.80 | over-splitting |
+| 10 | 6.25% | 3000 | 43.1% | 0/2 | 4.60 | 5.88 | over-splitting |
+| 12 | 7.5% | 3000 | 43.3% | 0/2 | 5.85 | 6.53 | over-splitting |
+| 10 | 6.25% | 5000 | 48.0% | 0/2 | 5.00 | 5.35 | over-splitting |
+| 12 | 7.5% | 5000 | 48.3% | 0/2 | 6.25 | 5.60 | over-splitting |
+| 8 (80×80) | 10.0% | 600 | 76.3% | 2/4 | 0.42 | 0.57 | under-splitting |
+
+**All four new configs are over-splitting.** The 30th ceiling saturates at ~43% for r ≥ 8 on 160×160 — r=10 and r=12 give the same ceiling as r=8. The fill at n=5000 (~48%) matches the existing r=8 n=5000 data — the fill cap is NOT affected by the wider boundary at r/grid < 10%.
+
+### The 30th ceiling is NOT the matched-granularity point
+
+At the ceiling, L/r = 18.2 (r=4), 9.3 (r=8), 7.4 (r=10), 6.2 (r=12) — all >> 1. The matched-granularity point (L=r) would be at fill ≈ 0.1–2%, far below the ceiling (~43%). The ceiling is DYNAMICAL (boundary suppression can't keep up with structure growth), not GEOMETRIC (L=r). The L/r ratio decreases with wider radius because the fill stays approximately constant while r increases.
+
+### The 80×80 r=8 under-splitting is confounded
+
+The 80×80 r=8 (10% of grid) shows under-splitting, but it's on a different grid (80 vs 160) with fewer termites at the same density (150 vs 600). The 50th mechanism (fill depends on absolute n) means the structures are smaller in absolute terms, and the focal bias (1-cell step) covers a larger fraction of the grid. The under-splitting may be a grid-size effect, not purely a boundary-width effect. The r=10 and r=12 data on 160×160 show that the boundary width alone does not produce under-splitting at r/grid < 10%.
+
+### Refinement of Session 96
+
+Session 96 concluded the 30th ceiling is the structure-to-boundary ratio based on r=4 → r=8 → 80×80 r=8. Session 97 shows the r=4 → r=8 shift was the narrow-boundary effect (r/grid < 5% lowers the ceiling), but r ≥ 8 saturates — the ceiling does NOT continue to shift with wider radius on the same grid. The KJMA crossover analogy holds for the r=4 vs r=8 contrast but does NOT extend to intermediate radii.
 
 ## Cross-References
 

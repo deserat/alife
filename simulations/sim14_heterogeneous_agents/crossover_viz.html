@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Over-Splitting → Under-Splitting Crossover</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #0d1117; color: #c9d1d9; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, sans-serif; padding: 20px; }
+  h1 { font-size: 1.4rem; margin-bottom: 4px; color: #f0f6fc; }
+  h2 { font-size: 1.1rem; margin-bottom: 12px; color: #8b949e; font-weight: normal; }
+  .subtitle { color: #8b949e; font-size: 0.9rem; margin-bottom: 20px; }
+  .chart-container { background: #161b22; border-radius: 8px; padding: 20px; margin-bottom: 20px; border: 1px solid #30363d; }
+  canvas { display: block; max-width: 100%; }
+  .legend { display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 12px; font-size: 0.85rem; }
+  .legend-item { display: flex; align-items: center; gap: 6px; }
+  .legend-dot { width: 12px; height: 12px; border-radius: 50%; }
+  .finding { background: #1c2128; border-left: 3px solid #f0883e; padding: 12px 16px; border-radius: 0 6px 6px 0; margin-bottom: 16px; font-size: 0.9rem; line-height: 1.5; }
+  .finding strong { color: #f0883e; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+  th { text-align: left; padding: 8px; color: #8b949e; border-bottom: 1px solid #30363d; }
+  th:not(:first-child) { text-align: center; }
+  td { padding: 6px 8px; border-bottom: 1px solid #21262d; }
+  td:not(:first-child) { text-align: center; }
+  td.label { color: #c9d1d9; }
+  .stable-0 { color: #f85149; }
+  .stable-partial { color: #d29922; }
+  .stable-full { color: #3fb950; }
+  .mode-tag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: bold; }
+  .mode-over { background: #f8514922; color: #f85149; }
+  .mode-under { background: #3fb95022; color: #3fb950; }
+  .mode-stable { background: #388bfd22; color: #388bfd; }
+</style>
+</head>
+<body>
+<h1>Over-Splitting → Under-Splitting Crossover</h1>
+<p class="subtitle">Session 97: r=10 (6.25%) and r=12 (7.5%) on 160×160 are still over-splitting — the crossover requires r/grid ≥ 10%. Queued-topics #252, #253.</p>
+
+<div class="finding">
+<strong>Finding:</strong> The 30th ceiling saturates at ~43% fill for r ≥ 8 on 160×160. Wider boundaries (r=10, r=12) do NOT push the ceiling higher or shift the degradation mode.
+The over-splitting → under-splitting crossover requires r/grid ≥ 10% — not between 5% and 10% as hypothesized in Session 96.
+The 30th ceiling is NOT the matched-granularity point (L=r): L/r = 7–18 at the ceiling, far from 1. The ceiling is dynamical (suppression vs growth rate), not geometric.
+</div>
+
+<div class="chart-container">
+  <h2>Fill % vs stability — by boundary radius</h2>
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:#f85149"></div>r=4, 160×160 (2.5%)</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#388bfd"></div>r=8, 160×160 (5%)</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#a371f2"></div>r=10, 160×160 (6.25%)</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#d29922"></div>r=12, 160×160 (7.5%)</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#3fb950"></div>r=8, 80×80 (10%)</div>
+  </div>
+  <canvas id="chart" width="720" height="360"></canvas>
+</div>
+
+<div class="chart-container">
+  <h2>L/r ratio at the 30th ceiling — NOT the matched-granularity point</h2>
+  <canvas id="ratioChart" width="720" height="240"></canvas>
+</div>
+
+<div class="chart-container">
+  <h2>Data table</h2>
+  <div id="tableContainer"></div>
+</div>
+
+<script>
+const vizData = {
+  conditions: [
+    {label: "r=4, 160×160 (2.5%)", color: "#f85149", rPct: 2.5, data: [
+      {n:2000, fill:41.3, stable:0, seeds:4, lc:3.81, rc:5.55, mode:"over-splitting"},
+    ]},
+    {label: "r=8, 160×160 (5%)", color: "#388bfd", rPct: 5.0, data: [
+      {n:2000, fill:41.2, stable:3, seeds:4, lc:null, rc:null, mode:"stable"},
+      {n:3000, fill:43.6, stable:0, seeds:4, lc:5.50, rc:6.80, mode:"over-splitting"},
+    ]},
+    {label: "r=10, 160×160 (6.25%)", color: "#a371f2", rPct: 6.25, data: [
+      {n:3000, fill:43.1, stable:0, seeds:2, lc:4.60, rc:5.88, mode:"over-splitting"},
+      {n:5000, fill:48.0, stable:0, seeds:2, lc:5.00, rc:5.35, mode:"over-splitting"},
+    ]},
+    {label: "r=12, 160×160 (7.5%)", color: "#d29922", rPct: 7.5, data: [
+      {n:3000, fill:43.3, stable:0, seeds:2, lc:5.85, rc:6.53, mode:"over-splitting"},
+      {n:5000, fill:48.3, stable:0, seeds:2, lc:6.25, rc:5.60, mode:"over-splitting"},
+    ]},
+    {label: "r=8, 80×80 (10%)", color: "#3fb950", rPct: 10.0, data: [
+      {n:300, fill:64.3, stable:4, seeds:4, lc:1.01, rc:0.96, mode:"under-splitting"},
+      {n:600, fill:76.3, stable:2, seeds:4, lc:0.42, rc:0.57, mode:"under-splitting"},
+    ]},
+  ],
+};
+
+// Chart 1: Fill vs Stability
+(function() {
+  const cv = document.getElementById('chart');
+  const ctx = cv.getContext('2d');
+  const W = cv.width, H = cv.height;
+  const padL = 55, padR = 20, padT = 20, padB = 40;
+  const cw = W - padL - padR, ch = H - padT - padB;
+  const xMin = 35, xMax = 80;
+  const yMin = -0.5, yMax = 4.5;
+
+  function sx(v) { return padL + (v - xMin) / (xMax - xMin) * cw; }
+  function sy(v) { return padT + (1 - (v - yMin) / (yMax - yMin)) * ch; }
+
+  // Grid
+  ctx.strokeStyle = '#21262d'; ctx.lineWidth = 1;
+  for (let y = 0; y <= 4; y++) {
+    ctx.beginPath(); ctx.moveTo(padL, sy(y)); ctx.lineTo(W - padR, sy(y)); ctx.stroke();
+    ctx.fillStyle = '#8b949e'; ctx.font = '10px sans-serif'; ctx.textAlign = 'right';
+    ctx.fillText(y + '/4', padL - 6, sy(y) + 3);
+  }
+  for (let x = 40; x <= 80; x += 10) {
+    ctx.beginPath(); ctx.moveTo(sx(x), padT); ctx.lineTo(sx(x), H - padB); ctx.stroke();
+    ctx.fillStyle = '#8b949e'; ctx.font = '10px sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText(x + '%', sx(x), H - padB + 16);
+  }
+  ctx.fillStyle = '#8b949e'; ctx.font = '11px sans-serif'; ctx.textAlign = 'center';
+  ctx.fillText('Fill %', W/2, H - 4);
+  ctx.save(); ctx.translate(14, H/2); ctx.rotate(-Math.PI/2); ctx.fillText('Stable (out of max)', 0, 0); ctx.restore();
+
+  // Saturation zone
+  ctx.fillStyle = '#f8514911';
+  ctx.fillRect(sx(42), padT, sx(46) - sx(42), ch);
+  ctx.fillStyle = '#f8514999'; ctx.font = '9px sans-serif'; ctx.textAlign = 'center';
+  ctx.fillText('ceiling ~43%', sx(44), padT + 12);
+
+  // Plot
+  vizData.conditions.forEach(c => {
+    ctx.strokeStyle = c.color; ctx.lineWidth = 2;
+    ctx.beginPath();
+    c.data.forEach((d, i) => {
+      const x = sx(d.fill), y = sy(d.stable);
+      if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+    });
+    ctx.stroke();
+    c.data.forEach(d => {
+      ctx.fillStyle = c.color; ctx.beginPath();
+      ctx.arc(sx(d.fill), sy(d.stable), 6, 0, 2*Math.PI); ctx.fill();
+      ctx.strokeStyle = '#0d1117'; ctx.lineWidth = 2; ctx.stroke();
+    });
+    const last = c.data[c.data.length - 1];
+    ctx.fillStyle = c.color; ctx.font = '10px sans-serif'; ctx.textAlign = 'right';
+    ctx.fillText(c.label, sx(last.fill) - 10, sy(last.stable) - 10);
+  });
+})();
+
+// Chart 2: L/r ratio
+(function() {
+  const cv = document.getElementById('ratioChart');
+  const ctx = cv.getContext('2d');
+  const W = cv.width, H = cv.height;
+  const padL = 60, padR = 20, padT = 15, padB = 40;
+  const cw = W - padL - padR, ch = H - padT - padB;
+
+  const points = [
+    {label: 'r=4\n2.5%', rPct: 2.5, Lr: 18.2, color: '#f85149'},
+    {label: 'r=8\n5%', rPct: 5.0, Lr: 9.3, color: '#388bfd'},
+    {label: 'r=10\n6.25%', rPct: 6.25, Lr: 7.4, color: '#a371f2'},
+    {label: 'r=12\n7.5%', rPct: 7.5, Lr: 6.2, color: '#d29922'},
+    {label: 'r=8/80\n10%', rPct: 10.0, Lr: 6.2, color: '#3fb950'},
+  ];
+
+  const xMin = 0, xMax = 12, yMin = 0, yMax = 20;
+  function sx(v) { return padL + (v - xMin) / (xMax - xMin) * cw; }
+  function sy(v) { return padT + (1 - (v - yMin) / (yMax - yMin)) * ch; }
+
+  // Grid
+  ctx.strokeStyle = '#21262d';
+  for (let y = 0; y <= 20; y += 5) {
+    ctx.beginPath(); ctx.moveTo(padL, sy(y)); ctx.lineTo(W - padR, sy(y)); ctx.stroke();
+    ctx.fillStyle = '#8b949e'; ctx.font = '10px sans-serif'; ctx.textAlign = 'right';
+    ctx.fillText(y, padL - 6, sy(y) + 3);
+  }
+  for (let x = 0; x <= 12; x += 2) {
+    ctx.beginPath(); ctx.moveTo(sx(x), padT); ctx.lineTo(sx(x), H - padB); ctx.stroke();
+    ctx.fillStyle = '#8b949e'; ctx.font = '10px sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText(x + '%', sx(x), H - padB + 16);
+  }
+
+  // L=r line (matched granularity)
+  ctx.strokeStyle = '#f0883e'; ctx.setLineDash([5,3]); ctx.lineWidth = 1.5;
+  ctx.beginPath(); ctx.moveTo(padL, sy(1)); ctx.lineTo(W - padR, sy(1)); ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle = '#f0883e'; ctx.font = '10px sans-serif'; ctx.textAlign = 'left';
+  ctx.fillText('L/r = 1 (matched granularity)', sx(0.3) + 4, sy(1) - 6);
+
+  // Points
+  points.forEach(p => {
+    ctx.fillStyle = p.color; ctx.beginPath();
+    ctx.arc(sx(p.rPct), sy(p.Lr), 6, 0, 2*Math.PI); ctx.fill();
+    ctx.strokeStyle = '#0d1117'; ctx.lineWidth = 2; ctx.stroke();
+    // Label
+    ctx.fillStyle = p.color; ctx.font = '9px sans-serif'; ctx.textAlign = 'center';
+    const lines = p.label.split('\n');
+    lines.forEach((line, i) => ctx.fillText(line, sx(p.rPct), sy(p.Lr) - 12 + i * 11));
+  });
+
+  // Axis labels
+  ctx.fillStyle = '#8b949e'; ctx.font = '11px sans-serif'; ctx.textAlign = 'center';
+  ctx.fillText('Boundary radius as % of grid', W/2, H - 4);
+  ctx.save(); ctx.translate(14, H/2); ctx.rotate(-Math.PI/2);
+  ctx.fillText('L/r at 30th ceiling', 0, 0); ctx.restore();
+})();
+
+// Table
+(function() {
+  let html = '<table><tr><th>Condition</th><th>r</th><th>r/grid%</th><th>n</th><th>Fill%</th><th>Stable</th><th>seeds</th><th>lc</th><th>rc</th><th>L/r</th><th>Mode</th></tr>';
+  const allData = [
+    {label:"r=4, 160×160", r:4, rPct:2.5, n:2000, fill:41.3, stable:0, seeds:4, lc:3.81, rc:5.55, Lr:18.2, mode:"over-splitting"},
+    {label:"r=8, 160×160", r:8, rPct:5.0, n:2000, fill:41.2, stable:3, seeds:4, lc:null, rc:null, Lr:null, mode:"stable"},
+    {label:"r=8, 160×160", r:8, rPct:5.0, n:3000, fill:43.6, stable:0, seeds:4, lc:5.50, rc:6.80, Lr:9.3, mode:"over-splitting"},
+    {label:"r=10, 160×160", r:10, rPct:6.2, n:3000, fill:43.1, stable:0, seeds:2, lc:4.60, rc:5.88, Lr:7.4, mode:"over-splitting"},
+    {label:"r=12, 160×160", r:12, rPct:7.5, n:3000, fill:43.3, stable:0, seeds:2, lc:5.85, rc:6.53, Lr:6.2, mode:"over-splitting"},
+    {label:"r=10, 160×160", r:10, rPct:6.2, n:5000, fill:48.0, stable:0, seeds:2, lc:5.00, rc:5.35, Lr:7.8, mode:"over-splitting"},
+    {label:"r=12, 160×160", r:12, rPct:7.5, n:5000, fill:48.3, stable:0, seeds:2, lc:6.25, rc:5.60, Lr:6.6, mode:"over-splitting"},
+    {label:"r=8, 80×80", r:8, rPct:10.0, n:300, fill:64.3, stable:4, seeds:4, lc:1.01, rc:0.96, Lr:6.2, mode:"under-splitting"},
+    {label:"r=8, 80×80", r:8, rPct:10.0, n:600, fill:76.3, stable:2, seeds:4, lc:0.42, rc:0.57, Lr:6.2, mode:"under-splitting"},
+  ];
+  allData.forEach(d => {
+    const sc = d.stable === 0 ? 'stable-0' : d.stable < d.seeds ? 'stable-partial' : 'stable-full';
+    const modeTag = d.mode === 'over-splitting' ? '<span class="mode-tag mode-over">over</span>'
+                  : d.mode === 'under-splitting' ? '<span class="mode-tag mode-under">under</span>'
+                  : '<span class="mode-tag mode-stable">stable</span>';
+    html += `<tr><td class="label">${d.label}</td><td>${d.r}</td><td>${d.rPct}%</td><td>${d.n}</td><td>${d.fill}%</td>`
+         + `<td class="${sc}">${d.stable}/${d.seeds}</td><td>${d.seeds}</td>`
+         + `<td>${d.lc !== null ? d.lc : '—'}</td><td>${d.rc !== null ? d.rc : '—'}</td>`
+         + `<td>${d.Lr !== null ? d.Lr : '—'}</td><td>${modeTag}</td></tr>`;
+  });
+  html += '</table>';
+  document.getElementById('tableContainer').innerHTML = html;
+})();
+</script>
+</body>
+</html>
