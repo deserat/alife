@@ -2996,26 +2996,38 @@ to compare.
 ## From Session 97 (2026-10-28)
 
 254. **Test r=16 on 160×160 (10% of grid) with the separable max-filter** —
-     The separable max-filter optimization (O(2r) instead of O(r²)) makes r=16
-     on 160×160 tractable. This is the direct test of whether the over-splitting
-     → under-splitting crossover happens at r/grid = 10% on the SAME grid (not
-     confounded by the 80×80 grid-size effect). If r=16 on 160×160 shows
-     under-splitting, the crossover is a boundary-width effect; if it shows
-     over-splitting, the 80×80 under-splitting is a grid-size effect.
+     DONE (Session 98). The separable max-filter optimization (O(2r) instead of
+     O(r²)) makes r=16 on 160×160 tractable. This is the direct test of whether the
+     over-splitting → under-splitting crossover happens at r/grid = 10% on the SAME
+     grid (not confounded by the 80×80 grid-size effect). RESULT: r=16 on 160×160 is
+     STILL over-splitting (4 seeds, n=3000 fill=43.1% lc=5.35 rc=6.14; n=5000 fill=47.7%
+     lc=5.67 rc=5.38). The 80×80 r=8 under-splitting is a GRID-SIZE effect (the 50th
+     mechanism), not a boundary-width effect. The degradation mode is FILL-DEPENDENT:
+     over-splitting at low fill (~43–48%), under-splitting at high fill (~64–76%).
+     The 30th ceiling is a dynamical phase transition (growth ∝n exceeds suppression
+     ∝√n). See `r16_crossover_sweep.py`, `output/r16_crossover_sweep.json`,
+     `crossover_viz.html`.
 
-255. **Is the 30th ceiling a dynamical phase transition?** — The ceiling at
-     ~43% fill is where the boundary's suppression rate is overwhelmed by the
-     structure's growth rate. Can the ceiling be derived from a dynamical
-     model? The growth rate scales as the deposit rate × n_termites (extensive,
-     ∝ n), while the suppression rate scales as the boundary's co-presence signal
-     × gain × radius (intensive, ∝ √n from the diffusion length). The ceiling
-     is where growth_rate ≈ suppression_rate. This would make the ceiling
-     derivable from the system's parameters, not just empirically observed.
+255. **Is the 30th ceiling a dynamical phase transition?** — DONE (Session 98).
+     YES. The growth rate (∝ n, extensive — deposit rate × n_termites) competes with
+     the suppression rate (∝ √n, intensive — the boundary's suppression through the
+     co-presence signal, whose spatial scale is the diffusion length √n). At the
+     ceiling, the extensive growth rate exceeds the intensive suppression rate.
+     This maps onto the Gelimson & Golestanian (2015, PRL 114, 028101) dynamical
+     phase transition in chemotactic cell colonies: a sharp transition from
+     controlled growth (interactions regulate growth, weakly coupled fixed point)
+     to uncontrolled growth (growth overwhelms interactions, strongly coupled
+     fixed point). The transition has nontrivial critical exponents (superdiffusive
+     motion, α=1.72 in 2D). Their weakly coupled fixed point ↔ our stable regime;
+     their strongly coupled fixed point ↔ our over-splitting regime. The √n in both
+     suppression rate and diffusion length is the same quantity — the diffusion-
+     limited signature (Session 93). Open: can the critical exponents be measured
+     in our system?
 
-256. **The separable max-filter as a methodology lesson** — The dilation
-     function was O(r²) per call, making r > 12 intractable on 160×160. The
-     separable decomposition (max over y, then max over x) is O(2r) — a
-     50× speedup for r=16 (32 shifts vs 1088). This is the algorithmic analog
-     of the methodology rules: compute the ceiling of your cost function before
-     deciding what's tractable. The optimization was verified identical to the
-     original (allclose at r=4,8,10,12).
+256. **The separable max-filter as a methodology lesson** — DONE (Session 98).
+     The dilation function was O(r²) per call, making r > 12 intractable on 160×160.
+     The separable decomposition (max over y, then max over x) is O(2r) — a 50×
+     speedup for r=16 (32 shifts vs 1088). This is the algorithmic analog of the
+     methodology rules: compute the ceiling of your cost function before deciding
+     what's tractable. The optimization was verified identical to the original
+     (allclose at r=4,8,10,12).

@@ -34,12 +34,12 @@
 </head>
 <body>
 <h1>Over-Splitting → Under-Splitting Crossover</h1>
-<p class="subtitle">Session 97: r=10 (6.25%) and r=12 (7.5%) on 160×160 are still over-splitting — the crossover requires r/grid ≥ 10%. Queued-topics #252, #253.</p>
+<p class="subtitle">Session 98: r=16 on 160×160 (10% of grid) is STILL over-splitting — the degradation mode is fill-dependent, not r-dependent. The 30th ceiling is a dynamical phase transition. Queued-topics #254, #255, #256.</p>
 
 <div class="finding">
-<strong>Finding:</strong> The 30th ceiling saturates at ~43% fill for r ≥ 8 on 160×160. Wider boundaries (r=10, r=12) do NOT push the ceiling higher or shift the degradation mode.
-The over-splitting → under-splitting crossover requires r/grid ≥ 10% — not between 5% and 10% as hypothesized in Session 96.
-The 30th ceiling is NOT the matched-granularity point (L=r): L/r = 7–18 at the ceiling, far from 1. The ceiling is dynamical (suppression vs growth rate), not geometric.
+<strong>Finding:</strong> The 30th ceiling is FILL-DEPENDENT, not r-dependent. r=16 on 160×160 (10% of grid) is STILL over-splitting — the 80×80 r=8 under-splitting was a grid-size effect (the 50th mechanism).
+At low fill (~43–48%): over-splitting. At high fill (~64–76%): under-splitting. The fill fraction, not the r/grid ratio, determines the degradation mode.
+The 30th ceiling is a dynamical phase transition (growth rate ∝ n exceeds suppression rate ∝ √n), mapping onto Gelimson & Golestanian (2015, PRL 114, 028101).
 </div>
 
 <div class="chart-container">
@@ -49,6 +49,7 @@ The 30th ceiling is NOT the matched-granularity point (L=r): L/r = 7–18 at the
     <div class="legend-item"><div class="legend-dot" style="background:#388bfd"></div>r=8, 160×160 (5%)</div>
     <div class="legend-item"><div class="legend-dot" style="background:#a371f2"></div>r=10, 160×160 (6.25%)</div>
     <div class="legend-item"><div class="legend-dot" style="background:#d29922"></div>r=12, 160×160 (7.5%)</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#f0883e"></div>r=16, 160×160 (10%)</div>
     <div class="legend-item"><div class="legend-dot" style="background:#3fb950"></div>r=8, 80×80 (10%)</div>
   </div>
   <canvas id="chart" width="720" height="360"></canvas>
@@ -85,6 +86,10 @@ const vizData = {
     {label: "r=8, 80×80 (10%)", color: "#3fb950", rPct: 10.0, data: [
       {n:300, fill:64.3, stable:4, seeds:4, lc:1.01, rc:0.96, mode:"under-splitting"},
       {n:600, fill:76.3, stable:2, seeds:4, lc:0.42, rc:0.57, mode:"under-splitting"},
+    ]},
+    {label: "r=16, 160×160 (10%)", color: "#f0883e", rPct: 10.0, data: [
+      {n:3000, fill:43.1, stable:0, seeds:4, lc:5.35, rc:6.14, mode:"over-splitting"},
+      {n:5000, fill:47.7, stable:0, seeds:4, lc:5.67, rc:5.38, mode:"over-splitting"},
     ]},
   ],
 };
@@ -158,6 +163,7 @@ const vizData = {
     {label: 'r=10\n6.25%', rPct: 6.25, Lr: 7.4, color: '#a371f2'},
     {label: 'r=12\n7.5%', rPct: 7.5, Lr: 6.2, color: '#d29922'},
     {label: 'r=8/80\n10%', rPct: 10.0, Lr: 6.2, color: '#3fb950'},
+    {label: 'r=16/160\n10%', rPct: 10.0, Lr: 4.6, color: '#f0883e'},
   ];
 
   const xMin = 0, xMax = 12, yMin = 0, yMax = 20;
@@ -215,6 +221,8 @@ const vizData = {
     {label:"r=12, 160×160", r:12, rPct:7.5, n:5000, fill:48.3, stable:0, seeds:2, lc:6.25, rc:5.60, Lr:6.6, mode:"over-splitting"},
     {label:"r=8, 80×80", r:8, rPct:10.0, n:300, fill:64.3, stable:4, seeds:4, lc:1.01, rc:0.96, Lr:6.2, mode:"under-splitting"},
     {label:"r=8, 80×80", r:8, rPct:10.0, n:600, fill:76.3, stable:2, seeds:4, lc:0.42, rc:0.57, Lr:6.2, mode:"under-splitting"},
+    {label:"r=16, 160×160", r:16, rPct:10.0, n:3000, fill:43.1, stable:0, seeds:4, lc:5.35, rc:6.14, Lr:4.6, mode:"over-splitting"},
+    {label:"r=16, 160×160", r:16, rPct:10.0, n:5000, fill:47.7, stable:0, seeds:4, lc:5.67, rc:5.38, Lr:4.9, mode:"over-splitting"},
   ];
   allData.forEach(d => {
     const sc = d.stable === 0 ? 'stable-0' : d.stable < d.seeds ? 'stable-partial' : 'stable-full';

@@ -418,6 +418,40 @@ The 80×80 r=8 (10% of grid) shows under-splitting, but it's on a different grid
 
 Session 96 concluded the 30th ceiling is the structure-to-boundary ratio based on r=4 → r=8 → 80×80 r=8. Session 97 shows the r=4 → r=8 shift was the narrow-boundary effect (r/grid < 5% lowers the ceiling), but r ≥ 8 saturates — the ceiling does NOT continue to shift with wider radius on the same grid. The KJMA crossover analogy holds for the r=4 vs r=8 contrast but does NOT extend to intermediate radii.
 
+## Session 98: r=16 on 160×160 — The Crossover Is Fill-Dependent, Not r-Dependent
+
+### The r=16 test
+
+r=16 (10% of 160×160 grid width, 20% of diameter) was tested at n=3000 and n=5000, 4 seeds, with the separable max-filter optimization (O(r²) → O(2r), 50× speedup, verified identical to original).
+
+| Radius | r/grid | n | Fill% | Stable | lc | rc | Mode |
+|--------|--------|---|-------|--------|----|----|------|
+| 4 | 2.5% | 2000 | 41.3% | 0/4 | 3.81 | 5.55 | over-splitting |
+| 8 | 5.0% | 3000 | 43.6% | 0/4 | 5.50 | 6.80 | over-splitting |
+| 10 | 6.25% | 3000 | 43.1% | 0/2 | 4.60 | 5.88 | over-splitting |
+| 12 | 7.5% | 3000 | 43.3% | 0/2 | 5.85 | 6.53 | over-splitting |
+| **16** | **10.0%** | **3000** | **43.1%** | **0/4** | **5.35** | **6.14** | **over-splitting** |
+| **16** | **10.0%** | **5000** | **47.7%** | **0/4** | **5.67** | **5.38** | **over-splitting** |
+| 8 (80×80) | 10.0% | 600 | 76.3% | 2/4 | 0.42 | 0.57 | under-splitting |
+
+**r=16 on 160×160 (10% of grid) is STILL over-splitting.** This falsifies the Session 97 hypothesis that the crossover requires r/grid ≥ 10%. At the same r/grid = 10%, 160×160 (fill 43–48%) shows over-splitting while 80×80 (fill 64–76%) shows under-splitting. The 80×80 r=8 under-splitting is confirmed as a GRID-SIZE effect (the 50th mechanism: fill depends on absolute n), not a boundary-width effect.
+
+### The degradation mode is fill-dependent
+
+The controlling variable is the fill fraction, not the r/grid ratio or the L/r ratio:
+- Low fill (~43–48% on 160×160): over-splitting (the boundary creates too many fragments in the sparse structure)
+- High fill (~64–76% on 80×80): under-splitting (the compact structure can't be split — the boundary over-compacts instead)
+
+L/r is NOT the controlling variable: L/r = 4.6 on 160×160 r=16 (over-splitting) vs L/r = 6.2 on 80×80 r=8 (under-splitting) — the grid with LOWER L/r shows over-splitting. The matched-granularity point (L=r) is at fill ≈ 0.1–2%, far below both the over-splitting and under-splitting regimes.
+
+### The 30th ceiling is a dynamical phase transition
+
+The growth rate (∝ n, extensive — deposit rate × n_termites) competes with the suppression rate (∝ √n, intensive — the boundary's suppression through the co-presence signal, whose spatial scale is the diffusion length √n). At the ceiling, the extensive growth rate exceeds the intensive suppression rate. This maps onto the Gelimson & Golestanian (2015, PRL 114, 028101) dynamical phase transition in chemotactic cell colonies: a sharp transition from controlled growth (interactions regulate growth) to uncontrolled growth (growth overwhelms interactions, no chemical signalling). Their weakly coupled fixed point ↔ our stable regime; their strongly coupled fixed point ↔ our over-splitting regime. The transition has nontrivial critical exponents (superdiffusive motion, α=1.72 in 2D).
+
+### The separable max-filter as a methodology lesson
+
+The O(r²) dilation was the bottleneck for r > 12 on 160×160. The separable decomposition (max over y, then max over x) is O(2r) — a 50× speedup for r=16 (32 shifts vs 1088). Verified identical to the original (np.allclose at r=4,8,10,12). This is the algorithmic analog of the methodology rules: compute the ceiling of your cost function before declaring a regime intractable.
+
 ## Cross-References
 
 - [[concepts/extensive-intensive-signals]] — the complementary distinction:

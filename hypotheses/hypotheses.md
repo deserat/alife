@@ -2,8 +2,8 @@
 title: "Hypotheses"
 topic: "testable hypotheses for the multi-scale ALife composition project"
 status: active
-date: "2026-10-27"
-session: 96
+date: "2026-10-29"
+session: 98
 count: 11
 active: [H1, H2, H3, H4, H5, H6, H7, H8, H9, H10, H11]
 logs: ["logs/H1/", "logs/H2/", "logs/H3/", "logs/H4/", "logs/H5/", "logs/H6/", "logs/H7/", "logs/H8/", "logs/H9/", "logs/H10/", "logs/H11/"]
@@ -70,7 +70,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **For an emergent structure to persist as a new actor at a higher scale, it must be autopoietic — it must maintain the network that constitutes it.** Self-maintenance is the persistence condition. Without it, emergent structures are transient patterns, not new actors.
 
-**Status:** Refined (Session 97). The 30th ceiling saturates at ~43% for r ≥ 8 on 160×160 — r=10 (6.25%) and r=12 (7.5%) give the same ceiling as r=8 (5%). The over-splitting → under-splitting crossover requires r/grid ≥ 10%, not between 5% and 10% as hypothesized (Session 96). The 80×80 r=8 under-splitting is confounded by the 50th mechanism (grid-size effect). The 30th ceiling is NOT the matched-granularity point (L/r = 7–18 at the ceiling, far from 1) — it is dynamical (suppression vs growth rate), not geometric (L=r). Previous: the 30th ceiling is about the structure-to-boundary ratio; r=4 (2.5%) → ~40%, r=8 (5%) → ~43.6%; 80×80 r=8 (10%) → ~64–76% (under-splitting); degradation mode shifts over-splitting → under-splitting = KJMA crossover; stretched exponential = diffusion-limited signature; √n = diffusion length; Gompertz-to-logistic = breakdown of diffusion-limited regime at percolation; fill cap = inverse DLA.
+**Status:** Refined (Session 98). r=16 on 160×160 (10% of grid) is STILL over-splitting — falsifies the Session 97 hypothesis that the crossover requires r/grid ≥ 10%. The 80×80 r=8 under-splitting is confirmed as a grid-size effect (the 50th mechanism). The degradation mode is FILL-DEPENDENT (over-splitting at low fill ~43–48%, under-splitting at high fill ~64–76%), not r-dependent. L/r is NOT the controlling variable (L/r=4.6 over-splitting vs L/r=6.2 under-splitting). The 30th ceiling is a dynamical phase transition (growth rate ∝ n exceeds suppression rate ∝ √n), mapping onto Gelimson & Golestanian (2015, PRL 114, 028101). Previous: the 30th ceiling saturates at ~43% for r ≥ 8; r=10/r=12 same as r=8; 30th is NOT matched-granularity (L/r = 7–18); dynamical not geometric; degradation mode shifts over-splitting → under-splitting = KJMA crossover analog; stretched exponential = diffusion-limited signature; √n = diffusion length; Gompertz-to-logistic = breakdown of diffusion-limited regime at percolation; fill cap = inverse DLA.
 
 **Log:** [logs/H5/](logs/H5/)
 
@@ -216,7 +216,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 | H2: ANT Translation | Unchanged | Theoretical, untested | [H2](logs/H2/) |
 | H3: Quasi-Object | Strengthened | Stigmergy literature support; Echo partial support | [H3](logs/H3/) |
 | H4: Dynamic Environment | Refined | Fitness landscape criticism supports this | [H4](logs/H4/) |
-| H5: Autopoiesis | Refined (S96) | 30th ceiling = structure-to-boundary RATIO, not absolute size — r=4 (2.5% grid) → ~40%, r=8 (5%) → ~43.6%, 80×80 r=8 (10%) → ~64–76%; degradation shifts over-splitting→under-splitting = KJMA crossover analog | [H5](logs/H5/) |
+| H5: Autopoiesis | Refined (S98) | 30th ceiling = dynamical phase transition (growth ∝n exceeds suppression ∝√n); degradation mode is FILL-DEPENDENT not r-dependent; r=16 on 160×160 (10%) still over-splitting — 80×80 under-splitting = grid-size effect; maps onto Gelimson & Golestanian 2015 PRL | [H5](logs/H5/) |
 | H6: Multi-Scale Autopoiesis | Refined (S77) | 12th member fully lost at n=11000–14000 (~84–99% fill): 1s l2=0/4; progressive loss, not sharp threshold | [H6](logs/H6/) |
 | H7: Trace→Actor Crossing | Refined ×67; fill cap saturation is a HARD ceiling (grid full); g* limit n≈14000-15000 — boundary capping power decays exponentially (gap halves per 1000-n); H7=4/4 at all densities; L2=0/4; 30th persists; 43rd saturation at n≈14000 | [H7](logs/H7/) |
 | H8: Complexity Enables OEE | NEW | Kaznatcheev (2019), Wiser et al. (2013) | [H8](logs/H8/) |
