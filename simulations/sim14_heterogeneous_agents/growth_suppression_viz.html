@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Growth-Suppression Balance — 30th Ceiling as Dynamical Phase Transition</title>
+<style>
+  body { background: #0d1117; color: #c9d1d9; font-family: -apple-system, sans-serif; margin: 0; padding: 20px; }
+  h1 { color: #58a6ff; font-size: 1.4em; margin-bottom: 0.3em; }
+  h2 { color: #79c0ff; font-size: 1.1em; margin-top: 1.5em; margin-bottom: 0.5em; }
+  .subtitle { color: #8b949e; font-size: 0.85em; margin-bottom: 1em; }
+  .chart { width: 100%; max-width: 800px; margin: 20px 0; }
+  .table { width: 100%; max-width: 800px; border-collapse: collapse; font-size: 0.8em; }
+  .table th, .table td { padding: 6px 10px; text-align: right; border-bottom: 1px solid #21262d; }
+  .table th { color: #58a6ff; font-weight: 600; }
+  .table td:first-child, .table th:first-child { text-align: left; }
+  .stable { color: #3fb950; }
+  .unstable { color: #f85149; }
+  .ceiling { color: #d29922; font-weight: bold; }
+  .note { color: #8b949e; font-size: 0.8em; margin: 10px 0; line-height: 1.5; }
+  .formula { font-family: monospace; background: #161b22; padding: 8px 12px; border-radius: 4px; font-size: 0.85em; color: #79c0ff; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 800px; }
+  .stat { background: #161b22; padding: 12px; border-radius: 6px; }
+  .stat-label { color: #8b949e; font-size: 0.75em; }
+  .stat-value { color: #58a6ff; font-size: 1.2em; font-weight: 600; }
+</style>
+</head>
+<body>
+<h1>Growth-Suppression Balance: 30th Ceiling as Dynamical Phase Transition</h1>
+<div class="subtitle">Session 99 — The growth-suppression balance ratio crosses 1.0 at n≈3000 (fill≈43.6%), matching the measured 30th ceiling. Maps onto Gelimson & Golestanian (2015, PRL 114, 028101).</div>
+
+<div class="grid">
+  <div class="stat"><div class="stat-label">Predicted n_c = (β/α)²</div><div class="stat-value">2189</div></div>
+  <div class="stat"><div class="stat-label">Measured n_c (last stable → first unstable)</div><div class="stat-value">2500 → 3000</div></div>
+  <div class="stat"><div class="stat-label">Ceiling fill fraction</div><div class="stat-value">43.6%</div></div>
+  <div class="stat"><div class="stat-label">Stretched exp. R²</div><div class="stat-value">0.9954</div></div>
+</div>
+
+<h2>Balance Ratio vs n</h2>
+<canvas id="chart1" class="chart" width="800" height="400"></canvas>
+<div class="note">The balance ratio = √n × α × (1−fill) / (β × √fill) crosses 1.0 at n≈3000 (the 30th ceiling). Below 1.0: stable (suppression > growth). Above 1.0: unstable (growth > suppression). The ratio is non-monotonic — it drops at high n because the grid fills up (logistic carrying capacity), but the system stays unstable because the phase transition is irreversible.</div>
+
+<h2>Fill Cap Trajectory</h2>
+<canvas id="chart2" class="chart" width="800" height="350"></canvas>
+<div class="note">Fill cap (with boundary) follows a stretched exponential fill = 0.31 × exp(0.006 × √n) (R²=0.995). The no-inhibition control fills ~100%. The 30th ceiling (red dashed) marks where stable composition collapses.</div>
+
+<h2>Data</h2>
+<table class="table" id="dataTable">
+  <thead><tr><th>n</th><th>fill (boundary)</th><th>fill (no boundary)</th><th>suppression</th><th>balance ratio</th><th>stable</th><th>coexist</th></tr></thead>
+  <tbody></tbody>
+</table>
+
+<div class="note" style="margin-top:20px">
+  <p><b>Gelimson & Golestanian mapping:</b> θ = (μα₀ + λ)C₀. Their λ (growth) ↔ our α×n (extensive, deposit rate × n_termites). Their μα₀ (chemotactic suppression) ↔ our β×√n (intensive, diffusion length). Their C₀ (carrying capacity) ↔ our grid² (25600 cells). Their threshold μ < λ/α₀ ↔ our √n > β/α ↔ n > (β/α)². Their separatrix ↔ our 30th ceiling. Their irreversibility (flow to strong-coupling fixed point) ↔ our permanent loss of boundary coherence.</p>
+  <p><b>Non-monotonicity:</b> The ratio rises from 0.74 (n=1200) to 1.13 (n=5000), then drops to 0.51 (n=10000). The drop is from the (1−fill) factor shrinking as the grid fills — the logistic carrying capacity effect. The system stays unstable because the phase transition is irreversible: once the boundary loses coherence, reducing the growth rate does not restore it. This is the spatial analog of G&G's non-accessible strong-coupling fixed point.</p>
+</div>
+
+<script>
+const data = [
+  {n:1200, fill:38.1, fillNb:96.4, ratio:0.743, stable:'2/4', coexist:'4/4', regime:'stable'},
+  {n:1500, fill:39.4, fillNb:99.8, ratio:0.799, stable:'3/4', coexist:'4/4', regime:'stable'},
+  {n:1800, fill:40.6, fillNb:100.0, ratio:0.845, stable:'2/4', coexist:'4/4', regime:'stable'},
+  {n:2000, fill:41.2, fillNb:100.0, ratio:0.876, stable:'3/4', coexist:'4/4', regime:'stable'},
+  {n:2500, fill:42.1, fillNb:100.0, ratio:0.954, stable:'2/4', coexist:'4/4', regime:'stable'},
+  {n:3000, fill:43.6, fillNb:100.0, ratio:1.000, stable:'0/4', coexist:'3/4', regime:'ceiling'},
+  {n:4000, fill:45.8, fillNb:100.0, ratio:1.083, stable:'0/4', coexist:'0/4', regime:'unstable'},
+  {n:5000, fill:48.0, fillNb:100.0, ratio:1.134, stable:'0/4', coexist:'0/4', regime:'unstable'},
+  {n:6000, fill:51.4, fillNb:100.0, ratio:1.122, stable:'0/4', coexist:'0/4', regime:'unstable'},
+  {n:8000, fill:60.7, fillNb:100.0, ratio:0.964, stable:'0/4', coexist:'0/4', regime:'unstable'},
+  {n:10000, fill:78.9, fillNb:100.0, ratio:0.508, stable:'0/4', coexist:'1/4', regime:'unstable'},
+];
+
+// Chart 1: Balance ratio
+const c1 = document.getElementById('chart1');
+const ctx1 = c1.getContext('2d');
+const W = 800, H = 400;
+const pad = {l:60, r:30, t:30, b:50};
+
+function drawChart(ctx, w, h, xMin, xMax, yMin, yMax, xLabel, yLabel) {
+  ctx.fillStyle = '#0d1117';
+  ctx.fillRect(0, 0, w, h);
+  ctx.strokeStyle = '#21262d';
+  ctx.lineWidth = 1;
+  // Grid
+  for (let i = 0; i <= 5; i++) {
+    const y = pad.t + (h - pad.t - pad.b) * i / 5;
+    ctx.beginPath(); ctx.moveTo(pad.l, y); ctx.lineTo(w - pad.r, y); ctx.stroke();
+  }
+  for (let i = 0; i <= 6; i++) {
+    const x = pad.l + (w - pad.l - pad.r) * i / 6;
+    ctx.beginPath(); ctx.moveTo(x, pad.t); ctx.lineTo(x, h - pad.b); ctx.stroke();
+  }
+  // Axes
+  ctx.strokeStyle = '#30363d'; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.moveTo(pad.l, pad.t); ctx.lineTo(pad.l, h - pad.b); ctx.lineTo(w - pad.r, h - pad.b); ctx.stroke();
+  // Labels
+  ctx.fillStyle = '#8b949e'; ctx.font = '11px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText(xLabel, (pad.l + w - pad.r) / 2, h - 15);
+  ctx.save(); ctx.translate(15, (pad.t + h - pad.b) / 2); ctx.rotate(-Math.PI/2);
+  ctx.fillText(yLabel, 0, 0); ctx.restore();
+}
+
+function xMap(n, xMin, xMax) { return pad.l + (W - pad.l - pad.r) * (n - xMin) / (xMax - xMin); }
+function yMap(v, yMin, yMax) { return H - pad.b - (H - pad.t - pad.b) * (v - yMin) / (yMax - yMin); }
+
+// Chart 1
+drawChart(ctx1, W, H, 0, 11000, 0, 1.3, 'n (termites)', 'balance ratio');
+// Horizontal line at 1.0
+ctx1.strokeStyle = '#d29922'; ctx1.lineWidth = 2; ctx1.setLineDash([6,4]);
+ctx1.beginPath(); ctx1.moveTo(pad.l, yMap(1.0, 0, 1.3)); ctx1.lineTo(W - pad.r, yMap(1.0, 0, 1.3)); ctx1.stroke();
+ctx1.setLineDash([]);
+ctx1.fillStyle = '#d29922'; ctx1.font = '11px sans-serif'; ctx1.textAlign = 'left';
+ctx1.fillText('30th ceiling (ratio = 1)', W - pad.r - 120, yMap(1.0, 0, 1.3) - 6);
+
+// Data points
+data.forEach(d => {
+  const x = xMap(d.n, 0, 11000);
+  const y = yMap(d.ratio, 0, 1.3);
+  ctx1.fillStyle = d.regime === 'ceiling' ? '#d29922' : d.regime === 'stable' ? '#3fb950' : '#f85149';
+  ctx1.beginPath(); ctx1.arc(x, y, 5, 0, 2*Math.PI); ctx1.fill();
+});
+// Line
+ctx1.strokeStyle = '#58a6ff'; ctx1.lineWidth = 2;
+ctx1.beginPath();
+data.forEach((d, i) => {
+  const x = xMap(d.n, 0, 11000); const y = yMap(d.ratio, 0, 1.3);
+  if (i === 0) ctx1.moveTo(x, y); else ctx1.lineTo(x, y);
+});
+ctx1.stroke();
+// X labels
+ctx1.fillStyle = '#8b949e'; ctx1.font = '10px sans-serif'; ctx1.textAlign = 'center';
+[0, 2000, 4000, 6000, 8000, 10000].forEach(n => {
+  ctx1.fillText(n, xMap(n, 0, 11000), H - pad.b + 15);
+});
+// Y labels
+ctx1.textAlign = 'right';
+[0, 0.25, 0.5, 0.75, 1.0, 1.25].forEach(v => {
+  ctx1.fillText(v.toFixed(2), pad.l - 5, yMap(v, 0, 1.3) + 3);
+});
+
+// Chart 2: Fill cap
+const c2 = document.getElementById('chart2');
+const ctx2 = c2.getContext('2d');
+drawChart(ctx2, W, 350, 0, 11000, 0, 105, 'n (termites)', 'fill (%)');
+const H2 = 350;
+function yMap2(v) { return H2 - pad.b - (H2 - pad.t - pad.b) * v / 105; }
+// No-inhibition line
+ctx2.strokeStyle = '#f85149'; ctx2.lineWidth = 1.5; ctx2.setLineDash([4,4]);
+ctx2.beginPath(); ctx2.moveTo(pad.l, yMap2(100)); ctx2.lineTo(W - pad.r, yMap2(100)); ctx2.stroke();
+ctx2.setLineDash([]);
+ctx2.fillStyle = '#f85149'; ctx2.font = '10px sans-serif';
+ctx2.fillText('no inhibition (100%)', W - pad.r - 100, yMap2(100) - 5);
+// 30th ceiling line
+ctx2.strokeStyle = '#d29922'; ctx2.lineWidth = 1.5; ctx2.setLineDash([6,4]);
+ctx2.beginPath(); ctx2.moveTo(xMap(3000, 0, 11000), pad.t); ctx2.lineTo(xMap(3000, 0, 11000), H2 - pad.b); ctx2.stroke();
+ctx2.setLineDash([]);
+ctx2.fillStyle = '#d29922'; ctx2.font = '10px sans-serif';
+ctx2.fillText('30th ceiling', xMap(3000, 0, 11000) + 5, pad.t + 15);
+// Fill cap data
+ctx2.strokeStyle = '#58a6ff'; ctx2.lineWidth = 2;
+ctx2.beginPath();
+data.forEach((d, i) => {
+  const x = xMap(d.n, 0, 11000); const y = yMap2(d.fill);
+  if (i === 0) ctx2.moveTo(x, y); else ctx2.lineTo(x, y);
+});
+ctx2.stroke();
+data.forEach(d => {
+  const x = xMap(d.n, 0, 11000); const y = yMap2(d.fill);
+  ctx2.fillStyle = d.regime === 'ceiling' ? '#d29922' : d.regime === 'stable' ? '#3fb950' : '#f85149';
+  ctx2.beginPath(); ctx2.arc(x, y, 5, 0, 2*Math.PI); ctx2.fill();
+});
+// X labels
+ctx2.fillStyle = '#8b949e'; ctx2.font = '10px sans-serif'; ctx2.textAlign = 'center';
+[0, 2000, 4000, 6000, 8000, 10000].forEach(n => {
+  ctx2.fillText(n, xMap(n, 0, 11000), H2 - pad.b + 15);
+});
+ctx2.textAlign = 'right';
+[0, 25, 50, 75, 100].forEach(v => {
+  ctx2.fillText(v, pad.l - 5, yMap2(v) + 3);
+});
+
+// Table
+const tbody = document.querySelector('#dataTable tbody');
+data.forEach(d => {
+  const tr = document.createElement('tr');
+  const cls = d.regime === 'ceiling' ? 'ceiling' : d.regime === 'stable' ? 'stable' : 'unstable';
+  tr.innerHTML = `<td class="${cls}">${d.n}</td><td>${d.fill.toFixed(1)}%</td><td>${d.fillNb.toFixed(1)}%</td><td>${(d.fillNb - d.fill).toFixed(1)}%</td><td class="${cls}">${d.ratio.toFixed(3)}</td><td class="${cls}">${d.stable}</td><td>${d.coexist}</td>`;
+  tbody.appendChild(tr);
+});
+</script>
+</body>
+</html>

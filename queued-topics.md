@@ -3031,3 +3031,31 @@ to compare.
      methodology rules: compute the ceiling of your cost function before deciding
      what's tractable. The optimization was verified identical to the original
      (allclose at r=4,8,10,12).
+
+## From Session 99 (2026-10-30)
+
+257. **Can the critical exponents be measured?** — Gelimson & Golestanian found
+     superdiffusive motion (α=1.72) at the dynamical critical point. Can we
+     measure similar scaling at our 30th ceiling? The mean-square displacement
+     of the structure boundary at n≈3000 might show anomalous diffusion.
+
+258. **Can β be predicted from system parameters?** — β = 1.263 was calibrated
+     from the ceiling. Can it be derived from the boundary's spatial scale
+     (dilation radius 8), the gain (0.001), and the deposit rate? This would
+     make the n_c prediction truly a priori (not calibrated from the measured
+     ceiling). The balance formula is n_c = (β/α)² — if β can be derived from
+     the system parameters, the entire ceiling is predicted without measurement.
+
+259. **Does the 30th ceiling shift with the curvature channel's spatial scale
+     on 320×320?** — the 1-cell Laplacian is a local absolute scale. On 320×320,
+     the 30th ceiling should be at a different fill% than on 160×160. The
+     absolute-spatial-scale principle predicts it shifts. Test: run a plateau
+     sweep at high density on 320×320 and find the fill% where stability collapses.
+
+260. **The irreversibility as a new methodology lesson** — the balance ratio
+     is non-monotonic (0.74 → 1.13 → 0.51), but the system stays unstable at
+     high fill because the phase transition is irreversible. This is a general
+     lesson: a balance ratio that drops below the threshold does NOT mean the
+     system recovered — the first crossing is the transition; the subsequent
+     behavior is the carrying capacity on an already-transitioned system. A
+     non-monotonic balance ratio does not imply reversibility.
