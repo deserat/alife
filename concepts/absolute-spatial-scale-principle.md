@@ -466,3 +466,20 @@ The O(r²) dilation was the bottleneck for r > 12 on 160×160. The separable dec
   curvature signal (scale-invariant), not the global focal bias
 - [[hypotheses/H10]] — the composition problem; the 50th mechanism is the
   absolute-spatial-scale principle's macroscopic expression
+
+## Session 100 — Growth-Phase MSD Exponent and Methodology Lesson
+
+The cell count MSD exponent α_nc was measured at 4 densities (n=1500, 2500, 3000, 4000) using `run_two_region_hetero` with 2000 steps, sample_every=10. The detrended MSD: MSD(τ) = Var(C(t+τ) − C(t)) = <(ΔC)²> − <ΔC>².
+
+| n | fill% | α_nc | R² | α_lc | α_rc |
+|---|-------|------|-----|------|------|
+| 1500 | 48.1 | **1.729** | 0.998 | 0.701 | 0.833 |
+| 2500 | 59.8 | 1.643 | 0.995 | 0.832 | 0.706 |
+| 3000 | 65.8 | 1.469 | 0.988 | 0.738 | 0.657 |
+| 4000 | 74.9 | 1.255 | 0.982 | 0.515 | 0.367 |
+
+**α_nc = 1.729 at n=1500 matches G&G's 2D critical exponent α = 1.72 to 3 sig figs.** But this is the GROWTH-PHASE exponent — the fill values (48–75%) are above the steady-state 30th ceiling (~43.6%). The exponent decreases monotonically with n as growth saturates.
+
+**Methodology lesson (#260): the growth-phase MSD exponent is NOT the steady-state critical exponent.** The detrended MSD removes the mean drift but not the variance growth — during growth, the MSD is dominated by growth dynamics, not steady-state fluctuations. The critical exponent must be measured at steady state (4000+ steps), from the late-window fluctuations only. This is the same lesson as the irreversibility: a measurement during the transient does not characterize the steady state.
+
+The component count exponents (α_lc, α_rc) are subdiffusive (~0.5–0.8) — the boundary fragments are more stable than the total cell count. The total cell count reflects the global growth dynamics; the per-region counts reflect the boundary's local fragmentation dynamics, which are subdiffusive (the boundary holds the fragments in place).

@@ -3034,10 +3034,23 @@ to compare.
 
 ## From Session 99 (2026-10-30)
 
-257. **Can the critical exponents be measured?** — Gelimson & Golestanian found
-     superdiffusive motion (α=1.72) at the dynamical critical point. Can we
-     measure similar scaling at our 30th ceiling? The mean-square displacement
-     of the structure boundary at n≈3000 might show anomalous diffusion.
+257. **Can the critical exponents be measured?** — DONE (Session 100).
+     Gelimson & Golestanian found superdiffusive motion (α=1.72) at the
+     dynamical critical point. The cell count MSD exponent α_nc was
+     measured at 4 densities (n=1500, 2500, 3000, 4000) using
+     run_two_region_hetero with 2000 steps, sample_every=10 (200 samples).
+     The detrended MSD: MSD(τ) = Var(C(t+τ) − C(t)).
+     RESULT: α_nc is superdiffusive (>1) at ALL densities, decreasing
+     monotonically: 1.729 (n=1500, R²=0.998), 1.643 (n=2500), 1.469
+     (n=3000), 1.255 (n=4000). α_nc=1.729 at n=1500 matches G&G's 2D α=1.72
+     to 3 sig figs. BUT this is the GROWTH-PHASE exponent, not the
+     steady-state critical exponent — the fill values (48–75%) are above
+     the steady-state 30th ceiling (~43.6%), meaning the system is in the
+     growth/overshoot phase. The exponent decreases with n as growth
+     saturates. The component count exponents (α_lc, α_rc) are subdiffusive
+     (~0.5–0.8). Methodology lesson (#260): the growth-phase MSD exponent
+     is NOT the steady-state critical exponent. See `critical_exponents.py`,
+     `output/critical_exponents.json`, `critical_exponents_viz.html`.
 
 258. **Can β be predicted from system parameters?** — β = 1.263 was calibrated
      from the ceiling. Can it be derived from the boundary's spatial scale

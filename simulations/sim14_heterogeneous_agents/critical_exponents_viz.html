@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Critical Exponents at the 30th Ceiling — Session 100</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #0d1117; color: #c9d1d9; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; padding: 20px; }
+  h1 { font-size: 1.4em; margin-bottom: 4px; color: #58a6ff; }
+  h2 { font-size: 1.1em; margin: 20px 0 8px; color: #8b949e; }
+  .subtitle { color: #8b949e; font-size: 0.85em; margin-bottom: 16px; }
+  .container { max-width: 900px; margin: 0 auto; }
+  .chart { width: 100%; height: 320px; margin: 12px 0; background: #161b22; border-radius: 8px; padding: 12px; }
+  .summary { background: #161b22; border-radius: 8px; padding: 16px; margin: 12px 0; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.82em; }
+  th { text-align: left; padding: 8px 6px; border-bottom: 1px solid #30363d; color: #8b949e; }
+  td { padding: 6px; border-bottom: 1px solid #21262d; }
+  .highlight { color: #58a6ff; font-weight: bold; }
+  .gg { color: #f0883e; font-weight: bold; }
+  .note { color: #8b949e; font-size: 0.8em; margin: 8px 0; padding: 8px; background: #161b22; border-radius: 6px; border-left: 3px solid #f0883e; }
+  canvas { width: 100%; height: 100%; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>Critical Exponents at the 30th Ceiling</h1>
+  <p class="subtitle">Session 100 — MSD of cell count time series at 4 densities (160×160, dual g=0.001, 2000 steps)</p>
+
+  <div class="note">
+    <b>G&G 2D critical exponent: α = 1.72</b> (Gelimson & Golestanian 2015, PRL 114, 028101).
+    The cell count MSD exponent α<sub>nc</sub> = 1.729 at n=1500 (fill=48.1%) matches G&G's
+    2D superdiffusive exponent — but this is the growth-phase exponent, not the steady-state
+    critical exponent. The system hasn't reached steady state at 2000 steps (fill=48–75% vs
+    steady-state 38–44%). The exponent decreases with n as growth saturates.
+  </div>
+
+  <div class="summary">
+    <table id="summaryTable">
+      <thead>
+        <tr>
+          <th>n</th><th>Fill%</th><th>α<sub>lc</sub></th><th>α<sub>rc</sub></th>
+          <th>α<sub>nc</sub></th><th>R²(nc)</th><th>Mean comps</th>
+          <th>Comp std</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <h2>α vs n — Superdiffusive Growth Dynamics</h2>
+  <div class="chart"><canvas id="alphaChart"></canvas></div>
+
+  <h2>MSD(τ) — log-log Power-Law Fits</h2>
+  <div class="chart"><canvas id="msdChart"></canvas></div>
+
+  <h2>Component Count Time Series</h2>
+  <div class="chart"><canvas id="tsChart"></canvas></div>
+</div>
+
+<script>
+const COLORS = ['#58a6ff', '#f0883e', '#3fb950', '#f85149', '#a371f7'];
+const GG_ALPHA = 1.72;
+
+async function loadData() {
+  try {
+    const resp = await fetch('output/critical_exponents_full.json');
+    return await resp.json();
+  } catch(e) {
+    console.error('Failed to load data:', e);
+    return null;
+  }
+}
+
+function drawAlphaChart(ctx, data) {
+  const cv = ctx.canvas;
+  const W = cv.width, H = cv.height;
+  ctx.clearRect(0, 0, W, H);
+
+  const runs = data.runs;
+  const ns = runs.map(r => r.n);
+  const alphas_nc = runs.map(r => r.alpha_n_cells);
+  const alphas_lc = runs.map(r => r.alpha_left_comps);
+  const alphas_rc = runs.map(r => r.alpha_right_comps);
+
+  const minX = Math.min(...ns) - 200;
+  const maxX = Math.max(...ns) + 200;
+  const minY = 0, maxY = 2.0;
+
+  const px = x => 50 + (x - minX) / (maxX - minX) * (W - 70);
+  const py = y => H - 30 - (y - minY) / (maxY - minY) * (H - 50);
+
+  // Grid
+  ctx.strokeStyle = '#21262d'; ctx.lineWidth = 0.5;
+  for (let y = 0; y <= maxY; y += 0.5) {
+    ctx.beginPath(); ctx.moveTo(px(minX), py(y)); ctx.lineTo(px(maxX), py(y)); ctx.stroke();
+  }
+
+  // G&G line
+  ctx.strokeStyle = '#f0883e'; ctx.lineWidth = 1.5; ctx.setLineDash([5, 3]);
+  ctx.beginPath(); ctx.moveTo(px(minX), py(GG_ALPHA)); ctx.lineTo(px(maxX), py(GG_ALPHA)); ctx.stroke();
+  ctx.setLineDash([]); ctx.fillStyle = '#f0883e'; ctx.font = '11px sans-serif';
+  ctx.fillText('G&G α=1.72', px(maxX) - 80, py(GG_ALPHA) - 6);
+
+  // α=1 line (diffusive)
+  ctx.strokeStyle = '#30363d'; ctx.lineWidth = 1; ctx.setLineDash([3, 3]);
+  ctx.beginPath(); ctx.moveTo(px(minX), py(1.0)); ctx.lineTo(px(maxX), py(1.0)); ctx.stroke();
+  ctx.setLineDash([]); ctx.fillStyle = '#484f58'; ctx.fillText('α=1 (diffusive)', px(maxX) - 80, py(1.0) - 6);
+
+  // Plot
+  [['α_nc', alphas_nc, COLORS[0], 3], ['α_lc', alphas_lc, COLORS[1], 2], ['α_rc', alphas_rc, COLORS[2], 2]].forEach(([label, vals, color, w]) => {
+    ctx.strokeStyle = color; ctx.lineWidth = w;
+    ctx.beginPath();
+    ns.forEach((n, i) => { if (i === 0) ctx.moveTo(px(n), py(vals[i])); else ctx.lineTo(px(n), py(vals[i])); });
+    ctx.stroke();
+    vals.forEach((v, i) => {
+      ctx.fillStyle = color; ctx.beginPath(); ctx.arc(px(ns[i]), py(v), 4, 0, Math.PI * 2); ctx.fill();
+    });
+  });
+
+  // Labels
+  ctx.fillStyle = '#c9d1d9'; ctx.font = '12px sans-serif';
+  ctx.fillText('n (termites)', px((minX + maxX) / 2) - 30, H - 8);
+  ctx.save(); ctx.translate(12, py((minY + maxY) / 2)); ctx.rotate(-Math.PI / 2);
+  ctx.fillText('MSD exponent α', -20, 0); ctx.restore();
+
+  // Legend
+  ctx.font = '11px sans-serif';
+  [['α_nc (cell count)', COLORS[0]], ['α_lc (left comps)', COLORS[1]], ['α_rc (right comps)', COLORS[2]]].forEach(([label, color], i) => {
+    ctx.fillStyle = color; ctx.fillRect(W - 140, 15 + i * 16, 12, 8);
+    ctx.fillStyle = '#c9d1d9'; ctx.fillText(label, W - 124, 22 + i * 16);
+  });
+}
+
+function drawMSDChart(ctx, data) {
+  const cv = ctx.canvas;
+  const W = cv.width, H = cv.height;
+  ctx.clearRect(0, 0, W, H);
+
+  const runs = data.runs;
+  let allLags = [], allVals = [];
+  runs.forEach(r => {
+    if (r.msd_lags && r.msd_n_cells) {
+      r.msd_lags.forEach((l, i) => {
+        allLags.push(l); allVals.push(r.msd_n_cells[i]);
+      });
+    }
+  });
+  if (allLags.length === 0) return;
+
+  const minLX = 0, maxLX = Math.max(...allLags);
+  const minLY = Math.log10(Math.min(...allVals)) - 0.5;
+  const maxLY = Math.log10(Math.max(...allVals)) + 0.5;
+
+  const px = x => 50 + (x - minLX) / (maxLX - minLX) * (W - 70);
+  const py = y => H - 30 - (y - minLY) / (maxLY - minLY) * (H - 50);
+
+  // Grid
+  ctx.strokeStyle = '#21262d'; ctx.lineWidth = 0.5;
+  for (let y = Math.ceil(minLY); y <= maxLY; y++) {
+    ctx.beginPath(); ctx.moveTo(px(0), py(y)); ctx.lineTo(px(maxLX), py(y)); ctx.stroke();
+    ctx.fillStyle = '#484f58'; ctx.font = '10px sans-serif'; ctx.fillText(`10^${y}`, 20, py(y) + 3);
+  }
+  for (let x = 0; x <= maxLX; x += 20) {
+    ctx.beginPath(); ctx.moveTo(px(x), py(minLY)); ctx.lineTo(px(x), py(maxLY)); ctx.stroke();
+    ctx.fillStyle = '#484f58'; ctx.fillText(x, px(x) - 8, H - 15);
+  }
+
+  // Plot MSD for each n
+  runs.forEach((r, i) => {
+    if (!r.msd_lags || !r.msd_n_cells) return;
+    ctx.strokeStyle = COLORS[i]; ctx.lineWidth = 2;
+    ctx.beginPath();
+    r.msd_lags.forEach((lag, j) => {
+      const v = Math.log10(r.msd_n_cells[j]);
+      if (j === 0) ctx.moveTo(px(lag), py(v)); else ctx.lineTo(px(lag), py(v));
+    });
+    ctx.stroke();
+  });
+
+  // Labels
+  ctx.fillStyle = '#c9d1d9'; ctx.font = '12px sans-serif';
+  ctx.fillText('lag τ (samples)', px(maxLX / 2) - 30, H - 5);
+  ctx.save(); ctx.translate(12, py((minLY + maxLY) / 2)); ctx.rotate(-Math.PI / 2);
+  ctx.fillText('MSD(τ)', -15, 0); ctx.restore();
+
+  // Legend
+  ctx.font = '11px sans-serif';
+  runs.forEach((r, i) => {
+    ctx.fillStyle = COLORS[i]; ctx.fillRect(W - 120, 15 + i * 16, 12, 8);
+    ctx.fillStyle = '#c9d1d9'; ctx.fillText(`n=${r.n} α=${r.alpha_n_cells.toFixed(3)}`, W - 104, 22 + i * 16);
+  });
+}
+
+function drawTSChart(ctx, data) {
+  const cv = ctx.canvas;
+  const W = cv.width, H = cv.height;
+  ctx.clearRect(0, 0, W, H);
+
+  const runs = data.runs;
+  let allSteps = [], allVals = [];
+  runs.forEach(r => {
+    if (r.n_cells_ts) {
+      r.n_cells_ts.forEach((v, i) => {
+        allSteps.push(r.steps_ts ? r.steps_ts[i] : i * 10);
+        allVals.push(v);
+      });
+    }
+  });
+  if (allSteps.length === 0) return;
+
+  const minX = 0, maxX = Math.max(...allSteps);
+  const minY = 0, maxY = Math.max(...allVals) * 1.1;
+
+  const px = x => 50 + (x - minX) / (maxX - minX) * (W - 70);
+  const py = y => H - 30 - (y - minY) / (maxY - minY) * (H - 50);
+
+  // Grid
+  ctx.strokeStyle = '#21262d'; ctx.lineWidth = 0.5;
+  for (let y = 0; y <= maxY; y += maxY / 5) {
+    ctx.beginPath(); ctx.moveTo(px(0), py(y)); ctx.lineTo(px(maxX), py(y)); ctx.stroke();
+    ctx.fillStyle = '#484f58'; ctx.font = '10px sans-serif'; ctx.fillText(Math.round(y), 20, py(y) + 3);
+  }
+
+  // Plot
+  runs.forEach((r, i) => {
+    if (!r.n_cells_ts) return;
+    ctx.strokeStyle = COLORS[i]; ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    r.n_cells_ts.forEach((v, j) => {
+      const s = r.steps_ts ? r.steps_ts[j] : j * 10;
+      if (j === 0) ctx.moveTo(px(s), py(v)); else ctx.lineTo(px(s), py(v));
+    });
+    ctx.stroke();
+  });
+
+  ctx.fillStyle = '#c9d1d9'; ctx.font = '12px sans-serif';
+  ctx.fillText('step', px(maxX / 2) - 15, H - 5);
+  ctx.save(); ctx.translate(12, py(maxY / 2)); ctx.rotate(-Math.PI / 2);
+  ctx.fillText('n_structure_cells', -30, 0); ctx.restore();
+
+  ctx.font = '11px sans-serif';
+  runs.forEach((r, i) => {
+    ctx.fillStyle = COLORS[i]; ctx.fillRect(W - 100, 15 + i * 16, 12, 8);
+    ctx.fillStyle = '#c9d1d9'; ctx.fillText(`n=${r.n}`, W - 84, 22 + i * 16);
+  });
+}
+
+function fillSummary(data) {
+  const tbody = document.querySelector('#summaryTable tbody');
+  data.runs.forEach(r => {
+    const tr = document.createElement('tr');
+    const isMatch = Math.abs(r.alpha_n_cells - GG_ALPHA) < 0.05;
+    tr.innerHTML = `
+      <td>${r.n}</td>
+      <td>${r.fill_pct.toFixed(1)}</td>
+      <td>${r.alpha_left_comps.toFixed(3)}</td>
+      <td>${r.alpha_right_comps.toFixed(3)}</td>
+      <td class="${isMatch ? 'highlight' : ''}">${r.alpha_n_cells.toFixed(3)}${isMatch ? ' ←' : ''}</td>
+      <td>${r.r_sq_n_cells.toFixed(3)}</td>
+      <td>${r.mean_late_left_comps.toFixed(1)}</td>
+      <td>${r.std_late_left_comps.toFixed(2)}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+async function main() {
+  const data = await loadData();
+  if (!data) return;
+  fillSummary(data);
+
+  const charts = ['alphaChart', 'msdChart', 'tsChart'];
+  const drawers = [drawAlphaChart, drawMSDChart, drawTSChart];
+  charts.forEach((id, i) => {
+    const cv = document.getElementById(id);
+    if (cv) {
+      cv.width = cv.parentElement.clientWidth - 24;
+      cv.height = 308;
+      drawers[i](cv.getContext('2d'), data);
+    }
+  });
+}
+
+main();
+</script>
+</body>
+</html>
