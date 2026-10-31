@@ -3065,10 +3065,18 @@ to compare.
      absolute-spatial-scale principle predicts it shifts. Test: run a plateau
      sweep at high density on 320×320 and find the fill% where stability collapses.
 
-260. **The irreversibility as a new methodology lesson** — the balance ratio
-     is non-monotonic (0.74 → 1.13 → 0.51), but the system stays unstable at
-     high fill because the phase transition is irreversible. This is a general
-     lesson: a balance ratio that drops below the threshold does NOT mean the
-     system recovered — the first crossing is the transition; the subsequent
-     behavior is the carrying capacity on an already-transitioned system. A
-     non-monotonic balance ratio does not imply reversibility.
+260. **The irreversibility as a methodology lesson** — DONE (Session 100).
+     The balance ratio is non-monotonic (0.74 → 1.13 → 0.51), but the
+     system stays unstable at high fill because the phase transition is
+     irreversible. This is a general lesson: a balance ratio that drops
+     below the threshold does NOT mean the system recovered — the first
+     crossing is the transition; the subsequent behavior is the carrying
+     capacity on an already-transitioned system. A non-monotonic balance
+     ratio does not imply reversibility. This lesson was strengthened in
+     Session 100: the growth-phase MSD exponent (α_nc = 1.73, matching
+     G&G's 2D critical exponent 1.72) is NOT the steady-state critical
+     exponent — a transient measurement does not characterize the steady
+     state, just as a non-monotonic balance ratio does not imply
+     reversibility. Both are instances of the same lesson: the dynamics
+     during a transient or after a transition do not characterize the
+     equilibrium or pre-transition state.
