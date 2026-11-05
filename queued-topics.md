@@ -3060,10 +3060,17 @@ to compare.
      the system parameters, the entire ceiling is predicted without measurement.
 
 259. **Does the 30th ceiling shift with the curvature channel's spatial scale
-     on 320×320?** — the 1-cell Laplacian is a local absolute scale. On 320×320,
-     the 30th ceiling should be at a different fill% than on 160×160. The
-     absolute-spatial-scale principle predicts it shifts. Test: run a plateau
-     sweep at high density on 320×320 and find the fill% where stability collapses.
+     on 320×320?** — DONE (Session 102).
+     The 30th ceiling on 320×320 is BELOW ~25% fill — stability is 0/4 at all n
+     values tested (6000, 8000, 10000; fill 40–58%), even at fill=39.67% (below
+     the 160×160 ceiling of 43.6%). Combined with Session 81's 0/4 at n=1200
+     (fill=25%), the ceiling on 320×320 is below ~25%. The absolute-spatial-scale
+     principle is confirmed at three grid sizes: ceiling fill% scales with r/grid
+     (80×80 10% → ~70%, 160×160 5% → ~43.6%, 320×320 2.5% → below ~25%). The
+     54th mechanism: the 30th ceiling is grid-size-dependent. The boundary's
+     fill-capping power is negligible on 320×320 (~1% gap vs ~56% on 160×160).
+     H7=4/4 at all n values. See `grid320_30th_ceiling.py`,
+     `output/grid320_30th_ceiling.json`, `grid320_30th_ceiling_viz.html`.
 
 260. **The irreversibility as a methodology lesson** — DONE (Session 100).
      The balance ratio is non-monotonic (0.74 → 1.13 → 0.51), but the
@@ -3080,3 +3087,30 @@ to compare.
      reversibility. Both are instances of the same lesson: the dynamics
      during a transient or after a transition do not characterize the
      equilibrium or pre-transition state.
+
+## From Session 102 (2026-11-05)
+
+261. **Can a larger dilation radius (r=16 or r=32) on 320×320 rescue the 30th
+     ceiling?** — The 30th ceiling on 320×320 (r=8, 2.5% of grid) is below
+     ~25% fill. If the ceiling scales with r/grid (the 54th mechanism), then
+     r=16 (5% of grid, matching 160×160) should shift the ceiling back to
+     ~43.6%. The separable max-filter optimization (Session 98) makes r=16
+     on 320×320 tractable (O(2r) instead of O(r²)). Test: run a plateau sweep
+     at r=16 on 320×320 and find the fill% where stability collapses.
+     Prediction: ~43.6% (matching 160×160 at r=8, confirming the r/grid scaling).
+
+262. **At what r/grid does the 30th ceiling disappear entirely?** — The ceiling
+     scales with r/grid: 10% → ~70%, 5% → ~43.6%, 2.5% → below ~25%. Is there
+     a critical r/grid below which the boundary is too weak for any stable
+     composition? Or does the ceiling continue to decrease toward 0% as r/grid
+     shrinks? Test: r=4 (1.25% of 320×320) — does stability exist at any fill?
+     If not, the ceiling is at 0% fill — the boundary cannot maintain stable
+     composition at any density when r/grid < ~1%.
+
+263. **Why does the growth-phase α≈1.7 match G&G?** — Session 101 falsified the
+     steady-state match (α_nc=0.46–0.76, not 1.72). But the growth-phase exponent
+     (1.729 at n=1500) matches G&G's 2D α=1.72 to 3 sig figs. The coincidence may
+     have a deeper reason: the growth law (curvature channel concentrating
+     deposits) may pass through the G&G critical regime transiently. Understanding
+     why the growth phase carries this exponent could reveal a genuine connection
+     or a definitive coincidence. Cheap: analysis of existing data.

@@ -483,3 +483,21 @@ The cell count MSD exponent α_nc was measured at 4 densities (n=1500, 2500, 300
 **Methodology lesson (#260): the growth-phase MSD exponent is NOT the steady-state critical exponent.** The detrended MSD removes the mean drift but not the variance growth — during growth, the MSD is dominated by growth dynamics, not steady-state fluctuations. The critical exponent must be measured at steady state (4000+ steps), from the late-window fluctuations only. This is the same lesson as the irreversibility: a measurement during the transient does not characterize the steady state.
 
 The component count exponents (α_lc, α_rc) are subdiffusive (~0.5–0.8) — the boundary fragments are more stable than the total cell count. The total cell count reflects the global growth dynamics; the per-region counts reflect the boundary's local fragmentation dynamics, which are subdiffusive (the boundary holds the fragments in place).
+
+## Session 102 — The 30th Ceiling on 320×320 Is Below ~25% Fill
+
+The 320×320 30th ceiling sweep (queued-topic #259) tested the absolute-spatial-scale principle's prediction that the 30th ceiling decreases with grid size. On 320×320, the boundary's dilation radius (8 cells) is only 2.5% of the grid width.
+
+**Stability is 0/4 at all n values on 320×320** (n=6000, 8000, 10000; fill 40–58%). Combined with Session 81's 0/4 at n=1200 (fill 25%), the 30th ceiling on 320×320 is below ~25% fill.
+
+**The boundary's fill-capping power is negligible on 320×320** (~1% gap vs ~56% on 160×160). The boundary is too weak relative to the grid to suppress growth or maintain stable composition.
+
+**The absolute-spatial-scale principle is confirmed at three grid sizes:**
+
+| Grid | r/grid | Ceiling fill% | Mode |
+|------|--------|--------------|------|
+| 80×80 | 10% | ~70% (gradual) | under-splitting |
+| 160×160 | 5% | ~43.6% | over-splitting |
+| 320×320 | 2.5% | below ~25% | over-splitting (severe) |
+
+The 54th mechanism: the 30th ceiling is grid-size-dependent, scaling with r/grid. The ceiling is NOT a universal fill fraction — it is a ratio of the boundary's spatial scale to the structure's linear size. H7 is 4/4 at all n values (crossing robust). All runs over-splitting (lc/rc 9–50). Determinism verified.

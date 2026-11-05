@@ -2,8 +2,8 @@
 title: "Hypotheses"
 topic: "testable hypotheses for the multi-scale ALife composition project"
 status: active
-date: "2026-10-31"
-session: 100
+date: "2026-11-05"
+session: 102
 count: 11
 active: [H1, H2, H3, H4, H5, H6, H7, H8, H9, H10, H11]
 logs: ["logs/H1/", "logs/H2/", "logs/H3/", "logs/H4/", "logs/H5/", "logs/H6/", "logs/H7/", "logs/H8/", "logs/H9/", "logs/H10/", "logs/H11/"]
@@ -70,7 +70,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **For an emergent structure to persist as a new actor at a higher scale, it must be autopoietic — it must maintain the network that constitutes it.** Self-maintenance is the persistence condition. Without it, emergent structures are transient patterns, not new actors.
 
-**Status:** Refined (Session 100). The cell count MSD exponent α_nc = 1.729 at n=1500 (R²=0.998) matches G&G's 2D critical exponent α=1.72 to 3 sig figs — but this is the GROWTH-PHASE exponent, not the steady-state critical exponent. The system is in the growth/overshoot phase at 2000 steps (fill=48–75% vs steady-state 38–44%). The exponent decreases monotonically with n (1.73→1.64→1.47→1.26) as growth saturates. The component count exponents (α_lc, α_rc) are subdiffusive (~0.5–0.8). Methodology lesson (#260): the growth-phase MSD exponent is NOT the steady-state critical exponent. Previous: the 30th ceiling is DERIVED from the growth-suppression balance: R(n) = √n × α × (1−fill) / (β × √fill) crosses 1.0 at n ≈ 3000 (fill ≈ 43.6%), matching the measured ceiling. The balance maps onto Gelimson & Golestanian (2015, PRL 114, 028101): their θ = (μα₀ + λ)C₀ ↔ our (suppression + growth) × grid². Their threshold μ < λ/α₀ ↔ our n > (β/α)² = 2189 (measured 2500–3000). The phase transition is IRREVERSIBLE — once the boundary loses coherence, the system stays unstable even as the growth rate slows at high fill (logistic carrying-capacity effect). The non-monotonicity of the balance ratio (0.74 → 1.13 → 0.51) is the spatial analog of G&G's separatrix: the first crossing is the transition; the subsequent drop is the carrying capacity on an already-transitioned system. Previous: the 30th ceiling is a dynamical phase transition (growth ∝n exceeds suppression ∝√n); degradation mode is fill-dependent not r-dependent; r=16 on 160×160 (10%) still over-splitting; stretched exponential = diffusion-limited signature; √n = diffusion length; Gompertz-to-logistic = breakdown of diffusion-limited regime at percolation; fill cap = inverse DLA.
+**Status:** Refined (Session 102). The 30th ceiling on 320×320 is below ~25% fill — stability is 0/4 at all n values (n=6000–10000, fill 40–58%). The absolute-spatial-scale principle is confirmed at three grid sizes: the ceiling fill% scales monotonically with the boundary's dilation radius as a fraction of the grid (80×80 10% → ~70%, 160×160 5% → ~43.6%, 320×320 2.5% → below ~25%). The 54th mechanism: the 30th ceiling is grid-size-dependent. The boundary's fill-capping power is negligible on 320×320 (~1% gap vs ~56% on 160×160). H7 is 4/4 at all n values. Previous: steady-state α_nc=0.46–0.76 (subdiffusive) at all densities — G&G match was growth-phase artifact; 30th ceiling is stability boundary not G&G critical point; G&G mapping analogical not quantitative; the growth-phase α≈1.7 match was coincidental. Previous: the 30th ceiling is DERIVED from the growth-suppression balance R(n) = √n × α × (1−fill) / (β × √fill) crosses 1.0 at n ≈ 3000 (fill ≈ 43.6%), matching the measured ceiling. The balance maps onto Gelimson & Golestanian (2015, PRL 114, 028101): their θ = (μα₀ + λ)C₀ ↔ our (suppression + growth) × grid². Their threshold μ < λ/α₀ ↔ our n > (β/α)² = 2189 (measured 2500–3000). The phase transition is IRREVERSIBLE — once the boundary loses coherence, the system stays unstable even as the growth rate slows at high fill (logistic carrying-capacity effect). The non-monotonicity of the balance ratio (0.74 → 1.13 → 0.51) is the spatial analog of G&G's separatrix: the first crossing is the transition; the subsequent drop is the carrying capacity on an already-transitioned system.
 
 **Log:** [logs/H5/](logs/H5/)
 
@@ -216,7 +216,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 | H2: ANT Translation | Unchanged | Theoretical, untested | [H2](logs/H2/) |
 | H3: Quasi-Object | Strengthened | Stigmergy literature support; Echo partial support | [H3](logs/H3/) |
 | H4: Dynamic Environment | Refined | Fitness landscape criticism supports this | [H4](logs/H4/) |
-| H5: Autopoiesis | Refined (S100) | Growth-phase MSD α_nc=1.729 matches G&G 2D α=1.72 but is NOT steady-state critical exponent; system in growth phase (fill 48-75% vs SS 38-44%); α decreases with n; methodology lesson: growth-phase MSD ≠ critical exponent | [H5](logs/H5/) |
+| H5: Autopoiesis | Refined (S102) | 30th ceiling on 320×320 below ~25% fill (0/4 at all n); absolute-spatial-scale principle confirmed at 3 grid sizes (r/grid: 10%→~70%, 5%→~43.6%, 2.5%→<25%); 54th mechanism: ceiling is grid-size-dependent; boundary fill-capping negligible on 320×320 (~1% vs ~56%); H7=4/4 | [H5](logs/H5/) |
 | H6: Multi-Scale Autopoiesis | Refined (S77) | 12th member fully lost at n=11000–14000 (~84–99% fill): 1s l2=0/4; progressive loss, not sharp threshold | [H6](logs/H6/) |
 | H7: Trace→Actor Crossing | Refined ×67; fill cap saturation is a HARD ceiling (grid full); g* limit n≈14000-15000 — boundary capping power decays exponentially (gap halves per 1000-n); H7=4/4 at all densities; L2=0/4; 30th persists; 43rd saturation at n≈14000 | [H7](logs/H7/) |
 | H8: Complexity Enables OEE | NEW | Kaznatcheev (2019), Wiser et al. (2013) | [H8](logs/H8/) |

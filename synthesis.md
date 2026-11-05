@@ -2226,3 +2226,17 @@ Cross-domain connection: **α_nc = 1.729 at n=1500 matches G&G's 2D critical exp
 **But this is the growth-phase exponent, not the steady-state critical exponent.** The methodology lesson (#260): the growth-phase MSD exponent is NOT the steady-state critical exponent. The detrended MSD removes the mean drift but not the variance growth — during growth, the MSD is dominated by the growth dynamics, not the steady-state fluctuations. The system is in the growth/overshoot phase at 2000 steps (fill=48–75% vs steady-state 38–44%). The exponent decreases with n because the growth saturates. The critical exponent must be measured at steady state (4000+ steps), from the late-window fluctuations only. This is the same lesson as the irreversibility (#260): a measurement during the transient does not characterize the steady state. The growth-phase dynamics pass through the critical regime but carry the growth dynamics, not the critical fluctuations.
 
 The match α_nc ≈ 1.73 ≈ G&G's 1.72 may reflect a genuine connection (the growth dynamics at the critical fill fraction transiently carry the critical exponent) or may be coincidental (the growth law produces α ≈ 1.7 for unrelated reasons). Distinguishing these requires steady-state measurements — the open question for the next session.
+
+---
+
+## 2026-11-01 — Session 101
+
+### Steady-state MSD falsifies the G&G quantitative match — analogical, not critical
+
+Session 101 measured the steady-state MSD exponent by running 6000 steps at 3 densities (n=1500, 2500, 3000) and computing the MSD from the late window (last 3000 steps, after equilibration). The growth phase (first 3000 steps) was also computed for direct comparison.
+
+**The steady-state α_nc is subdiffusive (0.46–0.76) at ALL densities — NOT superdiffusive (1.72).** At n=3000 (the 30th ceiling, fill 41.2%), the steady-state α_nc = 0.751 (R²=0.936) — far below G&G's 1.72. The growth-phase exponents (1.316–1.543) are lower than Session 100's (1.255–1.729) because the longer "growth phase" includes equilibration. The component count exponents (α_lc, α_rc) are zero at steady state — the per-region counts are constant (1 component per region).
+
+Cross-domain connection: **the G&G mapping is analogical, not quantitative.** The balance structure matches (extensive growth ∝ n vs intensive suppression ∝ √n), and the 30th ceiling location is correctly predicted by the balance formula (R(n) crossing 1.0 at n≈3000). But the steady-state critical exponent does NOT match G&G's α=1.72. The growth-phase match (1.729) was coincidental: the growth law (curvature channel concentrating deposits) produces superdiffusive growth dynamics that happen to have the same exponent as G&G's critical fluctuations. The growth dynamics pass through the critical regime transiently but do not exhibit the critical steady-state fluctuations.
+
+This is the second methodology lesson (#260) earned the hard way: a transient match does not imply a steady-state connection. Session 100's α_nc=1.729≈1.72 was a growth-phase artifact — the same lesson as the irreversibility (a non-monotonic balance ratio does not imply recovery) and the non-monotonicity (a transient measurement does not characterize the steady state). All three say the same thing: the dynamics during a transient or after a transition do not characterize the equilibrium or pre-transition state.

@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Steady-State vs Growth-Phase MSD Exponents (Session 101)</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #0d1117; color: #c9d1d9;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    padding: 24px; max-width: 1100px; margin: 0 auto;
+  }
+  h1 { color: #58a6ff; font-size: 1.5em; margin-bottom: 8px; }
+  h2 { color: #8b949e; font-size: 1.1em; margin-bottom: 16px; font-weight: normal; }
+  .subtitle { color: #8b949e; margin-bottom: 24px; font-size: 0.9em; }
+  .summary {
+    background: #161b22; border: 1px solid #30363d;
+    border-radius: 8px; padding: 16px 20px; margin-bottom: 24px;
+  }
+  .summary p { margin-bottom: 8px; line-height: 1.5; }
+  .key-finding { color: #f0883e; font-weight: 600; }
+  .gg-ref { color: #d2a8ff; }
+  canvas { display: block; margin-bottom: 24px; border-radius: 8px; }
+  .chart-container {
+    background: #161b22; border: 1px solid #30363d;
+    border-radius: 8px; padding: 20px; margin-bottom: 24px;
+  }
+  .chart-title { color: #58a6ff; font-size: 1.1em; margin-bottom: 12px; }
+  table {
+    width: 100%; border-collapse: collapse; margin-bottom: 24px;
+    font-size: 0.9em;
+  }
+  th, td { padding: 8px 12px; text-align: center; border-bottom: 1px solid #30363d; }
+  th { color: #58a6ff; font-weight: 600; }
+  td { color: #c9d1d9; }
+  .highlight { color: #f0883e; font-weight: 600; }
+  .muted { color: #8b949e; }
+  .loading { color: #8b949e; text-align: center; padding: 40px; }
+</style>
+</head>
+<body>
+  <h1>Steady-State vs Growth-Phase MSD Exponents</h1>
+  <h2>Session 101 — Does the 30th ceiling exhibit G&G critical exponents at steady state?</h2>
+  <div class="subtitle">
+    Gelimson &amp; Golestanian (2015, PRL 114, 028101) found α=1.72 at the dynamical critical point.
+    Session 100 matched this in the growth phase (α=1.729). This test measures the
+    <strong>steady-state</strong> exponent (6000 steps, late-window MSD).
+  </div>
+
+  <div class="summary">
+    <p><span class="key-finding">Key finding:</span> The steady-state α<sub>nc</sub> is
+      <strong>subdiffusive (0.46–0.76)</strong> at all densities — NOT superdiffusive (1.72).
+      The G&amp;G match from Session 100 (α=1.729) was a growth-phase artifact.</p>
+    <p><span class="muted">The 30th ceiling is a dynamical phase transition (stability boundary) but does NOT
+      exhibit G&amp;G critical exponents at steady state. The G&amp;G mapping is analogical
+      (same balance structure: extensive growth vs intensive suppression) but not quantitative
+      (different steady-state exponents). The growth-phase match was coincidental — the
+      growth law produces superdiffusive dynamics that happen to have α≈1.7.</span></p>
+  </div>
+
+  <div id="loading" class="loading">Loading data...</div>
+  <div id="content" style="display:none;">
+
+    <div class="chart-container">
+      <div class="chart-title">α vs n: Growth Phase vs Steady State vs G&G 2D Critical (α=1.72)</div>
+      <canvas id="alphaChart" width="700" height="350"></canvas>
+    </div>
+
+    <div class="chart-container">
+      <div class="chart-title">MSD log-log at n=3000 (the 30th ceiling): Growth vs Steady</div>
+      <canvas id="msdChart" width="700" height="350"></canvas>
+    </div>
+
+    <div class="chart-container">
+      <div class="chart-title">Cell Count Time Series (6000 steps, 3 densities)</div>
+      <canvas id="tsChart" width="700" height="300"></canvas>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>n</th><th>fill (early)</th><th>fill (late)</th>
+          <th>α (growth)</th><th>R² (growth)</th>
+          <th>α (steady)</th><th>R² (steady)</th>
+          <th>G&G α</th>
+        </tr>
+      </thead>
+      <tbody id="dataTable"></tbody>
+    </table>
+
+    <div style="color:#8b949e; font-size:0.85em; margin-top:12px;">
+      <p>● Determinism: <span id="detStatus">—</span></p>
+      <p>● Growth phase = first 3000 steps; Steady state = last 3000 steps (6000 total, sample_every=10)</p>
+      <p>● Component count exponents (α<sub>lc</sub>, α<sub>rc</sub>) ≈ 0 at steady state — constant 1 component per region</p>
+    </div>
+
+  </div>
+
+<script>
+const COLORS = {
+  growth: '#f0883e',
+  steady: '#58a6ff',
+  gg: '#d2a8ff',
+  n1500: '#7ee787',
+  n2500: '#ffa657',
+  n3000: '#ff7b72',
+  grid: '#30363d',
+  text: '#c9d1d9',
+};
+
+function drawAxes(ctx, w, h, xMin, xMax, yMin, yMax, xLabel, yLabel) {
+  const padL = 60, padB = 40, padT = 20, padR = 20;
+  const pw = w - padL - padR, ph = h - padB - padT;
+  ctx.strokeStyle = COLORS.grid;
+  ctx.fillStyle = COLORS.text;
+  ctx.font = '11px sans-serif';
+  ctx.lineWidth = 1;
+
+  // Grid lines
+  for (let i = 0; i <= 5; i++) {
+    const y = padT + ph * (1 - i/5);
+    ctx.beginPath(); ctx.moveTo(padL, y); ctx.lineTo(padL + pw, y); ctx.stroke();
+    const val = yMin + (yMax - yMin) * i / 5;
+    ctx.textAlign = 'right';
+    ctx.fillText(val.toFixed(2), padL - 8, y + 4);
+  }
+  for (let i = 0; i <= 5; i++) {
+    const x = padL + pw * i / 5;
+    ctx.beginPath(); ctx.moveTo(x, padT); ctx.lineTo(x, padT + ph); ctx.stroke();
+    const val = xMin + (xMax - xMin) * i / 5;
+    ctx.textAlign = 'center';
+    ctx.fillText(val.toFixed(0), x, padT + ph + 16);
+  }
+
+  // Labels
+  ctx.textAlign = 'center';
+  ctx.fillText(xLabel, padL + pw/2, h - 5);
+  ctx.save();
+  ctx.translate(15, padT + ph/2); ctx.rotate(-Math.PI/2);
+  ctx.fillText(yLabel, 0, 0);
+  ctx.restore();
+
+  return {px: x => padL + pw * (x - xMin)/(xMax - xMin),
+          py: y => padT + ph * (1 - (y - yMin)/(yMax - yMin))};
+}
+
+fetch('output/steady_state_msd.json')
+.then(r => r.json())
+.then(data => {
+  document.getElementById('loading').style.display = 'none';
+  document.getElementById('content').style.display = '';
+
+  const summary = data.summary;
+  const ggAlpha = 1.72;
+
+  // Table
+  const tbody = document.getElementById('dataTable');
+  summary.forEach(s => {
+    const tr = document.createElement('tr');
+    const steadyClass = s.steady_alpha_nc < 1.0 ? 'highlight' : '';
+    tr.innerHTML = `
+      <td>${s.n}</td>
+      <td>${s.fill_early_pct.toFixed(1)}%</td>
+      <td>${s.fill_late_pct.toFixed(1)}%</td>
+      <td class="muted">${s.growth_alpha_nc.toFixed(3)}</td>
+      <td class="muted">${s.growth_r_sq_nc.toFixed(3)}</td>
+      <td class="${steadyClass}">${s.steady_alpha_nc.toFixed(3)}</td>
+      <td>${s.steady_r_sq_nc.toFixed(3)}</td>
+      <td class="gg-ref">${ggAlpha.toFixed(2)}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+
+  // Det
+  document.getElementById('detStatus').textContent =
+    data.determinism.match ? 'PASS ✓' : 'FAIL ✗';
+  document.getElementById('detStatus').style.color =
+    data.determinism.match ? '#7ee787' : '#ff7b72';
+
+  // Chart 1: α vs n
+  const c1 = document.getElementById('alphaChart');
+  const ctx1 = c1.getContext('2d');
+  const ns = summary.map(s => s.n);
+  const gAlphas = summary.map(s => s.growth_alpha_nc);
+  const sAlphas = summary.map(s => s.steady_alpha_nc);
+  const xy = drawAxes(ctx1, 700, 350, 1400, 3200, 0, 2.0, 'n (termites)', 'α (MSD exponent)');
+
+  // G&G line
+  ctx1.strokeStyle = COLORS.gg; ctx1.lineWidth = 1.5;
+  ctx1.setLineDash([6, 4]);
+  ctx1.beginPath();
+  ctx1.moveTo(xy.px(1400), xy.py(ggAlpha));
+  ctx1.lineTo(xy.px(3200), xy.py(ggAlpha));
+  ctx1.stroke();
+  ctx1.setLineDash([]);
+  ctx1.fillStyle = COLORS.gg; ctx1.textAlign = 'left';
+  ctx1.fillText('G&G α=1.72', xy.px(2600), xy.py(ggAlpha) - 6);
+
+  // α=1.0 reference
+  ctx1.strokeStyle = '#30363d'; ctx1.lineWidth = 0.8;
+  ctx1.setLineDash([3, 3]);
+  ctx1.beginPath();
+  ctx1.moveTo(xy.px(1400), xy.py(1.0));
+  ctx1.lineTo(xy.px(3200), xy.py(1.0));
+  ctx1.stroke();
+  ctx1.setLineDash([]);
+  ctx1.fillStyle = '#8b949e'; ctx1.textAlign = 'left';
+  ctx1.fillText('normal diffusion (α=1)', xy.px(1400), xy.py(1.0) - 6);
+
+  // Growth
+  ctx1.strokeStyle = COLORS.growth; ctx1.lineWidth = 2;
+  ctx1.beginPath();
+  ns.forEach((n, i) => {
+    const x = xy.px(n), y = xy.py(gAlphas[i]);
+    if (i === 0) ctx1.moveTo(x, y); else ctx1.lineTo(x, y);
+  });
+  ctx1.stroke();
+  ctx1.fillStyle = COLORS.growth;
+  ns.forEach((n, i) => {
+    ctx1.beginPath(); ctx1.arc(xy.px(n), xy.py(gAlphas[i]), 4, 0, 2*Math.PI); ctx1.fill();
+  });
+
+  // Steady
+  ctx1.strokeStyle = COLORS.steady; ctx1.lineWidth = 2;
+  ctx1.beginPath();
+  ns.forEach((n, i) => {
+    const x = xy.px(n), y = xy.py(sAlphas[i]);
+    if (i === 0) ctx1.moveTo(x, y); else ctx1.lineTo(x, y);
+  });
+  ctx1.stroke();
+  ctx1.fillStyle = COLORS.steady;
+  ns.forEach((n, i) => {
+    ctx1.beginPath(); ctx1.arc(xy.px(n), xy.py(sAlphas[i]), 4, 0, 2*Math.PI); ctx1.fill();
+  });
+
+  // Legend
+  ctx1.font = '11px sans-serif'; ctx1.textAlign = 'left';
+  ctx1.fillStyle = COLORS.growth; ctx1.fillText('● Growth phase (first 3000 steps)', 80, 30);
+  ctx1.fillStyle = COLORS.steady; ctx1.fillText('● Steady state (last 3000 steps)', 80, 46);
+  ctx1.fillStyle = COLORS.gg; ctx1.fillText('-- G&G 2D critical (1.72)', 80, 62);
+
+  // Chart 2: MSD log-log at n=3000
+  const c2 = document.getElementById('msdChart');
+  const ctx2 = c2.getContext('2d');
+  const run3000 = data.runs.find(r => r.n === 3000);
+  if (run3000) {
+    const gLags = run3000.msd.growth.msd_lags;
+    const gVals = run3000.msd.growth.msd_nc;
+    const sLags = run3000.msd.steady.msd_lags;
+    const sVals = run3000.msd.steady.msd_nc;
+
+    const allLogs = [...gLags.map(l => Math.log10(l)), ...sLags.map(l => Math.log10(l))];
+    const allLogVals = [...gVals.map(v => Math.log10(Math.max(v, 1e-15))), ...sVals.map(v => Math.log10(Math.max(v, 1e-15)))];
+    const xMin = Math.min(...allLogs), xMax = Math.max(...allLogs);
+    const yMin = Math.min(...allLogVals) - 0.5, yMax = Math.max(...allLogVals) + 0.5;
+
+    const xy2 = drawAxes(ctx2, 700, 350, Math.floor(xMin), Math.ceil(xMax), Math.floor(yMin), Math.ceil(yMax),
+                         'log₁₀(τ)', 'log₁₀(MSD)');
+
+    // Growth
+    ctx2.strokeStyle = COLORS.growth; ctx2.lineWidth = 1.5;
+    ctx2.beginPath();
+    gLags.forEach((l, i) => {
+      const x = xy2.px(Math.log10(l)), y = xy2.py(Math.log10(Math.max(gVals[i], 1e-15)));
+      if (i === 0) ctx2.moveTo(x, y); else ctx2.lineTo(x, y);
+    });
+    ctx2.stroke();
+
+    // Steady
+    ctx2.strokeStyle = COLORS.steady; ctx2.lineWidth = 1.5;
+    ctx2.beginPath();
+    sLags.forEach((l, i) => {
+      const x = xy2.px(Math.log10(l)), y = xy2.py(Math.log10(Math.max(sVals[i], 1e-15)));
+      if (i === 0) ctx2.moveTo(x, y); else ctx2.lineTo(x, y);
+    });
+    ctx2.stroke();
+
+    ctx2.font = '11px sans-serif'; ctx2.textAlign = 'left';
+    ctx2.fillStyle = COLORS.growth;
+    ctx2.fillText(`Growth: slope=${run3000.msd.growth.alpha_nc.toFixed(3)} (R²=${run3000.msd.growth.r_sq_nc.toFixed(3)})`, 80, 30);
+    ctx2.fillStyle = COLORS.steady;
+    ctx2.fillText(`Steady: slope=${run3000.msd.steady.alpha_nc.toFixed(3)} (R²=${run3000.msd.steady.r_sq_nc.toFixed(3)})`, 80, 46);
+    ctx2.fillStyle = COLORS.gg;
+    ctx2.fillText(`G&G 2D: slope=1.72`, 80, 62);
+  }
+
+  // Chart 3: Cell count time series
+  const c3 = document.getElementById('tsChart');
+  const ctx3 = c3.getContext('2d');
+  const xy3 = drawAxes(ctx3, 700, 300, 0, 600, 0, 16000, 'sample', 'n_structure_cells');
+  const colors = {1500: COLORS.n1500, 2500: COLORS.n2500, 3000: COLORS.n3000};
+  data.runs.forEach(r => {
+    const ts = r.n_cells_ts;
+    const col = colors[r.n];
+    ctx3.strokeStyle = col; ctx3.lineWidth = 1.5;
+    ctx3.beginPath();
+    ts.forEach((v, i) => {
+      const x = xy3.px(i), y = xy3.py(v);
+      if (i === 0) ctx3.moveTo(x, y); else ctx3.lineTo(x, y);
+    });
+    ctx3.stroke();
+    ctx3.fillStyle = col; ctx3.font = '10px sans-serif'; ctx3.textAlign = 'left';
+    ctx3.fillText(`n=${r.n} (fill ${r.fill_late_pct.toFixed(1)}%)`, xy3.px(r.n/10 + 50), xy3.py(r.n_cells_ts[300]));
+  });
+
+  // Fill line
+  ctx3.strokeStyle = '#30363d'; ctx3.setLineDash([4,4]); ctx3.lineWidth = 1;
+  ctx3.beginPath(); ctx3.moveTo(xy3.px(300), xy3.py(0)); ctx3.lineTo(xy3.px(300), xy3.py(16000)); ctx3.stroke();
+  ctx3.setLineDash([]);
+  ctx3.fillStyle = '#8b949e'; ctx3.textAlign = 'center';
+  ctx3.fillText('growth | steady', xy3.px(300), 15);
+})
+.catch(err => {
+  document.getElementById('loading').textContent = 'Error loading data: ' + err;
+});
+</script>
+</body>
+</html>

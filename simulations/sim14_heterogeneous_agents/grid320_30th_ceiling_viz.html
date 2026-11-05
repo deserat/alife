@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>320×320 30th Ceiling — Does the Stability Ceiling Shift with Grid Size?</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #0d1117; color: #c9d1d9; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; padding: 20px; }
+  h1 { font-size: 1.4em; margin-bottom: 4px; color: #f0f6fc; }
+  h2 { font-size: 1.15em; margin: 24px 0 10px; color: #d2a8ff; border-bottom: 1px solid #30363d; padding-bottom: 6px; }
+  .subtitle { color: #8b949e; font-size: 0.85em; margin-bottom: 16px; }
+  .summary { background: #161b22; border: 1px solid #30363d; border-radius: 6px; padding: 16px; margin-bottom: 20px; }
+  .summary p { margin-bottom: 8px; line-height: 1.5; }
+  .highlight { color: #f85149; font-weight: bold; }
+  .confirmed { color: #3fb950; font-weight: bold; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 0.82em; }
+  th { background: #21262d; color: #f0f6fc; padding: 8px 10px; text-align: center; border: 1px solid #30363d; }
+  td { padding: 6px 10px; text-align: center; border: 1px solid #30363d; }
+  td.grid-label { text-align: left; color: #d2a8ff; font-weight: bold; }
+  .chart-container { background: #161b22; border: 1px solid #30363d; border-radius: 6px; padding: 16px; margin: 12px 0; }
+  canvas { display: block; max-width: 100%; }
+  .stat { display: inline-block; margin-right: 16px; font-size: 0.85em; color: #8b949e; }
+  .stat strong { color: #c9d1d9; }
+  .ref { color: #58a6ff; font-size: 0.8em; }
+  .loading { color: #8b949e; text-align: center; padding: 40px; }
+</style>
+</head>
+<body>
+<h1>320×320 30th Ceiling — Does the Stability Ceiling Shift with Grid Size?</h1>
+<p class="subtitle">Session 102 · Queued-topic #259 · Testing the absolute-spatial-scale principle's prediction that the 30th ceiling decreases with grid size</p>
+
+<div class="summary" id="summary">
+  <p class="loading">Loading data...</p>
+</div>
+
+<h2>320×320 Results (This Session)</h2>
+<div id="table320"></div>
+
+<h2>Cross-Grid Comparison: 30th Ceiling Fill%</h2>
+<div class="chart-container">
+  <canvas id="crossGridChart" width="800" height="400"></canvas>
+</div>
+<div id="crossGridTable"></div>
+
+<h2>Fill Trajectory on 320×320</h2>
+<div class="chart-container">
+  <canvas id="fillChart" width="800" height="350"></canvas>
+</div>
+
+<h2>Boundary Effect: With vs Without Inhibition</h2>
+<div class="chart-container">
+  <canvas id="boundaryChart" width="800" height="350"></canvas>
+</div>
+
+<script>
+const COLORS = {
+  bg: '#0d1117',
+  grid: '#30363d',
+  text: '#c9d1d9',
+  textDim: '#8b949e',
+  red: '#f85149',
+  green: '#3fb950',
+  blue: '#58a6ff',
+  purple: '#d2a8ff',
+  orange: '#db6d28',
+  yellow: '#e3b341',
+};
+
+function drawAxes(ctx, w, h, marginLeft, marginBottom, xLabel, yLabel, xMax, yMax) {
+  ctx.strokeStyle = COLORS.grid;
+  ctx.fillStyle = COLORS.textDim;
+  ctx.font = '11px sans-serif';
+  ctx.lineWidth = 1;
+
+  // Y axis
+  ctx.beginPath();
+  ctx.moveTo(marginLeft, 10);
+  ctx.lineTo(marginLeft, h - marginBottom);
+  ctx.stroke();
+
+  // X axis
+  ctx.beginPath();
+  ctx.moveTo(marginLeft, h - marginBottom);
+  ctx.lineTo(w - 10, h - marginBottom);
+  ctx.stroke();
+
+  // Y labels
+  const ySteps = 5;
+  for (let i = 0; i <= ySteps; i++) {
+    const yv = (yMax / ySteps) * i;
+    const yp = h - marginBottom - ((h - marginBottom - 10) / ySteps) * i;
+    ctx.fillText(yv.toFixed(0), 5, yp + 4);
+    ctx.strokeStyle = i > 0 ? '#21262d' : COLORS.grid;
+    ctx.beginPath();
+    ctx.moveTo(marginLeft, yp);
+    ctx.lineTo(w - 10, yp);
+    ctx.stroke();
+  }
+
+  // X labels
+  ctx.fillStyle = COLORS.textDim;
+  if (xLabel) ctx.fillText(xLabel, w / 2, h - 5);
+  if (yLabel) {
+    ctx.save();
+    ctx.translate(12, h / 2);
+    ctx.rotate(-Math.PI / 2);
+    ctx.fillText(yLabel, 0, 0);
+    ctx.restore();
+  }
+}
+
+async function loadData() {
+  try {
+    const resp = await fetch('output/grid320_30th_ceiling.json');
+    const data = await resp.json();
+    renderSummary(data);
+    renderTable320(data);
+    renderCrossGrid(data);
+    renderFillChart(data);
+    renderBoundaryChart(data);
+  } catch (e) {
+    document.getElementById('summary').innerHTML = '<p class="highlight">Error loading data: ' + e.message + '</p>';
+  }
+}
+
+function renderSummary(data) {
+  const sums = data.summary;
+  const allUnstable = sums.every(s => s.stable_4 === '0/4');
+  const allH7 = sums.every(s => s.h7_4 === '4/4');
+  const boundaryGap = (Math.abs(
+    sums[0].fill_pct_mean - 
+    (data.runs_no_inhib.filter(r => r.n === sums[0].n).reduce((a,r) => a + r.fill_pct, 0) / 
+     data.runs_no_inhib.filter(r => r.n === sums[0].n).length)
+  )).toFixed(1);
+
+  document.getElementById('summary').innerHTML = `
+    <p><span class="highlight">Stability is 0/4 at ALL n values on 320×320</span> — even at fill=${sums[0].fill_pct_mean}%, below the 160×160 ceiling (~43.6%).</p>
+    <p><span class="confirmed">The absolute-spatial-scale principle is confirmed:</span> the 30th ceiling fill% scales with the boundary's dilation radius as a fraction of the grid:
+      80×80 (10%) → 64–76%, 160×160 (5%) → ~43.6%, 320×320 (2.5%) → below ~25%.</p>
+    <p>The boundary's fill-capping power is negligible on 320×320 (~1% gap vs ~56% on 160×160). H7 is ${allH7 ? '4/4' : 'not 4/4'} at all n values (crossing robust). All runs over-splitting (lc/rc 9–50).</p>
+  `;
+}
+
+function renderTable320(data) {
+  const ref160 = { last_stable_fill: 42.08, ceiling_fill: 43.63 };
+  const ref80 = { last_stable_fill: 76.3 };
+
+  let html = '<table><tr><th>n</th><th>Fill%</th><th>Stable</th><th>Coexist</th><th>H7</th><th>1s L2</th><th>1s Fill%</th><th>No-Inhib Fill%</th><th>Boundary Gap</th><th>Mean lc/rc</th></tr>';
+  for (const s of data.summary) {
+    const r1 = data.runs_1seed.find(r => r.n === s.n);
+    const noInhib = data.runs_no_inhib.filter(r => r.n === s.n);
+    const noInhibMean = noInhib.reduce((a, r) => a + r.fill_pct, 0) / noInhib.length;
+    const twoSeedRuns = data.runs_2seed.filter(r => r.n === s.n);
+    const meanLC = (twoSeedRuns.reduce((a, r) => a + r.late_mean_lc, 0) / twoSeedRuns.length).toFixed(1);
+    const meanRC = (twoSeedRuns.reduce((a, r) => a + r.late_mean_rc, 0) / twoSeedRuns.length).toFixed(1);
+    const gap = (s.fill_pct_mean - noInhibMean).toFixed(2);
+    html += `<tr><td>${s.n}</td><td>${s.fill_pct_mean}%</td>` +
+      `<td class="highlight">${s.stable_4}</td><td>${s.coexist_4}</td><td>${s.h7_4}</td>` +
+      `<td>${s.l2_1s ? 'Yes' : 'No'}</td><td>${r1 ? r1.fill_pct : '-'}%</td>` +
+      `<td>${noInhibMean.toFixed(1)}%</td><td>${gap}%</td>` +
+      `<td>${meanLC}/${meanRC}</td></tr>`;
+  }
+  html += '</table>';
+  html += `<p class="ref">160×160 reference: last stable fill = ${ref160.last_stable_fill}% (n=2500), ceiling = ${ref160.ceiling_fill}% (n=3000). 80×80 reference: last stable fill ~${ref80.last_stable_fill}% (n=600).</p>`;
+  document.getElementById('table320').innerHTML = html;
+}
+
+function renderCrossGrid(data) {
+  const canvas = document.getElementById('crossGridChart');
+  const ctx = canvas.getContext('2d');
+  const w = canvas.width, h = canvas.height;
+  const ml = 70, mb = 50;
+
+  ctx.fillStyle = COLORS.bg;
+  ctx.fillRect(0, 0, w, h);
+
+  // Data points: grid_size, r/grid%, ceiling_fill%
+  const points = [
+    { grid: 80, r_frac: 10, ceiling: 70, label: '80×80 (r=8, 10%)', stable: true },
+    { grid: 160, r_frac: 5, ceiling: 43.6, label: '160×160 (r=8, 5%)', stable: true },
+    { grid: 320, r_frac: 2.5, ceiling: 25, label: '320×320 (r=8, 2.5%)', stable: false },
+  ];
+
+  drawAxes(ctx, w, h, ml, mb, 'Dilation radius / grid width (%)', '30th ceiling fill%', 10, 80);
+
+  // Plot points
+  for (const p of points) {
+    const x = ml + (p.r_frac / 10) * (w - ml - 10);
+    const y = h - mb - (p.ceiling / 80) * (h - mb - 10);
+
+    ctx.beginPath();
+    ctx.arc(x, y, p.stable ? 6 : 5, 0, 2 * Math.PI);
+    ctx.fillStyle = p.stable ? COLORS.green : COLORS.red;
+    ctx.fill();
+    ctx.strokeStyle = COLORS.text;
+    ctx.lineWidth = 1;
+    ctx.stroke();
+
+    ctx.fillStyle = COLORS.text;
+    ctx.font = '10px sans-serif';
+    ctx.fillText(p.label, x + 10, y + 4);
+  }
+
+  // 320×320 point: show range (below 25%)
+  const x320 = ml + (2.5 / 10) * (w - ml - 10);
+  ctx.strokeStyle = COLORS.red;
+  ctx.setLineDash([4, 4]);
+  ctx.beginPath();
+  ctx.moveTo(x320, 10);
+  ctx.lineTo(x320, h - mb - (25 / 80) * (h - mb - 10));
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  ctx.fillStyle = COLORS.red;
+  ctx.font = '10px sans-serif';
+  ctx.fillText('↓ below 25%', x320 + 8, h - mb - (25 / 80) * (h - mb - 10) - 8);
+
+  // Trend line
+  ctx.strokeStyle = COLORS.blue;
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  for (const p of points) {
+    const x = ml + (p.r_frac / 10) * (w - ml - 10);
+    const y = h - mb - (p.ceiling / 80) * (h - mb - 10);
+    if (p === points[0]) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
+  }
+  ctx.stroke();
+}
+
+function renderCrossGridTable(data) {
+  let html = '<table><tr><th>Grid</th><th>r/grid</th><th>Last stable fill%</th><th>Ceiling fill%</th><th>Mode</th></tr>';
+  html += '<tr><td class="grid-label">80×80</td><td>10%</td><td>76.3%</td><td>~70% (gradual)</td><td>under-splitting</td></tr>';
+  html += '<tr><td class="grid-label">160×160</td><td>5%</td><td>42.1% (n=2500)</td><td>43.6% (n=3000)</td><td>over-splitting</td></tr>';
+  html += '<tr><td class="grid-label">320×320</td><td>2.5%</td><td class="highlight">< 25% (n=1200)</td><td class="highlight">below ~25%</td><td>over-splitting (severe)</td></tr>';
+  html += '</table>';
+  document.getElementById('crossGridTable').innerHTML = html;
+}
+
+function renderFillChart(data) {
+  const canvas = document.getElementById('fillChart');
+  const ctx = canvas.getContext('2d');
+  const w = canvas.width, h = canvas.height;
+  const ml = 60, mb = 40;
+
+  ctx.fillStyle = COLORS.bg;
+  ctx.fillRect(0, 0, w, h);
+
+  drawAxes(ctx, w, h, ml, mb, 'n (termites)', 'Fill %', 10, 11000);
+
+  const ns = data.summary.map(s => s.n);
+
+  // With boundary
+  ctx.strokeStyle = COLORS.blue;
+  ctx.fillStyle = COLORS.blue;
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  for (let i = 0; i < ns.length; i++) {
+    const x = ml + (ns[i] / 11000) * (w - ml - 10);
+    const y = h - mb - (data.summary[i].fill_pct_mean / 110) * (h - mb - 10);
+    if (i === 0) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
+    ctx.beginPath();
+    ctx.arc(x, y, 4, 0, 2 * Math.PI);
+    ctx.fill();
+  }
+
+  // No inhibition
+  const noInhibMeans = ns.map(n => {
+    const runs = data.runs_no_inhib.filter(r => r.n === n);
+    return runs.reduce((a, r) => a + r.fill_pct, 0) / runs.length;
+  });
+
+  ctx.strokeStyle = COLORS.orange;
+  ctx.beginPath();
+  for (let i = 0; i < ns.length; i++) {
+    const x = ml + (ns[i] / 11000) * (w - ml - 10);
+    const y = h - mb - (noInhibMeans[i] / 110) * (h - mb - 10);
+    if (i === 0) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
+    ctx.beginPath();
+    ctx.arc(x, y, 4, 0, 2 * Math.PI);
+    ctx.fill();
+  }
+
+  // 160×160 reference line
+  ctx.strokeStyle = COLORS.purple;
+  ctx.setLineDash([5, 5]);
+  ctx.beginPath();
+  const y160 = h - mb - (43.6 / 110) * (h - mb - 10);
+  ctx.moveTo(ml, y160);
+  ctx.lineTo(w - 10, y160);
+  ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle = COLORS.purple;
+  ctx.font = '10px sans-serif';
+  ctx.fillText('160×160 ceiling (43.6%)', ml + 5, y160 - 5);
+
+  // Legend
+  ctx.font = '11px sans-serif';
+  ctx.fillStyle = COLORS.blue;
+  ctx.fillText('● With boundary (g=0.001)', w - 200, 25);
+  ctx.fillStyle = COLORS.orange;
+  ctx.fillText('● No inhibition', w - 200, 42);
+  ctx.fillStyle = COLORS.purple;
+  ctx.fillText('-- 160×160 ceiling', w - 200, 59);
+}
+
+function renderBoundaryChart(data) {
+  const canvas = document.getElementById('boundaryChart');
+  const ctx = canvas.getContext('2d');
+  const w = canvas.width, h = canvas.height;
+  const ml = 60, mb = 40;
+
+  ctx.fillStyle = COLORS.bg;
+  ctx.fillRect(0, 0, w, h);
+
+  drawAxes(ctx, w, h, ml, mb, 'n (termites)', 'Fill %', 10, 11000);
+
+  const ns = data.summary.map(s => s.n);
+
+  // With boundary (320×320)
+  ctx.strokeStyle = COLORS.blue;
+  ctx.fillStyle = COLORS.blue;
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  for (let i = 0; i < ns.length; i++) {
+    const x = ml + (ns[i] / 11000) * (w - ml - 10);
+    const y = h - mb - (data.summary[i].fill_pct_mean / 110) * (h - mb - 10);
+    if (i === 0) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
+    ctx.beginPath();
+    ctx.arc(x, y, 4, 0, 2 * Math.PI);
+    ctx.fill();
+  }
+
+  // No inhibition (320×320)
+  const noInhibMeans = ns.map(n => {
+    const runs = data.runs_no_inhib.filter(r => r.n === n);
+    return runs.reduce((a, r) => a + r.fill_pct, 0) / runs.length;
+  });
+
+  ctx.strokeStyle = COLORS.orange;
+  ctx.fillStyle = COLORS.orange;
+  ctx.beginPath();
+  for (let i = 0; i < ns.length; i++) {
+    const x = ml + (ns[i] / 11000) * (w - ml - 10);
+    const y = h - mb - (noInhibMeans[i] / 110) * (h - mb - 10);
+    if (i === 0) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
+    ctx.beginPath();
+    ctx.arc(x, y, 4, 0, 2 * Math.PI);
+    ctx.fill();
+  }
+
+  // 160×160 reference: with-boundary fill ~44%, no-inhib ~100%
+  ctx.strokeStyle = COLORS.green;
+  ctx.setLineDash([3, 3]);
+  ctx.beginPath();
+  const y160wb = h - mb - (44 / 110) * (h - mb - 10);
+  ctx.moveTo(ml, y160wb);
+  ctx.lineTo(w - 10, y160wb);
+  ctx.stroke();
+  ctx.fillStyle = COLORS.green;
+  ctx.font = '10px sans-serif';
+  ctx.fillText('160×160 with-boundary (~44%)', ml + 5, y160wb - 5);
+
+  ctx.beginPath();
+  const y160ni = h - mb - (100 / 110) * (h - mb - 10);
+  ctx.moveTo(ml, y160ni);
+  ctx.lineTo(w - 10, y160ni);
+  ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillText('160×160 no-inhib (~100%)', ml + 5, y160ni - 5);
+
+  // Legend
+  ctx.font = '11px sans-serif';
+  ctx.fillStyle = COLORS.blue;
+  ctx.fillText('● 320×320 with boundary', w - 200, 25);
+  ctx.fillStyle = COLORS.orange;
+  ctx.fillText('● 320×320 no inhibition', w - 200, 42);
+}
+
+loadData();
+</script>
+</body>
+</html>
