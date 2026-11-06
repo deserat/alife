@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>r=16 on 320×320 — Does the 30th Ceiling Rescue?</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --fg: #c9d1d9;
+    --muted: #8b949e;
+    --accent: #58a6ff;
+    --red: #f85149;
+    --green: #3fb950;
+    --yellow: #d29922;
+    --border: #30363d;
+    --card: #161b22;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg); color: var(--fg);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 14px; line-height: 1.6; padding: 20px; max-width: 1100px;
+    margin: 0 auto;
+  }
+  h1 { font-size: 1.4em; margin-bottom: 4px; }
+  h2 { font-size: 1.1em; margin: 20px 0 8px; color: var(--accent); }
+  .subtitle { color: var(--muted); font-size: 0.85em; margin-bottom: 16px; }
+  .card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 8px; padding: 16px; margin-bottom: 16px;
+  }
+  .finding {
+    background: rgba(248,81,73,0.1); border: 1px solid rgba(248,81,73,0.3);
+    border-radius: 8px; padding: 12px 16px; margin-bottom: 16px;
+    font-size: 0.95em;
+  }
+  .finding strong { color: var(--red); }
+  table { width: 100%; border-collapse: collapse; font-size: 0.82em; }
+  th, td { padding: 6px 8px; text-align: center; border-bottom: 1px solid var(--border); }
+  th { color: var(--muted); font-weight: 600; font-size: 0.9em; }
+  td:first-child, th:first-child { text-align: left; }
+  .stable-yes { color: var(--green); font-weight: 600; }
+  .stable-no { color: var(--red); }
+  .gap-neg { color: var(--red); }
+  .gap-pos { color: var(--green); }
+  canvas { display: block; margin: 0 auto; }
+  .chart-note { text-align: center; color: var(--muted); font-size: 0.8em; margin-top: 6px; }
+  .ref-table { font-size: 0.8em; }
+  .ref-table th { color: var(--muted); }
+  .ref-table .highlight { background: rgba(88,166,255,0.1); }
+  .predicted { color: var(--yellow); }
+  .actual { color: var(--red); font-weight: 600; }
+</style>
+</head>
+<body>
+<h1>r=16 on 320×320 — Does the 30th Ceiling Rescue?</h1>
+<p class="subtitle">Session 103 · Queued-topic #261 · r/grid = 5% (matching 160×160 at r=8) · Predicted ceiling: ~43.6% fill</p>
+
+<div class="finding">
+  <strong>FALSIFIED.</strong> The r/grid scaling does not hold. At r/grid = 5% (matching 160×160 at r=8),
+  the 30th ceiling on 320×320 r=16 is below 32.7% fill — far below 160×160's 43.6%.
+  The boundary's fill-capping power is negligible at all n values (gap < 1%),
+  matching the 53rd mechanism: the co-presence signal is too sparse on larger grids.
+  r/grid captures the boundary's spatial reach but not its signal strength (b_scale).
+</div>
+
+<div class="card">
+<h2>r=16 320×320 Results</h2>
+<table id="results-table">
+  <thead>
+    <tr><th>n</th><th>Fill%</th><th>Stable</th><th>Coexist</th><th>H7</th><th>L2(1s)</th><th>No-Inhib Fill%</th><th>Gap%</th><th>Mean lc/rc</th></tr>
+  </thead>
+  <tbody id="results-body"></tbody>
+</table>
+</div>
+
+<div class="card">
+<h2>Cross-Grid Ceiling Comparison</h2>
+<table class="ref-table">
+  <thead>
+    <tr><th>Grid</th><th>r</th><th>r/grid</th><th>Ceiling Fill%</th><th>Stable at Ceiling</th><th>Boundary Gap</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>80×80</td><td>8</td><td>10%</td><td>~70% (gradual)</td><td>2/4 → 0/4</td><td>~large</td></tr>
+    <tr class="highlight"><td>160×160</td><td>8</td><td>5%</td><td>43.6%</td><td>0/4</td><td>~56%</td></tr>
+    <tr><td>320×320</td><td>8</td><td>2.5%</td><td>&lt;25%</td><td>0/4</td><td>~1%</td></tr>
+    <tr class="highlight"><td>320×320</td><td>16</td><td>5%</td><td class="predicted">predicted 43.6%</td><td>—</td><td>—</td></tr>
+    <tr class="highlight"><td>320×320</td><td>16</td><td>5%</td><td class="actual">&lt;32.7%</td><td>0/4</td><td>~0%</td></tr>
+  </tbody>
+</table>
+<p class="chart-note">At the same r/grid = 5%, the ceiling dropped from 43.6% (160×160) to below 32.7% (320×320 r=16).
+The boundary's fill-capping power vanished (gap ~56% → ~0%). r/grid is necessary but not sufficient.</p>
+</div>
+
+<div class="card">
+<h2>Fill vs N (with no-inhibition reference)</h2>
+<canvas id="fill-chart" width="700" height="300"></canvas>
+<p class="chart-note">Blue = with boundary (r=16), Orange = no-inhibition. The boundary adds no fill capping on 320×320.</p>
+</div>
+
+<div class="card">
+<h2>Over-Splitting Severity (components per region)</h2>
+<canvas id="split-chart" width="700" height="250"></canvas>
+<p class="chart-note">160×160 r=8 at the ceiling: 5–7 components. 320×320 r=16: 22–68 components — 4–10× worse despite same r/grid.</p>
+</div>
+
+<div class="card">
+<h2>Per-Seed Detail</h2>
+<table id="detail-table" style="font-size: 0.78em;">
+  <thead>
+    <tr><th>n</th><th>Seed</th><th>Fill%</th><th>Stable</th><th>Outcome</th><th>H7</th><th>cf</th><th>lc</th><th>rc</th><th>bmax</th></tr>
+  </thead>
+  <tbody id="detail-body"></tbody>
+</table>
+</div>
+
+<div class="card">
+<h2>Why the r/grid Scaling Fails</h2>
+<p style="font-size: 0.9em; color: var(--muted);">
+The boundary's suppression depends on TWO components:<br>
+1. <strong>Spatial reach</strong> (r/grid) — r=16 gives 5% of grid, matching 160×160<br>
+2. <strong>Signal strength</strong> (b_scale) — the co-presence signal is 4× sparser on 320×320<br><br>
+The r/grid ratio captures (1) but not (2). The co-presence signal is intensive — it depends on the
+spatial arrangement of material, not just the dilation radius. On a 4× larger grid, the same r=16
+(5% of grid) reaches far enough, but the signal it encounters is too sparse to generate sufficient
+boundary suppression. The boundary's fill-capping power is ~56% on 160×160 but ~0% on 320×320 r=16.<br><br>
+This is the 53rd mechanism (extensive/intensive distinction) applied to the 30th ceiling:
+the ceiling depends on the boundary's <em>effective</em> suppression, which has both a spatial
+(extensive, r) and a density (intensive, b_scale) component. r/grid captures the spatial component
+but misses the density component.
+</p>
+</div>
+
+<script>
+const CHART = {
+  bg: '#0d1117', fg: '#c9d1d9', muted: '#8b949e',
+  accent: '#58a6ff', red: '#f85149', green: '#3fb950',
+  yellow: '#d29922', border: '#30363d',
+};
+
+function drawAxis(ctx, w, h, xLabel, yLabel, xMin, xMax, yMin, yMax, pad=50) {
+  ctx.strokeStyle = CHART.border; ctx.fillStyle = CHART.muted;
+  ctx.font = '11px sans-serif'; ctx.lineWidth = 1;
+  // axis lines
+  ctx.beginPath();
+  ctx.moveTo(pad, 10); ctx.lineTo(pad, h-25); ctx.lineTo(w-10, h-25);
+  ctx.stroke();
+  // labels
+  ctx.fillText(xLabel, w/2-30, h-5);
+  ctx.save(); ctx.translate(12, h/2); ctx.rotate(-Math.PI/2);
+  ctx.fillText(yLabel, 0, 0); ctx.restore();
+  // ticks
+  const nTicks = 5;
+  for (let i = 0; i <= nTicks; i++) {
+    const xv = xMin + (xMax - xMin) * i / nTicks;
+    const yv = yMin + (yMax - yMin) * i / nTicks;
+    const px = pad + (w - pad - 10) * i / nTicks;
+    const py = (h - 25) - (h - 35) * i / nTicks;
+    ctx.fillStyle = CHART.muted; ctx.textAlign = 'center';
+    ctx.fillText(xv.toFixed(0), px, h-10);
+    ctx.textAlign = 'right';
+    ctx.fillText(yv.toFixed(0), pad-4, py+4);
+  }
+  ctx.textAlign = 'left';
+}
+
+function plotPoints(ctx, pts, color, w, h, xMin, xMax, yMin, yMax, pad=50) {
+  ctx.fillStyle = color;
+  for (const [x, y] of pts) {
+    const px = pad + (w - pad - 10) * (x - xMin) / (xMax - xMin);
+    const py = (h - 25) - (h - 35) * (y - yMin) / (yMax - yMin);
+    ctx.beginPath(); ctx.arc(px, py, 4, 0, Math.PI*2); ctx.fill();
+  }
+}
+
+function plotLine(ctx, pts, color, w, h, xMin, xMax, yMin, yMax, pad=50) {
+  ctx.strokeStyle = color; ctx.lineWidth = 2;
+  ctx.beginPath();
+  for (let i = 0; i < pts.length; i++) {
+    const px = pad + (w - pad - 10) * (pts[i][0] - xMin) / (xMax - xMin);
+    const py = (h - 25) - (h - 35) * (pts[i][1] - yMin) / (yMax - yMin);
+    if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+  }
+  ctx.stroke();
+}
+
+function render(data) {
+  // Summary table
+  const tbody = document.getElementById('results-body');
+  for (const s of data.summary) {
+    const gapCls = s.boundary_gap < 0 ? 'gap-neg' : 'gap-pos';
+    tbody.innerHTML += `<tr>
+      <td>${s.n}</td><td>${s.fill_pct_mean.toFixed(1)}</td>
+      <td class="stable-no">${s.stable_4}</td>
+      <td>${s.coexist_4}</td><td>${s.h7_4}</td>
+      <td>${s.l2_1s}</td>
+      <td>${s.no_inhib_fill_pct_mean.toFixed(1)}</td>
+      <td class="${gapCls}">${s.boundary_gap.toFixed(1)}</td>
+      <td>—</td></tr>`;
+  }
+
+  // Fill chart
+  const fc = document.getElementById('fill-chart');
+  const fctx = fc.getContext('2d');
+  const fillPts = data.summary.map(s => [s.n, s.fill_pct_mean]);
+  const noInhibPts = data.summary.map(s => [s.n, s.no_inhib_fill_pct_mean]);
+  const allFill = [...fillPts.map(p=>p[1]), ...noInhibPts.map(p=>p[1])];
+  const yMax = Math.max(...allFill) * 1.15;
+  const yMin = 0;
+  const xMin = Math.min(...data.summary.map(s=>s.n)) * 0.9;
+  const xMax = Math.max(...data.summary.map(s=>s.n)) * 1.05;
+  drawAxis(fctx, 700, 300, 'n (termites)', 'Fill %', xMin, xMax, yMin, yMax);
+  // draw ceiling reference line
+  fctx.strokeStyle = CHART.yellow; fctx.lineWidth = 1; fctx.setLineDash([5,3]);
+  const yRef = (300 - 25) - (300 - 35) * (43.6 - yMin) / (yMax - yMin);
+  fctx.beginPath(); fctx.moveTo(50, yRef); fctx.lineTo(690, yRef); fctx.stroke();
+  fctx.setLineDash([]); fctx.fillStyle = CHART.yellow; fctx.font = '10px sans-serif';
+  fctx.fillText('160×160 ceiling: 43.6%', 55, yRef - 4);
+  // plot
+  plotLine(fctx, fillPts, CHART.accent, 700, 300, xMin, xMax, yMin, yMax);
+  plotPoints(fctx, fillPts, CHART.accent, 700, 300, xMin, xMax, yMin, yMax);
+  plotLine(fctx, noInhibPts, CHART.yellow, 700, 300, xMin, xMax, yMin, yMax);
+  plotPoints(fctx, noInhibPts, CHART.yellow, 700, 300, xMin, xMax, yMin, yMax);
+  // legend
+  fctx.fillStyle = CHART.accent; fctx.fillText('● with boundary (r=16)', 200, 20);
+  fctx.fillStyle = CHART.yellow; fctx.fillText('● no inhibition', 350, 20);
+
+  // Split chart
+  const sc = document.getElementById('split-chart');
+  const sctx = sc.getContext('2d');
+  const splitPts = data.runs_2seed.map(r => [r.n, r.late_mean_lc]);
+  const splitPtsRc = data.runs_2seed.map(r => [r.n, r.late_mean_rc]);
+  const allSplit = [...splitPts.map(p=>p[1]), ...splitPtsRc.map(p=>p[1])];
+  const syMax = Math.max(...allSplit) * 1.1;
+  const syMin = 0;
+  drawAxis(sctx, 700, 250, 'n (termites)', 'Components per region', xMin, xMax, syMin, syMax);
+  // 160×160 reference
+  sctx.strokeStyle = CHART.green; sctx.lineWidth = 1; sctx.setLineDash([5,3]);
+  const refY = (250 - 25) - (250 - 35) * (6 / syMax);
+  sctx.beginPath(); sctx.moveTo(50, refY); sctx.lineTo(690, refY); sctx.stroke();
+  sctx.setLineDash([]); sctx.fillStyle = CHART.green; sctx.font = '10px sans-serif';
+  sctx.fillText('160×160 ceiling: ~6', 55, refY - 4);
+  // plot
+  for (const r of data.runs_2seed) {
+    const px = 50 + (700 - 60) * (r.n - xMin) / (xMax - xMin);
+    const pyl = (250 - 25) - (250 - 35) * (r.late_mean_lc / syMax);
+    const pyr = (250 - 25) - (250 - 35) * (r.late_mean_rc / syMax);
+    sctx.fillStyle = CHART.red;
+    sctx.beginPath(); sctx.arc(px, pyl, 3, 0, Math.PI*2); sctx.fill();
+    sctx.fillStyle = CHART.accent;
+    sctx.beginPath(); sctx.arc(px, pyr, 3, 0, Math.PI*2); sctx.fill();
+  }
+  sctx.fillStyle = CHART.red; sctx.font = '10px sans-serif'; sctx.fillText('● lc (left region)', 200, 20);
+  sctx.fillStyle = CHART.accent; sctx.fillText('● rc (right region)', 320, 20);
+
+  // Detail table
+  const dbody = document.getElementById('detail-body');
+  for (const r of data.runs_2seed) {
+    const stCls = r.l2_stable ? 'stable-yes' : 'stable-no';
+    dbody.innerHTML += `<tr>
+      <td>${r.n}</td><td>${r.seed}</td><td>${r.fill_pct.toFixed(1)}</td>
+      <td class="${stCls}">${r.l2_stable}</td>
+      <td>${r.l2_outcome}</td><td>${r.crossed_h7}</td>
+      <td>${r.l2_coexist_frac.toFixed(2)}</td>
+      <td>${r.late_mean_lc.toFixed(1)}</td><td>${r.late_mean_rc.toFixed(1)}</td>
+      <td>${r.b_max.toFixed(1)}</td></tr>`;
+  }
+}
+
+// Load data
+fetch('output/r16_320_ceiling.json')
+  .then(r => r.json())
+  .then(data => {
+    // Add boundary_gap to summary if missing
+    data.summary = data.summary.map(s => ({
+      ...s,
+      boundary_gap: s.boundary_gap ?? (s.no_inhib_fill_pct_mean - s.fill_pct_mean)
+    }));
+    render(data);
+  })
+  .catch(e => {
+    document.getElementById('results-body').innerHTML =
+      '<tr><td colspan="9" style="color:#f85149;">Could not load output/r16_320_ceiling.json — ' + e.message + '</td></tr>';
+  });
+</script>
+</body>
+</html>

@@ -2,8 +2,8 @@
 title: "Hypotheses"
 topic: "testable hypotheses for the multi-scale ALife composition project"
 status: active
-date: "2026-11-05"
-session: 102
+date: "2026-11-06"
+session: 103
 count: 11
 active: [H1, H2, H3, H4, H5, H6, H7, H8, H9, H10, H11]
 logs: ["logs/H1/", "logs/H2/", "logs/H3/", "logs/H4/", "logs/H5/", "logs/H6/", "logs/H7/", "logs/H8/", "logs/H9/", "logs/H10/", "logs/H11/"]
@@ -70,7 +70,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **For an emergent structure to persist as a new actor at a higher scale, it must be autopoietic — it must maintain the network that constitutes it.** Self-maintenance is the persistence condition. Without it, emergent structures are transient patterns, not new actors.
 
-**Status:** Refined (Session 102). The 30th ceiling on 320×320 is below ~25% fill — stability is 0/4 at all n values (n=6000–10000, fill 40–58%). The absolute-spatial-scale principle is confirmed at three grid sizes: the ceiling fill% scales monotonically with the boundary's dilation radius as a fraction of the grid (80×80 10% → ~70%, 160×160 5% → ~43.6%, 320×320 2.5% → below ~25%). The 54th mechanism: the 30th ceiling is grid-size-dependent. The boundary's fill-capping power is negligible on 320×320 (~1% gap vs ~56% on 160×160). H7 is 4/4 at all n values. Previous: steady-state α_nc=0.46–0.76 (subdiffusive) at all densities — G&G match was growth-phase artifact; 30th ceiling is stability boundary not G&G critical point; G&G mapping analogical not quantitative; the growth-phase α≈1.7 match was coincidental. Previous: the 30th ceiling is DERIVED from the growth-suppression balance R(n) = √n × α × (1−fill) / (β × √fill) crosses 1.0 at n ≈ 3000 (fill ≈ 43.6%), matching the measured ceiling. The balance maps onto Gelimson & Golestanian (2015, PRL 114, 028101): their θ = (μα₀ + λ)C₀ ↔ our (suppression + growth) × grid². Their threshold μ < λ/α₀ ↔ our n > (β/α)² = 2189 (measured 2500–3000). The phase transition is IRREVERSIBLE — once the boundary loses coherence, the system stays unstable even as the growth rate slows at high fill (logistic carrying-capacity effect). The non-monotonicity of the balance ratio (0.74 → 1.13 → 0.51) is the spatial analog of G&G's separatrix: the first crossing is the transition; the subsequent drop is the carrying capacity on an already-transitioned system.
+**Status:** Refined (Session 103). The r/grid scaling is FALSIFIED — at r/grid = 5% (matching 160×160 r=8), the ceiling on 320×320 r=16 is below 32.7% fill (predicted 43.6%). The boundary's fill-capping power is negligible at all n values (gap <1%, vs ~56% on 160×160). The 54th mechanism is refined: the ceiling depends on r/grid AND b_scale/grid — r/grid captures the boundary's spatial reach (extensive) but not its signal strength (intensive, through the co-presence signal's spatial density). The 53rd mechanism (extensive/intensive distinction) applies to the 30th ceiling. H7 is 4/4 at all n values. Previous: the 30th ceiling on 320×320 is below ~25% fill — stability 0/4 at all n values (n=6000–10000, fill 40–58%); absolute-spatial-scale principle confirmed at three grid sizes (r/grid: 10%→~70%, 5%→~43.6%, 2.5%→<25%); 54th mechanism: ceiling is grid-size-dependent; boundary fill-capping negligible on 320×320 (~1% gap vs ~56% on 160×160); H7=4/4 at all n.
 
 **Log:** [logs/H5/](logs/H5/)
 
@@ -216,7 +216,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 | H2: ANT Translation | Unchanged | Theoretical, untested | [H2](logs/H2/) |
 | H3: Quasi-Object | Strengthened | Stigmergy literature support; Echo partial support | [H3](logs/H3/) |
 | H4: Dynamic Environment | Refined | Fitness landscape criticism supports this | [H4](logs/H4/) |
-| H5: Autopoiesis | Refined (S102) | 30th ceiling on 320×320 below ~25% fill (0/4 at all n); absolute-spatial-scale principle confirmed at 3 grid sizes (r/grid: 10%→~70%, 5%→~43.6%, 2.5%→<25%); 54th mechanism: ceiling is grid-size-dependent; boundary fill-capping negligible on 320×320 (~1% vs ~56%); H7=4/4 | [H5](logs/H5/) |
+| H5: Autopoiesis | Refined (S103) | r/grid scaling FALSIFIED — at r/grid=5% (matching 160×160 r=8), ceiling on 320×320 r=16 is <32.7% (predicted 43.6%); boundary fill-capping negligible (gap <1% vs ~56% on 160×160); 54th mechanism refined: ceiling depends on r/grid AND b_scale/grid (extensive reach + intensive signal); H7=4/4 | [H5](logs/H5/) |
 | H6: Multi-Scale Autopoiesis | Refined (S77) | 12th member fully lost at n=11000–14000 (~84–99% fill): 1s l2=0/4; progressive loss, not sharp threshold | [H6](logs/H6/) |
 | H7: Trace→Actor Crossing | Refined ×67; fill cap saturation is a HARD ceiling (grid full); g* limit n≈14000-15000 — boundary capping power decays exponentially (gap halves per 1000-n); H7=4/4 at all densities; L2=0/4; 30th persists; 43rd saturation at n≈14000 | [H7](logs/H7/) |
 | H8: Complexity Enables OEE | NEW | Kaznatcheev (2019), Wiser et al. (2013) | [H8](logs/H8/) |

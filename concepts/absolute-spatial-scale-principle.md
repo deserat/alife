@@ -501,3 +501,26 @@ The 320×320 30th ceiling sweep (queued-topic #259) tested the absolute-spatial-
 | 320×320 | 2.5% | below ~25% | over-splitting (severe) |
 
 The 54th mechanism: the 30th ceiling is grid-size-dependent, scaling with r/grid. The ceiling is NOT a universal fill fraction — it is a ratio of the boundary's spatial scale to the structure's linear size. H7 is 4/4 at all n values (crossing robust). All runs over-splitting (lc/rc 9–50). Determinism verified.
+
+### Session 103 — r/grid scaling FALSIFIED: r=16 on 320×320 does NOT rescue the ceiling
+
+The r/grid scaling prediction was tested directly: r=16 on 320×320 (r/grid = 5%, matching 160×160 r=8) should shift the 30th ceiling back to ~43.6% fill if the r/grid ratio is the sole determinant. It did NOT.
+
+**Stability is 0/4 at all n values** (n=4000, 6000, 8000; fill 32.7%, 40.2%, 49.0%) — the ceiling is below 32.7% fill, at least 11pp below the predicted 43.6%.
+
+**The boundary's fill-capping power is negligible at ALL n values** (gap to no-inhibition: -0.3%, +0.6%, -0.3%). On 160×160 r=8, the boundary reduced fill from ~100% to ~44% (gap ~56%). On 320×320 r=16 (same r/grid), the boundary adds zero fill capping. The no-inhibition fill matches the with-boundary fill to within 0.6%.
+
+**Over-splitting is severe** (lc/rc = 22–68 components per region vs 5–7 on 160×160 at the ceiling). The boundary fragments the structure without preventing growth.
+
+**Why r/grid is necessary but not sufficient.** The boundary's effective suppression depends on TWO components: (1) spatial reach (r/grid) — r=16 gives 5% of grid, matching 160×160; (2) signal strength (b_scale) — the co-presence signal's spatial density is 4× sparser on 320×320. r/grid captures (1) but not (2). The co-presence signal is intensive — it depends on the spatial arrangement of material, not just the dilation radius. Even with r=16 (2× the spatial reach), the signal it encounters is too sparse to generate sufficient boundary suppression. This is the 53rd mechanism (extensive/intensive distinction) applied to the 30th ceiling.
+
+**The 54th mechanism is refined.** The ceiling is a function of r/grid AND b_scale/grid, not r/grid alone. The gain compensation test (#228) already showed the co-presence signal's sparsity is NOT gain-compensable — confirming the signal strength is a structural property of the spatial arrangement, not a magnitude that can be boosted.
+
+| Grid | r | r/grid | Ceiling fill% | Boundary gap |
+|------|---|--------|---------------|--------------|
+| 80×80 | 8 | 10% | ~70% (gradual) | ~large |
+| 160×160 | 8 | 5% | 43.6% | ~56% |
+| 320×320 | 8 | 2.5% | <25% | ~1% |
+| 320×320 | 16 | 5% | **<32.7%** (predicted 43.6%) | **~0%** (predicted ~56%) |
+
+H7 is 4/4 at all n values. Determinism verified (n=8000, seed=42, 50060 vs 50060). See `r16_320_ceiling.py`, `output/r16_320_ceiling.json`, `r16_320_ceiling_viz.html`.

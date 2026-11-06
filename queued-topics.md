@@ -3091,21 +3091,31 @@ to compare.
 ## From Session 102 (2026-11-05)
 
 261. **Can a larger dilation radius (r=16 or r=32) on 320×320 rescue the 30th
-     ceiling?** — The 30th ceiling on 320×320 (r=8, 2.5% of grid) is below
-     ~25% fill. If the ceiling scales with r/grid (the 54th mechanism), then
-     r=16 (5% of grid, matching 160×160) should shift the ceiling back to
-     ~43.6%. The separable max-filter optimization (Session 98) makes r=16
-     on 320×320 tractable (O(2r) instead of O(r²)). Test: run a plateau sweep
-     at r=16 on 320×320 and find the fill% where stability collapses.
-     Prediction: ~43.6% (matching 160×160 at r=8, confirming the r/grid scaling).
+     ceiling?** — DONE (Session 103).
+     The r/grid scaling is FALSIFIED. r=16 on 320×320 (r/grid = 5%, matching
+     160×160 r=8) was predicted to shift the 30th ceiling back to ~43.6% fill.
+     Instead, stability is 0/4 at all three n values tested (n=4000, 6000, 8000;
+     fill 32.7%, 40.2%, 49.0%) — the ceiling is below 32.7% fill, 11pp below
+     prediction. The boundary's fill-capping power is negligible at all n values
+     (gap <1%, vs ~56% on 160×160). The 54th mechanism is refined: the ceiling
+     depends on r/grid AND b_scale/grid — r/grid captures the boundary's spatial
+     reach (extensive) but not its signal strength (intensive, through the
+     co-presence signal's spatial density). The 53rd mechanism (extensive/intensive
+     distinction) applies to the 30th ceiling. H7=4/4 at all n. Determinism
+     verified. See `r16_320_ceiling.py`, `output/r16_320_ceiling.json`,
+     `r16_320_ceiling_viz.html`. NEXT: At what r/grid does the ceiling disappear
+     entirely? (#262).
 
 262. **At what r/grid does the 30th ceiling disappear entirely?** — The ceiling
-     scales with r/grid: 10% → ~70%, 5% → ~43.6%, 2.5% → below ~25%. Is there
-     a critical r/grid below which the boundary is too weak for any stable
+     scales with r/grid AND b_scale/grid (the 54th mechanism is refined, Session
+     103): 10% → ~70%, 5% → ~43.6% (160×160) / <32.7% (320×320 r=16), 2.5% → <25%.
+     Is there a critical r/grid below which the boundary is too weak for any stable
      composition? Or does the ceiling continue to decrease toward 0% as r/grid
      shrinks? Test: r=4 (1.25% of 320×320) — does stability exist at any fill?
      If not, the ceiling is at 0% fill — the boundary cannot maintain stable
-     composition at any density when r/grid < ~1%.
+     composition at any density when r/grid < ~1%. Note: the r/grid scaling is
+     necessary but not sufficient (the b_scale/grid also matters), so the
+     disappearance may depend on the absolute grid size, not just r/grid.
 
 263. **Why does the growth-phase α≈1.7 match G&G?** — Session 101 falsified the
      steady-state match (α_nc=0.46–0.76, not 1.72). But the growth-phase exponent
@@ -3114,3 +3124,26 @@ to compare.
      deposits) may pass through the G&G critical regime transiently. Understanding
      why the growth phase carries this exponent could reveal a genuine connection
      or a definitive coincidence. Cheap: analysis of existing data.
+
+## From Session 103 (2026-11-06)
+
+264. **Can the b_scale be directly measured at r=16 on 320×320?** — The
+     signal-density explanation for the r/grid falsification predicts the
+     b_scale (initial co-presence 95th percentile) is much lower on 320×320
+     than 160×160 at the same r/grid. Session 90 measured b_scale on 80×80 and
+     160×160 at r=8 (0.124 vs 0.004, 31× gap with absolute dilation). At r=16
+     on 320×320, b_scale should be similar to 160×160 r=8 (same r/grid) IF
+     the r/grid scaling holds for b_scale. But the co-presence signal is
+     extensive at steady state (Session 83/84), so b_scale might also be
+     lower. Direct measurement would confirm the signal-density explanation
+     and potentially provide a quantitative predictor: ceiling = f(r/grid,
+     b_scale). Cheap: analysis of the r16_320_ceiling.json boundary traces.
+
+265. **Can the 30th ceiling be predicted from a two-component formula?** — The
+     54th mechanism's refinement says the ceiling depends on r/grid AND
+     b_scale/grid. Can a formula like ceiling = a·(r/grid) + b·(b_scale/grid)
+     fit the four data points (80×80 r=8, 160×160 r=8, 320×320 r=8, 320×320
+     r=16)? If it fits, the ceiling is a two-parameter surface and the
+     r/grid scaling was the first-order approximation (valid when b_scale
+     is high, i.e., on small grids). If it doesn't fit, there are more
+     components. Cheap: regression on existing data.
