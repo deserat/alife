@@ -2,8 +2,8 @@
 title: "Hypotheses"
 topic: "testable hypotheses for the multi-scale ALife composition project"
 status: active
-date: "2026-11-06"
-session: 103
+date: "2026-11-07"
+session: 104
 count: 11
 active: [H1, H2, H3, H4, H5, H6, H7, H8, H9, H10, H11]
 logs: ["logs/H1/", "logs/H2/", "logs/H3/", "logs/H4/", "logs/H5/", "logs/H6/", "logs/H7/", "logs/H8/", "logs/H9/", "logs/H10/", "logs/H11/"]
@@ -70,7 +70,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **For an emergent structure to persist as a new actor at a higher scale, it must be autopoietic — it must maintain the network that constitutes it.** Self-maintenance is the persistence condition. Without it, emergent structures are transient patterns, not new actors.
 
-**Status:** Refined (Session 103). The r/grid scaling is FALSIFIED — at r/grid = 5% (matching 160×160 r=8), the ceiling on 320×320 r=16 is below 32.7% fill (predicted 43.6%). The boundary's fill-capping power is negligible at all n values (gap <1%, vs ~56% on 160×160). The 54th mechanism is refined: the ceiling depends on r/grid AND b_scale/grid — r/grid captures the boundary's spatial reach (extensive) but not its signal strength (intensive, through the co-presence signal's spatial density). The 53rd mechanism (extensive/intensive distinction) applies to the 30th ceiling. H7 is 4/4 at all n values. Previous: the 30th ceiling on 320×320 is below ~25% fill — stability 0/4 at all n values (n=6000–10000, fill 40–58%); absolute-spatial-scale principle confirmed at three grid sizes (r/grid: 10%→~70%, 5%→~43.6%, 2.5%→<25%); 54th mechanism: ceiling is grid-size-dependent; boundary fill-capping negligible on 320×320 (~1% gap vs ~56% on 160×160); H7=4/4 at all n.
+**Status:** Refined (Session 104). b_scale is purely geometric — depends only on r/grid (0.124 at 10%, 0.004 at 5%, ~0 at 2.5%), not absolute grid size. But the 30th ceiling = 185.82×(r/grid) + 3822.55×(1/grid) + 10.34 (R²=0.996) — depends on r/grid AND 1/grid (absolute grid size). The 55th mechanism: the ceiling's grid-size dependence is from extensive over-splitting (number of boundary components scales with grid area), not the intensive b_scale. The growth-phase α_nc=1.729 matches G&G's 2D α=1.72 because the growth dynamics near the 30th ceiling pass through the G&G critical regime. The 54th mechanism is resolved: b_scale = f(r/grid) (collinear), and the true two variables are r/grid and 1/grid. Previous: the r/grid scaling is FALSIFIED — at r/grid=5% (matching 160×160 r=8), the ceiling on 320×320 r=16 is below 32.7% fill (predicted 43.6%); boundary fill-capping negligible (gap <1% vs ~56% on 160×160); 54th mechanism refined — ceiling depends on r/grid AND b_scale/grid; 53rd mechanism applies; H7=4/4 at all n.
 
 **Log:** [logs/H5/](logs/H5/)
 

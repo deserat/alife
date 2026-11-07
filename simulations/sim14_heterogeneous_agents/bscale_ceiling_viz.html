@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Session 104 — b_scale, Ceiling Formula, Growth-Phase Alpha</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --border: #30363d;
+    --text: #c9d1d9;
+    --muted: #8b949e;
+    --accent: #58a6ff;
+    --green: #3fb950;
+    --red: #f85149;
+    --yellow: #d29922;
+    --orange: #db6d28;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  h1 { font-size: 1.5em; margin-bottom: 4px; color: var(--text); }
+  h2 {
+    font-size: 1.2em;
+    margin-top: 28px;
+    margin-bottom: 10px;
+    color: var(--accent);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 6px;
+  }
+  h3 { font-size: 1.05em; margin-top: 16px; margin-bottom: 8px; color: var(--yellow); }
+  .subtitle { color: var(--muted); font-size: 0.85em; margin-bottom: 16px; }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 16px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.82em;
+    margin: 8px 0;
+  }
+  th, td {
+    text-align: right;
+    padding: 6px 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  th { color: var(--accent); font-weight: 600; }
+  td:first-child, th:first-child { text-align: left; }
+  .highlight { color: var(--green); font-weight: 600; }
+  .warn { color: var(--yellow); }
+  .red { color: var(--red); }
+  .finding {
+    background: rgba(88, 166, 255, 0.08);
+    border-left: 3px solid var(--accent);
+    padding: 10px 14px;
+    margin: 8px 0;
+    border-radius: 4px;
+    font-size: 0.9em;
+  }
+  .finding strong { color: var(--accent); }
+  canvas {
+    display: block;
+    margin: 12px auto;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+  }
+  .formula {
+    font-family: 'SF Mono', Consolas, monospace;
+    font-size: 0.9em;
+    background: rgba(210, 153, 34, 0.1);
+    border: 1px solid rgba(210, 153, 34, 0.3);
+    padding: 8px 12px;
+    border-radius: 4px;
+    margin: 8px 0;
+    color: var(--yellow);
+  }
+  .rsq { color: var(--green); font-weight: 600; }
+  .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media (max-width: 800px) { .grid3, .grid2 { grid-template-columns: 1fr; } }
+  .small { font-size: 0.8em; color: var(--muted); }
+  #status { text-align: center; padding: 40px; color: var(--muted); }
+</style>
+</head>
+<body>
+<h1>Session 104 — b_scale Is Purely Geometric; Ceiling = f(r/grid, 1/grid); Growth-Phase α Matches G&G</h1>
+<p class="subtitle">Queued-topics #263, #264, #265 — pure analysis of existing data</p>
+<div id="status">Loading results…</div>
+<div id="content" style="display:none;">
+
+  <h2>1. b_scale Is Purely Geometric — Depends Only on r/grid (#264)</h2>
+  <div class="card">
+    <p>b_scale = 95th percentile of initial ID co-presence (before any dynamics). Measured at 9 (grid, radius) combinations across three grid sizes.</p>
+    <div id="bscale-table"></div>
+    <div class="finding">
+      <strong>Finding:</strong> b_scale depends ONLY on r/grid. At r/grid=10%, b_scale=0.1237 on all three grids. At r/grid=5%, b_scale≈0.004. At r/grid=2.5%, b_scale=0.0. The co-presence signal's initial magnitude is a pure geometric property — it does not depend on absolute grid size.
+    </div>
+  </div>
+
+  <h2>2. The 30th Ceiling = f(r/grid, 1/grid) — Two-Component Formula (#265)</h2>
+  <div class="card">
+    <p>Five ceiling data points (fill% at which stability collapses) across three grids and three radii. b_scale is f(r/grid), so it cannot be an independent variable. The true two variables are r/grid and 1/grid.</p>
+    <div id="ceiling-table"></div>
+    <h3>Key comparison: same r/grid, different ceiling</h3>
+    <div id="comparison-table"></div>
+    <div class="finding">
+      <strong>Finding:</strong> 160×160 r=8 and 320×320 r=16 have the SAME r/grid (5%) and the SAME b_scale (~0.004), but DIFFERENT ceilings (43.6% vs <32.7%). The third variable is <strong>1/grid</strong> — the absolute grid size. The over-splitting is extensive (scales with grid area), not intensive (scales with fraction).
+    </div>
+    <h3>Regression fits</h3>
+    <div id="fits-table"></div>
+    <div class="formula" id="best-formula"></div>
+    <canvas id="ceiling-chart" width="700" height="360"></canvas>
+    <p class="small">Blue dots = actual ceiling fill%. Orange dots = predicted from the two-component formula. The formula ceiling = 185.82×(r/grid) + 3822.55×(1/grid) + 10.34 fits all five points to R²=0.996.</p>
+  </div>
+
+  <h2>3. Growth-Phase α≈1.72 Matches G&G's 2D Critical Exponent (#263)</h2>
+  <div class="card">
+    <p>The cell-count MSD exponent (α_nc) was measured at 4 densities (n=1500–4000) on 160×160. The G&G 2D critical exponent is 1.72.</p>
+    <div id="alpha-table"></div>
+    <div class="finding">
+      <strong>Finding:</strong> At n=1500 (fill=48.1%, just above the 30th ceiling ~43.6%), α_nc=1.729 — matching G&G's 2D α=1.72 to 3 sig figs. The match is because the growth dynamics near the 30th ceiling pass through the G&G critical regime (weakly coupled fixed point: interactions regulate growth). The exponent decreases monotonically with n as the system moves past the critical regime. The component-count exponents (α_lc/rc ~0.5–0.8) are subdiffusive — they measure fragmentation, not growth.
+    </div>
+    <canvas id="alpha-chart" width="700" height="320"></canvas>
+    <p class="small">α_nc (cell count, blue) starts at 1.729 (matching G&G's 1.72) and decreases toward 1.0 (diffusive limit). α_lc/rc (component count, green/orange) are subdiffusive (~0.5–0.8) — a different axis from the growth dynamics.</p>
+  </div>
+
+  <h2>4. The 55th Mechanism — Over-Splitting Is Extensive</h2>
+  <div class="card">
+    <div class="finding">
+      <strong>55th mechanism:</strong> The 30th ceiling's grid-size dependence is from the EXTENSIVE over-splitting (number of boundary-induced components scales with grid area), not the intensive co-presence fraction. The b_scale (intensive, f(r/grid)) cannot predict the ceiling because the ceiling depends on the absolute number of co-presence patches. At the same r/grid and fill%, a 320×320 grid has 4× more patches, 4× more splits, and a lower ceiling. The 1/grid term in the two-component formula captures this: ceiling = 185.82×(r/grid) + 3822.55×(1/grid) + 10.34.
+    </div>
+    <p class="small">This resolves the 54th mechanism (Session 103): the ceiling depends on r/grid AND 1/grid, not r/grid AND b_scale/grid. b_scale is f(r/grid) and thus collinear — it cannot distinguish the same-r/grid different-grid cases. The grid size is the true second variable.</p>
+  </div>
+
+</div>
+
+<script>
+const data = null; // will be fetched
+
+async function load() {
+  try {
+    const resp = await fetch('output/bscale_ceiling_analysis.json');
+    const d = await resp.json();
+    document.getElementById('status').style.display = 'none';
+    document.getElementById('content').style.display = 'block';
+    renderBscale(d.bscale_measurements);
+    renderCeiling(d.ceiling_points, d.ceiling_fits);
+    renderAlpha(d.alpha_analysis);
+    drawCeilingChart(d.ceiling_points, d.ceiling_fits);
+    drawAlphaChart(d.alpha_analysis);
+  } catch(e) {
+    document.getElementById('status').textContent = 'Error loading: ' + e.message;
+  }
+}
+
+function fmt(v, d=4) { return v === 0 ? '0.000000' : v.toFixed(d); }
+
+function renderBscale(items) {
+  let html = '<table><tr><th>Grid</th><th>Radius</th><th>r/grid</th><th>b_scale</th><th>cp_mean</th><th>cp_cov</th></tr>';
+  for (const r of items) {
+    const cls = r.b_scale > 0.01 ? 'highlight' : (r.b_scale < 0.0001 ? 'red' : '');
+    html += `<tr><td>${r.grid}×${r.grid}</td><td>${r.radius}</td><td>${r.r_over_grid.toFixed(3)}</td><td class="${cls}">${fmt(r.b_scale, 6)}</td><td>${fmt(r.cp_mean, 6)}</td><td>${r.cp_coverage.toFixed(4)}</td></tr>`;
+  }
+  html += '</table>';
+  html += '<p class="small">b_scale collapses to 3 distinct values by r/grid: 0.124 (10%), 0.004 (5%), 0.000 (2.5%). Purely geometric.</p>';
+  document.getElementById('bscale-table').innerHTML = html;
+}
+
+function renderCeiling(pts, fits) {
+  let html = '<table><tr><th>Config</th><th>r/grid</th><th>b_scale</th><th>1/grid</th><th>Ceiling fill%</th><th>Source</th></tr>';
+  for (const p of pts) {
+    const bs = p.b_scale_measured !== undefined ? fmt(p.b_scale_measured, 6) : '?';
+    html += `<tr><td>${p.grid}×${p.grid} r=${p.radius}</td><td>${p.r_grid.toFixed(3)}</td><td>${bs}</td><td>${(1/p.grid).toFixed(5)}</td><td>${p.ceiling_fill.toFixed(1)}</td><td class="small">${p.source}</td></tr>`;
+  }
+  html += '</table>';
+  document.getElementById('ceiling-table').innerHTML = html;
+
+  // Key comparison
+  html = '<table><tr><th>Case</th><th>r/grid</th><th>b_scale</th><th>Grid</th><th>Ceiling</th></tr>';
+  const cases = [
+    ['160×160 r=8', 0.05, 0.003993, 160, 43.6],
+    ['320×320 r=16', 0.05, 0.004020, 320, 32.7],
+    ['160×160 r=4', 0.025, 0.000000, 160, 40.0],
+    ['320×320 r=8', 0.025, 0.000000, 320, 25.0],
+  ];
+  for (const [label, rg, bs, g, c] of cases) {
+    html += `<tr><td>${label}</td><td>${rg.toFixed(3)}</td><td>${fmt(bs, 6)}</td><td>${g}</td><td>${c}</td></tr>`;
+  }
+  html += '</table>';
+  html += '<p class="small">Same r/grid + same b_scale → different ceiling. Grid size is the independent variable.</p>';
+  document.getElementById('comparison-table').innerHTML = html;
+
+  // Fits
+  const rgFit = fits.rgrid_1overgrid;
+  html = '<table><tr><th>Formula</th><th>R²</th></tr>';
+  html += `<tr><td class="formula">${rgFit.formula}</td><td class="rsq">${rgFit.r_sq.toFixed(4)}</td></tr>`;
+  html += `<tr><td>ceiling = ${fits.linear_2comp.coeffs[0].toFixed(2)}*(r/grid) + ${fits.linear_2comp.coeffs[1].toFixed(2)}*b_scale + ${fits.linear_2comp.coeffs[2].toFixed(2)}</td><td>${fits.linear_2comp.r_sq.toFixed(4)}</td></tr>`;
+  html += `<tr><td>ceiling = ${fits.bscale_only.coeffs[0].toFixed(2)}*b_scale + ${fits.bscale_only.coeffs[1].toFixed(2)}</td><td>${fits.bscale_only.r_sq.toFixed(4)}</td></tr>`;
+  html += `<tr><td>ceiling = ${fits.rgrid_only.coeffs[0].toFixed(2)}*(r/grid) + ${fits.rgrid_only.coeffs[1].toFixed(2)}</td><td>${fits.rgrid_only.r_sq.toFixed(4)}</td></tr>`;
+  html += '</table>';
+  html += `<p class="small">The r/grid + 1/grid fit (R²=${rgFit.r_sq.toFixed(4)}) dominates all others. b_scale is collinear with r/grid and adds no information.</p>`;
+  document.getElementById('fits-table').innerHTML = html;
+
+  document.getElementById('best-formula').textContent =
+    `Best fit (R²=${rgFit.r_sq.toFixed(4)}): ceiling = ${rgFit.coeffs[0].toFixed(2)}×(r/grid) + ${rgFit.coeffs[1].toFixed(2)}×(1/grid) + ${rgFit.coeffs[2].toFixed(2)}`;
+}
+
+function renderAlpha(alpha) {
+  let html = `<table><tr><th>n</th><th>Fill%</th><th>α_nc</th><th>α_lc</th><th>α_rc</th><th>Late comps</th><th>Fill/ceiling</th></tr>`;
+  for (const s of alpha.summary) {
+    const ratio = s.fill_pct / 43.6;
+    const cls = Math.abs(s.alpha_n_cells - 1.72) < 0.01 ? 'highlight' : '';
+    html += `<tr><td>${s.n}</td><td>${s.fill_pct.toFixed(1)}</td><td class="${cls}">${s.alpha_n_cells.toFixed(4)}</td><td>${s.alpha_left_comps.toFixed(4)}</td><td>${s.alpha_right_comps.toFixed(4)}</td><td>${s.mean_late_comps.toFixed(2)}</td><td>${ratio.toFixed(3)}</td></tr>`;
+  }
+  html += '</table>';
+  html += `<p class="small">G&G 2D α = ${alpha.gg_alpha}. Match at n=1500 (α_nc=1.729, fill just above 30th ceiling).</p>`;
+  document.getElementById('alpha-table').innerHTML = html;
+}
+
+function drawCeilingChart(pts, fits) {
+  const cv = document.getElementById('ceiling-chart');
+  const ctx = cv.getContext('2d');
+  const W = cv.width, H = cv.height;
+  ctx.clearRect(0, 0, W, H);
+  const pad = 50;
+  const plotW = W - 2*pad, plotH = H - 2*pad;
+
+  // Axes
+  ctx.strokeStyle = '#30363d';
+  ctx.fillStyle = '#8b949e';
+  ctx.font = '11px sans-serif';
+  ctx.beginPath();
+  ctx.moveTo(pad, H-pad); ctx.lineTo(W-pad, H-pad);
+  ctx.moveTo(pad, H-pad); ctx.lineTo(pad, pad);
+  ctx.stroke();
+  ctx.fillText('r/grid', W-pad-40, H-pad+20);
+  ctx.save();
+  ctx.translate(15, pad+plotH/2);
+  ctx.rotate(-Math.PI/2);
+  ctx.fillText('Ceiling fill %', 0, 0);
+  ctx.restore();
+
+  // Plot points: x = r/grid, y = ceiling, color by grid
+  const xMax = 0.12, yMax = 85;
+  function px(v) { return pad + (v/xMax)*plotW; }
+  function py(v) { return H-pad - (v/yMax)*plotH; }
+
+  // Grid lines
+  ctx.strokeStyle = '#21262d';
+  for (let g = 0; g <= 80; g += 20) {
+    ctx.beginPath(); ctx.moveTo(pad, py(g)); ctx.lineTo(W-pad, py(g)); ctx.stroke();
+    ctx.fillStyle = '#484f58'; ctx.fillText(g+'%', pad-30, py(g)+4);
+  }
+
+  const colors = {80: '#58a6ff', 160: '#3fb950', 320: '#f85149'};
+  const preds = fits.rgrid_1overgrid.predictions;
+
+  // Draw predictions first (orange)
+  ctx.fillStyle = '#db6d28';
+  for (let i = 0; i < pts.length; i++) {
+    const p = pts[i];
+    const x = px(p.r_grid);
+    const y = py(preds[i]);
+    ctx.beginPath();
+    ctx.arc(x, y, 4, 0, 2*Math.PI);
+    ctx.fill();
+  }
+
+  // Draw actuals (colored by grid)
+  for (let i = 0; i < pts.length; i++) {
+    const p = pts[i];
+    const x = px(p.r_grid);
+    const y = py(p.ceiling_fill);
+    ctx.fillStyle = colors[p.grid] || '#c9d1d9';
+    ctx.beginPath();
+    ctx.arc(x, y, 5, 0, 2*Math.PI);
+    ctx.fill();
+    ctx.strokeStyle = colors[p.grid] || '#c9d1d9';
+    ctx.lineWidth = 1;
+    // Connect actual to prediction
+    ctx.beginPath();
+    ctx.moveTo(x, y); ctx.lineTo(px(p.r_grid), py(preds[i]));
+    ctx.stroke();
+    ctx.fillStyle = '#c9d1d9';
+    ctx.font = '10px monospace';
+    ctx.fillText(`${p.grid}×${p.grid} r=${p.radius}`, x+8, y-4);
+  }
+
+  // Legend
+  ctx.font = '11px sans-serif';
+  ctx.fillStyle = '#58a6ff'; ctx.fillText('● 80×80', W-100, pad+15);
+  ctx.fillStyle = '#3fb950'; ctx.fillText('● 160×160', W-100, pad+30);
+  ctx.fillStyle = '#f85149'; ctx.fillText('● 320×320', W-100, pad+45);
+  ctx.fillStyle = '#db6d28'; ctx.fillText('○ predicted', W-100, pad+60);
+}
+
+function drawAlphaChart(alpha) {
+  const cv = document.getElementById('alpha-chart');
+  const ctx = cv.getContext('2d');
+  const W = cv.width, H = cv.height;
+  ctx.clearRect(0, 0, W, H);
+  const pad = 50;
+  const plotW = W - 2*pad, plotH = H - 2*pad;
+
+  ctx.strokeStyle = '#30363d';
+  ctx.font = '11px sans-serif';
+  ctx.fillStyle = '#8b949e';
+  ctx.beginPath();
+  ctx.moveTo(pad, H-pad); ctx.lineTo(W-pad, H-pad);
+  ctx.moveTo(pad, H-pad); ctx.lineTo(pad, pad);
+  ctx.stroke();
+  ctx.fillText('n (termites)', W-pad-50, H-pad+20);
+  ctx.save();
+  ctx.translate(15, pad+plotH/2);
+  ctx.rotate(-Math.PI/2);
+  ctx.fillText('MSD exponent α', 0, 0);
+  ctx.restore();
+
+  const ns = alpha.summary.map(s => s.n);
+  const nMin = 1400, nMax = 4200;
+  const aMin = 0.3, aMax = 1.85;
+  function px(v) { return pad + ((v-nMin)/(nMax-nMin))*plotW; }
+  function py(v) { return H-pad - ((v-aMin)/(aMax-aMin))*plotH; }
+
+  // Grid lines
+  ctx.strokeStyle = '#21262d';
+  for (let a = 0.5; a <= 1.5; a += 0.5) {
+    ctx.beginPath(); ctx.moveTo(pad, py(a)); ctx.lineTo(W-pad, py(a)); ctx.stroke();
+    ctx.fillStyle = '#484f58'; ctx.fillText(a.toFixed(1), pad-30, py(a)+4);
+  }
+
+  // G&G line at 1.72
+  ctx.strokeStyle = '#d29922';
+  ctx.setLineDash([5, 5]);
+  ctx.beginPath();
+  ctx.moveTo(pad, py(1.72)); ctx.lineTo(W-pad, py(1.72));
+  ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle = '#d29922';
+  ctx.fillText('G&G α=1.72', W-pad-70, py(1.72)-6);
+
+  // α_nc line
+  ctx.strokeStyle = '#58a6ff';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  for (let i = 0; i < ns.length; i++) {
+    const x = px(ns[i]), y = py(alpha.summary[i].alpha_n_cells);
+    if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+  }
+  ctx.stroke();
+
+  // α_nc points
+  for (let i = 0; i < ns.length; i++) {
+    const s = alpha.summary[i];
+    ctx.fillStyle = '#58a6ff';
+    ctx.beginPath();
+    ctx.arc(px(s.n), py(s.alpha_n_cells), 4, 0, 2*Math.PI);
+    ctx.fill();
+    ctx.fillStyle = '#c9d1d9';
+    ctx.font = '10px monospace';
+    ctx.fillText(s.n.toString(), px(s.n)-8, py(s.alpha_n_cells)-8);
+  }
+
+  // α_lc/rc lines
+  for (const [key, color] of [['alpha_left_comps', '#3fb950'], ['alpha_right_comps', '#db6d28']]) {
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    for (let i = 0; i < ns.length; i++) {
+      const x = px(ns[i]), y = py(alpha.summary[i][key]);
+      if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+  }
+
+  // Legend
+  ctx.font = '11px sans-serif';
+  ctx.fillStyle = '#58a6ff'; ctx.fillText('● α_nc (cell count)', W-150, pad+15);
+  ctx.fillStyle = '#3fb950'; ctx.fillText('● α_lc (left comps)', W-150, pad+30);
+  ctx.fillStyle = '#db6d28'; ctx.fillText('● α_rc (right comps)', W-150, pad+45);
+}
+
+load();
+</script>
+</body>
+</html>

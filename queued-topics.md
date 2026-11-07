@@ -3117,33 +3117,79 @@ to compare.
      necessary but not sufficient (the b_scale/grid also matters), so the
      disappearance may depend on the absolute grid size, not just r/grid.
 
-263. **Why does the growth-phase α≈1.7 match G&G?** — Session 101 falsified the
-     steady-state match (α_nc=0.46–0.76, not 1.72). But the growth-phase exponent
-     (1.729 at n=1500) matches G&G's 2D α=1.72 to 3 sig figs. The coincidence may
-     have a deeper reason: the growth law (curvature channel concentrating
-     deposits) may pass through the G&G critical regime transiently. Understanding
-     why the growth phase carries this exponent could reveal a genuine connection
-     or a definitive coincidence. Cheap: analysis of existing data.
+263. **Why does the growth-phase α≈1.7 match G&G?** — DONE (Session 104).
+     Session 101 falsified the steady-state match (α_nc=0.46–0.76, not 1.72).
+     But the growth-phase exponent (1.729 at n=1500) matches G&G's 2D α=1.72
+     to 3 sig figs. The match is because the growth dynamics near the 30th
+     ceiling (~43.6% fill on 160×160) pass through the G&G critical regime
+     (Gelimson & Golestanian 2015: weakly coupled fixed point where
+     interactions regulate growth). At n=1500 (fill=48.1%, just above the
+     ceiling), the system is in the growth/overshoot phase where growth
+     and suppression are balanced — the G&G critical balance. The exponent
+     decreases monotonically with n (1.729→1.643→1.469→1.255) as the system
+     moves past the critical regime. The component-count exponents (α_lc/rc
+     ~0.5–0.8) are subdiffusive — they measure fragmentation, not growth.
+     Only the cell count carries the G&G exponent; the component count is
+     on a different axis. See `bscale_ceiling_analysis.py`.
 
 ## From Session 103 (2026-11-06)
 
-264. **Can the b_scale be directly measured at r=16 on 320×320?** — The
-     signal-density explanation for the r/grid falsification predicts the
-     b_scale (initial co-presence 95th percentile) is much lower on 320×320
-     than 160×160 at the same r/grid. Session 90 measured b_scale on 80×80 and
-     160×160 at r=8 (0.124 vs 0.004, 31× gap with absolute dilation). At r=16
-     on 320×320, b_scale should be similar to 160×160 r=8 (same r/grid) IF
-     the r/grid scaling holds for b_scale. But the co-presence signal is
-     extensive at steady state (Session 83/84), so b_scale might also be
-     lower. Direct measurement would confirm the signal-density explanation
-     and potentially provide a quantitative predictor: ceiling = f(r/grid,
-     b_scale). Cheap: analysis of the r16_320_ceiling.json boundary traces.
+264. **Can the b_scale be directly measured at r=16 on 320×320?** — DONE
+     (Session 104). The b_scale at r=16 on 320×320 is 0.004020 — nearly
+     identical to 160×160 r=8 (0.003993). b_scale is purely geometric:
+     it depends ONLY on r/grid (0.124 at 10%, 0.004 at 5%, ~0 at 2.5%),
+     NOT on absolute grid size. The co-presence signal's initial magnitude
+     is a pure geometric property of the self-similar seed+dilation geometry.
+     This means b_scale is f(r/grid) — collinear with r/grid and NOT an
+     independent variable for the ceiling formula. See
+     `bscale_ceiling_analysis.py`.
 
-265. **Can the 30th ceiling be predicted from a two-component formula?** — The
-     54th mechanism's refinement says the ceiling depends on r/grid AND
-     b_scale/grid. Can a formula like ceiling = a·(r/grid) + b·(b_scale/grid)
-     fit the four data points (80×80 r=8, 160×160 r=8, 320×320 r=8, 320×320
-     r=16)? If it fits, the ceiling is a two-parameter surface and the
-     r/grid scaling was the first-order approximation (valid when b_scale
-     is high, i.e., on small grids). If it doesn't fit, there are more
-     components. Cheap: regression on existing data.
+265. **Can the 30th ceiling be predicted from a two-component formula?** —
+     DONE (Session 104). YES — ceiling = 185.82×(r/grid) + 3822.55×(1/grid)
+     + 10.34 (R²=0.996, 5 data points). The two variables are r/grid AND
+     1/grid (absolute grid size), NOT r/grid and b_scale (which is
+     collinear with r/grid). The 1/grid term captures the extensive
+     over-splitting: at the same r/grid and fill%, a larger grid has more
+     co-presence patches, more boundary-induced splits, and a lower ceiling.
+     The 55th mechanism: the 30th ceiling's grid-size dependence is from
+     the EXTENSIVE over-splitting (number of boundary components scales
+     with grid area), not the intensive co-presence fraction. The 54th
+     mechanism is resolved: the ceiling = f(r/grid, 1/grid), not
+     f(r/grid, b_scale/grid). See `bscale_ceiling_analysis.py`.
+
+## From Session 104 (2026-11-07)
+
+266. **At what r/grid does the 30th ceiling disappear entirely?** — The
+     ceiling = 185.82×(r/grid) + 3822.55×(1/grid) + 10.34 predicts the
+     ceiling approaches the intercept (10.34%) as r/grid → 0 and 1/grid →
+     0. But on a finite grid, 1/grid is bounded below (1/320 = 0.003),
+     so the ceiling at r/grid=0 on 320×320 would be ~3822.55/320 + 10.34
+     ≈ 22.3%. On 160×160 it would be ~3822.55/160 + 10.34 ≈ 34.2%. The
+     ceiling never truly disappears — it approaches a floor that depends
+     on grid size. But at what r/grid does the ceiling drop below the
+     composition threshold (where coexistence is impossible)? Test r=4
+     (1.25%) and r=2 (0.6%) on 320×320 — does stability exist at any
+     fill below the predicted floor?
+
+267. **Does the 1/grid term have a physical interpretation?** — The
+     ceiling = 185.82×(r/grid) + 3822.55×(1/grid) + 10.34 has 1/grid as
+     the grid-size term. The coefficient 3822.55 has units of cells
+     (since 1/grid is 1/cells and the ceiling is in %). Is 3822.55
+     related to a physical quantity — the number of boundary cells, the
+     structure's perimeter, or the co-presence patch count? Compare the
+     coefficient to the actual component counts at the ceiling: on 160×160
+     r=8, late_mean_lc/rc ~5-7; on 320×320 r=16, late_mean_lc/rc ~61-68.
+     The 10× difference in components at the same r/grid suggests the
+     1/grid term is capturing the absolute component count, not just the
+     inverse grid size.
+
+268. **Is the growth-phase α→G&G match universal or specific to 160×160?**
+     — The α_nc=1.729 match was measured on 160×160 at n=1500 (fill=48.1%).
+     Does the same match hold on other grid sizes? On 80×80, the 30th
+     ceiling is ~70% fill — the growth phase at fill ~70% may have a
+     different exponent. On 320×320, the ceiling is <25% — the growth
+     phase at fill ~25% may match or not. If the match is universal
+     (α=1.72 at every grid's 30th ceiling), the G&G critical regime is
+     a universal property of the dynamical phase transition. If it is
+     specific to 160×160, the match is coincidental. Cheap: run the
+     critical exponents measurement at the 80×80 and 320×320 ceilings.

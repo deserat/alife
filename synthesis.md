@@ -2254,3 +2254,17 @@ Cross-domain connection: **the thermodynamic extensive/intensive distinction map
 This is the 53rd mechanism (extensive/intensive distinction, Session 82/83/84) applied to the 30th ceiling. The 54th mechanism (ceiling scales with r/grid) was the first-order approximation — it held for r=8 across grid sizes (r/grid scales 10%→5%→2.5%) but fails when r itself is scaled (r/grid held constant at 5% while the grid changed). The refinement: the ceiling is a function of r/grid AND b_scale/grid, not r/grid alone. This connects to the gain compensation test (#228): the co-presence signal's sparsity is NOT gain-compensable — confirming the signal density is a structural property (intensive), not a magnitude (extensive).
 
 The gauge theory analogy is refined: local interactions are renormalizable (scale-invariant under coordinate rescaling) only when the signal they act on is also scale-invariant. The boundary's co-presence signal is NOT scale-invariant under grid-size rescaling — it dilutes (spreads over 4× the area) — so the boundary's effective suppression weakens even when its spatial reach (r/grid) is held constant. The absolute-spatial-scale principle needs a second clause: a mechanism acting through a global absolute spatial scale converts density-dependence into n-dependence ONLY IF the signal it acts on has sufficient density at that scale.
+
+---
+
+## 2026-11-07 — Session 104
+
+### b_scale is purely geometric; ceiling = f(r/grid, 1/grid); the 54th mechanism resolved; growth-phase α matches G&G
+
+Session 103 attributed the 30th ceiling's grid-size dependence to two variables: r/grid (extensive) and b_scale/grid (intensive). Session 104 measured b_scale directly at 9 (grid, radius) combinations and found it is purely geometric — b_scale = f(r/grid), collapsing to three values (0.124 at 10%, 0.004 at 5%, ~0 at 2.5%) across all three grid sizes. It is NOT an independent variable.
+
+Cross-domain connection: **the extensive/intensive distinction maps onto the ceiling formula's two variables, but in a surprising way.** The ceiling = 185.82×(r/grid) + 3822.55×(1/grid) + 10.34 (R²=0.996). The r/grid term is the boundary's spatial reach (geometric, intensive in the sense that it is a ratio). The 1/grid term is the inverse grid size (extensive in the sense that it captures the absolute number of co-presence patches). The b_scale (which Session 103 thought was the intensive component) is collinear with r/grid and thus adds no information. The true intensive→extensive mapping is: the ceiling is determined by the extensive over-splitting (55th mechanism — number of boundary-induced components scales with grid area), not by the intensive co-presence fraction.
+
+The growth-phase α_nc=1.729 matches G&G's 2D α=1.72 to 3 sig figs because the growth dynamics near the 30th ceiling pass through the G&G critical regime (Gelimson & Golestanian 2015, PRL 114, 028101: weakly coupled fixed point where interactions regulate growth). The exponent decreases monotonically with n (1.729 → 1.643 → 1.469 → 1.255) as the system moves past the critical regime. The component-count exponents (α_lc/rc ~0.5–0.8) are subdiffusive — a different axis from growth. Only the cell count carries the G&G exponent.
+
+This resolves the 54th mechanism: the ceiling = f(r/grid, 1/grid), not f(r/grid, b_scale/grid). The b_scale was a proxy for r/grid, not an independent predictor. The 55th mechanism: the over-splitting that defines the ceiling is extensive (scales with grid area), not intensive (scales with fraction).

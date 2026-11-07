@@ -524,3 +524,25 @@ The r/grid scaling prediction was tested directly: r=16 on 320×320 (r/grid = 5%
 | 320×320 | 16 | 5% | **<32.7%** (predicted 43.6%) | **~0%** (predicted ~56%) |
 
 H7 is 4/4 at all n values. Determinism verified (n=8000, seed=42, 50060 vs 50060). See `r16_320_ceiling.py`, `output/r16_320_ceiling.json`, `r16_320_ceiling_viz.html`.
+
+### Session 104 — b_scale is purely geometric; ceiling = f(r/grid, 1/grid); the 54th mechanism resolved
+
+Session 103 refined the 54th mechanism to "ceiling = f(r/grid, b_scale/grid)." Session 104 measured b_scale directly and found it is a red herring.
+
+**b_scale is purely geometric.** The 95th percentile of initial ID co-presence was measured at 9 (grid, radius) combinations. b_scale depends ONLY on r/grid: 0.1237 (10%), ~0.004 (5%), ~0.000 (2.5%). It does NOT depend on absolute grid size. The co-presence signal's initial magnitude is a pure geometric property of the self-similar seed+dilation geometry. b_scale = f(r/grid), not an independent variable.
+
+**The true two-component formula: ceiling = 185.82×(r/grid) + 3822.55×(1/grid) + 10.34 (R²=0.996).** The ceiling depends on r/grid AND 1/grid (absolute grid size). The 1/grid term is the third variable that Session 103's "b_scale/grid" couldn't capture — because b_scale is f(r/grid) and thus collinear with r/grid. At the same r/grid (5%) and same b_scale (~0.004), 160×160 r=8 gives ceiling=43.6% but 320×320 r=16 gives ceiling<32.7% — the grid size is the distinguishing variable.
+
+**The 55th mechanism: over-splitting is extensive.** The ceiling's grid-size dependence is from the EXTENSIVE over-splitting — the number of boundary-induced components scales with grid area (at the same fill%, a 320×320 grid has 4× more co-presence patches than 160×160). The b_scale (intensive fraction) cannot predict the ceiling because the ceiling depends on the absolute number of patches, not their fraction.
+
+| Grid | r | r/grid | b_scale | 1/grid | Ceiling fill% | Predicted (R²=0.996) |
+|------|---|--------|---------|--------|---------------|---------------------|
+| 80×80 | 8 | 10% | 0.1237 | 0.01250 | 76.3% | 76.7% |
+| 160×160 | 8 | 5% | 0.0040 | 0.00625 | 43.6% | 43.5% |
+| 320×320 | 8 | 2.5% | ~0 | 0.00313 | <25% | 26.9% |
+| 320×320 | 16 | 5% | 0.0040 | 0.00313 | <32.7% | 31.6% |
+| 160×160 | 4 | 2.5% | ~0 | 0.00625 | 40.0% | 38.9% |
+
+**Growth-phase α matches G&G.** The cell-count MSD exponent α_nc=1.729 at n=1500 (fill=48.1%, just above the 30th ceiling) matches G&G's 2D critical exponent α=1.72 to 3 sig figs. The growth dynamics near the 30th ceiling pass through the G&G critical regime (Gelimson & Golestanian 2015: weakly coupled fixed point). The exponent decreases monotonically with n (1.729 → 1.643 → 1.469 → 1.255) as the system moves past the critical regime. Component-count exponents (α_lc/rc ~0.5–0.8) are subdiffusive — a different axis from growth.
+
+See `bscale_ceiling_analysis.py`, `output/bscale_ceiling_analysis.json`, `bscale_ceiling_viz.html`.
