@@ -2,8 +2,8 @@
 title: "Hypotheses"
 topic: "testable hypotheses for the multi-scale ALife composition project"
 status: active
-date: "2026-11-07"
-session: 104
+date: "2026-11-08"
+session: 105
 count: 11
 active: [H1, H2, H3, H4, H5, H6, H7, H8, H9, H10, H11]
 logs: ["logs/H1/", "logs/H2/", "logs/H3/", "logs/H4/", "logs/H5/", "logs/H6/", "logs/H7/", "logs/H8/", "logs/H9/", "logs/H10/", "logs/H11/"]
@@ -70,7 +70,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **For an emergent structure to persist as a new actor at a higher scale, it must be autopoietic — it must maintain the network that constitutes it.** Self-maintenance is the persistence condition. Without it, emergent structures are transient patterns, not new actors.
 
-**Status:** Refined (Session 104). b_scale is purely geometric — depends only on r/grid (0.124 at 10%, 0.004 at 5%, ~0 at 2.5%), not absolute grid size. But the 30th ceiling = 185.82×(r/grid) + 3822.55×(1/grid) + 10.34 (R²=0.996) — depends on r/grid AND 1/grid (absolute grid size). The 55th mechanism: the ceiling's grid-size dependence is from extensive over-splitting (number of boundary components scales with grid area), not the intensive b_scale. The growth-phase α_nc=1.729 matches G&G's 2D α=1.72 because the growth dynamics near the 30th ceiling pass through the G&G critical regime. The 54th mechanism is resolved: b_scale = f(r/grid) (collinear), and the true two variables are r/grid and 1/grid. Previous: the r/grid scaling is FALSIFIED — at r/grid=5% (matching 160×160 r=8), the ceiling on 320×320 r=16 is below 32.7% fill (predicted 43.6%); boundary fill-capping negligible (gap <1% vs ~56% on 160×160); 54th mechanism refined — ceiling depends on r/grid AND b_scale/grid; 53rd mechanism applies; H7=4/4 at all n.
+**Status:** Refined (Session 105). The two-component ceiling formula (Session 104) OVERESTIMATES at r=4 on 320×320 (r/grid=1.25%): predicted ceiling 24.6%, actual below 22.2% — 0/4 stable at all n (fill 22–36%). The 56th mechanism: the 30th ceiling has two regimes. (1) Capping regime (160×160, 80×80 — boundary gap >10%): the ceiling is the fill where growth overwhelms suppression; the formula applies. (2) No-capping regime (320×320 at all r — boundary gap <1%): the boundary fragments without capping; stability is 0/4 at all fill; the formula overestimates because there's no suppression to balance. Methodology lesson: the formula was fit to censored data (320×320 ceilings are upper bounds), inflating R². H7=4/4 at all n. Determinism verified.
 
 **Log:** [logs/H5/](logs/H5/)
 
@@ -216,7 +216,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 | H2: ANT Translation | Unchanged | Theoretical, untested | [H2](logs/H2/) |
 | H3: Quasi-Object | Strengthened | Stigmergy literature support; Echo partial support | [H3](logs/H3/) |
 | H4: Dynamic Environment | Refined | Fitness landscape criticism supports this | [H4](logs/H4/) |
-| H5: Autopoiesis | Refined (S103) | r/grid scaling FALSIFIED — at r/grid=5% (matching 160×160 r=8), ceiling on 320×320 r=16 is <32.7% (predicted 43.6%); boundary fill-capping negligible (gap <1% vs ~56% on 160×160); 54th mechanism refined: ceiling depends on r/grid AND b_scale/grid (extensive reach + intensive signal); H7=4/4 | [H5](logs/H5/) |
+| H5: Autopoiesis | Refined (S105) | 30th ceiling has two regimes — capping (160×160, gap >10%) where formula applies, no-capping (320×320, gap <1%) where stability is 0/4 at all fill; formula overestimates (fit to censored data); 56th mechanism | [H5](logs/H5/) |
 | H6: Multi-Scale Autopoiesis | Refined (S77) | 12th member fully lost at n=11000–14000 (~84–99% fill): 1s l2=0/4; progressive loss, not sharp threshold | [H6](logs/H6/) |
 | H7: Trace→Actor Crossing | Refined ×67; fill cap saturation is a HARD ceiling (grid full); g* limit n≈14000-15000 — boundary capping power decays exponentially (gap halves per 1000-n); H7=4/4 at all densities; L2=0/4; 30th persists; 43rd saturation at n≈14000 | [H7](logs/H7/) |
 | H8: Complexity Enables OEE | NEW | Kaznatcheev (2019), Wiser et al. (2013) | [H8](logs/H8/) |

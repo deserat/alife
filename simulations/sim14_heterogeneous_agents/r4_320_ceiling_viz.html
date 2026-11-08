@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>r=4 on 320×320 — Does the 30th Ceiling Disappear? (Session 105)</title>
+<style>
+  :root { --bg: #0d1117; --text: #c9d1d9; --accent: #58a6ff; --warn: #f0883e; --bad: #f85149; --good: #3fb950; --dim: #484f58; --border: #30363d; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; padding: 20px; max-width: 1100px; margin: 0 auto; line-height: 1.6; }
+  h1 { font-size: 1.5em; color: var(--accent); margin-bottom: 8px; }
+  h2 { font-size: 1.2em; color: var(--text); margin: 24px 0 10px; border-bottom: 1px solid var(--border); padding-bottom: 6px; }
+  h3 { font-size: 1.05em; color: var(--text); margin: 16px 0 8px; }
+  .subtitle { color: var(--dim); font-size: 0.85em; margin-bottom: 20px; }
+  .pred-box { background: #161b22; border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; margin: 12px 0; }
+  .pred-box .label { color: var(--dim); font-size: 0.8em; }
+  .pred-box .val { font-size: 1.3em; font-weight: bold; }
+  .pred-over { color: var(--bad); }
+  .pred-ok { color: var(--good); }
+  table { border-collapse: collapse; width: 100%; margin: 10px 0; font-size: 0.9em; }
+  th, td { border: 1px solid var(--border); padding: 6px 10px; text-align: center; }
+  th { background: #161b22; color: var(--accent); font-weight: 600; }
+  td.fill-val { color: var(--accent); font-weight: bold; }
+  td.stable-no { color: var(--bad); }
+  td.stable-yes { color: var(--good); }
+  td.gap-val { color: var(--warn); }
+  .chart-container { background: #161b22; border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin: 12px 0; }
+  canvas { max-width: 100%; height: auto; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media (max-width: 768px) { .two-col { grid-template-columns: 1fr; } }
+  .regime-panel { background: #161b22; border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; margin: 12px 0; }
+  .regime-panel h3 { color: var(--accent); }
+  .regime-capping { border-left: 3px solid var(--good); }
+  .regime-nocap { border-left: 3px solid var(--bad); }
+  .finding { color: var(--warn); font-size: 0.9em; margin: 4px 0; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.75em; font-weight: 600; }
+  .badge-bad { background: #3d1014; color: var(--bad); }
+  .badge-good { background: #1a3d20; color: var(--good); }
+  .badge-warn { background: #3d2a10; color: var(--warn); }
+  .comparison-table td { font-size: 0.85em; }
+  .note { color: var(--dim); font-size: 0.8em; margin: 6px 0; }
+  #json-error { color: var(--bad); display: none; padding: 12px; background: #1a0e0e; border: 1px solid var(--bad); border-radius: 6px; }
+</style>
+</head>
+<body>
+<h1>r=4 on 320×320 (1.25% of grid) — Does the 30th Ceiling Disappear?</h1>
+<p class="subtitle">Session 105 · Queued-topic #266 · 320×320 grid, dual mode g=0.001, focal bias=0.3, jitter=10, r=4</p>
+<div id="json-error"></div>
+
+<div class="pred-box">
+  <div class="label">Two-component formula prediction (Session 104): ceiling = 185.82×(r/grid) + 3822.55×(1/grid) + 10.34</div>
+  <div class="val pred-over" id="pred-val">Predicted ceiling: 24.61% — ACTUAL: below 22.2% (overestimate ≥ 2.4pp)</div>
+</div>
+
+<h2>Results: 0/4 Stable at All n Values</h2>
+<table id="main-table">
+<thead><tr>
+  <th>n</th><th>Fill %</th><th>Stable</th><th>Coexist</th><th>H7</th><th>1s l2</th>
+  <th>No-inhib Fill %</th><th>Boundary Gap</th><th>Mean lc</th><th>Mean rc</th>
+</tr></thead>
+<tbody id="main-tbody"></tbody>
+</table>
+<p class="note">H7=4/4 at all n values (crossing robust). Boundary gap < 1% at all n (zero capping power). Over-splitting: 50–77 components per region.</p>
+
+<h2>Predicted vs Actual Ceiling</h2>
+<div class="chart-container">
+  <canvas id="ceiling-chart" width="700" height="320"></canvas>
+</div>
+<p class="note">The formula predicted 24.61% but stability is 0/4 at fill=22.2% (below the prediction). The formula was fit to data where the boundary had capping power; on 320×320 the boundary has zero capping power.</p>
+
+<h2>Over-Splitting: lc/rc at Each n</h2>
+<div class="chart-container">
+  <canvas id="oversplit-chart" width="700" height="280"></canvas>
+</div>
+<p class="note">50–77 components per region at all n values — severe over-splitting. The boundary fragments without capping.</p>
+
+<h2>Boundary Capping Power: Gap to No-Inhibition</h2>
+<div class="chart-container">
+  <canvas id="gap-chart" width="700" height="220"></canvas>
+</div>
+<p class="note">Gap < 1% at all n — the boundary adds essentially zero fill capping. Compare: ~56% on 160×160 r=8, ~large on 80×80 r=8.</p>
+
+<h2>The 56th Mechanism: Two Regimes of the 30th Ceiling</h2>
+<div class="two-col">
+  <div class="regime-panel regime-capping">
+    <h3>1. Capping Regime</h3>
+    <p><b>160×160 r=8, 80×80 r=8</b></p>
+    <p>Boundary gap > 10%. The ceiling is the fill where growth overwhelms suppression (dynamical phase transition). The formula applies: R²=0.996 for measured ceilings.</p>
+    <p class="finding">→ Stability possible below ceiling. Formula predicts ceiling.</p>
+  </div>
+  <div class="regime-panel regime-nocap">
+    <h3>2. No-Capping Regime</h3>
+    <p><b>320×320 r=4, r=8, r=16</b></p>
+    <p>Boundary gap < 1%. The boundary fragments without capping. Stability is 0/4 at ALL fill levels. The ceiling is effectively 0% — the formula overestimates because there's no suppression to balance against growth.</p>
+    <p class="finding">→ No fill level with stability. Formula doesn't apply.</p>
+  </div>
+</div>
+
+<h2>Comparison Across 320×320 Configurations</h2>
+<table class="comparison-table">
+<thead><tr><th>Config</th><th>r/grid</th><th>n range</th><th>Fill range</th><th>Stable</th><th>Gap</th><th>lc/rc</th><th>Predicted ceiling</th></tr></thead>
+<tbody id="comp-tbody"></tbody>
+</table>
+
+<h2>Per-Seed Results</h2>
+<table id="seed-table">
+<thead><tr><th>n</th><th>Seed</th><th>Fill %</th><th>Stable</th><th>Outcome</th><th>H7</th><th>cf</th><th>lc</th><th>rc</th><th>b_max</th></tr></thead>
+<tbody id="seed-tbody"></tbody>
+</table>
+
+<h2>Determinism</h2>
+<p id="determinism" class="note"></p>
+
+<script>
+async function load() {
+  try {
+    const resp = await fetch('output/r4_320_ceiling.json');
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    const data = await resp.json();
+
+    // Main summary table
+    const tbody = document.getElementById('main-tbody');
+    for (const s of data.summary) {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td>${s.n}</td><td class="fill-val">${s.fill_pct_mean.toFixed(1)}%</td>
+        <td class="stable-no">${s.stable_4}</td><td class="stable-no">${s.coexist_4}</td>
+        <td class="stable-yes">${s.h7_4}</td><td>${s.l2_1s}</td>
+        <td>${s.no_inhib_fill_pct_mean.toFixed(1)}%</td><td class="gap-val">${s.boundary_gap.toFixed(1)}%</td>
+        <td></td><td></td>`;
+      tbody.appendChild(tr);
+    }
+    // Fill lc/rc from runs
+    const runs2 = data.runs_2seed;
+    for (const s of data.summary) {
+      const seedRuns = runs2.filter(r => r.n === s.n);
+      const lcMean = (seedRuns.reduce((a, r) => a + r.late_mean_lc, 0) / seedRuns.length).toFixed(1);
+      const rcMean = (seedRuns.reduce((a, r) => a + r.late_mean_rc, 0) / seedRuns.length).toFixed(1);
+      const row = tbody.querySelector(`tr:nth-child(${data.summary.indexOf(s) + 1})`);
+      row.cells[8].textContent = lcMean;
+      row.cells[9].textContent = rcMean;
+    }
+
+    // Comparison table
+    const compData = [
+      { cfg: 'r=4', rgrid: '1.25%', nrange: '2000–5000', fill: '22–36%', stable: '0/4', gap: '<1%', lcrc: '50–77', pred: '24.6% (overest)' },
+      { cfg: 'r=8', rgrid: '2.5%', nrange: '6000–10000', fill: '40–58%', stable: '0/4', gap: '~1%', lcrc: '60–68', pred: '26.9% (overest)' },
+      { cfg: 'r=16', rgrid: '5.0%', nrange: '4000–8000', fill: '33–49%', stable: '0/4', gap: '<1%', lcrc: '22–68', pred: '31.6% (overest)' },
+      { cfg: 'r=8 (160²)', rgrid: '5.0%', nrange: '150–3000', fill: '5–44%', stable: '0–4/4', gap: '~56%', lcrc: '1–7', pred: '43.5% (✓)' },
+    ];
+    const compTbody = document.getElementById('comp-tbody');
+    for (const c of compData) {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td>${c.cfg}</td><td>${c.rgrid}</td><td>${c.nrange}</td><td>${c.fill}</td>
+        <td>${c.stable}</td><td>${c.gap}</td><td>${c.lcrc}</td><td>${c.pred}</td>`;
+      compTbody.appendChild(tr);
+    }
+
+    // Seed table
+    const seedTbody = document.getElementById('seed-tbody');
+    for (const r of runs2) {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td>${r.n}</td><td>${r.seed}</td><td>${r.fill_pct.toFixed(1)}%</td>
+        <td class="${r.l2_stable ? 'stable-yes' : 'stable-no'}">${r.l2_stable}</td>
+        <td>${r.l2_outcome}</td><td>${r.crossed_h7}</td><td>${r.l2_coexist_frac.toFixed(2)}</td>
+        <td>${r.late_mean_lc}</td><td>${r.late_mean_rc}</td><td>${r.b_max.toFixed(1)}</td>`;
+      seedTbody.appendChild(tr);
+    }
+
+    // Determinism
+    const det = data.determinism;
+    document.getElementById('determinism').textContent =
+      `n=${det.n}, seed=${det.seed}: ${det.match ? 'PASS' : 'FAIL'} (${det.cells_1} vs ${det.cells_2})`;
+
+    // Draw charts
+    drawCeilingChart(data);
+    drawOversplitChart(data);
+    drawGapChart(data);
+  } catch (e) {
+    const err = document.getElementById('json-error');
+    err.textContent = 'Error loading JSON: ' + e.message;
+    err.style.display = 'block';
+  }
+}
+
+function drawCeilingChart(data) {
+  const canvas = document.getElementById('ceiling-chart');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  ctx.font = '11px sans-serif';
+  ctx.fillStyle = '#0d1117'; ctx.fillRect(0, 0, W, H);
+
+  const ml = 55, mr = 20, mt = 25, mb = 40;
+  const pw = W - ml - mr, ph = H - mt - mb;
+  const xs = [2000, 3000, 4000, 5000];
+  const fills = data.summary.map(s => s.fill_pct_mean);
+  const maxFill = 45, predCeiling = 24.61;
+
+  // Grid
+  ctx.strokeStyle = '#30363d'; ctx.lineWidth = 0.5;
+  for (let p = 0; p <= 45; p += 10) {
+    const y = mt + ph - (p / maxFill) * ph;
+    ctx.beginPath(); ctx.moveTo(ml, y); ctx.lineTo(ml + pw, y); ctx.stroke();
+    ctx.fillStyle = '#484f58'; ctx.textAlign = 'right';
+    ctx.fillText(p + '%', ml - 5, y + 3);
+  }
+
+  // Predicted ceiling line
+  const predY = mt + ph - (predCeiling / maxFill) * ph;
+  ctx.strokeStyle = '#f0883e'; ctx.lineWidth = 1.5; ctx.setLineDash([6, 4]);
+  ctx.beginPath(); ctx.moveTo(ml, predY); ctx.lineTo(ml + pw, predY); ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle = '#f0883e'; ctx.textAlign = 'left';
+  ctx.fillText('Predicted ceiling: 24.6%', ml + 5, predY - 5);
+
+  // Actual ceiling (below 22.2% — draw arrow)
+  const actualY = mt + ph - (22.2 / maxFill) * ph;
+  ctx.strokeStyle = '#f85149'; ctx.lineWidth = 1.5;
+  ctx.beginPath(); ctx.moveTo(ml, actualY); ctx.lineTo(ml + pw, actualY); ctx.stroke();
+  ctx.fillStyle = '#f85149';
+  ctx.fillText('Actual: below 22.2%', ml + 5, actualY + 14);
+
+  // Fill line
+  ctx.strokeStyle = '#58a6ff'; ctx.lineWidth = 2;
+  ctx.beginPath();
+  for (let i = 0; i < xs.length; i++) {
+    const x = ml + (xs[i] - 2000) / 3000 * pw;
+    const y = mt + ph - (fills[i] / maxFill) * ph;
+    if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+  }
+  ctx.stroke();
+
+  // Points
+  for (let i = 0; i < xs.length; i++) {
+    const x = ml + (xs[i] - 2000) / 3000 * pw;
+    const y = mt + ph - (fills[i] / maxFill) * ph;
+    ctx.fillStyle = '#58a6ff';
+    ctx.beginPath(); ctx.arc(x, y, 4, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = '#c9d1d9'; ctx.textAlign = 'center';
+    ctx.fillText(fills[i].toFixed(1) + '%', x, y - 8);
+  }
+
+  // X axis
+  ctx.fillStyle = '#484f58'; ctx.textAlign = 'center';
+  for (const x of xs) {
+    const px = ml + (x - 2000) / 3000 * pw;
+    ctx.fillText(x, px, mt + ph + 15);
+  }
+  ctx.fillText('n_termites', ml + pw / 2, mt + ph + 30);
+
+  // Y label
+  ctx.save(); ctx.translate(15, mt + ph / 2); ctx.rotate(-Math.PI / 2);
+  ctx.fillText('Fill %', 0, 0); ctx.restore();
+}
+
+function drawOversplitChart(data) {
+  const canvas = document.getElementById('oversplit-chart');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  ctx.font = '11px sans-serif';
+  ctx.fillStyle = '#0d1117'; ctx.fillRect(0, 0, W, H);
+
+  const ml = 55, mr = 20, mt = 25, mb = 40;
+  const pw = W - ml - mr, ph = H - mt - mb;
+  const xs = [2000, 3000, 4000, 5000];
+  const lcs = [], rcs = [];
+  for (const s of data.summary) {
+    const sr = data.runs_2seed.filter(r => r.n === s.n);
+    lcs.push(sr.reduce((a, r) => a + r.late_mean_lc, 0) / sr.length);
+    rcs.push(sr.reduce((a, r) => a + r.late_mean_rc, 0) / sr.length);
+  }
+  const maxV = 85;
+
+  ctx.strokeStyle = '#30363d'; ctx.lineWidth = 0.5;
+  for (let p = 0; p <= maxV; p += 20) {
+    const y = mt + ph - (p / maxV) * ph;
+    ctx.beginPath(); ctx.moveTo(ml, y); ctx.lineTo(ml + pw, y); ctx.stroke();
+    ctx.fillStyle = '#484f58'; ctx.textAlign = 'right';
+    ctx.fillText(p, ml - 5, y + 3);
+  }
+
+  // lc line
+  ctx.strokeStyle = '#f0883e'; ctx.lineWidth = 2;
+  ctx.beginPath();
+  for (let i = 0; i < xs.length; i++) {
+    const x = ml + (xs[i] - 2000) / 3000 * pw;
+    const y = mt + ph - (lcs[i] / maxV) * ph;
+    if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+  }
+  ctx.stroke();
+
+  // rc line
+  ctx.strokeStyle = '#58a6ff'; ctx.lineWidth = 2;
+  ctx.beginPath();
+  for (let i = 0; i < xs.length; i++) {
+    const x = ml + (xs[i] - 2000) / 3000 * pw;
+    const y = mt + ph - (rcs[i] / maxV) * ph;
+    if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+  }
+  ctx.stroke();
+
+  // Points + labels
+  for (let i = 0; i < xs.length; i++) {
+    const x = ml + (xs[i] - 2000) / 3000 * pw;
+    ctx.fillStyle = '#f0883e';
+    ctx.beginPath(); ctx.arc(x, mt + ph - (lcs[i] / maxV) * ph, 4, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = '#58a6ff';
+    ctx.beginPath(); ctx.arc(x, mt + ph - (rcs[i] / maxV) * ph, 4, 0, Math.PI * 2); ctx.fill();
+  }
+
+  // Legend
+  ctx.fillStyle = '#f0883e'; ctx.fillRect(ml + 10, mt + 5, 12, 3);
+  ctx.fillStyle = '#c9d1d9'; ctx.textAlign = 'left'; ctx.fillText('lc (left components)', ml + 28, mt + 9);
+  ctx.fillStyle = '#58a6ff'; ctx.fillRect(ml + 140, mt + 5, 12, 3);
+  ctx.fillStyle = '#c9d1d9'; ctx.fillText('rc (right components)', ml + 158, mt + 9);
+
+  ctx.fillStyle = '#484f58'; ctx.textAlign = 'center';
+  for (const x of xs) {
+    const px = ml + (x - 2000) / 3000 * pw;
+    ctx.fillText(x, px, mt + ph + 15);
+  }
+  ctx.fillText('n_termites', ml + pw / 2, mt + ph + 30);
+  ctx.save(); ctx.translate(15, mt + ph / 2); ctx.rotate(-Math.PI / 2);
+  ctx.fillText('Components per region', 0, 0); ctx.restore();
+}
+
+function drawGapChart(data) {
+  const canvas = document.getElementById('gap-chart');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  ctx.font = '11px sans-serif';
+  ctx.fillStyle = '#0d1117'; ctx.fillRect(0, 0, W, H);
+
+  const ml = 55, mr = 20, mt = 20, mb = 35;
+  const pw = W - ml - mr, ph = H - mt - mb;
+  const xs = [2000, 3000, 4000, 5000];
+  const gaps = data.summary.map(s => s.boundary_gap);
+  const maxG = 2, minG = -2;
+
+  ctx.strokeStyle = '#30363d'; ctx.lineWidth = 0.5;
+  for (let p = minG; p <= maxG; p += 1) {
+    const y = mt + ph - ((p - minG) / (maxG - minG)) * ph;
+    ctx.beginPath(); ctx.moveTo(ml, y); ctx.lineTo(ml + pw, y); ctx.stroke();
+    ctx.fillStyle = '#484f58'; ctx.textAlign = 'right';
+    ctx.fillText(p + '%', ml - 5, y + 3);
+  }
+
+  // Zero line
+  const zy = mt + ph - ((0 - minG) / (maxG - minG)) * ph;
+  ctx.strokeStyle = '#3fb950'; ctx.lineWidth = 1; ctx.setLineDash([4, 4]);
+  ctx.beginPath(); ctx.moveTo(ml, zy); ctx.lineTo(ml + pw, zy); ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Bars
+  for (let i = 0; i < xs.length; i++) {
+    const x = ml + (xs[i] - 2000) / 3000 * pw;
+    const g = gaps[i];
+    const y = mt + ph - ((g - minG) / (maxG - minG)) * ph;
+    ctx.fillStyle = g > 0 ? '#f0883e' : '#f85149';
+    ctx.fillRect(x - 12, Math.min(y, zy), 24, Math.abs(y - zy));
+  }
+
+  ctx.fillStyle = '#484f58'; ctx.textAlign = 'center';
+  for (const x of xs) {
+    const px = ml + (x - 2000) / 3000 * pw;
+    ctx.fillText(x, px, mt + ph + 15);
+  }
+  ctx.fillText('n_termites', ml + pw / 2, mt + ph + 30);
+  ctx.fillStyle = '#c9d1d9';
+  ctx.fillText('Boundary gap < 1% = zero capping power (compare ~56% on 160×160 r=8)', ml + pw / 2, mt - 5);
+}
+
+load();
+</script>
+</body>
+</html>

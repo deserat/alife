@@ -2268,3 +2268,13 @@ Cross-domain connection: **the extensive/intensive distinction maps onto the cei
 The growth-phase α_nc=1.729 matches G&G's 2D α=1.72 to 3 sig figs because the growth dynamics near the 30th ceiling pass through the G&G critical regime (Gelimson & Golestanian 2015, PRL 114, 028101: weakly coupled fixed point where interactions regulate growth). The exponent decreases monotonically with n (1.729 → 1.643 → 1.469 → 1.255) as the system moves past the critical regime. The component-count exponents (α_lc/rc ~0.5–0.8) are subdiffusive — a different axis from growth. Only the cell count carries the G&G exponent.
 
 This resolves the 54th mechanism: the ceiling = f(r/grid, 1/grid), not f(r/grid, b_scale/grid). The b_scale was a proxy for r/grid, not an independent predictor. The 55th mechanism: the over-splitting that defines the ceiling is extensive (scales with grid area), not intensive (scales with fraction).
+
+## 2026-11-08 — Session 105
+
+### The 30th ceiling has two regimes; the formula was fit to censored data
+
+Session 104's two-component formula (ceiling = 185.82×(r/grid) + 3822.55×(1/grid) + 10.34, R²=0.996) predicted ceiling = 24.61% at r=4 on 320×320 (r/grid = 1.25%). The sweep found 0/4 stable at all n values (fill 22–36%), including fill=22.2% — below the prediction. The formula overestimates by at least 2.4pp.
+
+Cross-domain connection: **censored data in regression ↔ the ceiling formula's two regimes.** The 320×320 ceiling data points are upper bounds (stability is 0/4 at all tested fills), not exact measurements. Treating them as exact inflated R² and overestimates predictions. The correct approach is censored regression (Tobit) or measuring exact ceilings. The R²=0.996 was the fit to censored data, not to the true ceilings. This is the methodology rule "a metric that responds is a description, not a test" (#75) recurring at the regression level: the formula responded to the data but could not distinguish exact ceilings from upper bounds.
+
+The 56th mechanism: the 30th ceiling has two regimes. (1) Capping regime (160×160, 80×80 — boundary gap > 10%): the boundary caps fill; the ceiling is the fill where growth overwhelms suppression (the dynamical phase transition); the formula applies. (2) No-capping regime (320×320 at all r tested — boundary gap < 1%): the boundary fragments without capping; stability is 0/4 at all fill; the formula overestimates because there is no suppression to balance against growth. The regime boundary is the boundary's capping power, not the fill level — the formula models a balance that doesn't exist in the no-capping regime.

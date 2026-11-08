@@ -3159,17 +3159,33 @@ to compare.
 
 ## From Session 104 (2026-11-07)
 
-266. **At what r/grid does the 30th ceiling disappear entirely?** — The
-     ceiling = 185.82×(r/grid) + 3822.55×(1/grid) + 10.34 predicts the
-     ceiling approaches the intercept (10.34%) as r/grid → 0 and 1/grid →
-     0. But on a finite grid, 1/grid is bounded below (1/320 = 0.003),
-     so the ceiling at r/grid=0 on 320×320 would be ~3822.55/320 + 10.34
-     ≈ 22.3%. On 160×160 it would be ~3822.55/160 + 10.34 ≈ 34.2%. The
-     ceiling never truly disappears — it approaches a floor that depends
-     on grid size. But at what r/grid does the ceiling drop below the
-     composition threshold (where coexistence is impossible)? Test r=4
-     (1.25%) and r=2 (0.6%) on 320×320 — does stability exist at any
-     fill below the predicted floor?
+266. **At what r/grid does the 30th ceiling disappear entirely?** — DONE
+     (Session 105). The formula predicted ceiling = 24.61% at r=4 on 320×320
+     (r/grid=1.25%). The sweep found 0/4 stable at all n (fill 22–36%),
+     including fill=22.2% — below the prediction. The 56th mechanism: the
+     ceiling has two regimes. (1) Capping regime (160×160, 80×80 — gap >10%):
+     the formula applies. (2) No-capping regime (320×320 at all r — gap <1%):
+     stability is 0/4 at all fill; the formula overestimates because there's
+     no suppression to balance. Methodology lesson: the formula was fit to
+     censored data (upper bounds), inflating R². The ceiling doesn't
+     "disappear" — it transitions to a regime where the concept doesn't
+     apply. See `r4_320_ceiling.py`, `output/r4_320_ceiling.json`,
+     `r4_320_ceiling_viz.html`.
+
+269. **Where does the capping→no-capping transition occur?** — Between
+     160×160 (gap ~56%) and 320×320 (gap <1%), the boundary's fill-capping
+     power transitions to zero. Test a grid size between (e.g., 240×240) to
+     locate the transition. Is it a sharp threshold or a gradual degradation?
+     The 56th mechanism says the ceiling concept only applies in the capping
+     regime, so the transition is the boundary of the formula's validity.
+
+270. **Can the exact ceiling be measured on 320×320?** — Stability is 0/4 at
+     all fills tested (22–58%). Is there a fill below 22% where stability
+     > 0/4? Or is the no-capping regime truly ceiling-free? Test very low n
+     (e.g., n=200–500) — but H7 may not fire below ~4/kc ≈ n~4096 on 320×320.
+     If there is no n where both H7 fires AND stability > 0/4, the no-capping
+     regime is a genuine barrier: the boundary is too weak for stable
+     composition at any density where the crossing fires.
 
 267. **Does the 1/grid term have a physical interpretation?** — The
      ceiling = 185.82×(r/grid) + 3822.55×(1/grid) + 10.34 has 1/grid as

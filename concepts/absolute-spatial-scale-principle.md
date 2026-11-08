@@ -546,3 +546,20 @@ Session 103 refined the 54th mechanism to "ceiling = f(r/grid, b_scale/grid)." S
 **Growth-phase α matches G&G.** The cell-count MSD exponent α_nc=1.729 at n=1500 (fill=48.1%, just above the 30th ceiling) matches G&G's 2D critical exponent α=1.72 to 3 sig figs. The growth dynamics near the 30th ceiling pass through the G&G critical regime (Gelimson & Golestanian 2015: weakly coupled fixed point). The exponent decreases monotonically with n (1.729 → 1.643 → 1.469 → 1.255) as the system moves past the critical regime. Component-count exponents (α_lc/rc ~0.5–0.8) are subdiffusive — a different axis from growth.
 
 See `bscale_ceiling_analysis.py`, `output/bscale_ceiling_analysis.json`, `bscale_ceiling_viz.html`.
+
+## Session 105 — the 30th ceiling has two regimes; the formula overestimates in the no-capping regime
+
+The two-component formula predicted ceiling = 24.61% at r=4 on 320×320 (r/grid = 1.25%). A sweep (n=2000–5000, 4 n × 4 seeds + controls, 30 runs) found **0/4 stable at ALL n values**, including fill=22.2% (below the predicted 24.6%). The formula OVERESTIMATES by at least 2.4pp.
+
+**The 56th mechanism: the 30th ceiling has two regimes.** (1) **Capping regime** (160×160, 80×80 — boundary gap >10%): the boundary caps fill; the ceiling is the fill where growth overwhelms suppression; the formula applies. (2) **No-capping regime** (320×320 at all r tested — boundary gap <1%): the boundary fragments without capping; stability is 0/4 at all fill; the formula overestimates because there's no suppression to balance against growth.
+
+| n | Fill % | Stable | H7 | Gap | lc/rc |
+|---|--------|--------|-----|-----|-------|
+| 2000 | 22.2 | 0/4 | 4/4 | +0.4% | 58–68 |
+| 3000 | 27.8 | 0/4 | 4/4 | −0.8% | 67–77 |
+| 4000 | 33.0 | 0/4 | 4/4 | −0.6% | 54–69 |
+| 5000 | 36.4 | 0/4 | 4/4 | −0.2% | 48–61 |
+
+**Methodology lesson: the formula was fit to censored data.** The 320×320 ceiling data points are upper bounds (stability is 0/4 at all tested fills), not exact measurements. Treating them as exact inflated R² and overestimates predictions. The R²=0.996 measured the fit to censored data, not to the true ceilings.
+
+See `r4_320_ceiling.py`, `output/r4_320_ceiling.json`, `r4_320_ceiling_viz.html`.
