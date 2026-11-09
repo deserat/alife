@@ -2,8 +2,8 @@
 title: "Hypotheses"
 topic: "testable hypotheses for the multi-scale ALife composition project"
 status: active
-date: "2026-11-08"
-session: 105
+date: "2026-11-09"
+session: 106
 count: 11
 active: [H1, H2, H3, H4, H5, H6, H7, H8, H9, H10, H11]
 logs: ["logs/H1/", "logs/H2/", "logs/H3/", "logs/H4/", "logs/H5/", "logs/H6/", "logs/H7/", "logs/H8/", "logs/H9/", "logs/H10/", "logs/H11/"]
@@ -70,7 +70,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **For an emergent structure to persist as a new actor at a higher scale, it must be autopoietic — it must maintain the network that constitutes it.** Self-maintenance is the persistence condition. Without it, emergent structures are transient patterns, not new actors.
 
-**Status:** Refined (Session 105). The two-component ceiling formula (Session 104) OVERESTIMATES at r=4 on 320×320 (r/grid=1.25%): predicted ceiling 24.6%, actual below 22.2% — 0/4 stable at all n (fill 22–36%). The 56th mechanism: the 30th ceiling has two regimes. (1) Capping regime (160×160, 80×80 — boundary gap >10%): the ceiling is the fill where growth overwhelms suppression; the formula applies. (2) No-capping regime (320×320 at all r — boundary gap <1%): the boundary fragments without capping; stability is 0/4 at all fill; the formula overestimates because there's no suppression to balance. Methodology lesson: the formula was fit to censored data (320×320 ceilings are upper bounds), inflating R². H7=4/4 at all n. Determinism verified.
+**Status:** Refined (Session 106). 240×240 r=8 (r/grid=3.33%) is in the no-capping regime — boundary gap < 1% at all n, 0/4 stable at fill 22–32%, formula predicts 32.5% (overestimates by 10pp). The capping→no-capping transition is sharp: it occurs between 160×160 (r/grid=5%, gap ~56%) and 240×240 (r/grid=3.33%, gap <1%) — a 55pp gap drop over 1.67pp r/grid. The 55th mechanism (extensive over-splitting) explains the sharpness: suppression per patch drops below the capping threshold when the number of boundary-induced components scales with grid area. H7=4/4 at all n. Determinism verified.
 
 **Log:** [logs/H5/](logs/H5/)
 
@@ -216,7 +216,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 | H2: ANT Translation | Unchanged | Theoretical, untested | [H2](logs/H2/) |
 | H3: Quasi-Object | Strengthened | Stigmergy literature support; Echo partial support | [H3](logs/H3/) |
 | H4: Dynamic Environment | Refined | Fitness landscape criticism supports this | [H4](logs/H4/) |
-| H5: Autopoiesis | Refined (S105) | 30th ceiling has two regimes — capping (160×160, gap >10%) where formula applies, no-capping (320×320, gap <1%) where stability is 0/4 at all fill; formula overestimates (fit to censored data); 56th mechanism | [H5](logs/H5/) |
+| H5: Autopoiesis | Refined (S106) | Capping→no-capping transition is sharp — 240×240 r=8 (3.33%) already no-capping (gap <1%); transition between 160×160 (5%, gap 56%) and 240×240 (3.33%, gap <1%); 55th mechanism (extensive over-splitting) explains sharpness; 57th mechanism (capping→no-capping is sharp, not gradual) | [H5](logs/H5/) |
 | H6: Multi-Scale Autopoiesis | Refined (S77) | 12th member fully lost at n=11000–14000 (~84–99% fill): 1s l2=0/4; progressive loss, not sharp threshold | [H6](logs/H6/) |
 | H7: Trace→Actor Crossing | Refined ×67; fill cap saturation is a HARD ceiling (grid full); g* limit n≈14000-15000 — boundary capping power decays exponentially (gap halves per 1000-n); H7=4/4 at all densities; L2=0/4; 30th persists; 43rd saturation at n≈14000 | [H7](logs/H7/) |
 | H8: Complexity Enables OEE | NEW | Kaznatcheev (2019), Wiser et al. (2013) | [H8](logs/H8/) |

@@ -3172,12 +3172,19 @@ to compare.
      apply. See `r4_320_ceiling.py`, `output/r4_320_ceiling.json`,
      `r4_320_ceiling_viz.html`.
 
-269. **Where does the capping→no-capping transition occur?** — Between
-     160×160 (gap ~56%) and 320×320 (gap <1%), the boundary's fill-capping
-     power transitions to zero. Test a grid size between (e.g., 240×240) to
-     locate the transition. Is it a sharp threshold or a gradual degradation?
-     The 56th mechanism says the ceiling concept only applies in the capping
-     regime, so the transition is the boundary of the formula's validity.
+269. **Where does the capping→no-capping transition occur?** — DONE
+     (Session 106). Between 160×160 (gap ~56%) and 240×240 (gap <1%).
+     The transition is SHARP, not gradual. 240×240 r=8 (r/grid=3.33%) is
+     already in the no-capping regime — boundary gap < 1% at all n,
+     0/4 stable at fill 22–32%, formula predicts 32.5% (overestimates by
+     10pp). The 57th mechanism: the capping→no-capping transition is
+     sharp. The 55th mechanism (extensive over-splitting) explains the
+     sharpness: the number of boundary-induced components scales with
+     grid area, so the suppression per patch drops below the capping
+     threshold between 160×160 (25600 cells) and 240×240 (57600 cells).
+     Cross-domain: percolation thresholds ↔ capping→no-capping
+     transition. See `capping_transition_240.py`,
+     `output/capping_transition_240.json`, `capping_transition_240_viz.html`.
 
 270. **Can the exact ceiling be measured on 320×320?** — Stability is 0/4 at
      all fills tested (22–58%). Is there a fill below 22% where stability
@@ -3209,3 +3216,27 @@ to compare.
      a universal property of the dynamical phase transition. If it is
      specific to 160×160, the match is coincidental. Cheap: run the
      critical exponents measurement at the 80×80 and 320×320 ceilings.
+
+## From Session 106 (2026-11-09)
+
+271. **Pinpoint the capping→no-capping transition between 160×160 and
+     240×240** — The 57th mechanism (sharp transition) narrows the
+     transition to r/grid ∈ (3.33%, 5%). Test 200×200 (r=8, r/grid=4%)
+     to further narrow it. If 200×200 is capping (gap >10%), the
+     transition is between 200×200 and 240×240 (r/grid 4–3.33%). If
+     200×200 is no-capping (gap <1%), the transition is between 160×160
+     and 200×200 (r/grid 5–4%). This would pinpoint the critical r/grid
+     for the capping→no-capping transition.
+
+272. **Is the capping→no-capping transition a percolation-like
+     threshold?** — The 55th mechanism (extensive over-splitting)
+     suggests the transition occurs when the number of boundary-induced
+     component fragments reaches a critical density. In percolation,
+     the spanning cluster appears at a critical occupation probability;
+     here, the capping boundary (connected suppression) disappears when
+     the fragments become too numerous for the suppression to act
+     coherently. Can the critical r/grid be predicted from the
+     over-splitting threshold (the component count at which coherent
+     suppression breaks down)? Test: measure the component count at the
+     transition (200×200 at the boundary) and compare to the 160×160
+     count at the 30th ceiling (~5-7 components/region).
