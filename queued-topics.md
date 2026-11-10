@@ -3220,13 +3220,16 @@ to compare.
 ## From Session 106 (2026-11-09)
 
 271. **Pinpoint the capping→no-capping transition between 160×160 and
-     240×240** — The 57th mechanism (sharp transition) narrows the
-     transition to r/grid ∈ (3.33%, 5%). Test 200×200 (r=8, r/grid=4%)
-     to further narrow it. If 200×200 is capping (gap >10%), the
-     transition is between 200×200 and 240×240 (r/grid 4–3.33%). If
-     200×200 is no-capping (gap <1%), the transition is between 160×160
-     and 200×200 (r/grid 5–4%). This would pinpoint the critical r/grid
-     for the capping→no-capping transition.
+     240×240** — DONE (Session 107).
+     200×200 r=8 (r/grid=4%) is already in the no-capping regime — boundary
+     gap < 1% at all n, 0/4 stable at fill 28–36%. The 58th mechanism: the
+     transition is bracketed to r/grid ∈ (4%, 5%) — a 1pp range (sharper
+     than the 57th mechanism's 1.67pp bracket). The 55th mechanism (extensive
+     over-splitting) is the cause: at 40000 cells the boundary fragments
+     exceed the coherent suppression threshold. The formula predicted ceiling
+     = 36.9% but overestimates by 8.7pp. H7=4/4 at all n. Determinism
+     verified. See `capping_transition_200.py`,
+     `output/capping_transition_200.json`, `capping_transition_200_viz.html`.
 
 272. **Is the capping→no-capping transition a percolation-like
      threshold?** — The 55th mechanism (extensive over-splitting)

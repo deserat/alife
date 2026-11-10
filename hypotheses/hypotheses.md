@@ -2,8 +2,8 @@
 title: "Hypotheses"
 topic: "testable hypotheses for the multi-scale ALife composition project"
 status: active
-date: "2026-11-09"
-session: 106
+date: "2026-11-10"
+session: 107
 count: 11
 active: [H1, H2, H3, H4, H5, H6, H7, H8, H9, H10, H11]
 logs: ["logs/H1/", "logs/H2/", "logs/H3/", "logs/H4/", "logs/H5/", "logs/H6/", "logs/H7/", "logs/H8/", "logs/H9/", "logs/H10/", "logs/H11/"]
@@ -70,7 +70,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **For an emergent structure to persist as a new actor at a higher scale, it must be autopoietic — it must maintain the network that constitutes it.** Self-maintenance is the persistence condition. Without it, emergent structures are transient patterns, not new actors.
 
-**Status:** Refined (Session 106). 240×240 r=8 (r/grid=3.33%) is in the no-capping regime — boundary gap < 1% at all n, 0/4 stable at fill 22–32%, formula predicts 32.5% (overestimates by 10pp). The capping→no-capping transition is sharp: it occurs between 160×160 (r/grid=5%, gap ~56%) and 240×240 (r/grid=3.33%, gap <1%) — a 55pp gap drop over 1.67pp r/grid. The 55th mechanism (extensive over-splitting) explains the sharpness: suppression per patch drops below the capping threshold when the number of boundary-induced components scales with grid area. H7=4/4 at all n. Determinism verified.
+**Status:** Refined (Session 107). The 58th mechanism: the capping→no-capping transition is bracketed to r/grid ∈ (4%, 5%). 200×200 r=8 (r/grid=4%) is already in the no-capping regime — boundary gap < 1% at all n, 0/4 stable at fill 28–36%, formula predicts 36.9% (overestimates by 8.7pp). The transition is sharper than the 57th mechanism's 1.67pp bracket: the actual range is 1pp (4–5%). The 55th mechanism (extensive over-splitting) is the cause — at 40000 cells the boundary fragments exceed the coherent suppression threshold. H7=4/4 at all n. Determinism verified.
 
 **Log:** [logs/H5/](logs/H5/)
 
@@ -216,7 +216,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 | H2: ANT Translation | Unchanged | Theoretical, untested | [H2](logs/H2/) |
 | H3: Quasi-Object | Strengthened | Stigmergy literature support; Echo partial support | [H3](logs/H3/) |
 | H4: Dynamic Environment | Refined | Fitness landscape criticism supports this | [H4](logs/H4/) |
-| H5: Autopoiesis | Refined (S106) | Capping→no-capping transition is sharp — 240×240 r=8 (3.33%) already no-capping (gap <1%); transition between 160×160 (5%, gap 56%) and 240×240 (3.33%, gap <1%); 55th mechanism (extensive over-splitting) explains sharpness; 57th mechanism (capping→no-capping is sharp, not gradual) | [H5](logs/H5/) |
+| H5: Autopoiesis | Refined (S107) | 58th mechanism: capping→no-capping transition bracketed to r/grid ∈ (4%, 5%); 200×200 r=8 (4%) already no-capping (gap <1%); 1pp range; 55th mechanism (extensive over-splitting) is the cause; formula overestimates by 8.7pp | [H5](logs/H5/) |
 | H6: Multi-Scale Autopoiesis | Refined (S77) | 12th member fully lost at n=11000–14000 (~84–99% fill): 1s l2=0/4; progressive loss, not sharp threshold | [H6](logs/H6/) |
 | H7: Trace→Actor Crossing | Refined ×67; fill cap saturation is a HARD ceiling (grid full); g* limit n≈14000-15000 — boundary capping power decays exponentially (gap halves per 1000-n); H7=4/4 at all densities; L2=0/4; 30th persists; 43rd saturation at n≈14000 | [H7](logs/H7/) |
 | H8: Complexity Enables OEE | NEW | Kaznatcheev (2019), Wiser et al. (2013) | [H8](logs/H8/) |

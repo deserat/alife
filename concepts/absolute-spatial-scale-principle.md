@@ -3,7 +3,7 @@ status: active
 formed: "Session 85"
 connected_to: "extensive-intensive-signals, two-wire-principle, gompertz-logistic-transition, H5, H7, H10"
 topic: "the absolute-spatial-scale principle — any mechanism acting through an absolute spatial scale converts density-dependence into n-dependence; local scales are scale-invariant, global scales are not"
-key_findings: "The fill is density-dependent without any absolute-spatial-scale mechanism (66.25% ≈ 66.49% ≈ 64.26%, spread 2.23% at 23.4/kc across 80×80/160×160/320×320) and n-dependent with the focal bias (48.33% → 31.58% → 24.95%, spread 23.38%). The focal bias (1-cell steps toward a fixed home center — a GLOBAL absolute spatial scale) was the sole source of n-dependence. The curvature channel's local operations (1-cell Laplacian, 1-cell Moore dilation, 0.2-cell diffusion — LOCAL absolute scales) are scale-invariant at matched density. LOCAL absolute scales (acting on local shape) are scale-invariant; GLOBAL absolute scales (distance-dependent, acting on position) are not. This maps onto gauge theory: local interactions are renormalizable; global references are not. Session 95–96: the 30th ceiling shifts with grid size and is about the structure-to-boundary RATIO (dilation radius). Session 97: the 30th ceiling SATURATES at ~43% for r≥8 on 160×160. Session 98: the 30th ceiling is a DYNAMICAL phase transition (growth ∝n exceeds suppression ∝√n), mapping onto Gelimson & Golestanian (2015). Session 104: the 30th ceiling = 185.82×(r/grid) + 3822.55×(1/grid) + 10.34 (R²=0.996); b_scale is f(r/grid) (collinear); 1/grid term captures extensive over-splitting. Session 105: the formula OVERESTIMATES in the no-capping regime (320×320 at all r — gap <1%); the 56th mechanism: two regimes (capping vs no-capping); formula was fit to censored data. Session 106: the capping→no-capping transition is SHARP — 240×240 r=8 (r/grid=3.33%) is already no-capping (gap <1%); the transition occurs between 160×160 (r/grid=5%, gap 56%) and 240×240 (r/grid=3.33%, gap <1%); the 57th mechanism: the transition is sharp, not gradual; the 55th mechanism (extensive over-splitting) explains the sharpness."
+key_findings: "The fill is density-dependent without any absolute-spatial-scale mechanism (66.25% ≈ 66.49% ≈ 64.26%, spread 2.23% at 23.4/kc across 80×80/160×160/320×320) and n-dependent with the focal bias (48.33% → 31.58% → 24.95%, spread 23.38%). The focal bias (1-cell steps toward a fixed home center — a GLOBAL absolute spatial scale) was the sole source of n-dependence. The curvature channel's local operations (1-cell Laplacian, 1-cell Moore dilation, 0.2-cell diffusion — LOCAL absolute scales) are scale-invariant at matched density. LOCAL absolute scales (acting on local shape) are scale-invariant; GLOBAL absolute scales (distance-dependent, acting on position) are not. This maps onto gauge theory: local interactions are renormalizable; global references are not. Session 95–96: the 30th ceiling shifts with grid size and is about the structure-to-boundary RATIO (dilation radius). Session 97: the 30th ceiling SATURATES at ~43% for r≥8 on 160×160. Session 98: the 30th ceiling is a DYNAMICAL phase transition (growth ∝n exceeds suppression ∝√n), mapping onto Gelimson & Golestanian (2015). Session 104: the 30th ceiling = 185.82×(r/grid) + 3822.55×(1/grid) + 10.34 (R²=0.996); b_scale is f(r/grid) (collinear); 1/grid term captures extensive over-splitting. Session 105: the formula OVERESTIMATES in the no-capping regime (320×320 at all r — gap <1%); the 56th mechanism: two regimes (capping vs no-capping); formula was fit to censored data. Session 106: the capping→no-capping transition is SHARP — 240×240 r=8 (r/grid=3.33%) is already no-capping (gap <1%); the 57th mechanism: the transition is sharp, not gradual. Session 107: the 58th mechanism — 200×200 r=8 (r/grid=4%) is already no-capping (gap <1%); the transition is bracketed to r/grid ∈ (4%, 5%), a 1pp range; the 55th mechanism (extensive over-splitting) is the cause: at 40000 cells the boundary fragments exceed the coherent suppression threshold."
 ---
 
 # The Absolute-Spatial-Scale Principle
@@ -584,3 +584,25 @@ The 56th mechanism identified two regimes but could not locate the transition. S
 H7=4/4 at all n. 1-seed l2 control leaks (dominance) at all n — the structural guarantee is lost on 240×240, consistent with the 50th mechanism. Determinism verified (n=2000, seed=42: 16397 vs 16397).
 
 See `capping_transition_240.py`, `output/capping_transition_240.json`, `capping_transition_240_viz.html`.
+
+## Session 107 — the capping→no-capping transition is between r/grid 4% and 5%; 200×200 is no-capping
+
+Session 106 bracketed the transition to r/grid ∈ (3.33%, 5%). Session 107 tested 200×200 at r=8 (r/grid = 4%) to narrow it further.
+
+**200×200 is in the no-capping regime.** The boundary gap is < 1% at all n values (−0.3%, +0.3%, −0.0%, −0.3% at n=1000–4000). The formula predicted ceiling = 36.9% but 0/4 stable at fill = 28.2% — 8.7pp below the prediction.
+
+**The 58th mechanism: the transition is bracketed to r/grid ∈ (4%, 5%) — a 1pp range.** The gap drops from ~56% (160×160, r/grid=5%) to <1% (200×200, r/grid=4%) — a 55pp drop over 1pp r/grid. This is sharper than the 57th mechanism's 1.67pp bracket. The 55th mechanism (extensive over-splitting) is the cause: at 40000 cells (200×200), the number of boundary-induced fragments exceeds the threshold for coherent suppression. On 160×160 (25600 cells), the boundary's 8-cell dilation covers enough of the grid to cap fill coherently; on 200×200 it does not.
+
+| Grid | r | r/grid | Ceiling fill% | Boundary gap | Regime |
+|------|---|--------|---------------|-------------|--------|
+| 80×80 | 8 | 10% | ~70% (gradual) | ~large | Capping |
+| 160×160 | 8 | 5% | 43.6% | ~56% | Capping |
+| **200×200** | **8** | **4%** | **<28%** | **<1%** | **No-capping** |
+| 240×240 | 8 | 3.33% | <22% | <1% | No-capping |
+| 320×320 | 8 | 2.5% | <25% | <1% | No-capping |
+| 320×320 | 16 | 5% | <32.7% | ~0% | No-capping |
+| 320×320 | 4 | 1.25% | <22% | <1% | No-capping |
+
+H7=4/4 at all n. 1-seed l2 control leaks (dominance) at all n — the structural guarantee is lost on 200×200, consistent with the 50th mechanism. Determinism verified (n=2000, seed=42: 13255 vs 13255).
+
+See `capping_transition_200.py`, `output/capping_transition_200.json`, `capping_transition_200_viz.html`.

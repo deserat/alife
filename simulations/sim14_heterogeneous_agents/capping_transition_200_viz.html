@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Session 107 — Capping→No-Capping Transition: 200×200 r=8 (4%)</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #0d1117; color: #c9d1d9; font-family: 'Segoe UI', system-ui, sans-serif;
+    padding: 20px; max-width: 1200px; margin: 0 auto;
+  }
+  h1 { color: #58a6ff; font-size: 1.4em; margin-bottom: 4px; }
+  h2 { color: #79c0ff; font-size: 1.1em; margin: 20px 0 10px; }
+  .subtitle { color: #8b949e; font-size: 0.9em; margin-bottom: 16px; }
+  .card {
+    background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+    padding: 16px; margin-bottom: 16px;
+  }
+  .summary-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px; margin-bottom: 16px;
+  }
+  .stat {
+    background: #21262d; border-radius: 6px; padding: 10px 14px;
+  }
+  .stat-label { color: #8b949e; font-size: 0.8em; text-transform: uppercase; }
+  .stat-value { color: #58a6ff; font-size: 1.3em; font-weight: bold; }
+  .stat-value.red { color: #f85149; }
+  .stat-value.green { color: #3fb950; }
+  .stat-value.yellow { color: #d29922; }
+  canvas { display: block; width: 100%; max-width: 900px; }
+  table {
+    width: 100%; border-collapse: collapse; font-size: 0.85em;
+  }
+  th { color: #8b949e; text-align: left; padding: 6px 10px; border-bottom: 1px solid #30363d; }
+  td { padding: 6px 10px; border-bottom: 1px solid #21262d; }
+  td.right { text-align: right; }
+  .badge {
+    display: inline-block; padding: 2px 8px; border-radius: 10px;
+    font-size: 0.8em; font-weight: bold;
+  }
+  .badge.red { background: #3d1418; color: #f85149; }
+  .badge.green { background: #1a3e1a; color: #3fb950; }
+  .badge.yellow { background: #3d2e14; color: #d29922; }
+  .finding {
+    background: #1c2128; border-left: 3px solid #f85149; padding: 12px 16px;
+    margin-bottom: 12px; border-radius: 0 6px 6px 0;
+  }
+  .finding.green { border-left-color: #3fb950; }
+  .finding.yellow { border-left-color: #d29922; }
+</style>
+</head>
+<body>
+<h1>Session 107 — Pinpointing the Capping→No-Capping Transition</h1>
+<p class="subtitle">200×200, r=8 (4% of grid) — is the transition between 160×160 (5%) and 200×200 (4%)?</p>
+
+<div class="summary-grid">
+  <div class="stat"><div class="stat-label">Grid Size</div><div class="stat-value">200×200</div></div>
+  <div class="stat"><div class="stat-label">r/grid</div><div class="stat-value">4.0%</div></div>
+  <div class="stat"><div class="stat-label">Boundary Gap</div><div class="stat-value red">&lt; 1%</div></div>
+  <div class="stat"><div class="stat-label">Stable (all n)</div><div class="stat-value red">0/4</div></div>
+  <div class="stat"><div class="stat-label">H7 (all n)</div><div class="stat-value green">4/4</div></div>
+  <div class="stat"><div class="stat-label">Regime</div><div class="stat-value red">No-capping</div></div>
+</div>
+
+<div class="finding red">
+  <strong>Finding:</strong> 200×200 r=8 has boundary gap &lt; 1% at all n — the no-capping regime.
+  The formula predicted ceiling = 36.9% but 0/4 stable at fill = 28.2% (8.7pp below prediction).
+  The capping→no-capping transition is <strong>between 160×160 (r/grid=5%, gap ~56%) and 200×200 (r/grid=4%, gap &lt;1%)</strong>.
+  The 58th mechanism: the transition is bracketed to r/grid ∈ (4%, 5%) — a 1pp range.
+</div>
+
+<h2>1. Boundary Gap Across Grid Sizes — the transition is between 160 and 200</h2>
+<div class="card"><canvas id="gapChart" height="280"></canvas></div>
+
+<h2>2. Fill vs n (200×200 with/without boundary)</h2>
+<div class="card"><canvas id="fillChart" height="280"></canvas></div>
+
+<h2>3. Fragmentation (components per region)</h2>
+<div class="card"><canvas id="fragChart" height="280"></canvas></div>
+
+<h2>4. Results Table</h2>
+<div class="card">
+<table id="resultsTable">
+<thead><tr><th>n</th><th>density (kc)</th><th>fill %</th><th>stable</th><th>coexist</th><th>H7</th><th class="right">no-inhib %</th><th class="right">gap %</th><th>1s l2</th></tr></thead>
+<tbody></tbody>
+</table>
+</div>
+
+<h2>5. Per-seed Results</h2>
+<div class="card">
+<table id="seedTable">
+<thead><tr><th>n</th><th>seed</th><th>fill %</th><th>stable</th><th>outcome</th><th>H7</th><th>cf</th><th class="right">lc</th><th class="right">rc</th><th class="right">bmax</th></tr></thead>
+<tbody></tbody>
+</table>
+</div>
+
+<script>
+const COLORS = {
+  bg: '#0d1117', grid: '#30363d', text: '#c9d1d9',
+  blue: '#58a6ff', green: '#3fb950', red: '#f85149',
+  yellow: '#d29922', orange: '#db6d28', purple: '#bc8cff',
+  gray: '#484f58'
+};
+
+function drawAxes(ctx, w, h, xLabel, yLabel, xMin, xMax, yMin, yMax, xTicks, yTicks) {
+  const padL = 60, padR = 20, padT = 20, padB = 40;
+  const pw = w - padL - padR, ph = h - padT - padB;
+  ctx.strokeStyle = COLORS.grid; ctx.fillStyle = COLORS.text;
+  ctx.lineWidth = 1; ctx.font = '11px system-ui';
+  ctx.beginPath(); ctx.moveTo(padL, padT); ctx.lineTo(padL, padT + ph); ctx.stroke();
+  yTicks.forEach(t => {
+    const y = padT + ph - (t.val - yMin) / (yMax - yMin) * ph;
+    ctx.strokeStyle = COLORS.grid;
+    ctx.beginPath(); ctx.moveTo(padL, y); ctx.lineTo(padL + pw, y); ctx.stroke();
+    ctx.fillStyle = COLORS.gray; ctx.textAlign = 'right';
+    ctx.fillText(t.label, padL - 6, y + 4);
+  });
+  ctx.beginPath(); ctx.moveTo(padL, padT + ph); ctx.lineTo(padL + pw, padT + ph); ctx.stroke();
+  xTicks.forEach(t => {
+    const x = padL + (t.val - xMin) / (xMax - xMin) * pw;
+    ctx.fillStyle = COLORS.gray; ctx.textAlign = 'center';
+    ctx.fillText(t.label, x, padT + ph + 18);
+  });
+  ctx.fillStyle = COLORS.text; ctx.font = '12px system-ui';
+  ctx.textAlign = 'center';
+  ctx.fillText(xLabel, padL + pw / 2, h - 8);
+  ctx.save(); ctx.translate(14, padT + ph / 2); ctx.rotate(-Math.PI / 2);
+  ctx.fillText(yLabel, 0, 0); ctx.restore();
+  return {padL, padR, padT, padB, pw, ph};
+}
+
+function drawPoint(ctx, x, y, color, r=5, label='') {
+  ctx.fillStyle = color; ctx.beginPath(); ctx.arc(x, y, r, 0, 2*Math.PI); ctx.fill();
+  if (label) { ctx.fillStyle = COLORS.text; ctx.font = '10px system-ui'; ctx.textAlign = 'center'; ctx.fillText(label, x, y - r - 4); }
+}
+
+function setupCanvas(id, h) {
+  const c = document.getElementById(id);
+  const w = c.parentElement.clientWidth - 32;
+  c.width = w; c.height = h;
+  return {ctx: c.getContext('2d'), w, h};
+}
+
+async function main() {
+  let data;
+  try {
+    const resp = await fetch('output/capping_transition_200.json');
+    data = await resp.json();
+  } catch(e) {
+    console.error('Failed to load data', e);
+    return;
+  }
+
+  // --- Gap chart ---
+  { const {ctx, w, h} = setupCanvas('gapChart', 280);
+    const grids = [160, 200, 240, 320];
+    const gaps = [56, 0.0, 0.2, 0.5];
+    const rGrids = [5.0, 4.0, 3.33, 2.5];
+    drawAxes(ctx, w, h, 'Grid Size', 'Boundary Gap (%)', 140, 360, -10, 70,
+      grids.map(g => ({val: g, label: g + '×' + g})),
+      [{val: 0, label: '0'}, {val: 20, label: '20'}, {val: 40, label: '40'}, {val: 60, label: '60'}]);
+    const padL = 60, padT = 20, padB = 40, padR = 20;
+    const pw = w - padL - padR, ph = h - padT - padB;
+    ctx.strokeStyle = COLORS.blue; ctx.lineWidth = 2;
+    ctx.beginPath();
+    grids.forEach((g, i) => {
+      const x = padL + (g - 140) / 220 * pw;
+      const y = padT + ph - (gaps[i] + 10) / 80 * ph;
+      if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+      drawPoint(ctx, x, y, i === 0 ? COLORS.blue : COLORS.red, 7, g + '×' + g);
+    });
+    ctx.stroke();
+    // Threshold line at 10%
+    const y10 = padT + ph - (10 + 10) / 80 * ph;
+    ctx.strokeStyle = COLORS.yellow; ctx.setLineDash([4, 4]);
+    ctx.beginPath(); ctx.moveTo(padL, y10); ctx.lineTo(padL + pw, y10); ctx.stroke();
+    ctx.setLineDash([]); ctx.fillStyle = COLORS.yellow; ctx.font = '10px system-ui';
+    ctx.textAlign = 'right'; ctx.fillText('capping threshold ~10%', padL + pw, y10 - 4);
+    // Annotate the transition
+    ctx.fillStyle = COLORS.text; ctx.font = '11px system-ui'; ctx.textAlign = 'left';
+    ctx.fillText('Capping regime →', padL + 8, padT + 20);
+    ctx.fillText('← No-capping regime', padL + pw - 130, padT + 20);
+    // Transition arrow
+    ctx.strokeStyle = COLORS.red; ctx.lineWidth = 2;
+    const x160 = padL + (160 - 140) / 220 * pw;
+    const x200 = padL + (200 - 140) / 220 * pw;
+    ctx.beginPath(); ctx.moveTo(x160, padT + ph - (56 + 10) / 80 * ph);
+    ctx.lineTo(x200, padT + ph - (0 + 10) / 80 * ph);
+    ctx.stroke();
+  }
+
+  // --- Fill chart ---
+  { const {ctx, w, h} = setupCanvas('fillChart', 280);
+    const summary = data.summary;
+    const nMax = 4500, fillMax = 45;
+    drawAxes(ctx, w, h, 'n (termites)', 'Fill (%)', 500, nMax, 0, fillMax,
+      [{val: 1000, label: '1000'}, {val: 2000, label: '2000'}, {val: 3000, label: '3000'}, {val: 4000, label: '4000'}],
+      [{val: 0, label: '0'}, {val: 10, label: '10'}, {val: 20, label: '20'}, {val: 30, label: '30'}, {val: 40, label: '40'}]);
+    const padL = 60, padT = 20, padB = 40, padR = 20;
+    const pw = w - padL - padR, ph = h - padT - padB;
+    ctx.strokeStyle = COLORS.blue; ctx.lineWidth = 2;
+    ctx.beginPath();
+    summary.forEach((s, i) => {
+      const x = padL + (s.n - 500) / (nMax - 500) * pw;
+      const y = padT + ph - s.fill_pct_mean / fillMax * ph;
+      if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+      drawPoint(ctx, x, y, COLORS.blue, 5);
+    });
+    ctx.stroke();
+    ctx.strokeStyle = COLORS.red; ctx.lineWidth = 2;
+    ctx.beginPath();
+    summary.forEach((s, i) => {
+      const x = padL + (s.n - 500) / (nMax - 500) * pw;
+      const y = padT + ph - s.no_inhib_fill_pct_mean / fillMax * ph;
+      if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+      drawPoint(ctx, x, y, COLORS.red, 5);
+    });
+    ctx.stroke();
+    const predY = padT + ph - data.config.predicted_ceiling_pct / fillMax * ph;
+    ctx.strokeStyle = COLORS.yellow; ctx.setLineDash([4, 4]);
+    ctx.beginPath(); ctx.moveTo(padL, predY); ctx.lineTo(padL + pw, predY); ctx.stroke();
+    ctx.setLineDash([]); ctx.fillStyle = COLORS.yellow; ctx.font = '10px system-ui';
+    ctx.textAlign = 'right'; ctx.fillText('predicted ceiling ' + data.config.predicted_ceiling_pct + '%', padL + pw, predY - 4);
+    ctx.font = '10px system-ui'; ctx.textAlign = 'left';
+    ctx.fillStyle = COLORS.blue; ctx.fillText('● with boundary', padL + 8, padT + 12);
+    ctx.fillStyle = COLORS.red; ctx.fillText('● no-inhibition', padL + 108, padT + 12);
+  }
+
+  // --- Fragmentation chart ---
+  { const {ctx, w, h} = setupCanvas('fragChart', 280);
+    const runs = data.runs_2seed;
+    const nMax = 4500, fragMax = 20;
+    drawAxes(ctx, w, h, 'n (termites)', 'Components per region', 500, nMax, 0, fragMax,
+      [{val: 1000, label: '1000'}, {val: 2000, label: '2000'}, {val: 3000, label: '3000'}, {val: 4000, label: '4000'}],
+      [{val: 0, label: '0'}, {val: 5, label: '5'}, {val: 10, label: '10'}, {val: 15, label: '15'}, {val: 20, label: '20'}]);
+    const padL = 60, padT = 20, padB = 40, padR = 20;
+    const pw = w - padL - padR, ph = h - padT - padB;
+    runs.forEach(r => {
+      const x = padL + (r.n - 500) / (nMax - 500) * pw;
+      const yLc = padT + ph - r.late_mean_lc / fragMax * ph;
+      const yRc = padT + ph - r.late_mean_rc / fragMax * ph;
+      drawPoint(ctx, x, yLc, COLORS.purple, 4);
+      drawPoint(ctx, x, yRc, COLORS.orange, 4);
+    });
+    const y3 = padT + ph - 3 / fragMax * ph;
+    ctx.strokeStyle = COLORS.green; ctx.setLineDash([4, 4]);
+    ctx.beginPath(); ctx.moveTo(padL, y3); ctx.lineTo(padL + pw, y3); ctx.stroke();
+    ctx.setLineDash([]); ctx.fillStyle = COLORS.green; ctx.font = '10px system-ui';
+    ctx.textAlign = 'right'; ctx.fillText('coexist threshold (≤3)', padL + pw, y3 - 4);
+    ctx.font = '10px system-ui'; ctx.textAlign = 'left';
+    ctx.fillStyle = COLORS.purple; ctx.fillText('● lc (left)', padL + 8, padT + 12);
+    ctx.fillStyle = COLORS.orange; ctx.fillText('● rc (right)', padL + 78, padT + 12);
+    ctx.fillStyle = COLORS.gray; ctx.fillText('All fragmented (6–17 comp/region)', padL + 150, padT + 12);
+  }
+
+  // --- Results table ---
+  const tbody = document.querySelector('#resultsTable tbody');
+  data.summary.forEach(s => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${s.n}</td><td>${s.density_per_kc}</td><td>${s.fill_pct_mean}%</td>
+      <td><span class="badge red">${s.stable_4}</span></td>
+      <td><span class="badge ${s.coexist_4 === '0/4' ? 'red' : 'yellow'}">${s.coexist_4}</span></td>
+      <td><span class="badge green">${s.h7_4}</span></td>
+      <td class="right">${s.no_inhib_fill_pct_mean}%</td>
+      <td class="right">${s.boundary_gap}%</td>
+      <td>${s.l2_1s ? '<span class="badge yellow">leak</span>' : '<span class="badge green">clean</span>'}</td>`;
+    tbody.appendChild(tr);
+  });
+
+  // --- Per-seed table ---
+  const seedTbody = document.querySelector('#seedTable tbody');
+  data.runs_2seed.forEach(r => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${r.n}</td><td>${r.seed}</td><td>${r.fill_pct}%</td>
+      <td>${r.l2_stable ? '✅' : '❌'}</td>
+      <td>${r.l2_outcome}</td>
+      <td>${r.crossed_h7 ? '✅' : '❌'}</td>
+      <td>${r.l2_coexist_frac}</td>
+      <td class="right">${r.late_mean_lc}</td>
+      <td class="right">${r.late_mean_rc}</td>
+      <td class="right">${r.b_max}</td>`;
+    seedTbody.appendChild(tr);
+  });
+}
+main();
+</script>
+</body>
+</html>
