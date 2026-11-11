@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Session 108 — Component Count Threshold</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --fg: #c9d1d9;
+    --border: #30363d;
+    --accent: #58a6ff;
+    --green: #3fb950;
+    --red: #f85149;
+    --yellow: #d29922;
+    --dim: #8b949e;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--fg); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; padding: 20px; max-width: 1100px; margin: 0 auto; }
+  h1 { font-size: 1.4rem; margin-bottom: 4px; }
+  h2 { font-size: 1.1rem; margin: 24px 0 8px; color: var(--accent); }
+  .subtitle { color: var(--dim); font-size: 0.85rem; margin-bottom: 20px; }
+  .card { background: #161b22; border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin-bottom: 16px; }
+  .finding { font-size: 0.95rem; line-height: 1.5; margin-bottom: 12px; }
+  .finding strong { color: var(--accent); }
+  .highlight { background: #1c2128; border: 1px solid var(--border); border-radius: 6px; padding: 10px 14px; margin: 8px 0; font-size: 0.9rem; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.82rem; margin: 8px 0; }
+  th { text-align: left; padding: 6px 10px; border-bottom: 1px solid var(--border); color: var(--dim); font-weight: 600; }
+  td { padding: 5px 10px; border-bottom: 1px solid #21262d; }
+  .stable-yes { color: var(--green); }
+  .stable-no { color: var(--red); }
+  .capping { color: var(--green); font-weight: 600; }
+  .no-capping { color: var(--red); font-weight: 600; }
+  .critical { background: rgba(210, 153, 34, 0.15); }
+  canvas { display: block; margin: 12px auto; max-width: 100%; }
+  .chart-wrap { text-align: center; }
+  .chart-label { color: var(--dim); font-size: 0.8rem; margin-top: 4px; }
+  .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin: 12px 0; }
+  .stat { background: #1c2128; border: 1px solid var(--border); border-radius: 6px; padding: 10px 14px; }
+  .stat-label { color: var(--dim); font-size: 0.75rem; }
+  .stat-value { font-size: 1.2rem; font-weight: 700; color: var(--accent); }
+  .stat-value.green { color: var(--green); }
+  .stat-value.red { color: var(--red); }
+  .arrow { font-size: 1.1rem; color: var(--yellow); }
+</style>
+</head>
+<body>
+<h1>Session 108 — Is the Capping→No-Capping Transition a Percolation-Like Threshold?</h1>
+<div class="subtitle">Component count per region as the critical variable · #272 · sim14_heterogeneous_agents</div>
+
+<div id="status">Loading...</div>
+<div id="content" style="display:none;">
+
+<div class="card">
+  <div class="finding">
+    <strong>Question:</strong> Session 107 bracketed the capping→no-capping transition to r/grid ∈ (4%, 5%).
+    The 55th mechanism (extensive over-splitting) is the cause. Is there a critical <em>component count</em>
+    per region at which coherent suppression breaks down — a percolation-like topological threshold?
+  </div>
+  <div class="finding">
+    <strong>Method:</strong> Ran 160×160 (capping, r/grid=5%) at 6 n values (1200–3000) at g=0.001, 4 seeds,
+    measuring component counts. Compared to existing 200×200 (no-capping, r/grid=4%) data from Session 107.
+  </div>
+</div>
+
+<h2>Key Finding</h2>
+<div class="card" id="finding-card"></div>
+
+<h2>Component Count vs Fill — 160×160 (capping) vs 200×200 (no-capping)</h2>
+<div class="chart-wrap">
+  <canvas id="chart-comp" width="900" height="400"></canvas>
+  <div class="chart-label">Mean component count per region vs fill % — each point is a (grid, n) combination, 4 seeds averaged. Color = grid, shape = stable/unstable.</div>
+</div>
+
+<h2>Boundary Gap vs Component Count</h2>
+<div class="chart-wrap">
+  <canvas id="chart-gap" width="900" height="350"></canvas>
+  <div class="chart-label">Boundary gap (no-inhib fill − boundary fill) vs mean component count per region. The gap drops from ~56% to <1% as component count rises.</div>
+</div>
+
+<h2>Data Tables</h2>
+<div class="card">
+  <h2 style="margin-top:0">160×160 (r/grid = 5%, capping regime)</h2>
+  <table id="table-160">
+    <tr><th>n</th><th>Fill %</th><th>Stable</th><th>Coexist</th><th>H7</th><th>Gap %</th><th>Mean lc</th><th>Mean rc</th><th>Mean comp</th></tr>
+  </table>
+</div>
+
+<div class="card">
+  <h2 style="margin-top:0">200×200 (r/grid = 4%, no-capping regime) — from Session 107</h2>
+  <table id="table-200">
+    <tr><th>n</th><th>Fill %</th><th>Stable</th><th>Mean lc</th><th>Mean rc</th><th>Mean comp</th></tr>
+  </table>
+</div>
+
+<h2>Determinism</h2>
+<div class="card" id="det-card"></div>
+
+</div>
+
+<script>
+const COLORS = {
+  bg: '#0d1117', fg: '#c9d1d9', border: '#30363d',
+  accent: '#58a6ff', green: '#3fb950', red: '#f85149',
+  yellow: '#d29922', dim: '#8b949e', grid160: '#58a6ff', grid200: '#f85149',
+};
+
+async function load() {
+  try {
+    const resp = await fetch('output/component_count_threshold.json');
+    const data = await resp.json();
+    document.getElementById('status').style.display = 'none';
+    document.getElementById('content').style.display = 'block';
+    render(data);
+  } catch(e) {
+    document.getElementById('status').innerHTML = '<pre style="color:#f85149">' + e.message + '\n\nCould not load output/component_count_threshold.json</pre>';
+  }
+}
+
+function mean(arr) { return arr.reduce((a,b) => a+b, 0) / arr.length; }
+
+function render(data) {
+  const s160 = data.summary_160 || [];
+  const s200 = data.summary_200_existing || [];
+
+  // Determine critical component count
+  // 160×160: last stable n → mean_comp threshold
+  let lastStableComp = 0, firstUnstableComp = 0;
+  for (const s of s160) {
+    const stable = parseInt(s.stable_4) > 0;
+    if (stable) lastStableComp = Math.max(lastStableComp, s.mean_comp);
+    if (!stable && firstUnstableComp === 0) firstUnstableComp = s.mean_comp;
+  }
+  const min200Comp = s200.length > 0 ? Math.min(...s200.map(s => (s.late_mean_lc + s.late_mean_rc) / 2)) : 0;
+
+  // Finding card
+  const findingEl = document.getElementById('finding-card');
+  const lastStableN = s160.find(s => parseInt(s.stable_4) > 0);
+  const firstUnstableN = s160.find(s => parseInt(s.stable_4) === 0);
+  findingEl.innerHTML = `
+    <div class="finding">
+      <span class="capping">160×160 (capping):</span> At the last stable point (fill ${lastStableN ? lastStableN.fill_pct_mean : '?'}%), mean component count = ${lastStableComp.toFixed(1)}/region.
+      At the ceiling (fill ${firstUnstableN ? firstUnstableN.fill_pct_mean : '?'}%), mean component count = ${firstUnstableComp.toFixed(1)}/region, stable = 0/4.
+    </div>
+    <div class="finding">
+      <span class="no-capping">200×200 (no-capping):</span> Even at the lowest fill (${s200[0] ? s200[0].fill_pct : '?'}%), mean component count = ${min200Comp.toFixed(1)}/region — already above the 160×160 ceiling.
+    </div>
+    <div class="highlight">
+      <strong>Critical component count: ~${lastStableComp.toFixed(0)}–${firstUnstableComp.toFixed(0)} per region.</strong>
+      The capping→no-capping transition occurs when the component count exceeds ~${Math.ceil(lastStableComp)}–${Math.floor(firstUnstableComp)} per region,
+      regardless of fill fraction. 200×200 at ${s200[0] ? s200[0].fill_pct : '?'}% fill already exceeds this; 160×160 at ${(firstUnstableN || lastStableN).fill_pct}% fill just reaches it.
+      This is <strong>percolation-like</strong>: the connected capping boundary fragments into isolated patches when the component count exceeds a topological threshold.
+    </div>
+  `;
+
+  // Tables
+  const t160 = document.getElementById('table-160');
+  for (const s of s160) {
+    const stableClass = parseInt(s.stable_4) > 0 ? 'stable-yes' : 'stable-no';
+    const tr = document.createElement('tr');
+    if (parseInt(s.stable_4) === 0 && firstUnstableN === s) tr.className = 'critical';
+    tr.innerHTML = `
+      <td>${s.n}</td>
+      <td>${s.fill_pct_mean}</td>
+      <td class="${stableClass}">${s.stable_4}</td>
+      <td>${s.coexist_4}</td>
+      <td>${s.h7_4}</td>
+      <td>${s.boundary_gap}</td>
+      <td>${s.mean_lc}</td>
+      <td>${s.mean_rc}</td>
+      <td>${s.mean_comp}</td>
+    `;
+    t160.appendChild(tr);
+  }
+
+  const t200 = document.getElementById('table-200');
+  for (const s of s200) {
+    const mc = (s.late_mean_lc + s.late_mean_rc) / 2;
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${s.n}</td>
+      <td>${s.fill_pct}</td>
+      <td class="stable-no">0/4</td>
+      <td>${s.late_mean_lc}</td>
+      <td>${s.late_mean_rc}</td>
+      <td>${mc.toFixed(1)}</td>
+    `;
+    t200.appendChild(tr);
+  }
+
+  // Chart 1: Component count vs fill
+  drawCompChart(s160, s200);
+
+  // Chart 2: Boundary gap vs component count
+  drawGapChart(s160);
+
+  // Determinism
+  const det = data.determinism;
+  document.getElementById('det-card').innerHTML = det ?
+    `<div class="finding">Determinism check: n=${det.n}, grid=${det.grid}, seed=${det.seed} — <span class="${det.match ? 'stable-yes' : 'stable-no'}">${det.match ? 'PASS' : 'FAIL'}</span> (${det.cells_1} vs ${det.cells_2})</div>` :
+    '<div class="finding">No determinism data.</div>';
+}
+
+function drawCompChart(s160, s200) {
+  const canvas = document.getElementById('chart-comp');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  ctx.fillStyle = COLORS.bg; ctx.fillRect(0, 0, W, H);
+
+  const padL = 60, padR = 30, padT = 30, padB = 50;
+  const plotW = W - padL - padR, plotH = H - padT - padB;
+
+  // Axes
+  const fillMin = 20, fillMax = 50;
+  const compMin = 0, compMax = 20;
+
+  // Grid lines
+  ctx.strokeStyle = '#21262d'; ctx.lineWidth = 1;
+  for (let f = 20; f <= 50; f += 5) {
+    const x = padL + (f - fillMin) / (fillMax - fillMin) * plotW;
+    ctx.beginPath(); ctx.moveTo(x, padT); ctx.lineTo(x, padT + plotH); ctx.stroke();
+  }
+  for (let c = 0; c <= 20; c += 5) {
+    const y = padT + plotH - (c - compMin) / (compMax - compMin) * plotH;
+    ctx.beginPath(); ctx.moveTo(padL, y); ctx.lineTo(padL + plotW, y); ctx.stroke();
+  }
+
+  // Axis labels
+  ctx.fillStyle = COLORS.dim; ctx.font = '11px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('Fill %', padL + plotW / 2, H - 10);
+  ctx.save(); ctx.translate(15, padT + plotH / 2); ctx.rotate(-Math.PI / 2);
+  ctx.fillText('Mean components / region', 0, 0); ctx.restore();
+
+  // Tick labels
+  ctx.textAlign = 'right';
+  for (let c = 0; c <= 20; c += 5) {
+    const y = padT + plotH - (c - compMin) / (compMax - compMin) * plotH;
+    ctx.fillText(c, padL - 8, y + 4);
+  }
+  ctx.textAlign = 'center';
+  for (let f = 20; f <= 50; f += 5) {
+    const x = padL + (f - fillMin) / (fillMax - fillMin) * plotW;
+    ctx.fillText(f, x, padT + plotH + 18);
+  }
+
+  // Critical threshold line
+  const lastStable = s160.filter(s => parseInt(s.stable_4) > 0).pop();
+  const firstUnstable = s160.filter(s => parseInt(s.stable_4) === 0)[0];
+  if (lastStable && firstUnstable) {
+    const critComp = (lastStable.mean_comp + firstUnstable.mean_comp) / 2;
+    const y = padT + plotH - (critComp - compMin) / (compMax - compMin) * plotH;
+    ctx.strokeStyle = COLORS.yellow; ctx.lineWidth = 1.5; ctx.setLineDash([6, 4]);
+    ctx.beginPath(); ctx.moveTo(padL, y); ctx.lineTo(padL + plotW, y); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = COLORS.yellow; ctx.textAlign = 'left'; ctx.font = '10px sans-serif';
+    ctx.fillText(`critical ~${critComp.toFixed(1)}`, padL + plotW - 60, y - 4);
+  }
+
+  // Plot 160×160 points
+  for (const s of s160) {
+    const x = padL + (s.fill_pct_mean - fillMin) / (fillMax - fillMin) * plotW;
+    const y = padT + plotH - (s.mean_comp - compMin) / (compMax - compMin) * plotH;
+    const stable = parseInt(s.stable_4) > 0;
+    drawPoint(ctx, x, y, COLORS.grid160, stable ? 'circle' : 'diamond', `160×160 n=${s.n}`);
+  }
+
+  // Plot 200×200 points
+  for (const s of s200) {
+    const mc = (s.late_mean_lc + s.late_mean_rc) / 2;
+    const x = padL + (s.fill_pct - fillMin) / (fillMax - fillMin) * plotW;
+    const y = padT + plotH - (mc - compMin) / (compMax - compMin) * plotH;
+    drawPoint(ctx, x, y, COLORS.grid200, 'diamond', `200×200 n=${s.n}`);
+  }
+
+  // Legend
+  ctx.font = '11px sans-serif'; ctx.textAlign = 'left';
+  drawPoint(ctx, padL + 10, padT + 10, COLORS.grid160, 'circle', ''); ctx.fillText('160×160 (capping, r/grid=5%)', padL + 24, padT + 14);
+  drawPoint(ctx, padL + 10, padT + 30, COLORS.grid200, 'diamond', ''); ctx.fillText('200×200 (no-capping, r/grid=4%)', padL + 24, padT + 34);
+}
+
+function drawGapChart(s160) {
+  const canvas = document.getElementById('chart-gap');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  ctx.fillStyle = COLORS.bg; ctx.fillRect(0, 0, W, H);
+
+  const padL = 60, padR = 30, padT = 30, padB = 50;
+  const plotW = W - padL - padR, plotH = H - padT - padB;
+
+  const compMin = 0, compMax = 20;
+  const gapMin = 0, gapMax = 60;
+
+  // Grid
+  ctx.strokeStyle = '#21262d'; ctx.lineWidth = 1;
+  for (let c = 0; c <= 20; c += 5) {
+    const x = padL + (c - compMin) / (compMax - compMin) * plotW;
+    ctx.beginPath(); ctx.moveTo(x, padT); ctx.lineTo(x, padT + plotH); ctx.stroke();
+  }
+  for (let g = 0; g <= 60; g += 10) {
+    const y = padT + plotH - (g - gapMin) / (gapMax - gapMin) * plotH;
+    ctx.beginPath(); ctx.moveTo(padL, y); ctx.lineTo(padL + plotW, y); ctx.stroke();
+  }
+
+  // Labels
+  ctx.fillStyle = COLORS.dim; ctx.font = '11px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('Mean components / region', padL + plotW / 2, H - 10);
+  ctx.save(); ctx.translate(15, padT + plotH / 2); ctx.rotate(-Math.PI / 2);
+  ctx.fillText('Boundary gap (%)', 0, 0); ctx.restore();
+
+  ctx.textAlign = 'right';
+  for (let g = 0; g <= 60; g += 10) {
+    const y = padT + plotH - (g - gapMin) / (gapMax - gapMin) * plotH;
+    ctx.fillText(g + '%', padL - 8, y + 4);
+  }
+  ctx.textAlign = 'center';
+  for (let c = 0; c <= 20; c += 5) {
+    const x = padL + (c - compMin) / (compMax - compMin) * plotW;
+    ctx.fillText(c, x, padT + plotH + 18);
+  }
+
+  // 5% gap threshold line
+  const yThreshold = padT + plotH - (5 - gapMin) / (gapMax - gapMin) * plotH;
+  ctx.strokeStyle = COLORS.yellow; ctx.lineWidth = 1; ctx.setLineDash([4, 4]);
+  ctx.beginPath(); ctx.moveTo(padL, yThreshold); ctx.lineTo(padL + plotW, yThreshold); ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle = COLORS.yellow; ctx.textAlign = 'left'; ctx.font = '10px sans-serif';
+  ctx.fillText('capping threshold (5%)', padL + 8, yThreshold - 4);
+
+  // Plot 160×160 points
+  for (const s of s160) {
+    const x = padL + (s.mean_comp - compMin) / (compMax - compMin) * plotW;
+    const y = padT + plotH - (s.boundary_gap - gapMin) / (gapMax - gapMin) * plotH;
+    const stable = parseInt(s.stable_4) > 0;
+    drawPoint(ctx, x, y, COLORS.grid160, stable ? 'circle' : 'diamond', `n=${s.n}`);
+    ctx.fillStyle = COLORS.dim; ctx.font = '9px sans-serif'; ctx.textAlign = 'left';
+    ctx.fillText(`n=${s.n}`, x + 8, y + 3);
+  }
+
+  // 200×200 points (gap ~0)
+  // These are at comp ~8-15, gap ~0 — off the chart bottom
+}
+
+function drawPoint(ctx, x, y, color, shape, label) {
+  ctx.fillStyle = color; ctx.strokeStyle = color; ctx.lineWidth = 2;
+  if (shape === 'circle') {
+    ctx.beginPath(); ctx.arc(x, y, 5, 0, 2 * Math.PI); ctx.fill();
+  } else {
+    ctx.beginPath();
+    ctx.moveTo(x, y - 5); ctx.lineTo(x + 5, y); ctx.lineTo(x, y + 5); ctx.lineTo(x - 5, y);
+    ctx.closePath(); ctx.fill();
+  }
+}
+
+load();
+</script>
+</body>
+</html>

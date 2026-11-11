@@ -3232,10 +3232,11 @@ to compare.
      `output/capping_transition_200.json`, `capping_transition_200_viz.html`.
 
 272. **Is the capping→no-capping transition a percolation-like
-     threshold?** — The 55th mechanism (extensive over-splitting)
-     suggests the transition occurs when the number of boundary-induced
-     component fragments reaches a critical density. In percolation,
-     the spanning cluster appears at a critical occupation probability;
+     threshold?** — DONE (Session 108).
+     The 55th mechanism (extensive over-splitting) suggests the
+     transition occurs when the number of boundary-induced component
+     fragments reaches a critical density. In percolation, the
+     spanning cluster appears at a critical occupation probability;
      here, the capping boundary (connected suppression) disappears when
      the fragments become too numerous for the suppression to act
      coherently. Can the critical r/grid be predicted from the
@@ -3243,3 +3244,55 @@ to compare.
      suppression breaks down)? Test: measure the component count at the
      transition (200×200 at the boundary) and compare to the 160×160
      count at the 30th ceiling (~5-7 components/region).
+     **RESULT:** The critical variable is the component COUNT (~5–6
+     per region), not the fill FRACTION. On 160×160 at the ceiling
+     (fill 43.5%, stable 0/4): mean_comp=6.1; at the last stable
+     (fill 42.0%, stable 2/4): mean_comp=4.2. On 200×200 at the
+     lowest fill (fill 28.3%, stable 0/4): mean_comp=8.3 — already
+     above the 160×160 ceiling. The 59th mechanism: the transition is
+     a percolation-like topological threshold on the component count.
+     The percolation is of the boundary network (can the suppression
+     field span the gap?), not the material. The 55th mechanism
+     (extensive over-splitting) explains why the count scales with
+     grid area. See `component_count_threshold.py`,
+     `output/component_count_threshold.json`,
+     `component_count_threshold_viz.html`.
+
+## From Session 108 (2026-11-11)
+
+273. **Can the critical component count (~5-6) be predicted from the
+     dilation radius?** — The 59th mechanism identifies ~5-6
+     components/region as the critical threshold for coherent
+     suppression. Can this threshold be predicted from the dilation
+     radius and grid geometry? On 160×160 r=8, each component covers
+     ~(12800/6) ≈ 2100 cells on average. Is the threshold the number
+     of components whose Moore-dilated footprints can still overlap to
+     form a connected suppression field? If so, the threshold scales
+     with r/grid (wider dilation → fewer components needed for
+     connectivity). Test: vary r on 160×160 (r=4, 8, 12, 16) and
+     measure the component count at the 30th ceiling. If the count
+     increases with r (wider dilation tolerates more fragments), the
+     threshold is the connectivity of the dilated footprints.
+
+274. **Is the component count threshold universal across
+     configurations?** — The ~5-6 threshold was measured at dual
+     mode g=0.001, focal bias=0.3, jitter=10. Does it hold at other
+     gains (g=0.003, 0.005) and other boundary modes (proportional,
+     hybrid)? If the threshold is the same, it is a universal
+     topological property of the boundary's coherent suppression.
+     If it shifts, the threshold depends on the suppression dynamics,
+     not just the component geometry.
+
+275. **Can the boundary network percolation be modeled as a
+     site-percolation problem on the dilation graph?** — The 59th
+     mechanism says the transition is a percolation of the boundary
+     network: the suppression field percolates (spans the gap) when
+     the component count is low enough. Can this be formalized as a
+     site percolation problem on the graph where nodes are components
+     and edges connect components whose Moore-dilated footprints
+     overlap? The percolation threshold would be the critical
+     component density at which the dilated footprints no longer form
+     a connected subgraph. This would predict the critical count
+     from the dilation radius and grid geometry. Cheap: pure
+     synthesis — compute the dilation-overlap graph from existing
+     component positions.

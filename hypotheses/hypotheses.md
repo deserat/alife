@@ -70,7 +70,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **For an emergent structure to persist as a new actor at a higher scale, it must be autopoietic — it must maintain the network that constitutes it.** Self-maintenance is the persistence condition. Without it, emergent structures are transient patterns, not new actors.
 
-**Status:** Refined (Session 107). The 58th mechanism: the capping→no-capping transition is bracketed to r/grid ∈ (4%, 5%). 200×200 r=8 (r/grid=4%) is already in the no-capping regime — boundary gap < 1% at all n, 0/4 stable at fill 28–36%, formula predicts 36.9% (overestimates by 8.7pp). The transition is sharper than the 57th mechanism's 1.67pp bracket: the actual range is 1pp (4–5%). The 55th mechanism (extensive over-splitting) is the cause — at 40000 cells the boundary fragments exceed the coherent suppression threshold. H7=4/4 at all n. Determinism verified.
+**Status:** Refined (Session 108). The 59th mechanism: the capping→no-capping transition is a percolation-like topological threshold on the component count (~5–6 per region). On 160×160 at the ceiling (fill 43.5%, stable 0/4): mean_comp=6.1; at the last stable (fill 42.0%): mean_comp=4.2. On 200×200 at the lowest fill (28.3%, stable 0/4): mean_comp=8.3 — already above the 160×160 ceiling. The critical variable is the component COUNT (topological), not the fill FRACTION (geometric). The percolation is of the boundary network (can the suppression field span the gap?), not the material. The 55th mechanism (extensive over-splitting) explains why the count scales with grid area. H7=4/4 at all n. Determinism verified.
 
 **Log:** [logs/H5/](logs/H5/)
 
@@ -216,7 +216,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 | H2: ANT Translation | Unchanged | Theoretical, untested | [H2](logs/H2/) |
 | H3: Quasi-Object | Strengthened | Stigmergy literature support; Echo partial support | [H3](logs/H3/) |
 | H4: Dynamic Environment | Refined | Fitness landscape criticism supports this | [H4](logs/H4/) |
-| H5: Autopoiesis | Refined (S107) | 58th mechanism: capping→no-capping transition bracketed to r/grid ∈ (4%, 5%); 200×200 r=8 (4%) already no-capping (gap <1%); 1pp range; 55th mechanism (extensive over-splitting) is the cause; formula overestimates by 8.7pp | [H5](logs/H5/) |
+| H5: Autopoiesis | Refined (S108) | 59th mechanism: capping→no-capping transition is a percolation-like topological threshold on component count (~5-6/region); critical variable is COUNT (topological) not FILL (geometric); 200×200 at 28% fill already exceeds 160×160 ceiling (8.3 vs 6.1); boundary network percolation | [H5](logs/H5/) |
 | H6: Multi-Scale Autopoiesis | Refined (S77) | 12th member fully lost at n=11000–14000 (~84–99% fill): 1s l2=0/4; progressive loss, not sharp threshold | [H6](logs/H6/) |
 | H7: Trace→Actor Crossing | Refined ×67; fill cap saturation is a HARD ceiling (grid full); g* limit n≈14000-15000 — boundary capping power decays exponentially (gap halves per 1000-n); H7=4/4 at all densities; L2=0/4; 30th persists; 43rd saturation at n≈14000 | [H7](logs/H7/) |
 | H8: Complexity Enables OEE | NEW | Kaznatcheev (2019), Wiser et al. (2013) | [H8](logs/H8/) |
