@@ -3261,38 +3261,64 @@ to compare.
 ## From Session 108 (2026-11-11)
 
 273. **Can the critical component count (~5-6) be predicted from the
-     dilation radius?** — The 59th mechanism identifies ~5-6
-     components/region as the critical threshold for coherent
-     suppression. Can this threshold be predicted from the dilation
-     radius and grid geometry? On 160×160 r=8, each component covers
-     ~(12800/6) ≈ 2100 cells on average. Is the threshold the number
-     of components whose Moore-dilated footprints can still overlap to
-     form a connected suppression field? If so, the threshold scales
-     with r/grid (wider dilation → fewer components needed for
-     connectivity). Test: vary r on 160×160 (r=4, 8, 12, 16) and
-     measure the component count at the 30th ceiling. If the count
-     increases with r (wider dilation tolerates more fragments), the
-     threshold is the connectivity of the dilated footprints.
+     dilation radius?** — DONE (Session 109).
+     FALSIFIED — the count does NOT increase with r. The count at the
+     30th ceiling is approximately constant across all radii (4 seeds
+     each): r=4: 4.57, r=8: 6.12, r=10: 5.63, r=12: 6.13, r=16: 5.74.
+     The 60th mechanism: the critical count is a UNIVERSAL dynamical
+     threshold (~5-6), not a geometric property of the dilation
+     footprint connectivity. Wider dilation changes the fragmentation
+     rate per unit fill (r=4 reaches the count at 41.2% fill vs
+     r=8-16 at ~43%) but not the count itself. Methodology lesson:
+     existing r=10/r=12/r=16 comp values from Sessions 97/98 had a
+     buggy aggregation formula (np.mean(lcs+rcs)/2 instead of
+     (np.mean(lcs)+np.mean(rcs))/2) that halved the correct values;
+     corrected, they confirm the ~5-6 threshold. See
+     `radius_vs_compcount.py`.
 
 274. **Is the component count threshold universal across
-     configurations?** — The ~5-6 threshold was measured at dual
-     mode g=0.001, focal bias=0.3, jitter=10. Does it hold at other
-     gains (g=0.003, 0.005) and other boundary modes (proportional,
-     hybrid)? If the threshold is the same, it is a universal
-     topological property of the boundary's coherent suppression.
-     If it shifts, the threshold depends on the suppression dynamics,
-     not just the component geometry.
+     configurations?** — The 60th mechanism (Session 109) shows the
+     count is universal across dilation radii (r=4-16) at dual mode
+     g=0.001. Still open: does it hold at other gains (g=0.003, 0.005)
+     and other boundary modes (proportional, hybrid)? If the count
+     shifts with gain or mode, the threshold depends on the
+     suppression dynamics, not just the component geometry.
 
 275. **Can the boundary network percolation be modeled as a
-     site-percolation problem on the dilation graph?** — The 59th
-     mechanism says the transition is a percolation of the boundary
-     network: the suppression field percolates (spans the gap) when
-     the component count is low enough. Can this be formalized as a
-     site percolation problem on the graph where nodes are components
-     and edges connect components whose Moore-dilated footprints
-     overlap? The percolation threshold would be the critical
-     component density at which the dilated footprints no longer form
-     a connected subgraph. This would predict the critical count
-     from the dilation radius and grid geometry. Cheap: pure
-     synthesis — compute the dilation-overlap graph from existing
-     component positions.
+     site-percolation problem on the dilation graph?** — The 60th
+     mechanism (Session 109) FALSIFIES the connectivity prediction:
+     the critical count does not scale with the dilation radius, so a
+     site-percolation model on the dilation graph would not predict
+     the threshold. The count is a dynamical property (suppression
+     rate vs fragmentation rate), not a geometric one (footprint
+     overlap). A percolation model on the dilation graph is not the
+     right framework. The right framework is a dynamical model of
+     suppression vs fragmentation. RETIRED.
+
+276. **Is the ~5-6 critical count a topological invariant of the
+     160×160 grid?** — The 60th mechanism found the count is universal
+     across radii on 160×160. But the 55th mechanism (extensive
+     over-splitting) says the count scales with grid area. On 200×200,
+     the count is 8.3+ at all densities. Is the ~5-6 threshold specific
+     to 160×160, or is it a universal constant independent of grid
+     size? The 200×200 data (mean_comp=8.3+ at all fills, 0/4 stable)
+     suggests the threshold might be grid-size-dependent: larger grids
+     have higher counts but are still in the no-capping regime because
+     the count exceeds the threshold. But on 160×160, the threshold is
+     ~5-6 regardless of r. Test: run 200×200 at very low n (where
+     mean_comp might be ~5-6) and check if stability is >0/4. If so,
+     the threshold is universal (~5-6) and the 200×200 no-capping is
+     because its count exceeds the threshold. If not, the threshold
+     scales with grid size.
+
+## From Session 109 (2026-11-12)
+
+277. **Does the critical count shift with boundary gain?** — The
+     60th mechanism found the count is universal across radii at
+     g=0.001. Does it hold at g=0.003 and g=0.005? If the count is the
+     same (~5-6) at all gains, it is a true topological invariant. If
+     it shifts (e.g., higher gain → fewer fragments tolerated), the
+     threshold is gain-dependent. Cheap: run the component count
+     sweep at g=0.003 on 160×160 at the 30th ceiling (n where stable
+     goes 0/4 at g=0.003). From Session 71, n=2500 at g=0.003 gives
+     stable 0/4 — measure the comp there.

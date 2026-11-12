@@ -628,3 +628,21 @@ A 160×160 sweep (n=1200–3000 at g=0.001, 4 seeds + 2 no-inhib per n) measured
 The percolation analogy is refined from Session 106: the percolation is of the BOUNDARY network (can the suppression field coherently span the gap?), not the MATERIAL network (does the structure percolate?). The critical variable is the component count (topological — how many disconnected patches), not the fill fraction (geometric — what fraction is occupied). Standard 2D site percolation has a critical occupation fraction; our boundary percolation has a critical fragment count.
 
 H7=4/4 at all n. Determinism verified (n=2000, seed=42: 10445 vs 10445). See `component_count_threshold.py`, `output/component_count_threshold.json`, `component_count_threshold_viz.html`.
+
+### Session 109 — The 60th mechanism: the critical count is universal across dilation radii
+
+Session 108 identified the critical component count as ~5-6 per region. The prediction: wider dilation tolerates more fragments (count increases with r) because wider Moore-dilated footprints overlap more, maintaining connectivity at higher counts.
+
+**FALSIFIED.** The count at the 30th ceiling is approximately constant across all radii (4 seeds each):
+
+| r | r/grid % | n at ceiling | Fill % | Mean comp/region |
+|---|----------|-------------|--------|------------------|
+| 4 | 2.5% | 2000 | 41.2 | 4.57 |
+| 8 | 5.0% | 3000 | 43.5 | 6.12 |
+| 10 | 6.25% | 3000 | 43.2 | 5.63 |
+| 12 | 7.5% | 3000 | 43.3 | 6.13 |
+| 16 | 10.0% | 3000 | 43.1 | 5.74 |
+
+**The 60th mechanism: the critical component count is a universal dynamical threshold, not a geometric property of the dilation footprint connectivity.** Wider dilation changes the fragmentation rate per unit fill (narrower boundary = more splits per unit fill → reaches the count at lower fill) but the critical count itself (~5-6) is the same. The ceiling fill depends on r through the fragmentation rate; the critical count does not.
+
+**Methodology lesson:** the r=10, r=12, r=16 comp values from Sessions 97/98 had a buggy aggregation formula (`np.mean(lcs+rcs)/2` instead of `(np.mean(lcs)+np.mean(rcs))/2`) that halved the correct values. Corrected, they confirm the ~5-6 universal threshold. H7=4/4. Determinism verified. See `radius_vs_compcount.py`."

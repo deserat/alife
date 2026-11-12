@@ -2,8 +2,8 @@
 title: "Hypotheses"
 topic: "testable hypotheses for the multi-scale ALife composition project"
 status: active
-date: "2026-11-10"
-session: 107
+date: "2026-11-12"
+session: 109
 count: 11
 active: [H1, H2, H3, H4, H5, H6, H7, H8, H9, H10, H11]
 logs: ["logs/H1/", "logs/H2/", "logs/H3/", "logs/H4/", "logs/H5/", "logs/H6/", "logs/H7/", "logs/H8/", "logs/H9/", "logs/H10/", "logs/H11/"]
@@ -70,7 +70,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **For an emergent structure to persist as a new actor at a higher scale, it must be autopoietic — it must maintain the network that constitutes it.** Self-maintenance is the persistence condition. Without it, emergent structures are transient patterns, not new actors.
 
-**Status:** Refined (Session 108). The 59th mechanism: the capping→no-capping transition is a percolation-like topological threshold on the component count (~5–6 per region). On 160×160 at the ceiling (fill 43.5%, stable 0/4): mean_comp=6.1; at the last stable (fill 42.0%): mean_comp=4.2. On 200×200 at the lowest fill (28.3%, stable 0/4): mean_comp=8.3 — already above the 160×160 ceiling. The critical variable is the component COUNT (topological), not the fill FRACTION (geometric). The percolation is of the boundary network (can the suppression field span the gap?), not the material. The 55th mechanism (extensive over-splitting) explains why the count scales with grid area. H7=4/4 at all n. Determinism verified.
+**Status:** Refined (Session 109). The 60th mechanism: the critical component count (~5–6 per region) is a universal dynamical threshold, NOT predicted by the dilation radius. The count at the 30th ceiling is approximately constant across all radii tested (r=4: 4.57, r=8: 6.12, r=10: 5.63, r=12: 6.13, r=16: 5.74 — all on 160×160, 4 seeds each). The prediction that wider dilation tolerates more fragments (connectivity of dilated footprints) is FALSIFIED. Wider dilation changes the fragmentation rate per unit fill but not the critical count. The ceiling fill depends on r through the fragmentation rate (r=4 reaches the count at 41.2% fill vs r=8-16 at ~43%); the critical count itself is universal. Methodology lesson: existing r=10/r=12/r=16 comp values from Sessions 97/98 had a buggy aggregation formula (np.mean(lcs+rcs)/2 instead of (np.mean(lcs)+np.mean(rcs))/2) that halved the correct values; corrected, they confirm the ~5-6 universal threshold. H7=4/4 at all seeds. Determinism verified.
 
 **Log:** [logs/H5/](logs/H5/)
 
@@ -216,7 +216,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 | H2: ANT Translation | Unchanged | Theoretical, untested | [H2](logs/H2/) |
 | H3: Quasi-Object | Strengthened | Stigmergy literature support; Echo partial support | [H3](logs/H3/) |
 | H4: Dynamic Environment | Refined | Fitness landscape criticism supports this | [H4](logs/H4/) |
-| H5: Autopoiesis | Refined (S108) | 59th mechanism: capping→no-capping transition is a percolation-like topological threshold on component count (~5-6/region); critical variable is COUNT (topological) not FILL (geometric); 200×200 at 28% fill already exceeds 160×160 ceiling (8.3 vs 6.1); boundary network percolation | [H5](logs/H5/) |
+| H5: Autopoiesis | Refined (S109) | 60th mechanism: critical component count (~5-6/region) is universal across dilation radii (r=4-16) — connectivity prediction falsified; count is dynamical not geometric; existing data bug corrected | [H5](logs/H5/) |
 | H6: Multi-Scale Autopoiesis | Refined (S77) | 12th member fully lost at n=11000–14000 (~84–99% fill): 1s l2=0/4; progressive loss, not sharp threshold | [H6](logs/H6/) |
 | H7: Trace→Actor Crossing | Refined ×67; fill cap saturation is a HARD ceiling (grid full); g* limit n≈14000-15000 — boundary capping power decays exponentially (gap halves per 1000-n); H7=4/4 at all densities; L2=0/4; 30th persists; 43rd saturation at n≈14000 | [H7](logs/H7/) |
 | H8: Complexity Enables OEE | NEW | Kaznatcheev (2019), Wiser et al. (2013) | [H8](logs/H8/) |

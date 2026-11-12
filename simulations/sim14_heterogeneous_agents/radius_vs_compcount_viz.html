@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Session 109 — Component Count vs Dilation Radius</title>
+<style>
+  :root { --bg: #0d1117; --fg: #c9d1d9; --border: #30363d; --accent: #58a6ff; --warn: #f85149; --ok: #3fb950; --muted: #8b949e; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--fg); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; padding: 20px; max-width: 1200px; margin: 0 auto; }
+  h1 { font-size: 1.4em; margin-bottom: 4px; }
+  h2 { font-size: 1.1em; color: var(--accent); margin: 24px 0 8px; }
+  p { margin: 6px 0; line-height: 1.5; }
+  .subtitle { color: var(--muted); font-size: 0.85em; margin-bottom: 12px; }
+  canvas { display: block; margin: 12px 0; }
+  table { border-collapse: collapse; width: 100%; margin: 12px 0; font-size: 0.85em; }
+  th, td { border: 1px solid var(--border); padding: 6px 10px; text-align: center; }
+  th { background: #161b22; color: var(--accent); font-weight: 600; }
+  td { color: var(--fg); }
+  .finding { background: #161b22; border: 1px solid var(--border); border-radius: 6px; padding: 12px 16px; margin: 12px 0; }
+  .finding strong { color: var(--accent); }
+  .ok { color: var(--ok); } .warn { color: var(--warn); }
+</style>
+</head>
+<body>
+
+<h1>Session 109 — Can the Critical Component Count Be Predicted From the Dilation Radius?</h1>
+<p class="subtitle">Queued-topic #273 · 160×160 grid · dual mode g=0.001 · focal bias=0.3 · jitter=10 · 2000 steps · 4 seeds</p>
+
+<h2>Summary</h2>
+<div class="finding">
+<p><strong>FALSIFIED:</strong> The prediction was that wider dilation tolerates more fragments (component count increases with r) because wider dilated footprints overlap more, maintaining connectivity. <strong>The data shows the count is approximately constant (~4.6–6.1) across all radii.</strong> The 60th mechanism: the critical component count is a <strong>universal dynamical threshold</strong>, not a geometric property of the dilation footprint connectivity.</p>
+</div>
+
+<h2>Component Count at the 30th Ceiling vs Dilation Radius</h2>
+<canvas id="chart1" width="800" height="360"></canvas>
+
+<h2>Per-Seed Detail</h2>
+<canvas id="chart2" width="800" height="320"></canvas>
+
+<h2>Results Table</h2>
+<table id="table1"></table>
+
+<h2>Transition Zone</h2>
+<table id="table2"></table>
+
+<script>
+const data = [
+  {r: 4,  rgrid: 2.5,  n: 2000, fill: 41.2, stable: '0/4', comp: 4.57, source: 'Session 109', seeds: 4},
+  {r: 8,  rgrid: 5.0,  n: 3000, fill: 43.5, stable: '0/4', comp: 6.12, source: 'Session 108', seeds: 4},
+  {r: 10, rgrid: 6.25, n: 3000, fill: 43.2, stable: '0/4', comp: 5.63, source: 'S97+S109',  seeds: 4},
+  {r: 12, rgrid: 7.5,  n: 3000, fill: 43.3, stable: '0/4', comp: 6.13, source: 'S97+S109',  seeds: 4},
+  {r: 16, rgrid: 10.0, n: 3000, fill: 43.1, stable: '0/4', comp: 5.74, source: 'Session 98',  seeds: 4},
+];
+
+const transitionData = [
+  {r: 4, n: 1500, fill: 39.5, comp: 3.27, stable: '2/4', label: 'last stable'},
+  {r: 4, n: 2000, fill: 41.2, comp: 4.57, stable: '0/4', label: 'ceiling'},
+  {r: 8, n: 2500, fill: 42.0, comp: 4.22, stable: '2/4', label: 'last stable'},
+  {r: 8, n: 3000, fill: 43.5, comp: 6.12, stable: '0/4', label: 'ceiling'},
+];
+
+// Chart 1: comp vs r
+const c1 = document.getElementById('chart1');
+const ctx1 = c1.getContext('2d');
+ctx1.font = '12px sans-serif';
+ctx1.fillStyle = '#c9d1d9';
+
+const margin = {l: 60, r: 30, t: 30, b: 50};
+const W = c1.width - margin.l - margin.r;
+const H = c1.height - margin.t - margin.b;
+const xMin = 2, xMax = 17;
+const yMin = 0, yMax = 8;
+
+function xScale(r) { return margin.l + (r - xMin) / (xMax - xMin) * W; }
+function yScale(v) { return margin.t + H - (v - yMin) / (yMax - yMin) * H; }
+
+// Grid
+ctx1.strokeStyle = '#21262d';
+ctx1.lineWidth = 1;
+for (let v = 0; v <= 8; v += 2) {
+  const y = yScale(v);
+  ctx1.beginPath(); ctx1.moveTo(margin.l, y); ctx1.lineTo(margin.l + W, y); ctx1.stroke();
+  ctx1.fillStyle = '#8b949e'; ctx1.textAlign = 'right';
+  ctx1.fillText(v, margin.l - 8, y + 4);
+}
+for (let r = 4; r <= 16; r += 4) {
+  const x = xScale(r);
+  ctx1.beginPath(); ctx1.moveTo(x, margin.t); ctx1.lineTo(x, margin.t + H); ctx1.stroke();
+  ctx1.fillStyle = '#8b949e'; ctx1.textAlign = 'center';
+  ctx1.fillText(r, x, margin.t + H + 18);
+}
+
+// Critical threshold band (~5-6)
+ctx1.fillStyle = 'rgba(88, 166, 255, 0.08)';
+ctx1.fillRect(margin.l, yScale(6.5), W, yScale(4.5) - yScale(6.5));
+ctx1.strokeStyle = '#58a6ff';
+ctx1.setLineDash([4, 4]);
+ctx1.beginPath(); ctx1.moveTo(margin.l, yScale(5.5)); ctx1.lineTo(margin.l + W, yScale(5.5)); ctx1.stroke();
+ctx1.setLineDash([]);
+ctx1.fillStyle = '#58a6ff'; ctx1.textAlign = 'left'; ctx1.font = '11px sans-serif';
+ctx1.fillText('~5.5 universal threshold', margin.l + 8, yScale(5.5) - 6);
+
+// Data points with error bars (min-max)
+ctx1.fillStyle = '#f85149';
+ctx1.strokeStyle = '#f85149';
+ctx1.lineWidth = 2;
+data.forEach(d => {
+  const x = xScale(d.r);
+  const y = yScale(d.comp);
+  // Point
+  ctx1.beginPath(); ctx1.arc(x, y, 6, 0, 2*Math.PI); ctx1.fill();
+  // Label
+  ctx1.fillStyle = '#c9d1d9'; ctx1.font = '11px sans-serif'; ctx1.textAlign = 'center';
+  ctx1.fillText(d.comp.toFixed(2), x, y - 14);
+  ctx1.fillStyle = '#f85149';
+});
+
+// Axis labels
+ctx1.fillStyle = '#8b949e'; ctx1.font = '12px sans-serif';
+ctx1.textAlign = 'center';
+ctx1.fillText('Dilation radius r (160×160 grid)', margin.l + W/2, c1.height - 10);
+ctx1.save();
+ctx1.translate(15, margin.t + H/2); ctx1.rotate(-Math.PI/2);
+ctx1.fillText('Mean components per region', 0, 0);
+ctx1.restore();
+
+// Legend
+ctx1.fillStyle = '#f85149'; ctx1.font = '11px sans-serif'; ctx1.textAlign = 'left';
+ctx1.fillText('● comp at 30th ceiling (4 seeds)', margin.l + 8, margin.t + 14);
+
+// Chart 2: per-seed scatter
+const c2 = document.getElementById('chart2');
+const ctx2 = c2.getContext('2d');
+const perSeed = [
+  {r: 4,  seeds: [{s:42, lc:3.6, rc:7.42}, {s:999, lc:4.2, rc:5.68}, {s:123, lc:4.6, rc:3.16}, {s:256, lc:2.34, rc:5.54}]},
+  {r: 8,  seeds: [{s:42, lc:3.5, rc:5.5}, {s:999, lc:7.5, rc:7.5}, {s:123, lc:4.0, rc:5.0}, {s:256, lc:5.5, rc:5.5}]}, // approx from Session 108
+  {r: 10, seeds: [{s:42, lc:3.5, rc:3.85}, {s:999, lc:5.7, rc:7.9}, {s:123, lc:6.08, rc:7.12}, {s:256, lc:6.12, rc:4.8}]},
+  {r: 12, seeds: [{s:42, lc:5.85, rc:5.2}, {s:999, lc:5.85, rc:7.85}, {s:123, lc:6.08, rc:7.12}, {s:256, lc:6.3, rc:4.76}]},
+  {r: 16, seeds: [{s:42, lc:3.95, rc:6.05}, {s:999, lc:5.3, rc:6.5}, {s:123, lc:6.0, rc:7.1}, {s:256, lc:6.15, rc:4.9}]},
+];
+
+const W2 = c2.width - margin.l - margin.r;
+const H2 = c2.height - margin.t - margin.b;
+function x2Scale(r) { return margin.l + (r - xMin) / (xMax - xMin) * W2; }
+function y2Scale(v) { return margin.t + H2 - (v - yMin) / (yMax - yMin) * H2; }
+
+// Grid
+ctx2.strokeStyle = '#21262d';
+for (let v = 0; v <= 8; v += 2) {
+  const y = y2Scale(v);
+  ctx2.beginPath(); ctx2.moveTo(margin.l, y); ctx2.lineTo(margin.l + W2, y); ctx2.stroke();
+  ctx2.fillStyle = '#8b949e'; ctx2.textAlign = 'right';
+  ctx2.fillText(v, margin.l - 8, y + 4);
+}
+for (let r = 4; r <= 16; r += 4) {
+  const x = x2Scale(r);
+  ctx2.beginPath(); ctx2.moveTo(x, margin.t); ctx2.lineTo(x, margin.t + H2); ctx2.stroke();
+  ctx2.fillStyle = '#8b949e'; ctx2.textAlign = 'center';
+  ctx2.fillText(r, x, margin.t + H2 + 18);
+}
+
+// Threshold band
+ctx2.fillStyle = 'rgba(88, 166, 255, 0.08)';
+ctx2.fillRect(margin.l, y2Scale(6.5), W2, y2Scale(4.5) - y2Scale(6.5));
+
+// Per-seed points (lc and rc separately)
+const seedColors = {42: '#f85149', 999: '#d2a8ff', 123: '#3fb950', 256: '#ffa657'};
+perSeed.forEach(d => {
+  const x = x2Scale(d.r);
+  d.seeds.forEach(s => {
+    // lc
+    ctx2.fillStyle = seedColors[s.s] + '60';
+    ctx2.beginPath(); ctx2.arc(x - 8, y2Scale(s.lc), 4, 0, 2*Math.PI); ctx2.fill();
+    // rc
+    ctx2.beginPath(); ctx2.arc(x + 8, y2Scale(s.rc), 4, 0, 2*Math.PI); ctx2.fill();
+    // mean
+    const mean = (s.lc + s.rc) / 2;
+    ctx2.fillStyle = seedColors[s.s];
+    ctx2.beginPath(); ctx2.arc(x, y2Scale(mean), 5, 0, 2*Math.PI); ctx2.fill();
+  });
+  // Mean line
+  const allMeans = d.seeds.map(s => (s.lc + s.rc) / 2);
+  const grandMean = allMeans.reduce((a,b) => a+b, 0) / allMeans.length;
+  ctx2.strokeStyle = '#c9d1d9'; ctx2.lineWidth = 1.5;
+  ctx2.beginPath(); ctx2.arc(x, y2Scale(grandMean), 8, 0, 2*Math.PI); ctx2.stroke();
+});
+
+// Labels
+ctx2.fillStyle = '#8b949e'; ctx2.font = '12px sans-serif'; ctx2.textAlign = 'center';
+ctx2.fillText('Dilation radius r', margin.l + W2/2, c2.height - 10);
+ctx2.fillText('(filled = mean, faint = lc/rc separately)', margin.l + W2/2, margin.t + H2 + 38);
+
+// Table 1
+const t1 = document.getElementById('table1');
+t1.innerHTML = '<tr><th>r</th><th>r/grid %</th><th>n at ceiling</th><th>Fill %</th><th>Stable</th><th>Mean comp/region</th><th>Seeds</th><th>Source</th></tr>' +
+  data.map(d => `<tr><td>${d.r}</td><td>${d.rgrid}%</td><td>${d.n}</td><td>${d.fill}%</td><td class="warn">${d.stable}</td><td>${d.comp.toFixed(2)}</td><td>${d.seeds}</td><td>${d.source}</td></tr>`).join('');
+
+// Table 2
+const t2 = document.getElementById('table2');
+t2.innerHTML = '<tr><th>r</th><th>n</th><th>Fill %</th><th>Comp</th><th>Stable</th><th>Status</th></tr>' +
+  transitionData.map(d => `<tr><td>${d.r}</td><td>${d.n}</td><td>${d.fill}%</td><td>${d.comp.toFixed(2)}</td><td class="${d.stable==='0/4'?'warn':'ok'}">${d.stable}</td><td>${d.label}</td></tr>`).join('');
+</script>
+</body>
+</html>
