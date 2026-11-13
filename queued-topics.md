@@ -3296,20 +3296,17 @@ to compare.
      suppression vs fragmentation. RETIRED.
 
 276. **Is the ~5-6 critical count a topological invariant of the
-     160×160 grid?** — The 60th mechanism found the count is universal
-     across radii on 160×160. But the 55th mechanism (extensive
-     over-splitting) says the count scales with grid area. On 200×200,
-     the count is 8.3+ at all densities. Is the ~5-6 threshold specific
-     to 160×160, or is it a universal constant independent of grid
-     size? The 200×200 data (mean_comp=8.3+ at all fills, 0/4 stable)
-     suggests the threshold might be grid-size-dependent: larger grids
-     have higher counts but are still in the no-capping regime because
-     the count exceeds the threshold. But on 160×160, the threshold is
-     ~5-6 regardless of r. Test: run 200×200 at very low n (where
-     mean_comp might be ~5-6) and check if stability is >0/4. If so,
-     the threshold is universal (~5-6) and the 200×200 no-capping is
-     because its count exceeds the threshold. If not, the threshold
-     scales with grid size.
+     160×160 grid?** — DONE (Session 110).
+     FALSIFIED — the count is NOT universal. On 200×200 at very low n
+     (100-400), comp drops to ~5.2-6.4 (within the 160×160 threshold range),
+     but stability is 0/4 at every n and the boundary gap is ~0 (no capping).
+     The 61st mechanism: the component count is a READOUT of the capping
+     dynamics on 160×160, NOT the CAUSE of the capping→no-capping transition.
+     The 59th mechanism (count as universal critical variable) is FALSIFIED —
+     it confounded count and r/grid. The r/grid ratio (the 57th/58th
+     mechanisms) is the primary geometric cause. See
+     `low_n_200_compcount.py`, `output/low_n_200_compcount.json`,
+     `low_n_200_compcount_viz.html`.
 
 ## From Session 109 (2026-11-12)
 
@@ -3322,3 +3319,25 @@ to compare.
      sweep at g=0.003 on 160×160 at the 30th ceiling (n where stable
      goes 0/4 at g=0.003). From Session 71, n=2500 at g=0.003 gives
      stable 0/4 — measure the comp there.
+
+## From Session 110 (2026-11-13)
+
+278. **Does the r/grid capping threshold hold at other boundary gains?** —
+     The 57th/58th mechanisms bracketed the capping→no-capping transition
+     to r/grid ∈ (4%, 5%) at g=0.001. Does the threshold shift with gain?
+     At higher gain (g=0.003, 0.005), the boundary is stronger — can it
+     cap at r/grid < 5%? If the threshold is gain-independent, it is a
+     pure geometric threshold. If it shifts, the threshold is a
+     gain-geometry interaction. Test: run 200×200 at g=0.003 and g=0.005
+     at n=2000 (fill ~28%) and measure the boundary gap. If gap > 10%,
+     higher gain rescues capping at r/grid=4%.
+
+279. **Is the ~5-6 fragmentation count universal across boundary gains?** —
+     The 60th mechanism found the count is universal across radii at g=0.001.
+     The 61st mechanism reinterpreted it as the fragmentation count at the
+     capping ceiling. Does the count shift with gain? At higher gain, the
+     boundary suppresses more aggressively — does it tolerate fewer or more
+     fragments? If the count is the same (~5-6) at g=0.003 and g=0.005, it
+     is a universal dynamical constant of the fragmentation process. If it
+     shifts, the count depends on the suppression rate (the dynamical
+     balance). Cheap: run the compcount sweep at g=0.003 on 160×160.

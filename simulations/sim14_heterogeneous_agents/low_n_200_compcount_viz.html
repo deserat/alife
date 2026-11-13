@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Session 110 — Is the Critical Count Universal? (200×200 Low-N)</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #0d1117; color: #c9d1d9; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; padding: 20px; max-width: 1200px; margin: 0 auto; }
+  h1 { color: #58a6ff; font-size: 1.4em; margin-bottom: 4px; }
+  h2 { color: #79c0ff; font-size: 1.15em; margin: 24px 0 12px; border-bottom: 1px solid #21262d; padding-bottom: 6px; }
+  .subtitle { color: #8b949e; font-size: 0.85em; margin-bottom: 20px; }
+  .finding { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 16px; margin-bottom: 20px; }
+  .finding strong { color: #f0883e; }
+  .finding .highlight { color: #f85149; font-weight: bold; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 0.85em; }
+  th { background: #21262d; color: #8b949e; padding: 8px 12px; text-align: left; font-weight: 600; }
+  td { padding: 6px 12px; border-bottom: 1px solid #21262d; }
+  tr:hover td { background: #161b22; }
+  .stable-yes { color: #3fb950; font-weight: bold; }
+  .stable-no { color: #f85149; }
+  .gap-zero { color: #8b949e; }
+  canvas { display: block; margin: 12px auto; max-width: 100%; }
+  .chart-container { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 16px; margin: 12px 0; }
+  .legend { display: flex; gap: 20px; flex-wrap: wrap; margin: 8px 0; font-size: 0.8em; }
+  .legend-item { display: flex; align-items: center; gap: 6px; }
+  .legend-dot { width: 12px; height: 12px; border-radius: 50%; }
+  .ref-box { background: #0d1117; border: 1px dashed #30363d; border-radius: 6px; padding: 8px 12px; margin: 8px 0; font-size: 0.8em; color: #8b949e; }
+  .verdict { font-size: 1.1em; margin: 16px 0; padding: 12px; border-radius: 6px; }
+  .verdict.falsified { background: #3d1a1a; border: 1px solid #f8514944; color: #f85149; }
+  .verdict.confirmed { background: #1a3d2a; border: 1px solid #3fb95044; color: #3fb950; }
+  code { background: #21262d; padding: 2px 6px; border-radius: 3px; font-size: 0.85em; color: #79c0ff; }
+  .threshold-band { fill: rgba(248,81,73,0.08); stroke: rgba(248,81,73,0.2); stroke-dasharray: 4 4; }
+  .threshold-line { stroke: rgba(248,81,73,0.4); stroke-dasharray: 4 4; stroke-width: 1; }
+  .threshold-label { fill: #f85149; font-size: 10px; opacity: 0.7; }
+</style>
+</head>
+<body>
+
+<h1>Session 110 — Is the ~5-6 Critical Count a Topological Invariant of 160×160?</h1>
+<p class="subtitle">200×200 at very low n (100-400) — does the component count threshold generalize across grid sizes?</p>
+
+<div class="finding">
+  <strong>Result:</strong> The component count <span class="highlight">DROPS to ~5.2-5.6</span> on 200×200 at n=200-400 (fill 10-17%),
+  well within the 160×160 threshold range (~5-6). But stability is <span class="highlight">0/4 at every n</span>, and the boundary gap is ~0
+  (no capping). The count is <strong>NOT</strong> the universal critical variable — the r/grid ratio is.
+  <div class="verdict falsified">
+    61st mechanism: The ~5-6 count is a READOUT of capping dynamics on 160×160, NOT the CAUSE of the capping→no-capping transition.
+    The 59th mechanism (count as universal variable) is FALSIFIED — it confounded count and r/grid.
+  </div>
+</div>
+
+<h2>Summary — 200×200 at Low N</h2>
+<table id="summaryTable"></table>
+
+<div class="ref-box">
+  <strong>160×160 reference (Session 108, r=8, r/grid=5%):</strong>
+  n=2000 → fill 41%, comp 4.6, stable 3/4 (capping, gap ~56%) |
+  n=2500 → fill 42%, comp 5.0, stable 2/4 (capping, last stable) |
+  n=3000 → fill 43.5%, comp 6.1, stable 0/4 (ceiling)
+</div>
+<div class="ref-box">
+  <strong>200×200 reference (Session 107-108, r=8, r/grid=4%):</strong>
+  n=1000 → fill 20%, comp 8.3, stable 0/4 (no capping, gap <1%) |
+  n=2000 → fill 28%, comp 10.4, stable 0/4 (no capping) |
+  n=3000 → fill 33%, comp 11.3, stable 0/4 (no capping)
+</div>
+
+<h2>Component Count vs Fill — 200×200 (r/grid=4%) vs 160×160 (r/grid=5%)</h2>
+<div class="chart-container">
+  <canvas id="compVsFillChart" width="900" height="400"></canvas>
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:#58a6ff"></div>200×200 (r/grid=4%, no capping)</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#3fb950"></div>160×160 (r/grid=5%, capping)</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#f85149"></div>~5-6 threshold band</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#f0883e"></div>Stable regime (160×160)</div>
+  </div>
+</div>
+
+<h2>Stability vs Component Count — Does the Threshold Generalize?</h2>
+<div class="chart-container">
+  <canvas id="stableVsCompChart" width="900" height="400"></canvas>
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:#f85149;opacity:0.5"></div>200×200 (0/4 stable at ALL comp)</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#58a6ff"></div>160×160 (stable at comp <5, ceiling at comp ~6)</div>
+  </div>
+</div>
+
+<h2>Per-Seed Data — 200×200</h2>
+<table id="perSeedTable"></table>
+
+<h2>Why the Count Is Not Universal</h2>
+<div class="finding">
+  <p style="margin-bottom: 8px;">The 59th mechanism (Session 108) compared 160×160 (comp ~6.1, stable 0/4) with 200×200 (comp ~8.3, stable 0/4)
+  and concluded the count was the critical variable. But on 200×200, <strong>both</strong> comp > 5-6 <strong>and</strong> r/grid < 5%
+  were true simultaneously — two necessary conditions confounded.</p>
+  <p style="margin-bottom: 8px;">This test separates them: at n=200-400 on 200×200, comp drops to ~5.2-5.6 (within the 160×160 threshold),
+  but r/grid is still 4% (below the ~5% capping threshold). Stability is 0/4 and the boundary gap is ~0 at every n.</p>
+  <p>The count is a <strong>readout</strong> of the fragmentation dynamics at the fill where capping stops working —
+  not the <strong>cause</strong> of the capping→no-capping transition. The cause is geometric: r/grid ≥ ~5%</p>
+</div>
+
+<h2>Determinism</h2>
+<p style="color:#3fb950;">PASS — n=200 seed=42: cells 3652 vs 3652 (identical)</p>
+
+<script>
+const data200 = [
+  {n:100, fill:4.0, comp:6.4, stable:0, gap:-0.6},
+  {n:150, fill:7.4, comp:6.3, stable:0, gap:-0.1},
+  {n:200, fill:9.7, comp:5.6, stable:0, gap:-0.3},
+  {n:300, fill:13.8, comp:5.5, stable:0, gap:-0.1},
+  {n:400, fill:17.2, comp:5.2, stable:0, gap:-0.7},
+];
+
+const data200_existing = [
+  {n:1000, fill:20.0, comp:8.3, stable:0},
+  {n:2000, fill:28.0, comp:10.4, stable:0},
+  {n:3000, fill:33.0, comp:11.3, stable:0},
+  {n:4000, fill:36.0, comp:12.3, stable:0},
+];
+
+const data160 = [
+  {n:1200, fill:31.0, comp:3.5, stable:4},
+  {n:2000, fill:41.0, comp:4.6, stable:3},
+  {n:2500, fill:42.0, comp:5.0, stable:2},
+  {n:3000, fill:43.5, comp:6.1, stable:0},
+];
+
+const perSeed = [
+  {n:100, seed:42, fill:3.4, lc:7.52, rc:8.02, comp:7.77, stable:false, out:"fragmented"},
+  {n:100, seed:999, fill:4.1, lc:6.0, rc:7.04, comp:6.52, stable:false, out:"fragmented"},
+  {n:100, seed:123, fill:4.4, lc:5.46, rc:3.6, comp:4.53, stable:false, out:"fragmented"},
+  {n:100, seed:256, fill:4.3, lc:6.12, rc:7.46, comp:6.79, stable:false, out:"fragmented"},
+  {n:150, seed:42, fill:7.2, lc:9.04, rc:5.34, comp:7.19, stable:false, out:"fragmented"},
+  {n:150, seed:999, fill:7.8, lc:4.96, rc:4.62, comp:4.79, stable:false, out:"coexist"},
+  {n:150, seed:123, fill:7.2, lc:4.82, rc:7.18, comp:6.0, stable:false, out:"fragmented"},
+  {n:150, seed:256, fill:7.2, lc:6.26, rc:8.22, comp:7.24, stable:false, out:"fragmented"},
+  {n:200, seed:42, fill:9.1, lc:6.54, rc:7.08, comp:6.81, stable:false, out:"fragmented"},
+  {n:200, seed:999, fill:9.8, lc:4.22, rc:4.82, comp:4.52, stable:false, out:"fragmented"},
+  {n:200, seed:123, fill:9.8, lc:6.92, rc:7.58, comp:7.25, stable:false, out:"fragmented"},
+  {n:200, seed:256, fill:10.1, lc:2.12, rc:5.78, comp:3.95, stable:false, out:"fragmented"},
+  {n:300, seed:42, fill:13.9, lc:7.32, rc:4.66, comp:5.99, stable:false, out:"coexist"},
+  {n:300, seed:999, fill:13.4, lc:5.58, rc:6.68, comp:6.13, stable:false, out:"fragmented"},
+  {n:300, seed:123, fill:14.4, lc:3.64, rc:6.92, comp:5.28, stable:false, out:"fragmented"},
+  {n:300, seed:256, fill:13.3, lc:3.76, rc:5.78, comp:4.77, stable:false, out:"fragmented"},
+  {n:400, seed:42, fill:17.5, lc:5.34, rc:3.34, comp:4.34, stable:false, out:"fragmented"},
+  {n:400, seed:999, fill:17.5, lc:5.64, rc:9.66, comp:7.65, stable:false, out:"fragmented"},
+  {n:400, seed:123, fill:17.1, lc:3.86, rc:4.22, comp:4.04, stable:false, out:"fragmented"},
+  {n:400, seed:256, fill:17.0, lc:4.78, rc:4.74, comp:4.76, stable:false, out:"coexist"},
+];
+
+// Render summary table
+const summaryTable = document.getElementById('summaryTable');
+let sHtml = '<tr><th>n</th><th>Fill %</th><th>Stable</th><th>Comp</th><th>Gap %</th><th>H7</th><th>1-seed L2</th></tr>';
+data200.forEach(d => {
+  sHtml += `<tr><td>${d.n}</td><td>${d.fill}</td><td class="stable-no">${d.stable}/4</td><td>${d.comp}</td><td class="gap-zero">${d.gap}</td><td>4/4</td><td>${d.n >= 400 ? 'true' : 'false'}</td></tr>`;
+});
+data200_existing.forEach(d => {
+  sHtml += `<tr style="opacity:0.6"><td>${d.n}</td><td>${d.fill}</td><td class="stable-no">${d.stable}/4</td><td>${d.comp}</td><td>~0</td><td>4/4</td><td>—</td></tr>`;
+});
+summaryTable.innerHTML = sHtml;
+
+// Render per-seed table
+const perSeedTable = document.getElementById('perSeedTable');
+let pHtml = '<tr><th>n</th><th>Seed</th><th>Fill %</th><th>LC</th><th>RC</th><th>Comp (avg)</th><th>Stable</th><th>Outcome</th></tr>';
+perSeed.forEach(d => {
+  pHtml += `<tr><td>${d.n}</td><td>${d.seed}</td><td>${d.fill}</td><td>${d.lc}</td><td>${d.rc}</td><td>${d.comp}</td><td class="${d.stable ? 'stable-yes' : 'stable-no'}">${d.stable ? 'yes' : 'no'}</td><td>${d.out}</td></tr>`;
+});
+perSeedTable.innerHTML = pHtml;
+
+// Chart 1: Comp vs Fill
+function drawCompVsFill() {
+  const canvas = document.getElementById('compVsFillChart');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  const padL = 60, padR = 30, padT = 30, padB = 50;
+  const plotW = W - padL - padR, plotH = H - padT - padB;
+
+  // Axes
+  const allData = [...data200, ...data200_existing, ...data160];
+  const xMin = 0, xMax = 50, yMin = 0, yMax = 14;
+  const xScale = v => padL + (v - xMin) / (xMax - xMin) * plotW;
+  const yScale = v => padT + plotH - (v - yMin) / (yMax - yMin) * plotH;
+
+  // Grid
+  ctx.strokeStyle = '#21262d';
+  ctx.lineWidth = 1;
+  ctx.font = '10px sans-serif';
+  ctx.fillStyle = '#8b949e';
+  for (let x = 0; x <= 50; x += 10) {
+    ctx.beginPath(); ctx.moveTo(xScale(x), padT); ctx.lineTo(xScale(x), padT + plotH); ctx.stroke();
+    ctx.fillText(x + '%', xScale(x) - 8, padT + plotH + 18);
+  }
+  for (let y = 0; y <= 14; y += 2) {
+    ctx.beginPath(); ctx.moveTo(padL, yScale(y)); ctx.lineTo(padL + plotW, yScale(y)); ctx.stroke();
+    ctx.fillText(y, padL - 20, yScale(y) + 4);
+  }
+  ctx.fillText('Fill %', W/2 - 15, H - 8);
+  ctx.save();
+  ctx.translate(15, H/2); ctx.rotate(-Math.PI/2); ctx.fillText('Component count', 0, 0); ctx.restore();
+
+  // Threshold band (5-6)
+  ctx.fillStyle = 'rgba(248,81,73,0.08)';
+  ctx.fillRect(padL, yScale(6), plotW, yScale(5) - yScale(6));
+  ctx.strokeStyle = 'rgba(248,81,73,0.3)';
+  ctx.setLineDash([4,4]);
+  ctx.beginPath(); ctx.moveTo(padL, yScale(5.5)); ctx.lineTo(padL + plotW, yScale(5.5)); ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle = '#f85149'; ctx.font = '9px sans-serif';
+  ctx.fillText('~5-6 threshold', padL + plotW - 80, yScale(5.5) - 4);
+
+  // 200×200 data (no capping)
+  ctx.fillStyle = '#58a6ff';
+  ctx.strokeStyle = 'rgba(88,166,255,0.3)';
+  const all200 = [...data200, ...data200_existing];
+  ctx.beginPath();
+  all200.forEach((d, i) => { const px = xScale(d.fill), py = yScale(d.comp); if (i===0) ctx.moveTo(px,py); else ctx.lineTo(px,py); });
+  ctx.stroke();
+  all200.forEach(d => {
+    ctx.beginPath(); ctx.arc(xScale(d.fill), yScale(d.comp), 4, 0, 2*Math.PI); ctx.fill();
+  });
+
+  // 160×160 data (capping)
+  ctx.fillStyle = '#3fb950';
+  ctx.strokeStyle = 'rgba(63,185,80,0.3)';
+  ctx.beginPath();
+  data160.forEach((d, i) => { const px = xScale(d.fill), py = yScale(d.comp); if (i===0) ctx.moveTo(px,py); else ctx.lineTo(px,py); });
+  ctx.stroke();
+  data160.forEach(d => {
+    ctx.beginPath(); ctx.arc(xScale(d.fill), yScale(d.comp), 4, 0, 2*Math.PI); ctx.fill();
+  });
+
+  // Labels
+  ctx.font = '11px sans-serif';
+  ctx.fillStyle = '#58a6ff'; ctx.fillText('200×200 (r/grid=4%, no capping)', xScale(20) - 60, yScale(8.3) - 10);
+  ctx.fillStyle = '#3fb950'; ctx.fillText('160×160 (r/grid=5%, capping)', xScale(41) - 40, yScale(4.6) - 10);
+}
+
+// Chart 2: Stable vs Comp
+function drawStableVsComp() {
+  const canvas = document.getElementById('stableVsCompChart');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  const padL = 60, padR = 30, padT = 30, padB = 50;
+  const plotW = W - padL - padR, plotH = H - padT - padB;
+
+  const xMin = 0, xMax = 14, yMin = -0.5, yMax = 4.5;
+  const xScale = v => padL + (v - xMin) / (xMax - xMin) * plotW;
+  const yScale = v => padT + plotH - (v - yMin) / (yMax - yMin) * plotH;
+
+  // Grid
+  ctx.strokeStyle = '#21262d';
+  ctx.lineWidth = 1;
+  ctx.font = '10px sans-serif';
+  ctx.fillStyle = '#8b949e';
+  for (let x = 0; x <= 14; x += 2) {
+    ctx.beginPath(); ctx.moveTo(xScale(x), padT); ctx.lineTo(xScale(x), padT + plotH); ctx.stroke();
+    ctx.fillText(x, xScale(x) - 5, padT + plotH + 18);
+  }
+  for (let y = 0; y <= 4; y += 1) {
+    ctx.beginPath(); ctx.moveTo(padL, yScale(y)); ctx.lineTo(padL + plotW, yScale(y)); ctx.stroke();
+    ctx.fillText(y + '/4', padL - 25, yScale(y) + 4);
+  }
+  ctx.fillText('Component count (per region)', W/2 - 40, H - 8);
+  ctx.save();
+  ctx.translate(15, H/2); ctx.rotate(-Math.PI/2); ctx.fillText('Stable seeds (/4)', 0, 0); ctx.restore();
+
+  // Threshold band
+  ctx.fillStyle = 'rgba(248,81,73,0.08)';
+  ctx.fillRect(xScale(5), padT, xScale(6) - xScale(5), plotH);
+  ctx.strokeStyle = 'rgba(248,81,73,0.3)';
+  ctx.setLineDash([4,4]);
+  ctx.beginPath(); ctx.moveTo(xScale(5.5), padT); ctx.lineTo(xScale(5.5), padT + plotH); ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle = '#f85149'; ctx.font = '9px sans-serif';
+  ctx.fillText('~5-6', xScale(5.5) - 8, padT - 5);
+
+  // 200×200 data (all 0/4)
+  const all200 = [...data200, ...data200_existing];
+  ctx.fillStyle = 'rgba(248,81,73,0.5)';
+  all200.forEach(d => {
+    ctx.beginPath(); ctx.arc(xScale(d.comp), yScale(0), 5, 0, 2*Math.PI); ctx.fill();
+  });
+
+  // 160×160 data (varies)
+  ctx.fillStyle = '#58a6ff';
+  data160.forEach(d => {
+    const sz = 5 + d.stable * 1.5;
+    ctx.beginPath(); ctx.arc(xScale(d.comp), yScale(d.stable), sz, 0, 2*Math.PI); ctx.fill();
+  });
+
+  // Labels
+  ctx.font = '11px sans-serif';
+  ctx.fillStyle = 'rgba(248,81,73,0.7)';
+  ctx.fillText('200×200 (all 0/4)', xScale(7) - 30, yScale(0) + 20);
+  ctx.fillStyle = '#58a6ff';
+  ctx.fillText('160×160 (varies)', xScale(4.6) - 30, yScale(3) - 12);
+}
+
+drawCompVsFill();
+drawStableVsComp();
+</script>
+
+</body>
+</html>

@@ -645,4 +645,25 @@ Session 108 identified the critical component count as ~5-6 per region. The pred
 
 **The 60th mechanism: the critical component count is a universal dynamical threshold, not a geometric property of the dilation footprint connectivity.** Wider dilation changes the fragmentation rate per unit fill (narrower boundary = more splits per unit fill → reaches the count at lower fill) but the critical count itself (~5-6) is the same. The ceiling fill depends on r through the fragmentation rate; the critical count does not.
 
-**Methodology lesson:** the r=10, r=12, r=16 comp values from Sessions 97/98 had a buggy aggregation formula (`np.mean(lcs+rcs)/2` instead of `(np.mean(lcs)+np.mean(rcs))/2`) that halved the correct values. Corrected, they confirm the ~5-6 universal threshold. H7=4/4. Determinism verified. See `radius_vs_compcount.py`."
+**Methodology lesson:** the r=10, r=12, r=16 comp values from Sessions 97/98 had a buggy aggregation formula (`np.mean(lcs+rcs)/2` instead of `(np.mean(lcs)+np.mean(rcs))/2`) that halved the correct values. Corrected, they confirm the ~5-6 universal threshold. H7=4/4. Determinism verified. See `radius_vs_compcount.py`.
+
+### Session 110 — The 61st mechanism: the count is a READOUT, not the CAUSE
+
+The 59th mechanism (Session 108) attributed the 200×200 no-capping to the component count exceeding the ~5-6 threshold. But on 200×200 at the previously tested densities (n=1000-4000), BOTH comp > 5-6 AND r/grid = 4% (< the ~5% capping threshold) were true — two necessary conditions confounded.
+
+**Test: 200×200 at very low n (100-400) where comp drops to ~5.2-6.4.** If the count is the universal variable, stability should be > 0/4 at comp ~5.2 (as on 160×160 at comp ~4-5). If r/grid is the variable, stability should remain 0/4 regardless of comp.
+
+| n | Fill % | Stable | Mean comp | Gap % | H7 |
+|---|--------|--------|-----------|-------|-----|
+| 100 | 4.0 | 0/4 | 6.4 | -0.6 | 4/4 |
+| 200 | 9.7 | 0/4 | 5.6 | -0.3 | 4/4 |
+| 300 | 13.8 | 0/4 | 5.5 | -0.1 | 4/4 |
+| 400 | 17.2 | 0/4 | 5.2 | -0.7 | 4/4 |
+
+**FALSIFIED.** Comp drops to ~5.2 at n=400 (fill 17%) — within the 160×160 stable range (comp ~4-5 gives stable 2-3/4 on 160×160). But 200×200 is still 0/4 stable at every n, and the boundary gap is ~0 (no capping).
+
+**The 61st mechanism: the component count is a READOUT of the capping dynamics, NOT the CAUSE of the capping→no-capping transition.** The ~5-6 count is the number of fragments at the fill where capping saturates on 160×160 — a dynamical consequence, not the variable that determines capping. The variable is the r/grid ratio (the 57th/58th mechanisms): r/grid ≥ ~5% → capping; r/grid < ~5% → no capping, regardless of count.
+
+**The 59th mechanism is FALSIFIED** as the universal critical variable. It confounded two independently necessary conditions. The 60th mechanism (count universal across radii on 160×160) is reinterpreted: the count is universal because it is the fragmentation count at the capping ceiling (r/grid ≥ 5%); at r=4 (r/grid=2.5%, no capping), the "30th ceiling" at comp 4.57 is a fragmentation ceiling, not a capping ceiling.
+
+**Methodology lesson: confounded necessary conditions.** When two conditions are both necessary and both true in the test condition, a single comparison cannot distinguish them. The correct test holds one constant and varies the other — the control-arm pattern (#75) applied to the percolation threshold. H7=4/4 at all n. Determinism verified (3652 vs 3652). See `low_n_200_compcount.py`."
