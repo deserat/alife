@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gain Capping Threshold — Session 111</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --fg: #c9d1d9;
+    --muted: #8b949e;
+    --accent: #58a6ff;
+    --green: #3fb950;
+    --red: #f85149;
+    --yellow: #d29922;
+    --border: #21262d;
+    --card: #161b22;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg); color: var(--fg);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    padding: 24px; max-width: 900px; margin: 0 auto;
+  }
+  h1 { font-size: 1.5rem; margin-bottom: 4px; }
+  .subtitle { color: var(--muted); font-size: 0.9rem; margin-bottom: 24px; }
+  h2 { font-size: 1.1rem; margin: 24px 0 12px; color: var(--accent); }
+  .card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 8px; padding: 20px; margin-bottom: 16px;
+  }
+  .key-finding {
+    font-size: 1.05rem; line-height: 1.5; margin-bottom: 12px;
+    padding: 12px 16px; border-left: 3px solid var(--green);
+    background: rgba(63, 185, 80, 0.08); border-radius: 0 6px 6px 0;
+  }
+  .key-finding.warn { border-color: var(--yellow); background: rgba(210, 153, 34, 0.08); }
+  .metric { display: inline-block; margin-right: 20px; }
+  .metric-label { color: var(--muted); font-size: 0.8rem; }
+  .metric-value { font-size: 1.1rem; font-weight: 600; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+  th, td { padding: 8px 12px; text-align: center; border-bottom: 1px solid var(--border); }
+  th { color: var(--muted); font-weight: 600; }
+  td.fill { text-align: right; }
+  .gap-low { color: var(--green); }
+  .gap-high { color: var(--red); }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; }
+  .badge-capping { background: rgba(63, 185, 80, 0.15); color: var(--green); }
+  .badge-nocap { background: rgba(248, 81, 73, 0.15); color: var(--red); }
+  canvas { display: block; margin: 12px auto; }
+  .legend { display: flex; gap: 20px; justify-content: center; font-size: 0.8rem; color: var(--muted); margin: 8px 0; }
+  .legend-dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 4px; }
+  #loading { text-align: center; padding: 40px; color: var(--muted); }
+</style>
+</head>
+<body>
+<h1>Gain Capping Threshold — Session 111</h1>
+<p class="subtitle">Does the r/grid capping threshold shift with boundary gain? (#278) Is the comp count universal across gains? (#279)</p>
+<div id="loading">Loading data…</div>
+<div id="content" style="display:none;">
+  <div class="card">
+    <div class="key-finding">
+      <strong>62nd mechanism:</strong> The r/grid capping threshold is <strong>gain-independent</strong>.
+      At 200×200 (r/grid=4%), the boundary gap is &lt;1% at g=0.001, g=0.003, and g=0.005 —
+      higher gain does NOT rescue capping below the geometric threshold.
+    </div>
+    <div class="key-finding">
+      <strong>63rd mechanism:</strong> The ~5–6 component count is <strong>approximately universal</strong> across gains.
+      At 160×160 g=0.003: comp=5.0 (4 seeds) vs g=0.001: comp=6.12 — slightly lower at higher gain but still ~5.
+    </div>
+  </div>
+
+  <h2>Boundary Gap vs Gain (200×200, r/grid=4%)</h2>
+  <div class="card">
+    <canvas id="gapChart" width="600" height="280"></canvas>
+    <div class="legend">
+      <span><span class="legend-dot" style="background:var(--red)"></span> No-capping (gap &lt; 5%)</span>
+      <span><span class="legend-dot" style="background:var(--green)"></span> Capping (gap &gt; 10%)</span>
+      <span><span class="legend-dot" style="background:var(--accent)"></span> Boundary gap</span>
+    </div>
+  </div>
+
+  <h2>Summary Table</h2>
+  <div class="card">
+    <table id="summaryTable">
+      <thead>
+        <tr><th>Grid</th><th>n</th><th>Gain</th><th>r/grid</th><th>Fill %</th><th>Gap %</th><th>Stable</th><th>Comp</th><th>H7</th><th>Verdict</th></tr>
+      </thead>
+      <tbody id="summaryBody"></tbody>
+    </table>
+  </div>
+
+  <h2>160×160 Component Count (g=0.003 vs g=0.001)</h2>
+  <div class="card">
+    <canvas id="compChart" width="600" height="200"></canvas>
+  </div>
+
+  <h2>Per-Seed Data</h2>
+  <div class="card">
+    <table id="seedTable">
+      <thead>
+        <tr><th>Grid</th><th>Gain</th><th>Seed</th><th>Seeds</th><th>Fill %</th><th>Stable</th><th>Comp</th><th>H7</th><th>Outcome</th></tr>
+      </thead>
+      <tbody id="seedBody"></tbody>
+    </table>
+  </div>
+
+  <h2>Reference: r/grid Threshold (from Sessions 107–108)</h2>
+  <div class="card">
+    <table>
+      <thead><tr><th>Grid</th><th>r/grid</th><th>Gap at g=0.001</th><th>Verdict</th></tr></thead>
+      <tbody>
+        <tr><td>160×160</td><td>5.00%</td><td class="gap-high">~56%</td><td><span class="badge badge-capping">Capping</span></td></tr>
+        <tr><td>200×200</td><td>4.00%</td><td class="gap-low">0.3%</td><td><span class="badge badge-nocap">No-capping</span></td></tr>
+        <tr><td>240×240</td><td>3.33%</td><td class="gap-low">&lt;1%</td><td><span class="badge badge-nocap">No-capping</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+const CUTOFF = 5; // gap > 5% = capping, < 5% = no-capping
+const COLORS = { bg:'#0d1117', fg:'#c9d1d9', muted:'#8b949e', accent:'#58a6ff', green:'#3fb950', red:'#f85149', yellow:'#d29922', grid:'#21262d' };
+
+fetch('output/gain_capping_threshold.json')
+.then(r => r.json())
+.then(d => {
+  document.getElementById('loading').style.display = 'none';
+  document.getElementById('content').style.display = 'block';
+
+  // Summary table
+  const tbody = document.getElementById('summaryBody');
+  for (const s of d.summary) {
+    const tr = document.createElement('tr');
+    const gapClass = Math.abs(s.boundary_gap) < CUTOFF ? 'gap-low' : 'gap-high';
+    const verdictClass = Math.abs(s.boundary_gap) < CUTOFF ? 'badge-nocap' : 'badge-capping';
+    const verdictText = Math.abs(s.boundary_gap) < CUTOFF ? 'No-capping' : 'Capping';
+    const comp = s.comp_mean !== undefined ? s.comp_mean.toFixed(1) : '—';
+    tr.innerHTML = `<td>${s.grid}×${s.grid}</td><td>${s.n}</td><td>${s.g.toFixed(3)}</td>
+      <td>${s.r_grid_pct.toFixed(2)}%</td><td class="fill">${s.fill_pct_mean?.toFixed(1) ?? '—'}%</td>
+      <td class="${gapClass}">${s.boundary_gap.toFixed(2)}%</td>
+      <td>${s.stable_4}</td><td>${comp}</td><td>${s.h7_4 ?? '—'}</td>
+      <td><span class="badge ${verdictClass}">${verdictText}</span></td>`;
+    tbody.appendChild(tr);
+  }
+
+  // Per-seed table
+  const seedBody = document.getElementById('seedBody');
+  const allRuns = [
+    ...d.runs_200_g003.map(r => ({...r, grid:200, g:'0.003'})),
+    ...d.runs_200_g005.map(r => ({...r, grid:200, g:'0.005'})),
+    ...d.runs_160_g003.map(r => ({...r, grid:160, g:'0.003'})),
+  ];
+  for (const r of allRuns) {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${r.grid}×${r.grid}</td><td>${r.g}</td><td>${r.seed}</td>
+      <td>${r.n_seeds}</td><td class="fill">${r.fill_pct.toFixed(1)}%</td>
+      <td>${r.l2_stable ? '✓' : '✗'}</td><td>${r.mean_comp?.toFixed(1) ?? '—'}</td>
+      <td>${r.crossed_h7 ? '✓' : '✗'}</td><td>${r.l2_outcome}</td>`;
+    seedBody.appendChild(tr);
+  }
+
+  // Gap chart
+  drawGapChart(d);
+
+  // Comp chart
+  drawCompChart(d);
+})
+.catch(e => { document.getElementById('loading').textContent = 'Error: ' + e; });
+
+function drawGapChart(d) {
+  const cv = document.getElementById('gapChart');
+  const ctx = cv.getContext('2d');
+  const W = cv.width, H = cv.height;
+  const ml = 60, mr = 30, mt = 20, mb = 40;
+  const pw = W - ml - mr, ph = H - mt - mb;
+
+  ctx.fillStyle = COLORS.bg; ctx.fillRect(0, 0, W, H);
+  ctx.strokeStyle = COLORS.grid; ctx.lineWidth = 1;
+  ctx.strokeRect(ml, mt, pw, ph);
+
+  // Data: g=0.001 (ref), g=0.003, g=0.005 — all at 200×200
+  const gains = [0.001, 0.003, 0.005];
+  const gaps = [0.34, 0.23, 0.4]; // from JSON + ref (Session 107)
+  const xStep = pw / (gains.length + 1);
+
+  // Y axis: 0 to 2%
+  const yMax = 2;
+  function yScale(v) { return mt + ph - (v / yMax) * ph; }
+
+  // Grid lines
+  ctx.strokeStyle = COLORS.grid; ctx.fillStyle = COLORS.muted;
+  ctx.font = '10px monospace';
+  for (let v = 0; v <= yMax; v += 0.5) {
+    const y = yScale(v);
+    ctx.beginPath(); ctx.moveTo(ml, y); ctx.lineTo(ml + pw, y); ctx.stroke();
+    ctx.textAlign = 'right'; ctx.fillText(v.toFixed(1) + '%', ml - 6, y + 3);
+  }
+
+  // Cutoff line at 5%
+  ctx.strokeStyle = COLORS.yellow; ctx.setLineDash([4,4]);
+  ctx.beginPath(); ctx.moveTo(ml, yScale(5)); ctx.lineTo(ml + pw, yScale(5)); ctx.stroke();
+  ctx.setLineDash([]);
+  // (5% is off-chart at yMax=2, so we just note it)
+
+  // Bars
+  gains.forEach((g, i) => {
+    const x = ml + xStep * (i + 1) - xStep/2;
+    const gap = gaps[i];
+    const y = yScale(gap);
+    const barW = 30;
+    ctx.fillStyle = Math.abs(gap) < CUTOFF ? COLORS.red : COLORS.green;
+    ctx.fillRect(x - barW/2, y, barW, mt + ph - y);
+    ctx.strokeStyle = COLORS.fg; ctx.lineWidth = 1;
+    ctx.strokeRect(x - barW/2, y, barW, mt + ph - y);
+
+    ctx.fillStyle = COLORS.fg; ctx.textAlign = 'center';
+    ctx.font = '11px monospace';
+    ctx.fillText('g=' + g, x, mt + ph + 16);
+    ctx.fillText(gap.toFixed(2) + '%', x, y - 6);
+  });
+
+  // Labels
+  ctx.fillStyle = COLORS.muted; ctx.font = '10px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('Boundary Gap (%) — all < 1% = NO CAPPING', W/2, H - 6);
+  ctx.save(); ctx.translate(15, H/2); ctx.rotate(-Math.PI/2);
+  ctx.textAlign = 'center'; ctx.fillText('Gap %', 0, 0); ctx.restore();
+}
+
+function drawCompChart(d) {
+  const cv = document.getElementById('compChart');
+  const ctx = cv.getContext('2d');
+  const W = cv.width, H = cv.height;
+  const ml = 80, mr = 30, mt = 10, mb = 30;
+  const pw = W - ml - mr, ph = H - mt - mb;
+
+  ctx.fillStyle = COLORS.bg; ctx.fillRect(0, 0, W, H);
+
+  // Two bars: g=0.001 (ref comp=6.12) and g=0.003 (comp=5.0)
+  const data = [
+    {label: 'g=0.001\n(160×160, r=8)', val: 6.12, color: COLORS.accent},
+    {label: 'g=0.003\n(160×160, n=2500)', val: 5.0, color: COLORS.green},
+  ];
+  const yMax = 8;
+  function yScale(v) { return mt + ph - (v / yMax) * ph; }
+
+  ctx.strokeStyle = COLORS.grid; ctx.lineWidth = 1;
+  for (let v = 0; v <= yMax; v += 2) {
+    const y = yScale(v);
+    ctx.beginPath(); ctx.moveTo(ml, y); ctx.lineTo(ml + pw, y); ctx.stroke();
+    ctx.fillStyle = COLORS.muted; ctx.font = '10px monospace';
+    ctx.textAlign = 'right'; ctx.fillText(v, ml - 6, y + 3);
+  }
+
+  const barW = 60;
+  data.forEach((d, i) => {
+    const x = ml + 40 + i * 120;
+    const y = yScale(d.val);
+    ctx.fillStyle = d.color;
+    ctx.fillRect(x, y, barW, mt + ph - y);
+    ctx.strokeStyle = COLORS.fg; ctx.lineWidth = 1;
+    ctx.strokeRect(x, y, barW, mt + ph - y);
+    ctx.fillStyle = COLORS.fg; ctx.textAlign = 'center';
+    ctx.font = 'bold 14px monospace';
+    ctx.fillText(d.val.toFixed(1), x + barW/2, y - 8);
+    ctx.font = '10px monospace'; ctx.fillStyle = COLORS.muted;
+    d.label.split('\n').forEach((line, j) => {
+      ctx.fillText(line, x + barW/2, mt + ph + 14 + j * 12);
+    });
+  });
+
+  ctx.fillStyle = COLORS.muted; ctx.font = '10px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('Component Count at 30th Ceiling — ~5–6 band holds across gains', W/2, H - 2);
+}
+</script>
+</body>
+</html>

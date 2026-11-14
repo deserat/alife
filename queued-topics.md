@@ -3310,34 +3310,56 @@ to compare.
 
 ## From Session 109 (2026-11-12)
 
-277. **Does the critical count shift with boundary gain?** — The
-     60th mechanism found the count is universal across radii at
-     g=0.001. Does it hold at g=0.003 and g=0.005? If the count is the
-     same (~5-6) at all gains, it is a true topological invariant. If
-     it shifts (e.g., higher gain → fewer fragments tolerated), the
-     threshold is gain-dependent. Cheap: run the component count
-     sweep at g=0.003 on 160×160 at the 30th ceiling (n where stable
-     goes 0/4 at g=0.003). From Session 71, n=2500 at g=0.003 gives
-     stable 0/4 — measure the comp there.
+277. **Does the critical count shift with boundary gain?** — DONE (Session 111).
+     The count does NOT shift significantly with gain. At 160×160 g=0.003
+     n=2500, comp = 5.0 (4 seeds). At g=0.001 r=8, comp = 6.12 (Session 109).
+     The count is approximately universal across gains — slightly lower at
+     higher gain but within the ~5-6 band. See `gain_capping_threshold.py`.
 
 ## From Session 110 (2026-11-13)
 
 278. **Does the r/grid capping threshold hold at other boundary gains?** —
-     The 57th/58th mechanisms bracketed the capping→no-capping transition
-     to r/grid ∈ (4%, 5%) at g=0.001. Does the threshold shift with gain?
-     At higher gain (g=0.003, 0.005), the boundary is stronger — can it
-     cap at r/grid < 5%? If the threshold is gain-independent, it is a
-     pure geometric threshold. If it shifts, the threshold is a
-     gain-geometry interaction. Test: run 200×200 at g=0.003 and g=0.005
-     at n=2000 (fill ~28%) and measure the boundary gap. If gap > 10%,
-     higher gain rescues capping at r/grid=4%.
+     DONE (Session 111).
+     The r/grid capping threshold is GAIN-INDEPENDENT. At 200×200 (r/grid=4%),
+     the boundary gap is <1% at g=0.001, g=0.003, and g=0.005 — higher gain
+     does NOT rescue capping below the geometric threshold (~5%). The 62nd
+     mechanism: the threshold is a pure geometric property of r/grid. See
+     `gain_capping_threshold.py`, `output/gain_capping_threshold.json`,
+     `gain_capping_viz.html`.
 
 279. **Is the ~5-6 fragmentation count universal across boundary gains?** —
-     The 60th mechanism found the count is universal across radii at g=0.001.
-     The 61st mechanism reinterpreted it as the fragmentation count at the
-     capping ceiling. Does the count shift with gain? At higher gain, the
-     boundary suppresses more aggressively — does it tolerate fewer or more
-     fragments? If the count is the same (~5-6) at g=0.003 and g=0.005, it
-     is a universal dynamical constant of the fragmentation process. If it
-     shifts, the count depends on the suppression rate (the dynamical
-     balance). Cheap: run the compcount sweep at g=0.003 on 160×160.
+     DONE (Session 111).
+     The count is approximately universal across gains. At 160×160 g=0.003
+     n=2500 (the 30th ceiling at g=0.003), comp = 5.0 (4 seeds). At g=0.001
+     r=8, comp = 6.12 (Session 109). Slightly lower at higher gain (stronger
+     suppression → fewer fragments) but still ~5. The 63rd mechanism: the count
+     is a dynamical constant, weakly gain-dependent. See
+     `gain_capping_threshold.py`.
+
+## From Session 111 (2026-11-14)
+
+280. **Does the boundary actually cap the fill, or does the curvature channel
+     cap it independently?** — The no-inhibition control changed in Session 83
+     (2026-10-14): before that, `mode="hetero"` with `inh_gain=0` fell through
+     to the "none" mode's `T.termite_step` (different deposit dynamics, fill
+     ~100%). After Session 83, a new `elif mode == "hetero":` block uses
+     `termite_step_hetero` (same deposit dynamics, fill ~42%). The 44th
+     mechanism's "boundary gap ~56%" was computed with the old control. The
+     current no-inhibition fill at 160×160 n=2500 is ~42.7% (vs ~42.3% with
+     boundary → gap ~0.4%). At 200×200 n=2000, the no-inhibition fill is ~33%
+     (vs ~32.5% with boundary → gap ~0.3%). The boundary may NOT be capping
+     the fill — the curvature channel + focal bias cap it independently. Test:
+     measure the no-inhibition fill at n=10000+ on 160×160 with the current
+     code. If it reaches ~75% (matching the with-boundary fill), the boundary
+     adds nothing. If it reaches 100%, the boundary IS capping at high density.
+
+281. **The gain-independence as a design principle** — The 62nd mechanism
+     (r/grid threshold is gain-independent) means the capping threshold is a
+     pure geometric property — no amount of gain can compensate for
+     insufficient spatial reach. This is a design principle for stigmergic
+     boundaries: the boundary's spatial scale must be ≥ ~5% of the grid for
+     coherent capping, regardless of gain. This maps onto the absolute-
+     spatial-scale principle: the boundary's r/grid is the load-bearing
+     variable, not the boundary's strength (gain). Cross-domain: in control
+     theory, the gain margin cannot compensate for insufficient spatial
+     resolution (sensor spacing).

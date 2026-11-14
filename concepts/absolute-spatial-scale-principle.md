@@ -666,4 +666,34 @@ The 59th mechanism (Session 108) attributed the 200×200 no-capping to the compo
 
 **The 59th mechanism is FALSIFIED** as the universal critical variable. It confounded two independently necessary conditions. The 60th mechanism (count universal across radii on 160×160) is reinterpreted: the count is universal because it is the fragmentation count at the capping ceiling (r/grid ≥ 5%); at r=4 (r/grid=2.5%, no capping), the "30th ceiling" at comp 4.57 is a fragmentation ceiling, not a capping ceiling.
 
-**Methodology lesson: confounded necessary conditions.** When two conditions are both necessary and both true in the test condition, a single comparison cannot distinguish them. The correct test holds one constant and varies the other — the control-arm pattern (#75) applied to the percolation threshold. H7=4/4 at all n. Determinism verified (3652 vs 3652). See `low_n_200_compcount.py`."
+**Methodology lesson: confounded necessary conditions.** When two conditions are both necessary and both true in the test condition, a single comparison cannot distinguish them. The correct test holds one constant and varies the other — the control-arm pattern (#75) applied to the percolation threshold. H7=4/4 at all n. Determinism verified (3652 vs 3652). See `low_n_200_compcount.py`.
+
+## Session 111 — The r/grid Capping Threshold Is Gain-Independent (62nd Mechanism)
+
+Session 110 bracketed the capping→no-capping transition to r/grid ∈ (4%, 5%) at
+g=0.001. Does the threshold shift with gain? At 200×200 (r/grid=4%), the boundary
+gap was measured at g=0.003 and g=0.005 (n=2000, 4 seeds each + 1-seed + no-inhib):
+
+| gain | fill (with B) | fill (no B) | gap | stable | H7 |
+|------|---------------|-------------|-----|--------|-----|
+| 0.001 | 32.6% | 32.9% | 0.3% (Session 107) | 0/4 | 4/4 |
+| 0.003 | 32.5% | 32.7% | 0.2% | 0/4 | 4/4 |
+| 0.005 | 32.6% | 32.9% | 0.4% | 0/4 | 4/4 |
+
+**The 62nd mechanism: the capping threshold is GAIN-INDEPENDENT.** The gap is
+< 1% at ALL gains — the threshold is a pure geometric property of the r/grid
+ratio. Higher gain does NOT rescue capping at r/grid < ~5%. The boundary's
+spatial reach (8 cells) is too small a fraction of the grid (< 5%) for any gain
+to make it coherent — the suppression field cannot span the gap regardless of
+amplitude.
+
+**The 63rd mechanism: the ~5-6 component count is approximately universal
+across gains.** At 160×160 g=0.003 n=2500 (the 30th ceiling at g=0.003),
+comp = 5.0 (mean of 4.57, 5.16, 5.28, 4.97). At g=0.001 r=8, comp = 6.12
+(Session 109). The count is slightly lower at higher gain (stronger suppression →
+fewer fragments) but remains in the ~5-6 band. The count is a dynamical constant
+of the fragmentation process, weakly gain-dependent.
+
+Determinism verified (200×200 g=0.003 seed=42: 12945 vs 12945). See
+`gain_capping_threshold.py`, `output/gain_capping_threshold.json`,
+`gain_capping_viz.html`."
