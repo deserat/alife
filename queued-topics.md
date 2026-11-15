@@ -3339,19 +3339,23 @@ to compare.
 ## From Session 111 (2026-11-14)
 
 280. **Does the boundary actually cap the fill, or does the curvature channel
-     cap it independently?** — The no-inhibition control changed in Session 83
-     (2026-10-14): before that, `mode="hetero"` with `inh_gain=0` fell through
-     to the "none" mode's `T.termite_step` (different deposit dynamics, fill
-     ~100%). After Session 83, a new `elif mode == "hetero":` block uses
-     `termite_step_hetero` (same deposit dynamics, fill ~42%). The 44th
-     mechanism's "boundary gap ~56%" was computed with the old control. The
-     current no-inhibition fill at 160×160 n=2500 is ~42.7% (vs ~42.3% with
-     boundary → gap ~0.4%). At 200×200 n=2000, the no-inhibition fill is ~33%
-     (vs ~32.5% with boundary → gap ~0.3%). The boundary may NOT be capping
-     the fill — the curvature channel + focal bias cap it independently. Test:
-     measure the no-inhibition fill at n=10000+ on 160×160 with the current
-     code. If it reaches ~75% (matching the with-boundary fill), the boundary
-     adds nothing. If it reaches 100%, the boundary IS capping at high density.
+     cap it independently?** — DONE (Session 112).
+     The 44th mechanism is FALSIFIED. The boundary capping test (n=2500, 5000,
+     10000, 4 seeds each) found the gap between no-inhibition (hetero, g=0) and
+     with-boundary (dual, g=0.001) fill is < 1pp at ALL densities (-0.55pp,
+     -0.14pp, +0.58pp). The old "boundary gap ~57pp" was a code-path artifact:
+     the old no-inhibition control (mode="none") used S.termite_step (different
+     deposit dynamics → 100% fill); the new control (mode="hetero", g=0, added
+     Session 83) uses termite_step_hetero (same dynamics → ~42.6% fill at
+     n=2500). The 57.36pp gap between old-none and new-hetero is entirely from
+     the deposit dynamics, not the boundary. The curvature channel + focal bias
+     cap the fill independently. The fill trajectory without the boundary
+     (n=2500→42.6%, n=5000→47.9%, n=10000→78.3%) is nearly identical to the
+     fill trajectory with the boundary (n=2500→42.1%, n=5000→47.8%,
+     n=10000→78.9%). The stretched exponential is the curvature channel's fill
+     cap, not the boundary's. The boundary's role is in composition (preventing
+     merging), not fill capping. See `boundary_capping_test.py`,
+     `output/boundary_capping_test.json`, `boundary_capping_viz.html`.
 
 281. **The gain-independence as a design principle** — The 62nd mechanism
      (r/grid threshold is gain-independent) means the capping threshold is a
@@ -3363,3 +3367,37 @@ to compare.
      variable, not the boundary's strength (gain). Cross-domain: in control
      theory, the gain margin cannot compensate for insufficient spatial
      resolution (sensor spacing).
+
+## From Session 112 (2026-11-15)
+
+282. **Revise the Gompertz-to-logistic transition concept** — The 44th
+     mechanism's falsification changes the Gompertz-to-logistic concept's
+     mechanism: the fill cap is from the curvature channel (deposit/excavate
+     balance + material decay), not the boundary's coherent suppression. The
+     coherence parameter θ maps to the curvature channel's deposit/excavate
+     balance, not the boundary. The three thresholds (30th ~44%, 44th ~75%,
+     43rd ~100%) are the curvature channel's fill cap thresholds. The concept
+     file and the design principle ("keep in the Gompertz regime") need
+     revision — the design principle may still hold (stable composition
+     requires low fill) but the mechanism is different.
+
+283. **What does the boundary DO, if not cap the fill?** — The boundary
+     prevents merging (composition: coexist vs merge), affects stability
+     (stable_l2), and produces the 1-seed structural guarantee (0/4 false
+     positives). But it does NOT cap the fill. What is the boundary's actual
+     causal role? Is it purely a repulsive force between structures (preventing
+     merging), or does it also affect the deposit dynamics in a way that
+     changes composition quality without changing the fill? Test: compare
+     composition quality (coexist_frac, stable_l2) with and without the
+     boundary at matched fill — if composition differs at the same fill, the
+     boundary affects composition independently of fill.
+
+284. **Is the fill cap from the curvature channel's deposit/excavate balance
+     or from the material decay?** — The fill cap without the boundary
+     (~42.6% at n=2500, ~78.3% at n=10000) could be from either (a) the
+     deposit/excavate balance (curvature routing deposits at concavities and
+     excavates at convexities, limiting growth), or (b) material decay
+     (material_decay=0.002, a fixed removal rate that caps fill at the
+     equilibrium between deposition and decay). Test: sweep material_decay at
+     fixed n — if higher decay lowers the fill cap, the fill cap is from
+     material decay; if not, it's from the deposit/excavate balance.

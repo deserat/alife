@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Boundary Capping Test — sim14</title>
+<style>
+:root { --bg: #0d1117; --fg: #c9d1d9; --accent: #58a6ff; --warn: #f85149; --ok: #3fb950; --dim: #8b949e; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: var(--bg); color: var(--fg); font-family: -apple-system, sans-serif; padding: 20px; max-width: 900px; margin: 0 auto; }
+h1 { font-size: 1.4em; margin-bottom: 4px; }
+h2 { font-size: 1.1em; margin: 20px 0 8px; color: var(--accent); }
+.sub { color: var(--dim); font-size: 0.85em; margin-bottom: 16px; }
+canvas { display: block; margin: 8px 0; border: 1px solid #30363d; border-radius: 4px; }
+.legend { display: flex; gap: 20px; flex-wrap: wrap; margin: 8px 0; font-size: 0.8em; }
+.legend-item { display: flex; align-items: center; gap: 6px; }
+.legend-dot { width: 12px; height: 12px; border-radius: 50%; }
+table { border-collapse: collapse; width: 100%; margin: 12px 0; font-size: 0.8em; }
+th, td { padding: 6px 10px; text-align: right; border-bottom: 1px solid #21262d; }
+th { color: var(--accent); text-align: center; }
+td:first-child { text-align: left; color: var(--dim); }
+.big-finding { background: rgba(248,81,73,0.1); border: 1px solid rgba(248,81,73,0.3); border-radius: 8px; padding: 12px 16px; margin: 16px 0; }
+.big-finding p { margin: 4px 0; }
+.ok { color: var(--ok); } .warn { color: var(--warn); } .accent { color: var(--accent); }
+</style>
+</head>
+<body>
+
+<h1>Boundary Capping Test — Does the Boundary Cap the Fill?</h1>
+<div class="sub">sim14 / queued-topic #280 — 2026-11-15 (Session 112)</div>
+
+<div class="big-finding">
+<p><span class="warn">⚠ FALSIFIED:</span> The 44th mechanism (boundary caps fill) is <strong>falsified</strong>.</p>
+<p>The boundary adds <strong>&lt;1pp</strong> to the fill at all densities tested (n=2500–10000).</p>
+<p>The "boundary gap ~56%" was a <strong>code-path artifact</strong>: the old no-inhibition control (mode="none") used <code>S.termite_step</code> (different deposit dynamics → 100% fill); the new control (mode="hetero", g=0) uses <code>termite_step_hetero</code> (same dynamics → ~42.6% fill at n=2500).</p>
+</div>
+
+<h2>Fill comparison: no-inhibition vs with-boundary</h2>
+<table>
+<tr><th>n</th><th>no-inhib fill%</th><th>w/boundary fill%</th><th>gap (pp)</th><th>old-none fill%</th></tr>
+<tr><td>2,500</td><td>42.63</td><td>42.09</td><td class="ok">-0.55</td><td class="warn">100.00</td></tr>
+<tr><td>5,000</td><td>47.90</td><td>47.77</td><td class="ok">-0.14</td><td>—</td></tr>
+<tr><td>10,000</td><td>78.31</td><td>78.88</td><td class="ok">+0.58</td><td>—</td></tr>
+</table>
+<p class="sub">The gap is &lt;1pp at all densities. The old-none gap (57.36pp) was from deposit dynamics, not the boundary.</p>
+
+<h2>Per-seed fills</h2>
+<canvas id="chart" width="860" height="400"></canvas>
+<div class="legend">
+<div class="legend-item"><div class="legend-dot" style="background:#58a6ff"></div> no-inhibition (hetero, g=0)</div>
+<div class="legend-item"><div class="legend-dot" style="background:#3fb950"></div> with-boundary (dual, g=0.001)</div>
+<div class="legend-item"><div class="legend-dot" style="background:#f85149"></div> old no-inhibition (none, S.termite_step)</div>
+</div>
+
+<script>
+const data = {
+  densities: [2500, 5000, 10000],
+  no_inhib: [
+    {seed:42, fill:43.12}, {seed:123, fill:42.23}, {seed:256, fill:42.58}, {seed:999, fill:42.61}
+  ],
+  no_inhib_5k: [
+    {seed:42, fill:47.28}, {seed:123, fill:47.34}, {seed:256, fill:48.30}, {seed:999, fill:48.69}
+  ],
+  no_inhib_10k: [
+    {seed:42, fill:80.19}, {seed:123, fill:77.82}, {seed:256, fill:77.48}, {seed:999, fill:77.73}
+  ],
+  with_bnd: [
+    {seed:42, fill:42.53}, {seed:123, fill:41.90}, {seed:256, fill:41.60}, {seed:999, fill:42.32}
+  ],
+  with_bnd_5k: [
+    {seed:42, fill:48.84}, {seed:123, fill:47.63}, {seed:256, fill:46.48}, {seed:999, fill:48.12}
+  ],
+  with_bnd_10k: [
+    {seed:42, fill:80.69}, {seed:123, fill:79.05}, {seed:256, fill:78.78}, {seed:999, fill:77.01}
+  ],
+  old_none: [
+    {seed:42, fill:100}, {seed:123, fill:100}, {seed:256, fill:100}, {seed:999, fill:100}
+  ]
+};
+
+const cv = document.getElementById('chart');
+const cx = cv.getContext('2d');
+const W = cv.width, H = cv.height;
+const pad = {l:60, r:20, t:20, b:50};
+const pw = W - pad.l - pad.r, ph = H - pad.t - pad.b;
+
+// axes
+cx.strokeStyle = '#30363d'; cx.fillStyle = '#8b949e'; cx.font = '11px sans-serif';
+cx.beginPath(); cx.moveTo(pad.l, pad.t); cx.lineTo(pad.l, pad.t+ph); cx.lineTo(pad.l+pw, pad.t+ph); cx.stroke();
+for (let y = 0; y <= 100; y += 20) {
+  const yp = pad.t + ph - (y/100)*ph;
+  cx.fillText(y+'%', pad.l-30, yp+4); cx.strokeStyle = '#21262d';
+  cx.beginPath(); cx.moveTo(pad.l, yp); cx.lineTo(pad.l+pw, yp); cx.stroke();
+}
+
+// group by density
+const groups = [
+  {label:'n=2500', no:data.no_inhib, bnd:data.with_bnd, old:data.old_none},
+  {label:'n=5000', no:data.no_inhib_5k, bnd:data.with_bnd_5k, old:null},
+  {label:'n=10000', no:data.no_inhib_10k, bnd:data.with_bnd_10k, old:null}
+];
+const gw = pw / groups.length;
+groups.forEach((g, gi) => {
+  const x0 = pad.l + gi*gw + gw*0.15;
+  const bw = gw*0.2;
+  // no-inhib (blue)
+  g.no.forEach((d, si) => {
+    const x = x0 + si*bw*1.2;
+    const h = (d.fill/100)*ph;
+    cx.fillStyle = '#58a6ff';
+    cx.fillRect(x, pad.t+ph-h, bw*0.9, h);
+  });
+  // with-boundary (green)
+  g.bnd.forEach((d, si) => {
+    const x = x0 + 4*bw*1.2 + si*bw*1.2 + 10;
+    const h = (d.fill/100)*ph;
+    cx.fillStyle = '#3fb950';
+    cx.fillRect(x, pad.t+ph-h, bw*0.9, h);
+  });
+  // old-none (red, only n=2500)
+  if (g.old) {
+    g.old.forEach((d, si) => {
+      const x = x0 + 8*bw*1.2 + si*bw*1.2 + 20;
+      const h = (d.fill/100)*ph;
+      cx.fillStyle = '#f85149';
+      cx.fillRect(x, pad.t+ph-h, bw*0.9, h);
+    });
+  }
+  // label
+  cx.fillStyle = '#8b949e'; cx.textAlign = 'center';
+  cx.fillText(g.label, x0 + gw*0.35, pad.t+ph+20);
+  cx.textAlign = 'left';
+});
+
+// mean lines
+groups.forEach((g, gi) => {
+  const x0 = pad.l + gi*gw + gw*0.15;
+  const meanNo = g.no.reduce((s,d)=>s+d.fill,0)/g.no.length;
+  const meanBnd = g.bnd.reduce((s,d)=>s+d.fill,0)/g.bnd.length;
+  const yNo = pad.t + ph - (meanNo/100)*ph;
+  const yBnd = pad.t + ph - (meanBnd/100)*ph;
+  cx.strokeStyle = '#58a6ff'; cx.setLineDash([4,3]);
+  cx.beginPath(); cx.moveTo(x0, yNo); cx.lineTo(x0+gw*0.4, yNo); cx.stroke();
+  cx.strokeStyle = '#3fb950';
+  cx.beginPath(); cx.moveTo(x0+gw*0.45, yBnd); cx.lineTo(x0+gw*0.7, yBnd); cx.stroke();
+  cx.setLineDash([]);
+  cx.fillStyle = '#c9d1d9'; cx.font = '10px sans-serif';
+  cx.fillText(meanNo.toFixed(1)+'%', x0+gw*0.4+2, yNo+3);
+  cx.fillText(meanBnd.toFixed(1)+'%', x0+gw*0.7+2, yBnd+3);
+});
+</script>
+</body>
+</html>
