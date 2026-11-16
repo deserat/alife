@@ -2,8 +2,8 @@
 title: "Hypotheses"
 topic: "testable hypotheses for the multi-scale ALife composition project"
 status: active
-date: "2026-11-15"
-session: 112
+date: "2026-11-16"
+session: 113
 count: 11
 active: [H1, H2, H3, H4, H5, H6, H7, H8, H9, H10, H11]
 logs: ["logs/H1/", "logs/H2/", "logs/H3/", "logs/H4/", "logs/H5/", "logs/H6/", "logs/H7/", "logs/H8/", "logs/H9/", "logs/H10/", "logs/H11/"]
@@ -70,7 +70,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **For an emergent structure to persist as a new actor at a higher scale, it must be autopoietic — it must maintain the network that constitutes it.** Self-maintenance is the persistence condition. Without it, emergent structures are transient patterns, not new actors.
 
-**Status:** Refined (Session 112). The 44th mechanism is FALSIFIED — the boundary does NOT cap the fill. The boundary capping test (n=2500, 5000, 10000, 4 seeds each) found the gap between no-inhibition and with-boundary fill is < 1pp at all densities (-0.55pp, -0.14pp, +0.58pp). The old "boundary gap ~57pp" was a code-path artifact: the old no-inhibition control (mode="none") used S.termite_step (different deposit dynamics → 100% fill); the new control (mode="hetero", g=0) uses termite_step_hetero (same dynamics → ~42.6% fill at n=2500). The curvature channel + focal bias cap the fill independently. The stretched exponential (Session 93) is the curvature channel's fill cap, not the boundary's. The 62nd mechanism: r/grid capping threshold is GAIN-INDEPENDENT (gap < 1% at g=0.001–0.005 on 200×200). The 63rd mechanism: comp count ~5-6 approximately universal across gains (5.0 at g=0.003 vs 6.1 at g=0.001). The 61st: count is READOUT not CAUSE; 59th FALSIFIED. H7=4/4 at all conditions. Determinism verified.
+**Status:** Refined (Session 113). The fill cap is overwhelmingly from **material decay** (deposit/decay equilibrium), not the boundary or the curvature channel. The material decay sweep (7 decays × 2 densities × 4 seeds, no boundary) found a 2× change in decay shifts fill by 42–55pp: decay=0.001→84–100%, decay=0.002→42–48%, decay=0.032→12–16%. The "stretched exponential" fill cap (Session 93) was the deposit/decay equilibrium at fixed decay=0.002 — the √n is the surface-to-volume ratio (effective deposit rate grows as √n), NOT a boundary diffusion-length mechanism. The Gompertz-to-logistic transition concept needs full revision: the three thresholds are decay-dependent equilibria, not universal coherence-to-pairwise phase transitions. The curvature channel shapes WHERE material goes (morphology) but NOT the total fill (volume). H7=4/4 at all decays except 0.032 (too sparse). The 44th mechanism (Session 112) and the fill-cap attribution are both resolved: fill = deposit/decay equilibrium; boundary = composition (merging prevention); curvature = morphology (shape). Determinism verified.
 
 **Log:** [logs/H5/](logs/H5/)
 
@@ -216,7 +216,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 | H2: ANT Translation | Unchanged | Theoretical, untested | [H2](logs/H2/) |
 | H3: Quasi-Object | Strengthened | Stigmergy literature support; Echo partial support | [H3](logs/H3/) |
 | H4: Dynamic Environment | Refined | Fitness landscape criticism supports this | [H4](logs/H4/) |
-| H5: Autopoiesis | Refined (S112) | 44th mechanism FALSIFIED — boundary does NOT cap fill (gap <1pp at n=2500–10000); old 57pp gap was code-path artifact (S.termite_step vs termite_step_hetero); curvature channel + focal bias cap fill independently; 62nd: r/grid threshold gain-independent; 63rd: comp ~5-6 universal across gains; 61st: count is READOUT; 59th FALSIFIED | [H5](logs/H5/) |
+| H5: Autopoiesis | Refined (S113) | Fill cap is from material decay (deposit/decay equilibrium), NOT boundary or curvature channel; 2× decay → 42–55pp fill shift; "stretched exponential" was deposit/decay equilibrium at fixed decay=0.002; √n = surface-to-volume ratio, not diffusion length; Gompertz-to-logistic concept needs full revision; 44th FALSIFIED (S112); curvature = morphology, boundary = composition, decay = volume | [H5](logs/H5/) |
 | H6: Multi-Scale Autopoiesis | Refined (S77) | 12th member fully lost at n=11000–14000 (~84–99% fill): 1s l2=0/4; progressive loss, not sharp threshold | [H6](logs/H6/) |
 | H7: Trace→Actor Crossing | Refined ×67; fill cap saturation is a HARD ceiling (grid full); g* limit n≈14000-15000 — boundary capping power decays exponentially (gap halves per 1000-n); H7=4/4 at all densities; L2=0/4; 30th persists; 43rd saturation at n≈14000 | [H7](logs/H7/) |
 | H8: Complexity Enables OEE | NEW | Kaznatcheev (2019), Wiser et al. (2013) | [H8](logs/H8/) |

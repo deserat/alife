@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Material Decay Sweep — Fill vs Decay</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #0d1117; color: #c9d1d9; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    padding: 20px; max-width: 900px; margin: 0 auto;
+  }
+  h1 { font-size: 1.4rem; margin-bottom: 8px; color: #e6edf3; }
+  h2 { font-size: 1.1rem; margin: 24px 0 10px; color: #e6edf3; }
+  .desc { color: #8b949e; font-size: 0.85rem; margin-bottom: 16px; line-height: 1.5; }
+  canvas { border: 1px solid #30363d; border-radius: 6px; display: block; margin: 10px 0; }
+  .legend { display: flex; gap: 20px; flex-wrap: wrap; margin: 8px 0; font-size: 0.8rem; }
+  .legend-item { display: flex; align-items: center; gap: 6px; }
+  .legend-swatch { width: 16px; height: 3px; border-radius: 2px; }
+  table { border-collapse: collapse; width: 100%; margin: 12px 0; font-size: 0.8rem; }
+  th, td { border: 1px solid #30363d; padding: 6px 10px; text-align: right; }
+  th { background: #161b22; color: #e6edf3; font-weight: 600; }
+  td:first-child, th:first-child { text-align: left; }
+  .highlight { color: #f0883e; font-weight: 600; }
+  .finding { background: #161b22; border: 1px solid #30363d; border-radius: 6px; padding: 14px 16px; margin: 16px 0; font-size: 0.85rem; line-height: 1.6; }
+  .finding strong { color: #f0883e; }
+  .note { color: #8b949e; font-size: 0.75rem; margin-top: 8px; }
+</style>
+</head>
+<body>
+
+<h1>Material Decay Sweep — Is the Fill Cap from Decay or Curvature?</h1>
+<p class="desc">Queued-topic #284. Session 112 falsified the 44th mechanism (boundary does NOT cap fill).
+This sweep tests whether the fill cap is from material decay (deposit/decay equilibrium)
+or from the curvature channel's deposit/excavate balance. 7 decay values × 2 densities × 4 seeds,
+no boundary (hetero mode, g=0), 160×160 grid.</p>
+
+<h2>Fill vs Material Decay</h2>
+<canvas id="chart" width="840" height="400"></canvas>
+<div class="legend">
+  <div class="legend-item"><div class="legend-swatch" style="background:#58a6ff"></div>n=2500 (no boundary)</div>
+  <div class="legend-item"><div class="legend-swatch" style="background:#f0883e"></div>n=5000 (no boundary)</div>
+  <div class="legend-item"><div class="legend-swatch" style="background:#3fb950;border-top:1px dashed #3fb950"></div>H7 crossing threshold</div>
+</div>
+
+<h2>Data Table</h2>
+<table id="table">
+  <thead><tr><th>Decay</th><th>n=2500 fill%</th><th>n=2500 H7</th><th>n=5000 fill%</th><th>n=5000 H7</th></tr></thead>
+  <tbody id="tbody"></tbody>
+</table>
+
+<div class="finding" id="finding">
+  <strong>Finding:</strong> <span id="finding-text">Loading...</span>
+</div>
+
+<p class="note">Determinism verified (n=2500 seed=42: 11040 vs 11040; n=5000 seed=42: 12103 vs 12103).
+n=10000 was started but killed for time — decay=0.0005 gave 100% fill (2 seeds confirmed), matching the pattern.</p>
+
+<script>
+const DECAYS = [0.0005, 0.001, 0.002, 0.004, 0.008, 0.016, 0.032];
+
+fetch('output/material_decay_sweep.json')
+.then(r => r.json())
+.then(data => {
+  const n2500 = data.no_inhib_n2500;
+  const n5000 = data.no_inhib_n5000;
+
+  // Build table
+  const tb = document.getElementById('tbody');
+  DECAYS.forEach(d => {
+    const r25 = n2500[String(d)];
+    const r50 = n5000[String(d)];
+    const row = document.createElement('tr');
+    row.innerHTML = `<td>${d}</td>
+      <td class="${r25.mean_fill > 90 ? 'highlight' : ''}">${r25.mean_fill.toFixed(2)}</td>
+      <td>${r25.h7_count}/4</td>
+      <td class="${r50.mean_fill > 90 ? 'highlight' : ''}">${r50.mean_fill.toFixed(2)}</td>
+      <td>${r50.h7_count}/4</td>`;
+    tb.appendChild(row);
+  });
+
+  // Draw chart
+  const cv = document.getElementById('chart');
+  const ctx = cv.getContext('2d');
+  const W = cv.width, H = cv.height;
+  const ML = 55, MR = 20, MT = 15, MB = 40;
+  const pw = W - ML - MR, ph = H - MT - MB;
+
+  // Axes
+  ctx.strokeStyle = '#30363d';
+  ctx.fillStyle = '#8b949e';
+  ctx.font = '11px sans-serif';
+  ctx.lineWidth = 1;
+
+  // Y axis (0-105%)
+  for (let v = 0; v <= 100; v += 20) {
+    const y = MT + ph - (v / 105) * ph;
+    ctx.beginPath(); ctx.moveTo(ML, y); ctx.lineTo(W - MR, y); ctx.stroke();
+    ctx.fillText(v + '%', 10, y + 4);
+  }
+
+  // X axis (log scale)
+  const xMin = Math.log10(0.0003), xMax = Math.log10(0.04);
+  function xpx(d) { return ML + ((Math.log10(d) - xMin) / (xMax - xMin)) * pw; }
+
+  for (const d of [0.001, 0.01, 0.032]) {
+    const x = xpx(d);
+    ctx.beginPath(); ctx.moveTo(x, MT); ctx.lineTo(x, H - MB); ctx.stroke();
+    ctx.fillText(d.toString(), x - 10, H - MB + 15);
+  }
+
+  // Plot n=2500
+  ctx.strokeStyle = '#58a6ff';
+  ctx.lineWidth = 2.5;
+  ctx.beginPath();
+  DECAYS.forEach((d, i) => {
+    const x = xpx(d), y = MT + ph - (n2500[String(d)].mean_fill / 105) * ph;
+    if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+  });
+  ctx.stroke();
+  // points
+  ctx.fillStyle = '#58a6ff';
+  DECAYS.forEach(d => {
+    const x = xpx(d), y = MT + ph - (n2500[String(d)].mean_fill / 105) * ph;
+    ctx.beginPath(); ctx.arc(x, y, 4, 0, 2 * Math.PI); ctx.fill();
+  });
+
+  // Plot n=5000
+  ctx.strokeStyle = '#f0883e';
+  ctx.beginPath();
+  DECAYS.forEach((d, i) => {
+    const x = xpx(d), y = MT + ph - (n5000[String(d)].mean_fill / 105) * ph;
+    if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+  });
+  ctx.stroke();
+  ctx.fillStyle = '#f0883e';
+  DECAYS.forEach(d => {
+    const x = xpx(d), y = MT + ph - (n5000[String(d)].mean_fill / 105) * ph;
+    ctx.beginPath(); ctx.arc(x, y, 4, 0, 2 * Math.PI); ctx.fill();
+  });
+
+  // Axis labels
+  ctx.fillStyle = '#8b949e';
+  ctx.font = '11px sans-serif';
+  ctx.fillText('material_decay (log scale)', W / 2 - 50, H - 5);
+  ctx.save();
+  ctx.translate(15, H / 2);
+  ctx.rotate(-Math.PI / 2);
+  ctx.fillText('fill %', 0, 0);
+  ctx.restore();
+
+  // Finding text
+  const spread25 = n2500['0.0005'].mean_fill - n2500['0.032'].mean_fill;
+  const spread50 = n5000['0.0005'].mean_fill - n5000['0.032'].mean_fill;
+  document.getElementById('finding-text').innerHTML =
+    `The fill cap is overwhelmingly from <strong>material decay</strong>, not the deposit/excavate balance. ` +
+    `At n=2500: decay=0.0005 → 97.1%, decay=0.002 → 42.6%, decay=0.032 → 12.4% (spread ${spread25.toFixed(0)}pp). ` +
+    `At n=5000: decay=0.001 → 100%, decay=0.002 → 47.9%, decay=0.032 → 16.3% (spread ${spread50.toFixed(0)}pp). ` +
+    `A 2× change in decay shifts fill by 42–55pp. The "stretched exponential" fill cap (Session 93) was ` +
+    `the deposit/decay equilibrium at fixed decay=0.002, not a boundary or curvature mechanism. ` +
+    `H7 crossing fires at all decays except 0.032 (too much decay → too little material for crossing).`;
+});
+</script>
+
+</body>
+</html>

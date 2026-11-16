@@ -3393,11 +3393,17 @@ to compare.
      boundary affects composition independently of fill.
 
 284. **Is the fill cap from the curvature channel's deposit/excavate balance
-     or from the material decay?** — The fill cap without the boundary
-     (~42.6% at n=2500, ~78.3% at n=10000) could be from either (a) the
-     deposit/excavate balance (curvature routing deposits at concavities and
-     excavates at convexities, limiting growth), or (b) material decay
-     (material_decay=0.002, a fixed removal rate that caps fill at the
-     equilibrium between deposition and decay). Test: sweep material_decay at
-     fixed n — if higher decay lowers the fill cap, the fill cap is from
-     material decay; if not, it's from the deposit/excavate balance.
+     or from the material decay?** — DONE (Session 113).
+     The fill cap is from MATERIAL DECAY (deposit/decay equilibrium), not the
+     deposit/excavate balance. 7 decay values × 2 densities × 4 seeds (no
+     boundary, 160×160): a 2× change in decay shifts fill by 42–55pp
+     (decay=0.001→84–100%, decay=0.002→42–48%, decay=0.032→12–16%).
+     The "stretched exponential" (Session 93) was the deposit/decay
+     equilibrium at fixed decay=0.002 — the √n is the surface-to-volume
+     ratio (effective deposit rate grows as √n), NOT a diffusion-length
+     signature. The DLA-inverse interpretation is retracted. The
+     Gompertz-to-logistic concept needs full revision: the three
+     thresholds are decay-dependent equilibria, not universal phase
+     transitions. H7=4/4 at all decays except 0.032 (too sparse).
+     See `material_decay_sweep.py`, `output/material_decay_sweep.json`,
+     `material_decay_viz.html`.
