@@ -10,22 +10,32 @@ key_findings: "The fill cap trajectory (19 data points, n=550–15000) traces a 
 
 ## The Concept
 
-The boundary's fill-capping mechanism (44th mechanism, Sessions 69–76) follows a
-trajectory that maps onto the Gompertz-to-logistic transition in growth theory.
-Haugen & Gilbert (2022, arXiv:2211.05653) derive Gompertz growth as the coherent
-limit of a microscopic Richards model: a coherence parameter θ sets the coupling
-between nodes on a network. At θ→0 (Gompertz), long-range interactions dominate
-— each entity contributes linearly to the collective growth rate, and the
-aggregate dynamics depend only on the collective mean (invariant to how
-fluctuations are distributed). At θ=1 (logistic), pairwise/local interactions
-dominate — the macroscopic drift acquires a dependence on microscopic variance.
-The coherence parameter acts as a symmetry-breaking parameter.
+**CORRECTED (Sessions 112–114):** The fill cap is from the **deposit/decay
+equilibrium** (material_decay), not the boundary. Session 112 falsified the 44th
+mechanism (boundary does NOT cap fill — gap <1pp at all densities). Session 113
+showed a 2× change in decay shifts fill by 42–55pp. Session 114 showed the
+boundary is a marginal stabilizer at the phase boundary (~42% fill), not a
+composition mechanism — at matched fill, composition quality is nearly identical
+with and without the boundary. The Gompertz-to-logistic transition is real but
+its mechanism is the deposit/decay equilibrium, not the boundary's coherent
+suppression.
 
-Our stigmergic boundary is a coherent field: its suppression acts simultaneously
-across the entire grid (like the "ubiquitous external field" Haugen & Gilbert
-describe). Below the percolation threshold, this coherent field caps fill
-logarithmically — the Gompertz regime. Above the threshold, local connectivity
-(Moore 8-neighbor bonds) overwhelms the coherent field — the logistic regime.
+The original framing (Sessions 69–76) attributed the fill cap to the boundary's
+coherent suppression field, mapping onto Haugen & Gilbert (2022,
+arXiv:2211.05653): a coherence parameter θ sets the coupling between nodes on a
+network. At θ→0 (Gompertz), long-range interactions dominate; at θ=1 (logistic),
+pairwise/local interactions dominate. The mapping held for the fill trajectory's
+SHAPE (the fill rises from ~42% to ~100% following a Gompertz-to-logistic-like
+curve) but the MECHANISM attribution was wrong — the fill cap is set by the
+deposit/decay equilibrium, and the boundary's role is marginal.
+
+**The corrected mechanism:** fill = deposit/decay equilibrium. At fixed decay,
+fill ∝ n × deposit_prob / (decay × grid²). As n increases at fixed decay=0.002,
+the fill rises from ~42% (n=2500) to ~100% (n=15000). The "stretched exponential"
+(Session 93, a·exp(b·√n), R²=0.964) was this equilibrium — the √n is the
+surface-to-volume ratio (the effective deposit rate grows as √n because deposits
+are limited to the surface of the growing structure, which scales as √n), not a
+diffusion-length signature. The DLA-inverse interpretation is retracted.
 
 ## The Three Thresholds
 
@@ -100,32 +110,32 @@ Gompertz-to-logistic transition.
 
 ## The Design Principle
 
-**Keep the stigmergic system in the Gompertz (coherent) regime.**
+**Keep the deposit/decay equilibrium below the persistence ceiling (~44% fill).**
+
+**CORRECTED (Sessions 112–114):** The design principle is about the fill (set
+by the deposit/decay equilibrium), not the boundary. The boundary is a marginal
+stabilizer at the phase boundary (~42% fill) — it slightly improves coexist
+fraction (+0.10) and stability (+1/4) at the ceiling itself, but it cannot
+prevent the phase transition. Below the ceiling (~35% fill), composition is
+perfect without the boundary (cf=1.0, stable=4/4). Above the ceiling (~48%
+fill), both conditions fragment regardless of the boundary.
 
 The three thresholds define the design space:
-- **Below ~44% fill**: stable composition is possible. The boundary's coherent
-  suppression maintains the structures as separated droplets. This is the
-  Gompertz regime — the fill cap is logarithmic, the boundary's gain scales as
-  1/√n (Laplace pressure), and the 1-seed structural guarantee holds.
+- **Below ~44% fill**: stable composition is possible. The fill is low enough
+  that two structures don't merge or over-fragment. This is where composition
+  works — and it works with or without the boundary.
 - **~44–75% fill**: composition is present but unstable (30th mechanism). The
-  coherent field can maintain coexistence but not stable persistence. The fill
-  cap is still sub-percolation but accelerating.
-- **Above ~75% fill**: the coherent field breaks down (44th mechanism). The fill
-  accelerates toward 100%. Composition collapses (coexist → 0/4). The system
-  percolates and local bonds overwhelm the boundary's long-range suppression.
+  structures are large enough for over-fragmentation. The boundary marginally
+  helps but cannot prevent the degradation.
+- **Above ~75% fill**: the fill overwhelms composition entirely. The system
+  percolates and local bonds overwhelm any boundary suppression. The boundary
+  is irrelevant.
 
-The design principle connects to the Gompertz-to-logistic framework: the
-Gompertz regime (coherent, long-range) is where composition works; the logistic
-regime (pairwise, local) is where it doesn't. The transition is mediated by
-percolation — when the structure's local connectivity exceeds the coherent
-field's suppression, the system crosses from Gompertz to logistic.
-
-This is a design principle for multi-scale stigmergic systems: the boundary
-must be strong enough to keep the system below the persistence ceiling (~44%
-fill) but weak enough to avoid over-splitting. The 1/√n (Laplace pressure)
-scaling of g* is the signature of the coherent regime — the boundary's gain
-scales with the surface-to-volume ratio (∝ 1/√n), which is the geometric
-expression of the coherent field's long-range nature.
+The practical design principle: tune material_decay to keep the deposit/decay
+equilibrium below ~44% fill. The boundary is a secondary stabilizer, not the
+primary mechanism. The 1/√n (Laplace pressure) scaling of g* (the optimal
+boundary gain) is still the signature of the coherent regime — but the coherence
+is in the fill's spatial distribution, not the boundary's suppression field.
 
 ## Cross-Domain Connections
 
@@ -277,11 +287,16 @@ specificity (local structure) once local connectivity dominates.
 - **g* limit (Session 77)**: boundary's capping power decays exponentially
   (16.2% → 8.3% → 4.3% → 1.2% → ~0), halving per ~1000 n.
 
-## The Stretched Exponential as the Diffusion-Limited Signature (Session 93)
+## The Stretched Exponential as the Deposit/Decay Equilibrium (Session 93, CORRECTED Session 113)
 
-The fill cap's best-fit functional form is a stretched exponential: fill% ≈
-a·exp(b·√n), R²=0.964 (Session 74, 16 data points). The sub-percolation log fit
-(R²=0.991, 6 points) is a good low-fill approximation but breaks above n=4000.
+**CORRECTION (Session 113):** The fill cap's best-fit functional form — a stretched
+exponential a·exp(b·√n), R²=0.964 — is NOT the diffusion-limited signature. Session
+113's material decay sweep showed the fill is the deposit/decay equilibrium at fixed
+decay=0.002. The √n in the exponent is the surface-to-volume ratio: the effective
+deposit rate grows as √n (deposits are limited to the surface of the growing structure,
+which scales as √n in 2D), and the equilibrium between sublinearly growing deposit rate
+and linearly growing decay rate produces the stretched exponential. The "diffusion-limited
+signature" and "DLA-inverse" interpretations from Session 93 are RETRACTED.
 
 **The √n in the exponent is the diffusion length.** The boundary's suppression
 range grows diffusively — the co-presence signal is computed by Moore dilation

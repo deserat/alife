@@ -3370,27 +3370,30 @@ to compare.
 
 ## From Session 112 (2026-11-15)
 
-282. **Revise the Gompertz-to-logistic transition concept** — The 44th
-     mechanism's falsification changes the Gompertz-to-logistic concept's
-     mechanism: the fill cap is from the curvature channel (deposit/excavate
-     balance + material decay), not the boundary's coherent suppression. The
-     coherence parameter θ maps to the curvature channel's deposit/excavate
-     balance, not the boundary. The three thresholds (30th ~44%, 44th ~75%,
-     43rd ~100%) are the curvature channel's fill cap thresholds. The concept
-     file and the design principle ("keep in the Gompertz regime") need
-     revision — the design principle may still hold (stable composition
-     requires low fill) but the mechanism is different.
+282. **Revise the Gompertz-to-logistic transition concept** — DONE (Session 114).
+    The concept file is revised: the fill cap is from the deposit/decay
+    equilibrium, not the boundary. The "stretched exponential" (Session 93)
+    was the deposit/decay equilibrium at fixed decay=0.002 — the √n is the
+    surface-to-volume ratio, not a diffusion-length signature. The DLA-inverse
+    interpretation is retracted. The three thresholds are decay-dependent
+    equilibria, not universal phase transitions. The boundary is a marginal
+    stabilizer at the phase boundary (~42%), not a composition mechanism.
+    The Design Principle is revised: tune material_decay to keep the
+    deposit/decay equilibrium below ~44% fill, not tune the boundary gain.
+    See `concepts/gompertz-logistic-transition.md` (Sessions 112–114 sections).
 
-283. **What does the boundary DO, if not cap the fill?** — The boundary
-     prevents merging (composition: coexist vs merge), affects stability
-     (stable_l2), and produces the 1-seed structural guarantee (0/4 false
-     positives). But it does NOT cap the fill. What is the boundary's actual
-     causal role? Is it purely a repulsive force between structures (preventing
-     merging), or does it also affect the deposit dynamics in a way that
-     changes composition quality without changing the fill? Test: compare
-     composition quality (coexist_frac, stable_l2) with and without the
-     boundary at matched fill — if composition differs at the same fill, the
-     boundary affects composition independently of fill.
+283. **What does the boundary DO, if not cap the fill?** — DONE (Session 114).
+    The boundary role test (64 runs, 4 fill levels, matched fill with/without
+    boundary) found the boundary is a **marginal stabilizer at the fill-driven
+    phase transition (~42% fill)**, not a composition mechanism. At matched fill:
+    below the ceiling (~35%), composition is perfect without the boundary
+    (cf=1.0, stable=4/4); at the ceiling (~42%), the boundary marginally helps
+    (cf +0.10, stable +1/4); above the ceiling (~48%), both fragment. The fill
+    (deposit/decay equilibrium) determines composition quality, not the boundary.
+    The 64th mechanism: the boundary is not a composition mechanism — it is a
+    marginal stabilizer at the fill-driven phase transition. See
+    `boundary_role_test.py`, `output/boundary_role_test.json`,
+    `boundary_role_viz.html`.
 
 284. **Is the fill cap from the curvature channel's deposit/excavate balance
      or from the material decay?** — DONE (Session 113).
@@ -3407,3 +3410,42 @@ to compare.
      transitions. H7=4/4 at all decays except 0.032 (too sparse).
      See `material_decay_sweep.py`, `output/material_decay_sweep.json`,
      `material_decay_viz.html`.
+
+## From Session 114 (2026-11-17)
+
+285. **Is the ~44% persistence ceiling universal across decay values?** —
+     The 30th ceiling (~44% fill, where stable composition becomes impossible)
+     was measured at fixed decay=0.002. But if the fill is the deposit/decay
+     equilibrium, the ceiling might be a fixed fill FRACTION (universal) or
+     a fixed equilibrium value (decay-dependent). Test: sweep decay at high n
+     and measure the fill% at which stable composition collapses. If the
+     ceiling is always ~44% regardless of decay, it's a universal fill
+     threshold. If it shifts with decay, it's a decay-dependent equilibrium
+     property.
+
+286. **What IS the composition mechanism, if not the boundary?** — Session 114
+     showed the boundary is a marginal stabilizer, not a composition mechanism.
+     At ~35% fill, composition is perfect WITHOUT the boundary (cf=1.0,
+     stable=4/4). What makes the two structures coexist? The curvature channel
+     (deposit at concavities, excavate at convexities) + ID tagging + focal bias.
+     But which of these is load-bearing for composition? Test: remove each
+     component one at a time (no curvature, no ID tagging, no focal bias) at
+     ~35% fill and see which breaks composition.
+
+287. **The 1-seed structural guarantee is fill-dependent** — At n=2500,
+     decay=0.004 (~18% fill, 1-seed), the single structure stays on one side
+     (l2=False, rc=0.0). At decay=0.002 (~23% fill, 1-seed), it spreads across
+     the midline (l2=True, rc>0). At what fill does the single structure cross
+     the midline? This is the 1-seed analog of the 50th mechanism (fill depends
+     on absolute n) — the single structure's size determines whether it crosses.
+     Test: sweep decay at fixed n=2500 (1-seed) and find the fill threshold for
+     l2_crossed=True.
+
+288. **Derive and test the fill equilibrium formula** — fill ∝ n × deposit_prob /
+     (decay × grid²). At equilibrium, deposit = decay: n × deposit_prob ×
+     deposit_rate = decay × fill × grid². Solve for fill: fill = n ×
+     deposit_prob × deposit_rate / (decay × grid²). But the deposit_rate is
+     sublinear (∝ √n, the surface-to-volume ratio). So fill ∝ √n ×
+     deposit_prob / (decay × grid²) × some_constant. Test: fit the equilibrium
+     at multiple (n, decay) combinations and check if the formula predicts the
+     fill.

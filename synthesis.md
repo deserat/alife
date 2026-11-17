@@ -2320,3 +2320,19 @@ Cross-domain connection: **the "stretched exponential" fill cap ↔ the surface-
 The Gompertz-to-logistic transition concept needs full revision: the three thresholds (30th ~44%, 44th ~75%, 43rd ~100%) are decay-dependent equilibria, not universal coherence-to-pairwise phase transitions. Changing material_decay shifts all three. The Haugen & Gilbert (2022) coherence parameter θ may map to the decay rate (which sets the equilibrium between growth and removal), not the boundary gain.
 
 **The separation of concerns in stigmergic systems:** the fill (volume) is set by the deposit/decay equilibrium; the morphology (shape) is set by the curvature channel (deposit at concavities, excavate at convexities); the composition (coexistence) is set by the boundary (preventing merging). Three separate mechanisms on three separate axes.
+
+## 2026-11-17 — Session 114
+
+### The boundary is a marginal stabilizer, not a composition mechanism — the fill determines composition quality
+
+The boundary role test (64 runs, 4 fill levels, matched fill with/without boundary) found the boundary is a **marginal stabilizer at the fill-driven phase transition (~42% fill)**, not a composition mechanism. At matched fill:
+
+- Below the ceiling (~35%): composition is perfect WITHOUT the boundary (cf=1.0, stable=4/4, coexist=4/4). The curvature channel + ID tagging + focal bias alone suffice.
+- At the ceiling (~42%): the boundary marginally helps (cf +0.10, stable +1/4) — the only fill level where it matters.
+- Above the ceiling (~48%): both conditions fragment (0/4 stable, 0/4 coexist). The boundary cannot prevent the phase transition.
+
+Cross-domain connection: **phase transitions ↔ marginal stabilizers.** In statistical mechanics, an external field near a phase transition can modulate the transition but cannot shift it — the transition is driven by the temperature (the primary variable), and the field is a marginal correction. Our boundary is the external field; the fill (deposit/decay equilibrium) is the temperature. The 30th ceiling (~44% fill) is the critical temperature for stable composition; the boundary is a marginal field that slightly sharpens the transition but does not shift it. This reframes 40+ sessions of boundary investigation: we were studying a marginal effect at a phase transition, not a primary mechanism.
+
+The 64th mechanism: the boundary is not a composition mechanism — it is a marginal stabilizer at the fill-driven phase transition. The composition quality is determined by the fill (deposit/decay equilibrium), not by the boundary. Below the ceiling, composition is perfect without it; above the ceiling, composition fails with it. The boundary's entire causal role is a +0.10 coexist fraction improvement at one fill level.
+
+**Implication for the Gompertz-to-logistic concept (#282, revised):** the three thresholds (30th ~44%, 44th ~75%, 43rd ~100%) are fill fractions at which composition stability breaks down — they are properties of the deposit/decay equilibrium, not of the boundary's coherent suppression. The boundary's role is to slightly modulate the transition, not to drive it. The Haugen & Gilbert (2022) coherence parameter θ, if it maps to anything, maps to the decay rate (which sets the equilibrium fill), not the boundary gain.

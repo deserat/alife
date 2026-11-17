@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Boundary Role Test — Session 114</title>
+<style>
+  body { background: #0d1117; color: #c9d1d9; font-family: -apple-system, BlinkMacSystemFont, sans-serif; margin: 0; padding: 20px; }
+  h1 { font-size: 1.4em; color: #58a6ff; margin-bottom: 4px; }
+  h2 { font-size: 1.1em; color: #8b949e; margin-top: 24px; margin-bottom: 8px; }
+  .subtitle { color: #8b949e; font-size: 0.85em; margin-bottom: 16px; }
+  .card { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 16px; margin-bottom: 16px; }
+  .summary { font-size: 0.9em; line-height: 1.6; }
+  .key-finding { color: #f0883e; font-weight: bold; }
+  canvas { display: block; margin: 12px auto; }
+  table { border-collapse: collapse; width: 100%; font-size: 0.8em; }
+  th, td { padding: 6px 10px; text-align: center; border-bottom: 1px solid #21262d; }
+  th { color: #58a6ff; font-weight: 600; }
+  .pos { color: #3fb950; }
+  .neg { color: #f85149; }
+  .zero { color: #8b949e; }
+  .label { text-align: left; color: #c9d1d9; }
+  .section-title { font-size: 1.0em; color: #58a6ff; margin-top: 20px; margin-bottom: 8px; }
+  .note { font-size: 0.8em; color: #8b949e; margin-top: 8px; }
+</style>
+</head>
+<body>
+<h1>Boundary Role Test — What Does the Boundary DO, if Not Cap the Fill?</h1>
+<p class="subtitle">Session 114 · queued-topic #283 · 160×160 grid · 4 seeds · 2026-11-17</p>
+
+<div class="card summary">
+  <span class="key-finding">Key finding:</span> At matched fill, the boundary is a
+  <b>marginal stabilizer at the phase boundary (~42% fill)</b>, not a composition mechanism.
+  Below the ceiling (~35%), composition is perfect without it (cf=1.0, stable=4/4).
+  Above the ceiling (~48%), both conditions fragment. The boundary slightly improves cf
+  (+0.10) and stability (+1/4) only at the ceiling itself. The fill (deposit/decay
+  equilibrium) determines composition quality, not the boundary.
+</div>
+
+<h2 class="section-title">Coexist Fraction: No-Inhibition vs With-Boundary (2-seed)</h2>
+<canvas id="cfChart" width="600" height="320"></canvas>
+
+<h2 class="section-title">Stability Count: No-Inhibition vs With-Boundary (2-seed)</h2>
+<canvas id="stableChart" width="600" height="320"></canvas>
+
+<h2 class="section-title">Fill Comparison: No-Inhibition vs With-Boundary (2-seed)</h2>
+<canvas id="fillChart" width="600" height="320"></canvas>
+
+<div id="tableContainer" class="card">
+  <h2>Full Results</h2>
+  <div id="table"></div>
+</div>
+
+<script>
+const COLORS = {
+  bg: '#0d1117', card: '#161b22', border: '#30363d',
+  text: '#c9d1d9', muted: '#8b949e', blue: '#58a6ff',
+  green: '#3fb950', red: '#f85149', orange: '#f0883e',
+  noInhib: '#f85149', withBound: '#3fb950',
+};
+
+async function loadData() {
+  try {
+    const resp = await fetch('output/boundary_role_test.json');
+    return await resp.json();
+  } catch(e) {
+    console.error('Failed to load:', e);
+    return null;
+  }
+}
+
+function drawBarChart(canvasId, pairs, getValue, ylabel, maxVal) {
+  const canvas = document.getElementById(canvasId);
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  ctx.clearRect(0, 0, W, H);
+
+  const margin = { top: 20, right: 20, bottom: 50, left: 60 };
+  const plotW = W - margin.left - margin.right;
+  const plotH = H - margin.top - margin.bottom;
+
+  // Axes
+  ctx.strokeStyle = COLORS.border;
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(margin.left, margin.top);
+  ctx.lineTo(margin.left, margin.top + plotH);
+  ctx.lineTo(margin.left + plotW, margin.top + plotH);
+  ctx.stroke();
+
+  // Y axis labels
+  ctx.fillStyle = COLORS.muted;
+  ctx.font = '11px sans-serif';
+  ctx.textAlign = 'right';
+  for (let i = 0; i <= maxVal; i++) {
+    const y = margin.top + plotH - (i / maxVal) * plotH;
+    ctx.fillText(String(i), margin.left - 8, y + 4);
+    if (i > 0) {
+      ctx.strokeStyle = '#21262d';
+      ctx.beginPath();
+      ctx.moveTo(margin.left, y);
+      ctx.lineTo(margin.left + plotW, y);
+      ctx.stroke();
+    }
+  }
+
+  // Y label
+  ctx.save();
+  ctx.translate(15, margin.top + plotH / 2);
+  ctx.rotate(-Math.PI / 2);
+  ctx.textAlign = 'center';
+  ctx.fillStyle = COLORS.muted;
+  ctx.fillText(ylabel, 0, 0);
+  ctx.restore();
+
+  // Bars
+  const nPairs = pairs.length;
+  const groupW = plotW / nPairs;
+  const barW = groupW * 0.3;
+  const gap = groupW * 0.05;
+
+  pairs.forEach((p, i) => {
+    const cx = margin.left + i * groupW + groupW / 2;
+    const noVal = getValue(p, 'no_inhibition');
+    const wbVal = getValue(p, 'with_boundary');
+
+    // No-inhibition bar
+    const noH = (noVal / maxVal) * plotH;
+    ctx.fillStyle = COLORS.noInhib;
+    ctx.fillRect(cx - barW - gap, margin.top + plotH - noH, barW, noH);
+
+    // With-boundary bar
+    const wbH = (wbVal / maxVal) * plotH;
+    ctx.fillStyle = COLORS.withBound;
+    ctx.fillRect(cx + gap, margin.top + plotH - wbH, barW, wbH);
+
+    // Values
+    ctx.fillStyle = COLORS.text;
+    ctx.font = '10px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(noVal.toFixed(2), cx - barW/2 - gap, margin.top + plotH - noH - 4);
+    ctx.fillText(wbVal.toFixed(2), cx + barW/2 + gap, margin.top + plotH - wbH - 4);
+
+    // X label
+    ctx.fillStyle = COLORS.muted;
+    ctx.font = '10px sans-serif';
+    const label = p.label.replace('~', '').split(' ')[0];
+    ctx.fillText(label + '%', cx, margin.top + plotH + 16);
+  });
+
+  // Legend
+  ctx.font = '11px sans-serif';
+  ctx.textAlign = 'left';
+  ctx.fillStyle = COLORS.noInhib;
+  ctx.fillRect(margin.left, H - 20, 12, 12);
+  ctx.fillStyle = COLORS.text;
+  ctx.fillText('No inhibition', margin.left + 18, H - 10);
+  ctx.fillStyle = COLORS.withBound;
+  ctx.fillRect(margin.left + 110, H - 20, 12, 12);
+  ctx.fillStyle = COLORS.text;
+  ctx.fillText('With boundary', margin.left + 128, H - 10);
+}
+
+function buildTable(data) {
+  let html = '<table><tr><th class="label">Pair</th><th>Seeds</th><th>Condition</th><th>Fill %</th><th>CF</th><th>Stable</th><th>Coexist</th><th>H7</th><th>L2</th><th>Fill gap</th><th>CF gap</th></tr>';
+  data.pairs_data.forEach(p => {
+    ['2_seed', '1_seed'].forEach(ns => {
+      const nsLabel = ns === '2_seed' ? '2-seed' : '1-seed';
+      ['no_inhibition', 'with_boundary'].forEach(cond => {
+        const d = p[`${ns}_${cond}`];
+        const comp = p[`${ns}_comparison`];
+        const condLabel = cond === 'no_inhibition' ? 'No inhib' : 'W/ boundary';
+        const gapClass = comp.fill_gap_pp > 0.1 ? 'pos' : comp.fill_gap_pp < -0.1 ? 'neg' : 'zero';
+        const cfClass = comp.cf_gap > 0.01 ? 'pos' : comp.cf_gap < -0.01 ? 'neg' : 'zero';
+        const gapStr = cond === 'with_boundary' ? `<td class="${gapClass}">${comp.fill_gap_pp >= 0 ? '+' : ''}${comp.fill_gap_pp.toFixed(2)}pp</td><td class="${cfClass}">${comp.cf_gap >= 0 ? '+' : ''}${comp.cf_gap.toFixed(4)}</td>` : '<td></td><td></td>';
+        html += `<tr><td class="label">${p.label}</td><td>${nsLabel}</td><td>${condLabel}</td><td>${d.mean_fill.toFixed(1)}</td><td>${d.mean_cf.toFixed(3)}</td><td>${d.stable_count}/4</td><td>${d.coexist_count}/4</td><td>${d.h7_count}/4</td><td>${d.l2_count}/4</td>${gapStr}</tr>`;
+      });
+    });
+  });
+  html += '</table>';
+  html += `<p class="note">Elapsed: ${data.elapsed_seconds.toFixed(0)}s · 64 runs (4 pairs × 4 seeds × 2 conditions × 2 seed-counts) · Grid: ${data.grid}×${data.grid}</p>`;
+  document.getElementById('table').innerHTML = html;
+}
+
+async function main() {
+  const data = await loadData();
+  if (!data) return;
+
+  const pairs2 = data.pairs_data;
+
+  // CF chart (2-seed only)
+  drawBarChart('cfChart', pairs2, (p, cond) => p[`2_seed_${cond}`].mean_cf, 'Coexist Fraction', 1.0);
+
+  // Stable chart (2-seed only, max 4)
+  drawBarChart('stableChart', pairs2, (p, cond) => p[`2_seed_${cond}`].stable_count, 'Stable Count (out of 4)', 4);
+
+  // Fill chart (2-seed only)
+  drawBarChart('fillChart', pairs2, (p, cond) => p[`2_seed_${cond}`].mean_fill, 'Fill %', 50);
+
+  buildTable(data);
+}
+
+main();
+</script>
+</body>
+</html>
