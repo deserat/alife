@@ -3423,14 +3423,23 @@ to compare.
      threshold. If it shifts with decay, it's a decay-dependent equilibrium
      property.
 
-286. **What IS the composition mechanism, if not the boundary?** — Session 114
-     showed the boundary is a marginal stabilizer, not a composition mechanism.
-     At ~35% fill, composition is perfect WITHOUT the boundary (cf=1.0,
-     stable=4/4). What makes the two structures coexist? The curvature channel
-     (deposit at concavities, excavate at convexities) + ID tagging + focal bias.
-     But which of these is load-bearing for composition? Test: remove each
-     component one at a time (no curvature, no ID tagging, no focal bias) at
+286. **What IS the composition mechanism, if not the boundary?** — DONE (Session 115).
+     Session 114 showed the boundary is a marginal stabilizer, not a composition
+     mechanism. At ~35% fill, composition is perfect without the boundary
+     (cf=1.0, stable=4/4). What makes the two structures coexist? The curvature
+     channel (deposit at concavities, excavate at convexities) + ID tagging +
+     focal bias. But which of these is load-bearing for composition? Test: remove
+     each component one at a time (no curvature, no ID tagging, no focal bias) at
      ~35% fill and see which breaks composition.
+     **RESULT (Session 115):** The focal bias IS the composition mechanism. A
+     2×2 factorial (curvature × focal_bias, 32 runs, no boundary) found: focal
+     ON → perfect composition (cf=1.0, 4/4 stable) with or without curvature;
+     focal OFF → fill→100%, no composition (cf=0, structures merge). The
+     curvature channel adds fill (9%→35%) and enables H7 (0/4→4/4) but is NOT
+     load-bearing for coexistence. H7 is a curvature-channel epiphenomenon.
+     The fill cap is focal-bias-dependent — Session 113's deposit/decay
+     equilibrium was measured with the focal bias concentrating deposits. 40+
+     sessions reinterpreted. See `composition_mechanism_test.py`.
 
 287. **The 1-seed structural guarantee is fill-dependent** — At n=2500,
      decay=0.004 (~18% fill, 1-seed), the single structure stays on one side
@@ -3449,3 +3458,50 @@ to compare.
      deposit_prob / (decay × grid²) × some_constant. Test: fit the equilibrium
      at multiple (n, decay) combinations and check if the formula predicts the
      fill.
+
+## From Session 115 (2026-11-18)
+
+289. **Is the focal bias's composition mechanism exogenous spatial separation or
+     just population separation?** — The focal bias (agents step toward home
+     center) is THE load-bearing component for composition (Session 115). But is
+     it the EXOGENITY (external reference) or the POPULATION SEPARATION (keeping
+     two groups apart) that matters? Test: replace the focal bias with a
+     different exogenous separation (e.g., region-restricted deposit: agents
+     can only deposit in their assigned half). If region-restriction produces
+     the same composition, it's the separation, not the exogeneity. If it
+     doesn't, the exogeneity (external reference the system can't reach) is
+     load-bearing — the two-wire principle's eighth member.
+
+290. **Can composition occur with endogenous separation?** — The focal bias is
+     the only exogenous signal in the system. If exogeneity is truly necessary
+     (two-wire principle), no endogenous signal can substitute. Test: replace
+     the focal bias with an endogenous separation mechanism (e.g., mutual
+     repulsion: agents avoid regions where the other ID's material is dense).
+     If endogenous separation produces composition, exogeneity is not
+     necessary — any population-separation mechanism suffices. If it doesn't,
+     exogeneity is the load-bearing property, connecting to the Heisenberg
+     trade-off (Session 40): the signal cannot be simultaneously endogenous
+     and exogenous.
+
+291. **Does the curvature channel's morphology matter for composition quality
+     at higher fill?** — At ~9% fill (focal only, no curvature), composition is
+     trivial: two small, diffuse blobs. The curvature channel adds morphology
+     (compact structures, lc/rc ~1). At higher fill (~35% with curvature), the
+     compact structures may interact differently than diffuse blobs. Does the
+     curvature channel's morphology become load-bearing for composition quality
+     at higher fill, even though it's not load-bearing for coexistence at low
+     fill? Test: at matched fill (~9% and ~35%), compare composition quality
+     (cf, stable) with and without curvature. The 2×2 factorial tested at
+     different fills (9% vs 35%); a fill-matched comparison would isolate the
+     morphology effect from the fill effect.
+
+292. **Reinterpret the 30th mechanism (persistence ceiling) through the focal
+     bias** — The 30th ceiling (~44% fill, where stable composition collapses)
+     was studied as a property of the boundary's over-splitting at high fill.
+     But Session 115 shows the composition mechanism is the focal bias, not
+     the boundary. Is the 30th ceiling really about the focal bias's ability
+     to concentrate deposits at high n? At high n, more agents mean more
+     wander — the focal bias may be less effective at concentrating. The 30th
+     ceiling may be the focal bias's concentration limit, not the boundary's
+     over-splitting limit. Test: at n=3000 (~44% fill), vary the focal bias
+     strength (movement_bias 0.1–0.9) and see if higher bias rescues stability.

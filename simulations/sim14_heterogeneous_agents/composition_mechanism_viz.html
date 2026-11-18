@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Composition Mechanism Test — Session 115</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --fg: #c9d1d9;
+    --muted: #8b949e;
+    --accent: #58a6ff;
+    --green: #3fb950;
+    --red: #f85149;
+    --yellow: #d29922;
+    --card: #161b22;
+    --border: #30363d;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    padding: 20px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  h1 { font-size: 1.5em; margin-bottom: 4px; }
+  h2 { font-size: 1.2em; margin: 24px 0 12px; color: var(--accent); }
+  .subtitle { color: var(--muted); margin-bottom: 20px; }
+  .finding {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 16px;
+  }
+  .finding strong { color: var(--green); }
+  .grid-4 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px;
+    text-align: center;
+  }
+  .card h3 { font-size: 0.9em; color: var(--muted); margin-bottom: 8px; }
+  .card .big { font-size: 1.6em; font-weight: bold; }
+  .card .label { font-size: 0.75em; color: var(--muted); }
+  .green { color: var(--green); }
+  .red { color: var(--red); }
+  .yellow { color: var(--yellow); }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 16px;
+    font-size: 0.85em;
+  }
+  th, td {
+    padding: 8px 10px;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+  }
+  th { color: var(--muted); font-weight: 600; }
+  td:first-child, th:first-child { text-align: left; }
+  .yes { color: var(--green); font-weight: bold; }
+  .no { color: var(--red); font-weight: bold; }
+  .partial { color: var(--yellow); font-weight: bold; }
+  .heatmap-cell { padding: 4px; border-radius: 4px; }
+  .key-finding {
+    background: linear-gradient(135deg, #161b22, #1a2332);
+    border-left: 3px solid var(--green);
+    padding: 16px;
+    border-radius: 0 8px 8px 0;
+    margin-bottom: 16px;
+  }
+  .key-finding h3 { color: var(--green); margin-bottom: 8px; }
+  .key-finding p { margin-bottom: 8px; }
+  .key-finding .highlight { color: var(--yellow); font-weight: bold; }
+  canvas {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    display: block;
+    margin: 0 auto 20px;
+  }
+</style>
+</head>
+<body>
+
+<h1>Composition Mechanism Test</h1>
+<p class="subtitle">Session 115 — What IS the composition mechanism, if not the boundary? (#286)<br>
+2×2 factorial: curvature {ON,OFF} × focal_bias {ON,OFF} — 32 runs on 160×160, n=2500, decay=0.004, no boundary</p>
+
+<div class="key-finding">
+  <h3>🔑 Key Finding</h3>
+  <p>The <span class="highlight">focal bias</span> is THE load-bearing component for composition. Without it, fill→100% and structures merge. With it, perfect coexistence (cf=1.0000, 4/4 stable) even <em>without</em> the curvature channel.</p>
+  <p>The <span class="highlight">curvature channel</span> adds fill (9%→35%) and enables H7 (0/4→4/4) but is NOT necessary for coexistence. H7 is a curvature-channel epiphenomenon, not the composition mechanism.</p>
+</div>
+
+<h2>2×2 Factorial Results (2-seed, 4 seeds each)</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Condition</th>
+      <th>Fill</th>
+      <th>CF (coexist)</th>
+      <th>Stable</th>
+      <th>Coexist</th>
+      <th>H7 crossing</th>
+      <th>L2 crossed</th>
+      <th>LC/RC</th>
+    </tr>
+  </thead>
+  <tbody id="results-body"></tbody>
+</table>
+
+<h2>Composition Quality Heatmap</h2>
+<canvas id="heatmap" width="800" height="360"></canvas>
+
+<h2>What Each Component Does</h2>
+<div class="grid-4">
+  <div class="card">
+    <h3>Focal Bias</h3>
+    <div class="big green">Load-bearing</div>
+    <div class="label">for composition & fill capping</div>
+  </div>
+  <div class="card">
+    <h3>Curvature Channel</h3>
+    <div class="big yellow">Fill + H7</div>
+    <div class="label">not needed for coexistence</div>
+  </div>
+  <div class="card">
+    <h3>H7 Crossing</h3>
+    <div class="big red">Epiphenomenon</div>
+    <div class="label">curvature-specific, not composition</div>
+  </div>
+  <div class="card">
+    <h3>Boundary</h3>
+    <div class="big red">Marginal</div>
+    <div class="label">stabilizer at ~42% only</div>
+  </div>
+</div>
+
+<div class="finding">
+  <p><strong>Focal bias removed (curv_no_focal):</strong> fill jumps 34.5%→100%, cf drops 1.000→0.000, all merge. Without the exogenous spatial reference, agents deposit everywhere — the deposit/decay equilibrium is grid-wide, not concentrated. H7 still fires (4/4) but there's nothing to compose.</p>
+  <p><strong>Curvature removed (no_curv_focal):</strong> fill drops 34.5%→9.1%, cf stays 1.000, 4/4 stable, 4/4 coexist. The focal bias alone produces perfect composition — two populations separated by their home centers, each with one compact structure. H7 does NOT fire (0/4) — the crossing requires curvature-driven dynamics.</p>
+  <p><strong>Both removed (no_curv_no_focal):</strong> fill=4.0%, cf=0, no structure. Uniform deposits, no spatial organization.</p>
+</div>
+
+<h2>Implications</h2>
+<div class="finding">
+  <p><strong>H7 (trace→actor crossing) is NOT the composition mechanism.</strong> It's a property of the curvature channel that co-occurs with composition when the focal bias is present. Perfect composition (cf=1.0000) occurs without H7 (no_curv_focal: H7=0/4, coexist=4/4).</p>
+  <p><strong>The composition mechanism is exogenous spatial separation</strong> (the focal bias). This connects to the two-wire principle's exogeneity requirement: the signal must be on a wire the system cannot reach. The focal bias is an external spatial reference — the one signal that is both exogenous and spatially specific (Session 37's eighth member).</p>
+  <p><strong>The fill cap is focal-bias-dependent.</strong> Session 113's "deposit/decay equilibrium" was measured WITH the focal bias. Without it, fill→100% regardless of decay. The focal bias concentrates deposits; the decay then equilibrates the concentrated deposits.</p>
+</div>
+
+<script>
+fetch('composition_mechanism_test.json')
+  .then(r => r.json())
+  .then(data => {
+    const tbody = document.getElementById('results-body');
+    const conds = data.conditions;
+    const labels = {
+      'curv_focal': 'curv + focal (full)',
+      'curv_no_focal': 'curv only (no focal)',
+      'no_curv_focal': 'focal only (no curv)',
+      'no_curv_no_focal': 'neither',
+    };
+
+    conds.forEach(c => {
+      const d2 = c['2_seed'];
+      const fill = d2.mean_fill.toFixed(2) + '%';
+      const cf = d2.mean_cf.toFixed(4);
+      const stable = d2.stable_count + '/4';
+      const coexist = d2.coexist_count + '/4';
+      const h7 = d2.h7_count + '/4';
+      const l2 = d2.l2_count + '/4';
+      const lcrc = d2.mean_lc.toFixed(1) + '/' + d2.mean_rc.toFixed(1);
+
+      const cfClass = cf === '1.0000' ? 'yes' : (cf === '0.0000' ? 'no' : 'partial');
+      const stableClass = d2.stable_count === 4 ? 'yes' : (d2.stable_count === 0 ? 'no' : 'partial');
+      const coexistClass = d2.coexist_count === 4 ? 'yes' : (d2.coexist_count === 0 ? 'no' : 'partial');
+      const h7Class = d2.h7_count === 4 ? 'yes' : (d2.h7_count === 0 ? 'no' : 'partial');
+      const l2Class = d2.l2_count === 4 ? 'yes' : (d2.l2_count === 0 ? 'no' : 'partial');
+
+      tbody.innerHTML += `<tr>
+        <td>${labels[c.label] || c.label}</td>
+        <td>${fill}</td>
+        <td class="${cfClass}">${cf}</td>
+        <td class="${stableClass}">${stable}</td>
+        <td class="${coexistClass}">${coexist}</td>
+        <td class="${h7Class}">${h7}</td>
+        <td class="${l2Class}">${l2}</td>
+        <td>${lcrc}</td>
+      </tr>`;
+    });
+
+    // Heatmap
+    const canvas = document.getElementById('heatmap');
+    const ctx = canvas.getContext('2d');
+    const cellW = 180, cellH = 140, padX = 80, padY = 50;
+
+    // Labels
+    ctx.fillStyle = '#8b949e';
+    ctx.font = '13px sans-serif';
+    ctx.textAlign = 'center';
+    const xLabels = ['Focal ON', 'Focal OFF'];
+    const yLabels = ['Curv ON', 'Curv OFF'];
+    xLabels.forEach((l, i) => {
+      ctx.fillText(l, padX + i * cellW + cellW/2, padY - 15);
+    });
+    ctx.textAlign = 'right';
+    yLabels.forEach((l, i) => {
+      ctx.fillText(l, padX - 10, padY + i * cellH + cellH/2 + 4);
+    });
+
+    conds.forEach((c, i) => {
+      // Map conditions to grid positions
+      let col, row;
+      if (c.label === 'curv_focal') { col = 0; row = 0; }
+      else if (c.label === 'curv_no_focal') { col = 1; row = 0; }
+      else if (c.label === 'no_curv_focal') { col = 0; row = 1; }
+      else { col = 1; row = 1; }
+
+      const d2 = c['2_seed'];
+      const cf = d2.mean_cf;
+      const stable = d2.stable_count;
+      const coexist = d2.coexist_count;
+
+      // Color based on cf
+      let bg;
+      if (cf >= 0.9) bg = 'rgba(63, 185, 80, 0.25)';
+      else if (cf >= 0.1) bg = 'rgba(210, 153, 34, 0.25)';
+      else bg = 'rgba(248, 81, 73, 0.25)';
+
+      ctx.fillStyle = bg;
+      ctx.fillRect(padX + col * cellW, padY + row * cellH, cellW - 4, cellH - 4);
+
+      ctx.strokeStyle = '#30363d';
+      ctx.strokeRect(padX + col * cellW, padY + row * cellH, cellW - 4, cellH - 4);
+
+      // Text
+      ctx.fillStyle = '#c9d1d9';
+      ctx.font = 'bold 14px sans-serif';
+      ctx.textAlign = 'center';
+      const cx = padX + col * cellW + (cellW - 4) / 2;
+      const cy = padY + row * cellH + 25;
+      ctx.fillText(`Fill: ${d2.mean_fill.toFixed(1)}%`, cx, cy);
+      ctx.font = '13px sans-serif';
+      ctx.fillText(`CF: ${cf.toFixed(3)}`, cx, cy + 20);
+      ctx.fillText(`Stable: ${stable}/4  Coexist: ${coexist}/4`, cx, cy + 40);
+      ctx.fillText(`H7: ${d2.h7_count}/4`, cx, cy + 60);
+      if (cf >= 0.9) {
+        ctx.fillStyle = '#3fb950';
+        ctx.font = 'bold 12px sans-serif';
+        ctx.fillText('✓ COMPOSES', cx, cy + 85);
+      } else {
+        ctx.fillStyle = '#f85149';
+        ctx.font = 'bold 12px sans-serif';
+        ctx.fillText('✗ MERGES/FRAGMENT', cx, cy + 85);
+      }
+    });
+
+    // Title
+    ctx.fillStyle = '#58a6ff';
+    ctx.font = 'bold 15px sans-serif';
+    ctx.textAlign = 'left';
+    ctx.fillText('Coexist Fraction (CF) by Condition', padX, 20);
+  });
+</script>
+</body>
+</html>
