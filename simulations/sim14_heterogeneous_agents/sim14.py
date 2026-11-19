@@ -218,6 +218,16 @@ def termite_step_hetero(termites, field, rng, params, curvature,
             I13._dilate_no_x_wrap(material_by_id[1], _zr),
         ]
 
+    # For repulsion mode, precompute dilated material for each ID so agents
+    # can step away from the OTHER ID's material (endogenous separation).
+    repulsion_dilated = None
+    if movement_mode == "repulsion":
+        _rr = params.get("direct_radius", DIRECT_RADIUS)
+        repulsion_dilated = [
+            I13._dilate_no_x_wrap(material_by_id[0], _rr),
+            I13._dilate_no_x_wrap(material_by_id[1], _rr),
+        ]
+
     # Iteration order (queued-topic #177, #179): by default agents are
     # processed 0..n-1 (id=0 first, id=1 second). When reverse_iteration is
     # True, process n-1..0 (id=1 first, id=0 second) to test whether the L/R
@@ -341,6 +351,31 @@ def termite_step_hetero(termites, field, rng, params, curvature,
                         dy, dx = S._MOORE[int(rng.integers(0, 8))]
                         y = (y + dy) % size
                         x = (x + dx) % size
+            elif movement_mode == "repulsion":
+                # Endogenous repulsion (queued-topic #290): agents step
+                # away from the OTHER ID's material (endogenous signal,
+                # derived from system state).  Tests whether exogeneity is
+                # truly necessary for composition or any population-
+                # separation mechanism suffices.
+                other_id = 1 - aid
+                other_mat = repulsion_dilated[other_id]
+                _rt = params.get("repulsion_threshold", 0.05)
+                if other_mat[y, x] > _rt:
+                    # Step toward the neighbour with lowest other-ID material.
+                    best_val = other_mat[y, x]
+                    best_dy, best_dx = 0, 0
+                    for dy, dx in S._MOORE:
+                        yy = (y + dy) % size
+                        xx = (x + dx) % size
+                        if other_mat[yy, xx] < best_val:
+                            best_val = other_mat[yy, xx]
+                            best_dy, best_dx = dy, dx
+                    y = (y + best_dy) % size
+                    x = (x + best_dx) % size
+                else:
+                    dy, dx = S._MOORE[int(rng.integers(0, 8))]
+                    y = (y + dy) % size
+                    x = (x + dx) % size
             elif movement_mode == "diffusivity":
                 # Locomotion adjustment (Richardson et al. 2022): agents
                 # inside their home half move slowly (1-cell steps); agents
@@ -471,6 +506,15 @@ def termite_step_hetero(termites, field, rng, params, curvature,
                     supp = inh_gain * B_norm[y, x] / (1.0 + B_norm[y, x])
                 p_dep = p_dep * (1.0 - supp)
             p_dep = min(max(p_dep, 0.0), 1.0)
+            # Region-restricted deposit (queued-topic #289): id=0 can only
+            # deposit in the left half, id=1 in the right half.  An exogenous
+            # separation mechanism that doesn't use focal-point attraction —
+            # tests whether any exogenous population-separation suffices or
+            # the focal bias's concentration is specifically required.
+            if params.get("deposit_restriction", False):
+                _mid = size // 2
+                if (aid == 0 and x >= _mid) or (aid == 1 and x < _mid):
+                    p_dep = 0.0
             if rng.random() < p_dep:
                 mat[y, x] += pellet
                 material_by_id[aid][y, x] += pellet

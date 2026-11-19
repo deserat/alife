@@ -2,8 +2,8 @@
 title: "Hypotheses"
 topic: "testable hypotheses for the multi-scale ALife composition project"
 status: active
-date: "2026-11-18"
-session: 115
+date: "2026-11-19"
+session: 116
 count: 11
 active: [H1, H2, H3, H4, H5, H6, H7, H8, H9, H10, H11]
 logs: ["logs/H1/", "logs/H2/", "logs/H3/", "logs/H4/", "logs/H5/", "logs/H6/", "logs/H7/", "logs/H8/", "logs/H9/", "logs/H10/", "logs/H11/"]
@@ -70,7 +70,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **For an emergent structure to persist as a new actor at a higher scale, it must be autopoietic — it must maintain the network that constitutes it.** Self-maintenance is the persistence condition. Without it, emergent structures are transient patterns, not new actors.
 
-**Status:** Refined (Session 115). The composition mechanism is the **focal bias (exogenous spatial separation)**, not the curvature channel or the boundary. A 2×2 factorial (curvature × focal_bias, 32 runs, no boundary, ~35% fill) found: focal bias ON → perfect composition (cf=1.0000, 4/4 stable) with or without curvature; focal bias OFF → fill→100%, no composition (cf=0, structures merge). The curvature channel adds fill (9%→35%) and enables H7 (0/4→4/4) but is NOT load-bearing for coexistence. H7 is a curvature-channel epiphenomenon, not the composition mechanism — perfect composition occurs without H7 (focal only: H7=0/4, cf=1.0000). The fill cap is focal-bias-dependent — Session 113's deposit/decay equilibrium was measured with the focal bias concentrating deposits. Without the focal bias, fill→100% regardless of decay. Session 114: the boundary is a marginal stabilizer at the fill-driven phase transition (~42%), not a composition mechanism. The curvature channel shapes morphology; the boundary modulates the transition; decay sets volume; **the focal bias is the composition mechanism**.
+**Status:** Refined (Session 116). The composition mechanism is the **focal bias (exogenous spatial separation + concentration)**, not just any population separation. Session 115 found the focal bias is load-bearing (2×2 factorial: focal ON → cf=1.0; OFF → fill→100%, no composition). Session 116 tested whether ANY separation suffices: region-restricted deposit (exogenous, diffuse) produces partial composition (cf=0.40, fill 75%, fragmented — above the ~44% ceiling); endogenous repulsion (endogenous) produces zero composition (cf=0.0, fragmented lc/rc=13.8/13.3). The focal bias's specific combination of **exogeneity + concentration** is the composition mechanism — exogeneity alone (region-restricted) is not sufficient; endogenous separation actively fragments. The two-wire principle's eighth member refined: exogeneity is necessary but not sufficient; the Heisenberg trade-off (Session 40) requires both exogeneity AND spatial specificity (compact deposits).
 
 **Log:** [logs/H5/](logs/H5/)
 
@@ -216,7 +216,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 | H2: ANT Translation | Unchanged | Theoretical, untested | [H2](logs/H2/) |
 | H3: Quasi-Object | Strengthened | Stigmergy literature support; Echo partial support | [H3](logs/H3/) |
 | H4: Dynamic Environment | Refined | Fitness landscape criticism supports this | [H4](logs/H4/) |
-| H5: Autopoiesis | Refined (S115) | Composition mechanism = focal bias (exogenous spatial separation), NOT curvature or boundary; 2×2 factorial: focal ON → perfect composition (cf=1.0, 4/4 stable) with/without curvature; focal OFF → fill→100%, no composition; curvature adds fill + H7 but not load-bearing for coexistence; H7 = epiphenomenon; fill cap = focal-bias-dependent | [H5](logs/H5/) |
+| H5: Autopoiesis | Refined (S116) | Composition mechanism = focal bias (exogeneity + concentration, not just separation); region-restricted (exogenous, diffuse) cf=0.40; endogenous repulsion cf=0.0 (fragmented); two-wire 8th member: exogeneity necessary but not sufficient | [H5](logs/H5/) |
 | H6: Multi-Scale Autopoiesis | Refined (S77) | 12th member fully lost at n=11000–14000 (~84–99% fill): 1s l2=0/4; progressive loss, not sharp threshold | [H6](logs/H6/) |
 | H7: Trace→Actor Crossing | Refined ×67 (S115): H7 is a curvature-channel epiphenomenon, NOT the composition mechanism; perfect composition without H7 (focal-only: H7=0/4, cf=1.0); crossing requires curvature dynamics; fill cap saturation at n=15000; g* limit n≈14000; H7=4/4 all densities; L2=0/4; 30th persists; 43rd saturation at n≈14000 | [H7](logs/H7/) |
 | H8: Complexity Enables OEE | NEW | Kaznatcheev (2019), Wiser et al. (2013) | [H8](logs/H8/) |

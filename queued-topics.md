@@ -3462,26 +3462,33 @@ to compare.
 ## From Session 115 (2026-11-18)
 
 289. **Is the focal bias's composition mechanism exogenous spatial separation or
-     just population separation?** — The focal bias (agents step toward home
-     center) is THE load-bearing component for composition (Session 115). But is
-     it the EXOGENITY (external reference) or the POPULATION SEPARATION (keeping
-     two groups apart) that matters? Test: replace the focal bias with a
-     different exogenous separation (e.g., region-restricted deposit: agents
-     can only deposit in their assigned half). If region-restriction produces
-     the same composition, it's the separation, not the exogeneity. If it
-     doesn't, the exogeneity (external reference the system can't reach) is
-     load-bearing — the two-wire principle's eighth member.
+     just population separation?** — DONE (Session 116).
+     The focal bias is the composition mechanism (Session 115). But is it the
+     EXOGENITY (external reference) or the POPULATION SEPARATION (keeping two
+     groups apart) that matters? Test: replace the focal bias with a different
+     exogenous separation (region-restricted deposit: agents can only deposit
+     in their assigned half). If region-restriction produces the same
+     composition, it's the separation, not the exogeneity.
+     **RESULT:** Region-restricted deposit (exogenous, diffuse) produces
+     PARTIAL composition (cf=0.40, fill 75.7%, stable 2/4) — much worse than
+     the focal bias (cf=1.0, fill 34.5%, stable 4/4). Exogeneity alone is not
+     sufficient — the focal bias's concentration (compact deposits, low fill)
+     is also required. The 75% fill is above the ~44% ceiling → over-splitting.
+     See `separation_mechanism_test.py`.
 
-290. **Can composition occur with endogenous separation?** — The focal bias is
-     the only exogenous signal in the system. If exogeneity is truly necessary
-     (two-wire principle), no endogenous signal can substitute. Test: replace
-     the focal bias with an endogenous separation mechanism (e.g., mutual
-     repulsion: agents avoid regions where the other ID's material is dense).
-     If endogenous separation produces composition, exogeneity is not
-     necessary — any population-separation mechanism suffices. If it doesn't,
-     exogeneity is the load-bearing property, connecting to the Heisenberg
-     trade-off (Session 40): the signal cannot be simultaneously endogenous
-     and exogenous.
+290. **Can composition occur with endogenous separation?** — DONE (Session 116).
+     If the focal bias is the only exogenous signal, can an endogenous signal
+     (e.g., mutual repulsion: agents avoid regions where the other ID's
+     material is dense) substitute? If endogenous separation produces
+     composition, exogeneity is not necessary — any population-separation
+     mechanism suffices.
+     **RESULT:** Endogenous repulsion (agents step away from other ID's
+     material) produces ZERO composition (cf=0.0, all fragmented, lc/rc=13.8/
+     13.3). The repulsion fragments the structures rather than separating
+     them compactly. Exogeneity IS necessary — endogenous separation actively
+     destroys composition. The two-wire principle's eighth member (exogeneity)
+     is confirmed as necessary but not sufficient (concentration also
+     required, see #289). See `separation_mechanism_test.py`.
 
 291. **Does the curvature channel's morphology matter for composition quality
      at higher fill?** — At ~9% fill (focal only, no curvature), composition is
@@ -3505,3 +3512,29 @@ to compare.
      ceiling may be the focal bias's concentration limit, not the boundary's
      over-splitting limit. Test: at n=3000 (~44% fill), vary the focal bias
      strength (movement_bias 0.1–0.9) and see if higher bias rescues stability.
+
+## From Session 116 (2026-11-19)
+
+293. **Can region-restricted deposit produce good composition at matched fill?** —
+     The region-restricted deposit (exogenous, diffuse) produced partial
+     composition (cf=0.40) at fill 75.7% — above the ~44% ceiling. The focal
+     bias produces perfect composition (cf=1.0) at fill 34.5%. Is the focal
+     bias's advantage from (a) concentration (compact deposits → lower fill →
+     below the ceiling) or (b) exogeneity + spatial specificity? Test: raise
+     decay for the region-restricted condition until fill ≈ 34%, then compare
+     cf. If region-restricted at matched fill matches the focal bias, the
+     advantage is concentration (lower fill), not exogeneity. If it doesn't,
+     the focal bias's center-point attraction (compactness) is specifically
+     required — not just lower fill but compact spatial arrangement.
+
+294. **Can a different endogenous mechanism (attraction, not repulsion) produce
+     composition?** — Endogenous repulsion (stepping AWAY from other ID's
+     material) fragments the structures (lc/rc=13.8/13.3). But attraction to
+     OWN ID's material (agents step toward where their own ID's material is
+     dense) is also endogenous and might concentrate deposits without
+     fragmenting. If endogenous attraction produces composition, exogeneity
+     is not necessary — any concentration mechanism (even endogenous)
+     suffices. If it doesn't, the focal bias's exogeneity (external reference
+     the system can't reach) is the load-bearing property, not just the
+     concentration. Test: movement_mode="attraction" (step toward highest
+     own-ID material).
