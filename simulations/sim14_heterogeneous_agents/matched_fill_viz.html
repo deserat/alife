@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Matched-Fill Test — Focal Bias vs Region-Restricted</title>
+<style>
+  :root { --bg: #0d1117; --fg: #c9d1d9; --border: #30363d; --accent: #58a6ff; --green: #3fb950; --red: #f85149; --yellow: #d29922; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--fg); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; padding: 20px; max-width: 1100px; margin: 0 auto; }
+  h1 { font-size: 1.4em; margin-bottom: 4px; }
+  h2 { font-size: 1.1em; margin-top: 24px; margin-bottom: 8px; color: var(--accent); }
+  .subtitle { color: #8b949e; font-size: 0.85em; margin-bottom: 16px; }
+  .verdict { background: #161b22; border: 1px solid var(--border); border-radius: 8px; padding: 14px; margin: 16px 0; }
+  .verdict strong { color: var(--green); }
+  .verdict .fail { color: var(--red); }
+  table { border-collapse: collapse; width: 100%; margin: 12px 0; font-size: 0.8em; }
+  th, td { border: 1px solid var(--border); padding: 6px 10px; text-align: center; }
+  th { background: #161b22; color: var(--accent); font-weight: 600; }
+  td.condition { text-align: left; }
+  .good { color: var(--green); } .bad { color: var(--red); } .neutral { color: var(--yellow); }
+  .chart-container { background: #161b22; border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin: 12px 0; }
+  canvas { max-width: 100%; height: auto; }
+  .matched-pair { background: #1c2128; border-left: 3px solid var(--accent); padding: 10px 14px; margin: 8px 0; border-radius: 4px; font-size: 0.85em; }
+  .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 12px 0; }
+  .stat-card { background: #161b22; border: 1px solid var(--border); border-radius: 6px; padding: 10px; text-align: center; }
+  .stat-card .label { font-size: 0.7em; color: #8b949e; text-transform: uppercase; }
+  .stat-card .value { font-size: 1.4em; font-weight: 700; margin-top: 4px; }
+  .stat-card .value.good { color: var(--green); }
+  .stat-card .value.bad { color: var(--red); }
+</style>
+</head>
+<body>
+<h1>Matched-Fill Test — Focal Bias vs Region-Restricted (#293)</h1>
+<p class="subtitle">Session 117 · 2026-11-20 · 2 conditions × 4 decays × 4 seeds × {2,1} = 64 runs · 160×160 · n=2500</p>
+
+<div class="verdict">
+  <strong>VERDICT:</strong> Region-restricted deposit at matched fill (29.6%) produces <span class="fail">ZERO composition</span> (cf=0.000)
+  while the focal bias at matched fill (27.6%) produces <strong>PERFECT composition</strong> (cf=1.000).
+  The focal bias's <strong>compact spatial arrangement</strong> is specifically required — not just lower fill.
+</div>
+
+<div id="loading">Loading results…</div>
+<div id="content" style="display:none;">
+
+<h2>Key Matched-Fill Comparison (2-seed, decay=0.008)</h2>
+<div class="stat-grid">
+  <div class="stat-card"><div class="label">Focal fill</div><div class="value good">27.6%</div></div>
+  <div class="stat-card"><div class="label">Region fill</div><div class="value">29.6%</div></div>
+  <div class="stat-card"><div class="label">Focal cf</div><div class="value good">1.000</div></div>
+  <div class="stat-card"><div class="label">Region cf</div><div class="value bad">0.000</div></div>
+</div>
+
+<h2>Fill vs Composition Quality (2-seed)</h2>
+<div class="chart-container">
+  <canvas id="fillChart" width="700" height="380"></canvas>
+</div>
+
+<h2>Component Count (2-seed)</h2>
+<div class="chart-container">
+  <canvas id="compChart" width="700" height="300"></canvas>
+</div>
+
+<h2>Summary Table (2-seed)</h2>
+<table id="summaryTable">
+  <thead><tr><th>Condition</th><th>Decay</th><th>Fill%</th><th>CF</th><th>Stable</th><th>Coexist</th><th>H7</th><th>L2</th><th>LC</th><th>RC</th></tr></thead>
+  <tbody id="summaryBody"></tbody>
+</table>
+
+<h2>Summary Table (1-seed control)</h2>
+<table id="oneSeedTable">
+  <thead><tr><th>Condition</th><th>Decay</th><th>Fill%</th><th>CF</th><th>Stable</th><th>L2</th><th>LC</th><th>RC</th></tr></thead>
+  <tbody id="oneSeedBody"></tbody>
+</table>
+
+</div>
+
+<script>
+fetch('output/matched_fill_test.json')
+.then(r => r.json())
+.then(data => {
+  document.getElementById('loading').style.display = 'none';
+  document.getElementById('content').style.display = 'block';
+
+  const configs = data.configs;
+  const focal = configs.filter(c => c.condition === 'focal');
+  const region = configs.filter(c => c.condition === 'region_restricted');
+
+  // Summary table (2-seed)
+  const tbody2 = document.getElementById('summaryBody');
+  configs.forEach(c => {
+    const d = c['2_seed'];
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td class="condition">${c.label}</td><td>${c.decay.toFixed(3)}</td>
+      <td>${d.mean_fill.toFixed(2)}%</td>
+      <td class="${d.mean_cf >= 0.8 ? 'good' : (d.mean_cf < 0.01 ? 'bad' : 'neutral')}">${d.mean_cf.toFixed(4)}</td>
+      <td>${d.stable_count}/4</td><td>${d.coexist_count}/4</td>
+      <td>${d.h7_count}/4</td><td>${d.l2_count}/4</td>
+      <td>${d.mean_lc.toFixed(1)}</td><td>${d.mean_rc.toFixed(1)}</td>`;
+    tbody2.appendChild(tr);
+  });
+
+  // 1-seed table
+  const tbody1 = document.getElementById('oneSeedBody');
+  configs.forEach(c => {
+    const d = c['1_seed'];
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td class="condition">${c.label}</td><td>${c.decay.toFixed(3)}</td>
+      <td>${d.mean_fill.toFixed(2)}%</td>
+      <td class="${d.mean_cf < 0.01 ? 'good' : 'bad'}">${d.mean_cf.toFixed(4)}</td>
+      <td>${d.stable_count}/4</td><td>${d.l2_count}/4</td>
+      <td>${d.mean_lc.toFixed(1)}</td><td>${d.mean_rc.toFixed(1)}</td>`;
+    tbody1.appendChild(tr);
+  });
+
+  // Fill vs CF chart
+  const fc = document.getElementById('fillChart');
+  const ctx = fc.getContext('2d');
+  ctx.font = '11px sans-serif';
+  ctx.fillStyle = '#c9d1d9';
+
+  // Axes
+  const ml = 50, mt = 30, mr = 60, mb = 40;
+  const pw = fc.width - ml - mr, ph = fc.height - mt - mb;
+
+  // Plot fill vs CF
+  function plotChart(ctx, w, h, ml, mt, mr, mb, series, xLabel, yLabel, yMax) {
+    ctx.strokeStyle = '#30363d';
+    ctx.fillStyle = '#8b949e';
+    ctx.lineWidth = 1;
+    // X axis
+    ctx.beginPath(); ctx.moveTo(ml, h-mb); ctx.lineTo(ml+pw, h-mb); ctx.stroke();
+    // Y axis
+    ctx.beginPath(); ctx.moveTo(ml, mt); ctx.lineTo(ml, h-mb); ctx.stroke();
+    // Labels
+    ctx.textAlign = 'center'; ctx.fillStyle = '#8b949e';
+    ctx.fillText(xLabel, ml + pw/2, h - 5);
+    ctx.save(); ctx.translate(15, mt + ph/2); ctx.rotate(-Math.PI/2);
+    ctx.fillText(yLabel, 0, 0); ctx.restore();
+
+    // Grid + ticks
+    const xMin = 0, xMax = 85;
+    ctx.strokeStyle = '#21262d'; ctx.fillStyle = '#8b949e'; ctx.textAlign = 'right';
+    for (let xv = 0; xv <= 80; xv += 20) {
+      const px = ml + (xv - xMin) / (xMax - xMin) * pw;
+      ctx.beginPath(); ctx.moveTo(px, mt); ctx.lineTo(px, h-mb); ctx.stroke();
+      ctx.fillText(xv + '%', px, h-mb+14);
+    }
+    for (let yv = 0; yv <= 1.01; yv += 0.25) {
+      const py = h - mb - (yv / yMax) * ph;
+      ctx.beginPath(); ctx.moveTo(ml, py); ctx.lineTo(ml+pw, py); ctx.stroke();
+      ctx.fillText(yv.toFixed(2), ml-6, py+3);
+    }
+
+    // Series
+    series.forEach(s => {
+      ctx.strokeStyle = s.color; ctx.fillStyle = s.color;
+      ctx.lineWidth = 2;
+      // Connect points
+      ctx.beginPath();
+      s.points.forEach((pt, i) => {
+        const px = ml + (pt[0] - xMin) / (xMax - xMin) * pw;
+        const py = h - mb - (pt[1] / yMax) * ph;
+        if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+      });
+      ctx.stroke();
+      // Dots
+      s.points.forEach(pt => {
+        const px = ml + (pt[0] - xMin) / (xMax - xMin) * pw;
+        const py = h - mb - (pt[1] / yMax) * ph;
+        ctx.beginPath(); ctx.arc(px, py, 5, 0, 2*Math.PI); ctx.fill();
+      });
+    });
+
+    // Legend
+    ctx.textAlign = 'left'; ctx.font = '12px sans-serif';
+    series.forEach((s, i) => {
+      ctx.fillStyle = s.color;
+      ctx.fillRect(ml + pw - 150, mt + 5 + i*18, 12, 12);
+      ctx.fillStyle = '#c9d1d9';
+      ctx.fillText(s.label, ml + pw - 130, mt + 15 + i*18);
+    });
+    ctx.font = '11px sans-serif';
+  }
+
+  const focal2 = focal.map(c => [c['2_seed'].mean_fill, c['2_seed'].mean_cf]);
+  const region2 = region.map(c => [c['2_seed'].mean_fill, c['2_seed'].mean_cf]);
+  plotChart(ctx, fc.width, fc.height, ml, mt, mr, mb, [
+    {label: 'Focal bias', color: '#3fb950', points: focal2},
+    {label: 'Region-restricted', color: '#f85149', points: region2},
+  ], 'Fill %', 'Coexist Fraction (cf)', 1.05);
+
+  // Component count chart
+  const cc = document.getElementById('compChart');
+  const cctx = cc.getContext('2d');
+  const focal2c = focal.map(c => [c['2_seed'].mean_fill, c['2_seed'].mean_lc]);
+  const region2c = region.map(c => [c['2_seed'].mean_fill, c['2_seed'].mean_lc]);
+  cctx.font = '11px sans-serif';
+  plotChart(cctx, cc.width, cc.height, 50, 30, 60, 40, [
+    {label: 'Focal LC', color: '#3fb950', points: focal2c},
+    {label: 'Region LC', color: '#f85149', points: region2c},
+  ], 'Fill %', 'Mean components (LC)', 35);
+
+  // Add matched-fill annotation
+  ctx.fillStyle = '#58a6ff';
+  ctx.font = '10px sans-serif';
+  ctx.textAlign = 'center';
+  const matchedX = ml + (28.5 / 85) * pw;
+  ctx.setLineDash([3,3]);
+  ctx.strokeStyle = '#58a6ff88';
+  ctx.beginPath(); ctx.moveTo(matchedX, mt); ctx.lineTo(matchedX, fc.height-mb); ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillText('matched fill', matchedX, mt - 5);
+})
+.catch(e => { document.getElementById('loading').textContent = 'Error: ' + e; });
+</script>
+</body>
+</html>

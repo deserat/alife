@@ -3516,16 +3516,19 @@ to compare.
 ## From Session 116 (2026-11-19)
 
 293. **Can region-restricted deposit produce good composition at matched fill?** —
-     The region-restricted deposit (exogenous, diffuse) produced partial
-     composition (cf=0.40) at fill 75.7% — above the ~44% ceiling. The focal
-     bias produces perfect composition (cf=1.0) at fill 34.5%. Is the focal
-     bias's advantage from (a) concentration (compact deposits → lower fill →
-     below the ceiling) or (b) exogeneity + spatial specificity? Test: raise
-     decay for the region-restricted condition until fill ≈ 34%, then compare
-     cf. If region-restricted at matched fill matches the focal bias, the
-     advantage is concentration (lower fill), not exogeneity. If it doesn't,
-     the focal bias's center-point attraction (compactness) is specifically
-     required — not just lower fill but compact spatial arrangement.
+     DONE (Session 117).
+     At matched fill (focal 27.6% cf=1.0000 vs region 29.6% cf=0.0000, 2pp apart),
+     region-restricted produces ZERO composition while the focal bias produces
+     PERFECT composition. The 67th mechanism: the focal bias's compact spatial
+     arrangement (stepping toward a center → two compact structures, lc=rc=1.0)
+     is specifically required, not just lower fill. Region-restricted at lower
+     fill (8.5%) still fragments (lc=24). H7=0/4 without compact deposits (the
+     curvature channel needs compact structure to route on). Cross-domain:
+     instructive (localized, steering) vs permissive (diffuse, enabling)
+     exogenous signals (PMC8185431); compact clustering vs diffusion-dominated
+     fractal growth (arXiv:2504.16539). See `matched_fill_test.py`,
+     `output/matched_fill_test.json`, `matched_fill_viz.html`. NEXT: endogenous
+     attraction (#294), the ~44% ceiling's decay-dependence (#285).
 
 294. **Can a different endogenous mechanism (attraction, not repulsion) produce
      composition?** — Endogenous repulsion (stepping AWAY from other ID's
