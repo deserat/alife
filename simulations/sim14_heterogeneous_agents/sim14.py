@@ -228,6 +228,16 @@ def termite_step_hetero(termites, field, rng, params, curvature,
             I13._dilate_no_x_wrap(material_by_id[1], _rr),
         ]
 
+    # For attraction mode, precompute dilated own-ID material so agents
+    # can step TOWARD their own ID's material (endogenous attraction).
+    attraction_dilated = None
+    if movement_mode == "attraction":
+        _ar = params.get("direct_radius", DIRECT_RADIUS)
+        attraction_dilated = [
+            I13._dilate_no_x_wrap(material_by_id[0], _ar),
+            I13._dilate_no_x_wrap(material_by_id[1], _ar),
+        ]
+
     # Iteration order (queued-topic #177, #179): by default agents are
     # processed 0..n-1 (id=0 first, id=1 second). When reverse_iteration is
     # True, process n-1..0 (id=1 first, id=0 second) to test whether the L/R
@@ -376,6 +386,32 @@ def termite_step_hetero(termites, field, rng, params, curvature,
                     dy, dx = S._MOORE[int(rng.integers(0, 8))]
                     y = (y + dy) % size
                     x = (x + dx) % size
+            elif movement_mode == "attraction":
+                # Endogenous attraction (queued-topic #294): agents step
+                # TOWARD their OWN ID's material (endogenous signal,
+                # derived from system state).  Tests whether exogeneity is
+                # truly necessary or any concentration mechanism suffices.
+                # Opposite of repulsion: step toward highest own-ID material.
+                own_mat = attraction_dilated[aid]
+                _at = params.get("attraction_threshold", 0.05)
+                # Always try to step toward own material (not threshold-gated,
+                # since attraction should concentrate regardless of amount).
+                best_val = own_mat[y, x]
+                best_dy, best_dx = 0, 0
+                for dy, dx in S._MOORE:
+                    yy = (y + dy) % size
+                    xx = (x + dx) % size
+                    if own_mat[yy, xx] > best_val:
+                        best_val = own_mat[yy, xx]
+                        best_dy, best_dx = dy, dx
+                if best_dy == 0 and best_dx == 0:
+                    # At a local max — random step.
+                    dy, dx = S._MOORE[int(rng.integers(0, 8))]
+                    y = (y + dy) % size
+                    x = (x + dx) % size
+                else:
+                    y = (y + best_dy) % size
+                    x = (x + best_dx) % size
             elif movement_mode == "diffusivity":
                 # Locomotion adjustment (Richardson et al. 2022): agents
                 # inside their home half move slowly (1-cell steps); agents

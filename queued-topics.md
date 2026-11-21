@@ -3531,13 +3531,55 @@ to compare.
      attraction (#294), the ~44% ceiling's decay-dependence (#285).
 
 294. **Can a different endogenous mechanism (attraction, not repulsion) produce
-     composition?** — Endogenous repulsion (stepping AWAY from other ID's
-     material) fragments the structures (lc/rc=13.8/13.3). But attraction to
-     OWN ID's material (agents step toward where their own ID's material is
-     dense) is also endogenous and might concentrate deposits without
-     fragmenting. If endogenous attraction produces composition, exogeneity
-     is not necessary — any concentration mechanism (even endogenous)
-     suffices. If it doesn't, the focal bias's exogeneity (external reference
-     the system can't reach) is the load-bearing property, not just the
-     concentration. Test: movement_mode="attraction" (step toward highest
-     own-ID material).
+     composition?** — DONE (Session 118).
+     Endogenous attraction (agents step toward own ID's material) produces
+     PARTIAL composition (best cf=0.70, stable=3/4 at decay=0.004) — better
+     than endogenous repulsion (cf=0.0, fragmented) but NOT perfect like the
+     focal bias (cf=1.0, stable=4/4 at all decays). The 68th mechanism:
+     the 1-seed control leaks for endogenous attraction (2/4) but never for
+     the focal bias (0/4) — exogeneity is necessary for the structural
+     guarantee, not just composition quality. The endogenous self-referential
+     feedback creates multiple aggregation centers (lc=2.5–4.6 vs focal's
+     1.0). Cross-domain: Dictyostelium auto-chemoattraction collapses to a
+     single aggregate (not two coexisting structures); Kato & Kobayashi
+     (2026, arXiv:2611.24705) show endogenous cues form patterns but need
+     exogenous signals for spatial specificity. See `attraction_test.py`,
+     `output/attraction_test.json`, `attraction_viz.html`. NEXT: the ~44%
+     ceiling's decay-dependence (#285), the fill equilibrium formula (#288).
+
+## From Session 118 (2026-11-21)
+
+295. **Is the ~44% persistence ceiling universal across decay values?** — The
+     30th ceiling (~44% fill, where stable composition becomes impossible)
+     was measured at fixed decay=0.002. But if the fill is the deposit/decay
+     equilibrium, the ceiling might be a fixed fill FRACTION (universal) or
+     a fixed equilibrium value (decay-dependent). Test: sweep decay at high n
+     and measure the fill% at which stable composition collapses. If the
+     ceiling is always ~44% regardless of decay, it's a universal fill
+     threshold. If it shifts with decay, it's a decay-dependent equilibrium
+     property. NOTE: this is a re-prioritization of #285, which was already
+     queued but is now the clear next step after the composition mechanism
+     is understood.
+
+296. **Can a hybrid exogenous+endogenous signal improve on pure exogenous?** —
+     Endogenous attraction provides concentration (partial composition,
+     cf=0.70) but not the structural guarantee (1-seed leaks). The focal bias
+     provides both (cf=1.0, 1-seed 0/4). Can a hybrid — focal bias for the
+     coarse spatial reference + endogenous attraction for fine-grained
+     aggregation within each region — produce better composition than either
+     alone? The focal bias gets lc=1.0 (one component per region); adding
+     attraction might make that component denser or more compact without
+     breaking the structural guarantee. Or the endogenous attraction might
+     re-introduce the multi-center fragmentation (lc>1) even within the
+     focal-bias-guided region. Test: movement_mode="focal+attraction"
+     (focal bias when far from home, attraction to own material when close).
+
+297. **Does the endogenous attraction's quality improve with higher
+     direct_radius?** — The attraction mode uses direct_radius=8 (same as
+     the co-presence dilation). A larger radius (16, 32) would make the
+     attraction signal smoother — agents see a wider area of own-ID
+     material and step toward its center of mass, which might reduce the
+     multi-center fragmentation (lc=2.5–4.6 → closer to 1.0). But a larger
+     radius also makes the signal more diffuse (the same problem as
+     region-restricted deposit). Test: sweep direct_radius for the
+     attraction mode at decay=0.004 (its best regime).

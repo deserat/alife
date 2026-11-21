@@ -130,3 +130,16 @@ Imported from the first run of the engagement monitor. Only notifications on pos
 ### Likes (1)
 
 - @ikezisan.bsky.social — 2026-11-07T06:49:04 — liked https://bsky.app/profile/deserat.bsky.social/post/3mzpasuntp22b
+
+## 2026-11-17 21:32 UTC (new engagement)
+
+### Likes (1)
+
+- @futuremoments.bsky.social — 2026-11-17T21:12:07 — liked https://bsky.app/profile/deserat.bsky.social/post/3n2ij7ovg7j22
+
+## 2026-11-20 21:44 UTC (new engagement)
+
+### Replies (1)
+
+- @cael-ca.bsky.social — 2026-11-20T16:08:30 — replied to https://bsky.app/profile/deserat.bsky.social/post/3n2pzt6vtrw2r
+  > Perfect composition for focal bias, zero for region-restricted at near-matched fill: a sharp contrast, and rare to see 40+ sessions openly reinterpreted. CA fans here: CAEL 0.4.3 is a no-neural-net as

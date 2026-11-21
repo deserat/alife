@@ -2,8 +2,8 @@
 title: "Hypotheses"
 topic: "testable hypotheses for the multi-scale ALife composition project"
 status: active
-date: "2026-11-20"
-session: 117
+date: "2026-11-21"
+session: 118
 count: 11
 active: [H1, H2, H3, H4, H5, H6, H7, H8, H9, H10, H11]
 logs: ["logs/H1/", "logs/H2/", "logs/H3/", "logs/H4/", "logs/H5/", "logs/H6/", "logs/H7/", "logs/H8/", "logs/H9/", "logs/H10/", "logs/H11/"]
@@ -70,7 +70,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **For an emergent structure to persist as a new actor at a higher scale, it must be autopoietic — it must maintain the network that constitutes it.** Self-maintenance is the persistence condition. Without it, emergent structures are transient patterns, not new actors.
 
-**Status:** Refined (Session 117). The composition mechanism is the **focal bias (exogenous + compact spatial arrangement)**. Session 115 found the focal bias is load-bearing (2×2 factorial: focal ON → cf=1.0; OFF → fill→100%, no composition). Session 116 found exogeneity is necessary but not sufficient (region-restricted cf=0.40, endogenous repulsion cf=0.0). Session 117 resolved the confound: at matched fill (focal 27.6% vs region 29.6%), the focal bias produces cf=1.0000 stable=4/4 while region-restricted produces cf=0.0000 stable=0/4 — the 67th mechanism: the focal bias's compact spatial arrangement is specifically required, not just lower fill. The focal bias creates two compact, well-separated structures (lc=rc=1.0); region-restricted creates diffuse fragmentation (lc=25–32). Cross-domain: instructive (localized) vs permissive (diffuse) exogenous signals (PMC8185431); compact clustering vs diffusion-dominated fractal growth (arXiv:2504.16539).
+**Status:** Refined (Session 118). The composition mechanism is the **focal bias (exogenous + compact spatial arrangement)**. Session 115 found the focal bias is load-bearing (2×2 factorial: focal ON → cf=1.0; OFF → fill→100%, no composition). Session 116 found exogeneity is necessary but not sufficient (region-restricted cf=0.40, endogenous repulsion cf=0.0). Session 117 resolved the confound: at matched fill (focal 27.6% vs region 29.6%), the focal bias produces cf=1.0000 stable=4/4 while region-restricted produces cf=0.0000 stable=0/4 — the 67th mechanism: compact spatial arrangement is specifically required, not just lower fill. Session 118 found endogenous attraction (agents step toward own-ID material) produces PARTIAL composition (cf=0.70, stable=3/4 at decay=0.004) — better than repulsion (cf=0.0) but not perfect (focal cf=1.0 at all decays). The 68th mechanism: the 1-seed control leaks for endogenous attraction (2/4) but never for the focal bias (0/4) — exogeneity is necessary for the structural guarantee, not just for composition quality. The endogenous self-referential feedback creates multiple aggregation centers (lc=2.5–4.6 vs focal's 1.0). Cross-domain: Dictyostelium auto-chemoattraction collapses to a single aggregate; Kato & Kobayashi (2026) show endogenous cues form patterns but require exogenous signals for spatial specificity.
 
 **Log:** [logs/H5/](logs/H5/)
 
@@ -216,7 +216,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 | H2: ANT Translation | Unchanged | Theoretical, untested | [H2](logs/H2/) |
 | H3: Quasi-Object | Strengthened | Stigmergy literature support; Echo partial support | [H3](logs/H3/) |
 | H4: Dynamic Environment | Refined | Fitness landscape criticism supports this | [H4](logs/H4/) |
-| H5: Autopoiesis | Refined (S117) | Composition mechanism = focal bias (exogeneity + compact spatial arrangement, not just lower fill); matched fill: focal cf=1.0 fill=27.6% vs region cf=0.0 fill=29.6% — compactness specifically required; 67th mechanism; instructive vs permissive exogenous signals | [H5](logs/H5/) |
+| H5: Autopoiesis | Refined (S118) | Composition mechanism = focal bias (exogeneity + compact arrangement); endogenous attraction produces PARTIAL composition (cf=0.70 vs focal cf=1.0); 1-seed structural guarantee requires exogeneity (0/4 focal vs 2/4 attraction); 68th mechanism; Dictyostelium auto-chemoattraction collapses to single aggregate | [H5](logs/H5/) |
 | H6: Multi-Scale Autopoiesis | Refined (S77) | 12th member fully lost at n=11000–14000 (~84–99% fill): 1s l2=0/4; progressive loss, not sharp threshold | [H6](logs/H6/) |
 | H7: Trace→Actor Crossing | Refined ×67 (S115): H7 is a curvature-channel epiphenomenon, NOT the composition mechanism; perfect composition without H7 (focal-only: H7=0/4, cf=1.0); crossing requires curvature dynamics; fill cap saturation at n=15000; g* limit n≈14000; H7=4/4 all densities; L2=0/4; 30th persists; 43rd saturation at n≈14000 | [H7](logs/H7/) |
 | H8: Complexity Enables OEE | NEW | Kaznatcheev (2019), Wiser et al. (2013) | [H8](logs/H8/) |
