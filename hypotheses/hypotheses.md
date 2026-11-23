@@ -2,8 +2,8 @@
 title: "Hypotheses"
 topic: "testable hypotheses for the multi-scale ALife composition project"
 status: active
-date: "2026-11-21"
-session: 118
+date: "2026-11-23"
+session: 119
 count: 11
 active: [H1, H2, H3, H4, H5, H6, H7, H8, H9, H10, H11]
 logs: ["logs/H1/", "logs/H2/", "logs/H3/", "logs/H4/", "logs/H5/", "logs/H6/", "logs/H7/", "logs/H8/", "logs/H9/", "logs/H10/", "logs/H11/"]
@@ -70,7 +70,7 @@ All hypotheses for the artificial life simulator project. Each hypothesis is tes
 
 **For an emergent structure to persist as a new actor at a higher scale, it must be autopoietic — it must maintain the network that constitutes it.** Self-maintenance is the persistence condition. Without it, emergent structures are transient patterns, not new actors.
 
-**Status:** Refined (Session 118). The composition mechanism is the **focal bias (exogenous + compact spatial arrangement)**. Session 115 found the focal bias is load-bearing (2×2 factorial: focal ON → cf=1.0; OFF → fill→100%, no composition). Session 116 found exogeneity is necessary but not sufficient (region-restricted cf=0.40, endogenous repulsion cf=0.0). Session 117 resolved the confound: at matched fill (focal 27.6% vs region 29.6%), the focal bias produces cf=1.0000 stable=4/4 while region-restricted produces cf=0.0000 stable=0/4 — the 67th mechanism: compact spatial arrangement is specifically required, not just lower fill. Session 118 found endogenous attraction (agents step toward own-ID material) produces PARTIAL composition (cf=0.70, stable=3/4 at decay=0.004) — better than repulsion (cf=0.0) but not perfect (focal cf=1.0 at all decays). The 68th mechanism: the 1-seed control leaks for endogenous attraction (2/4) but never for the focal bias (0/4) — exogeneity is necessary for the structural guarantee, not just for composition quality. The endogenous self-referential feedback creates multiple aggregation centers (lc=2.5–4.6 vs focal's 1.0). Cross-domain: Dictyostelium auto-chemoattraction collapses to a single aggregate; Kato & Kobayashi (2026) show endogenous cues form patterns but require exogenous signals for spatial specificity.
+**Status:** Refined (Session 119). The composition mechanism is the **focal bias (exogenous + compact spatial arrangement)**. Session 115 found the focal bias is load-bearing (2×2 factorial: focal ON → cf=1.0; OFF → fill→100%, no composition). Session 116 found exogeneity is necessary but not sufficient (region-restricted cf=0.40, endogenous repulsion cf=0.0). Session 117 resolved the confound: at matched fill (focal 27.6% vs region 29.6%), the focal bias produces cf=1.0000 stable=4/4 while region-restricted produces cf=0.0000 stable=0/4 — the 67th mechanism: compact spatial arrangement is specifically required, not just lower fill. Session 118 found endogenous attraction (agents step toward own-ID material) produces PARTIAL composition (cf=0.70, stable=3/4 at decay=0.004) — better than repulsion (cf=0.0) but not perfect (focal cf=1.0 at all decays). The 68th mechanism: the 1-seed control leaks for endogenous attraction (2/4) but never for the focal bias (0/4) — exogeneity is necessary for the structural guarantee, not just for composition quality. Session 119: the ~42% persistence ceiling is UNIVERSAL across decay values (the 69th mechanism). At 3 decay values (0.002, 0.004, 0.008) × 3 n values × 4 seeds (36 runs), stable composition collapses at ~42% fill regardless of decay. At decay=0.002: 2/4 stable at 41%, 0/4 at 44%; at decay=0.004: 4/4 stable up to 39%; at decay=0.008: 4/4 stable up to 35%. The ceiling is a fill fraction, not a decay-dependent equilibrium — it is where the focal bias's compact spatial arrangement breaks down (over-splitting lc/rc > 5). Cross-domain: contact inhibition in tissue growth — the density ceiling is independent of the proliferation rate.
 
 **Log:** [logs/H5/](logs/H5/)
 

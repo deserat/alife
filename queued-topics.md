@@ -3549,17 +3549,24 @@ to compare.
 
 ## From Session 118 (2026-11-21)
 
-295. **Is the ~44% persistence ceiling universal across decay values?** — The
-     30th ceiling (~44% fill, where stable composition becomes impossible)
-     was measured at fixed decay=0.002. But if the fill is the deposit/decay
-     equilibrium, the ceiling might be a fixed fill FRACTION (universal) or
-     a fixed equilibrium value (decay-dependent). Test: sweep decay at high n
-     and measure the fill% at which stable composition collapses. If the
-     ceiling is always ~44% regardless of decay, it's a universal fill
-     threshold. If it shifts with decay, it's a decay-dependent equilibrium
-     property. NOTE: this is a re-prioritization of #285, which was already
-     queued but is now the clear next step after the composition mechanism
-     is understood.
+295. **Is the ~44% persistence ceiling universal across decay values?** —
+     DONE (Session 119).
+     The ~42% persistence ceiling is UNIVERSAL across decay values. At 3 decay
+     values (0.002, 0.004, 0.008) × 3 n values × 4 seeds (36 runs, dual
+     boundary g=0.001, focal bias), stable composition collapses at ~42% fill
+     regardless of decay. At decay=0.002: 2/4 stable at 41%, 0/4 at 44%; at
+     decay=0.004: 4/4 stable up to 39%; at decay=0.008: 4/4 stable up to 35%.
+     The ceiling is a fill fraction, not a decay-dependent equilibrium — it is
+     where the focal bias's compact spatial arrangement breaks down
+     (over-splitting lc/rc > 5). The 69th mechanism. Cross-domain: contact
+     inhibition in tissue growth (density ceiling independent of proliferation
+     rate, Nature 2020). NOTE: the "above" conditions at decay=0.004 and 0.008
+     did not reach the ceiling — the fill grows more slowly with n at higher
+     decay than the √n extrapolation predicted (decay=0.004 n=8000: predicted
+     ~47%, actual ~39%; decay=0.008 n=12000: predicted ~43%, actual ~35%). See
+     `ceiling_decay_sweep.py`, `output/ceiling_decay_sweep.json`,
+     `ceiling_decay_viz.html`. Determinism verified. NEXT: the fill
+     equilibrium formula (#288), the hybrid exogenous+endogenous signal (#296).
 
 296. **Can a hybrid exogenous+endogenous signal improve on pure exogenous?** —
      Endogenous attraction provides concentration (partial composition,
@@ -3583,3 +3590,40 @@ to compare.
      radius also makes the signal more diffuse (the same problem as
      region-restricted deposit). Test: sweep direct_radius for the
      attraction mode at decay=0.004 (its best regime).
+
+## From Session 119 (2026-11-23)
+
+298. **Why does the fill grow sublinearly with n at higher decay?** — The
+     √n extrapolation from the no-inhib data (Session 113) overestimates
+     the fill at higher n for higher decay: decay=0.004 n=8000 predicted
+     ~47%, actual ~39%; decay=0.008 n=12000 predicted ~43%, actual ~35%.
+     The fill's n-dependence is sublinear and decay-dependent — the
+     effective deposit rate decreases with n (the focal bias concentrates
+     deposits, but the concentration is less effective at higher n because
+     more agents wander farther from home). The fill equilibrium formula
+     (#288) must account for this — the deposit_rate is not constant but
+     decreases with n (or equivalently, the effective n in the fill formula
+     is sublinear). Test: measure the fill at more (n, decay) combinations
+     and fit the functional form.
+
+299. **Is the ~42% ceiling the Moore percolation threshold (~0.407)?** — The
+     ~42% ceiling is close to the Moore 8-neighbor site percolation threshold
+     (~0.407). Is this a coincidence, or is the ceiling the point where the
+     individual structures percolate (connect to each other through the
+     boundary)? The 30th ceiling was previously distinguished from the actual
+     percolation threshold (~59% for von Neumann, Session 94), but the Moore
+     threshold (~0.407) was noted as a correction (Session 75). The ~42%
+     ceiling is ~1.3pp above the Moore threshold — close but not exact. Is the
+     gap significant (the boundary delays percolation) or coincidental? Test:
+     measure the spanning cluster fraction at the ceiling (fill ~42%, n=2500,
+     decay=0.002) and compare to random-site percolation at the same fill.
+
+300. **Can the ceiling be shifted by a stronger focal bias?** — The ceiling
+     is where the focal bias's compact spatial arrangement breaks down
+     (over-splitting lc/rc > 5). Can a stronger focal bias (movement_bias >
+     0.3) maintain compactness at higher fill? If the ceiling shifts up with
+     stronger bias, the ceiling is a focal-bias-strength-dependent threshold,
+     not a universal geometric constant. If it doesn't shift, the ceiling is
+     a fundamental geometric limit of the 2D grid + focal bias architecture.
+     Test: sweep movement_bias (0.3, 0.5, 0.7, 0.9) at n=3000, decay=0.002
+     (fill ~44%, above the current ceiling) and check if stability recovers.
