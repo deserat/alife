@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Focal Bias Ceiling Sweep — Session 120</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #0d1117; color: #c9d1d9; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    padding: 20px; max-width: 1100px; margin: 0 auto;
+  }
+  h1 { font-size: 1.5rem; margin-bottom: 4px; color: #f0f6fc; }
+  h2 { font-size: 1.1rem; margin: 16px 0 8px; color: #79c0ff; }
+  .subtitle { color: #8b949e; font-size: 0.9rem; margin-bottom: 16px; }
+  .ceiling-line { color: #f0883e; font-weight: bold; }
+  .moore-line { color: #d2a8ff; }
+  .bias-label { font-weight: bold; }
+  canvas { display: block; margin: 8px 0; }
+  .table-wrap { overflow-x: auto; margin: 8px 0; }
+  table { border-collapse: collapse; width: 100%; font-size: 0.85rem; }
+  th, td { padding: 4px 8px; text-align: right; border: 1px solid #30363d; }
+  th { background: #161b22; color: #8b949e; font-weight: normal; }
+  td:first-child { text-align: left; }
+  .stable-yes { color: #56d364; }
+  .stable-no { color: #f85149; }
+  .fill-bar { display: inline-block; height: 12px; border-radius: 2px; vertical-align: middle; }
+  .fill-below { background: #56d364; }
+  .fill-above { background: #f85149; }
+  .fill-near { background: #d29922; }
+  .legend { font-size: 0.8rem; color: #8b949e; margin: 8px 0; }
+  .legend span { margin-right: 16px; }
+  .summary { background: #161b22; padding: 12px 16px; border-radius: 6px; margin: 8px 0; font-size: 0.9rem; line-height: 1.5; }
+  .summary strong { color: #f0f6fc; }
+  .moore-band { position: absolute; left: 0; right: 0; background: rgba(210, 168, 255, 0.08); }
+</style>
+</head>
+<body>
+<h1>Focal Bias Ceiling Sweep — Can the ~42% Ceiling Be Shifted?</h1>
+<div class="subtitle">4 biases × 3 n values × 4 seeds = 48 runs | 160×160 grid | decay=0.002 | dual boundary g=0.001 | Session 120</div>
+
+<div class="summary">
+  <strong>Result:</strong> The ~42% persistence ceiling does NOT shift with focal bias strength. The focal bias controls the <em>fill level</em> (stronger bias → lower fill → below the ceiling). At bias=0.3, n=3000 reaches fill=43.7% (above ceiling, 0/4 stable). At bias=0.5, the same n=3000 produces fill=33.4% (below ceiling, 4/4 stable). The ceiling is a <strong>fill fraction</strong>, not a bias-dependent threshold — confirmed universal across decay (S119) and now across focal bias strength.
+</div>
+
+<h2>Fill vs. Bias (each n value)</h2>
+<div class="legend">
+  <span><span class="fill-bar fill-below" style="width:12px"></span> Below ceiling (stable)</span>
+  <span><span class="fill-bar fill-near" style="width:12px"></span> Near ceiling</span>
+  <span><span class="fill-bar fill-above" style="width:12px"></span> Above ceiling (unstable)</span>
+</div>
+<canvas id="fillChart" width="1050" height="340"></canvas>
+
+<h2>Stability vs. Fill (all 48 runs)</h2>
+<canvas id="scatterChart" width="1050" height="280"></canvas>
+<div class="legend">
+  <span style="color:#f85149">●</span> Unstable (0/4 at that n)  
+  <span style="color:#d29922">●</span> Partial (1-3/4)  
+  <span style="color:#56d364">●</span> Stable (4/4)  
+  <span class="ceiling-line">───</span> ~42% ceiling  
+  <span class="moore-line">───</span> Moore percolation threshold (0.407)
+</div>
+
+<h2>Summary Table</h2>
+<div class="table-wrap">
+<table id="summaryTable"></table>
+</div>
+
+<script>
+const CEILING = 42.0;
+const MOORE = 40.7;
+
+function getColor(fill) {
+  if (fill < 38) return '#56d364';
+  if (fill < 44) return '#d29922';
+  return '#f85149';
+}
+
+function drawFillChart(data) {
+  const c = document.getElementById('fillChart');
+  const ctx = c.getContext('2d');
+  const W = c.width, H = c.height;
+  ctx.fillStyle = '#0d1117';
+  ctx.fillRect(0, 0, W, H);
+
+  const biases = ['bias_0.3_baseline', 'bias_0.5_medium', 'bias_0.7_strong', 'bias_0.9_max'];
+  const biasLabels = [0.3, 0.5, 0.7, 0.9];
+  const nLabels = ['n2000_below', 'n2500_at', 'n3000_above'];
+  const nValues = [2000, 2500, 3000];
+  const colors = ['#f0883e', '#79c0ff', '#d2a8ff', '#56d364'];
+
+  const padL = 60, padR = 30, padT = 30, padB = 40;
+  const plotW = W - padL - padR, plotH = H - padT - padB;
+  const yMin = 20, yMax = 50;
+  const yScale = v => padT + plotH * (1 - (v - yMin) / (yMax - yMin));
+
+  // Grid lines
+  ctx.strokeStyle = '#21262d';
+  ctx.font = '11px sans-serif';
+  ctx.fillStyle = '#8b949e';
+  for (let yv = 20; yv <= 50; yv += 10) {
+    ctx.strokeStyle = '#21262d';
+    ctx.beginPath(); ctx.moveTo(padL, yScale(yv)); ctx.lineTo(W - padR, yScale(yv)); ctx.stroke();
+    ctx.textAlign = 'right';
+    ctx.fillText(yv + '%', padL - 8, yScale(yv) + 4);
+  }
+
+  // Ceiling line
+  ctx.strokeStyle = '#f0883e';
+  ctx.lineWidth = 1.5;
+  ctx.setLineDash([6, 4]);
+  ctx.beginPath(); ctx.moveTo(padL, yScale(CEILING)); ctx.lineTo(W - padR, yScale(CEILING)); ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle = '#f0883e';
+  ctx.textAlign = 'left';
+  ctx.fillText('~42% ceiling', padL + 4, yScale(CEILING) - 6);
+
+  // Moore threshold
+  ctx.strokeStyle = '#d2a8ff';
+  ctx.lineWidth = 1;
+  ctx.setLineDash([3, 3]);
+  ctx.beginPath(); ctx.moveTo(padL, yScale(MOORE)); ctx.lineTo(W - padR, yScale(MOORE)); ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle = '#d2a8ff';
+  ctx.fillText('Moore pc=0.407', padL + 4, yScale(MOORE) + 14);
+
+  // X axis
+  const xCenter = i => padL + (i + 0.5) * plotW / 4;
+
+  // Draw bars for each bias
+  biases.forEach((bk, bi) => {
+    const xc = xCenter(bi);
+    nLabels.forEach((nk, ni) => {
+      const entry = data[bk] && data[bk][nk];
+      if (!entry) return;
+      const fill = entry.mean_fill;
+      const stable = entry.stable_count;
+      const bw = plotW / 4 / 4;
+      const bx = xc - plotW / 8 + ni * bw + bw * 0.15;
+      const bwf = bw * 0.7;
+
+      ctx.fillStyle = getColor(fill);
+      const bh = (fill - yMin) / (yMax - yMin) * plotH;
+      ctx.fillRect(bx, yScale(fill), bwf, bh);
+
+      ctx.fillStyle = '#c9d1d9';
+      ctx.textAlign = 'center';
+      ctx.font = '10px sans-serif';
+      ctx.fillText(fill.toFixed(1) + '%', bx + bwf/2, yScale(fill) - 5);
+    });
+
+    // Bias label
+    ctx.fillStyle = colors[bi];
+    ctx.font = 'bold 12px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('bias=' + biasLabels[bi], xc, H - 10);
+
+    // N labels
+    nLabels.forEach((nk, ni) => {
+      const bx = xc - plotW / 8 + ni * bw + bw * 0.15;
+      ctx.font = '9px sans-serif';
+      ctx.fillStyle = '#8b949e';
+      ctx.textAlign = 'center';
+      ctx.fillText('n=' + nValues[ni], bx + bw*0.7/2, H - padB + 22);
+    });
+  });
+
+  // Y axis label
+  ctx.save();
+  ctx.translate(15, H/2);
+  ctx.rotate(-Math.PI/2);
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#8b949e';
+  ctx.font = '11px sans-serif';
+  ctx.fillText('Fill %', 0, 0);
+  ctx.restore();
+}
+
+function drawScatter(data) {
+  const c = document.getElementById('scatterChart');
+  const ctx = c.getContext('2d');
+  const W = c.width, H = c.height;
+  ctx.fillStyle = '#0d1117';
+  ctx.fillRect(0, 0, W, H);
+
+  const padL = 60, padR = 30, padT = 20, padB = 40;
+  const plotW = W - padL - padR, plotH = H - padT - padB;
+  const xMin = 24, xMax = 48;
+  const yMin = -0.5, yMax = 4.5;
+  const xScale = v => padL + (v - xMin) / (xMax - xMin) * plotW;
+  const yScale = v => padT + plotH * (1 - (v - yMin) / (yMax - yMin));
+
+  // Grid
+  ctx.strokeStyle = '#21262d';
+  ctx.font = '10px sans-serif';
+  ctx.fillStyle = '#8b949e';
+  for (let xv = 25; xv <= 45; xv += 5) {
+    ctx.beginPath(); ctx.moveTo(xScale(xv), padT); ctx.lineTo(xScale(xv), padT + plotH); ctx.stroke();
+    ctx.textAlign = 'center';
+    ctx.fillText(xv + '%', xScale(xv), padT + plotH + 16);
+  }
+  for (let yv = 0; yv <= 4; yv++) {
+    ctx.beginPath(); ctx.moveTo(padL, yScale(yv)); ctx.lineTo(padL + plotW, yScale(yv)); ctx.stroke();
+    ctx.textAlign = 'right';
+    ctx.fillText(yv + '/4', padL - 8, yScale(yv) + 4);
+  }
+
+  // Ceiling line
+  ctx.strokeStyle = '#f0883e';
+  ctx.lineWidth = 1.5;
+  ctx.setLineDash([6, 4]);
+  ctx.beginPath(); ctx.moveTo(xScale(CEILING), padT); ctx.lineTo(xScale(CEILING), padT + plotH); ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle = '#f0883e';
+  ctx.textAlign = 'left';
+  ctx.fillText('ceiling', xScale(CEILING) + 4, padT + 14);
+
+  // Moore line
+  ctx.strokeStyle = '#d2a8ff';
+  ctx.lineWidth = 1;
+  ctx.setLineDash([3, 3]);
+  ctx.beginPath(); ctx.moveTo(xScale(MOORE), padT); ctx.lineTo(xScale(MOORE), padT + plotH); ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle = '#d2a8ff';
+  ctx.fillText('Moore pc', xScale(MOORE) + 4, padT + 28);
+
+  // Scatter points
+  const biases = ['bias_0.3_baseline', 'bias_0.5_medium', 'bias_0.7_strong', 'bias_0.9_max'];
+  const biasColors = ['#f0883e', '#79c0ff', '#d2a8ff', '#56d364'];
+  const biasLabels = [0.3, 0.5, 0.7, 0.9];
+  const nKeys = ['n2000_below', 'n2500_at', 'n3000_above'];
+  const nShapes = ['circle', 'square', 'triangle'];
+
+  biases.forEach((bk, bi) => {
+    nKeys.forEach((nk, ni) => {
+      const entry = data[bk] && data[bk][nk];
+      if (!entry) return;
+      const fill = entry.mean_fill;
+      const stable = entry.stable_count;
+      const cx = xScale(fill);
+      const cy = yScale(stable);
+      const color = stable === 4 ? '#56d364' : (stable > 0 ? '#d29922' : '#f85149');
+
+      ctx.fillStyle = color;
+      ctx.beginPath();
+      ctx.arc(cx, cy, 6, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.strokeStyle = biasColors[bi];
+      ctx.lineWidth = 2;
+      ctx.stroke();
+    });
+  });
+
+  // Labels
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#8b949e';
+  ctx.font = '11px sans-serif';
+  ctx.fillText('Fill %', padL + plotW/2, H - 5);
+
+  ctx.save();
+  ctx.translate(15, padT + plotH/2);
+  ctx.rotate(-Math.PI/2);
+  ctx.fillText('Stable count (of 4)', 0, 0);
+  ctx.restore();
+
+  // Legend
+  const legendY = padT + plotH - 10;
+  biasLabels.forEach((bl, i) => {
+    ctx.fillStyle = biasColors[i];
+    ctx.fillRect(padL + 10 + i * 80, legendY, 10, 10);
+    ctx.fillStyle = '#c9d1d9';
+    ctx.font = '10px sans-serif';
+    ctx.textAlign = 'left';
+    ctx.fillText('bias=' + bl, padL + 25 + i * 80, legendY + 9);
+  });
+}
+
+function buildTable(data) {
+  const table = document.getElementById('summaryTable');
+  const biases = ['bias_0.3_baseline', 'bias_0.5_medium', 'bias_0.7_strong', 'bias_0.9_max'];
+  const biasLabels = [0.3, 0.5, 0.7, 0.9];
+  const nKeys = ['n2000_below', 'n2500_at', 'n3000_above'];
+  const nLabels = [2000, 2500, 3000];
+
+  let html = '<tr><th>Bias</th><th>n</th><th>Fill %</th><th>Stable</th><th>Coexist</th><th>H7</th><th>CF</th><th>LC</th><th>RC</th></tr>';
+  biases.forEach((bk, bi) => {
+    nKeys.forEach((nk, ni) => {
+      const e = data[bk] && data[bk][nk];
+      if (!e) return;
+      const cls = e.stable_count === 4 ? 'stable-yes' : (e.stable_count > 0 ? 'stable-no' : 'stable-no');
+      html += `<tr><td class="bias-label">${biasLabels[bi]}</td><td>${nLabels[ni]}</td>` +
+        `<td>${e.mean_fill.toFixed(1)}</td><td class="${cls}">${e.stable_count}/4</td>` +
+        `<td>${e.coexist_count}/4</td><td>${e.h7_count}/4</td>` +
+        `<td>${e.mean_cf.toFixed(3)}</td><td>${e.mean_lc.toFixed(1)}</td><td>${e.mean_rc.toFixed(1)}</td></tr>`;
+    });
+  });
+  table.innerHTML = html;
+}
+
+fetch('output/focal_bias_ceiling_sweep.json')
+  .then(r => r.json())
+  .then(data => {
+    drawFillChart(data);
+    drawScatter(data);
+    buildTable(data);
+  })
+  .catch(err => {
+    document.body.innerHTML += '<p style="color:#f85149">Error loading data: ' + err + '</p>';
+  });
+</script>
+</body>
+</html>

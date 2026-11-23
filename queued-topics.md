@@ -3618,12 +3618,55 @@ to compare.
      measure the spanning cluster fraction at the ceiling (fill ~42%, n=2500,
      decay=0.002) and compare to random-site percolation at the same fill.
 
-300. **Can the ceiling be shifted by a stronger focal bias?** — The ceiling
-     is where the focal bias's compact spatial arrangement breaks down
-     (over-splitting lc/rc > 5). Can a stronger focal bias (movement_bias >
-     0.3) maintain compactness at higher fill? If the ceiling shifts up with
-     stronger bias, the ceiling is a focal-bias-strength-dependent threshold,
-     not a universal geometric constant. If it doesn't shift, the ceiling is
-     a fundamental geometric limit of the 2D grid + focal bias architecture.
-     Test: sweep movement_bias (0.3, 0.5, 0.7, 0.9) at n=3000, decay=0.002
-     (fill ~44%, above the current ceiling) and check if stability recovers.
+300. **Can the ceiling be shifted by a stronger focal bias?** — DONE
+     (Session 120).
+     The ceiling does NOT shift with focal bias strength (the 70th
+     mechanism). A sweep of 4 movement_bias values (0.3, 0.5, 0.7,
+     0.9) × 3 n values × 4 seeds (48 runs) found a stronger bias
+     LOWERS the fill (bias=0.3→fill=43.7%, bias=0.5→fill=33.4%,
+     bias=0.9→fill=26.7% at n=3000) but does NOT raise the ceiling.
+     At bias=0.3, n=3000 is above the ceiling (0/4 stable); at
+     bias=0.5, the same n=3000 is below the ceiling (4/4 stable,
+     cf=1.0). The focal bias controls the fill level, not the ceiling.
+     The ceiling is a geometric fill-fraction limit (~42%), confirmed
+     universal across decay (S119) and focal bias strength (S120).
+     Cross-domain: epithelial network percolation is geometric, not
+     density-driven (bioRxiv 2026). See
+     `focal_bias_ceiling_sweep.py`,
+     `output/focal_bias_ceiling_sweep.json`,
+     `focal_bias_ceiling_viz.html`.
+
+## From Session 120 (2026-11-23)
+
+301. **Is the ~42% ceiling the Moore percolation threshold (~0.407)?**
+     — The ceiling is ~1.3pp above the Moore 8-neighbor site
+     percolation threshold (0.407). Session 94 distinguished the 30th
+     ceiling from the actual percolation threshold (~59% spanning
+     cluster), but the Moore threshold is much closer. Is the gap
+     significant (the boundary delays percolation by ~1.3pp) or
+     coincidental? Test: measure the spanning cluster fraction at
+     the ceiling (fill ~42%, n=2500, decay=0.002) and compare to
+     random-site percolation at the same fill.
+
+302. **Derive and test the fill equilibrium formula** — fill ∝ n ×
+     deposit_prob / (decay × grid²), but the deposit_rate is
+     sublinear (∝ √n) and the focal bias modulates it further
+     (fill ∝ 1/(1+bias)). Can the fill at arbitrary (n, decay, bias)
+     be predicted from the formula? Fit the equilibrium at multiple
+     (n, decay, bias) combinations and check if the formula predicts
+     the fill.
+
+303. **Can a hybrid exogenous+endogenous signal improve on pure
+     exogenous? (#296)** — focal bias for coarse spatial reference +
+     endogenous attraction for fine-grained aggregation within each
+     region. The endogenous attraction creates multiple aggregation
+     centers (lc=2.5-4.6); can the focal bias confine them to one
+     center per region while the attraction densifies each center?
+
+304. **Why does the fill grow sublinearly with n at higher decay?
+     (#298)** — The √n extrapolation overestimates the fill at higher
+     n for higher decay. The deposit_rate decreases with n (the focal
+     bias concentrates, but concentration is less effective at
+     higher n because more agents wander farther from home). Test:
+     measure the fill at more (n, decay) combinations and fit the
+     functional form.
