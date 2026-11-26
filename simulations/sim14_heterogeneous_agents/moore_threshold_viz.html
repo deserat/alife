@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Moore Percolation Threshold Test — Session 121</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #0d1117; color: #c9d1d9; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; padding: 20px; max-width: 1200px; margin: 0 auto; }
+  h1 { color: #58a6ff; font-size: 1.5em; margin-bottom: 4px; }
+  h2 { color: #79c0ff; font-size: 1.2em; margin: 20px 0 10px 0; }
+  .subtitle { color: #8b949e; font-size: 0.9em; margin-bottom: 20px; }
+  .finding { background: #161b22; border: 1px solid #30363d; border-radius: 6px; padding: 16px; margin-bottom: 16px; }
+  .finding h3 { color: #f0883e; font-size: 1.05em; margin-bottom: 8px; }
+  .finding p { color: #c9d1d9; line-height: 1.5; font-size: 0.9em; }
+  .finding .highlight { color: #f0883e; font-weight: bold; }
+  .finding .green { color: #3fb950; font-weight: bold; }
+  .finding .red { color: #f85149; font-weight: bold; }
+  table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 0.85em; }
+  th { color: #58a6ff; text-align: left; padding: 6px 10px; border-bottom: 1px solid #30363d; }
+  td { padding: 6px 10px; border-bottom: 1px solid #21262d; }
+  .label { color: #8b949e; }
+  .bar-container { display: flex; align-items: flex-end; gap: 2px; height: 200px; margin: 10px 0; padding: 10px; background: #161b22; border-radius: 6px; border: 1px solid #30363d; }
+  .bar-group { display: flex; flex-direction: column; align-items: center; flex: 1; }
+  .bar-pair { display: flex; gap: 4px; align-items: flex-end; height: 180px; }
+  .bar { width: 40px; border-radius: 3px 3px 0 0; position: relative; transition: height 0.5s ease; }
+  .bar .val { position: absolute; top: -16px; left: 50%; transform: translateX(-50%); font-size: 0.7em; color: #c9d1d9; white-space: nowrap; }
+  .bar-label { font-size: 0.7em; color: #8b949e; margin-top: 6px; text-align: center; }
+  canvas { border-radius: 6px; border: 1px solid #30363d; }
+  #loading { color: #8b949e; padding: 20px; }
+</style>
+</head>
+<body>
+<h1>Moore Percolation Threshold Test</h1>
+<div class="subtitle">Queued-topic #301 · Session 121 · 2026-11-26</div>
+
+<div id="content">
+  <div id="loading">Loading results…</div>
+</div>
+
+<script>
+const DATA_URL = 'output/moore_threshold_test.json';
+
+async function load() {
+  const resp = await fetch(DATA_URL);
+  const data = await resp.json();
+  document.getElementById('loading').style.display = 'none';
+  render(data);
+}
+
+function render(data) {
+  const c = data.comparison;
+  const sims = data.ceiling_sims;
+  const rand = data.random_percolation;
+
+  // Summary
+  const ceilingFill = c.ceiling_fill;
+  const moore = c.moore_threshold * 100;
+  const gap = c.gap_pp;
+
+  // Random stats
+  const r42 = rand['42pct'].summary;
+  const r21 = rand['21pct'].summary;
+  const r407 = rand['407pct'].summary;
+
+  // Per-ID stats (from ceiling sims)
+  const leftFills = sims.map(s => s.left_id.fill_pct);
+  const leftNcomps = sims.map(s => s.left_id.n_components);
+  const leftLargest = sims.map(s => s.left_id.largest_frac);
+  const leftSpans = sims.filter(s => s.left_id.spans).length;
+  const rightFills = sims.map(s => s.right_id.fill_pct);
+  const rightNcomps = sims.map(s => s.right_id.n_components);
+  const rightSpans = sims.filter(s => s.right_id.spans).length;
+
+  const html = `
+    <div class="finding">
+      <h3>The ~42% ceiling is NOT the Moore percolation threshold (~40.7%)</h3>
+      <p>
+        The <span class="highlight">~42% persistence ceiling</span> is <span class="green">${gap > 0 ? '+' : ''}${gap}pp above</span> the Moore 8-neighbor site percolation threshold (${moore.toFixed(1)}%).
+        But the structures percolate far below the Moore threshold — each individual ID's structure
+        percolates at <span class="highlight">~21% fill</span> (spans ${leftSpans}/4), while
+        random-site percolation at 21% fills spans only <span class="red">${r21.spans_count}/${r21.n_realizations}</span>.
+        The ceiling is a <span class="green">geometric over-splitting threshold</span> (lc/rc > 5),
+        not a connectivity (percolation) threshold.
+      </p>
+    </div>
+
+    <div class="finding">
+      <h3>Key comparison: structured deposits vs random at matched fill</h3>
+      <table>
+        <tr><th>Source</th><th>Fill %</th><th>Spans</th><th>Mean n_comp</th><th>Mean largest_frac</th></tr>
+        <tr style="color:#58a6ff">
+          <td><b>Our structure (combined)</b></td>
+          <td>${ceilingFill.toFixed(1)}%</td>
+          <td>${c.ceiling_spans}/${c.ceiling_n_seeds}</td>
+          <td>${c.ceiling_mean_ncomp}</td>
+          <td>${c.ceiling_mean_largest_frac.toFixed(3)}</td>
+        </tr>
+        <tr>
+          <td>Random at ${moore.toFixed(1)}% (Moore threshold)</td>
+          <td>${r407.fill_mean.toFixed(1)}%</td>
+          <td>${r407.spans_count}/${r407.n_realizations}</td>
+          <td>${r407.n_components_mean.toFixed(1)}</td>
+          <td>${r407.largest_frac_mean.toFixed(3)}</td>
+        </tr>
+        <tr>
+          <td>Random at 42%</td>
+          <td>${r42.fill_mean.toFixed(1)}%</td>
+          <td>${r42.spans_count}/${r42.n_realizations}</td>
+          <td>${r42.n_components_mean.toFixed(1)}</td>
+          <td>${r42.largest_frac_mean.toFixed(3)}</td>
+        </tr>
+        <tr style="color:#58a6ff">
+          <td><b>Our structure (per-ID)</b></td>
+          <td>~21%</td>
+          <td>${leftSpans}/4</td>
+          <td>~${((leftNcomps.reduce((a,b)=>a+b,0) + rightNcomps.reduce((a,b)=>a+b,0)) / 8).toFixed(1)}</td>
+          <td>~0.995</td>
+        </tr>
+        <tr>
+          <td>Random at 21%</td>
+          <td>${r21.fill_mean.toFixed(1)}%</td>
+          <td>${r21.spans_count}/${r21.n_realizations}</td>
+          <td>${r21.n_components_mean.toFixed(1)}</td>
+          <td>${r21.largest_frac_mean.toFixed(3)}</td>
+        </tr>
+      </table>
+      <p style="margin-top: 10px">
+        Our per-ID structures have <span class="green">1 giant component each</span> (largest_frac ~0.995)
+        that spans the grid — at 21% fill, where random percolation produces
+        <span class="red">${r21.n_components_mean.toFixed(0)} tiny components</span> and spans
+        only ${r21.spans_count}/${r21.n_realizations} of the time.
+        The curvature channel + focal bias produce <span class="highlight">spatially correlated deposits</span>
+        that are far more connected than random at the same fill fraction.
+      </p>
+    </div>
+
+    <div class="finding">
+      <h3>Per-seed ceiling data (n=2500, decay=0.002, dual g=0.001)</h3>
+      <table>
+        <tr><th>Seed</th><th>Combined fill</th><th>Combined n_comp</th><th>Combined largest_frac</th><th>Spans</th><th>Stable</th></tr>
+        ${sims.map(s => `
+          <tr>
+            <td>${s.seed}</td>
+            <td>${s.combined.fill_pct.toFixed(1)}%</td>
+            <td>${s.combined.n_components}</td>
+            <td>${s.combined.largest_frac.toFixed(3)}</td>
+            <td style="color:${s.combined.spans ? '#3fb950' : '#f85149'}">${s.combined.spans ? '✓' : '✗'}</td>
+            <td style="color:${s.stable ? '#3fb950' : '#f85149'}">${s.stable ? '✓' : '✗'}</td>
+          </tr>
+        `).join('')}
+      </table>
+      <p style="margin-top: 10px">
+        All 4 seeds have spanning clusters (2 large components, ~5000 cells each) at ~42% fill.
+        But all are unstable (over-splitting lc/rc > 5). The structure percolates but the
+        focal bias cannot maintain two compact populations at this fill.
+      </p>
+    </div>
+
+    <div class="finding">
+      <h3>Random percolation spanning probability (100 realizations each)</h3>
+      <table>
+        <tr><th>Fill</th><th>Spans</th><th>Mean n_comp</th><th>Mean largest_frac</th></tr>
+        <tr><td>21.0%</td><td style="color:#f85149">${r21.spans_count}/${r21.n_realizations}</td><td>${r21.n_components_mean.toFixed(1)}</td><td>${r21.largest_frac_mean.toFixed(4)}</td></tr>
+        <tr><td>40.7% (Moore)</td><td style="color:#f0883e">${r407.spans_count}/${r407.n_realizations}</td><td>${r407.n_components_mean.toFixed(1)}</td><td>${r407.largest_frac_mean.toFixed(3)}</td></tr>
+        <tr><td>42.0%</td><td style="color:#3fb950">${r42.spans_count}/${r42.n_realizations}</td><td>${r42.n_components_mean.toFixed(1)}</td><td>${r42.largest_frac_mean.toFixed(3)}</td></tr>
+      </table>
+      <p style="margin-top: 10px">
+        Random percolation transitions from 16/100 (21%) to 99/100 (40.7%) to 100/100 (42%).
+        The Moore threshold is confirmed at ~40.7%. Our structures are above the threshold
+        at 42% fill — but they were <span class="highlight">also</span> above it at 21% fill
+        (4/4 vs 16/100), which is why the ceiling is NOT the Moore threshold.
+      </p>
+    </div>
+
+    <div class="finding">
+      <h3>The 71st mechanism</h3>
+      <p>
+        The ~42% persistence ceiling is <span class="green">NOT the Moore percolation threshold</span>.
+        The curvature channel + focal bias produce spatially correlated deposits that percolate
+        at 21% fill — far below the Moore threshold (~40.7%) — where random-site percolation
+        does not (16/100). The ceiling is a geometric over-splitting limit (the focal bias cannot
+        maintain two compact populations above ~42% fill), not a connectivity threshold. The
+        ~1.3pp gap between the ceiling and the Moore threshold is coincidental.
+      </p>
+    </div>
+  `;
+  document.getElementById('content').innerHTML = html;
+}
+
+load();
+</script>
+</body>
+</html>

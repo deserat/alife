@@ -355,5 +355,22 @@ at high density.
   boundary's maintenance threshold)
 - [[hypotheses/H7]] — the trace→actor crossing; the crossing is robust (4/4) because
   it depends on the intensive curvature signal, not the extensive fill
-- [[hypotheses/H10]] — the composition problem; the fill cap's n-dependence is the
+- **[[hypotheses/H10]] — the composition problem; the fill cap's n-dependence is the
   extensive/intensive signal distinction's macroscopic expression
+
+## Session 121 — the ceiling is NOT the Moore percolation threshold (the 71st mechanism)
+
+The ~42% persistence ceiling is ~1.3pp above the Moore 8-neighbor site percolation threshold
+(~0.407). The proximity is coincidental, not causal. At the ceiling (n=2500, decay=0.002,
+4 seeds, dual g=0.001), the combined structure percolates (spans 4/4, 2 large components
+~5000 cells each, largest_frac ~0.500). But each individual ID's structure also percolates
+at ~21% fill — one giant component (largest_frac ~0.995) spanning the grid (4/4). Random-site
+percolation at 21% fill on the same 160×160 Moore lattice spans only 16/100 (mean 1793
+components, largest_frac=0.007). The structures percolate far below the Moore threshold
+because the curvature channel + focal bias produce spatially correlated deposits — the
+stigmergic structure is not a random site-occupancy problem.
+
+The ceiling is a geometric over-splitting limit (the focal bias cannot maintain two compact
+populations above ~42% fill, lc/rc > 5), not a connectivity threshold. The ceiling is about
+compactness; the Moore threshold is about connectivity. These are on different axes with
+different fill dependencies.

@@ -3639,14 +3639,19 @@ to compare.
 ## From Session 120 (2026-11-23)
 
 301. **Is the ~42% ceiling the Moore percolation threshold (~0.407)?**
-     — The ceiling is ~1.3pp above the Moore 8-neighbor site
-     percolation threshold (0.407). Session 94 distinguished the 30th
-     ceiling from the actual percolation threshold (~59% spanning
-     cluster), but the Moore threshold is much closer. Is the gap
-     significant (the boundary delays percolation by ~1.3pp) or
-     coincidental? Test: measure the spanning cluster fraction at
-     the ceiling (fill ~42%, n=2500, decay=0.002) and compare to
-     random-site percolation at the same fill.
+     — DONE (Session 121).
+     The ceiling is NOT the Moore percolation threshold. At the ceiling
+     (n=2500, decay=0.002, 4 seeds), the combined structure percolates
+     (spans 4/4, 2 large components ~5000 cells each). But each individual
+     ID's structure percolates at ~21% fill — one giant component
+     (largest_frac ~0.995) spanning the grid (4/4), while random-site
+     percolation at 21% fills spans only 16/100 (mean 1793 components,
+     largest_frac=0.007). The 71st mechanism: the ceiling is a geometric
+     over-splitting limit (lc/rc > 5), not a connectivity threshold. The
+     ~1.3pp gap is coincidental — the ceiling is about compactness, the
+     Moore threshold is about connectivity, on different axes. See
+     `moore_threshold_test.py`, `output/moore_threshold_test.json`,
+     `moore_threshold_viz.html`.
 
 302. **Derive and test the fill equilibrium formula** — fill ∝ n ×
      deposit_prob / (decay × grid²), but the deposit_rate is
