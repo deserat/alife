@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fill Equilibrium Formula — Session 122</title>
+<style>
+  body { background: #0d1117; color: #c9d1d9; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; margin: 0; padding: 20px; }
+  h1 { color: #58a6ff; font-size: 1.4em; }
+  h2 { color: #79c0ff; font-size: 1.15em; margin-top: 1.5em; }
+  .stat { display: inline-block; background: #161b22; border: 1px solid #30363d; border-radius: 6px; padding: 8px 16px; margin: 4px; }
+  .stat .label { color: #8b949e; font-size: 0.8em; }
+  .stat .value { color: #58a6ff; font-size: 1.1em; font-weight: bold; }
+  canvas { display: block; margin: 12px 0; border: 1px solid #30363d; border-radius: 6px; }
+  table { border-collapse: collapse; margin: 12px 0; font-size: 0.85em; }
+  th { background: #161b22; color: #79c0ff; padding: 6px 12px; border: 1px solid #30363d; text-align: right; }
+  td { padding: 4px 12px; border: 1px solid #21262d; text-align: right; }
+  td:first-child, th:first-child { text-align: left; }
+  .good { color: #3fb950; }
+  .bad { color: #f85149; }
+  .muted { color: #8b949e; }
+  .formula { background: #161b22; border: 1px solid #30363d; border-radius: 6px; padding: 12px; font-family: monospace; font-size: 1.1em; color: #79c0ff; }
+  #results { display: none; }
+  .loading { color: #8b949e; }
+</style>
+</head>
+<body>
+<h1>Fill Equilibrium Formula — fill ∝ n<sup>0.28</sup> / √decay</h1>
+
+<div id="loading" class="loading">Loading results…</div>
+<div id="results">
+  <div class="formula">fill = C × n<sup>α</sup> × decay<sup>β</sup> &nbsp;&nbsp; (C=0.24, α=0.28, β=−0.50, R²=0.884)</div>
+
+  <div>
+    <div class="stat"><span class="label">α (n exponent)</span><br><span class="value">0.276</span></div>
+    <div class="stat"><span class="label">β (decay exponent)</span><br><span class="value">−0.498</span></div>
+    <div class="stat"><span class="label">R²</span><br><span class="value">0.884</span></div>
+    <div class="stat"><span class="label">LOOCV mean error</span><br><span class="value">4.13%</span></div>
+    <div class="stat"><span class="label">OOS mean error</span><br><span class="value">2.79%</span></div>
+    <div class="stat"><span class="label">Determinism</span><br><span class="value class="good">✓</span></div>
+  </div>
+
+  <h2>Fill vs Decay (3 densities)</h2>
+  <canvas id="chart1" width="800" height="400"></canvas>
+
+  <h2>Actual vs Predicted (power law)</h2>
+  <canvas id="chart2" width="800" height="400"></canvas>
+
+  <h2>Data table</h2>
+  <table id="table"></table>
+
+  <h2>The finding</h2>
+  <p style="max-width: 700px;">
+  The fill equilibrium follows a power law <b>fill ∝ n<sup>0.28</sup> / √decay</b>,
+  not the naive prediction fill ∝ n / decay. The n-exponent (0.28 &lt; 1) means
+  the fill grows sublinearly — the focal bias's concentration weakens with n.
+  The decay-exponent (−0.50, not −1.00) means the deposit rate increases as the
+  structure shrinks — a smaller structure has higher surface-to-volume ratio,
+  giving agents higher curvature → higher deposit probability. The self-consistent
+  formula with 1/√A surface scaling fails (R² = −0.27): the actual morphology's
+  surface scaling is more complex than a disk's.
+  </p>
+
+  <h2>Self-consistent formula (failed)</h2>
+  <p class="muted" style="max-width: 700px;">
+  The self-consistent formula (deposit rate = p_base + K/√(fill×grid²), solved
+  iteratively) gave R² = −0.27 — worse than the mean. The 1/√A surface-to-volume
+  scaling assumes a disk-like morphology, but the curvature channel produces
+  complex branched structures with different surface scaling. The power law
+  (empirical) outperforms the self-consistent formula (theoretical) because the
+  theoretical surface scaling is wrong.
+  </p>
+</div>
+
+<script>
+async function loadResults() {
+  try {
+    const resp = await fetch('output/fill_equilibrium.json');
+    const data = await resp.json();
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('results').style.display = 'block';
+    render(data);
+  } catch(e) {
+    document.getElementById('loading').textContent = 'Error loading results: ' + e.message;
+  }
+}
+
+function render(data) {
+  const points = data.data_points;
+  const fit = data.power_law_fit;
+  const C = fit.C, alpha = fit.alpha, beta = fit.beta;
+
+  // Chart 1: fill vs decay, colored by n
+  const c1 = document.getElementById('chart1');
+  const ctx1 = c1.getContext('2d');
+  const W = 800, H = 400;
+  const ml = 60, mr = 20, mt = 20, mb = 50;
+  const pw = W - ml - mr, ph = H - mt - mb;
+
+  // Group by n
+  const nValues = [...new Set(points.map(p => p.n))].sort((a,b) => a-b);
+  const colors = ['#58a6ff', '#3fb950', '#f0883e', '#d2a8ff', '#f85149'];
+  const symbols = ['o', 's', 'd', '^', 'v'];
+
+  // Axes
+  const decays = points.map(p => p.decay);
+  const fills = points.map(p => p.fill_pct);
+  const minDecay = Math.min(...decays) * 0.8;
+  const maxDecay = Math.max(...decays) * 1.2;
+  const minFill = 0;
+  const maxFill = Math.max(...fills) * 1.1;
+
+  function xMap(d) { return ml + pw * (Math.log(d) - Math.log(minDecay)) / (Math.log(maxDecay) - Math.log(minDecay)); }
+  function yMap(f) { return mt + ph * (1 - (f - minFill) / (maxFill - minFill)); }
+
+  // Grid
+  ctx1.strokeStyle = '#21262d';
+  ctx1.fillStyle = '#8b949e';
+  ctx1.font = '11px sans-serif';
+  for (let d = 0.002; d <= 0.05; d *= 2) {
+    const x = xMap(d);
+    ctx1.beginPath(); ctx1.moveTo(x, mt); ctx1.lineTo(x, mt + ph); ctx1.stroke();
+    ctx1.fillText(d.toFixed(3), x - 12, mt + ph + 16);
+  }
+  for (let f = 0; f <= maxFill; f += 20) {
+    const y = yMap(f);
+    ctx1.beginPath(); ctx1.moveTo(ml, y); ctx1.lineTo(ml + pw, y); ctx1.stroke();
+    ctx1.fillText(f.toFixed(0) + '%', ml - 28, y + 4);
+  }
+  ctx1.fillText('decay (log scale)', ml + pw/2 - 30, H - 8);
+  ctx1.save(); ctx1.translate(16, mt + ph/2); ctx1.rotate(-Math.PI/2);
+  ctx1.fillText('fill %', 0, 0); ctx1.restore();
+
+  // Plot power-law predictions as lines
+  for (let ni = 0; ni < nValues.length; ni++) {
+    const n = nValues[ni];
+    const col = colors[ni % colors.length];
+    ctx1.strokeStyle = col + '40';
+    ctx1.lineWidth = 1;
+    ctx1.beginPath();
+    for (let d = minDecay; d <= maxDecay; d *= 1.02) {
+      const pred = C * Math.pow(n, alpha) * Math.pow(d, beta);
+      const x = xMap(d), y = yMap(Math.min(pred, maxFill));
+      if (d === minDecay) ctx1.moveTo(x, y); else ctx1.lineTo(x, y);
+    }
+    ctx1.stroke();
+  }
+
+  // Plot data points
+  for (let ni = 0; ni < nValues.length; ni++) {
+    const n = nValues[ni];
+    const col = colors[ni % colors.length];
+    const pts = points.filter(p => p.n === n);
+    for (const p of pts) {
+      const x = xMap(p.decay), y = yMap(p.fill_pct);
+      ctx1.fillStyle = col;
+      ctx1.beginPath(); ctx1.arc(x, y, 4, 0, 2*Math.PI); ctx1.fill();
+      ctx1.strokeStyle = col; ctx1.lineWidth = 1;
+    }
+    // Legend
+    ctx1.fillStyle = col;
+    ctx1.font = '11px sans-serif';
+    ctx1.fillText('n=' + n, ml + pw - 60, mt + 15 + ni * 16);
+  }
+
+  // Chart 2: actual vs predicted
+  const c2 = document.getElementById('chart2');
+  const ctx2 = c2.getContext('2d');
+
+  ctx2.strokeStyle = '#21262d';
+  ctx2.fillStyle = '#8b949e';
+  ctx2.font = '11px sans-serif';
+
+  const allVals = points.map(p => p.fill_pct);
+  const maxV = Math.max(...allVals) * 1.1;
+  const minV = 0;
+
+  function sx(v) { return ml + pw * v / maxV; }
+  function sy(v) { return mt + ph * (1 - v / maxV); }
+
+  // Diagonal
+  ctx2.strokeStyle = '#3fb95080';
+  ctx2.lineWidth = 2;
+  ctx2.beginPath(); ctx2.moveTo(sx(0), sy(0)); ctx2.lineTo(sx(maxV), sy(maxV)); ctx2.stroke();
+
+  // Grid
+  ctx2.strokeStyle = '#21262d';
+  for (let f = 0; f <= maxV; f += 20) {
+    const x = sx(f), y = sy(f);
+    ctx2.beginPath(); ctx2.moveTo(x, mt); ctx2.lineTo(x, mt + ph); ctx2.stroke();
+    ctx2.beginPath(); ctx2.moveTo(ml, y); ctx2.lineTo(ml + pw, y); ctx2.stroke();
+    ctx2.fillText(f.toFixed(0), x - 8, mt + ph + 16);
+    ctx2.fillText(f.toFixed(0), ml - 28, y + 4);
+  }
+  ctx2.fillText('predicted fill %', ml + pw/2 - 35, H - 8);
+  ctx2.fillText('actual fill %', ml - 40, mt + 8);
+
+  // Points
+  for (let ni = 0; ni < nValues.length; ni++) {
+    const n = nValues[ni];
+    const col = colors[ni % colors.length];
+    const pts = points.filter(p => p.n === n);
+    for (const p of pts) {
+      const pred = C * Math.pow(n, alpha) * Math.pow(p.decay, beta);
+      const x = sx(pred), y = sy(p.fill_pct);
+      ctx2.fillStyle = col;
+      ctx2.beginPath(); ctx2.arc(x, y, 4, 0, 2*Math.PI); ctx2.fill();
+    }
+  }
+
+  // Table
+  const tbl = document.getElementById('table');
+  let html = '<tr><th>n</th><th>decay</th><th>actual %</th><th>predicted %</th><th>error</th><th>source</th></tr>';
+  const sorted = points.slice().sort((a,b) => a.decay === b.decay ? a.n - b.n : a.decay - b.decay);
+  for (const p of sorted) {
+    const pred = C * Math.pow(p.n, alpha) * Math.pow(p.decay, beta);
+    const err = pred - p.fill_pct;
+    html += `<tr><td>${p.n}</td><td>${p.decay.toFixed(4)}</td><td>${p.fill_pct.toFixed(2)}</td><td>${pred.toFixed(2)}</td><td class="${Math.abs(err) < 5 ? 'good' : 'bad'}">${err.toFixed(2)}</td><td class="muted">${p.source}</td></tr>`;
+  }
+  tbl.innerHTML = html;
+}
+
+loadResults();
+</script>
+</body>
+</html>

@@ -3653,13 +3653,19 @@ to compare.
      `moore_threshold_test.py`, `output/moore_threshold_test.json`,
      `moore_threshold_viz.html`.
 
-302. **Derive and test the fill equilibrium formula** — fill ∝ n ×
-     deposit_prob / (decay × grid²), but the deposit_rate is
-     sublinear (∝ √n) and the focal bias modulates it further
-     (fill ∝ 1/(1+bias)). Can the fill at arbitrary (n, decay, bias)
-     be predicted from the formula? Fit the equilibrium at multiple
-     (n, decay, bias) combinations and check if the formula predicts
-     the fill.
+302. **Derive and test the fill equilibrium formula** — DONE (Session 122).
+     fill = C × n^α × decay^β with α=0.276, β=−0.498, R²=0.884 (25 data
+     points, 160×160, focal bias=0.3). The fill scales as n^0.28 / √decay,
+     NOT the naive n/decay. The deposit rate is structure-dependent
+     (surface-to-volume feedback): it increases as the structure shrinks
+     (higher curvature → higher p_dep). The self-consistent formula with
+     1/√A surface scaling FAILS (R²=−0.27) — the curvature channel's
+     branched morphology has different surface scaling than a disk. The
+     72nd mechanism: the fill equilibrium's non-trivial power-law exponents
+     encode the deposit rate's shape-dependent feedback. LOOCV mean error
+     4.13%. OOS mean error 2.79%. Determinism verified. See
+     `fill_equilibrium.py`, `output/fill_equilibrium.json`,
+     `fill_equilibrium_viz.html`.
 
 303. **Can a hybrid exogenous+endogenous signal improve on pure
      exogenous? (#296)** — focal bias for coarse spatial reference +
@@ -3675,3 +3681,33 @@ to compare.
      higher n because more agents wander farther from home). Test:
      measure the fill at more (n, decay) combinations and fit the
      functional form.
+
+## From Session 122 (2026-11-27)
+
+305. **What is the actual surface scaling of the curvature channel's morphology?**
+     — The self-consistent formula with 1/√A surface scaling fails (R²=−0.27).
+     The curvature channel produces branched morphology, not a compact disk.
+     What is the actual scaling of the effective surface area (where curvature
+     is high) with the structure's area? If the structure is fractal (DLA-like),
+     the surface scales as A^(D_f/2) where D_f < 2 is the fractal dimension.
+     The deposit rate's scaling with structure size would then be
+     A^((D_f-2)/2) rather than A^(-1/2). Measuring the fractal dimension
+     (box-counting) of the equilibrium structures would reveal the actual
+     surface scaling and potentially fix the self-consistent formula.
+     Cheap: box-counting on existing output structures.
+
+306. **Does the power law hold at other grid sizes?** — The fill ∝ n^0.28 / √decay
+     was measured at 160×160. The absolute-spatial-scale principle (Session 85)
+     predicts the n-exponent should change with grid size (the focal bias's
+     concentration weakens differently on different grids). Test: run the fill
+     equilibrium sweep at 80×80 and 320×320. If α changes, the power law is
+     grid-size-dependent (the exponents encode the focal bias's grid-size
+     interaction). If α is universal, the scaling is a fundamental property
+     of the curvature channel's deposit/decay dynamics.
+
+307. **Can the power law predict the focal bias's fill modulation?** — The
+     fill ∝ n^0.28 / √decay was measured at focal bias=0.3. Session 120 found
+     the fill also depends on bias (fill ∝ 1/(1+bias), approximately). Can the
+     power law be extended to fill = C × n^α × decay^β × f(bias) where f(bias)
+     is the bias modulation? Test: run the fill equilibrium sweep at multiple
+     bias values (0.3, 0.5, 0.7) and fit the three-parameter formula.

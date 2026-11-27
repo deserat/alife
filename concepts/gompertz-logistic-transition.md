@@ -383,3 +383,17 @@ growth, and its suppression range is the diffusion length.
   define the composition regime's boundaries
 - [[hypotheses/H11]] — the saturating channel; the Gompertz regime is where the
   non-saturating channel's coherent suppression holds
+
+## Session 122 — The Fill Equilibrium's Non-Trivial Power Law
+
+The fill equilibrium formula was derived and tested (queued-topic #302). The fill at steady state follows a power law:
+
+**fill = C × n^α × decay^β** with α = 0.276, β = −0.498, R² = 0.884 (25 data points, 160×160, focal bias=0.3)
+
+The naive deposit/decay equilibrium predicts fill ∝ n/decay (α=1, β=−1). The actual exponents are both smaller: α ≈ 0.28 (sublinear in n — the focal bias weakens with n) and β ≈ −0.50 (1/√decay, not 1/decay — the deposit rate increases as the structure shrinks).
+
+**The deposit rate is structure-dependent, not constant.** The deposit probability depends on curvature, which depends on the structure's shape. A smaller structure (at higher decay) has higher surface-to-volume ratio → higher curvature → higher deposit probability → higher deposit rate. This feedback gives the 1/√decay scaling: the deposit rate partially compensates for faster decay by becoming more efficient.
+
+**The self-consistent formula fails.** A theoretical formula with deposit rate = p_base + K/√(fill × grid²) (1/√A surface scaling for a disk) gives R² = −0.27 — worse than the mean. The curvature channel produces branched morphology, not a compact disk, so the surface scaling is steeper than 1/√A. The empirical power law outperforms the theoretical formula because the theoretical surface scaling is wrong for this morphology.
+
+**The 72nd mechanism: the fill equilibrium's non-trivial power-law exponents encode the deposit rate's shape-dependent feedback.** The equilibrium is a fixed point of the feedback loop: fill → structure size → surface-to-volume → deposit rate → fill. The power-law exponents are the signature of this feedback.
